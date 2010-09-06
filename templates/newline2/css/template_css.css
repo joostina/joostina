@@ -1,0 +1,225 @@
+/* * template_css.css. Используется для описания * элементов раскладки шаблона, уникальных стилей * * @package     Joostina * @subpackage  templates/NewLine2 * @version     $Id: template_css.css 29-09-2009 12:17 ZaiSL $;
+*/
+@import "reset.css";
+@import "base.css";
+@import "modules.css";
+@import "menu.css";
+@import "components.css";
+html {
+	height: 100%;
+	width: 100%;
+}
+body.mainpage, body.inside {
+	background: url(../images/layout/bg.jpg) repeat-x top left;
+	height: auto;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+.main_wrap {
+	background: url(../images/layout/header_left.png) no-repeat top left;
+	padding: 0 0 40px 0;
+	position: relative;
+	height: auto;
+	min-height: 100%;
+}
+.wrapper {
+	margin: 0 auto;
+	position: relative;
+	text-align: left;
+	width: 1004px;
+}
+.header {
+	background: url(../images/layout/right_header.jpg) no-repeat 75% 0px;
+	position: relative;
+	margin: 0 0 20px 0;
+}
+.header_center {
+	height: 46px;
+	margin: 0 0 0 140px;
+	padding: 24px 0 0 0;
+	width: 50%;
+}
+.header_right {
+	position: absolute;
+	right: 15px;
+	top: 30px;
+	width: 150px;
+}
+a#logo {
+	background: url(../images/logo.png) no-repeat top left;
+	cursor: pointer;
+	display: block;
+	height: 112px;
+	left: 0px;
+	position: absolute;
+	text-decoration: none;
+	top: 20px;
+	width: 147px;
+}
+a.navbar {
+	display: block;
+	float: right;
+	margin: 0 20px  0 0;
+	height: 12px;
+	text-decoration: none;
+	width: 15px;
+}
+a.navbar#mail {
+	background: url(../images/layout/mail.png) no-repeat center;
+}
+a.navbar#map {
+	background: url(../images/layout/map.png) no-repeat center;
+}
+.content {
+	float: right;
+	width: 73%;
+	position: relative;
+}
+.col {
+	float: left;
+	width: 23%;
+}
+.bottom {
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	padding: 12px 0 12px 0;
+	width: 1004px;
+}
+.footer {
+	background: url(../images/layout/footer_bg.jpg) repeat-x bottom left;
+	bottom: 0px;
+	clear: both;
+	position: relative;
+}
+a#about {
+	background: url(../images/joostina_mini.png) no-repeat top left;
+	float: left;
+	padding: 0 0 0 38px;
+	line-height: 28px;
+	margin: 15px 0 0 0;
+}
+.block_w1, .block_w2, .block_w3 {
+	float: left;
+	margin: 0 0 10px 0;
+	display: inline;
+}
+.block_w1 {
+	width: 98%;
+}
+.block_w2 {
+	width: 48%;
+}
+.block_w3 {
+	width: 32%;
+}
+.block_w3.w25 {
+	width: 25%;
+}
+.block_w3.w35 {
+	width: 35%;
+}
+.block_w2.w25 {
+	width: 25%;
+}
+.block_w2.w35 {
+	width: 70%;
+}
+.block_w1.w25, .block_w1.w35 {
+	width: 95%;
+}
+/* -----------------------------------------Первый блок (user1, user2, user3) */
+.block1 {
+	border-bottom: 1px solid #CCC;
+	padding: 15px;
+	margin: 0 0 15px 0;
+	overflow: hidden;
+}
+.block1 .moduletable {
+	padding: 5px 10px 5px 2px;
+}
+.block1 h3 {
+	font-size: 24px;
+}
+/* -----------------------------------------Второй блок (user4, user5, user6) */
+.block2 .moduletable {
+	margin: 0 10px 0 0;
+	padding: 5px 10px 5px 2px;
+}
+.block2 h3 {
+	background: url(../images/layout/h3_bg.png) no-repeat left;
+	color: #777777;
+	font-size: 20px;
+	padding: 10px 2px 10px 42px;
+	border-bottom: 1px solid #CCC;
+	border-top: 1px solid #CCC;
+}
+/* ----------------------------------------Третий блок (user7, user8, user9) */
+.block3 {
+	background: url(../images/layout/block3_bg_top.jpg) repeat-x top left;
+	clear: both;
+	overflow: hidden;
+	padding: 3px 10px 15px 0;
+}
+.block3_bottom {
+	background: url(../images/layout/block3_bg_bottom.jpg) repeat-x bottom left;
+	overflow: hidden;
+	padding: 0 0 0 10px;
+}
+.block3 .moduletable {
+	margin: 0 10px 0 0;
+	padding: 5px 5px 5px 2px;
+}
+.block3 h3 {
+	color: #626262;
+	font-size: 20px;
+	padding: 0 0 10px 0;
+}
+/* -----------------------------------------------------Дополнительные стили */
+.marker_round, .marker_round li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.marker_round {
+	margin: 10px 0 20px 0;
+}
+.marker_round li {
+	font-size: 11px;
+	overflow: hidden;
+}
+.marker_round strong {
+	background: url(../images/layout/ol_big.png) no-repeat top left;
+	color: #FFF;
+	display: block;
+	float: left;
+	font-weight: bold;
+	height: 30px;
+	line-height: 30px;
+	margin: 3px 6px 4px 0;
+	text-align: center;
+	width: 30px;
+}
+a.readmore_big {
+	display: block;
+	width: 195px;
+	color: #404040;
+	font-size: 18px;
+}
+/* ---------------------------------Маркированный список с большими маркерами */
+ul.bigred {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.bigred li {
+	background: url(../images/layout/big_marker.png) no-repeat top left;
+	list-style: none;
+	margin: 0 0 6px 0;
+	padding: 0 0 0 40px;
+}
+
+.highlight{
+	color: red;
+}

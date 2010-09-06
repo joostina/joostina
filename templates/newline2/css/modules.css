@@ -1,0 +1,253 @@
+/** * modules.css. Стили модулей * * @package     Joostina * @subpackage  templates/NewLine2 * @version     $Id: modules.css 29-09-2009 12:17 ZaiSL $;
+*/
+.moduletable {
+	margin: 2px 0 5px 0;
+	padding: 0 0 10px 0;
+}
+.col div h3 {
+	color: #D43015;
+}
+/* -------------------------------------------------------------Модуль поиска */
+.search {
+	padding: 0 0 0 20px;
+	margin: 0;
+	width: 410px;
+}
+.search input.inputbox {
+	width: 330px;
+}
+.search input.button {
+	border: 0;
+	background: url(../images/buttons/search_button.png) no-repeat top left;
+	cursor: pointer;
+	width: 35px;
+	height: 35px;
+	text-indent: -10000px;
+	margin: 0;
+	padding: 0;
+}
+/* -------------------------------------------------------Модуль авторизации  */
+/* Режим "Кнопка + всплывающее окно" */
+.mod_ml_login.login.popup {
+	padding: 0 0 10px;
+	text-align: right;
+}
+.mod_ml_login.login.popup div.button {
+	background: none;
+}
+#log_in {
+	background: url(../images/layout/log_in.png) no-repeat  left;
+	clear: both;
+	cursor: pointer;
+	font-size: 22px;
+	height: 51px;
+	line-height: 50px;
+	margin: 0 0 0 10px;
+	padding: 0 0 0 25px;
+	text-decoration: underline;
+	color: #6A6D5F;
+}
+#box1 {
+	position: absolute;
+}
+.loginform_area {
+	position: absolute;
+	display: none;
+	z-index: 3000;
+	left: 500px;
+	top: 0;
+	margin: 15px 10px 0 0;
+	padding: 4px;
+	width: 500px;
+	background-color: white;
+	border: 9px solid #5d5d5d;
+}
+.closewin {
+	background: url(../images/elements/cancel.png) no-repeat center #FFF;
+	cursor: pointer;
+	display: block;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 15px;
+	top: 0;
+	width: 20px;
+	z-index: 4000;
+}
+.loginform_area_inside {
+	background-color: white;
+	border: 6px solid #cacaca;
+	clear: both;
+	padding: 15px;
+	text-align: left;
+}
+img#mod_avatar_img {
+	width: 50px;
+}
+.mod_ml_login.logout {
+	text-align: right;
+	padding: 12px 0 0 0;
+}
+/* ---------------------------------------------Модуль "Случайное изображение"*/
+#jstSlideShow_1 {
+	border: 1px solid #FFF;
+	position: relative;
+	visibility: hidden;
+	float: left;
+	background: #FFF;
+}
+.error#jstSlideShow_1 {
+	color: #FF0066;
+	font: 11px/16px Tahoma, Arial, sans-serif;
+	padding: 10px;
+	position: relative;
+	visibility: visible;
+}
+.gallerystatus {
+	color: #EBECE6;
+}
+.random_image img {
+	border: 5px solid #EBECE6;
+}
+/*----------------------------------------------------------- Модуль "Баннеры" */
+.banners img {
+	margin: 5px 0 0 10px;
+}
+/*---------------------------------- Модуль "Последние новости" (mod_latestnews) */
+.mod_latestnews {
+	padding: 0 55px 0 35px;
+}
+.mod_latestnews ul, .mod_latestnews ul li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.mod_latestnews ul li {
+	padding: 0 0 5px 0;
+	overflow: hidden;
+}
+.mod_latestnews img {
+	width: 70px;
+	border: 1px solid #FFF;
+}
+.mod_latestnews a.thumb {
+	padding: 1px;
+	border: 1px solid #DDDDDD;
+	float: left;
+	margin: 0 10px 0  0;
+}
+.mod_latestnews .date {
+	margin: 0;
+	padding: 0;
+	background: none;
+	font-weight: normal;
+	font-size: 10px;
+	display: block;
+}
+.mod_latestnews a.contentpagetitle {
+	font: normal 13px/19px Arial;
+	color: #616161;
+	text-decoration: underline;
+}
+.mod_latestnews a.contentpagetitle:hover {
+	text-decoration: none;
+}
+/*---------------------------------- Модуль "Краткие новости" (mod_newsflash) */
+.mod_newsflash {
+	padding: 0 0 0 70px;
+}
+.mod_newsflash ul, .mod_newsflash ul li {
+	margin: 0;
+	padding: 0;
+	list-style: outside;
+}
+.mod_newsflash ul li {
+	padding: 0 0 5px 0;
+}
+.mod_newsflash .date {
+	margin: 0;
+	padding: 0;
+	background: none;
+	font-weight: normal;
+	font-size: 10px;
+}
+.mod_newsflash a.contentpagetitle {
+	color: #498FC3 !important;
+}
+.mod_newsflash a.contentpagetitle:hover {
+	text-decoration: none;
+}
+.mod_newsflash a.contentpagetitle {
+	font: normal 13px/19px Arial;
+	color: #616161;
+	text-decoration: underline;
+}
+/*------------------------------------------------------- Модуль "Популярное" */
+ul.mostread, ul.mostread li {
+	margin: 0;
+	padding: 0;
+	list-style: outside;
+}
+ul.mostread {
+	padding: 0 0 0 70px;
+}
+ul.mostread li {
+	padding: 0 0 5px 0;
+}
+ul.mostread a {
+	color: #498FC3 !important;
+}
+/* -------------------------------------------------------- Модуль статистики */
+.moduletable-stat {
+	padding: 12px 0 0 140px;
+	margin: 0 0 10px 0;
+	background: url(../images/layout/stat.png) no-repeat top left;
+}
+/* --------------------------------------------------------------- Модуль RSS */
+.syndicate {
+	float: right;
+	overflow: hidden;
+	margin: 15px 0 0 0;
+}
+.syndicate a.RSS20, .syndicate a.Yandex, .syndicate a.RSS091, .syndicate a.RSS10, .syndicate a.ATOM03, .syndicate a.OPML {
+	background: url(../images/elements/rss.png) no-repeat top left;
+	display: block;
+	float: left;
+	height: 30px;
+	width: 36px;
+}
+.syndicate img {
+	display: none;
+}
+/* -------------------------------------------- Модуль "Пользователи on-line" */
+.mod_who_online_info {
+	background: url(../images/elements/user_small.png) no-repeat top left;
+	padding: 4px 0 0 32px;
+}
+.mod_who_online span {
+	color: #D43014;
+	font-size: 16px;
+	font-weight: bold;
+}
+ul.users_online {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+/* горизонтальный вывод*/
+ul.users_online li {
+	background: #F3F4EE;
+	border: 1px solid #E6E9D4;
+	display: inline;
+	height: 43px;
+	line-height: 40px;
+	list-style: none;
+	margin: 0 10px 0 2px;
+	overflow: hidden;
+	padding: 2px 1px 3px 2px;
+}
+ul.users_online li a img {
+	padding: 0 5px 0 0;
+	vertical-align: middle;
+}

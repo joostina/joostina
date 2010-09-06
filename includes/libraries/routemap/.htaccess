@@ -1,0 +1,121 @@
+##
+# @package Joostina
+# @copyright Авторские права (C) 2007-2010 Joostina Team.
+
+##
+# -----------------======= ВНИМАНИЕ!!! =======----------------------------
+# ------- ОБЯЗАТЕЛЬНО УСТАНОВИТЕ CHMOD 644 НА ЭТОТ ФАЙЛ ------------------
+# ------------------------------------------------------------------------
+#  Установка кодировки сайта по умолчанию. При необходимости, закомментируйте.
+
+AddDefaultCharset UTF-8
+
+#  Следующие строки - попытка исправить настройки PHP
+#  для полного соответствия системным требованиям Joostina.
+#  Раскомментируйте (символ комментария - #) нужные строки,
+#  если настройки вашего хоста не соответствуют рекомендациям
+#  системных требований Joostina.
+#  При возникновении 500 ошибки сервера, закомментируйте строку, вызывающую
+#  ошибку, или все строки с php_value.
+
+#  php_value register_globals 0
+#  php_value display_errors 0
+#  php_value file_uploads 1
+#  php_value magic_quotes_gpc 1
+#  php_value magic_quotes_runtime 0
+
+#<IfModule mod_charset.c>
+#    CharsetDIsable on
+#    CharsetRecodeMultipartForms Off
+#</IfModule>
+
+#php_value       mbstring.func_overload  7
+#php_value       default_charset         UTF-8
+#php_value       mbstring.language       Russian
+#php_value       mbstring.internal_encoding      UTF-8
+#php_flag        mbstring.encoding_translation   on
+#php_value       mbstring.http_input     "UTF-8,KOI8-R,CP1251"
+#php_value       mbstring.http_output    UTF-8
+#php_value       mbstring.detect_order   "UTF-8,KOI8-R,CP1251"
+
+#  Пример явного указания каталога для записи сессий:
+#  Для Windows - c:/temp
+#  для UNIX  - /tmp
+#  Указанные каталоги должны физически существовать и быть доступны для записи
+#  При необходимости, раскомментируйте строку ниже этой
+#  php_value session.save_path c:/temp
+
+
+#####################################################
+#  ПРОЧТИТЕ ПОЛНОСТЬЮ, ЕСЛИ БУДЕТЕ ИСПОЛЬЗОВАТЬ ЭТОТ ФАЙЛ
+#
+# Строка ниже этого раздела: 'Options +FollowSymLinks' может вызвать проблему
+# при некоторых конфигурациях сервера. Она необходима для использования модуля Apache mod_rewrite, но может быть
+# уже настроена администратором вашего сервера и изменение этого параметра в .htaccess может быть запрещено.
+# Если эта директива вызывает ошибку сервера, то закомментируйте строку (добавьте символ # в
+# начало строки), перезагрузите в браузере сайт и протестируйте работу SEF-ссылок. Если они работают,
+# то вам не надо ничего менять здесь, т.к. всё уже настроено администратором сервера.
+#
+#####################################################
+
+##  Может быть закомментировано, если вызывает ошибку сервера. Смотрите примечания выше.
+# Options +FollowSymLinks
+
+#
+#  Включение mod_rewrite
+
+RewriteEngine On
+
+########## Начало - Правила обработки запросов для блокировки распространенных эксплоитов
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule ^(.*)$ index.php [F,L]
+########## Конец - Правила обработки (Rewrite rules) для блокировки распространенных эксплоитов
+
+#  Раскомментируйте следующую строку, если URL вашего web-сервера
+#  не связаны напрямую с физическими путями файлов.
+#  Обновите Ваш каталог Joostina (используйте "/" для обозначения корня сервера)
+
+# RewriteBase /
+
+RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 	##опционально - смотрите примечания##
+RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|\.xml|/[^.]*)$  [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) index.php
+
+# Для активации библиотеки JSCSS-Packer -->
+# RewriteRule ^(.*\.(js|css))$ includes/libraries/jscss/jscss.php?$1
+# <-- окончание JSCSS-Packer
+
+# для активации библиотеки SmartOptimizer -->
+#<IfModule mod_expires.c>
+#	<FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
+#		ExpiresActive On
+#		ExpiresDefault "access plus 10 years"
+#	</FilesMatch>
+#</IfModule>
+#<IfModule mod_rewrite.c>
+#	RewriteEngine On
+#
+#	RewriteCond %{REQUEST_FILENAME} !-f
+#	RewriteCond %{REQUEST_FILENAME} !-d
+#	RewriteRule ^(.*\.(js|css))$ includes/libraries/smartoptimizer/?$1
+#
+#	<IfModule mod_expires.c>
+#		RewriteCond %{REQUEST_FILENAME} -f
+#		RewriteRule ^(.*\.(js|css|html?|xml|txt))$ includes/libraries/smartoptimizer/?$1
+#	</IfModule>
+#
+#	<IfModule !mod_expires.c>
+#		RewriteCond %{REQUEST_FILENAME} -f
+#		RewriteRule ^(.*\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt))$ includes/libraries/smartoptimizer/?$1
+#	</IfModule>
+#</IfModule>
+#<FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
+#	FileETag none
+#</FilesMatch>
+# <-- окончание SmartOptimizer

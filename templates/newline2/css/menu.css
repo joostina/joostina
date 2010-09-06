@@ -1,0 +1,116 @@
+/**
+ * menu.css. Описание стилей меню
+ *
+ * @package     Joostina
+ * @subpackage  templates/NewLine2
+ * @version     $Id: menu.css 29-09-2009 12:17 ZaiSL $;
+*/
+
+ul#mainlevel, ul#mainlevel li, ul#mainlevel-nav, ul#mainlevel-nav li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* --------------------------------------------------------------Верхнее меню */
+ul#mainlevel-nav, ul#mainlevel-nav li {
+	display: inline;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.top_menu_l {
+	background: url(../images/layout/topmenu_left.png) no-repeat top left;
+	margin: 0;
+	padding: 0 0 0 36px;
+}
+.top_menu_r {
+	background: url(../images/layout/topmenu_right.png) no-repeat top right;
+	padding: 0 24px 0 0;
+}
+.top_menu_mid {
+	background: url(../images/layout/topmenu_bg.png) repeat-x center;
+	height: 51px;
+}
+ul#mainlevel-nav {
+	display: block; float: left;
+	height: 51px;
+	padding: 0 0 0 120px;
+}
+ul#mainlevel-nav li a {
+	display: inline;
+	font-size: 18px;
+	line-height: 51px;
+	margin: 0 8px;
+	position: relative;
+    color: #6A6D5F;
+}
+ul#mainlevel-nav li a#active_menu-nav {
+	color: #D43015;
+	text-decoration: none;
+}
+
+/* -----------------------------------------------------------------Левое меню*/
+.moduletable-round {
+	padding: 15px 2px 15px 2px;
+}
+.moduletable-round a {
+	border-bottom: 1px dashed #CCC;
+	color: #5B5B5B;
+	display: block;
+	font-size: 13px;
+	padding: 1px 5px;
+	text-decoration: none;
+}
+.moduletable-round a:hover, .moduletable-round a#active_menu {
+	background: #F2F3E9;
+	color: #BD3620;
+}
+.moduletable-round ul, .moduletable-round ul li {
+	list-style: none;
+	margin: 2px 0;
+	padding: 0;
+}
+
+/* --------------------------------------------------------Дополнительное меню*/
+.moduletable-help {
+	background: url(../images/layout/help.jpg) no-repeat top left;
+	margin: 15px 0;
+	overflow: hidden;
+	padding: 20px 0 10px 0;
+}
+.moduletable-help h3 {
+	padding: 0 10px 8px 108px;
+}
+.moduletable-help ul {
+	float: left;
+	list-style: none;
+	margin: 0 6px 0 0;
+	padding: 0;
+	width: 46%;
+}
+.moduletable-help ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.moduletable-help ul li a {
+	color: #498FC3;
+}
+
+/* ---------------------------------------------------------------Нижнее меню*/
+.footer ul.menulist-bottom {
+	float: left;
+	margin: 0 0 0 20%;
+	text-align: center;
+}
+.footer ul.menulist-bottom li {
+	display: inline;
+	height: 32px;
+	line-height: 32px;
+	margin: 0 9px 0 0;
+}
+.footer ul.menulist-bottom li a {
+	color: #000;
+	font-size: 14px;
+}

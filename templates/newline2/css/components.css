@@ -1,0 +1,310 @@
+/**
+ * componentss.css. Описание стилей компонентов.
+ *
+ * @package     Joostina
+ * @subpackage  templates/NewLine2
+ * @version     $Id: components.css 29-09-2009 12:17 ZaiSL $;
+*/
+
+/*--------------------------------------------------- com_content - Содержимое*/
+/*Заголовки*/
+a.contentpagetitle, .contentheading, .contentheading h2 {
+    color: #5B5B5B;
+}
+a.contentpagetitle:hover {
+	text-decoration: none;
+}
+
+/*Страница полного просмотра материала*/
+.item_full .item_info {
+    border-bottom: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD;
+}
+.item_full .item_info .jwajaxvote-inline-rating  {
+    display: inline;
+    float: right;
+    margin: 0 10px 0 0;
+}
+.item_full .item_info_bottom {
+    border-top: 1px solid #DDDDDD;
+    margin: 10px 0; padding: 3px 0 0 0;
+}
+.item_full .item_info_bottom span {
+    margin: 0 10px 0 ;
+}
+.item_full .edit_item{
+    float: right; margin: 12px 0 0 0;
+}
+
+/*Ссылки на предыдущую и следующую статью*/
+.page_navigation{
+    width: 100%;
+}
+.page_navigation th{
+    background: none !important; border: none !important;
+}
+.pagenav_prev{
+    text-align: left;
+}
+.pagenav_next{
+    text-align: right;
+}
+
+/*Режим БЛОГА*/
+.intro{
+    margin: 4px 0 18px 0;
+}
+.intro .item_text{
+    padding: 2px 0 5px 0;
+    overflow: hidden;
+}
+.intro .item_body{
+    overflow: hidden;
+    padding: 5px 0 10px 0;
+}
+.intro .tags{
+
+    font-size: 11px;
+}
+.blog .intro_table td {
+	padding-right: 15px; border:  none;
+}
+.blog .intro_table tr.tr-second {
+	background: none !important;
+}
+
+.leading_block {
+
+}
+
+.buttons_wrap{
+    float: right; text-align: right;
+}
+
+/*Описания*/
+.contentdescription {
+	background: #F4F5ED;
+	border-top: 1px solid #DDDDDD;  border-bottom: 1px solid #DDDDDD;
+	clear: both;
+	overflow: hidden;
+	padding: 10px; font-style: italic;
+}
+.contentdescription img {
+	border: 1px solid #D3D3D3; padding: 1px;
+	margin: 0 10px 0 0;
+}
+
+.section_cat {
+	padding: 2px 5px 5px 14px;
+    font-weight: bold;  font-size: 10px; color: #D43014;
+    margin: 0; background: url(../images/elements/arrow.png) no-repeat center left;
+}
+.section_cat a {
+	font-weight: bold;
+}
+.cat_name, .section_name {
+    color: #7A7A7A; font-weight: normal;
+}
+.hits{
+    font-size: 11px;
+}
+
+
+/*Ссылка "Подробнее" */
+.readmore{
+    float: right;
+}
+a.readon {
+    background:url(../images/buttons/readmore.png) bottom repeat-x #fff;
+    background-position:4px 4px;
+    border:1px solid #ccc;
+    font:10px Arial, Helvetica, sans-serif;  text-decoration: none;
+    font-weight:bold;
+    text-transform:uppercase;
+    padding:4px 8px;
+    color:#444;
+}
+a.readon:hover {
+    color:#111;
+    border:1px solid #ddd;
+    background-position:7px 7px;
+}
+
+.article_seperator {
+	height: 1px;
+}
+/*Редактирование содержимого*/
+table.cedit_misc {
+	margin: 5px 0 20px 0;
+}
+table.cedit_main {
+	margin: 5px 0 20px 0;
+}
+
+.groupcats h2.category_name{
+    font-size: 18px; margin: 15px 0 2px 0;
+    padding: 5px 0 5px 20px;
+}
+
+.blog .edit_item{
+    margin: 6px 0 0 0;
+}
+.blog .button.edit_button{
+    text-decoration: none;
+    font-size:11px; font-weight: bold;
+}
+.table_of_items span.button, .table_of_items a.button{
+    display: block; float: left; line-height: 22px; height: 22px;
+}
+.table_of_items span.button {
+    margin: 0 5px 0 0;
+}
+.table_of_items span.button img {
+    margin: 2px 0 0 0;
+}
+
+
+/*----------------------------------------------------- com_contact - Контакты*/
+.contact_page img#print{
+    float: right;
+}
+.contact_page .thumb{
+    float: right;
+}
+.contact_page dl{
+	margin: 15px 0 10px 0; padding: 0;
+}
+.contact_page dt{
+	float: left; width: 85px; text-align: right; clear: left; margin: 0 10px 0 0;
+	font-weight: bold; display: block;
+}
+.contact_page .vcard{
+    padding: 0 0 0 95px; display: block; clear: both;
+}
+.contact_page .email_form label{
+    width:90px; float: left; text-align: right; font-weight: bold;
+    padding: 0 10px 0 0;  display: block; height: 40px; clear: left;
+}
+.contact_page input.inputbox,  .contact_page textarea.inputbox{
+    display:block; float: left;
+}
+.contact_page br{
+	clear:both;
+}
+.contact_page span.button{
+	margin: 10px 0 0 100px;
+}
+
+/*-------------------------------------------------- com_users - Пользователи*/
+/*Регистрация*/
+.registration_page .button{
+    margin: 0 0 0 110px;
+}
+/*Восстановление пароля*/
+.lostpass_page {
+    float: left;
+}
+.lostpass_page .row {
+    clear:both;
+    line-height:25px;
+    overflow: hidden;
+    margin: 0 0 6px 0;
+}
+.lostpass_page label {
+    float:left;
+    padding-right:10px;
+    text-align: right;
+    width: 120px;
+}
+.lostpass_page input{
+    float: left;
+}
+.lostpass_page .button{
+    margin: 0 0 0 66px;
+}
+/*Редактирование профиля*/
+.edit_profile_page .buttons{
+    text-align: right;
+    padding: 0 42px 0 0;
+    margin: 10px 0 10px 0;
+}
+.edit_profile_page td.td_l,
+.edit_profile_page td.pkey{
+    width: 150px;
+    text-align: right;
+}
+.edit_profile_page label,
+.edit_profile_page .pkey span{
+    float: right;
+    font-size: 11px;
+}
+.edit_profile_page label:after,
+.edit_profile_page .pkey span span:after{
+    content: ": ";
+}
+.edit_profile_page input.inputbox,
+.edit_profile_page textarea.inputbox{
+    width: 90%;
+}
+
+/*Меню профиля*/
+.jstProfile_menu{
+    height: 30px;
+    background: #F2F3E9;
+    padding: 2px 10px 2px 15px; border-bottom: 1px solid #CCC;
+    clear: both;
+    overflow:hidden;
+    margin: 22px 0 0 0;
+}
+.jstProfile_menu ul,
+.jstProfile_menu ul li{
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+.jstProfile_menu ul li{
+    margin: 3px 3px 0 0;
+    display: block;
+    float: left;
+}
+.jstProfile_menu ul li a{
+    padding:1px 4px 2px  4px;
+    display: block;
+    float: left;
+    background: #A0A59E;
+    color: #FFF;
+    font-size:11px;
+    text-decoration: none;
+    margin: 2px 0 ;
+}
+.jstProfile_menu ul li a:hover,
+.jstProfile_menu ul li a.active {
+    background: #D43015;
+}
+
+.jstProfile_info{
+    overflow: hidden;
+    margin: 0 0 10px 0;
+}
+
+.jstProfile_info .avatar{
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+.last_visite{
+    display: block;
+}
+
+.plugins_area{
+    padding: 0 0 0 15px;
+}
+
+.page_edit_profile .user_buttons{
+	padding: 10px 0 0 0;
+
+}
+.page_edit_profile .upload_area{
+	padding: 10px 0 0 0;
+
+}

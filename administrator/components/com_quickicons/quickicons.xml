@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component" version="1.0.10">
+	<name>Кнопки быстрого доступа</name>
+	<creationDate>04:03:2010</creationDate>
+	<author>Joostina! Project</author>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.1 JE</version>
+	<description>
+		<![CDATA[ Компонент и модуль управления кнопками быстрого доступа в панели управления ]]>
+	</description>
+</mosinstall>

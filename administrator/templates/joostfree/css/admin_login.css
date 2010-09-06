@@ -1,0 +1,125 @@
+a{
+	color: #336699;
+}
+a:hover{
+	color: #224488;
+}
+#loginForm span.captcha {
+	padding: 0 0 0 12px;
+	background: url(../images/refresh.gif) no-repeat 0 2px;
+}
+.message, #message {
+	margin-top: 20px;
+	border-top: 2px solid rgb(181, 212, 254);
+	border-bottom: 2px solid rgb(181, 212, 254);
+	padding: 5px 20px 5px 45px;
+	background: rgb(248, 250, 252) url(../images/alert.png) no-repeat scroll 15px 50%;
+	-moz-background-clip: -moz-initial;
+	-moz-background-origin: -moz-initial;
+	-moz-background-inline-policy: -moz-initial;
+	text-align: center;
+	color: red;
+	width: auto;
+}
+body {
+	margin: 0px;
+	padding: 0px;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #EBEBEB;
+}
+#joo {
+	width: auto;
+	background: url(../images/bg.png) repeat-x;
+	background-color: #dedede;
+	margin: 0px;
+	padding: 0px;
+	height: 34px;
+	height: 34px !important;
+}
+#break {
+	clear: both;
+}
+.button {
+	border: 1px solid #3d8fe3;
+	height: 20px;
+	color: #333;
+	background: #E3E6FF;
+	width: 100%;
+	margin-top: 8px;
+	border: 1px solid #3d8fe3;
+}
+.button:hover, button:focus {
+	background: #FBFBFB;
+}
+.login {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5em;
+	padding: 15px;
+	border: 1px solid #cccccc;
+	width: 300px;
+	background: #F1F3F5;
+}
+.login p {
+	padding: 0 1em 0 1em;
+}
+.form-block {
+	border: 1px solid #cccccc;
+	background: #E9ECEF;
+	padding-top: 15px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+}
+.login-form {
+	text-align: left;
+	float: right;
+	width: 99%;
+}
+.login-text {
+	text-align: center;
+	width: 40%;
+	float: left;
+}
+input, select, .button {
+	font-size: 10px;
+	border: 1px solid silver;
+	background-color: #F1F1F1;
+	width: 99%;
+}
+input.button {
+	cursor: pointer;
+}
+button {
+	font-size: 10px;
+}
+input:focus {
+	background-color: #F9F9F9;
+	border-color: #999999;
+}
+.inputlabel {
+	font-weight: bold;
+	text-align: left;
+}
+.clr {
+	clear: both;
+}
+#ctr1 {
+	padding-top: 100px;
+	text-align: center;
+	vertical-align: middle;
+}
+.version {
+	font-size: 0.8em;
+}
+#footer {
+	position: absolute;
+	bottom: 0;
+	padding-top: 10px;
+	width: 100%;
+	background: url(../images/bg.png) repeat-x;
+	background-color: #dedede;
+	height: 30px !important;
+	height: 30px;
+}
