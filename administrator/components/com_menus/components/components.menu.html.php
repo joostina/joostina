@@ -15,8 +15,8 @@ class components_menu_html {
 	public static function edit(&$menu,&$components,&$lists,&$params,$option) {
 
 
-		mosCommonHTML::loadJqueryPlugins('jquery.validate');
-		mosCommonHTML::loadJqueryPlugins('validate/localization/messages_ru');
+		JHTML::loadJqueryPlugins('jquery.validate');
+		JHTML::loadJqueryPlugins('validate/localization/messages_ru');
 
 		if($menu->id) {
 			$title = '[ '.$lists['componentname'].' ]';

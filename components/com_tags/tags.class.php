@@ -104,6 +104,25 @@ class Tags extends mosDBTable {
 	}
 
 	/**
+	 * Вывод тэгов указанного объекта
+	 * @param mosDBTable $obj требуемый объект
+	 * @return string html код ссылок-тэгов
+	 */
+	function show_tags(mosDBTable $obj) {
+
+		$id = $obj->{$obj->_tbl_key};
+
+		$tags = $this->get_list(array('select' => 'id,tag', 'where' => "obj_option = '{$obj->classname()}' AND obj_id = $id"));
+
+		$t = array();
+		foreach ($tags as $tag) {
+			$t[] = $tag->tag;
+		}
+
+		return $this->render_tags_href($t);
+	}
+
+	/**
 	 * joiTags::load_by_obj()
 	 *
 	 * @param mixed $id
@@ -113,9 +132,15 @@ class Tags extends mosDBTable {
 
 		$id = $obj->{$obj->_tbl_key};
 
+		$this->_tags = array();
+
+		if ($id < 1) {
+			return $this->_tags;
+		}
+
 		$tags = $this->get_list(array('where' => "obj_option = '{$obj->classname()}' AND obj_id = $id"));
 
-		$this->_tags = array();
+
 		foreach ($tags as $tag) {
 			$this->_tags[$id][] = $tag;
 		}
@@ -263,7 +288,7 @@ class Tags extends mosDBTable {
 			$values = implode($ds, $values);
 		}
 
-		return '<input type="text" name="tags" class="inputbox"  value="' . $values . '" />';
+		return '<input type="text" name="tags" class="inputbox"  value="' . $values . '" size="100" />';
 	}
 
 	/**
@@ -275,9 +300,9 @@ class Tags extends mosDBTable {
 	function save_tags($obj) {
 
 		$obj_option = strtolower($obj->classname());
-		$obj_id = $obj->{$obj->_tbl_key} > 0 ? ' AND obj_id = ' . $obj->{$obj->_tbl_key} : '';
+		$obj_id = $obj->{$obj->_tbl_key};
 
-		$sql = "DELETE FROM {$this->_tbl} WHERE  obj_option = '{$obj_option}' ". $obj_id;
+		$sql = "DELETE FROM {$this->_tbl} WHERE  obj_option = '{$obj_option}' " . ($obj->{$obj->_tbl_key} > 0 ? ' AND obj_id = ' . $obj->{$obj->_tbl_key} : '');
 		$this->_db->setQuery($sql)->Query();
 
 		$tags = $this->clear_tags(explode(',', mosGetParam($_POST, 'tags')));
@@ -298,7 +323,7 @@ class Tags extends mosDBTable {
 			$n++;
 		}
 
-		$sql = 'INSERT  #__tags (obj_id, obj_option, tag) VALUES  ' . $sql_;
+		$sql = "INSERT {$this->_tbl} (obj_id, obj_option, tag) VALUES " . $sql_;
 		return $this->_db->setQuery($sql)->query();
 	}
 
@@ -319,7 +344,7 @@ class Tags extends mosDBTable {
 	 * @param string $group
 	 * @return
 	 */
-	function get_tag_url($tag, $group = '') {
+	public static function get_tag_url($tag, $group = '') {
 		$link = 'index.php?option=com_tags';
 
 		if ($group) {
@@ -496,7 +521,7 @@ class tagsPlugins {
 	 * @return
 	 */
 	function check() {
-		$plugin = JPATH_BASE . DS . 'components' . DS . 'com_tags' . DS . 'plugins' . DS . $this->option . '.plugin.php';
+		$plugin = JPATH_BASE . DS . 'plugins' . DS . 'tags' . DS . $this->option . '.php';
 
 		if (is_file($plugin)) {
 			$this->plugin = $plugin;

@@ -61,9 +61,10 @@ if(!$my->id) {
 
 $commponent = str_replace('com_','',$option);
 
-initGzip();
+ob_start();
 // файл обработки Ajax запрсоов конкртеного компонента
 $file_com = JPATH_BASE_ADMIN.DS.'components'.DS.$option.DS.'admin.'.$commponent.'.ajax.php';
+
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if(file_exists($file_com)) {
 	//Подключаем язык компонента
@@ -75,4 +76,4 @@ if(file_exists($file_com)) {
 	die('error-inc-component');
 }
 
-doGzip();
+ob_end_flush();

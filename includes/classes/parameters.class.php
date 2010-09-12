@@ -333,3 +333,20 @@ class mosParameters {
 function mosParseParams( $txt ) {
 	return mosParameters::parse($txt);
 }
+
+
+function mosObjectToArray($p_obj) {
+	$retarray = null;
+	if (is_object($p_obj)) {
+		$retarray = array();
+		foreach (get_object_vars($p_obj) as $k => $v) {
+			if (substr($k, 0, 1) != '_') {
+				if (is_object($v))
+					$retarray[$k] = mosObjectToArray($v);
+				else
+					$retarray[$k] = $v;
+			}
+		}
+	}
+	return $retarray;
+}

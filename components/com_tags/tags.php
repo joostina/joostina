@@ -27,7 +27,7 @@ class actionsTags {
         //$tag = (string) mosGetParam($_GET, 'tag', '');
         $tag = Jstring::clean( urldecode($tag) );
 
-        mosMainFrame::getInstance()->setPageTitle( $tag );
+		Jdocument::getInstance()->setPageTitle( $tag );
 
         $tags = new Tags;
         $search_results_nodes_count = $tags->search_count($tag);
@@ -37,11 +37,12 @@ class actionsTags {
         $pager = new paginator3000( sefRelToAbs('index.php?option=com_tags&tag='.$tag, true) , $search_results_nodes_count, 10, 15 );
         $pager->paginate( $page );
 
-        $tags_results = $tags->search($tag, '#__topics',$pager->offset, $pager->limit );
+        $tags_results = $tags->search($tag, '#__pages',$pager->offset, $pager->limit );
 
         tagsHTML::tag_search($tag, $tags_results, $pager);
 
         // считаем обращения к тэгу, но только на первой странице
+		mosMainFrame::addLib('jhit');
         ($page == 0 OR $page==1) ?  Jhit::add('tags', 0, $tag ) : null;
     }
 

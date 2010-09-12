@@ -11,8 +11,8 @@
 defined('_VALID_MOS') or die(); 
 
 function Tags_pages_object_tags($row, $tags) {
-	if($_tags = $tags->load_by_obj($row->id)) {
-		return $tags->print_tags($row->id);
+	if($_tags = $tags->load_by_obj($row)) {
+		return $tags->print_tags($row);
 	}
 	else {
 		return 'Тэги не указаны';
@@ -22,8 +22,8 @@ function Tags_pages_object_tags($row, $tags) {
 }
 
 function Tags_pages_object_tags_edit($row, $tags) {
-	$_tags = $tags->load_by_obj($row->id);
-	return $tags->print_tags_edit($row->id);
+	$_tags = $tags->load_by_obj($row);
+	return $tags->print_tags_edit($row);
 
 }
 

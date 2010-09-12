@@ -20,7 +20,8 @@ define('JPATH_SITE', $mosConfig_live_site);
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
 
-require_once ('includes/joostina.php');
+require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
+require_once (JPATH_BASE . DS . 'includes' . DS . 'route.php');
 
 // отображение состояния выключенного сайта
 if ($mosConfig_offline == 1) {
@@ -28,7 +29,6 @@ if ($mosConfig_offline == 1) {
 	exit();
 }
 
-require_once (JPATH_BASE . '/components/com_sef/sef.php');
 
 // автоматическая перекодировка в юникод, по умолчанию активно
 $option = strval(strtolower(mosGetParam($_REQUEST, 'option', '')));
@@ -57,8 +57,7 @@ header("Cache-Control: no-cache, must-revalidate ");
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if (file_exists(JPATH_BASE . "/components/$option/$commponent.ajax.php")) {
 	include_once (JPATH_BASE . "/components/$option/$commponent.ajax.php");
-	mosMainFrame::addLib('joiadmin');
-	JoiAdmin::dispatch();
+	Jcontroller::run();
 } else {
 	die('error-1');
 }

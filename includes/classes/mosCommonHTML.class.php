@@ -243,34 +243,13 @@ class mosCommonHTML {
 		}
 	}
 
-	public static function loadJqueryPlugins($name,$ret = false, $css = false) {
-		$name = trim($name);
-
-		// если само ядро Jquery не загружено - сначала грузим его
-		defined('_JQUERY_LOADED') ? null : mosCommonHTML::loadJquery($ret);
-
-		// формируем константу-флаг для исключения повтороной загрузки
-		$const = '_JQUERY_PL_'.strtoupper($name).'_LOADED';
-
-		if(!defined($const)) {
-			define($const,1);
-			if($ret) {
-				echo JHTML::js_file( JPATH_SITE.'/media/js/jquery.plugins/'. $name.'.js' );
-				echo ($css) ? JHTML::css_file( JPATH_SITE.'/media/js/jquery.plugins/'. $name .'/'. $name.'.css' ) : '';
-			}else {
-				Jdocument::getInstance()->addJS(JPATH_SITE.'/media/js/jquery.plugins/'.$name.'.js');
-				$css ? Jdocument::getInstance()->addCSS(JPATH_SITE.'/media/js/jquery.plugins/'.$name.'/'.$name.'.css'): null;
-			}
-		}
-	}
-
 	public static function loadJqueryUI($ret = false) {
 		if(!defined('_JQUERY_UI_LOADED')) {
 			define('_JQUERY_UI_LOADED',1);
 			if($ret) {
 				echo JHTML::js_file( JPATH_SITE.'/media/js/jquery.ui/jquery-ui.js' );
 			}else {
-				Jdocument::getInstance()->addCSS(JPATH_SITE.'/media/js/jquery.ui/jquery-ui.js');
+				Jdocument::getInstance()->addJS(JPATH_SITE.'/media/js/jquery.ui/jquery-ui.js');
 			}
 		}
 	}

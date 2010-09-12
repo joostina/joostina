@@ -127,7 +127,7 @@ echo '<?xml version="1.0" encoding="'.$iso[1].'"?'.'>'."\n";
 // подключаем js-файл компонента закладок
 		$mainframe->addJS(JPATH_SITE.'/components/com_bookmarks/media/js/bookmarks.js', 'custom');
 
-		mosCommonHTML::loadJqueryPlugins('jquery.impromptu',false,false,'custom');
+		JHTML::loadJqueryPlugins('jquery.impromptu',false,false,'custom');
 
 		echo JHTML::css_file(JPATH_SITE.'/media/js/jquery.plugins/jquery.impromptu/jquery.impromptu.css');
 

@@ -13,21 +13,23 @@ defined('_VALID_MOS') or die();
 require_once ($mainframe->getPath('front_html'));
 require_once ($mainframe->getPath('class'));
 
-class actionsPages {
+class actionsPages extends Jcontroller {
 
-	public static function index($option, $id = false) {
+	public static function index($option, $id = 1) {
 
 		//$menu = mosMainFrame::getInstance()->get('menu');
 		//$params = new mosParameters($menu->params);
 
 		$page = new Pages();
 		//$page->load( $id ? $id : $params->get('page_id',0) );
-		$page->load(1);
+		$page->load( $id ? $id : 1 );
 
 		Jdocument::getInstance()
 				->setPageTitle($page->title_page)
 				->addMetaTag('description', $page->meta_description)
-				->addMetaTag('keywords', $page->meta_keywords);
+				->addMetaTag('keywords', $page->meta_keywords)
+				->seotag('yandex-vf1', md5(time())) // формируем тэг для поисковой машины Yandex.ru ( пример )
+				->seotag('rating', false); // тэг rating - скрываем
 
 		pagesHTML::index($page);
 
@@ -61,6 +63,11 @@ class actionsPages {
 		  echo $obj->title.'<br />';
 		  }
 		 */
+	}
+
+	
+	public static function view( $option, $id ){
+		self::index($option, $id);
 	}
 
 }

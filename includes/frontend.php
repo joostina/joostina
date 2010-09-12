@@ -27,55 +27,6 @@ function mosLoadModule($name = '', $title = '', $style = 0, $noindex = 0, $inc_p
 	return mosModule::getInstance()->mosLoadModule($name, $title, $style, $noindex, $inc_params);
 }
 
-
-class PageModel {
-
-	private static $_instance;
-	private $_mainframe;
-	private $_view;
-
-	private function __clone() {
-
-	}
-
-	function PageModel() {
-		$this->_mainframe = mosMainFrame::getInstance();
-	}
-
-	public static function getInstance() {
-
-		if (self::$_instance === null) {
-			self::$_instance = new self();
-		}
-
-		return self::$_instance;
-	}
-
-
-	function MainBody() {
-		$mainframe = $this->_mainframe;
-
-		// Session Check
-		$sessionCheck = 0;
-		// Session Cookie `name`
-		$sessionCookieName = $mainframe->sessionCookieName();
-		// Get Session Cookie `value`
-		$sessioncookie = mosGetParam($_COOKIE, $sessionCookieName, null);
-		if ((strlen($sessioncookie) == 32 || $sessioncookie == '-')) {
-			$sessionCheck = 1;
-		}
-
-		$mosmsg = $mainframe->get_mosmsg();
-		if ($mosmsg && $sessionCheck) {
-			echo '<div class="message info">'.$mosmsg.'</div>';
-			//echo JHTML::js_code('$(function() {$.notifyBar({html: "' . $mosmsg . '"}); })');
-		}
-
-		echo Jdocument::$data['page_body'];
-	}
-}
-
-
 class modules_html {
 
     public $_mainframe;

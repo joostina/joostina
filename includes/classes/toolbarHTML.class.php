@@ -81,11 +81,8 @@ class mosToolBar {
 			}
 
 			public static function preview($popup = '') {
-				$sql = "SELECT template FROM #__templates_menu WHERE client_id = 0 AND menuid = 0";
-				$cur_template = database::getInstance()->setQuery($sql)->loadResult();
-
 				$image = mosAdminMenus::ImageCheck('preview_f2.png','images/system/',null,null,'Просмотр','preview',1);
-				?><td><a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup; ?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" ><?php echo $image; ?></a></td><?php
+				?><td><a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup; ?>.php?t=<?php echo JTEMPLATE; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" ><?php echo $image; ?></a></td><?php
 			}
 
 			public static function save($task = 'save',$alt = _SAVE) {

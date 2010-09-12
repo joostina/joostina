@@ -44,7 +44,7 @@ class elrteEditor {
 				height   : $height,
 				width: $width,
 				toolbar  : '$toolbar',
-				cssfiles : ['css/elrte-inner.css']
+				//cssfiles : ['css/elrte-inner.css']
 			}
 			$('#$name').elrte(opts);
 		})

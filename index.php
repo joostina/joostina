@@ -17,7 +17,6 @@ define('DS', DIRECTORY_SEPARATOR);
 // рассчет памяти
 function_exists('memory_get_usage') ? define('_MEM_USAGE_START', memory_get_usage()) : null;
 
-
 // подключение файла конфигурации
 require_once (JPATH_BASE . DS . 'configuration.php');
 
@@ -29,8 +28,8 @@ define('JPATH_SITE', $mosConfig_live_site);
 
 // подключение главного файла - ядра системы
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
-require_once (JPATH_BASE . DS . 'components' . DS . 'com_sef' . DS . 'sef.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'frontend.php');
+require_once (JPATH_BASE . DS . 'includes' . DS . 'route.php');
+//require_once (JPATH_BASE . DS . 'includes' . DS . 'frontend.php');
 
 Jdocument::header();
 
@@ -44,18 +43,12 @@ if ($mosConfig_offline == 1) {
 	require (JPATH_BASE . DS . 'templates' . DS . 'system' . DS . 'offline.php');
 }
 
-// отключение ведения сессий на фронте
 $mainframe->initSession();
 
 // загрузка файла русского языка по умолчанию
-$mosConfig_lang = ($mosConfig_lang == '') ? 'russian' : $mosConfig_lang;
-$mainframe->set('lang', $mosConfig_lang);
-include_once($mainframe->getLangFile('', $mosConfig_lang));
+include_once($mainframe->getLangFile('', JLANG));
 
 $my = $mainframe->getUser();
-
-// получение шаблона страницы
-define('JTEMPLATE', $mainframe->getTemplate());
 
 // начало буферизации основного содержимого
 ob_start();
@@ -66,8 +59,7 @@ if ($path = $mainframe->getPath('front')) {
 	$mainframe->getLangFile($option) ? require_once($mainframe->getLangFile($option)) : null;
 
 	require_once ($path);
-	mosMainFrame::addLib('joiadmin');
-	JoiAdmin::dispatch();
+	Jcontroller::run( $option );
 	
 } else {
 	header('HTTP/1.0 404 Not Found');
@@ -77,7 +69,7 @@ if ($path = $mainframe->getPath('front')) {
 Jdocument::$data['page_body'] = ob_get_contents(); // главное содержимое - стек вывода компонента - mainbody
 ob_end_clean();
 
-initGzip();
+ob_start();
 
 
 // отображение предупреждения о выключенном сайте, при входе админа
@@ -111,7 +103,7 @@ if (JDEBUG) {
 	jd_get();
 }
 
-doGzip();
+ob_end_flush();
 
 // запускаем встроенный оптимизатор таблиц
 ($mosConfig_optimizetables == 1) ? joostina_api::optimizetables() : null;

@@ -10,9 +10,6 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-// получаем название шаблона для панели управления
-define('JTEMPLATE', 'joostfree' );
-
 mosMainFrame::addClass('mosAdminMenus');
 mosMainFrame::addClass('mosHTML');
 
@@ -420,4 +417,152 @@ function mosToolTip($tooltip, $title = '', $n='', $image = 'tooltip.png', $text 
     $tip = '<a href="' . $href . '" title="' . $tooltip . '" >' . $text . '</a>';
 
     return $tip;
+}
+
+
+/**
+ * Utility function to read the files in a directory
+ * @param string The file system path
+ * @param string A filter for the names
+ * @param boolean Recurse search into sub-directories
+ * @param boolean True if to prepend the full path to the file name
+ */
+function mosReadDirectory($path, $filter = '.', $recurse = false, $fullpath = false) {
+	$arr = array();
+	if (!@is_dir($path)) {
+		return $arr;
+	}
+	$handle = opendir($path);
+
+	while ($file = readdir($handle)) {
+		$dir = mosPathName($path . '/' . $file, false);
+		$isDir = is_dir($dir);
+		if (($file != ".") && ($file != "..")) {
+			if (preg_match("/$filter/", $file)) {
+				if ($fullpath) {
+					$arr[] = trim(mosPathName($path . '/' . $file, false));
+				} else {
+					$arr[] = trim($file);
+				}
+			}
+			if ($recurse && $isDir) {
+				$arr2 = mosReadDirectory($dir, $filter, $recurse, $fullpath);
+				$arr = array_merge($arr, $arr2);
+			}
+		}
+	}
+	closedir($handle);
+	asort($arr);
+	return $arr;
+}
+
+
+/**
+ *
+ * @param <type> $id
+ * @param <type> $indent
+ * @param <type> $list
+ * @param <type> $children
+ * @param <type> $maxlevel
+ * @param <type> $level
+ * @param <type> $type
+ * @return <type>
+ */
+function mosTreeRecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1) {
+
+	if (@$children[$id] && $level <= $maxlevel) {
+		foreach ($children[$id] as $v) {
+			$id = $v->id;
+
+			if ($type) {
+				$pre = '<sup>L</sup>&nbsp;';
+				$spacer = '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			} else {
+				$pre = '- ';
+				$spacer = '&nbsp;&nbsp;';
+			}
+
+			if ($v->parent == 0) {
+				$txt = $v->name;
+			} else {
+				$txt = $pre . $v->name;
+			}
+
+			$list[$id] = $v;
+			$list[$id]->treename = $indent . $txt;
+			$list[$id]->children = count(@$children[$id]);
+
+			$list = mosTreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+		}
+	}
+	return $list;
+}
+
+
+/**
+ * Function to strip additional / or \ in a path name
+ * @param string The path
+ * @param boolean Add trailing slash
+ */
+function mosPathName($p_path, $p_addtrailingslash = true) {
+	$retval = '';
+
+	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
+
+	if ($isWin) {
+		$retval = str_replace('/', '\\', $p_path);
+		if ($p_addtrailingslash) {
+			if (substr($retval, -1) != '\\') {
+				$retval .= '\\';
+			}
+		}
+
+		// Check if UNC path
+		$unc = substr($retval, 0, 2) == '\\\\' ? 1 : 0;
+
+		// Remove double \\
+		$retval = str_replace('\\\\', '\\', $retval);
+
+		// If UNC path, we have to add one \ in front or everything breaks!
+		if ($unc == 1) {
+			$retval = '\\' . $retval;
+		}
+	} else {
+		$retval = str_replace('\\', '/', $p_path);
+		if ($p_addtrailingslash) {
+			if (substr($retval, -1) != '/') {
+				$retval .= '/';
+			}
+		}
+
+		// Check if UNC path
+		$unc = substr($retval, 0, 2) == '//' ? 1 : 0;
+
+		// Remove double //
+		$retval = str_replace('//', '/', $retval);
+
+		// If UNC path, we have to add one / in front or everything breaks!
+		if ($unc == 1) {
+			$retval = '/' . $retval;
+		}
+	}
+
+	return $retval;
+}
+
+function mosMakeHtmlSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '') {
+	if (is_object($mixed)) {
+		foreach (get_object_vars($mixed) as $k => $v) {
+			if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_') {
+				continue;
+			}
+			if (is_string($exclude_keys) && $k == $exclude_keys) {
+				continue;
+			} else
+			if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
+				continue;
+			}
+			$mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
+		}
+	}
 }

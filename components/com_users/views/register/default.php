@@ -9,7 +9,7 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-mosCommonHTML::loadJqueryPlugins('jquery.validate');
+JHTML::loadJqueryPlugins('jquery.validate');
 ?>
 
 <script language="javascript">

@@ -7,7 +7,7 @@ defined('_VALID_MOS') or die();
 
 global $my;
 
-mosCommonHTML::loadJqueryPlugins('jquery.validate');
+JHTML::loadJqueryPlugins('jquery.validate');
 
 require_once 'formvalidator.php';
 

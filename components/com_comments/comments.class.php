@@ -175,7 +175,7 @@ class Comments extends mosDBTable {
 	 * После сохранения комментария в БД
 	 */
 	public function after_insert() {
-
+		$this->update_counters();
 	}
 
 	public static function get_users_array() {
@@ -213,26 +213,23 @@ class Comments extends mosDBTable {
 	 */
 	public function load_comments_tree($obj) {
 
-		$mf = mosMainFrame::getInstance();
-		require_once ($mf->getPath('front_html', 'com_comments'));
+		require_once (mosMainFrame::getInstance()->getPath('front_html', 'com_comments'));
 
 		$this->obj_option = get_class($obj);
 		$this->obj_id = $obj->{$obj->_tbl_key}; // настоящая уличная магия
-		//
 		//JS объявления, необходимые для загрузки первой страницы комментариев
 		$script = JHTML::js_code("var _comments_objoption = '$this->obj_option';var _comments_objid = $this->obj_id;");
+
 		Jdocument::getInstance()
 				->addCustomHeadTag($script)
-				->addJS(JPATH_SITE . '/components/com_comments/media/js/comments_tree.js');
+				->addJS(JPATH_SITE . '/components/com_comments/media/js/comments_tree.js', array('last' => true));
 
 		$comments_list = $this->get_comments();
 
-		if ($comments_list) {
-			//Выводим список комментариев
-			CommentsHTML::lists($comments_list);
-		}
+		//Выводим список комментариев если они есть
+		$comments_list ? commentsHTML::lists($comments_list) : commentsHTML::emptylists();
 
-		CommentsHTML::addform();
+		commentsHTML::addform();
 	}
 
 	/**
@@ -246,8 +243,8 @@ class Comments extends mosDBTable {
             FROM #__comments AS c
             LEFT JOIN `#__users` AS u ON (u.id = c.user_id)
             WHERE  c.state=1 AND c.obj_option = \'' . $this->obj_option . '\' AND c.obj_id = \'' . $this->obj_id . '\'            
-            GROUP BY c.id
-            ORDER BY c.parent_id, c.created_at ASC';
+             ORDER BY c.parent_id, c.created_at ASC';
+// выше было зачем-то GROUP BY c.id
 		return $this->_db->setQuery($sql, $offset, $limit)->loadObjectList();
 	}
 
@@ -255,11 +252,10 @@ class Comments extends mosDBTable {
 	 * Изменение счётчиков общего количества комментариев по объекту и по пользователю
 	 */
 	private function update_counters() {
-		//По объекту
-		$sql = sprintf("INSERT INTO `#__comments_counter` (`obj_id`, `obj_option`, `last_user_id`, `last_comment_id`,`counter`)
-		VALUES (%s, '%s', %s, %s,1)
-		ON DUPLICATE KEY UPDATE counter=counter+1;",
-						$this->obj_id, $this->obj_option, $this->user_id, $this->id);
+		$sql = sprintf("INSERT INTO `#__comments_counter` (`obj_id`, `obj_option`, `last_user_id`, `last_comment_id`,`counter`)" .
+						" VALUES (%s, '%s', %s, %s,1)" .
+						" ON DUPLICATE KEY UPDATE counter=counter+1,last_user_id=%s,last_comment_id=%s ;",
+						$this->obj_id, $this->obj_option, $this->user_id, $this->id, $this->user_id, $this->id);
 		return $this->_db->setQuery($sql)->query();
 	}
 

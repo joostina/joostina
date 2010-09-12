@@ -13,6 +13,9 @@ defined('_VALID_MOS') or die();
 //Europe/Moscow // GMT0
 function_exists('date_default_timezone_set') ? date_default_timezone_set(date_default_timezone_get()) : null;
 
+// язык сайта
+DEFINE('JLANG', 'russian');
+
 // http корень для изображений
 DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
 // http корень для файлов
@@ -26,45 +29,54 @@ DEFINE('_DB_SOFTDELETE', true);
 
 // каталог администратора
 DEFINE('JADMIN_BASE', 'administrator');
-// параметр активации отладки
+
+// активация работы в режиме отладки - осуществляется через ручную установку в браузере куки с произвольным названием, по умолчанию - joostinadebugmode
+define('JDEBUG_TEST_MODE', (bool) isset($_COOKIE['joostinadebugmode']));
+
+// параметр активации отладки, можно совмещать с JDEBUG_TEST_MODE
 define('JDEBUG', (bool) true);
+
 // формат даты
 DEFINE('_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S');
+
 // текущее время сервера
 DEFINE('_CURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
-// схемы не http/https протоколов
-DEFINE('_URL_SCHEMES', 'data:, file:, ftp:, gopher:, imap:, ldap:, mailto:, news:, nntp:, telnet:, javascript:, irc:, mms:');
 
 // пробуем устанавить более удобный режим работы
 @set_magic_quotes_runtime(0);
 
 // установка режима отображения ошибок
-($mosConfig_error_reporting == 0) ? error_reporting(0) : error_reporting($mosConfig_error_reporting);
+($mosConfig_error_reporting == 0 && !JDEBUG) ? error_reporting(0) : error_reporting($mosConfig_error_reporting);
 
-/* библиотека отладчика */
-JDEBUG ? mosMainFrame::addLib('debug') : null;
+JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
+
+// при активном полном или тестовом режиме отладки подключим дополнительную библиотеку отладки
+(JDEBUG || JDEBUG_TEST_MODE) ? mosMainFrame::addLib('debug') : null;
+
 /* библиотека для работы с юникодом */
 mosMainFrame::addLib('utf8');
+
 /* библиотека фильтрации данных */
 mosMainFrame::addLib('inputfilter');
+
 /* библиотека работы с базой данных */
 mosMainFrame::addLib('database');
-/* класс парсинга параметров и работы с XML */
-//mosMainFrame::addClass('parameters');
 
 /**
  * Статический класс для хранения и обмена данными внутри приложения
  */
 class Jstatic {
 
+	/**
+	 * Статичная переменная для хранения данных
+	 * @var array
+	 */
 	public static $data = array();
 
 }
 
 /**
- * Joostina! Mainframe class
- *
- * Provide many supporting API functions
+ * Корневой клас ядра Joostina!
  * @package Joostina
  */
 class mosMainFrame {
@@ -76,7 +88,6 @@ class mosMainFrame {
 	/**
 	  @var object An object of configuration variables */
 	//private $_config = null;
-	public $config = null;
 	/**
 	  @var object An object of path variables */
 	private $_path = null;
@@ -90,32 +101,10 @@ class mosMainFrame {
 	  @var array An array to hold global user state within a session */
 	private $_userstate = null;
 	/**
-	  @var array An array of page meta information */
-	private $_head = null;
-	/**
-	  @var string Custom html string to append to the pathway */
-	private $_custom_pathway = null;
-	/**
-	  @var boolean True if in the admin client */
-	private $_isAdmin = false;
-	/**
-	  @var массив данных выводящися в нижней части страницы */
-	protected $_footer = null;
-	/**
 	 * системное сообщение
 	 */
 	protected $mosmsg = '';
-	/**
-	 * текущий язык
-	 */
 	public static $is_admin = false;
-
-	/**
-	 * Заглушка для запрета клонирования объекта
-	 */
-	private function __clone() {
-		
-	}
 
 	/**
 	 * Инициализация ядра
@@ -125,7 +114,7 @@ class mosMainFrame {
 		// объект конфигурации системы
 		$this->config = Jconfig::getInstance();
 		// объект работы с базой данных
-		$this->_db = database::getInstance();
+		//$this->_db = database::getInstance();
 
 		if (!$isAdmin) {
 			$current = $this->get_option();
@@ -133,13 +122,15 @@ class mosMainFrame {
 			$this->setTemplate($isAdmin);
 		} else {// для панели управления работаем с меню напрямую
 			$option = strval(strtolower(mosGetParam($_REQUEST, 'option')));
-			// указываем параметр работы в админ-панели унапрямую
+			// указываем параметр работы в админ-панели напрямую
 			self::$is_admin = true;
+			$this->_template = 'joostfree';
 		}
 
 		$this->_setAdminPaths($option, JPATH_BASE);
 
-		$this->_isAdmin = (boolean) $isAdmin;
+		// получение шаблона страницы
+		define('JTEMPLATE', $this->_template);
 
 		if (isset($_SESSION['session_userstate'])) {
 			$this->_userstate = &$_SESSION['session_userstate'];
@@ -156,12 +147,7 @@ class mosMainFrame {
 	public static function getInstance($isAdmin = false) {
 
 		JDEBUG ? jd_inc('mosMainFrame::getInstance()') : null;
-		/* ОТЛАДКА
-		  if(JDEBUG) {
-		  $d = debug_backtrace();
-		  jd_log( 'mosMainFrame::getInstance  '.$d[0]['file'].'::'.$d[0]['line'] );
-		  }
-		 */
+
 		if (self::$_instance === NULL) {
 			self::$_instance = new self($isAdmin);
 		}
@@ -208,7 +194,8 @@ class mosMainFrame {
 
 	// получение объекта базы данных из текущего объекта
 	public function getDBO() {
-		return $this->_db;
+		jd_log_top('УБАРИ getDBO ёкарнабаай!');
+		return database::getInstance();
 	}
 
 	/**
@@ -244,30 +231,25 @@ class mosMainFrame {
 	 * @param <type> $mosConfig_lang
 	 * @return <type>
 	 */
-	public function getLangFile($name = '', $mosConfig_lang='') {
-		if (empty($mosConfig_lang)) {
-			global $mosConfig_lang;
-		}
-
-		$lang = $mosConfig_lang;
+	public function getLangFile($name = '') {
 
 		if (!$name) {
-			return JPATH_BASE . DS . 'language' . DS . $lang . DS . 'system.php';
+			return JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'system.php';
 		} else {
 			$file = $name;
 		}
 
 		if (self::$is_admin == true) {
-			if (is_file(JPATH_BASE . DS . 'language' . DS . $lang . DS . 'administrator' . DS . $file . '.php')) {
-				return JPATH_BASE . DS . 'language' . DS . $lang . DS . 'administrator' . DS . $file . '.php';
+			if (is_file(JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'administrator' . DS . $file . '.php')) {
+				return JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'administrator' . DS . $file . '.php';
 			} else {
-				if (is_file(JPATH_BASE . DS . 'language' . DS . $lang . DS . 'frontend' . DS . $file . '.php')) {
-					return JPATH_BASE . DS . 'language' . DS . $lang . DS . 'frontend' . DS . $file . '.php';
+				if (is_file(JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php')) {
+					return JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php';
 				}
 			}
 		} else {
-			if (is_file(JPATH_BASE . DS . 'language' . DS . $lang . DS . 'frontend' . DS . $file . '.php')) {
-				return JPATH_BASE . DS . 'language' . DS . $lang . DS . 'frontend' . DS . $file . '.php';
+			if (is_file(JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php')) {
+				return JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php';
 			}
 		}
 
@@ -326,8 +308,8 @@ class mosMainFrame {
 
 		// initailize session variables
 		$session = &$this->_session;
-		$session = new mosSession($this->_db);
-		// purge expired sessions
+		$session = new mosSession();
+		// очистка сессий один раз 2х, случайно
 		(rand(0, 2) == 1) ? $session->purge('core', '', $this->config->config_lifetime) : null;
 
 		// Session Cookie `name`
@@ -336,6 +318,7 @@ class mosMainFrame {
 
 		// Get Session Cookie `value`
 		$sessioncookie = strval(mosGetParam($_COOKIE, $sessionCookieName, null));
+
 		// Session ID / `value`
 		$sessionValueCheck = mosMainFrame::sessionCookieValue($sessioncookie);
 
@@ -417,7 +400,7 @@ class mosMainFrame {
 		}
 
 		// restore some session variables
-		$my = new mosUser($this->_db);
+		$my = new mosUser();
 		$my->id = intval(mosGetParam($_SESSION, 'session_user_id', ''));
 		$my->username = strval(mosGetParam($_SESSION, 'session_USER', ''));
 		$my->groupname = strval(mosGetParam($_SESSION, 'session_groupname', ''));
@@ -431,13 +414,16 @@ class mosMainFrame {
 		if ($session_id != session_id()) {
 			// session id does not correspond to required session format
 			mosRedirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _YOU_NEED_TO_AUTH);
-			exit();
 		}
 
 		// check to see if session id corresponds with correct format
 		if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
+
 			// if task action is to `save` or `apply` complete action before doing session checks.
 			if ($task != 'save' && $task != 'apply') {
+
+				$database = database::getInstance();
+
 				$_config = $this->get('config');
 				// test for session_life_admin
 				if ($_config->config_session_life_admin) {
@@ -450,23 +436,21 @@ class mosMainFrame {
 					// purge expired admin sessions only
 					$past = time() - $session_life_admin;
 					$query = "DELETE FROM #__session WHERE time < '" . (int) $past . "' AND guest = 1 AND gid = 0 AND userid <> 0";
-					$this->_db->setQuery($query)->query();
+					$database->setQuery($query)->query();
 				}
 
 				$current_time = time();
 
 				// update session timestamp
-				$query = "UPDATE #__session SET time = " . $this->_db->Quote($current_time) . " WHERE session_id = " . $this->_db->Quote($session_id);
-				$this->_db->setQuery($query);
-				$_config->config_admin_autologout == 1 ? $this->_db->query() : null;
+				$query = "UPDATE #__session SET time = " . $database->Quote($current_time) . " WHERE session_id = " . $database->Quote($session_id);
+				$_config->config_admin_autologout == 1 ? $database->setQuery($query)->query() : null;
 
 				// set garbage cleaning timeout
 				$this->setSessionGarbageClean();
 
 				// check against db record of session
-				$query = "SELECT COUNT( session_id ) FROM #__session WHERE session_id = " . $this->_db->Quote($session_id) . " AND username = " . $this->_db->Quote($my->username) . " AND userid = " . intval($my->id);
-				$this->_db->setQuery($query);
-				$count = ($_config->config_admin_autologout == 1) ? $this->_db->loadResult() : 1;
+				$query = "SELECT COUNT( session_id ) FROM #__session WHERE session_id = " . $database->Quote($session_id) . " AND username = " . $database->Quote($my->username) . " AND userid = " . intval($my->id);
+				$count = ($_config->config_admin_autologout == 1) ? $database->setQuery($query)->loadResult() : 1;
 
 				// если в таблице нет информации о текущей сессии - она устарела
 				if ($count == 0) {
@@ -485,7 +469,6 @@ class mosMainFrame {
 			} else {
 				mosRedirect(JPATH_SITE, _YOU_NEED_TO_AUTH);
 			}
-			exit();
 		} else {
 			mosRedirect(JPATH_SITE, _WRONG_USER_SESSION);
 			exit();
@@ -604,6 +587,7 @@ class mosMainFrame {
 			mosRedirect($return, _LOGIN_INCOMPLETE);
 			exit();
 		} else {
+			$database = database::getInstance();
 			if ($remember && strlen($username) == 32 && $userid) {
 
 				// query used for remember me cookie
@@ -612,7 +596,7 @@ class mosMainFrame {
 				$query = "SELECT id, username, password, state, gid,groupname FROM #__users WHERE id = " . (int) $userid;
 				$user = null;
 
-				$this->_db->setQuery($query)->loadObject($user);
+				$database->setQuery($query)->loadObject($user);
 
 				list($hash, $salt) = explode(':', $user->password);
 
@@ -625,8 +609,8 @@ class mosMainFrame {
 				}
 			} else {
 				// query used for login via login module
-				$query = "SELECT id,  username, password, state, gid,groupname FROM #__users WHERE username = " . $this->_db->Quote($username);
-				$this->_db->setQuery($query)->loadObject($row);
+				$query = "SELECT id,  username, password, state, gid,groupname FROM #__users WHERE username = " . $database->Quote($username);
+				$database->setQuery($query)->loadObject($row);
 			}
 
 			if (is_object($row)) {
@@ -634,7 +618,6 @@ class mosMainFrame {
 				// если акаунт заблокирован
 				if ($row->state == 0) {
 					mosRedirect($return, _LOGIN_BLOCKED);
-					exit();
 				}
 
 				if (!$valid_remember) {
@@ -648,7 +631,6 @@ class mosMainFrame {
 							$this->logout();
 							mosRedirect(JPATH_SITE);
 						}
-						exit();
 					}
 				}
 
@@ -662,15 +644,12 @@ class mosMainFrame {
 				$session->update();
 				//$session->store();
 
-				$query = "DELETE FROM #__session WHERE session_id != " . $this->_db->Quote($session->session_id) . " AND username = " . $this->_db->Quote($row->username) . " AND userid = " . (int) $row->id . " AND gid = " . (int) $row->gid . " AND guest = 0";
-				$this->_db->setQuery($query)->query();
+				$query = "DELETE FROM #__session WHERE session_id != " . $database->Quote($session->session_id) . " AND username = " . $database->Quote($row->username) . " AND userid = " . (int) $row->id . " AND gid = " . (int) $row->gid . " AND guest = 0";
+				$database->setQuery($query)->query();
 
 				// update user visit data
-				$query = "UPDATE #__users SET lastvisitDate = " . $this->_db->Quote(_CURRENT_SERVER_TIME) . " WHERE id = " . (int) $session->userid;
-
-				if (!$this->_db->setQuery($query)->query()) {
-					die($this->_db->stderr(true));
-				}
+				$query = "UPDATE #__users SET lastvisitDate = " . $database->Quote(_CURRENT_SERVER_TIME) . " WHERE id = " . (int) $session->userid;
+				$database->setQuery($query)->query();
 
 				// set remember me cookie if selected
 				$remember = (int) mosGetParam($_POST, 'remember', 0);
@@ -688,7 +667,6 @@ class mosMainFrame {
 					$this->logout();
 					mosRedirect('index.php');
 				}
-				exit();
 			}
 		}
 	}
@@ -716,7 +694,7 @@ class mosMainFrame {
 	 * @return mosUser возвращает объект пользовательской сессии
 	 */
 	public function getUser() {
-		$user = new mosUser($this->_db);
+		$user = new mosUser();
 
 		if ($this->get('config')->config_no_session_front == 1) {
 			// параметры id и gid при инициализации объявляются как null - это вредит некоторым компонентам, проинициализируем их в нули
@@ -734,7 +712,7 @@ class mosMainFrame {
 			FROM #__users  AS u
 			LEFT JOIN #__users_extra AS ue ON ue.user_id=u.id
 			WHERE u.id = " . $user->id;
-			$this->_db->setQuery($query, 0, 1)->loadObject($my);
+			database::getInstance()->setQuery($query, 0, 1)->loadObject($my);
 
 			$user->username = $my->username;
 			$user->email = $my->email;
@@ -765,17 +743,8 @@ class mosMainFrame {
 
 	/**  функция определения шаблона, если в панели управления указано что использовать один шаблон - сразу возвращаем его название, функцию не проводим до конца */
 	public function setTemplate() {
-		// если у нас в настройках указан шаблон и определение идёт не для панели управления - возвращаем название шаблона из глобальной конфигурации
-		if ($this->getCfg('one_template') != '...') {
-			$this->_template = $this->getCfg('one_template');
-			return;
-		}
-
-		$Itemid = intval(mosGetParam($_REQUEST, 'Itemid', null));
-		$assigned = (!empty($Itemid) ? ' OR menuid = ' . (int) $Itemid : '');
-
-		$query = "SELECT template FROM #__templates_menu WHERE client_id = 0 AND ( menuid = 0 $assigned ) ORDER BY menuid DESC";
-		$this->_template = $this->_db->setQuery($query, 0, 1)->loadResult();
+		$this->_template = $this->getCfg('one_template');
+		return;
 	}
 
 	/**
@@ -929,7 +898,7 @@ class mosMainFrame {
 	 * @return boolean
 	 */
 	public function isAdmin() {
-		return $this->_isAdmin;
+		return self::$is_admin;
 	}
 
 	/**
@@ -963,7 +932,7 @@ class mosMainFrame {
 
 		$_s = session_id();
 
-		if (!$this->_isAdmin && empty($_s)) {
+		if (!self::$is_admin && empty($_s)) {
 			session_name(mosMainFrame::sessionCookieName());
 			session_start();
 		}
@@ -987,42 +956,26 @@ class mosMainFrame {
 	 */
 	private function get_option() {
 
-		$Itemid = intval(strtolower(mosGetParam($_REQUEST, 'Itemid', '')));
 		$option = trim(strval(strtolower(mosGetParam($_REQUEST, 'option', ''))));
 
-		if ($option != '' && $Itemid != '') {
-			return array('option' => $option, 'Itemid' => $Itemid);
+		if ($option != '') {
+			return array('option' => $option);
 		}
 
 		if ($option != '') {
-			return array('option' => $option, 'Itemid' => 99999999);
+			return array('option' => $option);
 		}
 
-		if ($Itemid) {
-			$query = "SELECT id, link"
-					. "\n FROM #__menu"
-					. "\n WHERE menutype = 'mainmenu'"
-					. "\n AND id = " . (int) $Itemid
-					. "\n AND published = 1";
-			$menu = new mosMenu($database);
-			$this->_db->setQuery($query)->loadObject($menu);
-		} else {
-			// получение пурвого элемента главного меню
-			$menu = mosMenu::get_all();
-			$menu = $menu['mainmenu'];
-			$items = isset($menu) ? array_values($menu) : array();
-			$menu = $items[0];
-		}
+		// получение пурвого элемента главного меню
+		$menu = mosMenu::get_all();
+		$menu = $menu['mainmenu'];
+		$items = isset($menu) ? array_values($menu) : array();
+		$menu = $items[0];
 
-		$Itemid = $menu->id;
-		$link = $menu->link;
-
-		//unset($menu);
-		if (($pos = strpos($link, '?')) !== false) {
-			$link = substr($link, $pos + 1) . '&Itemid=' . $Itemid;
-		}
+		$link = str_replace('index.php?', '', $menu->link);
 
 		parse_str($link, $temp);
+
 		/** это путь, требуется переделать для лучшего управления глобальными переменными */
 		foreach ($temp as $k => $v) {
 			$GLOBALS[$k] = $v;
@@ -1030,12 +983,9 @@ class mosMainFrame {
 			if ($k == 'option') {
 				$option = $v;
 			}
-			if ($k == 'Itemid') {
-				$Itemid = $v;
-			}
 		}
 
-		return array('option' => $option, 'Itemid' => $Itemid);
+		return array('option' => $option);
 	}
 
 }
@@ -1330,13 +1280,13 @@ class mosMenu extends mosDBTable {
 	public $access;
 	public $utaccess;
 	public $params;
+	private $_menu = array();
 
 	/**
 	 * @param database A database connector object
 	 */
 	function mosMenu() {
 		$this->mosDBTable('#__menu', 'id');
-		$this->_menu = array();
 	}
 
 	// получение инстанции меню
@@ -1455,11 +1405,9 @@ class mosModule extends mosDBTable {
 	private $_view = null;
 	private $_mainframe = null;
 
-	public function mosModule($db, $mainframe = null) {
-		$this->mosDBTable('#__modules', 'id', $db);
-		if ($mainframe) {
-			$this->_mainframe = $mainframe;
-		}
+	public function __construct() {
+		jd_log('А вот и модули...');
+		$this->mosDBTable('#__modules', 'id');
 	}
 
 	public static function getInstance() {
@@ -1467,9 +1415,7 @@ class mosModule extends mosDBTable {
 		JDEBUG ? jd_inc('mosModule') : null;
 
 		if (self::$_instance === null) {
-			$mainframe = mosMainFrame::getInstance();
-
-			$modules = new mosModule($mainframe->getDBO(), $mainframe);
+			$modules = new mosModule();
 			$modules->initModules();
 			self::$_instance = $modules;
 		}
@@ -1486,10 +1432,9 @@ class mosModule extends mosDBTable {
 		return true;
 	}
 
-	public static function convert_to_object($module, $mainframe) {
-		$database = $mainframe->getDBO();
+	public static function convert_to_object($module) {
 
-		$module_obj = new mosModule($database, $mainframe);
+		$module_obj = new mosModule();
 		$rows = get_object_vars($module_obj);
 		foreach ($rows as $key => $value) {
 			if (isset($module->$key)) {
@@ -1565,7 +1510,6 @@ class mosModule extends mosDBTable {
 
 	public function initModules() {
 		global $my, $Itemid;
-echo 555;
 		$this->_all_modules = self::_initModules($Itemid, $my->gid);
 		require (JPATH_BASE . '/includes/frontend.php');
 		$this->_view = new modules_html($this->_mainframe);
@@ -1669,67 +1613,6 @@ echo 555;
 }
 
 /**
- * Class to support function caching
- * @package Joostina
- */
-class mosCache {
-
-	private static $_instance;
-
-	/**
-	 * @return object A function cache object
-	 */
-	public static function getCache($group = 'default', $handler = 'callback', $storage = null, $cachetime = null, $object = null) {
-
-		JDEBUG ? jd_inc('cache') : null;
-
-		if (self::$_instance === null) {
-			$config = Jconfig::getInstance();
-
-			self::$_instance = array();
-			self::$_instance['config_caching'] = $config->config_caching;
-			self::$_instance['config_cachetime'] = $config->config_cachetime;
-			self::$_instance['config_cache_handler'] = $config->config_cache_handler;
-			self::$_instance['config_cachepath'] = $config->config_cachepath;
-			self::$_instance['config_lang'] = $config->config_lang;
-			// подключаем библиотеку кэширования
-			mosMainFrame::addLib('cache');
-		}
-
-		$handler = ($handler == 'function') ? 'callback' : $handler;
-
-		$def_cachetime = (isset($cachetime)) ? $cachetime : self::$_instance['config_cachetime'];
-
-		if (!isset($storage)) {
-			$storage = (self::$_instance['config_cache_handler'] != '') ? self::$_instance['config_cache_handler'] : 'file';
-		}
-
-		$options = array(
-			'defaultgroup' => $group,
-			'cachebase' => self::$_instance['config_cachepath'] . DS,
-			'lifetime' => $def_cachetime,
-			'language' => self::$_instance['config_lang'],
-			'storage' => $storage
-		);
-
-		$cache = JCache::getInstance($handler, $options, $object);
-
-		if ($cache != NULL) {
-			$cache->setCaching(self::$_instance['config_caching']);
-		}
-		return $cache;
-	}
-
-	public static function cleanCache($group = false) {
-		$cache = mosCache::getCache($group);
-		if ($cache != NULL) {
-			$cache->clean($group);
-		}
-	}
-
-}
-
-/**
  * Utility function to return a value from a named array or a specified default
  * @param array A named array
  * @param string The key to search for
@@ -1813,42 +1696,6 @@ function mosBindArrayToObject($array, &$obj, $ignore = '', $prefix = null, $chec
 }
 
 /**
- * Utility function to read the files in a directory
- * @param string The file system path
- * @param string A filter for the names
- * @param boolean Recurse search into sub-directories
- * @param boolean True if to prepend the full path to the file name
- */
-function mosReadDirectory($path, $filter = '.', $recurse = false, $fullpath = false) {
-	$arr = array();
-	if (!@is_dir($path)) {
-		return $arr;
-	}
-	$handle = opendir($path);
-
-	while ($file = readdir($handle)) {
-		$dir = mosPathName($path . '/' . $file, false);
-		$isDir = is_dir($dir);
-		if (($file != ".") && ($file != "..")) {
-			if (preg_match("/$filter/", $file)) {
-				if ($fullpath) {
-					$arr[] = trim(mosPathName($path . '/' . $file, false));
-				} else {
-					$arr[] = trim($file);
-				}
-			}
-			if ($recurse && $isDir) {
-				$arr2 = mosReadDirectory($dir, $filter, $recurse, $fullpath);
-				$arr = array_merge($arr, $arr2);
-			}
-		}
-	}
-	closedir($handle);
-	asort($arr);
-	return $arr;
-}
-
-/**
  * Utility function redirect the browser location to another url
  *
  * Can optionally provide a message.
@@ -1891,137 +1738,12 @@ function mosErrorAlert($text, $action = 'window.history.go(-1);', $mode = 1) {
 
 		case 1:
 		default:
-			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; " . _ISO . "\" />";
+			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
 			echo "<script>alert('$text'); $action</script> \n";
 			break;
 	}
 
 	exit;
-}
-
-/**
- *
- * @param <type> $id
- * @param <type> $indent
- * @param <type> $list
- * @param <type> $children
- * @param <type> $maxlevel
- * @param <type> $level
- * @param <type> $type
- * @return <type>
- */
-function mosTreeRecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1) {
-
-	if (@$children[$id] && $level <= $maxlevel) {
-		foreach ($children[$id] as $v) {
-			$id = $v->id;
-
-			if ($type) {
-				$pre = '<sup>L</sup>&nbsp;';
-				$spacer = '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			} else {
-				$pre = '- ';
-				$spacer = '&nbsp;&nbsp;';
-			}
-
-			if ($v->parent == 0) {
-				$txt = $v->name;
-			} else {
-				$txt = $pre . $v->name;
-			}
-
-			$list[$id] = $v;
-			$list[$id]->treename = $indent . $txt;
-			$list[$id]->children = count(@$children[$id]);
-
-			$list = mosTreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
-		}
-	}
-	return $list;
-}
-
-/**
- * Function to strip additional / or \ in a path name
- * @param string The path
- * @param boolean Add trailing slash
- */
-function mosPathName($p_path, $p_addtrailingslash = true) {
-	$retval = '';
-
-	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
-
-	if ($isWin) {
-		$retval = str_replace('/', '\\', $p_path);
-		if ($p_addtrailingslash) {
-			if (substr($retval, -1) != '\\') {
-				$retval .= '\\';
-			}
-		}
-
-		// Check if UNC path
-		$unc = substr($retval, 0, 2) == '\\\\' ? 1 : 0;
-
-		// Remove double \\
-		$retval = str_replace('\\\\', '\\', $retval);
-
-		// If UNC path, we have to add one \ in front or everything breaks!
-		if ($unc == 1) {
-			$retval = '\\' . $retval;
-		}
-	} else {
-		$retval = str_replace('\\', '/', $p_path);
-		if ($p_addtrailingslash) {
-			if (substr($retval, -1) != '/') {
-				$retval .= '/';
-			}
-		}
-
-		// Check if UNC path
-		$unc = substr($retval, 0, 2) == '//' ? 1 : 0;
-
-		// Remove double //
-		$retval = str_replace('//', '/', $retval);
-
-		// If UNC path, we have to add one / in front or everything breaks!
-		if ($unc == 1) {
-			$retval = '/' . $retval;
-		}
-	}
-
-	return $retval;
-}
-
-function mosObjectToArray($p_obj) {
-	$retarray = null;
-	if (is_object($p_obj)) {
-		$retarray = array();
-		foreach (get_object_vars($p_obj) as $k => $v) {
-			if (substr($k, 0, 1) != '_') {
-				if (is_object($v))
-					$retarray[$k] = mosObjectToArray($v);
-				else
-					$retarray[$k] = $v;
-			}
-		}
-	}
-	return $retarray;
-}
-
-function mosMakeHtmlSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '') {
-	if (is_object($mixed)) {
-		foreach (get_object_vars($mixed) as $k => $v) {
-			if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_') {
-				continue;
-			}
-			if (is_string($exclude_keys) && $k == $exclude_keys) {
-				continue;
-			} else
-			if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
-				continue;
-			}
-			$mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
-		}
-	}
 }
 
 function mosFormatDate($date, $format = '', $offset = null) {
@@ -2064,75 +1786,13 @@ function mosCurrentDate($format = "") {
 	return $date;
 }
 
-function initGzip() {
-	global $do_gzip_compress;
-
-	$do_gzip_compress = false;
-
-	if (Jconfig::getInstance()->config_gzip == 1) {
-		$phpver = phpversion();
-		$useragent = mosGetParam($_SERVER, 'HTTP_USER_AGENT', '');
-		$canZip = mosGetParam($_SERVER, 'HTTP_ACCEPT_ENCODING', '');
-		$gzip_check = 0;
-		$zlib_check = 0;
-		$gz_check = 0;
-		$zlibO_check = 0;
-		$sid_check = 0;
-		if (strpos($canZip, 'gzip') !== false) {
-			$gzip_check = 1;
-		}
-		if (extension_loaded('zlib')) {
-			$zlib_check = 1;
-		}
-		if (function_exists('ob_gzhandler')) {
-			$gz_check = 1;
-		}
-		if (ini_get('zlib.output_compression')) {
-			$zlibO_check = 1;
-		}
-		if (ini_get('session.use_trans_sid')) {
-			$sid_check = 1;
-		}
-		if ($phpver >= '4.0.4pl1' && (strpos($useragent, 'compatible') !== false || strpos($useragent, 'Gecko') !== false)) {
-			if (($gzip_check || isset($_SERVER['---------------'])) && $zlib_check && $gz_check && !$zlibO_check && !$sid_check) {
-				ob_start('ob_gzhandler');
-				return;
-			}
-		} elseif ($phpver > '4.0') {
-			if ($gzip_check) {
-				if ($zlib_check) {
-					$do_gzip_compress = true;
-					ob_start();
-					ob_implicit_flush(0);
-					header('Content-Encoding: gzip');
-					return;
-				}
-			}
-		}
-	}
-	ob_start();
-}
-
-function doGzip() {
-	global $do_gzip_compress;
-
-	if ($do_gzip_compress) {
-		$gzip_contents = ob_get_contents();
-		ob_end_clean();
-		$gzip_size = strlen($gzip_contents);
-		$gzip_crc = crc32($gzip_contents);
-		$gzip_contents = gzcompress($gzip_contents, 9);
-		$gzip_contents = substr($gzip_contents, 0, strlen($gzip_contents) - 4);
-		echo "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		echo $gzip_contents;
-		echo pack('V', $gzip_crc);
-		echo pack('V', $gzip_size);
-	} else {
-		ob_end_flush();
-	}
-}
-
 class JHTML {
+
+	/**
+	 * Массив хранения подключенных расширений Jquery
+	 * @var array
+	 */
+	private static $jqueryplugins;
 
 	/**
 	 * Подключение JS файла в тело страницы
@@ -2153,6 +1813,23 @@ class JHTML {
 		return '<script type="text/javascript" charset="utf-8">;' . $code . ';</script>';
 	}
 
+	public static function loadJqueryPlugins($name, $ret = false, $css = false) {
+
+		// формируем константу-флаг для исключения повтороной загрузки
+
+		if (!isset(self::$jqueryplugins[$name])) {
+			// отмечаем плагин в массиве уже подключенных
+			self::$jqueryplugins[$name] = true;
+			if ($ret) {
+				echo JHTML::js_file(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '.js');
+				echo ($css) ? JHTML::css_file(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '/' . $name . '.css') : '';
+			} else {
+				Jdocument::getInstance()->addJS(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '.js');
+				$css ? Jdocument::getInstance()->addCSS(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '/' . $name . '.css') : null;
+			}
+		}
+	}
+
 	/**
 	 * Подключение CSS файла в тело страницы
 	 * @param string $file путь до js файла
@@ -2164,14 +1841,6 @@ class JHTML {
 		return '<link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />';
 	}
 
-}
-
-/*
- * Includes pathway file
- */
-
-function mosPathWay() {
-	require_once (JPATH_BASE . '/includes/pathway.php');
 }
 
 /**
@@ -2355,16 +2024,6 @@ function _xdump($var, $text='<pre>') {
 // класс работы с пользователями
 require_once(JPATH_BASE . '/components/com_users/users.class.php');
 
-/**
- * Проверка на наличие ключа массива и возвращение значения этого ключа или заранее определённого значения
- * @param array $array - исходный массив
- * @param string $name - название проверяемого ключа массива
- * @param string $def - значение по умолчанию
- */
-function jisset(array $array, $name, $def) {
-	return isset($array[$name]) ? $array[$name] : $def;
-}
-
 class Jdocument {
 
 	private static $instance;
@@ -2385,7 +2044,18 @@ class Jdocument {
 		'favicon' => true,
 		'seotag' => true,
 	);
-
+	public static $seotag = array(
+		'distribution' => 'global',
+		'rating' => 'General',
+		'document-state' => 'Dynamic',
+		'documentType' => 'WebDocument',
+		'audience' => 'all',
+		'revisit' => '5 days',
+		'revisit-after' => '5 days',
+		'allow-search' => 'yes',
+		'language' => 'russian',
+		'robots' => 'index, follow',
+	);
 	// время кэширования страницы браузером, в секундах
 	public static $cache_header_time = false;
 
@@ -2404,7 +2074,7 @@ class Jdocument {
 	public function setPageTitle($title = false, $pagetitle = false) {
 
 		// title страницы
-		self::$data['title'] = $title ? JConfig::getInstance()->config_sitename . self::$title_separator . $title : $sitename;
+		self::$data['title'] = $title ? JConfig::getInstance()->config_sitename . self::$title_separator . $title : JConfig::getInstance()->config_sitename;
 
 		// название страницы, не title!
 		self::$data['pagetitle'] = $pagetitle ? $pagetitle : $title;
@@ -2448,14 +2118,7 @@ class Jdocument {
 		self::getInstance()->addMetaTag($name, $content);
 	}
 
-	function set_robot_metatag($robots) {
-		($robots == 0) ? self::getInstance()->addMetaTag('robots', 'index, follow') : null;
-		($robots == 1) ? self::getInstance()->addMetaTag('robots', 'index, nofollow') : null;
-		($robots == 2) ? self::getInstance()->addMetaTag('robots', 'noindex, follow') : null;
-		($robots == 3) ? self::getInstance()->addMetaTag('robots', 'noindex, nofollow') : null;
-	}
-
-	function addCustomHeadTag($html ) {
+	function addCustomHeadTag($html) {
 		self::$data['custom'][] = trim($html);
 
 		return $this;
@@ -2463,7 +2126,7 @@ class Jdocument {
 
 	function addCustomFooterTag($html) {
 		self::$data['custom'][] = trim($html);
-		
+
 		return $this;
 	}
 
@@ -2487,11 +2150,11 @@ class Jdocument {
 		return isset($this->_head[$name]) ? $this->_head[$name] : array();
 	}
 
-	public function addJS($path, $params = array('first'=>false)) {
+	public function addJS($path, $params = array('first' => false)) {
 
-		if($params['first']==true ){
-			self::$data['js'] = array($path) + self::$data['js'];
-		}else{
+		if (isset($params['first']) && $params['first'] == TRUE) {
+			array_unshift(self::$data['js'], $path);
+		} else {
 			self::$data['js'][] = $path;
 		}
 
@@ -2504,19 +2167,10 @@ class Jdocument {
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	function getCustomPathWay() {
-		return $this->_custom_pathway;
-	}
+	public function seotag($name, $value) {
+		self::$seotag[$name] = $value;
 
-	/**
-	 *
-	 * @param <type> $html
-	 */
-	function appendPathWay($html) {
-		$this->_custom_pathway[] = $html;
+		return $this;
 	}
 
 	public static function javascript() {
@@ -2541,6 +2195,8 @@ class Jdocument {
 
 	public static function head() {
 
+		$jdocument = self::getInstance();
+
 		$meta = Jdocument::getData('meta');
 		$n = count($meta);
 
@@ -2558,28 +2214,20 @@ class Jdocument {
 			}
 		}
 
-		$description ? null : Jdocument::getInstance()->appendMetaTag('description', mosMainFrame::getInstance()->getCfg('MetaDesc'));
-		$keywords ? null : Jdocument::getInstance()->appendMetaTag('keywords', mosMainFrame::getInstance()->getCfg('MetaKeys'));
+		$description ? null : $jdocument->appendMetaTag('description', mosMainFrame::getInstance()->getCfg('MetaDesc'));
+		$keywords ? null : $jdocument->appendMetaTag('keywords', mosMainFrame::getInstance()->getCfg('MetaKeys'));
 
-		if (Jdocument::$config['seotag'] == true) {
-
-			Jdocument::getInstance()
-					->addMetaTag('distribution', 'global')
-					->addMetaTag('rating', 'General')
-					->addMetaTag('document-state', 'Dynamic')
-					->addMetaTag('documentType', 'WebDocument')
-					->addMetaTag('audience', 'all')
-					->addMetaTag('revisit', mosMainFrame::getInstance()->getCfg('mtage_revisit') . ' days')
-					->addMetaTag('revisit-after', mosMainFrame::getInstance()->getCfg('mtage_revisit') . ' days')
-					->addMetaTag('allow-search', 'yes')
-					->addMetaTag('language', mosMainFrame::getInstance()->getCfg('lang'));
+		if (Jdocument::$config['seotag'] == TRUE) {
+			foreach (self::$seotag as $key => $value) {
+				$value != FALSE ? $jdocument->addMetaTag($key, $value) : null;
+			}
 		}
 
-		echo Jdocument::getInstance()->getHead();
+		echo $jdocument->getHead();
 
 
 		// favourites icon
-		if (Jdocument::$config['favicon'] == true) {
+		if (self::$config['favicon'] == true) {
 			$icon = JPATH_SITE . '/media/favicon.ico';
 			echo "\t" . '<link rel="shortcut icon" href="' . $icon . '" />' . "\n\t";
 		}
@@ -2591,7 +2239,7 @@ class Jdocument {
 
 	public static function header() {
 		if (!headers_sent()) {
-			if ( self::$cache_header_time ) {
+			if (self::$cache_header_time) {
 				header_remove('Pragma');
 				header('Cache-Control: max-age=' . self::$cache_header_time);
 				header('Expires: ' . gmdate('r', time() + self::$cache_header_time));
@@ -2602,6 +2250,66 @@ class Jdocument {
 			header('X-Powered-By: Joostina CMS');
 		}
 		header('Content-type: text/html; charset=UTF-8');
+	}
+
+}
+
+class Jcontroller {
+
+	/**
+	 * Автоматическое определение и запуск метода действия
+	 */
+	public static function run() {
+
+		// инициализируем соединение с базой
+		database::getInstance();
+
+		$id = (int) mosGetParam($_REQUEST, 'id', 0);
+		$page = (int) mosGetParam($_GET, 'page', false);
+
+		$page = $page ? $page : 0;
+		$id = $id ? $id : $page;
+
+		$task = (string) mosGetParam($_REQUEST, 'task', 'index');
+		$option = (string) mosGetParam($_REQUEST, 'option');
+		$action = (string) mosGetParam($_REQUEST, 'action', $option);
+		$action = str_replace('com_', '', $action);
+
+		$class = 'actions' . ucfirst($action);
+
+		JDEBUG ? jd_log($class . '::' . $task) : null;
+
+		if (method_exists($class, $task)) {
+			$results = call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
+		} else {
+			$results = call_user_func_array($class . '::index', array($option, $id, $page, $task));
+			$task = 'index';
+		}
+		if (is_array($results)) {
+			self::views($results, $option, $task);
+		} elseif (is_string($results)) {
+			echo $results;
+		}
+	}
+
+	private static function views(array $params, $option, $task) {
+		(isset($params['as_json']) && $params['as_json'] == TRUE ) ? self::as_json($params) : self::as_html($params, $option, $task);
+	}
+
+	private static function as_html(array $params, $option, $task) {
+		$template = 'default';
+		extract($params, EXTR_OVERWRITE);
+		$viewfile = JPATH_BASE . DS . 'components' . DS . $option . DS . 'views' . DS . $task . DS . $template . '.php';
+
+		unset($params, $option, $task);
+
+		is_file($viewfile) ? require ($viewfile) : null;
+	}
+
+	private static function as_json(array $params) {
+		unset($params['as_json']);
+		echo json_encode($params);
+		exit();
 	}
 
 }

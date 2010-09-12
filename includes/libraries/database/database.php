@@ -987,6 +987,9 @@ class mosDBTable extends database {
         $table = $table ? $table : $this->_tbl;
 
         if (_DB_SOFTDELETE) {
+
+		 mosMainFrame::addLib('jtrash');
+
             $obj = clone $this;
             foreach ($oid as $cur_id) {
                 $obj->load($cur_id);

@@ -13,6 +13,12 @@ defined('_VALID_MOS') or die();
 class actionsTest {
 
 	public static function index() {
+		for ($index = 0; $index < 25; $index++) {
+			echo sprintf("<h1>%s</h1>", md5(time() . rand(0, 500)));
+		}
+	}
+
+	public static function images() {
 
 		mosMainFrame::addLib('images');
 		$rotte = dirname(__FILE__) . '/media/files/';
@@ -90,6 +96,32 @@ class actionsTest {
 		mosMainFrame::addLib('browser');
 		$browser = new Browser();
 		echo $browser->getBrowser();
+	}
+
+	public static function location() {
+		mosMainFrame::addLib('russiastate');
+		echo Russiastate::selector('mystate');
+	}
+
+	public static function torrents() {
+		mosMainFrame::addLib('bittorrent');
+		$bt = new BitTorrent();
+		$info = $bt->decodeSource(file_get_contents(JPATH_BASE . '/media/torrents/pirate.torrent'));
+
+		_xdump($info);
+	}
+
+	public static function viewtest(){
+
+		//вьюшка должна возвращать массив параметров, в котором можно указывать и название шаблона вьюшки ( в пределах определённого каталог ) и тип вывода HTML/JSON
+		return array(
+			'aaa'=>'bbbb',
+			'bb'=>array(
+				1,2,3
+			),
+			'template'=>'new', // переопределили шаблон вьюшки используемый по умолчанию
+			//'as_json'=>true - можно выводить результат как JSON объект
+		);
 	}
 
 }

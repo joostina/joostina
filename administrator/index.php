@@ -135,12 +135,11 @@ if (isset($_POST['submit'])) {
 		exit();
 	}
 } else {
-	initGzip();
-	header('Content-type: text/html; charset=UTF-8');
+	
+	Jdocument::header();
 	if ($config->config_admin_bad_auth <= $bad_auth_count && (int) $config->config_admin_bad_auth >= 0) {
 		$config->config_captcha = 1;
 	}
 	$path = JPATH_BASE . DS . JADMIN_BASE . DS . 'templates' . DS . JTEMPLATE . DS . 'login.php';
 	require_once ($path);
-	doGzip();
 }

@@ -319,11 +319,12 @@ class JoiAdmin {
 		// начинаем отлавливать поступаемый JS код
 		self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
 
-		//Начало общего контейнера
-		echo $params['wrap_begin'];
-
 		//открываем форму
 		echo form::open('index2.php', array('name' => 'adminForm', 'id' => 'adminForm'));
+
+
+		//Начало общего контейнера
+		echo $params['wrap_begin'];
 
 		//Получаем данные о элементах формы
 		$fields_info = $obj->get_fieldinfo();
@@ -339,8 +340,12 @@ class JoiAdmin {
 		echo form::hidden( $obj->getKeyField() , $obj_data->{$obj->getKeyField()} ) . "\t";  // id объекта
 		echo form::hidden('option', $option) . "\t";
 		echo form::hidden('model', self::$model)."\t";
-		echo form::hidden('task', '') . "\t";
+		echo form::hidden('task', 'save') . "\t";
 		echo form::hidden(josSpoofValue(), 1); // элемент защиты от XSS
+
+		//Конец общего контейнера
+		echo $params['wrap_end'];
+
 		//Закрываем форму
 		echo form::close();
 
@@ -350,8 +355,6 @@ class JoiAdmin {
 
 		echo "\n" . implode("\n", self::$js_onformsubmit) . "\n";
 
-		//Конец общего контейнера
-		echo $params['wrap_end'];
 	}
 
 // получение типа элемента для формы редактирования

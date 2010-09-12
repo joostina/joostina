@@ -95,7 +95,7 @@ function submitbutton(pressbutton) {
 
 function submitform(pressbutton){
 	var form = $("#adminForm");
-	$( 'input[name=task]',form).val( pressbutton );
+	$('input[name=task]').val( pressbutton );
 
 	try {
 		form.onsubmit();

@@ -119,8 +119,6 @@ class actionsComments {
 		mosMainFrame::addLib('ip');
 		$comment->user_ip = IP::get_full_ip();
 
-		//$comment_arr = mosObjectToArray($comment);
-
 		$comment_arr = array();
 		$comment_arr['parent_id'] = $comment->parent_id;
 		$comment_arr['user_name'] = $comment->user_name;
@@ -153,11 +151,7 @@ class actionsComments {
 		$comment->bind($comment_data);
 
 		$comment->votesresults = 0;
-?>
-		<div class="comment_item" id="comment-item-<?php echo $comment->id; ?>">
-	<?php CommentsHTML::comment($comment); ?>
-	</div>
-<?php
+?><div class="comment_item" id="comment-item-<?php echo $comment->id; ?>"><?php CommentsHTML::comment($comment); ?>	</div><?php
 	}
 
 	/**
@@ -187,5 +181,4 @@ class actionsComments {
 
 		return false;
 	}
-
 }

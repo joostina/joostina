@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mosinstall version="1.3.1" type="mambot" group="editors">
-	<name>отсутствует</name>
-	<version></version>
-	<creationDate>Август 2004</creationDate>
+<install version="2.0.0" type="plugin" group="editors">
+	<name>elRTE</name>
+	<version>1.0</version>
+	<creationDate>Август 2010</creationDate>
 	<author></author>
-	<authorEmail>N/A</authorEmail>
-	<authorUrl></authorUrl>
-	<copyright>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</copyright>
-	<license>LGPL</license>
-	<description>Загрузка базовых полей для ввода текста</description>
+	<authorEmail>dev@std42.ru</authorEmail>
+	<authorUrl>http://elrte.org</authorUrl>
+	<copyright>http://elrte.org</copyright>
+	<license>3-clauses BSD license</license>
+	<documentation>http://elrte.org/redmine/wiki/elrte</documentation>
+	<description>Визуальный редактор elRTE.</description>
 	<files>
-		<filename mambot="none">none.php</filename>
+		<filename plugin="elrte">elrte.php</filename>
 	</files>
-	<params/>
-</mosinstall>
+</install>

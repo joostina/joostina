@@ -23,11 +23,8 @@ $(document).ready(function(){
 	});	
 	
 	//Перемещение к родительскому комментарию
-	
 	$.localScroll();
 	
-	
-
 	//Выводим только что добавленный комментарий
 	function print_comment(comment_data, parent_id){
 		//console.log(comment_data);
@@ -53,7 +50,8 @@ $(document).ready(function(){
 					$('#comments-list-0').append(data);
 				}
 				else{
-					$('#comment-list').append('<div class="comments-list" id="comments-list-0">' + data + '</div>');
+
+					$('.comments').append('<div class="comments-list" id="comments-list-0">' + data + '</div>');
 				}
 					
 			}
@@ -99,7 +97,6 @@ $(document).ready(function(){
 
 		return false;
 	})
-
 });
 
 

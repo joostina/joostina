@@ -82,7 +82,7 @@ AddDefaultCharset UTF-8
 	#  Обновите Ваш каталог Joostina (используйте "/" для обозначения корня сервера)
 
 
-	RewriteBase /
+	RewriteBase /joostina2
 
 	RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 	##опционально - смотрите примечания##
 	RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|\.xml|/[^.]*)$  [NC]

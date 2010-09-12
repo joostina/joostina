@@ -71,12 +71,11 @@ class actionsPages {
 	 * Сохранение отредактированного или созданного объекта
 	 */
 	public static function save($option, $id, $page, $task, $create_new = false) {
-		
+
 		josSpoofCheck();
 
 		$obj_data = new self::$model;
 		$obj_data->save($_POST);
-
 
 		//Сохраняем тэги
 		require_once ( mosMainFrame::getInstance()->getPath('class', 'com_tags'));

@@ -29,6 +29,8 @@ require_once (JPATH_BASE_ADMIN.DS.'includes'.DS.'admin.php');
 // класс работы с визуальным редактором
 require_once (JPATH_BASE .DS. 'includes'.DS.'editor.php');
 
+database::getInstance();
+
 // работа с сессиями начинается до создания главного объекта взаимодействия с ядром
 session_name(md5(JPATH_SITE));
 session_start();
@@ -74,7 +76,7 @@ if($path = $mainframe->getPath('admin')) {
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
 
-initGzip();
+ob_start();
 
 // начало вывода html
 if($no_html == 0) {
@@ -100,4 +102,4 @@ if($task == 'save' || $task == 'apply' || $task == 'save_and_new' ) {
     $mainframe->initSessionAdmin($option,'');
 }
 
-doGzip();
+ob_end_flush();
