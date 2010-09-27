@@ -1,0 +1,1275 @@
+/*-------------------------------------------------------------Страницы разделов*/
+.page h5{
+    display: inline;
+    float: left;
+    margin: 0 20px 0 0;
+}
+.menu_inside{
+    
+}
+    .menu_inside li{
+        font-size: 10px;
+        cursor: pointer;
+        padding: 1px 3px 5px 3px;
+        float: left;
+        margin: 0 5px 0 2px;
+    }
+        .menu_inside li a{
+            text-decoration: none;
+            color: #000;
+        }
+    .menu_inside_active{
+        background: #DAD0B4;
+        -moz-border-radius-topright: 7px;
+        -webkit-border-top-right-radius: 7px; 
+        border-top-right-radius: 7px;
+        -moz-border-radius-topleft: 7px;
+        -webkit-border-top-left-radius: 7px; 
+        border-top-left-radius: 7px;
+    }
+    
+.menu_inside_submenu{
+    clear: both !important;
+    background: #DED5BB;
+    overflow: hidden !important;
+    padding: 3px 0 0 0;
+    margin:  3px 0 15px 0;
+    background: url(../images/backgrounds/menu_inside.jpg) top left repeat-x;
+}
+.menu_inside_submenu.with_filters{
+    margin: 3px 0 0 0 !important;
+}
+    .filter_submit{
+        float: right;
+        font-size: 11px;
+    }
+    .menu_inside_submenu_ul{
+        display: none;
+    }
+    .menu_inside_submenu_ul.active_ul{
+        display: block;
+    }
+
+        .menu_inside_submenu_ul li{
+            font-size: 11px;
+            cursor: pointer;
+            padding: 0 0 0 13px;
+            float: left;
+            margin: 0 2px 0 2px;
+            height: 32px;
+            line-height: 29px;            
+        }
+            .menu_inside_submenu_ul li span{
+                    padding: 0 13px 0 0;  
+                    height: 32px;
+                    display: block;          
+            }
+                .menu_inside_submenu_ul li span a{
+                    text-decoration: none;
+                    color: #850209;
+                    height: 32px;
+                    display: block; 
+                    outline: none;
+                        
+                }
+         .menu_inside_submenu_ul.by_abc li,
+        .menu_inside_submenu_ul.by_abc li{
+            padding: 0 0 0 5px !important;    
+            }
+            
+            .menu_inside_submenu_ul.by_abc li span,
+            .menu_inside_submenu_ul.by_abc li span{
+                    padding: 0 5px 0 0 !important;  
+     
+            }
+            
+        .menu_inside_submenu_ul.by_abc_ru li,
+        .menu_inside_submenu_ul.by_abc_en li{
+            padding: 0 0 0 5px !important;
+          
+        }
+            .menu_inside_submenu_ul.by_abc_ru li span,
+            .menu_inside_submenu_ul.by_abc_en li span{
+                    padding: 0 5px 0 0 !important;  
+     
+            }
+                .menu_inside_submenu_ul.by_abc_ru li span a,
+                .menu_inside_submenu_ul.by_abc_en li span a{
+                        
+                }
+            
+            /*Активный пункт*/
+            li.menu_inside_submenu_active{
+                background: url(../images/buttons/but_l.png) top left no-repeat;                
+            }
+                li.menu_inside_submenu_active span{
+                    background: url(../images/buttons/but_r.png) top right no-repeat;  
+                }
+                    li.menu_inside_submenu_active span a{
+                        background: url(../images/buttons/but_mid.png) top left repeat-x;
+                        color: #F8F1DE; 
+                    }
+                    
+            div.with_scroll,
+			div.with_scroll2 {
+              /* Set it so we could calculate the offsetLeft */
+              position: relative;
+
+              width: 640px;
+              /* Add scroll-bars */
+              overflow: auto;
+            }
+            ul.with_scroll,
+			ul.with_scroll2 {
+           
+              /* Max width here, for users without Javascript */
+              width: 1600px;
+              padding: 0 0 0 0;
+            }
+            .with_scroll2 li,
+            .with_scroll li {
+              display: block;
+              float: left;
+
+            }
+            .with_scroll a,
+			.with_scroll2 a {
+              display: block;
+              text-decoration: none;
+            }
+
+                    
+.block_wrap{
+    margin: 5px 0 10px 0;
+    background: #F4EEDB;
+    border: 1px solid #FFF9E5;
+    padding: 10px;
+    overflow: hidden;
+    clear: left;
+}
+
+.current_filter{
+    overflow: hidden;
+    background: #F3DB9A;
+    padding: 6px 10px 6px 10px; 
+    border-top:  1px solid #FAF4E1; 
+     
+}
+    .current_filter_ul{
+        overflow: hidden;
+        padding: 0 0 0 0;
+    }
+        .current_filter_ul li{
+            font-size: 11px;
+            display: block;
+            float: left;
+            margin: 0 16px 0 0;
+        }
+    .current_filter a.del_big{
+        float: right;
+    }
+
+
+/*---------------------------------------------------------------------------ИГРЫ*/
+.page_games a.thumb{
+    width: 120px;
+    height: 80px;
+
+}
+    .page_games a.thumb img{
+        width: 120px;
+        float: none;
+    }
+.page_games h2{
+    margin-top: 10px;
+}
+.buttons_soc_game{
+    padding: 15px 0 0 0;
+}
+#gamerater{
+    margin: 10px 0 0 0;
+}
+/*--------------------------------Страница игры:BEGIN*/
+.block_wrap.game_maininfo{
+    float: left;
+    width: 98%;
+}
+.block_wrap.user_maininfo{
+    float: left;
+    width: 610px;    
+}
+.game_awards{
+    float: right;
+    width: 70px;
+    margin: 20px 0 0 0;
+}
+.game_poster{
+    width: 190px;
+    overflow: hidden;
+    float: left 
+}
+.edit_game  .game_poster{
+   
+}
+    .game_poster img{
+        width: 180px;
+    }
+    .edit_game .game_poster img{
+        margin: 0 0 10px 0;
+    }
+
+.game_info_table{
+    border-collapse: collapse;
+    /*width: 340px;*/
+}
+    .game_info_table td{
+        font-size: 11px;
+        padding-left: 15px;
+    }
+    .game_info_table th{
+        width: 140px;
+        font-size: 11px;
+        text-align: right;    
+    }
+    .edit_game .game_info_table th{
+        width: 120px;
+        font-size: 11px;
+        text-align: right; 
+        font-weight: normal;   
+    }
+
+#game_rating{
+    margin: 12px 0 0 0; 
+    padding: 0 0 0 0; 
+    float: right;
+}
+   #cur_rating{
+        background: #EBE1C7;
+        padding: 5px;
+        -moz-border-radius: 7px;
+        -webkit-border-radius: 7px;  
+        border-radius: 7px;
+        color: #847B5F;
+        font-weight: bold;
+        font-size: 14px;
+    }
+        #cur_rating strong{
+            color: #6B0304;   
+            font-size: 17px; 
+        }
+        
+    #game_rate_user_action{
+        margin: 6px 0 0 0;
+    }
+    #SliderSingle{
+        display: none;
+    }
+
+.menu_inside_game{
+    overflow: hidden;
+    padding:  0;
+    margin: 0 0 -5px 0;    
+}
+    .menu_inside_game li{
+        font-size: 11px;
+        cursor: pointer;
+        padding: 3px 6px 3px 6px;
+        float: left;
+        margin: 0 5px 0 2px;
+    }
+        
+        .menu_inside_game a{
+            color: #770006;
+        }
+    
+        .menu_inside_game_active{
+            background: #F4CF78;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+            .menu_inside_game_active a{
+                text-decoration: none;
+            }
+    
+.game_info{
+    clear: both;
+    overflow: hidden;
+    padding: 10px 0 0 0;
+}
+    .block_reviews_ul li{
+            display: block;
+            overflow: hidden;
+            margin: 0 0 5px 0;
+            padding: 4px;
+            background:  none;
+            border: none;
+            font-size: 12px;
+            clear: both;
+        }
+
+.game_gallery{
+    margin: 25px 0 20px 0;    
+}
+/*Скроллер на страницы игры*/
+.slider{
+    margin: 5px 0 0 0;
+    overflow: hidden;
+    padding: 0;
+    width: 604px;
+    position: relative;
+    padding: 0 0 0 5px;
+    
+}
+    .slider .view_all{
+        clear: both;
+        /*Задаем высоту элемента, 
+        чтобы не было скачков при загрузке страницы*/
+        height: 15px; 
+        font-size: 11px;
+    }
+        .slider .view_all a{
+            background: url(../images/elements/arrow4.png) left no-repeat;
+            padding: 0 0 0 9px;
+        }
+    .slider a#next,
+    .slider a#back{
+        width: 24px;
+        height: 95px;
+        display: block;
+        overflow: hidden;        
+        text-indent: -10000em; /*Скрываем текст ссылок*/
+        cursor: pointer;
+        position: absolute;
+        z-index: 1000;
+        top: 12px;
+    }
+    .slider a#next{
+        right: 0px;
+        background: url(../images/slider/next.png) top left no-repeat;
+    }
+    .slider a#back{
+        left: 0px;
+        background: url(../images/slider/back.png) top left no-repeat;
+       
+    }
+    .slider a#next:hover{
+        background: url(../images/slider/next_h.png) top left no-repeat;
+    }
+    .slider a#back:hover{
+        background: url(../images/slider/back_h.png) top left no-repeat;
+    }
+    .image_slider{
+        display: block;
+        width: 624px;
+        overflow: hidden;
+        padding: 0; 
+        position: relative;       
+    }
+    
+        .image_slider ul{
+            padding: 0;
+             position: relative;
+             left: 1px;
+             overflow: hidden; /**/
+             height: 100px;              
+             margin: 12px 0 0 0;           
+        }
+            .image_slider ul li{
+                padding: 0;
+            	overflow: hidden;
+                display: block;
+                float: left;
+                width: 130px;
+                height: 95px;
+                margin: 0 0 5px 0;
+            }   
+                    .image_slider li img {
+                    	float: left; width: 125px;
+                    	
+                    }
+                    .image_slider li a:hover img {
+                    	
+                    }
+.game_versions_form{
+	margin: 15px 0;
+}                    
+.game_versions_a{
+    font-weight: bold;
+    background:url("../images/elements/arrow4.png")  no-repeat right;
+    padding: 0 10px 0 0;
+}
+.game_versions_a.active{
+    background:url("../images/elements/arrow4_2.png")  no-repeat right;
+}
+.game_versions_wrap{
+    margin: 10px 0 10px 0;
+    background: #F4EEDB;
+    border: 1px solid #FFF9E5;
+    padding: 5px 10px;
+    overflow: hidden;      
+}
+    .game_versions_list{
+        display: none;
+        padding: 10px 0 10px 0;
+        font-size: 11px;
+    }
+    .game_versions_list li{
+        background:url("../images/layouts/dot.png") repeat-x scroll left bottom #F2EBD7;
+        padding: 3px 0;    
+    }
+        .version_view{
+            background: #F2E3BD;
+            font-size: 11px;
+        }
+        .version_current{
+            background: #D6E5BE;
+            font-size: 11px;
+        }
+#gamepage_tooltips{
+    width: 200px;
+}
+#gamerating_tooltips{
+    width: 165px;
+}
+
+.block_gamemanager{
+	margin: 3px 0 0 0;
+	padding: 0 0 0 0;
+
+}
+	.block_gamemanager a.about_manager{
+		text-decoration: none;
+		border-bottom: 1px dashed #000;
+		color: #000;
+	}
+	#manager_id{
+		padding: 2px;
+	}
+	
+.tabs{
+	margin-bottom: 15px;
+}
+/*--------------------------------Страница игры:END*/  
+
+
+/*--------------------------------------------------------------------------НОВОСТИ И СТАТЬИ*/  
+.news_item_wrap{
+    background: #B8B09C;
+    border: 1px solid #FEF9E4;
+    position: relative;
+    margin: 2px 0 10px 0;
+    clear: both;   
+    
+}
+    .news_item_wrap span.date,    
+    .news_item_wrap span.title,
+    .news_item_wrap .item_rater,
+    .news_item_wrap .in_bookmarks{
+        display: block;
+        position: absolute; 
+        text-align: center;
+        width: 50px;
+        color: #F3EDD8; 
+        font-size: 10px;         
+    }
+    .page_files .news_item_wrap .in_bookmarks{
+        position: static;
+    }
+    
+    .news_item_wrap span.date{
+        top: 12px; left: 0px; 
+        color: #F3EDD8;     
+    }
+        .news_item_wrap span.date *{
+            color: #F3EDD8;
+            display: block;
+            text-align: center;    
+        }
+        .news_item_wrap strong.date{
+            font-size: 18px;   
+        } 
+        
+     
+     .in_bookmarks{
+        bottom: 82px; left: 0;   
+     }   
+    .in_bookmarks a{
+            background: url(../images/elements/fav_0.png) top left no-repeat;
+            display: block;
+            width: 16px;
+            height: 18px;
+            text-decoration: none;
+            cursor: pointer; 
+            margin: 0 0 0 17px; 
+             
+        }
+        .in_bookmarks.active a,
+        .in_bookmarks a:hover{
+            background: url(../images/elements/fav.png) top left no-repeat;    
+        }
+        td .in_bookmarks small{
+            display: block;
+            text-align: center;
+        }
+    .page_files  .in_bookmarks a{
+        margin: 0 0 0 2px; 
+    }
+               
+    .news_item_wrap .item_rate{
+         color: #797061;
+         font-weight: bold; 
+         display: block;
+         text-align: center; 
+    }
+        .news_item_wrap .item_rater{
+             bottom: 10px; 
+             left: 0px;
+ 
+        }
+            a.rater_plus_1{
+                background: url(../images/buttons/plus_1.png) top left no-repeat;
+                display: block;
+                width: 16px;
+                height: 16px;
+                text-decoration: none;
+                cursor: pointer;  
+                margin: 2px 0 2px 17px;  
+            }
+            a.rater_minus_1{
+                background: url(../images/buttons/minus_1.png) top left no-repeat;
+                display: block;
+                width: 16px;
+                height: 16px;
+                text-decoration: none;
+                cursor: pointer;    
+                margin: 2px 0 2px 17px;  
+            } 
+            a.rater_plus_1.active{
+                background: url(../images/buttons/plus_1_a.png) top left no-repeat;
+            }
+            a.rater_minus_1.active{
+                background: url(../images/buttons/minus_1_a.png) top left no-repeat;
+            } 
+   
+    .news_item{
+        background: #F4EEDB;
+        padding: 12px;
+        margin: 0 0 0 50px;
+        overflow: hidden;    
+        min-height: 160px; 
+        
+    }
+    .news_item object{
+    	width: 500px !important;
+    }
+    .news_item embed{
+    	width: 560px !important;
+    }
+    
+    .news_item_wrap.about_game{
+        margin: 10px 0 10px 0;
+        clear: both;
+    }
+    .news_item_wrap.about_game .news_item{
+        min-height: 40px !important;
+    }
+        .news_item .content_img{
+            text-align: center;
+            padding: 10px 0;
+        }
+        .news_item .content_img img{
+            max-width: 500px;
+        }
+        .news_item .content_img span{
+            display: block;
+            font-style: italic;
+            text-align: center;
+            font-family: "Century Gothic";
+            color: #757166;
+            clear: both;
+        }
+        .news_item p{
+            
+        }
+        ul.item_attr{
+            overflow: hidden; 
+            margin: 20px 0 0 0 !important;
+			padding: 0 !important;   
+        }
+        .news_item ul.item_attr{
+        	clear: both;
+        	padding: 10px 0 0 0 !important;  
+        }
+            ul.item_attr li{
+                display:  block;
+                float: left;    
+            }
+            .item_author{
+                width: 150px;
+                font-size: 10px;
+                margin: 0 15px 0 0;
+            }
+                .item_author .username{
+
+                }
+            li.item_tags{
+                width: 180px;
+                font-size: 11px;
+                background-position: 0 5px;
+            }
+            li.item_resource{
+                font-size: 11px;
+                color: #4F4D49;
+            }
+            ul.item_attr .item_comments{
+                float: right;
+                width: 30px;
+                
+            }
+
+/*Страница новости по игре*/
+.page_newsitem_game{
+    
+}
+.read_also_wrap{
+    margin: 20px 0 0 0;
+    overflow: hidden;
+}
+    .read_also{
+        margin: 5px 0 10px 0;
+        overflow: hidden;
+    }
+        .read_also h2{
+            font-size: 14px;
+            font-weight: bold;
+        }
+    .read_also ul.item_attr{
+            overflow: hidden; 
+            margin: 3px 0 0 0;   
+        }
+
+            .read_also  ul.item_attr .item_comments{
+                float: left;
+                width: auto;
+                
+            }
+
+.block_gameinfo{
+   
+}
+    .block_gameinfo #game_rating{
+        margin: 0 0 0 0 !important;  
+        float: right !important;
+        text-align: right;
+        width: 100px;        
+    }
+
+/*--------------------------------------------------------------------------ГАЛЕРЕЯ*/
+.gallery_ganre_wrap{
+    background: #F1EAD7;
+    
+    border: 1px solid #FEF9E4;
+    position: relative;
+    margin: 2px 0 10px 0;
+    overflow: hidden;    
+}
+
+    .wrap_title{
+        background: #B8B09C;        
+        padding: 1px 0 1px 10px;         
+    }
+
+    .wrap_title a,
+    .wrap_title h2,
+    .wrap_title h2 small{
+        color: #FEF7E5;
+    }
+
+    .albums{
+        overflow: hidden;    
+    }
+        .album_item{
+              width: 140px;
+              float: left; 
+             overflow: hidden; 
+             padding: 8px; 
+             text-align: center;
+        }
+            .album_item h3{
+                font-size: 11px;
+                margin:  0;
+                padding: 3px 0 0 0;
+                clear: both;
+            }
+
+            
+            
+.gallery_album_wrap{
+   
+}
+    .albums2{
+        overflow: hidden;    
+    }
+        .album_item2{
+           
+            position: relative;
+            margin: 2px 5px 10px 0;
+            overflow: hidden; 
+            width: 150px;
+            float: left; 
+             text-align: center;
+             height: 200px;
+        }
+            .album_item_wrap{
+                 background: #F1EAD7;    
+            border: 1px solid #FEF9E4;
+            }
+            .album_item2 .wrap_title{ 
+                padding: 1px 0 1px 0px;
+                text-align: center;
+                margin: 0 0 5px 0;         
+                }
+            .album_item2 h3{
+                font-size: 11px;
+                margin:  0;
+                padding: 3px 0 5px 0;
+                clear: both;
+            }
+            .album_item2 .thumb{
+                margin: 0 auto;
+                float: none;
+                overflow: hidden;
+            }
+            
+            
+.pics{
+    overflow: hidden;
+}
+    .pic{
+            position: relative;
+            margin: 2px 5px 10px 0;
+            overflow: hidden; 
+            width: 150px;
+            float: left; 
+             text-align: center;
+             height: 160px;
+             padding: 10px 0 0 0;
+    }
+        .pic .comments_total_link{
+            clear: both;    
+        }
+        .pic .thumb{
+            margin: 0 auto;
+            padding: 10px 0 0 0;
+            float: none;
+            overflow: hidden;
+        }
+        .pic .star_rater{
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            width: 78px;
+        }
+
+.pic_middle{
+    text-align: center;
+    padding: 10px 0 20px 0 ;
+}
+    .pic_middle img{
+        border: 1px solid #FEF6DF;
+    }
+    
+/*--------------------------------------------------------------------------ДОКИ*/
+.page_doc{
+    
+}
+.page_doc .item_author{
+    padding: 10px 0 0 0;
+}
+.doc_addons{
+    padding: 10px 0 0 0;    
+}    
+.add_content_wrap{
+    overflow: hidden;
+    clear: both;
+    
+}
+.add_content{
+    float: left;
+    margin: 0 20px 0 20px;
+    
+}
+    .add_content a{
+        color: #760308;
+         
+    }
+        .add_content_wrap strong{
+            color: #760308;    
+        }
+
+
+/*-----------------------------------------------------------Добавление/редактирование материалов*/
+.page_add{
+    
+}
+    dl.form_addcontent{
+        
+    }
+        .form_addcontent input[type=text]{
+            width: 98%;
+        }
+        .form_addcontent textarea{
+            width: 98%;
+        }
+    .page_add .buttons{
+        margin: 15px 0 0 0;
+        clear: both;
+    }
+    .page_add img#image{
+
+        margin: 5px 10px 10px 0;
+        max-width: 200px;
+    }
+    .page_add .image_buttons{
+       padding: 5px 0 0 0;
+
+    }
+    .page_add #filelist{
+        display: block;
+        float: right;
+        margin: 5px 0 10px 0;
+    }
+#filelist,
+#filelist2{
+    margin: 5px 0 5px 0;
+    font-size: 11px;
+
+}
+
+span#filelist,
+#filelist div,
+#filelist2 div{
+    background: url(../images/elements/plus_small.png) 0px 2px no-repeat;
+    padding: 0 0 0 16px;    
+}   
+#filelist2 div{
+    float: right;
+} 
+
+
+#dd_cat_select{
+       
+}
+#dt_cat_select{
+    
+}
+
+#dd_game_select{
+    
+}
+    #game_id{
+        
+    }
+
+.addimages_wrap{
+	overflow: hidden;
+	margin: 15px 0;	
+}    
+	#addimages_mainimage{
+		width: 300px;
+		float: left;	
+	}
+	#addimages_allsize{
+		padding: 30px 20px 0 0;
+		font-size: 14px;	
+	}
+
+
+
+.select_res{
+	text-align: center;
+	margin: -10px 0 10px 0;
+}
+
+
+/*----------------------------------------------------------------Страница восстановления пароля*/
+.page_lostpassword{
+    
+}
+
+/*----------------------------------------------------------------Страница редактирования профиля*/
+.page_editprofile{
+    
+}
+    .page_editprofile dl{
+        overflow: hidden;
+        clear: both;        
+    }
+        .page_editprofile dt{
+            float: left;
+            width: 130px;
+            text-align: right;
+            clear: left;
+        }
+        .page_editprofile dd{
+            margin-left: 15px;
+            clear: right;
+            width: 250px;
+            float: left;
+        }
+        .page_editprofile h6{
+            clear: both;
+            margin: 10px 0 5px 0;
+        }
+.avatar_edit{
+    padding: 20px 0 0 55px;
+}
+    #avatar_wrap{
+        padding: 10px 0 0 108px;
+    }
+    .avatar_edit_img{
+        margin: -60px 0 0 0;    
+    }
+    .avatar_edit h6{
+        margin: 0 0 10px 15px;
+    }
+#save_profile{
+    margin-left: 150px !important;
+}
+#pic_av{
+ 
+}
+/*--------------------------------------------------------------------------ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ*/
+.page_user h2 small {
+    font-size: 11px;
+}
+.page_user h2 small a{
+    font-size: 11px;
+    color: #6F0302;
+}
+
+.profile_header{
+    margin: 0 0 15px 0;
+    overflow: hidden;
+    
+}
+    .profile_header h1{
+        margin-top: 5px;    
+    }
+
+    .user_karma{
+        background: #E3DAC2;
+         float: left;
+         width: auto; 
+         margin: 0 20px 0 0;
+         border-top: 1px solid #FAF3DD; 
+         border-bottom: 1px solid #FAF3DD; 
+         overflow: hidden; 
+         padding: 0 0 6px 0;
+    }
+        .user_karma .title{
+        
+            font-size: 10px;
+            text-align: center;
+            margin: 0 0 6px 0;
+        }
+            span.karma_rate{
+                float: left;
+                font-size: 11px;
+                margin: 0 6px;
+                color: #4E4C47; 
+                text-align: center;               
+            }
+                span.karma_rate big{
+                    font-size: 20px;
+                    color: #4E4C47;
+                    display: block;
+                    width: 50px;
+                }
+                span.karma_rate small{
+ 
+                }
+            a.karma_plus_1{
+                background: url(../images/buttons/karma_plus.png) top left no-repeat;
+                display: block;
+                width: 24px;
+                height: 24px;
+                text-decoration: none;
+                cursor: pointer;  
+                margin: 0 2px 0 6px; 
+                float: left;             
+            }
+            a.karma_minus_1{
+                background: url(../images/buttons/karma_minus.png) top left no-repeat;
+                display: block;
+                width: 24px;
+                height: 24px;
+                text-decoration: none;
+                cursor: pointer;    
+                margin: 0 6px 0 2px; 
+                float: left;
+            } 
+            a.karma_plus_1.active{
+                background: url(../images/buttons/karma_plus_a.png) top left no-repeat;
+          
+            }
+            a.karma_minus_1.active{
+                background: url(../images/buttons/karma_minus_a.png) top left no-repeat;
+            } 
+
+.user_awards{
+     padding: 15px 0 0 0;
+     overflow: hidden; 
+     width: 630px !important;
+     clear: both;
+}
+    .user_awards .title{
+        background: #B8B09B;
+        color:  #F4ECD5;
+        font-size: 10px;
+        text-align: center;
+    }
+        .awards{
+            overflow: hidden; 
+			margin: 0 !important;
+			padding: 0 !important;   
+        }
+        .award{
+            width: auto;
+			margin: 0 !important;
+			padding: 0 !important;
+            float: left;
+            text-align: center;
+        }
+        .award img{
+        		
+        }
+        .award_view_wrap{
+        	height: auto !important;
+        	background: #F4EFDB;
+        	padding: 0 0 15px 0;
+        }
+	        .award_view_wrap img{
+	        	float: left;
+	        	margin: 0 20px 0 0;
+	        }
+	        .award_view_wrap strong{
+	        	display: block;
+	        	margin: 10px 0 0 ;
+	        }
+	        .award_view_wrap h4{
+	        	padding: 15px 0 0 0;
+	        }
+    
+
+#user_rating{
+margin: 5px 0 0 0; 
+
+
+}
+   #user_cur_rating{
+        color: #760302;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+.user_main_foto{
+    width: 190px;
+    overflow: hidden;
+    float: left;
+    text-align: center;
+}
+    .user_main_foto img{
+        max-width: 180px;
+        margin: 0 0 6px 0;
+    }
+    
+.user_info_table{
+    border-collapse: collapse;
+    width: 300px;    
+}
+    .user_info_table td{
+        font-size: 11px;
+        padding-left: 15px;
+    }
+    .user_info_table th{
+        width: 110px;
+        font-size: 11px;
+        text-align: right;    
+    } 
+    
+       
+.about{
+    margin: 0 0 0 210px;
+    font-size: 11px;
+}
+
+.buttons_soc{
+    margin: 20px 0 0 210px;  
+ 
+      
+}
+
+    
+.user_respect{
+    margin: 0 0 0 210px;  
+    padding: 10px 0 0 0; overflow: hidden;  
+}
+    .user_respect strong{
+        display: block;
+        float: left;
+        padding: 5px 10px 0 0;
+        color: #760308
+    }
+        .user_respect strong em{
+        font-style: normal;
+    }
+    .user_respect a{
+        float: left
+    }
+
+.buttons_admin{
+    clear: both;
+    overflow: hidden; 
+}
+
+
+.user_results{
+    clear: both;
+    margin: 20px 0 0 0;    
+}
+    .user_results p{
+        padding: 0 0 0 20px;
+        margin: 10px 0 0 0;    
+    }
+    
+.user_favorite_games{
+    clear: both;
+    margin: 20px 0 0 0; 
+    overflow: hidden; 
+}
+    .user_favorite_games ul{
+        padding: 0 0 0 20px;
+        width: 26%;
+        float: left;
+        margin: 2px 15px 3px 0; 
+    }
+    .user_favorite_games ul li{
+        margin: 2px 15px 3px 0;  
+    }
+
+
+.user_friends{
+    clear: both;
+    margin: 20px 0 0 0;  
+    overflow: hidden;   
+}
+    .user_friends ul{
+        padding: 0 0 0 20px;
+        width: 26%;
+        float: left;
+        margin: 0 15px 0 0;  
+    }
+        .user_friends ul li{
+        margin: 2px 15px 3px 0; 
+    }
+
+
+.user_activity{
+    clear: both;
+    margin: 20px 0 0 0; 
+    overflow: hidden;    
+}
+
+.accordeon{
+    
+}
+    .accordeon .friends{
+        
+    }
+
+#contact_form{
+	margin: 10px;
+	padding: 10px 0 0 0;
+} 
+#contact_form .inputbox{
+	width: 470px;
+}   
+#contact_form .errors_ajax{
+	display: none !important;
+}
+#contact_form #resp{
+	float: right;
+	margin: 5px 10px 0 0;
+}
+
+.page_my_files{
+	
+}
+	.page_my_files table.my_files{
+		margin: 15px 0 0 0;	
+	}
+	
+		.page_my_files table.my_files td{
+				font-size: 11px;
+				overflow: hidden;
+				border-bottom: 1px dotted #000;
+				padding: 3px;
+			}
+		.page_my_files table.my_files td div.overflow{
+			width: 90%;
+		}	
+
+
+#awards_form{
+	padding: 15px;
+	width: 470px;
+}
+	#old_award{
+		border-bottom: 1px dashed #000;
+		padding: 0 0 10px 0;
+		margin: 0 0 10px 0;	
+	}
+	#awards_form input{
+		width: 98%;
+	}
+	#awards_form input#weight{
+		width: 50px
+	}
+	#awards_form .row{
+		
+	}
+#award_image{
+	float: right;
+}
+	#award_image img{
+		width: 60px;
+	}
+#awards_form #resp{
+
+	font-size: 11px;
+}
+
+.edit_game input[type=text]{
+        width: 200px;
+}
+
+
+
+.search_form{
+    clear: both;
+    overflow: hidden;
+}
+    .search_form form{
+        margin: 0;
+        padding: 0;
+    }
+
+
+del{
+    background:#fcc
+}
+ins{
+    background:#cfc
+}

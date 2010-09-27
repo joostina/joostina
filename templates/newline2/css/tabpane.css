@@ -1,0 +1,86 @@
+/**
+ * tabpane.css. Стили закладок (табов), создаваемых с помощью mosTabs
+ *
+ * @package     Joostina
+ * @subpackage  templates/iOi
+ * @version     $Id: tabpane.css 29-09-2009 12:17 ZaiSL $;
+*/
+
+.dynamic-tab-pane-control table.adminform {
+    border: none !important;
+}
+.dynamic-tab-pane-control  {
+    border: 1px solid #CCC; overflow: hidden;
+}
+.dynamic-tab-pane-control .tab-pane {
+	position: relative;
+	background-image: none;
+}
+.dynamic-tab-pane-control .tab-page {
+	overflow: hidden;
+	text-align: left;
+	position: relative;
+	padding: 0px;
+	z-index: 0;
+	margin-left: 1px;
+    padding: 10px;
+}
+.dynamic-tab-pane-control .tab-row {
+	z-index: 1;
+	white-space: nowrap;
+    margin:0 1px 0 1px;
+    height: 30px;
+    line-height: 30px;
+    background: #F2F3E9;
+    padding: 3px 10px 0 15px;
+    border-bottom: 1px solid #CCC;
+}
+.dynamic-tab-pane-control .tab-row .tab {
+	width: auto;
+   	height: 21px;
+    line-height: 21px;
+	background: #D4D4CA;
+	position: relative;
+	bottom: 0;
+	display: inline;
+	float: left;
+	overflow: hidden;
+	cursor: pointer;
+    margin: 7px 4px 0 0;
+    padding: 0 4px;
+	border: 1px solid #B7B7B7; border-bottom: none;
+	z-index: 1;
+	white-space: nowrap;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+}
+.dynamic-tab-pane-control .tab-row .tab.selected {
+	background: #FFF;
+    bottom:-2px;
+    height: 23px;
+    line-height: 23px;
+    margin: 5px 4px 0 0;
+}
+.dynamic-tab-pane-control .tab-row .tab a {
+	width: auto;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+
+}
+.dynamic-tab-pane-control .tab-row .tab a:hover {
+
+}
+.dynamic-tab-pane-control .tab-row .tab.selected a {
+
+}
+.dynamic-tab-pane-control .tab-row .tab.selected a:hover {
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	white-space: nowrap;
+	background-image: none;
+}

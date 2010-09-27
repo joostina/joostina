@@ -1,0 +1,1 @@
+Подробная документация: http://dev.std42.ru/redmine/wiki/elfinder/Docs_RU

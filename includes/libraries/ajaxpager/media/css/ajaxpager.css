@@ -1,0 +1,85 @@
+.jPaginate{
+    height:24px;
+    position:relative;
+	width:100%;
+}
+.jPaginate a{
+    cursor:pointer;
+    padding: 3px 5px;
+    float:left;
+    text-decoration: none;
+
+}
+.jPag-control-back{
+	position:absolute;
+	left: 0;
+}
+.jPag-control-front{
+	position:absolute;
+	top: 0;
+}
+.jPaginate span{
+    cursor:pointer;
+    margin: 0 2px 0 0;
+}
+ul.jPag-pages{
+    float:left;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+ul.jPag-pages li{
+    display:inline;
+    float:left;
+    padding:0;
+    margin:0;
+}
+ul.jPag-pages li a{
+    float:left;
+    padding: 3px 5px;
+    text-decoration: none;
+}
+span.jPag-current{
+    cursor:default;
+    padding: 3px 4px 0 4px;
+    float:left;
+    background: #DADADA;
+}
+
+ul.jPag-pages li span.jPag-previous,
+ul.jPag-pages li span.jPag-next,
+span.jPag-sprevious,
+span.jPag-snext,
+ul.jPag-pages li span.jPag-previous-img,
+ul.jPag-pages li span.jPag-next-img,
+span.jPag-sprevious-img,
+span.jPag-snext-img{
+    margin:2px;
+    float:left !important;
+}
+
+ul.jPag-pages li span.jPag-previous{
+    margin:2px 0px 2px 2px;
+    font-size:12px;
+    font-weight:bold;
+    width:10px;
+
+}
+ul.jPag-pages li span.jPag-next{
+    margin:2px 2px 2px 0px;
+    font-size:12px;
+    font-weight:bold;
+    width:10px;
+}
+span.jPag-sprevious{
+    margin:2px 0px 2px 2px;
+    font-size:18px;
+    width:15px;
+    text-align:right;
+}
+span.jPag-snext{
+    margin:2px 2px 2px 0px;
+    font-size:18px;
+    width:15px;
+	text-align:right;
+}
