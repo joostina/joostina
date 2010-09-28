@@ -22,10 +22,10 @@ if (!defined('_INSTALL_CHECK')) {
 	session_name(md5(JPATH_SITE));
 	session_start();
 
-	require_once(JPATH_BASE . '/components/com_users/users.class.php');
+	require_once(JPATH_BASE . '/components/users/users.class.php');
 	if (class_exists('User') && $database != null) {
 		// восстановление некоторых переменных сессии
-		$admin = new User($database);
+		$admin = new User();
 		$admin->id = intval(mosGetParam($_SESSION, 'session_user_id', ''));
 		$admin->username = strval(mosGetParam($_SESSION, 'session_USER', ''));
 		$admin->groupname = strval(mosGetParam($_SESSION, 'session_groupname', ''));

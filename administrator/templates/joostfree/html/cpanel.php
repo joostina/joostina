@@ -11,15 +11,4 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-?>
-<table width="100%">
-	<tr valign="top">
-		<td width="65%">
-			<?php mosLoadAdminModules('icon',0); ?>
-			<?php mosLoadAdminModules('advert1',0); ?>
-		</td>
-		<td width="35%">
-			<?php mosLoadAdminModules('advert2',0); ?>
-		</td>
-	</tr>
-</table>
+mosLoadAdminModules('icon',0);

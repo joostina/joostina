@@ -52,7 +52,7 @@ class Quickicons extends JDBmodel {
 	public $gid;
 
 	// каталог размещения значков для кнопок быстрого доступа
-	private static $ico_dir = "/media/images/icons/32x32/candy";
+	private static $ico_dir = "/media/images/icons/32x32/faenza";
 
 	/*
 	 * Constructor

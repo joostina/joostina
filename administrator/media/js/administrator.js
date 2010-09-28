@@ -1,5 +1,10 @@
 // JS функции панели управления
 $(document).ready(function() {
+
+	// скругление уголков панели быстрых кнопок
+	$( '.cpicons' ).corner( '5px' );
+	$( '.cpicons span a' ).corner( '5px' );
+
 	// скрываем индиктор загрузки
 	$('#ajax_status').hide();
 

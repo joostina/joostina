@@ -1,0 +1,22 @@
+Installation
+============
+Run the ./INSTALL script to choose the distribution logo (Ubuntu, by default) and the Gnome menu icon. If run as root, the script will copy the iconsets to /usr/share/icons to made them available to all users. Some default icons used by Rhythmbox may be also replaced.
+Run ./UNINSTALL as root to restore defaults icons.
+
+Launchpad PPA
+=============
+Faenza icon theme is available to install for Ubuntu users via a PPA repository. Open a terminal and run :
+
+    sudo add-apt-repository ppa:tiheum/equinox
+
+    sudo apt-get upgrade && sudo apt-get install faenza-icon-theme
+
+Known issues
+============
+* You can experience some problems with sound volume icons from Faenza-Dark if your GTK theme display some 22x22 icons in buttons: the icon displayed is the one used for the (dark) panel. This theme blends generally better with a GTK theme that display small icons in toolbars (22x22) and buttons (16x16). You can change the theme's icons size by editing the gtkrc file and adding this kind of line at the beginning:
+    gtk-icon-sizes = "panel-menu=22,22:panel=22,22:gtk-button=16,16:gtk-large-toolbar=22,22"
+* A lots of applications does not currently support support monochromatic tray icon (deluge, gnome-do, skype, spotify, goldendict) without changing the application icon itself.
+* Some applications are configured to always use the same icon regardless of the selected theme: e.g. emacs23, gcolor2, bluefish, hardinfo, defcon, gufw, pithos, goldendict. 
+	To display the Faenza icon, edit as root the /usr/share/applications/application_name.desktop file and locate the line beginning with 'Icon='. Replace the fullpath icon name by the one of the Faenza icon (usually, it's the name of the application itself) without the extension.
+	Don't forget to make a backup before changing one of those files.
+    In some cases, you need to reinitialize the item in Gnome menu editor to display the new icon.

@@ -829,6 +829,8 @@ table.cpanel td {
     padding: 3px 10px;
     clear: both;
     overflow: hidden;
+	background-color: #F2F7FB;
+    border: 1px solid #e6e6ff;
 }
 .cpicons span {
     margin: 4px 4px 0 0;
@@ -841,6 +843,7 @@ table.cpanel td {
     display: block;
 }
 .cpicons span a {
+	background-color: white;
     display: block;
     padding: 8px 7px;
     color: #333;

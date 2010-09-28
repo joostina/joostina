@@ -18,6 +18,7 @@ $option = mosGetParam($_REQUEST, 'option', '');
 Jdocument::getInstance()
 		->addCSS(JPATH_SITE . '/' . JADMIN_BASE . '/templates/joostfree/css/template_css.css')
 		->addJS(JPATH_SITE.'/media/js/jquery.js', array('first'=>true) ) // jquery всегда первое!
+		->addJS(JPATH_SITE . '/media/js/jquery.plugins/jquery.corner.js')
 		->addJS(JPATH_SITE . '/media/js/admin.menu.js')
 		->addJS(JPATH_SITE . '/media/js/admin.menu/theme.js')
 		->addJS(JPATH_SITE . '/' . JADMIN_BASE . '/media/js/administrator.js');

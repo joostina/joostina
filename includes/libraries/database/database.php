@@ -129,6 +129,12 @@ class database {
         mysql_set_charset('utf8');
     }
 
+	public function __destruct(){
+		if (is_resource($this->_resource)) {
+			mysql_close($this->_resource);
+		}
+	}
+
     /**
      * Получение инстанции для работы с базой данных
      * @return database - объект базы данных
