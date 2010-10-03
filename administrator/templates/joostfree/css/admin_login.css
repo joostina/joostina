@@ -40,9 +40,12 @@ body {
 #break {
 	clear: both;
 }
+.inputbox{
+	height: 20px;
+}
 .button {
 	border: 1px solid #3d8fe3;
-	height: 20px;
+	height: 22px;
 	color: #333;
 	background: #E3E6FF;
 	width: 100%;
@@ -83,7 +86,7 @@ body {
 	float: left;
 }
 input, select, .button {
-	font-size: 10px;
+	font-size: 11px;
 	border: 1px solid silver;
 	background-color: #F1F1F1;
 	width: 99%;
@@ -122,4 +125,12 @@ input:focus {
 	background-color: #dedede;
 	height: 30px !important;
 	height: 30px;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	outline: none;
+	border-color: rgba(82,168,236,.75)!important;
+	box-shadow: 0 0 8px rgba(82,168,236,.5);
+	-moz-box-shadow: 0 0 8px rgba(82,168,236,.5);
+	-webkit-box-shadow: 0 0 8px rgba(82,168,236,.5);
 }

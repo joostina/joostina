@@ -34,15 +34,34 @@ class actionsPages extends Jcontroller {
 		Jhit::add('pages', $page->id, 'view');
 
 		return array(
+			'task' => 'view',
 			'page' => $page
 		);
 	}
 
-	public static function view($option, $id) {
-		self::index($option, $id);
+	public static function view_by_id() {
+		$id = self::$param['id'];
+
+		$page = new Pages;
+		$page->load($id) ? null : self::error404();
+
+		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
+		if (self::$error) {
+			return;
+		}
+
+		Jdocument::getInstance()
+				->setPageTitle($page->title_page)
+				->addMetaTag('description', $page->meta_description)
+				->addMetaTag('keywords', $page->meta_keywords);
+
+		return array(
+			'task' => 'view',
+			'page' => $page
+		);
 	}
 
-	public static function view_slug() {
+	public static function view_by_slug() {
 		$slug = self::$param['page_name'];
 
 		$page = new Pages;
@@ -60,6 +79,7 @@ class actionsPages extends Jcontroller {
 				->addMetaTag('keywords', $page->meta_keywords);
 
 		return array(
+			'task' => 'view',
 			'page' => $page
 		);
 	}

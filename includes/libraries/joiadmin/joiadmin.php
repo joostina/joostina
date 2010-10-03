@@ -164,6 +164,7 @@ class JoiAdmin {
 
 		$header = $obj->get_tableinfo();
 
+		echo '<div class="tocorner">';
 		echo self::header($header['header_list']);
 
 		echo '<form action="index2.php" method="post" name="adminForm" id="adminForm">';
@@ -205,6 +206,7 @@ class JoiAdmin {
 		echo '</tr></table>' . "\n";
 		echo $pagenav->getListFooter();
 		echo "\n";
+		echo '</div>';
 
 		echo form::hidden('option', $option);
 		echo form::hidden('model', self::$model);
@@ -303,9 +305,9 @@ class JoiAdmin {
 		//Настраиваем параметры HTML-разметки формы
 		if (!$params) {
 			$params = array(
-				'wrap_begin' => '<table class="adminform">',
+				'wrap_begin' => '<table class="adminform joiadmin">',
 				'wrap_end' => '</table>',
-				'label_begin' => '<tr><td width="100" align="right">',
+				'label_begin' => '<tr><td width="150" align="right" valign="top">',
 				'label_end' => '</td>',
 				'el_begin' => '<td>',
 				'el_end' => '</td></tr>'
@@ -319,6 +321,7 @@ class JoiAdmin {
 		$header = $obj->get_tableinfo(); //Получаем данные
 		$header_text = $obj_data->{$obj->getKeyField()} > 0 ? $header['header_edit'] : $header['header_new'];
 
+		echo '<div class="tocorner">';
 		//Выводим заголовок
 		echo self::header($header_text);
 
@@ -352,6 +355,7 @@ class JoiAdmin {
 
 		//Закрываем форму
 		echo form::close();
+		echo '</div>';
 
 		// закрываем JS вкрапления
 		self::$js_onformsubmit[] = 'submitform( pressbutton );';
@@ -592,7 +596,7 @@ class JoiAdmin {
 
 // вывод заголовка страницы
 	public static function header($header) {
-		return '<table class="adminheading"><tbody><tr><th class="config">' . $header . '</th></tr></tbody></table>';
+		return adminHTML::controller_header($header, 'config');
 	}
 
 // автоматическя обработка яксовых операций

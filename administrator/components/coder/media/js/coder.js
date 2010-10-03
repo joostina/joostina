@@ -16,4 +16,9 @@ $(document).ready(function() {
 
 	});
 
+	// выделение всего текста при клике на текст модели
+	$('.coder_model_area').live('click', function(){
+		$(this).select();
+		});
+
 });

@@ -26,7 +26,7 @@ class actionsNews extends Jcontroller {
 
 		// подключаем библиотеку постраничной навигации
 		mosMainFrame::addLib('pager');
-		$pager = new Pager( Jroute::href('news'), $count, 5, 6);
+		$pager = new Pager(Jroute::href('news'), $count, 5, 6);
 		$pager->paginate($page);
 
 		// опубликованные записи блога
@@ -45,6 +45,47 @@ class actionsNews extends Jcontroller {
 		);
 	}
 
+	private static function list_by_type_id($type_id, $route_name) {
+		$page = isset(self::$param['page']) ? self::$param['page'] : 0;
+
+		// формируем объект записей блога
+		$news = new News();
+
+		// число записей в блоге
+		$count = $news->count('WHERE type_id=' . $type_id);
+
+		// подключаем библиотеку постраничной навигации
+		mosMainFrame::addLib('pager');
+		$pager = new Pager(Jroute::href($route_name), $count, 5, 6);
+		$pager->paginate($page);
+
+		// опубликованные записи блога
+		$news_items = $news->get_list(
+						array(
+							'select' => '*',
+							'where' => 'type_id=' . $type_id,
+							'offset' => $pager->offset,
+							'limit' => $pager->limit,
+							'order' => 'id DESC', // сначала последние
+						)
+		);
+
+		return array(
+			'task' => 'index',
+			'news_items' => $news_items,
+			'pager' => $pager
+		);
+	}
+
+	// новости1
+	public static function one() {
+		return self::list_by_type_id(1, 'news_one');
+	}
+
+	// новости2
+	public static function two() {
+		return self::list_by_type_id(2, 'news_two');
+	}
 
 	public static function view() {
 

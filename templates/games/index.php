@@ -44,13 +44,16 @@ echo '<?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
                         <!--.header::BEGIN-->
                         <div class="header">
 
-                            <h2 class="logo"><a href="<?php echo JPATH_SITE ?>">Игровой сайтик</a></h2>
+                            <h2 class="logo"><a href="<?php echo JPATH_SITE ?>">Joostina v2</a></h2>
                             <!--Форма логина/логаута::BEGIN-->                            
-                            <?php require_once JPATH_BASE . DS . 'modules/login/mod_login.php'; ?>
+                            <?php require_once JPATH_BASE . DS . 'modules/login/login.php'; ?>
                             <!--Форма логина/логаута::END-->
 
                         </div>
                         <!--.header::END-->
+						<div style="height: 20px;">
+								<?php require_once JPATH_BASE . DS . 'modules/extramenu/extramenu.php'; ?>
+						</div>
 
                         <!--.content_wrap::BEGIN-->
                         <div class="content_wrap">
@@ -63,7 +66,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
                             <!--.col (Левая колонка)::BEGIN-->
                             <div class="col_wrap"><div class="col">
                                     <!--.mod_menu (Основное меню)::BEGIN-->
-                                    <?php require_once JPATH_BASE . DS . 'modules/menu/mod_menu.php'; ?>
+                                    <?php require_once JPATH_BASE . DS . 'modules/menu/menu.php'; ?>
                                     <!--.mod_menu (Основное меню)::END-->
 
                                     <!--.mod_search(Модуль поиска)::BEGIN-->

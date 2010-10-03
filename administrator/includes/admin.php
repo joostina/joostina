@@ -122,9 +122,9 @@ function mosLoadAdminModule($name, $params = null) {
 	if (file_exists($path)) {
 		$mainframe = mosMainFrame::getInstance();
 		if ($mainframe->getLangFile('mod_' . $name)) {
-			include($mainframe->getLangFile('mod_' . $name));
+			require_once $mainframe->getLangFile('mod_' . $name);
 		}
-		require $path;
+		require_once $path;
 	} else {
 		JDEBUG ? jd_log('Отсутствует файл модуля: ' . $name) : null;
 	}
@@ -577,8 +577,8 @@ function mosMakeHtmlSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
 class adminHTML {
 
 	// шапка компонентов
-	public static function controller_header($title, $class = 'config') {
-		return sprintf('<table class="adminheading"><tbody><tr><th class="%s">%s</th></tr></tbody></table>', $class, $title);
+	public static function controller_header($title, $class = 'config',$extra = '') {
+		return sprintf('<table class="adminheading"><tbody><tr><th class="%s">%s</th>%s</tr></tbody></table>', $class, $title, $extra);
 	}
 
 }

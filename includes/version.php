@@ -25,7 +25,7 @@ class coreVersion {
 	/** @var int Номер сборки */
 	$BUILD = '$: 8**',
 	/** @var string Дата */
-	$RELDATE = '08:09:2010',
+	$RELDATE = '04:11:2010',
 	/** @var string Время */
 	$RELTIME = 'xx:xx:xx',
 	/** @var string Текст авторских прав */

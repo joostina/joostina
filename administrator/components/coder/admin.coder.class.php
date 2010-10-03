@@ -12,15 +12,15 @@ defined('_JOOS_CORE') or die();
 
 class Coder {
 
-	public static function get_model($table) {
+	public static function get_model($table, $implode_models = false) {
 
 		$table_fields = database::getInstance()->getUtils()->getTableFields($table);
-		$tableName = str_replace(array('#__', '#_'), '', $table);
+		$tableName = str_replace(array('#__', '#_', database::getInstance()->getPrefix() ), '', $table);
 
 		$className = str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $tableName))));
 
 		$return = array();
-		$return[] = '<h2>Модель: ' . $className . '</h2>';
+		$return[] = $implode_models ? null : '<h2>Модель: ' . $className . '</h2>';
 
 		$buffer = array();
 		$buffer[] = "\n/**";
@@ -41,7 +41,7 @@ class Coder {
 		}
 		$buffer[] = "\n\n	/*";
 		$buffer[] = "\n	 * Constructor";
-		$buffer[] = "\n	 * @param object Database object";
+		//$buffer[] = "\n	 * @param object Database object";
 		$buffer[] = "\n	 */";
 		$buffer[] = "\n	function __construct(){";
 		$buffer[] = "\n		\$this->JDBmodel( '#__$tableName', 'id' );";
@@ -100,7 +100,7 @@ class Coder {
 
 		$buffer[] = "\n}\n";
 
-		$return[] = form::textarea(array('name' => $tableName, 'value' => implode('', $buffer), 'rows' => '5'));
+		$return[] = $implode_models ? implode('', $buffer) : form::textarea(array('name' => $tableName, 'value' => implode('', $buffer), 'rows' => '5', 'class'=>'coder_model_area' ));
 
 		return implode("\n", $return);
 	}

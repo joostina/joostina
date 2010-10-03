@@ -12,6 +12,12 @@ defined('_JOOS_CORE') or die();
 
 $config = Jconfig::getInstance();
 
+Jdocument::getInstance()
+		->addCSS(JPATH_SITE . '/' . JADMIN_BASE . '/templates/joostfree/css/admin_login.css')
+		->addJS(JPATH_SITE . '/media/js/jquery.js', array('first' => true)) // jquery всегда первое!
+		->addJS(JPATH_SITE . '/media/js/jquery.plugins/jquery.corner.js')
+		->addJS(JPATH_SITE . '/' . JADMIN_BASE . '/media/js/administrator.login.js');
+
 // подключение языкого файла tmpl_joostfree.php
 if ($mainframe->getLangFile('tmpl_joostfree')) {
 	include_once($mainframe->getLangFile('tmpl_joostfree'));
@@ -20,40 +26,26 @@ if ($mainframe->getLangFile('tmpl_joostfree')) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?php echo $config->config_sitename; ?> - <?php echo _JOOSTINA_CONTROL_PANEL ?></title>
-        <meta http-equiv="Content-Type" content="text/html;  charset=UTF-8" />
-		<style type="text/css">@import url(templates/joostfree/css/admin_login.css);</style>
+		<meta http-equiv="Content-Type" content="text/html;  charset=UTF-8" />
 		<link rel="shortcut icon" href="<?php echo JPATH_SITE; ?>/media/favicon.ico" />
-		<script language="javascript" type="text/javascript">
-			function setFocus() {
-				document.loginForm.usrname.select();
-				document.loginForm.usrname.focus();
-			}
-		</script>
+		<?php echo Jdocument::stylesheet(); ?>
 	</head>
-	<body onload="setFocus();">
+	<body>
 		<div id="joo">
 			<img src="templates/joostfree/images/logo_130.png" alt="Joostina!" />
 		</div>
-<?php
-include_once (JPATH_BASE_ADMIN . DS . 'modules' . DS . 'mosmsg' . DS . 'mod_mosmsg.php');
-?>
-		<div id="ctr1" align="center">
+		<?php
+		include_once (JPATH_BASE_ADMIN . DS . 'modules' . DS . 'mosmsg' . DS . 'mod_mosmsg.php');
+		?>
+			<div id="ctr1" align="center">
 			<div class="login">
 				<div class="login-form">
 					<form action="index.php" method="post" name="loginForm" id="loginForm">
 						<div class="form-block">
-<?php echo _USERNAME ?>
+							<?php echo _USERNAME ?>
 							<input name="usrname" id="usrname" type="text" class="inputbox" size="15" />
 							<?php echo _PASSWORD ?>
 							<input name="pass" type="password" class="inputbox" size="15" />
-<?php if ($config->config_captcha) {?>
-								<div>
-									<img id="captchaimg" alt="<?php echo _PRESS_HERE_TO_RELOAD_CAPTCHA ?>" onclick="document.loginForm.captchaimg.src='<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo md5(JPATH_SITE) ?>&' + new String(Math.random())" src="<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo md5(JPATH_SITE) ?>" />
-								</div>
-								<span class="captcha" onclick="document.loginForm.loginCaptcha.src='<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo md5(JPATH_SITE) ?>' + new String(Math.random())"><?php echo _SHOW_CAPTCHA ?></span>
-								<div><?php echo _PLEASE_ENTER_CAPTCHA ?>:</div>
-								<div><input name="captcha" type="text" class="inputbox" size="15" /></div>
-<?php }; ?>
 							<div align="center">
 								<input type="submit" name="submit" class="button" value="Войти" />
 								<br />
@@ -72,5 +64,6 @@ include_once (JPATH_BASE_ADMIN . DS . 'modules' . DS . 'mosmsg' . DS . 'mod_mosm
 		<div id="footer" align="center">
 			<div align="center"><?php echo coreVersion::get('URL'); ?></div>
 		</div>
+		<?php echo Jdocument::javascript(); ?>
 	</body>
 </html>

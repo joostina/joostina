@@ -33,7 +33,7 @@ class actionsFaker {
 	}
 
 	private static function newsfuck($f) {
-	 require joosCore::path('news', 'class');
+		require joosCore::path('news', 'class');
 
 		$model = new News;
 
@@ -43,6 +43,7 @@ class actionsFaker {
 			$model->slug = Jstring::strtolower(urlencode($f->Company->name));
 			$model->introtext = $f->Lorem->paragraph;
 			$model->fulltext = implode('<br />', $f->Lorem->paragraphs);
+			$model->type_id = rand(1, 2);
 			$model->created_at = _CURRENT_SERVER_TIME;
 
 			$model->store();

@@ -99,7 +99,7 @@ class User extends JDBmodel {
 				'html_table_element' => 'value',
 			),
 			'gid' => array(
-				'name' => 'Группа2',
+				'name' => 'Группа',
 				'editable' => true,
 				'sortable' => true,
 				'in_admintable' => true,
@@ -129,8 +129,8 @@ class User extends JDBmodel {
 			),
 			'activation' => array(
 				'name' => 'Код активации',
-				'editable' => true,
-				'in_admintable' => true,
+				'editable' => false,
+				'in_admintable' => false,
 				'html_edit_element' => 'edit',
 				'html_table_element' => 'value',
 			),

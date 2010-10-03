@@ -52,6 +52,7 @@ table.adminheading th {
     padding-left: 34px;
     width: 98%;
 	background: url(../images/system_ico/csg-4bddcddc99a85.png) no-repeat top left;
+	text-shadow:0 1px 0 #FFFFFF, 0 -1px 3px #BEBEBE;
 }
 table.adminheading th.filemanager {
     background: url(../images/system_ico/folder.png) no-repeat left;
@@ -339,6 +340,7 @@ table.adminlisttop {
 table.adminlist td {
     height: 25px;
     border-bottom: 1px solid #DEDEDE;
+	/* border-left: 1px solid  #DEDEDE;*/
     padding: 4px 2px;
 }
 table.adminlist tr.row0:hover {
@@ -542,6 +544,7 @@ table.menubar {
 div.page {
     min-height: 100%;
     margin: 0 0 -34px;
+	background-color: #F2F7FB;
 }
 input#jtoggle_editor {
     background: none;
@@ -746,6 +749,9 @@ td.ThemeOfficeMainItem {
 .ThemeOfficeMenuItem, .ThemeOfficeMenuItem .ThemeOfficeMenuFolderText, .ThemeOfficeMenuItem .ThemeOfficeMenuItemText {
     background: #F0F0F0;
 }
+.ThemeOfficeMenuItemText:hover{
+		color: #0085cf;
+}
 .themeofficemainitem {
     border: 0;
     padding: 4px 1px;
@@ -949,4 +955,48 @@ div#quickicons_icons img.quickicons_icons_active{
 
 div#quickicons_icons img:hover{
     border: 1px solid #CCC;
+}
+
+div.tocorner{
+	padding: 5px;
+	background-color: white;
+	border: 1px solid #e6e6ff;
+}
+.adminpaginator{
+	font-size:11px;
+	display: block;
+	text-align: center;
+	padding: 5px;
+}
+table.joiadmin {
+	border: none;
+	background-color: white;
+}
+table.joiadmin label{
+	font-size:12px;
+	font-weight: bold;
+	color: #666666;
+}
+table.joiadmin label:hover{
+	color: black;
+}
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	outline: none;
+	border-color: rgba(82,168,236,.75)!important;
+	box-shadow: 0 0 8px rgba(82,168,236,.5);
+	-moz-box-shadow: 0 0 8px rgba(82,168,236,.5);
+	-webkit-box-shadow: 0 0 8px rgba(82,168,236,.5);
+}
+#joo a{
+	text-shadow: 0 0 8px #ccc;
+	-moz-text-shadow: 0 0 8px #ccc;
+	-webkit-text-shadow: 0 0 8px #ccc;
+}
+#joo a:hover{
+	text-shadow: 0 0 8px rgba(82,168,236,.5);
+	-moz-text-shadow: 0 0 8px rgba(82,168,236,.5);
+	-webkit-text-shadow: 0 0 8px rgba(82,168,236,.5);
+}
+a:active, a:focus, img { 
+	outline: 0;
 }

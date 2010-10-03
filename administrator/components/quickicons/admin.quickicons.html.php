@@ -42,7 +42,7 @@ class quickiconsHTML {
 
 	 require joosCore::path('quickicons', 'admin_class');
 
-		?>	<div class="cpicons"><?php
+		?><div class="cpicons"><?php
 	$query = 'SELECT* FROM #__quickicons WHERE state = 1 AND gid <= ' . $gid . ' ORDER BY ordering';
 	$buttons = database::getInstance()->setQuery($query)->loadObjectList();
 	foreach ($buttons as $button) {

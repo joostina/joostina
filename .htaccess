@@ -82,13 +82,17 @@ AddDefaultCharset UTF-8
 	#  Обновите Ваш каталог Joostina (используйте "/" для обозначения корня сервера)
 
 
-	RewriteBase /joostina2
+	RewriteBase /joostina-2
+
+	# о как
+	RewriteRule ^ajax/(.*)$ ajax.index.php?$1 [L]
 
 	RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 	##опционально - смотрите примечания##
 	RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|\.xml|/[^.]*)$  [NC]
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule (.*) index.php?$1
+
 
 	# Для активации библиотеки JSCSS-Packer -->
 	# RewriteRule ^(.*\.(js|css))$ includes/libraries/jscss/jscss.php?$1

@@ -15,21 +15,23 @@ JoiAdmin::dispatch();
 
 class actionsCoder {
 
+	private static $implode_model = true;
+
+
 	public static function on_start() {
 		mosMainFrame::addLib('form');
 		require joosCore::path('coder', 'admin_class');
 	}
 
 	public static function index() {
-		$tables =  mosGetParam($_POST, 'codertable', array() );
+		$tables = mosGetParam($_POST, 'codertable', array());
 
 		$ret = array();
 		foreach ($tables as $table) {
-		 $ret[] = Coder::get_model($table);
+			$ret[] = Coder::get_model($table, self::$implode_model );
 		}
-		
-		
-		return implode("\n", $ret);
-		}
+
+		return self::$implode_model ?  form::textarea(array('name' => 'all_models', 'value' => implode('', $ret), 'rows' => '25', 'class'=>'coder_model_area' )) : implode("\n", $ret);
+	}
 
 }

@@ -1841,6 +1841,10 @@ class joosCore {
 				$file = JPATH_BASE . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $name . '.php';
 				break;
 
+			case 'module_helper':
+				$file = JPATH_BASE . DS . 'modules' . DS . $name . DS . $name . '.helper.php';
+				break;			
+			
 			default:
 				break;
 		}
@@ -1920,6 +1924,8 @@ class Jcontroller {
 
 	private static function as_json(array $params) {
 		unset($params['as_json']);
+		
+		header('Content-Type: text/javascript; charset=utf8');
 		echo json_encode($params);
 		exit();
 	}

@@ -23,7 +23,10 @@ class Jroute extends RouteMap {
 			$map = new RouteMap(
 							array('base_url' => JPATH_SITE, 'url_rewriting' => true)
 			);
+
+			// корневой роутер
 			$map->connect('default', '', 'mainpage', 'index');
+
 			//$map->connect('controller', ':option', 'autocontroller', 'autotask');
 			//$map->connect('controller_task', ':option/:task', 'autocontroller', 'autotask');
 			//$map->connect('default-3', ':option/:task/:id', 'autocontroller', 'autotask');
@@ -33,13 +36,13 @@ class Jroute extends RouteMap {
 			//$map->connect('default4', ':option/:task/:id/:param1/:param2/:param3/:param4', 'autocontroller', 'autotask');
 			//$map->connect('default5', ':option/:task/:id/:param1/:param2/:param3/:param4/:param5', 'autocontroller', 'autotask');
 			//$map->connect('default6', ':option/:task/:id/:param1/:param2/:param3/:param4/:param5/:param6', 'autocontroller', 'autotask');
-
-
+			// работа с пользователями
 			$map->connect('register', 'register', 'users', 'register');
 			$map->connect('register_check', 'register/check/*', 'users', 'check');
 			$map->connect('lostpassword', 'lostpassword', 'users', 'lostpassword');
 			$map->connect('login', 'login', 'users', 'login');
 
+			// блоги
 			$map->connect('blog', 'blog', 'blog', 'index');
 			$map->connect('blog_page_index', 'blog/page', 'blog', 'index');
 			$map->connect('blog_page_num', 'blog/page/:page', 'blog', 'index',
@@ -80,6 +83,7 @@ class Jroute extends RouteMap {
 					array('username' => '[a-zа-я0-9]+')
 			);
 
+			// страницы тэгов
 			$map->connect('tags', 'tags', 'tags', 'cloud');
 			$map->connect('tags_view', 'tags/:tag', 'tags', 'index',
 					array('tag' => '[a-zа-я0-9\-,]+')
@@ -91,18 +95,44 @@ class Jroute extends RouteMap {
 					array('tag' => '[a-zа-я0-9\-,]+', 'page' => '\d+')
 			);
 
+			// новости
 			$map->connect('news', 'news', 'news', 'index');
 			$map->connect('news_page_index', 'news/page', 'news', 'index');
 			$map->connect('news_page_num', 'news/page/:page', 'news', 'index',
 					array('page' => '\d+')
 			);
-			$map->connect('news_view', 'news/:id', 'news', 'view',
+			// новости1
+			$map->connect('news_one', 'news/one', 'news', 'one');
+			$map->connect('news_one_page_index', 'news/one/page', 'news', 'one');
+			$map->connect('news_one_page_num', 'news/one/page/:page', 'news', 'one',
+					array('page' => '\d+')
+			);
+
+			// новости2
+			$map->connect('news_two', 'news/two', 'news', 'two');
+			$map->connect('news_two_page_index', 'news/two/page', 'news', 'two');
+			$map->connect('news_two_page_num', 'news/two/page/:page', 'news', 'two',
+					array('page' => '\d+')
+			);
+
+			$map->connect('news_view', 'news/view/:id', 'news', 'view',
 					array('id' => '\d+')
 			);
 
-			$map->connect('pages_view', ':page_name', 'pages', 'view_slug',
-					array('page_name' => '[a-z]+' )
+		
+			// ДемоАякс обраьботчика
+			$map->connect('ajaxdemo', 'ajaxdemo', 'ajaxdemo', 'index');
+
+			// странички
+			$map->connect('pages_view_by_id', 'pages/:id', 'pages', 'view_by_id',
+					array('id' => '\d+')
 			);
+
+			// конкретные страницы, всегда должно быть последним!
+			$map->connect('pages_view', ':page_name', 'pages', 'view_by_slug',
+					array('page_name' => '[a-z]+')
+			);
+
 
 			self::$instance = $map;
 		}
@@ -114,6 +144,9 @@ class Jroute extends RouteMap {
 
 		$_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
 		$routs = self::$instance->dispatch($_SERVER['QUERY_STRING']);
+
+		//_xdump($routs);
+		//die();
 
 		Jcontroller::$activroute = $routs['route'];
 		Jcontroller::$controller = $routs['action'][0] == 'autocontroller' ? $routs['args']['option'] : $routs['action'][0];

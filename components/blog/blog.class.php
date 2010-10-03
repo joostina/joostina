@@ -124,7 +124,7 @@ class Blog extends JDBmodel {
 				),
 			),
 			'introtext' => array(
-				'name' => 'Текст вступления (без HTML) ',
+				'name' => 'Текст вступления (без HTML)',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',

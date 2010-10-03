@@ -10,7 +10,7 @@
 defined('_JOOS_CORE') or die();
 
 foreach( $news_items as $new_item ){
-	$href = Jroute::href('news_view',  array( 'id'=>$new_item->id ) );
+	$href = Jroute::href('news_view',  array( 'id'=>$new_item->id, 'type'=>  News::get_types_slug_by_type_id( $new_item->type_id )  ) );
 	echo '<h3><a href="'.$href.'">'.$new_item->title.'</a></h3>';
 	echo $new_item->introtext.'<br /><hr /><br />';
 }

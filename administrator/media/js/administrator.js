@@ -5,6 +5,11 @@ $(document).ready(function() {
 	$( '.cpicons' ).corner( '5px' );
 	$( '.cpicons span a' ).corner( '5px' );
 
+	// скругливаем таблички
+	$('.tocorner').corner( '5px' );
+
+	$('.button, .inputbox, .text_area, select').corner( '2px' );
+
 	// скрываем индиктор загрузки
 	$('#ajax_status').hide();
 

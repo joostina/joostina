@@ -20,10 +20,13 @@ class actionsCoder {
 		require joosCore::path('coder', 'admin_class');
 		Jdocument::getInstance()->addJS(JPATH_SITE . '/' . JADMIN_BASE . '/components/coder/media/js/coder.js');
 
-		echo adminHTML::controller_header('Кодер - моделегенератор');
 	}
 
 	public static function index() {
+
+		echo '<div class="tocorner">';
+
+		echo adminHTML::controller_header('Кодер - моделегенератор');
 
 		$tables = database::getInstance()->getUtils()->getTableList();
 
@@ -44,6 +47,8 @@ class actionsCoder {
 		$rets[] = '</tr></table>';
 
 		echo implode("\n", $rets);
+
+		echo '</div>';
 	}
 
 	public static function create($option) {

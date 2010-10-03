@@ -23,10 +23,10 @@ class thisHTML {
      */
     public static function index( $obj, $obj_list, $pagenav) {
         // массив названий элементов для отображения в таблице списка
-        $fields_list = array( 'id', 'title', 'category_id', 'state');
+        $fields_list = array( 'id', 'title','state');
         // передаём информацию о объекте и настройки полей в формирование представления
         JoiAdmin::listing( $obj, $obj_list, $pagenav, $fields_list );
-    }
+		}
 
     /**
      * Редактирование-создание объекта
