@@ -1,3 +1,0 @@
-# тут ничего нельзя вызвать напрямую
-Order allow,deny
-Deny from all
