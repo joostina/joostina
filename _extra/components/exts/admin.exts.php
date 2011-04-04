@@ -212,7 +212,7 @@ class viewsCurrent {
 	 * Список объектов
 	 * @param joosDBModel $obj - основной объект отображения
 	 * @param array $obj_list - список объектов вывода
-	 * @param mosPageNav $pagenav - объект постраничной навигации
+	 * @param joosPagenator $pagenav - объект постраничной навигации
 	 */
 	public static function index($obj, array $obj_list, $pagenav, array $fields_list = array()) {
 		JoiAdmin::listing($obj, $obj_list, $pagenav, $fields_list);

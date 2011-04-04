@@ -148,13 +148,13 @@ class joosCoreAdmin {
  * Page navigation support class
  * @package Joostina
  */
-class mosPageNav {
+class joosPagenator {
 
 	public $limitstart;
 	public $limit;
 	public $total;
 
-	function mosPageNav($total, $limitstart, $limit) {
+	function joosPagenator($total, $limitstart, $limit) {
 		$this->total = (int) $total;
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 1);
@@ -166,7 +166,7 @@ class mosPageNav {
 		}
 	}
 
-	function getLimitBox() {
+	function get_limit_box() {
 
 		// если элементов нет - то и селектор-ограничитель показывать незачем
 		if ($this->total == 0) {
@@ -189,7 +189,7 @@ class mosPageNav {
 	}
 
 	function writeLimitBox() {
-		echo mosPageNav::getLimitBox();
+		echo joosPagenator::get_limit_box();
 	}
 
 	function writePagesCounter() {
@@ -261,7 +261,7 @@ class mosPageNav {
 
 	function getListFooter() {
 		$html = '<div class="adminpaginator">';
-		$html .= '<div class="adminpaginator_pages_counter"><span class="ap-pagescount">' . $this->getPagesCounter() . '</span>' . $this->getLimitBox() . '</div><div class="ap-pages">' . $this->getPagesLinks() . '</div>';
+		$html .= '<div class="adminpaginator_pages_counter"><span class="ap-pagescount">' . $this->getPagesCounter() . '</span>' . $this->get_limit_box() . '</div><div class="ap-pages">' . $this->getPagesLinks() . '</div>';
 		$html .= '</div>';
 		return $html;
 	}

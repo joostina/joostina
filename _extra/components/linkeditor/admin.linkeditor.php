@@ -255,7 +255,7 @@ function viewLinks() {
 	$total = count($list);
 
 	require_once (JPATH_BASE.DS.JADMIN_BASE.'/includes/pageNavigation.php');
-	$pageNav = new mosPageNav($total,$limitstart,$limit);
+	$pageNav = new joosPagenator($total,$limitstart,$limit);
 
 	// slice out elements based on limits
 	$list = array_slice($list,$pageNav->limitstart,$pageNav->limit);

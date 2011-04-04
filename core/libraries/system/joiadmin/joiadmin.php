@@ -185,10 +185,10 @@ class JoiAdmin {
 	 *
 	 * @param object joosDBModel $obj
 	 * @param array $obj_list
-	 * @param object mosPageNav $pagenav
+	 * @param object joosPagenator $pagenav
 	 * @param array $fields_list
 	 */
-	public static function listing(joosDBModel $obj, array $obj_list, mosPageNav $pagenav, array $fields_list, $group_by = '') {
+	public static function listing(joosDBModel $obj, array $obj_list, joosPagenator $pagenav, array $fields_list, $group_by = '') {
 
 		// получаем название текущего компонента
 		$option = joosRequest::param('option');
@@ -770,7 +770,7 @@ class JoiAdmin {
 		$limit = (int) joosSession::get_user_state_from_request("{$com_name}_viewlistlimit", 'limit', joosConfig::get2('admin', 'list_limit', 25));
 		$limitstart = (int) joosSession::get_user_state_from_request("{$com_name}_limitstart" . self::$model, 'limitstart', 0);
 
-		return new mosPageNav($total, $limitstart, $limit);
+		return new joosPagenator($total, $limitstart, $limit);
 	}
 
 	/**

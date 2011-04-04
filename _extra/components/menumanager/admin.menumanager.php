@@ -142,7 +142,7 @@ function showMenu($option) {
 	}
 
 	require_once (JPATH_BASE_ADMIN . DS . '/includes/pageNavigation.php');
-	$pageNav = new mosPageNav($total, $limitstart, $limit);
+	$pageNav = new joosPagenator($total, $limitstart, $limit);
 
 	HTML_menumanager::show($option, $menus, $pageNav);
 }

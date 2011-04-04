@@ -35,7 +35,7 @@ $database->set_query($query);
 $total = $database->load_result();
 
 // page navigation
-$pageNav = new mosPageNav($total, $limitstart, $limit);
+$pageNav = new joosPagenator($total, $limitstart, $limit);
 
 $query = "SELECT* FROM #__session WHERE userid != 0"
 		. $and

@@ -19,7 +19,7 @@ class quickiconsHTML {
 	 * Список объектов
 	 * @param joosDBModel $obj - основной объект отображения
 	 * @param array $obj_list - список объектов вывода
-	 * @param mosPageNav $pagenav - объект постраничной навигации
+	 * @param joosPagenator $pagenav - объект постраничной навигации
 	 */
 	public static function index($obj, $obj_list, $pagenav) {
 		// массив названий элементов для отображения в таблице списка
