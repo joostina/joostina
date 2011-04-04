@@ -51,7 +51,7 @@ class actionsSitemap {
 		$map = Sitemap::get_map(true);
 		$map->xml_output();
 		
-		mosRedirect('index2.php', 'Карта сайта обновлена');		
+		joosRoute::redirect('index2.php', 'Карта сайта обновлена');
 	
 	}
 

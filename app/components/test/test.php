@@ -21,7 +21,7 @@ class actionsTest {
 	}
 
 	public static function redirect() {
-		mosRedirect(joosRoute::href('user_view', array('id' => 72, 'username' => 'ZaiSL')), 'Раз-раз');
+		joosRoute::redirect(joosRoute::href('user_view', array('id' => 72, 'username' => 'ZaiSL')), 'Раз-раз');
 
 		return array(
 			'task' => 'viewtest'

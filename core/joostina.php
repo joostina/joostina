@@ -1829,55 +1829,6 @@ function mosMakeHtmlSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
 	}
 }
 
-/**
- * Copy the named array content into the object as properties
- * only existing properties of object are filled. when undefined in hash, properties wont be deleted
- * @param array the input array
- * @param obj byref the object to fill of any class
- * @param string
- * @param boolean
- */
-
-/**
- * Utility function redirect the browser location to another url
- *
- * Can optionally provide a message.
- * @param string The file system path
- * @param string A filter for the names
- */
-function mosRedirect($url, $msg = '', $type = 'success') {
-
-	// specific filters
-	$iFilter = InputFilter::instance();
-	$url = $iFilter->process($url);
-
-	empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg));
-
-	// Strip out any line breaks and throw away the rest
-	$url = preg_split("/[\r\n]/", $url);
-	$url = $url[0];
-	if ($iFilter->badAttributeValue(array('href', $url))) {
-		$url = JPATH_SITE;
-	}
-
-	if (joosRequest::is_ajax()) {
-		joosController::set_json_data(array('redirect' => array('url' => $url, 'message' => $iFilter->process($msg)), 'state' => $type));
-		return;
-	}
-
-
-	if (headers_sent()) {
-		echo "<script>document.location.href='$url';</script>\n";
-	} else {
-		@ob_end_clean(); // clear output buffer
-		header('HTTP/1.1 301 Moved Permanently');
-		header("Location: " . $url);
-	}
-
-
-	exit();
-}
-
 function mosErrorAlert($text, $action = 'window.history.go(-1);', $mode = 1) {
 	$text = nl2br($text);
 	$text = addslashes($text);

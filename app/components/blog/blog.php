@@ -229,7 +229,7 @@ class actionsBlog extends joosController {
 	public static function add() {
 
 		if (!User::current()->id) {
-			mosRedirect(JPATH_SITE);
+			joosRoute::redirect(JPATH_SITE);
 		}
 
 		$blog = new Blog;
@@ -252,7 +252,7 @@ class actionsBlog extends joosController {
 	public static function edit() {
 
 		if (!User::current()->id) {
-			mosRedirect(JPATH_SITE);
+			joosRoute::redirect(JPATH_SITE);
 		}
 
 		$blog = new Blog;
@@ -288,7 +288,7 @@ class actionsBlog extends joosController {
 		if ($blog->id) {
 			$blog_category = new BlogCategory;
 			$blog_category->load($blog->category_id);
-			mosRedirect(joosRoute::href('blog_view', array('id' => $blog->id, 'cat_slug' => $blog_category->slug)));
+			joosRoute::redirect(joosRoute::href('blog_view', array('id' => $blog->id, 'cat_slug' => $blog_category->slug)));
 		};
 	}
 

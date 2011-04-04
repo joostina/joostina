@@ -169,15 +169,15 @@ class actionsCategories {
 			default:
 			case 0: // просто сохранение
 
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . $obj->get_link_suff(), 'Всё ок!');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . $obj->get_link_suff(), 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj->id . $obj->get_link_suff(), 'Всё ок, редактируем дальше');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj->id . $obj->get_link_suff(), 'Всё ок, редактируем дальше');
 				break;
 
 			case 2: // сохранить и добавить новое
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create' . $obj->get_link_suff(), 'Всё ок, создаём новое');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create' . $obj->get_link_suff(), 'Всё ок, создаём новое');
 				break;
 		}
 	}
@@ -216,7 +216,7 @@ class actionsCategories {
 		$action = $cats->insert_root_node(joosRequest::post('name'));
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Корень успешно создан!') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Корень успешно создан!') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 	public static function node_add() {
@@ -225,7 +225,7 @@ class actionsCategories {
 		$action = $cats->insertChildNode(joosRequest::post('name'), joosRequest::post('id'));
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Категория успешно добавлена') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Категория успешно добавлена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 	public static function node_del() {
@@ -241,7 +241,7 @@ class actionsCategories {
 
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Категория удалена') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Категория удалена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 	public static function node_move_up() {
@@ -253,7 +253,7 @@ class actionsCategories {
 
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Категория перемещена') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Категория перемещена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 	public static function node_move_down() {
@@ -263,7 +263,7 @@ class actionsCategories {
 		$action = $cats->move_down(joosRequest::get('id'));
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Категория перемещена') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Категория перемещена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 	public static function node_move_lft() {
@@ -274,7 +274,7 @@ class actionsCategories {
 
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Категория перемещена') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Категория перемещена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 	public static function node_move_rgt() {
@@ -284,7 +284,7 @@ class actionsCategories {
 		$action = $cats->move_rgt(joosRequest::get('id'));
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
-		$action === true ? mosRedirect($redirect, 'Категория перемещена') : mosRedirect($redirect, implode(' ', $cats->get_error()));
+		$action === true ? joosRoute::redirect($redirect, 'Категория перемещена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}
 
 }

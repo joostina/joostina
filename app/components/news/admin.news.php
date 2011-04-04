@@ -160,15 +160,15 @@ class actionsNews {
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
 				break;
 
 			case 2: // сохранить и добавить новое
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create', 'Всё ок, создаём новое');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create', 'Всё ок, создаём новое');
 				break;
 		}		
 				
@@ -219,10 +219,10 @@ class actionsNews {
 		$obj_data = new self::$model;
         
         if($obj_data->delete_array($cid, 'id')){
-            mosRedirect('index2.php?option=' . $option, 'Удалено успешно!');
+            joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!');
         } 
         else{
-            mosRedirect('index2.php?option=' . $option, 'Ошибка удаления');  
+            joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
         }  
 	}
 

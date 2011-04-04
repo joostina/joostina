@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('filemanager') ? mosRedirect('index2.php?', _NOT_AUTH) : null;
+Jacl::isDeny('filemanager') ? joosRoute::redirect('index2.php?', _NOT_AUTH) : null;
 
 require_once($mainframe->getPath('admin_html'));
 

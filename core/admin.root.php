@@ -54,13 +54,13 @@ class joosCoreAdmin {
 			session_destroy();
 
 			// return to site homepage
-			mosRedirect('index.php');
+			joosRoute::redirect('index.php');
 			exit();
 		}
 
 		// check if session name corresponds to correct format
 		if (session_name() != md5(JPATH_SITE)) {
-			mosRedirect(JPATH_SITE . '/' . JADMIN_BASE . '/');
+			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/');
 			exit();
 		}
 
@@ -78,7 +78,7 @@ class joosCoreAdmin {
 
 		if ($session_id != session_id()) {
 			// session id does not correspond to required session format
-			mosRedirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _YOU_NEED_TO_AUTH);
+			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _YOU_NEED_TO_AUTH);
 		}
 
 		// check to see if session id corresponds with correct format
@@ -111,7 +111,7 @@ class joosCoreAdmin {
 				if ($count == 0) {
 					setcookie(md5(JPATH_SITE));
 					// TODO тут можно сделать нормальную запоминалку последней активной страницы, и разных данных с неё. И записывать всё это как параметры пользователя в JSON
-					mosRedirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _ADMIN_SESSION_ENDED);
+					joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _ADMIN_SESSION_ENDED);
 				} else {
 					// load variables into session, used to help secure /popups/ functionality
 					$_SESSION['option'] = $option;
@@ -121,12 +121,12 @@ class joosCoreAdmin {
 		} elseif ($session_id == '') {
 			// no session_id as user has not attempted to login, or session.auto_start is switched on
 			if (ini_get('session.auto_start') || !ini_get('session.use_cookies')) {
-				mosRedirect(JPATH_SITE, _YOU_NEED_TO_AUTH_AND_FIX_PHP_INI);
+				joosRoute::redirect(JPATH_SITE, _YOU_NEED_TO_AUTH_AND_FIX_PHP_INI);
 			} else {
-				mosRedirect(JPATH_SITE, _YOU_NEED_TO_AUTH);
+				joosRoute::redirect(JPATH_SITE, _YOU_NEED_TO_AUTH);
 			}
 		} else {
-			mosRedirect(JPATH_SITE, _WRONG_USER_SESSION);
+			joosRoute::redirect(JPATH_SITE, _WRONG_USER_SESSION);
 			exit();
 		}
 

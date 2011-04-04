@@ -81,11 +81,11 @@ class actionsConfig {
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
 				break;
 		}
 	}

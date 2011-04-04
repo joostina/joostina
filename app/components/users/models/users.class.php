@@ -455,7 +455,7 @@ class User extends joosDBModel {
 			if (isset($params['return'])) {
 				return json_encode(array('error' => 'Такого пользователя нет'));
 			} else {
-				mosRedirect($return, 'Такого пользователя нет');
+				joosRoute::redirect($return, 'Такого пользователя нет');
 			}
 		}
 
@@ -464,7 +464,7 @@ class User extends joosDBModel {
 			if (isset($params['return'])) {
 				return json_encode(array('error' => _LOGIN_BLOCKED));
 			} else {
-				mosRedirect($return, _LOGIN_BLOCKED);
+				joosRoute::redirect($return, _LOGIN_BLOCKED);
 			}
 		}
 
@@ -473,7 +473,7 @@ class User extends joosDBModel {
 			if (isset($params['return'])) {
 				return json_encode(array('error' => _LOGIN_INCORRECT));
 			} else {
-				mosRedirect($return, _LOGIN_INCORRECT);
+				joosRoute::redirect($return, _LOGIN_INCORRECT);
 			}
 		}
 
@@ -521,7 +521,7 @@ class User extends joosDBModel {
 		if (isset($params['return'])) {
 			return json_encode(array('user' => $user));
 		} else {
-			mosRedirect($return);
+			joosRoute::redirect($return);
 		}
 	}
 

@@ -58,7 +58,7 @@ $my = joosCoreAdmin::init_session_admin($option, $task);
 joosLoader::lib('acl', 'system');
 // загружаем набор прав для панели управления
 Jacl::init_admipanel();
-Jacl::isAllowed('adminpanel') ? null : mosRedirect(JPATH_SITE_ADMIN, 'В доступе отказано');
+Jacl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
 
 // страница панели управления по умолчанию
 $option = $_REQUEST['option'] = ($option == '') ? 'admin' : $option;

@@ -94,11 +94,11 @@ class actionsMetainfo {
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&group=' . $group, 'Всё ок!');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&group=' . $group, 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return mosRedirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id . '&group=' . $group, 'Всё ок, редактируем дальше');
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id . '&group=' . $group, 'Всё ок, редактируем дальше');
 				break;
 		}
 	}
@@ -109,7 +109,7 @@ class actionsMetainfo {
 
 	public static function cancel($option) {
 		$group = joosRequest::request('group');
-		return mosRedirect('index2.php?option=' . $group);
+		return joosRoute::redirect('index2.php?option=' . $group);
 	}
 
 }

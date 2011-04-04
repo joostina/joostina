@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('linkeditor') ? mosRedirect('index2.php?', _NOT_AUTH) : null;
+Jacl::isDeny('linkeditor') ? joosRoute::redirect('index2.php?', _NOT_AUTH) : null;
 
 require_once ($mainframe->getPath('admin_html'));
 
@@ -27,7 +27,7 @@ switch($task) {
 		break;
 
 	case 'cancel':
-		mosRedirect("index2.php?option=com_linkeditor");
+		joosRoute::redirect("index2.php?option=com_linkeditor");
 		break;
 
 	case 'savelink':
@@ -63,7 +63,7 @@ function deleteLink(&$cid) {
 		}
 	}
 
-	mosRedirect('index2.php?option=com_linkeditor&amp;task=all',_MENU_ITEM_DELETED);
+	joosRoute::redirect('index2.php?option=com_linkeditor&amp;task=all',_MENU_ITEM_DELETED);
 
 }
 function saveOrder(&$cid) {
@@ -102,7 +102,7 @@ function saveOrder(&$cid) {
 	} // foreach
 
 	$msg = _NEW_ORDER_SAVED;
-	mosRedirect('index2.php?option=com_linkeditor',$msg);
+	joosRoute::redirect('index2.php?option=com_linkeditor',$msg);
 } // saveOrder
 
 function editLink($id = 0) {
@@ -223,7 +223,7 @@ function saveLink() {
 		echo "<script> alert('".$row->get_error()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	mosRedirect("index2.php?option=com_linkeditor",'Изменения сохранены');
+	joosRoute::redirect("index2.php?option=com_linkeditor",'Изменения сохранены');
 }
 
 function viewLinks() {

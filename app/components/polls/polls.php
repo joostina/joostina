@@ -21,19 +21,19 @@ class actionsPolls extends joosController {
 	public static function index() {
 		
 		if(!isset($_POST['question'])){
-			mosRedirect(JPATH_SITE, 'Нужно ответить на вопросы');
+			joosRoute::redirect(JPATH_SITE, 'Нужно ответить на вопросы');
 			return array();
 		}
 		
 		$poll = new Polls;
 		if(!$poll->load($_POST['poll_id'])){
-			mosRedirect(JPATH_SITE, 'Нет такого опроса');
+			joosRoute::redirect(JPATH_SITE, 'Нет такого опроса');
 			return array();
 		}
 		
 		$polls_users = new PollsUsers;
 		if($polls_users->already_vote($poll->id)){
-			mosRedirect(JPATH_SITE, 'Вы уже голосовали', 'error');
+			joosRoute::redirect(JPATH_SITE, 'Вы уже голосовали', 'error');
 			return array();
 		}
 		
@@ -44,12 +44,12 @@ class actionsPolls extends joosController {
 			$poll->total_users = $poll->total_users + 1;
 			$poll->store();
 			
-			mosRedirect('/polls/'.$poll->id, 'Ваш голос учтён!');
+			joosRoute::redirect('/polls/'.$poll->id, 'Ваш голос учтён!');
 			return array();
 			
 		}
 		else{
-			mosRedirect(JPATH_SITE, 'Что-то пошло не так(');
+			joosRoute::redirect(JPATH_SITE, 'Что-то пошло не так(');
 			return array();
 		}
 

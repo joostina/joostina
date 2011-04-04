@@ -26,7 +26,7 @@ class actionsContacts extends joosController {
 			$captcha_keystring = joosRequest::session('captcha_keystring');
 			if ($captcha_keystring != $captcha) {
 				unset($_SESSION['captcha_keystring']);
-				return mosRedirect('/contacts', 'Неправильный код проверки');
+				return joosRoute::redirect('/contacts', 'Неправильный код проверки');
 			}
 
 			self::send_email();
@@ -71,7 +71,7 @@ class actionsContacts extends joosController {
 
 		$r = mosMail($from, $fromname, $recipient, $subject, $body);
 
-		return $r ? mosRedirect(joosRoute::href('contacts'), 'Сообщение отправлено') : mosRedirect(joosRoute::href('contacts'), 'Ошибка при отправке');
+		return $r ? joosRoute::redirect(joosRoute::href('contacts'), 'Сообщение отправлено') : joosRoute::redirect(joosRoute::href('contacts'), 'Ошибка при отправке');
 	}
 
 }

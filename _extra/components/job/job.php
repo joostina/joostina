@@ -94,7 +94,7 @@ class actionsJob extends joosController {
 	public static function send_response() {
 
 		if(!$_POST){
-			mosRedirect(joosRoute::href('job'));
+			joosRoute::redirect(joosRoute::href('job'));
 		}
 
 		//Прикреплённый файл
@@ -107,7 +107,7 @@ class actionsJob extends joosController {
 			$_POST['resume'] = $file_path;
 		}
 		else{
-			return mosRedirect(joosRoute::href('job'), 'Необходимо прикрепить резюме');
+			return joosRoute::redirect(joosRoute::href('job'), 'Необходимо прикрепить резюме');
 		}
 
 		$job_resp = new JobResponses();
@@ -132,7 +132,7 @@ class actionsJob extends joosController {
 		//оправляем письмо
 		$r = mosMail(joosRequest::post('useremail'), joosRequest::post('username'), $recipient, $subject, $body);
 		
-		return $r ? mosRedirect(joosRoute::href('job'), 'Сообщение отправлено') : mosRedirect(joosRoute::href('job'), 'Ошибка при отправке');
+		return $r ? joosRoute::redirect(joosRoute::href('job'), 'Сообщение отправлено') : joosRoute::redirect(joosRoute::href('job'), 'Ошибка при отправке');
 
 	}
 	 

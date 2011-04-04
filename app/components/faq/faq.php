@@ -111,13 +111,13 @@ class actionsFaq extends joosController {
 	public static function send_question() {
 
 		if(!$_POST){
-			mosRedirect(joosRoute::href('faq'));
+			joosRoute::redirect(joosRoute::href('faq'));
 		}
 
 		$faq = new Faq();
 		$faq->save($_POST);
 
-		return  mosRedirect(joosRoute::href('faq'), 'Сообщение отправлено');
+		return  joosRoute::redirect(joosRoute::href('faq'), 'Сообщение отправлено');
 	}
 
 }

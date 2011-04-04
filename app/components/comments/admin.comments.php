@@ -74,7 +74,7 @@ class actionsComments {
 		$obj_data = new self::$model;
 		$obj_data->save($_POST);
 
-		$create_new ? mosRedirect('index2.php?option=' . $option . '&task=create', $obj_data->title . ', cохранено успешно!, Создаём новое') : mosRedirect('index2.php?option=' . $option, $obj_data->title . ', cохранено успешно!');
+		$create_new ? joosRoute::redirect('index2.php?option=' . $option . '&task=create', $obj_data->title . ', cохранено успешно!, Создаём новое') : joosRoute::redirect('index2.php?option=' . $option, $obj_data->title . ', cохранено успешно!');
 	}
 
 	public static function save_and_new($option) {
@@ -91,7 +91,7 @@ class actionsComments {
 		$cid = joosRequest::array_param('cid');
 
 		$obj_data = new self::$model;
-		$obj_data->delete_array($cid, 'id') ? mosRedirect('index2.php?option=' . $option, 'Удалено успешно!') : mosRedirect('index2.php?option=' . $option, 'Ошибка удаления');
+		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
 	}
 
 }

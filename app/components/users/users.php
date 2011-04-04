@@ -47,7 +47,7 @@ class actionsUsers extends joosController {
 		$user = new User;
 		$user->load_by_field('username', $username);
 
-		$user->id ? null : mosRedirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
+		$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
 
 		joosDocument::instance()
 				->set_page_title($user->username);
@@ -69,7 +69,7 @@ class actionsUsers extends joosController {
 		$user->load_by_field('username', $username);
 
 		if (User::current()->id != $user->id) {
-			mosRedirect(JPATH_SITE, 'Ай, ай!');
+			joosRoute::redirect(JPATH_SITE, 'Ай, ай!');
 		}
 
 		$validator = UserValidations::edit();
@@ -78,7 +78,7 @@ class actionsUsers extends joosController {
 
 			$user = new User;
 			$user->load($_POST['id']);
-			$user->id ? null : mosRedirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
+			$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
 
 			//смена пароля
 			$old_password = mosGetParam($_POST, 'password_old', '');
@@ -88,7 +88,7 @@ class actionsUsers extends joosController {
 				if (User::check_password($old_password, $user->password)) {
 					$_POST['password'] = User::prepare_password($new_password);
 				} else {
-					mosRedirect(joosRoute::href('user_view', array('username' => $user->username)), 'Неправильно введён пароль от аккаунта');
+					joosRoute::redirect(joosRoute::href('user_view', array('username' => $user->username)), 'Неправильно введён пароль от аккаунта');
 				}
 			}
 
@@ -103,7 +103,7 @@ class actionsUsers extends joosController {
 
 			$user_extra->save($_POST);
 
-			mosRedirect(joosRoute::href('user_view', array('username' => $user->username)), 'Данные успешно сохранены');
+			joosRoute::redirect(joosRoute::href('user_view', array('username' => $user->username)), 'Данные успешно сохранены');
 
 			return array(
 				'user' => $user,
@@ -111,7 +111,7 @@ class actionsUsers extends joosController {
 				'validator' => $validator
 			);
 		} else {
-			$user->id ? null : mosRedirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
+			$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
 
 			$user_extra = new UserExtra;
 			$user_extra->load($user->id);
@@ -154,11 +154,11 @@ class actionsUsers extends joosController {
 
 		$return = strval(mosGetParam($_REQUEST, 'return', null));
 		if ($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))) {
-			mosRedirect($return);
+			joosRoute::redirect($return);
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
-			mosRedirect($_SERVER['HTTP_REFERER']);
+			joosRoute::redirect($_SERVER['HTTP_REFERER']);
 		} else {
-			mosRedirect(JPATH_SITE);
+			joosRoute::redirect(JPATH_SITE);
 		}
 	}
 
@@ -214,7 +214,7 @@ class actionsUsers extends joosController {
 		if ($user->check($validator) && $user->save($_POST)) {
 			User::login($user->username, $_POST['password']);
 		} else {
-			mosRedirect(JPATH_SITE);
+			joosRoute::redirect(JPATH_SITE);
 			//userHTML::register($user, $validator);
 		}
 	}
@@ -237,7 +237,7 @@ class actionsUsers extends joosController {
 		$email = stripslashes(mosGetParam($_POST, 'email', ''));
 
 		if (!$email && !$username) {
-			mosRedirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Введите Имя пользователя или Email');
+			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Введите Имя пользователя или Email');
 		}
 
 		$user = new User;
@@ -253,7 +253,7 @@ class actionsUsers extends joosController {
 		$user->_db->set_query($query)->load_object($user);
 
 		if (!$user->id) {
-			mosRedirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Пользователь с указанными параметрами не найден');
+			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Пользователь с указанными параметрами не найден');
 		}
 
 		$confirmEmail = $user->email;
@@ -268,9 +268,9 @@ class actionsUsers extends joosController {
 		if (mosMail($mail['from'], $mail['name'], $confirmEmail, $subject, $message)) {
 			$user->password = $user->crypt_pass($newpass);
 			$user->save();
-			mosRedirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Новый пароль выслан вам на email');
+			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Новый пароль выслан вам на email');
 		} else {
-			mosRedirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Ошибка в процессе отправки сообщения. Попробуйте позже.');
+			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Ошибка в процессе отправки сообщения. Попробуйте позже.');
 		}
 	}
 

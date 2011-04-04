@@ -45,7 +45,7 @@ $session_id = strval(mosGetParam($_SESSION, 'session_id', ''));
 $logintime = strval(mosGetParam($_SESSION, 'session_logintime', ''));
 
 if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
-	mosRedirect('index2.php');
+	joosRoute::redirect('index2.php');
 	die();
 }
 
@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
 	$pass = joosRequest::post('pass', null);
 
 	if ($pass == null) {
-		mosRedirect(JPATH_SITE_ADMIN . '/', _PLEASE_ENTER_PASSWORDWORD);
+		joosRoute::redirect(JPATH_SITE_ADMIN . '/', _PLEASE_ENTER_PASSWORDWORD);
 		exit();
 	}
 
@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
 				$database->set_query($query)->query();
 			}
 
-			mosRedirect(JPATH_SITE_ADMIN . '/index.php', _BAD_USERNAME_OR_PASSWORDWORD);
+			joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', _BAD_USERNAME_OR_PASSWORDWORD);
 			exit();
 		}
 
@@ -125,12 +125,12 @@ if (isset($_POST['submit'])) {
 		$query = 'UPDATE #__users SET bad_auth_count = 0 WHERE id = ' . $my->id;
 		$database->set_query($query)->query();
 
-		/** cannot using mosredirect as this stuffs up the cookie in IIS */
+		/** cannot using joosRoute::redirect as this stuffs up the cookie in IIS */
 		// redirects page to admin homepage by default or expired page
 		echo "<script>document.location.href='$expired';</script>\n";
 		exit();
 	} else {
-		mosRedirect(JPATH_SITE_ADMIN . '/index.php?' . $config->config_admin_secure_code, _BAD_USERNAME_OR_PASSWORDWORD);
+		joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php?' . $config->config_admin_secure_code, _BAD_USERNAME_OR_PASSWORDWORD);
 		exit();
 	}
 } else {

@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('menumanager') ? mosRedirect('index2.php?', _NOT_AUTH) : null;
+Jacl::isDeny('menumanager') ? joosRoute::redirect('index2.php?', _NOT_AUTH) : null;
 
 require_once ($mainframe->getPath('admin_html'));
 
@@ -271,7 +271,7 @@ function saveMenu() {
 			break;
 	}
 
-	mosRedirect('index2.php?option=com_menumanager', $msg);
+	joosRoute::redirect('index2.php?option=com_menumanager', $msg);
 }
 
 function deleteConfirm($option, $type) {
@@ -359,7 +359,7 @@ function deleteMenu($option, $cid, $type) {
 	}
 
 	$msg = _MENU_DELETED;
-	mosRedirect('index2.php?option=' . $option, $msg);
+	joosRoute::redirect('index2.php?option=' . $option, $msg);
 }
 
 function copyConfirm($option, $type) {
@@ -444,9 +444,9 @@ function copyMenu($option, $cid, $type) {
 
 
 	$msg = _MENU_COPY_FINISHED . ' `' . $type . '`' . _MENU_COPY_FINISHED_ITEMS . $total;
-	mosRedirect('index2.php?option=' . $option, $msg);
+	joosRoute::redirect('index2.php?option=' . $option, $msg);
 }
 
 function cancelMenu($option) {
-	mosRedirect('index2.php?option=' . $option . '&task=view');
+	joosRoute::redirect('index2.php?option=' . $option . '&task=view');
 }

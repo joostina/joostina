@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('sqldump') ? mosRedirect('index2.php?', _NOT_AUTH) : null;
+Jacl::isDeny('sqldump') ? joosRoute::redirect('index2.php?', _NOT_AUTH) : null;
 
 joosLoader::lib('joiadmin', 'system');
 JoiAdmin::dispatch();
