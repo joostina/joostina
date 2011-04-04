@@ -188,15 +188,15 @@ class joosPagenator {
 		return $html;
 	}
 
-	function writeLimitBox() {
+	function write_limit_box() {
 		echo joosPagenator::get_limit_box();
 	}
 
-	function writePagesCounter() {
-		echo $this->getPagesCounter();
+	function write_pages_counter() {
+		echo $this->get_pages_counter();
 	}
 
-	function getPagesCounter() {
+	function get_pages_counter() {
 		$html = '';
 		$from_result = $this->limitstart + 1;
 		if ($this->limitstart + $this->limit < $this->total) {
@@ -212,11 +212,11 @@ class joosPagenator {
 		return '' . $html;
 	}
 
-	function writePagesLinks() {
-		echo $this->getPagesLinks();
+	function write_pages_links() {
+		echo $this->get_pages_links();
 	}
 
-	function getPagesLinks() {
+	function get_pages_links() {
 		$html = '';
 		$displayed_pages = 10;
 		$total_pages = ceil($this->total / $this->limit);
@@ -259,18 +259,18 @@ class joosPagenator {
 		return $html;
 	}
 
-	function getListFooter() {
+	function get_list_footer() {
 		$html = '<div class="adminpaginator">';
-		$html .= '<div class="adminpaginator_pages_counter"><span class="ap-pagescount">' . $this->getPagesCounter() . '</span>' . $this->get_limit_box() . '</div><div class="ap-pages">' . $this->getPagesLinks() . '</div>';
+		$html .= '<div class="adminpaginator_pages_counter"><span class="ap-pagescount">' . $this->get_pages_counter() . '</span>' . $this->get_limit_box() . '</div><div class="ap-pages">' . $this->get_pages_links() . '</div>';
 		$html .= '</div>';
 		return $html;
 	}
 
-	function rowNumber($i) {
+	function row_number($i) {
 		return $i + 1 + $this->limitstart;
 	}
 
-	function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = _PN_MOVE_TOP) {
+	function order_up_icon($i, $condition = true, $task = 'orderup', $alt = _PN_MOVE_TOP) {
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb' . $i . '\',\'' . $task . '\')" title="' . $alt . '"><img src="' . joosConfig::get('admin_icons_path') . 'uparrow.png" width="12" height="12" border="0" alt="' . $alt . '" /></a>';
 		} else {
@@ -278,7 +278,7 @@ class joosPagenator {
 		}
 	}
 
-	function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt =_PN_MOVE_DOWN) {
+	function order_down_icon($i, $n, $condition = true, $task = 'orderdown', $alt =_PN_MOVE_DOWN) {
 		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb' . $i . '\',\'' . $task . '\')" title="' . $alt . '"><img src="' . joosConfig::get('admin_icons_path') . 'downarrow.png" width="12" height="12" border="0" alt="' . $alt . '" /></a>';
 		} else {
@@ -286,7 +286,7 @@ class joosPagenator {
 		}
 	}
 
-	function orderUpIcon2($id, $order) {
+	function order_up_icon2($id, $order) {
 		if ($order == 0) {
 			$img = 'uparrow.png';
 			$show = true;
@@ -309,7 +309,7 @@ class joosPagenator {
 		}
 	}
 
-	function orderDownIcon2($id, $order) {
+	function order_down_icon2($id, $order) {
 
 		if ($order == 0) {
 			$img = 'downarrow.png';

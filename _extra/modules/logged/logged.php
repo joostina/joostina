@@ -59,7 +59,7 @@ $rows = $database->load_object_list();
 		}
 		?>
 		<tr class="row<?php echo $k; ?>">
-			<td width="5%"><?php echo $pageNav->rowNumber($i); ?></td>
+			<td width="5%"><?php echo $pageNav->row_number($i); ?></td>
 			<td width="60%"><?php echo $name; ?></td>
 			<td><?php echo $row->usertype; ?></td>
 			<?php
@@ -79,5 +79,5 @@ $rows = $database->load_object_list();
 	}
 	?>
 </table>
-<?php echo $pageNav->getListFooter(); ?>
+<?php echo $pageNav->get_list_footer(); ?>
 <input type="hidden" name="option" value="" />

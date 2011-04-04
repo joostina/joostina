@@ -253,7 +253,7 @@ class JoiAdmin {
 		}
 
 		echo '</tr></table>' . "\n";
-		echo $pagenav->getListFooter();
+		echo $pagenav->get_list_footer();
 		echo "\n";
 		echo self::footer();
 
