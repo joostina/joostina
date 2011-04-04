@@ -1,0 +1,285 @@
+/*-----------------------------------------------------------------------1. Стандартные модули */
+/*-----------------------------------------1.1 Авторизация */
+#login_area{
+	float: left;
+	position: relative;
+}
+.m-autorization_login,
+.m-autorization_logout{
+
+}
+
+		.m-auto_enter,
+		.m-auto_logout{
+			color: #000;
+			cursor: pointer;
+			font: italic 18px/24px 'Georgia';
+			background: url(../images/elements/login.png) left no-repeat;
+			padding: 0 0 0 25px;
+			margin: 20px 0 0 -10px;
+		}
+		.m-auto_enter{
+		
+		}
+			.m-auto_login{
+				cursor: pointer;
+				border-bottom: 1px dashed #000;
+			}
+			.m-auto_reg{
+				cursor: pointer;
+				border-bottom: 1px dashed #000;
+			}
+	.m-auto_formwrap{
+		display: none;
+		position: absolute;
+		top: 50px;
+		right: 0;
+		z-index: 10000;
+		width: 300px;
+		overflow: hidden;
+		padding: 15px;
+		-moz-border-radius: 12px; /* FF1+ */
+		-webkit-border-radius: 12px; /* Saf3-4 */
+		border-radius: 12px; /* Opera 10.5, IE9, Saf5, Chrome */
+		-webkit-box-shadow: 1px 1px 8px #939393;
+		-moz-box-shadow: 1px 1px 8px #939393;
+		box-shadow: 1px 1px 8px #000;
+
+		background: #EFEFEF;	
+		
+	}
+		.m-auto_formwrap.g-active{
+			display: block;	
+		}
+		.m-auto_formwrap dl{
+			color: #000;
+
+			padding: 0 8px 5px 8px;		
+			display: block;
+			margin: 0 0 6px 0;
+			position: relative;
+		}
+			.m-auto_formwrap dl dt{
+				padding: 0;
+				margin: 0;
+				text-align: left;
+			}
+			.m-auto_formwrap dl dd{
+		
+				padding: 0;
+				margin: 0;
+				clear: both;
+				float: none;
+			}
+		.m-auto_formwrap fieldset{
+			padding: 0;
+			margin: 0;
+			border: none;
+		}
+		.m-auto_formwrap input{
+			width: 95%;
+			background: #EBEAEA;
+			padding: 6px;
+			font-size: 16px;
+		}
+		.m-auto_formwrap button{
+			margin: 0 0 0 10px
+		}
+
+
+		#m-auto_login{
+
+		}
+		
+		#m-auto_reg{
+
+		}
+		#m-auto_logout{
+			padding: 0;
+		}
+.m-autorization_login.g-active{
+	font-weight: normal;
+}
+	.m-autorization_login.g-active .m-auto_formwrap{
+		display: block;
+	}
+
+#logout_button{
+	margin: -3px 0 0 10px;
+	float: right;
+}
+.m-auto_greeting{
+	float: left;
+}
+.m-auto_formwrap div.error{
+	position: absolute;
+	top: -6px;
+	right: 10px;
+}
+
+.m-auto_formwrap .close{
+	float: right;
+	cursor: pointer;
+	font-size: 24px;
+}
+
+
+
+/*-----------------------------------------1.3 Новости */
+.m-news{
+	overflow: hidden;
+	margin: 0 0 20px -20px;	
+	font: italic 18px/24px 'Georgia';
+}
+	.m-news li{
+		width: 50%;
+		float: left;
+		padding: 10px 0 10px 0 !important; margin: 0 !important;	
+	}
+		.m-news .el-date{
+			font: italic 24px/28px 'Georgia';
+			padding: 0 0 0 20px;
+		}
+			.m-news .el-date em{
+				font-size: 30px;
+			}	
+	.m-news_all{
+		color: #000;
+		font-size: 12px;
+		padding: 0 0 0 20px;
+	}	
+		
+/*-----------------------------------------1.4 новое в блоге */
+.m-blog{
+
+}
+	.m-blog ul {
+		margin: 0 -20px !important;
+	}
+		.m-blog ul li{
+			padding: 10px 20px !important;
+		}
+		.m-blog a{
+			color: #000;
+			background: none;
+			padding: 0;
+		}
+		.m-blog_link{
+			font-size: 16px;
+			display: block;
+		}
+		.m-blog .el-comments_big{
+			float: right;
+		}
+		.m-blog .el-user{
+			color: #717171;
+		}
+
+			
+			
+			
+			
+/*-----------------------------------------Загрузчик файлов */			
+	.qq-uploader { 
+		position:relative; 
+		width: 100%;
+		}
+	
+		.qq-upload-drop-area {
+		    position:absolute; 
+			top:0; 
+			left:0;
+			width:100%; 
+			height:100%; 
+			min-height: 70px; 
+			z-index:2;
+		    background:#FF9797; 
+			text-align:center; 
+		}
+			.qq-upload-drop-area span {
+			    display:block; 
+				position:absolute; 
+				top: 50%; 
+				width:100%; 
+				margin-top:-8px; 
+				font-size:16px;
+			}
+			.qq-upload-drop-area-active {
+				background:#FF7171;
+			}
+	
+	.qq-upload-list {
+		display: block;
+		clear: both;
+		overflow: hidden;
+		
+		margin: 0 0 0 10px; 
+		padding: 10px 0 0 0; 
+		list-style:disc;
+	}
+		.qq-upload-list li { 
+			margin:0; 
+			padding:0; 
+			line-height:15px; 
+			font-size:12px;
+		}
+		
+		
+	.qq-upload-file, 
+	.qq-upload-spinner, 
+	.qq-upload-size, 
+	.qq-upload-cancel, 
+	.qq-upload-failed-text {
+	    margin-right: 7px;
+	}
+	
+	.qq-upload-file {}
+	.qq-upload-spinner {
+		display:inline-block; 
+		background: url(../images/elements/loader.gif) left no-repeat;
+		width:15px; 
+		height:15px; 
+		vertical-align:text-bottom;
+	}
+	.qq-upload-size,.qq-upload-cancel {
+		font-size:11px;
+		}
+	
+	.qq-upload-failed-text {
+		display:none;
+		}
+	.qq-upload-fail .qq-upload-failed-text {
+		display:inline;
+	}
+	
+	
+/*
+*  ----------------------------------------------------Notify Bar - jQuery plugin*
+*/
+.jquery-notify-bar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 32768;
+    background: url(../images/layouts/bg-op_dark.png) top left repeat ;
+    color: #F7DC98;
+    text-align: center;
+
+    height: 40px !important;
+    vertical-align: middle;
+    line-height: 40px;
+    font-size: 18px !important;
+    border-bottom: 1px solid #000;
+}
+.jquery-notify-bar.error {
+    color: #F27522 !important;
+}
+.jquery-notify-bar.success {
+    color: #90CF4C;
+}
+.notify-bar-close {
+    position: absolute;
+    left: 95%;
+    font-size: 11px;
+}				

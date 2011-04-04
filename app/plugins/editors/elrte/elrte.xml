@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="2.0.0" type="plugin" group="editors">
+	<name>elRTE</name>
+	<version>1.0</version>
+	<creationDate>Август 2010</creationDate>
+	<author></author>
+	<authorEmail>dev@std42.ru</authorEmail>
+	<authorUrl>http://elrte.org</authorUrl>
+	<copyright>http://elrte.org</copyright>
+	<license>3-clauses BSD license</license>
+	<documentation>http://elrte.org/redmine/wiki/elrte</documentation>
+	<description>Визуальный редактор elRTE.</description>
+	<files>
+		<filename plugin="elrte">elrte.php</filename>
+	</files>
+</install>

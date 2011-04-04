@@ -1,0 +1,190 @@
+/*Выпадающее меню*/
+/*----------------------------------------Первый уровень*/
+ul.dropdown {
+    margin: 0; 
+    padding: 0;
+    position: relative; 
+    z-index: 597;
+}
+	ul.dropdown li{
+	    display: block; 
+	    float: left; 
+	}
+	ul.dropdown li:hover {
+	    cursor: default; 
+	    position: relative; 
+	    z-index: 599;
+	}
+	ul.dropdown a{
+		display: block; 
+		font-weight: normal; 
+		padding: 0; 
+		text-align: center; 
+	}
+	ul.dropdown li:hover > *.parent, 
+	ul.dropdown li:hover > *.parent a, 
+	ul.dropdown2 li:hover > *.parent a{
+	    text-decoration: none;
+	}
+	ul.dropdown  span{
+	    display: block; 
+	}
+	ul.dropdown  span.parent{
+    	
+	}
+
+
+/*----------------------------------------Второй уровень*/
+ul.dropdown li:hover > ul {
+    visibility: visible;
+}	
+ul.dropdown2 {
+    left: 0; 
+    position: absolute; 
+    top: 100%; 
+    visibility: hidden;
+    z-index: 598;
+    margin: 0; 
+	padding: 0;
+	border-right: 1px solid #CCC;
+}
+	ul.dropdown2 li {
+ 	    display: block; 
+	    float: none; 
+	    margin: 0; 
+	    padding: 0; 
+	    text-align: left;	    
+	}
+	ul.dropdown2 li:hover {
+
+	}
+		ul.dropdown2 span{
+		    background: none; 
+		    padding: 0 10px 3px 10px; 
+		    text-align: left;
+		}
+			ul.dropdown2 a{
+			    display: block; 
+			    padding: 0; 
+			    text-align: left; 
+			}
+			ul.dropdown2 a:hover{
+			    
+			}
+			
+/*----------------------------------------Третий уровень*/
+ul.dropdown2 li:hover > ul {
+    visibility: visible;
+}	
+ul.dropdown3 {
+    left: 180px; 
+    position: absolute; 
+    top: 0; 
+    visibility: hidden; 
+    z-index: 599;
+    margin: -1px 0 0 0 !important; 
+	padding: 0 !important;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	overflow: hidden;
+}
+	
+/*------------------------------------------------Изменяемые стили*/
+
+/*Первый уровень*/
+ul.dropdown{
+	margin: 12px 0 0 0;
+	float: left
+}
+ul.dropdown li{
+     height: 25px; 
+     line-height: 20px; 
+     margin: 0 0 0 0;
+     font-size: 13px;
+     padding: 0 10px 0 10px;
+     border-right: 1px solid #D6D6D6;
+}
+	ul.dropdown li a{
+		color: #6D6D6D;
+		text-decoration: none;
+		text-shadow: 0 1px 0 #FFFFFF;
+		font-family: 'Georgia';
+		font-size: 16px;
+		font-style: italic;		
+	}
+	ul.dropdown li:hover,
+	ul.dropdown li.active{
+		background: #EDEDED;
+		-webkit-border-top-left-radius: 6px;
+		-webkit-border-top-right-radius: 6px;
+		-moz-border-radius-topleft: 6px;
+		-moz-border-radius-topright: 6px;
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+		ul.dropdown li.active a,
+		ul.dropdown li:hover a{
+			color: #000;	
+		}
+		
+	
+ul.dropdown li:hover > *.parent, 
+ul.dropdown li:hover > *.parent a, 
+ul.dropdown2 li:hover > *.parent a{
+
+}
+ul.dropdown  span.parent{
+    	/*padding: 0 0 0 13px !important;
+    	background: url(../images/layouts/sprite.png) 0 -80px no-repeat ;*/
+}
+ul.dropdown  span.parent:hover,
+ul.dropdown li.active span.parent,
+ul.dropdown li:hover span.parent  {
+	background-position: 0 -103px;
+}
+/*Второй уровень*/
+ul.dropdown2{ 
+	background: #D8D8D8;
+}
+ul.dropdown2 li {
+  		background: #EDEDED; 
+ 	    border-bottom: 1px solid #B7B7B7; 
+ 	    border-top: 1px solid #fff; 
+	    width: 180px; 
+	    min-height: 27px;
+		height: auto; 
+		margin: 0 !important;
+
+}
+ul.dropdown2 li:hover {
+	    background:#E2E2E2 !important; 
+ 	    border-top: 1px solid #F7F7F7 !important;
+		-webkit-border-top-left-radius: 0px;
+		-webkit-border-top-right-radius: 0px;
+		-moz-border-radius-topleft: 0px;
+		-moz-border-radius-topright: 0px;
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+}
+	ul.dropdown2 li span{
+	margin: 3px 0 0 0 !important;	
+	}
+	ul.dropdown2 li.sep,
+	ul.dropdown2 li.sep:hover{
+		background:#D8D8D8 !important;
+		border-top: 1px solid #B7B7B7!important; 
+			
+	}
+	ul.dropdown2 li.sep span{
+		
+	}
+	
+		ul.dropdown2 li a{
+		    color: #D5CBAC; 
+ 		    font-size: 11px; 
+		    text-decoration: none;
+		}
+		ul.dropdown2 a:hover{
+		    color: #D5D5D5;
+ 		}
+

@@ -1,0 +1,370 @@
+@import 'up.css';
+@import 'core.css';
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>1.Раскладка*/
+html{
+	padding: 0 20px;
+	background: url(../images/layouts/bg.jpg) top left repeat;	
+}
+body{
+	
+	min-width: 1050px;
+
+}
+
+.wrapper{
+	padding: 0 50px;
+}	
+#main_wrap{	
+	width: 100%;
+	max-width: 1350px;
+	min-width: 1000px;
+	margin: 0 auto;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	background: url(../images/layouts/top.jpg) top left no-repeat;
+	border-right: 1px solid #000;
+	border-left: 1px solid #000;		
+}
+/*---3.1 Шапка сайта*/
+#header {
+	
+}
+	#top{
+		height: 70px;
+	}
+		.logo{
+			background: url(../images/layouts/logo.png) top left no-repeat;	
+			width: 250px;
+			height: 58px;
+			text-decoration: none;
+			cursor: pointer;
+			display: block;
+			float: left;
+			margin: 5px 0 0 0;
+		}
+
+
+/*---3.2 Контент и сайдбар*/
+#content_wrap {
+	padding: 0 70px 25px 70px;
+	height: 1%;
+	background: url(../images/layouts/content_bg.jpg) top center repeat-y;
+	clear: both;	
+}
+#content_wrap:after {
+	content: '.';
+	display: block;
+	clear: both;
+	visibility: hidden;
+	height: 0;
+}
+	/*----3.2.1 Страница с содержимым (область вывода компонента)*/
+	.container {
+		width: 100%;
+		float: left;
+	}			
+		#content{
+			padding: 0 340px 0 0;	
+		}
+			#component{
+				padding: 0 50px 0 0;
+			}
+
+		/*----3.2.2 Сайдбар*/
+		#sidebar{
+			float: left;
+			margin: 25px -3px 0 -340px;
+			width: 340px;
+			position: relative;	
+			background: url(../images/layouts/sidebar.png) top left repeat-y;
+
+		}
+			#sidebar_content{
+				padding: 30px 40px;	
+			}
+			
+.right_part{
+	width: 340px;
+	float:  right;
+}
+
+#bottom{
+	height: 475px;
+	background: url(../images/layouts/bottom.png) top left repeat-y;
+	clear: both;
+}
+	
+/*---3.3 Подвал*/
+#footer {
+	margin: -100px auto 0;
+	height: 100px;
+	overflow: hidden;
+	background: url(../images/layouts/bg.jpg) top left repeat;
+}
+
+
+a.button_big{
+	display: block;
+	height: 49px;
+	line-height: 44px;
+	width: 258px;	
+	background: url(../images/layouts/big_button.png) top left no-repeat;
+	font-size: 20px !important;
+	color: #000 !important;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 0 0 0 15px;
+}
+
+/*------------------------------------------------------------------------------------- 2.Модули*/
+/*-----------------------------------------1.2 Верхнее меню */
+.topmenu{
+	clear: both;
+	background: url(../images/layouts/nav_bg.png) top left  repeat-x;
+	float: left;
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+}
+
+/*-----------------------------------------1.3 Промо-блок */
+#promo{
+	clear: both;
+	float: left;
+	width: 100%;
+	background: url(../images/layouts/promo.jpg) top left no-repeat;
+	height: 335px;	
+	border-bottom: 1px solid #FFF;
+}
+	#promo_scrinshots{
+		position: relative;	
+		margin: 0 400px 0 0;
+	}
+		#play_scrinshots{
+			position: absolute;
+			top: -20px;
+			width: 98%;
+		}
+			#play_scrinshots img{
+				width: 100%;
+				min-width: 700px;	
+			}
+	#promo_text{
+		float: right;
+		color: #f2f2f2;
+		font-size: 24px;
+		padding: 40px 0 0 0;
+	}
+		.promo-download{
+			background: url(../images/layouts/promo_download.png) top left no-repeat;
+			margin: 10px 0 0 -5px;	
+			height: 60px;
+		}
+		.promo-download:hover{
+			background: url(../images/layouts/promo_download-h.png) top left no-repeat;
+		}		
+			.promo-download a{
+				display: block;
+				float: left;
+				text-decoration: none;
+				cursor: pointer;
+				width: 100px;
+				height: 55px;
+				line-height: 55px;
+				margin: 0 20px 0 50px;
+				font-size: 24px !important;
+				text-shadow: 0 1px 0 #FFFFFF;
+				color: #000 !important;
+	
+			}
+			.promo-download span{
+				font-size: 11px;
+				line-height: 11px;
+				color: #BBC7D5;	
+			}	
+	
+	
+	.inside #promo_text{
+		padding: 0px 20px 0 0;
+		margin: 0 20px 30px 0;
+		float: none;		
+	}
+		#promo_text ul{
+			padding: 0 0 15px 0;	
+		}
+			#promo_text ul li{
+				line-height: 32px;
+				padding: 0 0 0 15px;	
+			}
+		#promo_text a{
+			font-size: 11px;
+			color: inherit;	
+		}
+			#changelog{
+				padding: 0 0 0 15px;
+				margin: 2px 0 0 0;
+				display: block;
+			}
+
+
+/*-----------------------------------------1.4 О проекте */
+.m-about{
+	margin: 50px 0 0 0;
+}
+
+/*-----------------------------------------1.4 Сайты */
+.m-sites{
+	overflow: hidden;
+	padding: 20px 0 0 0;
+	width: 800px;
+	float: left
+
+}
+
+	.m-sites_list{
+	 
+		margin: 20px 50px 0 0 !important;
+		padding: 10px;	
+		position: relative;
+		height: 180px;
+		width: 900px;
+	}
+		.m-sites_list li{
+			padding: 0 !important;
+			display: block;
+	 
+			width: 220px;
+			height: 177px;
+ 
+			-webkit-box-shadow: 0px 1px 6px ;
+			-moz-box-shadow: 0px 1px 6px ;
+			box-shadow: 0px 1px 6px ; 	
+			
+			position: absolute;	
+
+					
+		}
+		.m-sites_list a{
+	
+			
+		}
+		
+			.m-sites_list li img{
+				border: 1px solid #DADADA
+			
+			}
+			
+			
+	.m-sites_list_small{
+	 
+		margin: 20px 50px 0 0 !important;
+		padding: 10px;	
+
+	}
+		.m-sites_list_small li{
+			padding: 0 !important;
+			display: block;
+	 		float: left;
+ 			margin: 0 10px 0 0 !important;
+			 width: 80px;
+			height: 67px;
+ 
+			-webkit-box-shadow: 0px 1px 6px ;
+			-moz-box-shadow: 0px 1px 6px ;
+			box-shadow: 0px 1px 6px ; 	
+
+					
+		}
+		.m-sites_list_small a{
+	
+			
+		}
+		
+			.m-sites_list_small li img{
+				border: 1px solid #DADADA;
+				width: 80px;
+			
+			}			
+
+
+.m-ext{
+	margin: 20px 0 0 0;
+
+}
+	.m-ext li{
+ 
+	}
+		.m-ext li img{
+			
+			-moz-border-radius: 12px; /* FF1+ */
+			-webkit-border-radius: 12px; /* Saf3-4, iOS 1+, Android 1.5+ */
+			border-radius: 12px; /* Opera 10.5, IE9, Saf5, Chrome */
+			border: 10px solid #C7CAD1;
+
+		}
+/*-----------------------------------------1.10 Модули в футере */
+/*-----------------------------------------1.4 Социальности */
+.m-soc{
+	overflow: hidden;
+	height: 188px;
+	float: left;
+}
+
+	.m-soc_list{
+		float: left;
+		overflow: hidden;
+		margin: 20px 50px 0 30px !important;
+		width: 360px;	
+	}
+		.m-soc_list_item{
+			background: url(../images/layouts/sep_hor_dark.png) left bottom repeat-x;
+			padding: 13px 0 0 0 !important;
+			margin: 5px 0 5px 0!important;
+			display: block;
+			overflow: hidden;
+			width: 180px;
+			height: 60px;
+			float: left;
+					
+		}
+		.m-soc_item_link{
+			color: #C4C6C5;	
+			text-decoration: none;
+		}
+			.m-soc_item_img{
+				border: 4px solid #484D51;
+				float: left;
+				margin: 0 10px 0 0;	
+			}
+			.m-soc_item_title{
+				text-decoration: underline;
+				color: #C4C6C5;
+				display: block;
+					
+			}
+			.m-soc_item_text{
+				text-decoration: none;
+				font-size: 11px;	
+			}
+
+/*---------------------1.10.3 Заказ и копирайты */
+.b-copyrights{
+	float: right;
+	padding: 30px 100px 0 0;
+	color: #8E8E8C;	
+	font-size: 11px;
+	text-align: center;
+}
+	#email_us{
+		width: 176px;
+		height: 44px;
+		display: block;
+		text-decoration: none;
+		cursor: pointer;
+		text-indent: -1000px;
+		overflow: hidden;
+		background: url(../images/layouts/send_button.png) left top  no-repeat;
+		margin: 0 0 12px 0;
+	}
+

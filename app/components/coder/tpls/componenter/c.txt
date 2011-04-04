@@ -1,0 +1,103 @@
+<?php
+/**
+ * %1$s - %3$s
+ * Фронтенд-контроллер
+ *
+ * @version 1.0
+ * @package Joostina.Components
+ * @subpackage %1$s
+ * @author %4$s <%5$s>
+ * @copyright (C) 2008-2011 %4$s
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ **/
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
+class actionsNews extends joosController {
+
+	/**
+	 * Cтартовый метод, запускается до вызова основного метода контроллера
+	 */
+	public static function on_start($active_task) {
+		
+		//Модель компонента
+		joosLoader::model('%2$s');
+		
+		//Хлебные крошки
+		Jbreadcrumbs::instance()
+				->add('%6$s', $active_task == 'index' ? false : joosRoute::href('%2$s'));
+				
+		//Метаинформация страницы
+		Metainfo::set_meta('%2$s', '', '', array('title'=>'%6$s'));
+	}
+
+	/**
+	 * Главная страница компонента
+	 */
+	public static function index() {
+
+		$page = isset(self::$param['page']) ? self::$param['page'] : 0;
+
+		// формируем объект
+		$%2$s = new %1$s();
+
+		// число записей
+		$count = $%2$s->count();
+
+		// подключаем библиотеку постраничной навигации
+		joosLoader::lib('pager', 'utils');
+		$pager = new Pager(joosRoute::href('%2$s'), $count, 5);
+		$pager->paginate($page);
+
+		// опубликованные записи
+		$items = $%2$s->get_list(
+			array(	'select' => '*',
+					'offset' => $pager->offset,
+					'limit' => $pager->limit,
+					'order' => 'id DESC', // сначала последние
+			)
+		);
+
+		return array(
+			'items' => $items,
+			'pager' => $pager
+		);
+	}
+
+	/**
+	 * Просмотр записи
+	 */
+	public static function view() {
+
+		// номер просматриваемой записи
+		$id = self::$param['id'];
+
+		// формируем и загружаем просматриваемую запись
+		$item = new %1$s;
+		$item->load($id) ? null : self::error404();
+
+		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
+		if (self::$error) {
+			return;
+		}
+
+		//Метаинформация страницы
+		Metainfo::set_meta('%2$s', 'item', $item->id, array('title'=>$item->title));
+
+		return array(
+			'item' => $item
+		);
+	}
+	
+	/**
+	 * Создание/редактирование записи
+	 */	
+	 
+	 
+	/**
+	 * Просмотр по категориям
+	 */		 
+
+}

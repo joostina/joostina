@@ -1,0 +1,22 @@
+body {
+	padding: 0px;
+	font-family: Arial, Helvetica, "Sans Serif";
+	font-size: 11px;
+	color: #cccccc;
+	background: #000000;
+}
+.err {
+	color: #bbb;
+}
+#footer_off {
+	position: absolute;
+	bottom: 0;
+	padding-top: 10px;
+	width: 100%;
+	background: url(../../administrator/templates/joostfree/images/bg.png) repeat-x;
+	background-color: #dedede;
+	margin-top: 0px;
+	height: 32px;
+	height: 32px !important;
+	color: #000;
+}

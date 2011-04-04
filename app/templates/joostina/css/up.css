@@ -1,0 +1,856 @@
+/**
+* @package UpCSS
+* @version 0.1
+* @author Ирина Чернова <megazaisl@gmail.com>
+*/
+
+/**
+* @section import
+*/
+@import 'css3/css3.css';
+@import 'navigation/dropdown.css';
+
+
+@charset "utf-8";
+
+/**
+* @section reset
+* @link http://meyerweb.com/eric/tools/css/reset/
+* @link http://developer.yahoo.com/yui/reset/
+*//* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>1.Сброс стилей */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+ol, ul, li, dl, dt, dd,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+html {
+	height: 100%;
+	background: #E5E5E5;
+}
+body {
+	font: 14px/20px Tahoma, Verdana, sans-serif;
+	width: 100%;
+	min-height: 100%;
+}
+h1,h2,h3,h4,h5,h6, .module_title {  
+	font-weight: normal;  
+	font-size: 100%;  
+} 
+:focus {
+	outline: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+caption,th,td {
+	text-align:left;
+}
+
+a {
+	color: #255F8B;
+	outline: none;
+	text-decoration: underline;
+}
+a:hover {
+	text-decoration: none;
+}
+p {
+	margin: 0 0 18px
+}
+img, a img, fieldset, abbr,acronym {
+	border: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+form label {  
+	cursor: pointer;  
+}
+input, select, button {
+	vertical-align: middle;
+}
+select[size] {
+    vertical-align: top;
+}
+textarea {
+    vertical-align: top;
+}
+input, select, textarea {  
+	font-size: 100%;  
+	font-family: inherit;  
+}
+input[type=checkbox], input[type=radio] {
+    vertical-align: top;
+}
+
+/**
+* @section base
+*//*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2.Настройка базовых стилей 
+
+/**
+* @subsection base-headers
+*//*------------------------------------------------------------2.1 Заголовки*/
+h1,h2,h3,h4,h5,h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	margin: 0 0 10px;
+	font-family: 'Georgia', sans-serif;
+	font-style: italic;
+	display: block;
+	color: #000;
+	text-decoration: none;
+}
+			
+
+h1, .h1{
+	font-size:40px;
+	line-height:43px;	
+}
+h2, .h2{
+	font-size:30px;
+	line-height:33px;	
+}
+	h2.title {
+		margin:30px 0 20px -25px;
+		}	
+	
+		h2.title:before {
+			padding:0 10px 0 0;
+			content:'\00A7'; /* &sect; */
+			}
+
+h3, .h3{
+	font-size:24px;
+	line-height:30px;
+	
+}
+h4, .h4{
+	font-size:18px;
+	line-height:21px;
+	
+}
+h5, .h5{
+	font-size:17px;
+	line-height:20px;
+	
+}
+h6, .h6{
+	font-size:14px;
+	line-height:17px;	
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a{
+
+}
+
+.title-page{
+	font-size: 28px;
+
+	margin: 0 0 60px 0;
+}
+
+/**
+* @subsection base-links
+*//*------------------------------------------------------------2.2 Ссылки*/		
+a{
+	
+}
+a:hover{
+	
+}
+a:visited{
+	
+}
+/*Внешние ссылки*/
+a[rel=external]{
+    background: url(../images/elements/external.png) right no-repeat;
+    padding: 0 12px 0 0;
+}
+/*Внутренние ссылки, открывающиеся в новом окне*/
+a[rel=newtab]{
+    background: url(../images/elements/newtab.png) right no-repeat;
+    padding: 0 12px 0 0;	
+}
+
+/**
+* @subsection base-forms
+* @link http://www.uxmatters.com/mt/archives/2006/07/label-placement-in-forms.php
+* @link http://articles.sitepoint.com/article/fancy-form-design-css
+*//*------------------------------------------------------------2.3 Формы*/	
+form{
+	padding: 10px 0 0 0;	
+}
+	form.form-reset{
+		padding: 0;
+	}
+	
+	fieldset{
+		padding: 10px; 
+		border-bottom: 1px solid #CCC; 
+		margin: 0 0 20px 0; 
+		width: 600px;		
+	}
+		fieldset fieldset{
+			padding: 0;
+			border: none;
+			margin: 0;
+			width: auto;
+		}
+		fieldset.actions{
+			clear: both;
+		}
+
+	legend{
+		font-size: 20px;
+		padding:0 10px; 
+		margin: 0 0 0 -11px;			
+	}
+		
+	/*Метки полей*/	
+	label{
+		font-size: 12px;
+	}
+		/*Мекти у radiobutton, checkbox и т.п.*/
+		label.lbl-opt{
+			font-size: 11px;
+		}
+		
+		/*Метка обязательного поля*/
+		label.lbl-required{
+
+		}
+			label.lbl-required:before {							
+				content:'*';
+				color: red; 
+				padding: 0 5px 0 0;
+			}			
+		/*Метка поля, не прошедшего валидацию*/	
+		label.lbl-invalid{
+			margin: 0 0 0 10px;
+			font-style: italic;
+			color: red;	
+		}
+
+	/*Поля ввода*/	
+	input[type=text],
+	input[type=password],
+	textarea,
+	select{
+		background: url(../images/layouts/fieldbg.gif) top left repeat-x #FFF;
+		border: 1px solid #CCC;
+		border-color: #7C7C7C #C3C3C3 #DDDDDD;
+		padding: 4px 2px;
+		font-size: 12px;		
+	}
+	select{
+		padding: 4px 2px;
+	}
+	
+	input[type=text]:focus,
+	input[type=password]:focus,
+	textarea:focus,
+	select:focus{
+		background: #F0F9FD;
+	}	
+	
+	input[type=text].f-invalid,
+	input[type=password].f-invalid,
+	textarea.f-invalid,
+	select.f-invalid{
+		border: 1px solid red;					
+	}
+	
+	
+	/*Кнопки*/	
+	button, .button{
+		cursor: pointer;
+		padding: 4px 6px;
+		line-height:18px;
+		border: 1px solid #BDBDBD;
+		border-radius: 6px;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		background: url(../images/buttons.png) 0 0  repeat-x #FFF;
+		font-size: 14px;
+		text-shadow: 0 1px 0 #FFFFFF;
+		color: #000;
+		text-decoration: none;
+	}
+	a.button{
+		padding: 5px 6px 4px 6px !important;	
+	}
+		button:hover, .button:hover{
+			background-position: 0 -42px;
+		}
+		
+	/*Разметка форм*/
+	/*Блок с набором полей (строка формы)*/
+	.fields {
+		clear: both;
+		overflow: hidden;
+		margin: 0 0 5px 0;
+		padding: 15px 0 15px 0;
+	}
+	/*Чётные строки*/
+	.fields.even{
+		margin: 0 -20px 5px -20px;
+		padding: 10px 20px 15px;
+		background: #EBEBEB;
+	}
+		
+		/*Блок с полем*/
+		.field{
+
+		}
+	
+	/*Недоступное поле (обертка и само поле) */
+	.f-dsbl{
+		color: #CCC;
+	}	
+		.f-dsbl input[type=text]{
+			color: #CCC;	
+		}
+		.f-dsbl label,
+		label.lbla-dsbl{
+			color: #CCC;
+		}
+				
+	/*Пояснение к полю или группе полей*/
+	.f-tip{
+		display: block;
+		font-size: 11px;
+	}
+
+/**
+* @subsection lists
+*//*------------------------------------------------------------2.4 Списки*/
+/*------------------------2.4.1 Маркированные и нумерованные списки*/
+ol, ul{
+	clear: both;
+	margin: 0 0 20px;
+}
+
+	ol ol, ul ul{
+		margin: 5px 0 10px 10px;
+	}
+	ol{
+		margin: 0 0 0 20px;	
+	}
+		li{
+			margin: 0 0 5px;
+		}
+		ol li{
+			list-style-type:decimal;
+		}
+		ul li{
+			list-style: disc;
+			list-style-position: inside;
+			margin: 0 0 3px 10px;
+		}		
+	/* "Обнуленные" списки */
+	ul.listreset,
+	ul.listreset ul,
+	ul.listreset li {
+		margin: 0;
+		padding: 0;
+		list-style-position: outside ;
+		list-style: none;		
+	}
+	
+	/* Список, в котором каждый элемент блочный */
+	ul.listblock,
+	ul.listblock ul,
+	ul.listblock li {
+		display: block;
+		overflow: hidden;
+	}
+		ul.listblock{
+			margin: 10px 0;
+		}
+			ul.listblock li{
+				margin: 2px 0 5px 0;
+			}
+	
+	/* Список, в котором каждый элемент "подчеркнут" точками*/	
+	ul.listodotted{
+		display: block;
+		margin: 0 -20px !important;
+	}	
+	ul.listdotted li{
+		background: url(../images/layouts/dot.png) bottom left repeat-x;
+		padding: 10px 20px 10px 20px;
+	}
+		ul.listdotted li.last{
+			background: none;
+		}
+	
+	/*Горизонтальный список*/	
+	ul.listhorizontal{
+		
+	}
+		ul.listhorizontal li{
+			display: inline;
+			margin: 0 10px 0 0;	
+		}
+/*------------------------2.4.2 Списки определений*/
+dl dd{
+	margin:10px 0 10px 20px;	
+}
+
+/**
+* @subsection text
+*//*------------------------------------------------------------2.5 Разметка текста*/
+abbr{
+	font-weight:bold;
+	cursor: help;
+	border-bottom: 1px dotted;	
+}
+b{
+	font-weight:bold;	
+}
+cite{
+	font-style: italic;	
+}
+code{
+	font-family: Consolas,monospace;	
+}
+del{
+	text-decoration: line-through;	
+}
+em{
+	font-style: italic;	
+}
+i{
+	font-style: italic;	
+}
+ins{
+	font-style:italic;
+	text-decoration:underline;	
+}
+
+q{
+	font-style:italic;	
+}
+	q:before {
+		content:'\00AB';
+	}
+		q q:before {
+			content:'\201E';
+		}
+		
+	q:after {
+		content:'\00BB';
+	}
+		
+		q q:after {
+			content:'\201C';
+		}
+
+small{
+	font-size:11px;	
+}
+strong{
+	font-weight:bold;	
+}
+sub{
+	vertical-align: sub;
+	font-size: 11px;
+	
+}
+sup{
+	vertical-align: super;
+	font-size: 11px;	
+}
+
+address{
+	margin:0 0 20px 0;
+	font-style:italic;
+	font-size:12px;
+}
+blockquote{
+	margin: 0 0 20px -20px;
+	padding: 20px 20px 10px;
+	font-style: italic;
+	background: #CCC;
+
+}	
+
+/**
+* @subsection tables
+*//*------------------------------------------------------------2.6 Таблицы*/
+table{
+	width: 100%;
+	margin-bottom: 10px;
+
+}	
+	th,td,caption { 
+		padding: 10px; 
+		border-bottom: 1px solid #ccc;
+	}
+
+	th { 
+		font-weight: bold; 
+	}
+	thead th { 
+		background: #c3d9ff; 
+	}
+
+	tbody tr:nth-child(even) td, 
+	tbody tr.even td,
+	tbody tr:nth-child(even) th,
+	tbody tr.even th { 
+		background: #F2F2F2; 
+	}
+	
+	tfoot{ 
+		font-style: italic; 
+	}
+	caption { 
+		background: #eee; 
+	}	
+	
+
+/*
+------------------------------------------------------------------------------------- 4.Меню*/
+/*----------------------------------------------4.1 Горизонтальное меню */
+ul.nav-horizontal li{
+    display: inline;
+    padding: 0 10px 0 0;
+}
+
+
+/*-------------------------------------------------------5.Глобальные модификаторы*/
+/*Маркер "Активно"*/
+.g-active{
+	text-decoration: none;	
+}
+/*Маркер "Скрыто"*/
+.g-hidden{
+	display: none;	
+}
+/*Псевдоссылки*/
+.g-pseudolink{
+	text-decoration: none;
+	border-bottom: 1px dashed;
+	cursor: pointer;	
+}
+	.g-pseudolink.g-active{
+		color: #A3A3A3;
+	}
+	
+.g-small{
+	font-size: 11px;
+}
+.g-smaller{
+	font-size: 90%;
+}
+.g-large{
+	font-size: 16px;
+}
+.g-soft{
+	color: #D3D3D3;
+}
+.g-highlight{
+	
+}
+.g-bold{
+	font-weight: bold;
+}
+.g-italic{
+	font-family: Arial;
+	font-style: italic;
+}
+.g-black{
+	color: #000;
+}
+
+/*Превьюшки, аватарки и т.п.*/
+.g-thumb{
+	float: left;
+	margin: 0 15px 0 0;
+}
+
+/*-------------------------------------------------------6.Декоративные модификаторы элементов*/
+.el-print{
+	background: url(../images/elements/el-print.png) left no-repeat;
+	padding: 0 0 0 20px;
+	text-decoration: none;	
+} 
+.el-error{
+	background: url(../images/elements/el-error.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-attached{
+	background: url(../images/elements/el-attached.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-comments{
+	background: url(../images/elements/el-comments.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-comments_big{
+	background: url(../images/elements/comments_big.png) left no-repeat;
+	width: 65px;
+	height: 65px;
+	line-height: 65px;
+	text-decoration: none;
+	display: block;
+	text-align: center;
+	cursor: pointer;
+	font: italic 26px/58px 'Georgia';
+}
+.el-date,
+.date{
+	font-size: 11px;
+	color: #717171;	
+}
+.el-user,
+.el-username{
+	background: url(../images/elements/el-user.png) left no-repeat;
+	padding: 0 0 0 20px;
+	font-size: 11px;
+		
+}
+.el-readmore{
+	background: url(../images/elements/el-readmore.png) 0 5px no-repeat;
+	padding: 0 0 0 8px;
+	font-size: 13px;		
+}
+.el-email{
+	background: url(../images/elements/el-mail.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-tag{
+	background: url(../images/elements/el-tag.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-add{
+	background: url(../images/elements/el-add.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-edit{
+	background: url(../images/elements/el-edit.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-remove{
+	background: url(../images/elements/el-remove.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-publish{
+	background: url(../images/elements/el-publish.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+.el-unpublish{
+	background: url(../images/elements/el-unpublish.png) left no-repeat;
+	padding: 0 0 0 20px;	
+}
+/*-------------------------------------------------------7.Декоративные модификаторы блоков*/
+.b-error{
+	background: url(../images/elements/el-error.png) 10px no-repeat #EFEFEF;
+	padding: 10px 10px 10px 30px;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;	
+}
+.b-success{
+	background: url(../images/elements/el-success.png) 10px no-repeat #EFEFEF;
+	padding: 10px 10px 10px 30px;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;	
+}
+.b-info{
+	background: url(../images/layouts/sep_hor.gif) left bottom repeat-x #E1E1E1;
+	padding: 10px 20px;
+	margin: 10px 0;
+}
+.b-inprocess{
+	background: url(../images/elements/loader.gif) 10px no-repeat #EFEFEF;
+	padding: 10px 10px 10px 30px;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;	
+}
+.b-system_message{
+	background: url(../images/layouts/bg-op_dark.png) top left repeat ;
+	font-size: 14px;
+	color: #FFF;	
+	padding: 4px 0;
+	text-align: center;	
+}
+
+/*-------------------------------------------------------6.Блоки, использующиеся для создания разметки*/
+.b{
+	display: block;		
+}
+.b-100{	
+	width: 100%;
+}
+.b-90{
+	width: 90%;
+}
+.b-80{
+	width: 80%;	
+}
+.b-70{
+	width: 70%;	
+}
+.b-60{
+	width: 60%;	
+}
+.b-50{
+	width: 50%;	
+}
+.b-33{
+	width: 33%;	
+}
+.b-30{
+	width: 30%;	
+}
+.b-25{
+	width: 25%;	
+}
+.b-20{
+	width: 20%;	
+}
+.b-left{
+	float: left;
+}
+.b-right{
+	float: right;
+}
+.b-clear{
+	clear: both;
+}
+.b-relative{
+	position: relative;
+}
+
+/*-------------------------------------------------------7. Хлебные крошки*/
+.b-breadcrumbs{
+	overflow: hidden;
+	margin: 5px 0 5px 0
+}
+	.breadcrumbs{
+		overflow: hidden;
+		display: block;
+	}
+		.breadcrumbs_item{
+			display: block;
+			float: left;
+			margin: 0 10px 0 0 !important;
+			background: url(../images/elements/arrow.png)  right no-repeat;
+			padding: 0 15px 0 0 !important;
+			font-size: 11px;
+		}
+		.breadcrumbs_item.breadcrumbs_home{
+			padding: 3px 10px 0 0 !important;
+		}
+			.breadcrumbs_item.breadcrumbs_home .breadcrumbs_link{
+				display: block;
+				width: 15px;
+				height: 15px;
+				overflow: hidden;
+				background: url(../images/elements/home.png)  0 -1px  no-repeat;
+				text-indent: -100px;
+				margin: 3px 0 0 0;
+			}
+		.breadcrumbs_item.breadcrumbs_last{
+			background: none;
+		}
+			.breadcrumbs_link{
+				color: #000;
+			}
+				.breadcrumbs_link:hover{
+					text-decoration: underline;	
+				}
+
+/*Постраничная навигация*/
+.b-pagenav{
+	clear: both;
+	padding: 15px 0 0 0;
+}
+	.pagenav_list{
+
+	}
+		.pagenav_list_item{
+			float: left;
+			display: block;
+			margin: 3px !important;
+
+		}
+			.pagenav_list_item a,
+			.pagenav_list_item em{
+				font-style: normal;
+				padding: 5px 8px;
+
+			}
+				.pagenav_list_item a:hover,
+				.pagenav_list_item em{
+					background: #CCC;	
+				}
+
+	.pagenav_next-prev{
+		display: block;
+		font-size: 18px;
+		clear: both;
+		margin: 0 0 5px 0 !important;
+		overflow: hidden;
+	}
+		.pagenav_next{
+
+		}
+
+		.pagenav_prev{
+
+		}
+			.pagenav_next-prev .pagenav_list_item a:hover,
+			.pagenav_next-prev .pagenav_list_item em{
+				background: none;	
+			}
+
+
+	.pagenav_items{
+
+	}
+		.pagenav_items em{
+			
+		}
+		.pagenav_last{
+
+		}
+
+/*------------------------------------------------8.Стили для печати*/
+
+
+
+@media screen {
+
+}
+ 
+@media print {
+
+}
+ 
+@media projection {
+
+}

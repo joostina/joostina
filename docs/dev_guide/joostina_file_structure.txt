@@ -1,0 +1,58 @@
+Структура файловой системы Joostina CMS
+
+index.php
+---------
+robots.txt
+.htaccess
+
+
+core
+	------------
+	joostina.php
+	............
+	front.root.php
+	admin.root.php
+	.............
+	cron.core.php
+	.............
+	libraries
+
+cache
+tmp
+
+app
+	bootstrap.php
+	config.php
+	route.php
+	..................
+	languages
+	components
+	modules
+	templates
+	plugins
+	hooks
+	cron
+	attachments
+
+media
+	images
+	js
+		jquery.js
+		jquery.ui.js
+		joostina.js
+		joostina.admin.js
+		-----------------
+		jquery.plugins
+			......
+	swf
+
+docs
+	copyrights
+	dev_guide
+	user_guide
+	api_doc	
+	version.txt
+	changelog.txt
+	license.txt
+	upgrade.txt
+

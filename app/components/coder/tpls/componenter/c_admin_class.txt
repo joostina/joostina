@@ -1,0 +1,22 @@
+<?php
+/**
+ * %1$s - %3$s
+ * Модель админ-панели
+ *
+ * @version 1.0
+ * @package Joostina.Components
+ * @subpackage %1$s
+ * @author %4$s <%5$s>
+ * @copyright (C) 2008-2011 %4$s
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ **/
+ 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
+//Модель компонента
+joosLoader::model('%2$s');
+
+//Содержимое модели
