@@ -19,7 +19,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class Jstring {
+class joosLibString {
 
 	// Called methods
 	static $called = array();
@@ -732,7 +732,7 @@ class Jstring {
 				} else {
 					// ((0xC0 & (*in) != 0x80) AND (mState != 0))
 					// Incomplete multi-octet sequence
-					trigger_error('Jstring::to_unicode: Incomplete multi-octet sequence in UTF-8 at byte ' . $i, E_USER_WARNING);
+					trigger_error('joosLibString::to_unicode: Incomplete multi-octet sequence in UTF-8 at byte ' . $i, E_USER_WARNING);
 					return FALSE;
 				}
 			}
