@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class Text {
+class joosLibText {
 
 	/**
 	 * Символы русского алфавита
@@ -277,7 +277,7 @@ class Text {
 			#tags processing
 			if ($is_html) {
 				$_callback_type = 'strip_tags';
-				$s2 = preg_replace_callback($re_tags, array('Text', 'strip_tags_smart'), $s2);
+				$s2 = preg_replace_callback($re_tags, array('joosLibText', 'strip_tags_smart'), $s2);
 				$_callback_type = false;
 				if (preg_last_error() !== PREG_NO_ERROR) {
 					$i = 999;
