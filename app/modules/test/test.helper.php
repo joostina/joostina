@@ -15,6 +15,7 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class testHelper {
-	
+class testHelper
+{
+
 }

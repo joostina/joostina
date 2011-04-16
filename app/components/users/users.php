@@ -13,7 +13,7 @@ defined('_JOOS_CORE') or die();
 class actionsUsers extends joosController {
 
 	public static function on_start() {
-		Jbreadcrumbs::instance()
+		joosBreadcrumbs::instance()
 				->add('Пользователи');
 
 		joosLoader::model('users');
@@ -52,7 +52,7 @@ class actionsUsers extends joosController {
 		joosDocument::instance()
 				->set_page_title($user->username);
 
-		Jbreadcrumbs::instance()
+		joosBreadcrumbs::instance()
 				->add($user->username);
 
 		return array(
@@ -81,8 +81,8 @@ class actionsUsers extends joosController {
 			$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
 
 			//смена пароля
-			$old_password = mosGetParam($_POST, 'password_old', '');
-			$new_password = mosGetParam($_POST, 'password_new', '');
+			$old_password = joosRequest::post('password_old');
+			$new_password = joosRequest::post('password_new');
 
 			if ($old_password && $new_password) {
 				if (User::check_password($old_password, $user->password)) {
@@ -97,9 +97,9 @@ class actionsUsers extends joosController {
 			$user_extra = new UserExtra;
 			$user_extra->user_id = $user->id;
 
-			$_POST['contacts'] = mosGetParam($_POST, 'contacts', '') ? json_encode(mosGetParam($_POST, 'contacts', '')) : '';
-			$_POST['about'] = json_encode(array('about' => mosGetParam($_POST['about'], 'about', '')));
-			$_POST['interests'] = isset($_POST['interests']) ? json_encode($_POST['interests']) : '';
+			$_POST['contacts'] = json_encode(joosRequest::post('contacts'));
+			$_POST['about'] = json_encode(joosRequest::post('about'));
+			$_POST['interests'] = json_encode(joosRequest::post('interests'));
 
 			$user_extra->save($_POST);
 
@@ -119,10 +119,10 @@ class actionsUsers extends joosController {
 			joosDocument::instance()
 					->set_page_title($username);
 
-			Jbreadcrumbs::instance()
+			joosBreadcrumbs::instance()
 					->add($username);
 
-			mosMakeHtmlSafe($user);
+			joosHTML::make_safe($user);
 
 			return array(
 				'user' => $user,
@@ -138,8 +138,10 @@ class actionsUsers extends joosController {
 	public static function login() {
 		//joosSpoof::check_code(null, 1);
 		//joosMainframe::instance()->login();
-		$username = mosGetParam($_POST, 'username');
-		$password = mosGetParam($_POST, 'password');
+
+		$username = joosRequest::post('username');
+		$password = joosRequest::post('password');
+
 		User::login($username, $password);
 	}
 
@@ -152,8 +154,8 @@ class actionsUsers extends joosController {
 
 		User::logout();
 
-		$return = strval(mosGetParam($_REQUEST, 'return', null));
-		if ($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))) {
+		$return = joosRequest::param('return');
+		if ($return && !(strpos($return, 'registration') || strpos($return, 'login'))) {
 			joosRoute::redirect($return);
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
 			joosRoute::redirect($_SERVER['HTTP_REFERER']);
@@ -186,7 +188,7 @@ class actionsUsers extends joosController {
 		$param = explode('?', $_SERVER['REQUEST_URI']);
 		parse_str($param[1], $datas);
 
-		if (isset($datas['username']) && Jstring::trim($datas['username']) != '') {
+		if (isset($datas['username']) && joosString::trim($datas['username']) != '') {
 			$user = new User;
 			$user->username = $datas['username'];
 			$ret = $user->find() ? 0 : 1;
@@ -198,7 +200,7 @@ class actionsUsers extends joosController {
 			exit();
 		}
 
-		if (isset($datas['email']) && Jstring::trim($datas['email']) != '') {
+		if (isset($datas['email']) && joosString::trim($datas['email']) != '') {
 			$user = new User;
 			$user->email = $datas['email'];
 			echo $user->find() ? 'false' : 'true';
@@ -229,49 +231,9 @@ class actionsUsers extends joosController {
 	/**
 	 * Процесс восстановления пароля
 	 */
+	// TODO обновить до актуального
 	public static function send_new_pass() {
 
-		joosSpoof::check_code();
-
-		$username = stripslashes(mosGetParam($_POST, 'username', ''));
-		$email = stripslashes(mosGetParam($_POST, 'email', ''));
-
-		if (!$email && !$username) {
-			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Введите Имя пользователя или Email');
-		}
-
-		$user = new User;
-
-		if ($email && $username) {
-			$query = 'SELECT id, username, email FROM #__users WHERE username = "' . $username . '" AND email = "' . $email;
-		} else if ($email) {
-			$query = 'SELECT id, username, email FROM #__users WHERE email = "' . $email . '"';
-		} else {
-			$query = 'SELECT id, username, email FROM #__users WHERE username = "' . $username . '"';
-		}
-
-		$user->_db->set_query($query)->load_object($user);
-
-		if (!$user->id) {
-			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Пользователь с указанными параметрами не найден');
-		}
-
-		$confirmEmail = $user->email;
-		$newpass = mosMakePassword();
-		$message = _NEWPASS_MSG;
-		eval("\$message = \"$message\";");
-		$subject = _NEWPASS_SUB;
-		eval("\$subject = \"$subject\";");
-
-		$mail = joosConfig::get('mail');
-
-		if (mosMail($mail['from'], $mail['name'], $confirmEmail, $subject, $message)) {
-			$user->password = $user->crypt_pass($newpass);
-			$user->save();
-			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Новый пароль выслан вам на email');
-		} else {
-			joosRoute::redirect(sefRelToAbs('index.php?option=com_users&task=lostpassword', true), 'Ошибка в процессе отправки сообщения. Попробуйте позже.');
-		}
 	}
 
 }

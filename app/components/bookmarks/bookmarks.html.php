@@ -10,14 +10,17 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class bookmarksHTML {
+class bookmarksHTML
+{
 
-    public static function addlink() {
+    public static function addlink()
+    {
         return '<button class="to_bookmarks">в закладки!</button>';
     }
-    
+
     // список закладок определенного пользователя
-    public static function index( User $user, array $bookmarks_list, paginator3000 $pager, $type_name = '' ) {
+    public static function index(User $user, array $bookmarks_list, paginator3000 $pager, $type_name = '')
+    {
         require_once 'views/bookmarks/default.php';
     }
 }

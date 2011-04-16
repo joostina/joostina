@@ -10,36 +10,37 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-function mosCreateMail($from = '', $fromname = '', $subject='', $body='') {
+function mosCreateMail($from = '', $fromname = '', $subject = '', $body = '')
+{
 
-	joosLoader::lib('phpmailer', 'utils');
-	$mail = new PHPMailer();
+    joosLoader::lib('phpmailer', 'utils');
+    $mail = new PHPMailer();
 
-	$mail_config = joosConfig::get('mail');
+    $mail_config = joosConfig::get('mail');
 
-	$mail->PluginDir = JPATH_BASE . DS . 'includes/libraries/phpmailer/';
-	$mail->SetLanguage(_LANGUAGE, JPATH_BASE . DS . 'includes/libraries/phpmailer/language/');
-	$mail->CharSet = 'UTF-8';
-	$mail->IsMail();
-	$mail->From = $from ? $from : $mail_config['from'];
-	$mail->FromName = $fromname ? $fromname : $mail_config['name'];
-	$mail->Mailer = $mail_config['type'];
+    $mail->PluginDir = JPATH_BASE . DS . 'includes/libraries/phpmailer/';
+    $mail->SetLanguage(_LANGUAGE, JPATH_BASE . DS . 'includes/libraries/phpmailer/language/');
+    $mail->CharSet = 'UTF-8';
+    $mail->IsMail();
+    $mail->From = $from ? $from : $mail_config['from'];
+    $mail->FromName = $fromname ? $fromname : $mail_config['name'];
+    $mail->Mailer = $mail_config['type'];
 
-	// Add smtp values if needed
-	if ($mail_config['type'] == 'smtp') {
-		$mail->SMTPAuth = $mail_config['smtp_auth'];
-		$mail->Username = $mail_config['smtp_user'];
-		$mail->Password = $mail_config['smtp_pass'];
-		$mail->Host = $mail_config['smtp_host'];
-	} else if ( $mail_config['type'] == 'sendmail') {
-		if (isset($config->config_sendmail))
-			$mail->Sendmail = $config->config_sendmail;
-	} // if
+    // Add smtp values if needed
+    if ($mail_config['type'] == 'smtp') {
+        $mail->SMTPAuth = $mail_config['smtp_auth'];
+        $mail->Username = $mail_config['smtp_user'];
+        $mail->Password = $mail_config['smtp_pass'];
+        $mail->Host = $mail_config['smtp_host'];
+    } else if ($mail_config['type'] == 'sendmail') {
+        if (isset($config->config_sendmail))
+            $mail->Sendmail = $config->config_sendmail;
+    } // if
 
-	$mail->Subject = $subject;
-	$mail->Body = $body;
+    $mail->Subject = $subject;
+    $mail->Body = $body;
 
-	return $mail;
+    return $mail;
 }
 
 /**
@@ -57,112 +58,115 @@ function mosCreateMail($from = '', $fromname = '', $subject='', $body='') {
  * @param string/array ReplyTo name(s)
  * @return boolean
  */
-function mosMail($from, $fromname, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyto = null, $replytoname = null) {
+function mosMail($from, $fromname, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyto = null, $replytoname = null)
+{
 
 
-	// Allow empty $from and $fromname settings (backwards compatibility)
-	if ($from == '') {
-		$from = joosConfig::get2('mail', 'from');
-	}
-	if ($fromname == '') {
-		$fromname = joosConfig::get2('mail', 'name');
-	}
+    // Allow empty $from and $fromname settings (backwards compatibility)
+    if ($from == '') {
+        $from = joosConfig::get2('mail', 'from');
+    }
+    if ($fromname == '') {
+        $fromname = joosConfig::get2('mail', 'name');
+    }
 
-	// Filter from, fromname and subject
-	if (!JosIsValidEmail($from) || !JosIsValidName($fromname) || !JosIsValidName($subject)) {
-		echo 'Ошибка входных данных';
-		return false;
-	}
+    // Filter from, fromname and subject
+    if (!JosIsValidEmail($from) || !JosIsValidName($fromname) || !JosIsValidName($subject)) {
+        echo 'Ошибка входных данных';
+        return false;
+    }
 
-	$mail = mosCreateMail($from, $fromname, $subject, $body);
+    $mail = mosCreateMail($from, $fromname, $subject, $body);
 
-	// activate HTML formatted emails
-	if ($mode) {
-		$mail->IsHTML(true);
-	}
+    // activate HTML formatted emails
+    if ($mode) {
+        $mail->IsHTML(true);
+    }
 
-	if (is_array($recipient)) {
-		foreach ($recipient as $to) {
-			if (!JosIsValidEmail($to)) {
-				echo 'Ошибка email адреса одного из получателей';
-				return false;
-			}
-			$mail->AddAddress($to);
-		}
-	} else {
-		if (!JosIsValidEmail($recipient)) {
-			echo 'Ошибка email получателя';
-			return false;
-		}
-		$mail->AddAddress($recipient);
-	}
-	if (isset($cc)) {
-		if (is_array($cc)) {
-			foreach ($cc as $to) {
-				if (!JosIsValidEmail($to)) {
-					return false;
-				}
-				$mail->AddCC($to);
-			}
-		} else {
-			if (!JosIsValidEmail($cc)) {
-				return false;
-			}
-			$mail->AddCC($cc);
-		}
-	}
-	if (isset($bcc)) {
-		if (is_array($bcc)) {
-			foreach ($bcc as $to) {
-				if (!JosIsValidEmail($to)) {
-					return false;
-				}
-				$mail->AddBCC($to);
-			}
-		} else {
-			if (!JosIsValidEmail($bcc)) {
-				return false;
-			}
-			$mail->AddBCC($bcc);
-		}
-	}
-	if ($attachment) {
-		if (is_array($attachment)) {
-			foreach ($attachment as $fname) {
-				$mail->AddAttachment($fname);
-			}
-		} else {
-			$mail->AddAttachment($attachment);
-		}
-	}
-	//Important for being able to use mosMail without spoofing...
-	if ($replyto) {
-		if (is_array($replyto)) {
-			reset($replytoname);
-			foreach ($replyto as $to) {
-				$toname = ((list($key, $value) = each($replytoname)) ? $value : '');
-				if (!JosIsValidEmail($to) || !JosIsValidName($toname)) {
-					return false;
-				}
-				$mail->AddReplyTo($to, $toname);
-			}
-		} else {
-			if (!JosIsValidEmail($replyto) || !JosIsValidName($replytoname)) {
-				return false;
-			}
-			$mail->AddReplyTo($replyto, $replytoname);
-		}
-	}
-	$mailssend = $mail->Send();
-	return $mailssend;
+    if (is_array($recipient)) {
+        foreach ($recipient as $to) {
+            if (!JosIsValidEmail($to)) {
+                echo 'Ошибка email адреса одного из получателей';
+                return false;
+            }
+            $mail->AddAddress($to);
+        }
+    } else {
+        if (!JosIsValidEmail($recipient)) {
+            echo 'Ошибка email получателя';
+            return false;
+        }
+        $mail->AddAddress($recipient);
+    }
+    if (isset($cc)) {
+        if (is_array($cc)) {
+            foreach ($cc as $to) {
+                if (!JosIsValidEmail($to)) {
+                    return false;
+                }
+                $mail->AddCC($to);
+            }
+        } else {
+            if (!JosIsValidEmail($cc)) {
+                return false;
+            }
+            $mail->AddCC($cc);
+        }
+    }
+    if (isset($bcc)) {
+        if (is_array($bcc)) {
+            foreach ($bcc as $to) {
+                if (!JosIsValidEmail($to)) {
+                    return false;
+                }
+                $mail->AddBCC($to);
+            }
+        } else {
+            if (!JosIsValidEmail($bcc)) {
+                return false;
+            }
+            $mail->AddBCC($bcc);
+        }
+    }
+    if ($attachment) {
+        if (is_array($attachment)) {
+            foreach ($attachment as $fname) {
+                $mail->AddAttachment($fname);
+            }
+        } else {
+            $mail->AddAttachment($attachment);
+        }
+    }
+    //Important for being able to use mosMail without spoofing...
+    if ($replyto) {
+        if (is_array($replyto)) {
+            reset($replytoname);
+            foreach ($replyto as $to) {
+                $toname = ((list($key, $value) = each($replytoname)) ? $value : '');
+                if (!JosIsValidEmail($to) || !JosIsValidName($toname)) {
+                    return false;
+                }
+                $mail->AddReplyTo($to, $toname);
+            }
+        } else {
+            if (!JosIsValidEmail($replyto) || !JosIsValidName($replytoname)) {
+                return false;
+            }
+            $mail->AddReplyTo($replyto, $replytoname);
+        }
+    }
+    $mailssend = $mail->Send();
+    return $mailssend;
 }
 
 // mosMail
-function JosIsValidEmail($email) {
-	return is_string(filter_var($email, FILTER_VALIDATE_EMAIL));
+function JosIsValidEmail($email)
+{
+    return is_string(filter_var($email, FILTER_VALIDATE_EMAIL));
 }
 
-function JosIsValidName($string) {
-	$invalid = preg_match('/[\x00-\x1F\x7F]/', $string);
-	return ($invalid) ? false : true;
+function JosIsValidName($string)
+{
+    $invalid = preg_match('/[\x00-\x1F\x7F]/', $string);
+    return ($invalid) ? false : true;
 }

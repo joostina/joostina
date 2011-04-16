@@ -15,9 +15,9 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('pages','edit') ? ajax_acl_error() : null;
+Jacl::isDeny('pages', 'edit') ? ajax_acl_error() : null;
 
-// подключаем библиотеку JoiAdmin
+// подключаем библиотеку joosAutoAdmin
 joosLoader::lib('joiadmin', 'system');
 // передаём управление полётом в автоматический Ajax - обработчик
-echo JoiAdmin::autoajax();
+echo joosAutoAdmin::autoajax();

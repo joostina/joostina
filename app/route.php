@@ -129,7 +129,7 @@ class joosRoute extends RouteMap {
 
 	public static function redirect($url, $msg = '', $type = 'success') {
 
-		$iFilter = InputFilter::instance();
+		$iFilter = joosInputFilter::instance();
 		$url = $iFilter->process($url);
 
 		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg));
@@ -154,6 +154,3 @@ class joosRoute extends RouteMap {
 	}
 
 }
-
-// TODO, неправильно, но пока тут
-joosRoute::instance();

@@ -49,7 +49,7 @@ class Zend_Acl_Resource implements Zend_Acl_Resource_Interface
      */
     public function __construct($resourceId)
     {
-        $this->_resourceId = (string) $resourceId;
+        $this->_resourceId = (string)$resourceId;
     }
 
     /**

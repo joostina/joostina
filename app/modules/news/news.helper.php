@@ -17,20 +17,22 @@ defined('_JOOS_CORE') or die();
 
 joosLoader::model('news');
 
-class newsHelper {
+class newsHelper
+{
 
-	public static function get_latest(array $params) {
+    public static function get_latest(array $params)
+    {
 
-		$limit = isset($params['limit']) ? $params['limit'] : 3;
+        $limit = isset($params['limit']) ? $params['limit'] : 3;
 
-		$news = new News;
-		return $news->get_list(
-				array(
-					'select' => "id, title, created_at",
-					'where' => 'state=1',
-					'limit' => $limit,
-					'order' => 'id DESC'
-				)
-		);
-	}
+        $news = new News;
+        return $news->get_list(
+            array(
+                 'select' => "id, title, created_at",
+                 'where' => 'state=1',
+                 'limit' => $limit,
+                 'order' => 'id DESC'
+            )
+        );
+    }
 }

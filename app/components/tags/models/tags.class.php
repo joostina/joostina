@@ -28,6 +28,7 @@ class Tags extends joosDBModel {
 	 * @var $tag string Тэг
 	 */
 	public $tag = null;
+
 	/**
 	 * @var $_tags array Массив тэгов
 	 */
@@ -305,7 +306,8 @@ class Tags extends joosDBModel {
 		$sql = "DELETE FROM {$this->_tbl} WHERE  obj_option = '{$obj_option}' " . ($obj->{$obj->_tbl_key} > 0 ? ' AND obj_id = ' . $obj->{$obj->_tbl_key} : '');
 		$this->_db->set_query($sql)->Query();
 
-		$tags = $this->clear_tags(explode(',', mosGetParam($_POST, 'tags')));
+		$tag_string = joosRequest::post('tags');
+		$tags = $this->clear_tags(explode(',', $tag_string));
 
 		$max = count($tags);
 
@@ -345,7 +347,7 @@ class Tags extends joosDBModel {
 	 * @return
 	 */
 	public static function get_tag_url($tag, $group = '') {
-		return joosRoute::href('tags_view',  array('tag'=>$tag) );
+		return joosRoute::href('tags_view', array('tag' => $tag));
 	}
 
 	/**
@@ -384,7 +386,7 @@ class Tags extends joosDBModel {
 		}
 
 		joosLoader::lib('text');
-		$tag = Text::text_clean($tag);
+		$tag = joosText::text_clean($tag);
 		return trim($tag);
 	}
 

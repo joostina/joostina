@@ -23,14 +23,14 @@ $type = isset($params['type']) ? $params['type'] : 'frontpage';
 
 switch ($type) {
 
-	case 'frontpage':
-	default:
-	 	$items = blogsHelper::get_latest(5);
-		break;
+    case 'frontpage':
+    default:
+        $items = blogsHelper::get_latest(5);
+        break;
 
-	case 'by_user':
-		$items = blogsHelper::get_by_user($params);
-		break;
+    case 'by_user':
+        $items = blogsHelper::get_by_user($params);
+        break;
 
 }
 

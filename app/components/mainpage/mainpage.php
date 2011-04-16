@@ -16,18 +16,20 @@ defined('_JOOS_CORE') or die();
  * 2. Страница модулей - позволяет расположить конструкцию составленную из произвольных модулей по специально подготовленному макету
  */
 
-class actionsMainpage extends joosController {
+class actionsMainpage extends joosController
+{
 
-	public static function index() {
-	
-		//Хлебные крошки
-		//Jbreadcrumbs::instance()
-				//->add('Главная', $active_task == 'mainpage' ? false : JPATH_SITE);
+    public static function index()
+    {
 
-		
-		return array(
-			'task' => 'modules'
-		);
-	}
+        //Хлебные крошки
+        //joosBreadcrumbs::instance()
+        //->add('Главная', $active_task == 'mainpage' ? false : JPATH_SITE);
+
+
+        return array(
+            'task' => 'modules'
+        );
+    }
 
 }

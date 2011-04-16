@@ -10,43 +10,52 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class jqueryTabs {
-	private $id;
-	private $counter;
-	private $tabs_headers = array();
-	private $tabs_body = array();
+class jqueryTabs
+{
+    private $id;
+    private $counter;
+    private $tabs_headers = array();
+    private $tabs_body = array();
 
-	public function  __construct(){
-		joosHTML::load_jquery_ui();
-		joosHTML::load_jquery-ui_css();
+    public function  __construct()
+    {
+        joosHTML::load_jquery_ui();
+        joosHTML::load_jquery - ui_css();
 
-		$this->counter = 0;
-	}
+        $this->counter = 0;
+    }
 
-	public function startPane($id) {
-		$this->id = $id;
-		echo '<div class="tab-page" id="'.$id.'">';
-	}
+    public function startPane($id)
+    {
+        $this->id = $id;
+        echo '<div class="tab-page" id="' . $id . '">';
+    }
 
-	public function endPane() {
-		echo '<ul><li>';
-		echo implode('</li><li>', $this->tabs_headers);
-		echo '</li></ul>';
-		echo implode('', $this->tabs_body);
-		echo '</div>';
-		?><script type="text/javascript">$(function() { $("#<?php echo $this->id ?>").tabs(); });</script><?php
-	}
+    public function endPane()
+    {
+        echo '<ul><li>';
+        echo implode('</li><li>', $this->tabs_headers);
+        echo '</li></ul>';
+        echo implode('', $this->tabs_body);
+        echo '</div>';
+        ?><script type="text/javascript">$(function() {
+        $("#<?php echo $this->id ?>").tabs();
+    });</script><?php
 
-	public function startTab($tabText,$paneid) {
-		++$this->counter;
-		$this->tabs_headers[$this->counter] = $tabText;
-		ob_start();
-		echo '<div class="tab-page" id="tabs-'.$this->counter.'">';
-	}
+    }
 
-	public function endTab() {
-		echo '</div>';
-		$this->tabs_body[$this->counter] = ob_get_contents();
-		ob_end_clean();
-	}
+    public function startTab($tabText, $paneid)
+    {
+        ++$this->counter;
+        $this->tabs_headers[$this->counter] = $tabText;
+        ob_start();
+        echo '<div class="tab-page" id="tabs-' . $this->counter . '">';
+    }
+
+    public function endTab()
+    {
+        echo '</div>';
+        $this->tabs_body[$this->counter] = ob_get_contents();
+        ob_end_clean();
+    }
 }

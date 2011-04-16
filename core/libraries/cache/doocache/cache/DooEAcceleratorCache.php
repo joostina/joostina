@@ -18,7 +18,8 @@
  * @since 1.1
  */
 
-class DooEAcceleratorCache{
+class DooEAcceleratorCache
+{
 
     /**
      * Adds a cache with an unique Id.
@@ -28,7 +29,8 @@ class DooEAcceleratorCache{
      * @param int $expire Seconds to expired
      * @return bool True if success
      */
-    public function set($id, $data, $expire=0){
+    public function set($id, $data, $expire = 0)
+    {
         return eaccelerator_put($id, $data, $expire);
     }
 
@@ -38,7 +40,8 @@ class DooEAcceleratorCache{
      * @param string $id A unique key identifying the cache
      * @return mixed The value stored in cache. Return false if no cache found or already expired.
      */
-    public function get($id){
+    public function get($id)
+    {
         return eaccelerator_get($id);
     }
 
@@ -48,20 +51,22 @@ class DooEAcceleratorCache{
      * @param string $id Id of the cache
      * @return bool True if success
      */
-    public function flush($id){
+    public function flush($id)
+    {
         return eaccelerator_rm($id);
     }
 
     /**
      * Deletes all EAccelerator data cache
      */
-    public function flushAll(){
+    public function flushAll()
+    {
         //delete expired content then delete all
         eaccelerator_gc();
 
         $idkeys = eaccelerator_list_keys();
 
-        foreach($idkeys as $k)
+        foreach ($idkeys as $k)
             $this->flush(substr($k['name'], 1));
     }
 

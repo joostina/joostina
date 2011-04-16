@@ -13,28 +13,31 @@ defined('_JOOS_CORE') or die();
 /*
  * Класс формирования представлений
  */
-class thisHTML {
+class thisHTML
+{
 
     /**
      * Список объектов
      * @param joosDBModel $obj - основной объект отображения
      * @param array $obj_list - список объектов вывода
-     * @param joosPagenator $pagenav - объект постраничной навигации
+     * @param joosAdminPagenator $pagenav - объект постраничной навигации
      */
-    public static function index( $obj, $obj_list, $pagenav) {
+    public static function index($obj, $obj_list, $pagenav)
+    {
         // массив названий элементов для отображения в таблице списка
-        $fields_list = array( 'id', 'title','slug','state');
+        $fields_list = array('id', 'title', 'slug', 'state');
         // передаём информацию о объекте и настройки полей в формирование представления
-        JoiAdmin::listing( $obj, $obj_list, $pagenav, $fields_list );
-		}
+        joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+    }
 
     /**
      * Редактирование-создание объекта
      * @param joosDBModel $articles_obj - объект  редактирования с данными, либо пустой - при создании
      * @param stdClass $articles_data - свойства объекта
      */
-    public static function edit( $articles_obj, $articles_data ) {
+    public static function edit($articles_obj, $articles_data)
+    {
         // передаём данные в формирование представления
-        JoiAdmin::edit($articles_obj, $articles_data);
+        joosAutoAdmin::edit($articles_obj, $articles_data);
     }
 }

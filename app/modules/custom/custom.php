@@ -2,11 +2,11 @@
 /**
  * Custom - модуль для вывода пользовательского содержимого (задается в админке)
  * Основной исполняемый файл
- * 
+ *
  * Доступны следующие переменные:
- * 		$module
- * 		$params
- * 		$object_data
+ *         $module
+ *         $params
+ *         $object_data
  *
  * @version 1.0
  * @package Joostina CMS

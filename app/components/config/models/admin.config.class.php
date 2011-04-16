@@ -15,15 +15,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-//Поддержка кастомных параметров
-joosLoader::lib('params', 'system');
-
-//Поддержка метаданных
-joosLoader::lib('metainfo', 'seo');
-
-//Модель компонента
-joosLoader::model('news');
-
 class adminNews extends News {
 
 	public function get_fieldinfo() {
@@ -136,7 +127,7 @@ class adminNews extends News {
 				'editable' => true,
 				'html_edit_element' => 'json',
 				'html_edit_element_param' => array(
-					'call_from' => 'Metainfo::get_scheme'
+					'call_from' => 'joosMetainfo::get_scheme'
 				),
 			),
 			//подключение функционала парметров
@@ -145,7 +136,7 @@ class adminNews extends News {
 				'editable' => true,
 				'html_edit_element' => 'params',
 				'html_edit_element_param' => array(
-					'call_from' => 'Params::get_scheme'
+					'call_from' => 'joosParams::get_scheme'
 				),
 			),
 		);
@@ -229,7 +220,7 @@ class adminNews extends News {
 		}
 
 		Joosdocument::instance()->add_js_file(JPATH_SITE . '/media/js/valumsfileuploader/fileuploader.js');
-		$js_code = "           
+		$js_code = "
 			var uploader = new qq.FileUploader({
 				element: $('#file-uploader-news')[0],
 				multiple: false,

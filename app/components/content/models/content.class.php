@@ -15,23 +15,11 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-//Поддержка метаданных
-joosLoader::lib('metainfo', 'seo');
-
-//Поддержка кастомных параметров
-joosLoader::lib('params', 'system');
-
-//Поддержка дополнительных полей
-joosLoader::model('extrafields');
-
-//Категории
-joosLoader::admin_model('categories');
-
 /**
  * Class News
- * @package	News
- * @subpackage	Joostina CMS
- * @created	2010-10-03 00:41:28
+ * @package    News
+ * @subpackage    Joostina CMS
+ * @created    2010-10-03 00:41:28
  */
 class Content extends joosDBModel {
 
@@ -48,7 +36,7 @@ class Content extends joosDBModel {
 	 */
 	public $slug;
 	/**
-	 * @var text
+	 * @var joosText
 	 */
 	public $introtext;
 	/**
@@ -70,7 +58,7 @@ class Content extends joosDBModel {
 	/**
 	 * @var int(11)
 	 */
-	public $ordering;	
+	public $ordering;
 	/**
 	 * @var tinyint(1)
 	 */
@@ -80,10 +68,9 @@ class Content extends joosDBModel {
 	 */
 	public $special;
 	/**
-	 * @var text
+	 * @var joosText
 	 */
-	public $attachments;	
-	
+	public $attachments;
 
 
 	/*
@@ -125,16 +112,13 @@ class Content extends joosDBModel {
 		return joosDate::format($obj->created_at, '%d/%m/%Y');
 	}
 
-
 	public static function get_image($item, $type = 'thumb', $image_attr = array()) {
 
-		$file_location = JPATH_SITE_IMAGES.'/' . $item->image_path . '/' . $type.'.jpg';
-	
+		$file_location = JPATH_SITE_IMAGES . '/' . $item->image_path . '/' . $type . '.jpg';
+
 		$image_attr += array('src' => $file_location, 'title' => $item->title, 'alt' => $item->title);
 		return HTML::image($image_attr);
 	}
-
-
 
 	public static function get_image_default($image_attr = array()) {
 
@@ -143,44 +127,40 @@ class Content extends joosDBModel {
 		return HTML::image($image_attr);
 	}
 
-	public static function get_extrafields($item){
+	public static function get_extrafields($item) {
 
 		$return = array();
 		//$parent_cat = joosRequest::request('parentcat');
-
 		//if(!$item->id && !$parent_cat){
-			//return false;
+		//return false;
 		//}
-
 		//$category_id = $item->id ? $item->category_id : $parent_cat;
 		$category_id = 3;
 
 		$fields = Categories::get_extrafields_by_category($category_id, 'content');
 
-		if(!$fields){
+		if (!$fields) {
 			return false;
 		}
 
 		//Формируем правила
 		$return['rules'] = Extrafields::get_scheme($fields);
 
-		if($item->id){
+		if ($item->id) {
 			//Достаём данные
 			$f_ids = array_keys($fields);
 			$f_data = new ExtrafieldsData();
 			$f_data = $f_data->get_selector(
-				array('key'=>'field_id', 'value' => 'value'),
-				array(
-					'where' => 'field_id IN (' .implode(',' , $f_ids) .') AND obj_id = '.$item->id
-				)
+							array('key' => 'field_id', 'value' => 'value'), array(
+						'where' => 'field_id IN (' . implode(',', $f_ids) . ') AND obj_id = ' . $item->id
+							)
 			);
 
-			if($f_data){
-				foreach($fields as $f){
+			if ($f_data) {
+				foreach ($fields as $f) {
 					$return['values'][$f->id] = $f_data[$f->id];
 				}
 			}
-
 		}
 
 		return $return;

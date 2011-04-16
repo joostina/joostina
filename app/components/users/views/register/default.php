@@ -36,41 +36,46 @@ joosDocument::$data['footer'][] = $register_js_code;
 ?>
 <div class="page page_registration">
     <h5>Регистрация</h5>
+
     <div class="menu_inside_submenu">
         <ul class="menu_inside_submenu_ul active_ul by_statuses">
             <li class="menu_inside_submenu_active">
 				<span>
 					<a title="Регистрация" href="<?php echo joosRoute::href('register') ?>">Регистрация</a>
 				</span>
-			</li>
+            </li>
             <li>
 				<span>
-					<a title="Восстановление пароля" href="<?php echo joosRoute::href('lostpassword') ?>">Восстановление пароля</a>
+					<a title="Восстановление пароля" href="<?php echo joosRoute::href('lostpassword') ?>">Восстановление
+                        пароля</a>
                 </span>
-			</li>
-        </ul>       
-    </div> 
+            </li>
+        </ul>
+    </div>
 
     <form action="<?php echo joosRoute::href('register') ?>" method="post" id="reg_form">
 
         <div class="errors"><?php echo $user->get_error(); ?></div>
         <dl class="form_registration">
             <dt><label for="username">Имя пользователя:</label></dt>
-            <dd><input type="text" name="username" id="username" size="40" value="<?php echo $user->username ?>" class="inputbox" maxlength="10" /></dd>
+            <dd><input type="text" name="username" id="username" size="40" value="<?php echo $user->username ?>"
+                       class="inputbox" maxlength="10"/></dd>
 
             <dt><label for="email"><?php echo _REGISTER_EMAIL; ?></label></dt>
-            <dd><input type="text" name="email" id="email" size="40" value="<?php echo $user->email ?>" class="inputbox" maxlength="20" /></dd>
+            <dd><input type="text" name="email" id="email" size="40" value="<?php echo $user->email ?>" class="inputbox"
+                       maxlength="20"/></dd>
 
             <dt><label for="password"><?php echo _REGISTER_PASSWORD; ?></label></dt>
             <dd>
-                <input class="inputbox" type="password"  name="password"  id="password" size="20" maxlength="15" value="" />
-                <!--<a href="javascript:void(0)" class="show_hide_pass">Показать</a>--> 
+                <input class="inputbox" type="password" name="password" id="password" size="20" maxlength="15"
+                       value=""/>
+                <!--<a href="javascript:void(0)" class="show_hide_pass">Показать</a>-->
             </dd>
 
-<!--<dt><label for="password2_f"><?php echo _REGISTER_VPASS; ?></label></dt>
-<dd><input class="inputbox" type="password" name="password2" id="password2_f" size="40" value="" /></dd>-->  
+            <!--<dt><label for="password2_f"><?php echo _REGISTER_VPASS; ?></label></dt>
+<dd><input class="inputbox" type="password" name="password2" id="password2_f" size="40" value="" /></dd>-->
         </dl>
-        <input type="submit" value="<?php echo _BUTTON_SEND_REG; ?>" class="button" />
-        <input type="hidden" name="<?php echo joosSpoof::get_code() ?>" value="1" />
+        <input type="submit" value="<?php echo _BUTTON_SEND_REG; ?>" class="button"/>
+        <input type="hidden" name="<?php echo joosSpoof::get_code() ?>" value="1"/>
     </form>
 </div>

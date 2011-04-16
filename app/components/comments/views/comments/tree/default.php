@@ -25,48 +25,49 @@ $currentLevel = 0;
 <!--Comments main level-->
 <div class="comments-list" id="comments-list-0">
 	<?php
-	foreach ($items as $id => $comment) :
-		$comment->user_name = $comment->user_id ? $comment->user_name : _GUEST_USER;
-		if ($currentLevel < $comment->level) { ?>
+    foreach ($items as $id => $comment) :
+    $comment->user_name = $comment->user_id ? $comment->user_name : _GUEST_USER;
+    if ($currentLevel < $comment->level) {
+        ?>
 		</div><!--Comments sub level-->
-		<!--Comments sub level-->
+    <!--Comments sub level-->
 		<div class="comments-list" id="comments-list-<?php echo $comment->parent; ?>">
 		<?php } else { ?>
-<?php
-			$j = 0;
-			if ($currentLevel >= $comment->level) {
-				$j = $currentLevel - $comment->level;
-			} else if ($comment->level > 0 && $i == $count - 1) {
-				$j = $comment->level;
-			}
-			while ($j > 0) {
-?>
+        <?php
+                    $j = 0;
+        if ($currentLevel >= $comment->level) {
+            $j = $currentLevel - $comment->level;
+        } else if ($comment->level > 0 && $i == $count - 1) {
+            $j = $comment->level;
+        }
+        while ($j > 0) {
+            ?>
 			</div><!--Comments sub level-->
-			<?php $j--;
-		} ?>
-<?php } ?>
+        <?php $j--;
+        } ?>
+    <?php } ?>
 
-	<!--Comment item-->			
+<!--Comment item-->
 	<div class="comment_item <?php echo ($i % 2 ? 'odd' : 'even'); ?>" id="comment-item-<?php echo $id; ?>">
 		<?php CommentsHTML::comment($comment); ?>
 
-		<?php
-		if ($comment->children == 0) {
-			echo '</div>';
-		}
-		?>
-		<?php
-		if ($comment->level > 0 && $i == $count - 1) {
-			$j = $comment->level;
-		}
-		?>
-	<?php while ($j > 0) { ?>
+    <?php
+            if ($comment->children == 0) {
+    echo '</div>';
+}
+    ?>
+    <?php
+            if ($comment->level > 0 && $i == $count - 1) {
+    $j = $comment->level;
+}
+    ?>
+    <?php while ($j > 0) { ?>
 		</div><!--//Comment item-->
-		<?php $j--;
-	} ?>
+<?php $j--;
+} ?>
 
-	<?php $i++;
-	$currentLevel = $comment->level; ?>
+<?php $i++;
+    $currentLevel = $comment->level; ?>
 
 <?php endforeach; ?>
 </div><!--//Comments main level-->

@@ -12,79 +12,80 @@ defined('_JOOS_CORE') or die();
 
 joosLoader::model('bookmarks');
 
-class actionsBookmarks  extends joosController  {
-	
-	//Обычные закладки
-	public static function index(){
-		$username = self::$param['username'];
-		
-		$user = new User;
-		$user->load_by_field('username', $username);
+class actionsBookmarks extends joosController
+{
 
-		$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
-		
-		$user_bookmarks = null;
-		
-		//Все закладки
-		$bookmarks = $user->extra()->cache_bookmarks;		
+    //Обычные закладки
+    public static function index()
+    {
+        $username = self::$param['username'];
 
-			
-		//Новости
-		$news = isset($bookmarks['News']['all']) ? $bookmarks['News']['all'] : null;
-		if($news){
-			$news_ids = array_keys($news);		
-			joosLoader::model('news');
-	
-			$news = new News;
-	
-			$user_bookmarks['news'] = $news->get_list(
-				array(
-					'select' => "id, title, type_id",
-					'where' => 'state=1 AND id IN('.implode(',', $news_ids).')',
-					'order' => 'id DESC', // сначала последние
-				)
-			);	
-		}	
-		
-	
+        $user = new User;
+        $user->load_by_field('username', $username);
 
-		//Блоги
-		$blogs = isset($bookmarks['Blogs']['all']) ? $bookmarks['Blogs']['all'] : null;
-		if($blogs){
-			$blogs_ids = array_keys($blogs);		
-			joosLoader::model('blog');
-	
-			$blogs = new Blog();
-	
-			$user_bookmarks['blogs'] = $blogs->get_list(
-					array(
-						'select' => "b.id, b.title, u.id as userid, b.created_at, u.username,c.slug as cat_slug",
-						'join' =>
-						'as b INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 )' .
-						' INNER JOIN #__users AS u ON u.id=b.user_id',
-						'where' => 'b.state=1 AND b.id IN('.implode(',', $blogs_ids).')',
-						'order' => 'b.id DESC', 
-					)
-			);			
-		}
-		
-		
-		Jbreadcrumbs::instance()
-			->add($username, joosRoute::href('user_view', array('username'=>$username )))
-			->add('Закладки');			
-			
-		return array(
-			'bookmarks' => $user_bookmarks,
-			'user' => $user,
-			'task' => 'index',
-			'core::modules' => array(
-				'sidebar' => array(
-					'users'=>array('type'=>'profile_user', 'template'=>'profile_user', 'user'=>$user),
-				)
-			)
-		);
-				
-	}
-	
+        $user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');
+
+        $user_bookmarks = null;
+
+        //Все закладки
+        $bookmarks = $user->extra()->cache_bookmarks;
+
+
+        //Новости
+        $news = isset($bookmarks['News']['all']) ? $bookmarks['News']['all'] : null;
+        if ($news) {
+            $news_ids = array_keys($news);
+            joosLoader::model('news');
+
+            $news = new News;
+
+            $user_bookmarks['news'] = $news->get_list(
+                array(
+                     'select' => "id, title, type_id",
+                     'where' => 'state=1 AND id IN(' . implode(',', $news_ids) . ')',
+                     'order' => 'id DESC', // сначала последние
+                )
+            );
+        }
+
+
+        //Блоги
+        $blogs = isset($bookmarks['Blogs']['all']) ? $bookmarks['Blogs']['all'] : null;
+        if ($blogs) {
+            $blogs_ids = array_keys($blogs);
+            joosLoader::model('blog');
+
+            $blogs = new Blog();
+
+            $user_bookmarks['blogs'] = $blogs->get_list(
+                array(
+                     'select' => "b.id, b.title, u.id as userid, b.created_at, u.username,c.slug as cat_slug",
+                     'join' =>
+                     'as b INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 )' .
+                     ' INNER JOIN #__users AS u ON u.id=b.user_id',
+                     'where' => 'b.state=1 AND b.id IN(' . implode(',', $blogs_ids) . ')',
+                     'order' => 'b.id DESC',
+                )
+            );
+        }
+
+
+        joosBreadcrumbs::instance()
+                ->add($username, joosRoute::href('user_view', array('username' => $username)))
+                ->add('Закладки');
+
+        return array(
+            'bookmarks' => $user_bookmarks,
+            'user' => $user,
+            'task' => 'index',
+            'core::modules' => array(
+                'sidebar' => array(
+                    'users' => array('type' => 'profile_user', 'template' => 'profile_user', 'user' => $user),
+                )
+            )
+        );
+
+    }
+
 
 }

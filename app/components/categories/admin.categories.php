@@ -15,7 +15,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsCategories {
+class actionsAdminCategories {
 
 	/**
 	 * Название обрабатываемой модели
@@ -46,13 +46,12 @@ class actionsCategories {
 				->add_js_file(JPATH_SITE . '/core/libraries/system/joiadmin/media/js/joiadmin.js')
 				->add_js_file(JPATH_SITE . '/app/components/categories/media/js/categories.admin.js');
 
-		joosLoader::admin_model('categories');
 		joosLoader::admin_view('categories');
 
 		$group = joosRequest::request('group', '');
 		if ($group) {
 			//Определяем заголовок компонента, с которым работаем
-			JoiAdmin::$component_title = JoiAdmin::get_component_title($group);
+			joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($group);
 
 			//вытягиваем подменю, если оно есть
 			$controller = 'actions' . ucfirst($group);
@@ -74,7 +73,7 @@ class actionsCategories {
 
 		self::$toolbars['index'] = $index_tools;
 
-		echo JoiAdmin::header(self::$component_title, 'Категории', array(), 'listing');
+		echo joosAutoAdmin::header(self::$component_title, 'Категории', array(), 'listing');
 
 		$cats = new Categories;
 		$rootExists = $cats->check_root_node();
@@ -83,7 +82,7 @@ class actionsCategories {
 
 		require_once ('views/categories/default.php');
 
-		echo JoiAdmin::footer();
+		echo joosAutoAdmin::footer();
 	}
 
 	/**
@@ -114,12 +113,12 @@ class actionsCategories {
 
 		//Параметры
 		$obj_data->params_group = $obj_data->group;
-		$obj_data->params = Params::get_params($obj_data->group, 'category', $obj_data->id);
+		$obj_data->params = joosParams::get_params($obj_data->group, 'category', $obj_data->id);
 
 		//Мета-информация
 		$obj_data->metainfo = array();
 		if ($id) {
-			$obj_data->metainfo = Metainfo::get_meta('category', 'item', $id);
+			$obj_data->metainfo = joosMetainfo::get_meta('category', 'item', $id);
 		}
 
 
@@ -128,7 +127,7 @@ class actionsCategories {
 
 	/**
 	 * Сохранение информации
-	 * 
+	 *
 	 * @param string $option
 	 * @param integer $redirect
 	 */
@@ -139,7 +138,7 @@ class actionsCategories {
 		$obj = new self::$model;
 
 		if ($obj->save($_POST) === false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 
@@ -152,18 +151,18 @@ class actionsCategories {
 		} else {
 			$cat_details->bind($_POST);
 			$cat_details->cat_id = $obj->id;
-			database::instance()->insert_object('#__categories_details', $cat_details);
+			joosDatabase::instance()->insert_object('#__categories_details', $cat_details);
 		}
 
 		//Сохранение параметров
 		if (isset($_POST['params'])) {
-			$params = new Params;
+			$params = new joosParams;
 			$params->save_params($_POST['params'], $obj->group, 'category', $obj->id);
 		}
 
 
 		//Сохранение мета-информации
-		Metainfo::add_meta($_POST['metainfo'], 'category', 'item', $obj->id);
+		joosMetainfo::add_meta($_POST['metainfo'], 'category', 'item', $obj->id);
 
 		switch ($redirect) {
 			default:
@@ -183,9 +182,9 @@ class actionsCategories {
 	}
 
 	/**
-	 * Сохранение отредактированного или созданного объекта 
+	 * Сохранение отредактированного или созданного объекта
 	 * и перенаправление на главную страницу компонента
-	 * 
+	 *
 	 * @param string $option
 	 */
 	public static function save($option) {
@@ -194,7 +193,7 @@ class actionsCategories {
 
 	/**
 	 * Сохраняем и возвращаем на форму редактирования
-	 * 
+	 *
 	 * @param string $option
 	 */
 	public static function apply($option) {
@@ -203,7 +202,7 @@ class actionsCategories {
 
 	/**
 	 * Сохраняем и направляем на форму создания нового объекта
-	 * 
+	 *
 	 * @param mixed $option
 	 */
 	public static function save_and_new($option) {
@@ -249,7 +248,6 @@ class actionsCategories {
 		$cats = new Categories;
 
 		$action = $cats->move_up(joosRequest::get('id'));
-
 
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();

@@ -10,12 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-
 //Europe/Moscow // GMT0
 //function_exists('date_default_timezone_set') ? date_default_timezone_set(date_default_timezone_get()) : null;
 // TODO это вообще надо либо настраиваемо, либо убрать либо через другое место сдлеать
 //function_exists('date_default_timezone_set') ? date_default_timezone_set('Europe/Moscow') : null;
-
 // язык сайта
 DEFINE('JLANG', 'russian');
 
@@ -23,7 +21,7 @@ DEFINE('JLANG', 'russian');
 joosConfig::init();
 
 // http адрес сайта
-define('JPATH_SITE',  joosConfig::get('live_site') );
+define('JPATH_SITE', joosConfig::get('live_site'));
 
 // http корень для изображений
 DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
@@ -32,7 +30,7 @@ DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
 DEFINE('JPATH_SITE_FILES', JPATH_SITE);
 
 // каталог кэша
-DEFINE('JPATH_BASE_CACHE', JPATH_BASE.DS.'cache');
+DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');
 
 // путь для установки кук
 DEFINE('JCOOKIE_PACH', str_replace(array('http://', 'https://', 'www'), '', JPATH_SITE));
@@ -40,13 +38,12 @@ DEFINE('JCOOKIE_PACH', str_replace(array('http://', 'https://', 'www'), '', JPAT
 // каталог администратора
 //TODO: одно из этого нужно ликвидировать
 DEFINE('JADMIN_BASE', 'admin');
-DEFINE('JPATH_SITE_ADMIN',  '/admin');
+DEFINE('JPATH_SITE_ADMIN', '/admin');
 
 //плагины - http-путь
-DEFINE('JPATH_SITE_PLUGINS', JPATH_SITE .  '/app/plugins');
+DEFINE('JPATH_SITE_PLUGINS', JPATH_SITE . '/app/plugins');
 //плагины - base-путь
 DEFINE('JPATH_BASE_PLUGINS', JPATH_BASE . DS . 'app' . DS . 'plugins');
-
 
 // активация работы в режиме отладки - осуществляется через ручную установку в браузере куки с произвольным названием, по умолчанию - joostinadebugmode
 DEFINE('JDEBUG_TEST_MODE', (bool) isset($_COOKIE['joostinadebugmode']));
@@ -92,7 +89,7 @@ DEFINE('_SECRET_CODE', 'i-love-joostina');
 |
 | Prototype:
 |
-|	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
+|	$autoload['libraries'] = array('joosDatabase', 'session', 'xmlrpc');
 */
 
 //$autoload['libraries'] = array();

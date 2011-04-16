@@ -17,17 +17,20 @@
 defined('_JOOS_CORE') or die();
 
 joosLoader::lib('joiadmin', 'system');
-JoiAdmin::dispatch_ajax();
-JoiAdmin::autoajax();	
+joosAutoAdmin::dispatch_ajax();
+joosAutoAdmin::autoajax();
 
-class actionsAjaxFaq {
+class actionsAjaxFaq
+{
 
-	public static function on_start() {
-		require joosCore::path('faq', 'admin_class');
-	}
+    public static function on_start()
+    {
+        require joosCore::path('faq', 'admin_class');
+    }
 
-	public static function index() {
+    public static function index()
+    {
 
-	}
-	
+    }
+
 }

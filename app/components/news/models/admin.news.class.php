@@ -1,4 +1,5 @@
 <?php
+
 /**
  * News - компонент новостей
  * Модель
@@ -11,18 +12,8 @@
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  *
  * */
- 
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
-//Поддержка кастомных параметров
-joosLoader::lib('params', 'system');
-
-//Поддержка метаданных
-joosLoader::lib('metainfo', 'seo');
-
-//Модель компонента
-joosLoader::model('news');
 
 class adminNews extends News {
 
@@ -37,7 +28,6 @@ class adminNews extends News {
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
 			),
-
 			'title' => array(
 				'name' => 'Заголовок',
 				'editable' => true,
@@ -55,8 +45,7 @@ class adminNews extends News {
 				'html_table_element_param' => array(),
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
-			),			
-			
+			),
 			'state' => array(
 				'name' => 'Опубликовано',
 				'editable' => true,
@@ -132,28 +121,24 @@ class adminNews extends News {
 					'call_from' => 'adminNews::get_picture_uploader',
 				),
 			),
-
-			
 			//подключение функционала заполнения мета-информации
 			'metainfo' => array(
 				'name' => 'params',
 				'editable' => true,
 				'html_edit_element' => 'json',
 				'html_edit_element_param' => array(
-					'call_from' => 'Metainfo::get_scheme'
+					'call_from' => 'joosMetainfo::get_scheme'
 				),
-			),			
-			
+			),
 			//подключение функционала парметров
 			'params' => array(
 				'name' => 'Параметры',
 				'editable' => true,
 				'html_edit_element' => 'params',
 				'html_edit_element_param' => array(
-					'call_from' => 'Params::get_scheme'
+					'call_from' => 'joosParams::get_scheme'
 				),
 			),
-
 		);
 	}
 
@@ -210,32 +195,32 @@ class adminNews extends News {
 	public function before_store() {
 		$main_image_id = joosRequest::request('main_image_id', 0);
 		$main_image_path = joosRequest::request('image', '');
-		
-		if($main_image_id){
-		    $attach = json_decode($this->attachments, true);            
-            $attach['main'] = array('id'=>$main_image_id, 'path'=>$main_image_path);
+
+		if ($main_image_id) {
+			$attach = json_decode($this->attachments, true);
+			$attach['main'] = array('id' => $main_image_id, 'path' => $main_image_path);
 			$this->attachments = json_encode($attach);
-        }
-        
+		}
+
 		return true;
 	}
 
 	public function before_delete() {
 		return true;
 	}
-	
+
 	public static function get_picture_uploader($item) {
-		
+
 		$attachments = json_decode($item->attachments, true);
 
 		$image_id = 0;
-		if($attachments){
+		if ($attachments) {
 			$image = $attachments['main'];
 			$image_id = $image['id'];
 		}
-		
+
 		Joosdocument::instance()->add_js_file(JPATH_SITE . '/media/js/valumsfileuploader/fileuploader.js');
-		$js_code = "           
+		$js_code = "
 			var uploader = new qq.FileUploader({
 				element: $('#file-uploader-news')[0],
 				multiple: false,

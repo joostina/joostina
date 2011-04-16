@@ -13,8 +13,8 @@ require_once joosCore::path('polls', 'module_helper');
 
 $poll = pollsHelper::get_poll($params);
 
-if(!$poll){
-	return false;
+if (!$poll) {
+    return false;
 }
 
 //Подключение шаблона модуля	

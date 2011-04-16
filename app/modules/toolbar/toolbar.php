@@ -10,11 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-$task = mosGetParam($_REQUEST, 'task', 'index');
+$task = joosRequest::param('task','index');
 
 require_once (JPATH_BASE_ADMIN . '/includes/menubar.html.php');
 
-
-if ($path = joosMainframe::instance()->getPath('toolbar')) {
+if ( ($path = joosMainframe::instance()->getPath('toolbar')) ) {
 	include_once ($path);
 }

@@ -16,9 +16,9 @@ defined('_JOOS_CORE') or die();
 
 /**
  * Class Comments
- * @package	Comments
- * @subpackage	Joostina CMS
- * @created	2010-11-03 17:49:02
+ * @package    Comments
+ * @subpackage    Joostina CMS
+ * @created    2010-11-03 17:49:02
  */
 class Comments extends joosDBModel {
 
@@ -99,31 +99,7 @@ class Comments extends joosDBModel {
 			require_once $plugin_file;
 			$plugin_class = 'comments' . $this->obj_option;
 			$this->params += array('href' => $plugin_class::href($this));
-		} else {
-			// тут надо велосипед который будет вытаскивать ссылку из пришедшего рефферееа
-			// рефферер есть и он с нашего сайта
-			/*
-			  $href = (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], JPATH_SITE) === 0 ) ? $_SERVER['HTTP_REFERER'] : false;
-			  $href = str_replace(JPATH_SITE, '', $href);
-			  $href = trim($href)=='/' ? false : $href;
-
-			  $href = $href ? $href : mosGetParam($_POST, 'current_href', false);
-			  $href = str_replace('/#/', '/', $href);
-
-
-			  if (strpos($href, JPATH_SITE)!=0) {
-			  $comment_arr['error'] = 'Не не, что-то не так';
-			  echo json_encode($comment_arr);
-			  return false;
-			  }
-
-			  $href = str_replace(JPATH_SITE, '', $href);
-
-			  $comment->params = json_encode(array('href' => $href));
-
-			 */
 		}
-
 
 		$this->params = json_encode($this->params);
 	}
@@ -150,7 +126,7 @@ class Comments extends joosDBModel {
 		$this->obj_option = get_class($obj);
 		$this->obj_id = $obj->{$obj->_tbl_key}; // настоящая уличная магия
 		//
-		//Подключаем пагинацию
+        //Подключаем пагинацию
 		joosDocument::instance()
 				->add_js_file(JPATH_SITE . '/includes/libraries/ajaxpager/media/js/jquery.paginate.js')
 				->add_css(JPATH_SITE . '/includes/libraries/ajaxpager/media/css/ajaxpager.css')
@@ -222,7 +198,7 @@ class Comments extends joosDBModel {
 		$r->last_comment_id = rand(1, 1000);
 
 		joosLoader::lib('text');
-		$r->count_text = Text::declension($r->count, array('комментарий', 'комментария', 'комментариев'));
+		$r->count_text = joosText::declension($r->count, array('комментарий', 'комментария', 'комментариев'));
 
 		return $r;
 	}

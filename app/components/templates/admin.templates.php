@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
@@ -9,13 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::admin_model('templates');
-joosLoader::admin_view('templates');
-
 /**
  * Содержимое
  */
-class actionsTemplates {
+class actionsAdminTemplates {
 
 	/**
 	 * Название обрабатываемой модели
@@ -28,41 +26,40 @@ class actionsTemplates {
 	 */
 	public static function index($option) {
 		$obj = new self::$model;
-		$obj_count = JoiAdmin::get_count($obj);
+		$obj_count = joosAutoAdmin::get_count($obj);
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'id DESC'
 		);
-		$obj_list = JoiAdmin::get_list($obj, $param);
+		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
 		// передаём данные в представление
 		thisHTML::index($obj, $obj_list, $pagenav);
 	}
-	
-	
+
 	/**
 	 * Список позиций
 	 */
 	public static function positions($option) {
 		$obj = new TemplatePositions;
-		$obj_count = JoiAdmin::get_count($obj);
+		$obj_count = joosAutoAdmin::get_count($obj);
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'position'
 		);
-		$obj_list = JoiAdmin::get_list($obj, $param);
+		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
 		// передаём данные в представление
 		thisHTML::index_positions($obj, $obj_list, $pagenav);
-	}	
+	}
 
 	/**
 	 * Редактирование
@@ -98,7 +95,7 @@ class actionsTemplates {
 		$tags->save_tags($obj_data);
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 
@@ -137,9 +134,9 @@ class actionsTemplates {
 
 		$obj_name = joosRequest::post('obj_name');
 		$obj_data = new $obj_name;
-		
-		$option = $obj_name=='Templates' ? $option : $option.'&task=positions';
-		
+
+		$option = $obj_name == 'Templates' ? $option : $option . '&task=positions';
+
 		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
 	}
 

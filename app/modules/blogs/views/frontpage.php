@@ -11,7 +11,7 @@
  * @license see license.txt
  *
  **/
- 
+
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 

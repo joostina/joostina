@@ -16,6 +16,6 @@
 defined('_JOOS_CORE') or die();
 
 //Получаем массив с элементами навигации
-$items = Jbreadcrumbs::instance()->get_breadcrumbs_array();
+$items = joosBreadcrumbs::instance()->get_breadcrumbs_array();
 
-(count($items)>0 && $module->template_path) ? require_once $module->template_path : null;
+(count($items) > 0 && $module->template_path) ? require_once $module->template_path : null;

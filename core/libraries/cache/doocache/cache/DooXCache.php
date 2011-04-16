@@ -18,7 +18,8 @@
  * @since 1.1
  */
 
-class DooXCache{
+class DooXCache
+{
 
     /**
      * Adds a cache with an unique Id.
@@ -28,7 +29,8 @@ class DooXCache{
      * @param int $expire Seconds to expired
      * @return bool True if success
      */
-    public function set($id, $data, $expire=0){
+    public function set($id, $data, $expire = 0)
+    {
         return xcache_set($id, $data, $expire);
     }
 
@@ -38,7 +40,8 @@ class DooXCache{
      * @param string $id A unique key identifying the cache
      * @return mixed The value stored in cache. Return false if no cache found or already expired.
      */
-    public function get($id){
+    public function get($id)
+    {
         return xcache_get($id);
     }
 
@@ -48,7 +51,8 @@ class DooXCache{
      * @param string $id Id of the cache
      * @return bool True if success
      */
-    public function flush($id){
+    public function flush($id)
+    {
         return xcache_unset($id);
     }
 
@@ -56,7 +60,8 @@ class DooXCache{
      * Deletes all data cache
      * @return bool True if success
      */
-    public function flushAll(){
+    public function flushAll()
+    {
         return xcache_clear_cache();
     }
 

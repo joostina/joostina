@@ -12,7 +12,7 @@ defined('_JOOS_CORE') or die();
 
 joosLoader::admin_model('blog');
 
-// подключаем библиотеку JoiAdmin
+// подключаем библиотеку joosAutoAdmin
 joosLoader::lib('joiadmin', 'system');
 // передаём управление полётом в автоматический Ajax - обработчик
-echo JoiAdmin::autoajax();
+echo joosAutoAdmin::autoajax();

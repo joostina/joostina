@@ -10,16 +10,18 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class commentsBlog extends Comments {
+class commentsBlog extends Comments
+{
 
-	public static function href(Comments $comment) {
+    public static function href(Comments $comment)
+    {
 
-		joosLoader::model('blog');
+        joosLoader::model('blog');
 
-		$sql = sprintf('SELECT b.id, c.slug AS cat_slug FROM #__blog as b INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 ) WHERE b.id=%s', $comment->obj_id);
-		$blog = database::instance()->set_query($sql, 0, 1)->load_assoc_row();
+        $sql = sprintf('SELECT b.id, c.slug AS cat_slug FROM #__blog as b INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 ) WHERE b.id=%s', $comment->obj_id);
+        $blog = joosDatabase::instance()->set_query($sql, 0, 1)->load_assoc_row();
 
-		return str_replace(JPATH_SITE, '', joosRoute::href('blog_view', array('cat_slug' => $blog['cat_slug'], 'id' => $blog['id'])));
-	}
+        return str_replace(JPATH_SITE, '', joosRoute::href('blog_view', array('cat_slug' => $blog['cat_slug'], 'id' => $blog['id'])));
+    }
 
 }

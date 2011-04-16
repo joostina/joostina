@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Joostina
  * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
@@ -10,7 +9,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsCoder {
+class actionsAdminCoder {
 
 	public static $submenu = array(
 		'model_generator' => array(
@@ -37,20 +36,19 @@ class actionsCoder {
 	}
 
 	public static function index() {
-		
+
 		//Установка подменю
 		self::$submenu['model_generator']['active'] = true;
-		
-		echo JoiAdmin::header( 'Кодер', 'Моделегенератор');
 
-		
+		echo joosAutoAdmin::header('Кодер', 'Моделегенератор');
+
 
 		$rets = array();
 		$rets[] = '<table class="adminlist"><tbody><tr><th>Таблицы</th><th>Код моделей</th></tr></tbody><tr>';
 		$rets[] = '<td width="200" valign="top">';
 
 		$rets[] = forms::open('#', array('id' => 'coder_form'));
-		$tables = database::instance()->get_utils()->get_table_list();
+		$tables = joosDatabase::instance()->get_utils()->get_table_list();
 		foreach ($tables as $key => $value) {
 			$el_id = 'table_' . $value;
 			$rets[] = forms::checkbox('codertable[]', $value, false, 'id="' . $el_id . '" ');
@@ -64,23 +62,23 @@ class actionsCoder {
 		$rets[] = '</tr></table>';
 
 		echo implode("\n", $rets);
-		
-		echo JoiAdmin::footer();
+
+		echo joosAutoAdmin::footer();
 	}
 
 	public static function faker($option) {
 		//Установка подменю
 		self::$submenu['db_faker']['active'] = true;
-		
-		echo JoiAdmin::header( 'Кодер', 'БазаДурьюЗаполнялка');
-		
+
+		echo joosAutoAdmin::header('Кодер', 'БазаДурьюЗаполнялка');
+
 
 		$rets = array();
 		$rets[] = '<table class="adminlist"><tbody><tr><th>Таблицы</th><th>Правила заполнения</th></tr></tbody><tr>';
 		$rets[] = '<td width="200" valign="top">';
 
 		$rets[] = forms::open('#', array('id' => 'faker_form'));
-		$tables = database::instance()->get_utils()->get_table_list();
+		$tables = joosDatabase::instance()->get_utils()->get_table_list();
 		foreach ($tables as $key => $value) {
 			$el_id = 'table_' . $value;
 			$rets[] = forms::radio('fakertable[]', $value, false, 'id="' . $el_id . '" ');
@@ -95,53 +93,54 @@ class actionsCoder {
 
 		echo implode("\n", $rets);
 
-		echo JoiAdmin::footer();
+		echo joosAutoAdmin::footer();
 	}
 
-	
 	public static function componenter($option) {
-	
+
 		//Установка подменю
 		self::$submenu['component_generator']['active'] = true;
-		
-		//Установка заголовка
-		echo JoiAdmin::header( 'Кодер', 'Компонентогенератор');		
-		 	
-		
-		?>
-			<table class="adminlist">
-				<tr><th>Описание</th><th>Код компонента</th></tr>
-				<tr>					
-					<td width="200">
-						<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
-							<label for="">Имя компонента:</label><br/>
-							<input type="text" name="component_name" class="text" value="news" />
-							<br/><br/>
-							
-							<label for="">Заголовок компонента:</label><br/>
-							<input type="text" name="component_title" class="text" value="Новости" />
-							<br/><br/>							
-							
-							<label for="">Описание компонента:</label><br/>
-							<input type="text" name="component_desc" class="text" value="Компонент новостей" />
-							<br/><br/>
-							
-							<label for="">Автор:</label><br/>
-							<input type="text" name="component_author" class="text" value="Joostina Team" />
-							<br/><br/>
-							
-							<label for="">Email:</label><br/>
-							<input type="text" name="component_authoremail" class="text" value="info@joostina.ru" />
-							<br/><br/>
-						<?php echo forms::close();?>						
-						<button id="create_component">Сгенерировать</button>
-					</td>
-					<td><div id="componenter_results"></div></td>
-				</tr>
-			</table>
-		<?php
-		
 
-		echo JoiAdmin::footer();
-	}
-}
+		//Установка заголовка
+		echo joosAutoAdmin::header('Кодер', 'Компонентогенератор');
+		?>
+		<table class="adminlist">
+			<tr>
+				<th>Описание</th>
+				<th>Код компонента</th>
+			</tr>
+			<tr>
+				<td width="200">
+		<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
+					<label for="">Имя компонента:</label><br/>
+					<input type="text" name="component_name" class="text" value="news"/>
+					<br/><br/>
+
+					<label for="">Заголовок компонента:</label><br/>
+					<input type="text" name="component_title" class="text" value="Новости"/>
+					<br/><br/>
+
+					<label for="">Описание компонента:</label><br/>
+					<input type="text" name="component_desc" class="text" value="Компонент новостей"/>
+					<br/><br/>
+
+					<label for="">Автор:</label><br/>
+					<input type="text" name="component_author" class="text" value="Joostina Team"/>
+					<br/><br/>
+
+					<label for="">Email:</label><br/>
+					<input type="text" name="component_authoremail" class="text" value="info@joostina.ru"/>
+					<br/><br/>
+		<?php echo forms::close(); ?>
+					<button id="create_component">Сгенерировать</button>
+				</td>
+				<td>
+					<div id="componenter_results"></div>
+				</td>
+			</tr>
+		</table>
+					<?php
+					echo joosAutoAdmin::footer();
+				}
+
+			}

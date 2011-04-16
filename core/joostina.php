@@ -14,31 +14,19 @@
 defined('_JOOS_CORE') or die();
 
 // предстартовые конфигурации
-require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
+require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
+// ядро
+require JPATH_BASE . DS . 'core' . DS . 'exception.php';
+require JPATH_BASE . DS . 'core' . DS . 'autoloader.php';
+require JPATH_BASE . DS . 'core' . DS . 'extraroute.php';
 
-// при активном полном или тестовом режиме отладки подключим дополнительную библиотеку отладки
-(JDEBUG || JDEBUG_TEST_MODE) ? joosLoader::lib('debug', 'utils') : null;
+// роутер
+require_once (JPATH_BASE . DS . 'app' . DS . 'route.php');
 
-/* библиотека для работы с юникодом */
-joosLoader::lib('jstring', 'text');
-
-/* библиотека фильтрации данных */
-joosLoader::lib('inputfilter', 'system');
-
-require_once (JPATH_BASE . DS . 'core' . DS . 'extraroute.php');
-
-/* библиотека работы с базой данных */
-joosLoader::lib('database', 'db');
+joosAutoloader::init();
 
 /* работа с пользователями  */
-joosLoader::model('users');
-
-joosLoader::lib('html');
-
-joosLoader::lib('files');
-
-joosLoader::lib('text');
-
+//joosLoader::model('users');
 joosLoader::admin_model('modules');
 
 /**
@@ -81,7 +69,7 @@ class joosMainframe {
 	 */
 	public static function instance($is_admin = false) {
 
-		JDEBUG ? jd_inc('joosMainframe::instance()') : null;
+		JDEBUG ? joosDebug::inc('joosMainframe::instance()') : null;
 
 		if (self::$instance === null) {
 			self::$instance = new self($is_admin);
@@ -96,37 +84,6 @@ class joosMainframe {
 
 	function get($property, $default = null) {
 		return isset($this->$property) ? $this->$property : $default;
-	}
-
-	/**
-	 * Определение пути для подключения языкового файла
-	 * @param string $name Имя файла
-	 * @return string Путь к файлу или FALSE
-	 */
-	//TODO Переписать метод на более компактный код. Изменить формат языковых файлов
-	public static function get_lang_path($name = '') {
-
-		if (!$name) {
-			return JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'system.php';
-		} else {
-			$file = $name;
-		}
-
-		if (self::$is_admin == true) {
-			if (is_file(JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'administrator' . DS . $file . '.php')) {
-				return JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'administrator' . DS . $file . '.php';
-			} else {
-				if (is_file(JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php')) {
-					return JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php';
-				}
-			}
-		} else {
-			if (is_file(JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php')) {
-				return JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . 'frontend' . DS . $file . '.php';
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -362,8 +319,35 @@ class joosHTML {
 	 * @param string $name название файла значка
 	 * @param string $size размер значка
 	 */
-	public static function ico($name, $size='16x16') {
+	public static function ico($name, $size = '16x16') {
 		return sprintf('%s/media/images/icons/%s/candy/%s.png', JPATH_SITE, $size, $name);
+	}
+
+	/**
+	 * "Обезопасивание" сущностей. Защищает данные от вывода их в прямом HTML формате.
+	 * Варианты использования - в формах или небезопасных выводах
+	 * @param mixed $mixed строка массив или объект для обезопасивания
+	 * @param const $quote_style тип зашиты - ENT_COMPAT, ENT_QUOTES или ENT_NOQUOTES
+	 * @param mixed $exclude_keys массив или название ключа массива или поля объекта которые обезопасивать не стоит
+	 * @return mixed обезопасенная сущность
+	 */
+	public static function make_safe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '') {
+		if (is_object($mixed)) {
+			foreach (get_object_vars($mixed) as $k => $v) {
+				if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_') {
+					continue;
+				}
+				if (is_string($exclude_keys) && $k == $exclude_keys) {
+					continue;
+				} else
+				if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
+					continue;
+				}
+				$mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
+			}
+		} elseif (is_string($mixed)) {
+			return htmlspecialchars($mixed, $quote_style, 'UTF-8');
+		}
 	}
 
 }
@@ -433,7 +417,7 @@ class joosSpoof {
  * @package Joostina
  * @subpackage Document
  */
-class joosDocument extends joosSingleton {
+class joosDocument {
 
 	private static $instance;
 	private static $title_separator = ' - ';
@@ -557,11 +541,11 @@ class joosDocument extends joosSingleton {
 	}
 
 	function prepend_meta_tag($name, $content) {
-		$name = Jstring::trim(htmlspecialchars($name, ENT_QUOTES, 'UTF-8'));
+		$name = joosString::trim(htmlspecialchars($name, ENT_QUOTES, 'UTF-8'));
 		$n = count(self::$data['meta']);
 		for ($i = 0; $i < $n; $i++) {
 			if (self::$data['meta'][$i][0] == $name) {
-				$content = Jstring::trim(htmlspecialchars($content, ENT_QUOTES, 'UTF-8'));
+				$content = joosString::trim(htmlspecialchars($content, ENT_QUOTES, 'UTF-8'));
 				self::$data['meta'][$i][1] = $content . self::$data['meta'][$i][1];
 				return;
 			}
@@ -771,7 +755,7 @@ class joosCore {
 	 */
 	public static function path($name, $type, $cat = '') {
 
-		(JDEBUG && $name != 'debug') ? jd_inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
+		(JDEBUG && $name != 'debug') ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
 
 		switch ($type) {
 			case 'controller':
@@ -851,11 +835,13 @@ class joosCore {
 class joosLoader {
 
 	public static function model($name) {
-		require_once joosCore::path($name, 'class');
+		// TODO разрешить после полной натсройки автозагрузчика
+		//require_once joosCore::path($name, 'class');
 	}
 
 	public static function admin_model($name) {
-		require_once joosCore::path($name, 'admin_class');
+		// TODO разрешить после полной натсройки автозагрузчика
+		//require_once joosCore::path($name, 'admin_class');
 	}
 
 	public static function view($name) {
@@ -898,7 +884,7 @@ class joosLoader {
 		if (is_file($file)) {
 			require_once $file;
 		} else {
-			!JDEBUG ? : jd_log(sprintf(('Отсутствует файл языка для %s'), $name));
+			!JDEBUG ? : joosDebug::add(sprintf(('Отсутствует файл языка для %s'), $name));
 		}
 	}
 
@@ -922,7 +908,7 @@ class joosController {
 		//
 		joosDocument::header();
 		// инициализируем соединение с базой
-		//database::instance();
+		//joosDatabase::instance();
 	}
 
 	/**
@@ -932,7 +918,7 @@ class joosController {
 
 		$class = 'actions' . ucfirst(self::$controller);
 
-		JDEBUG ? jd_log($class . '::' . self::$task) : null;
+		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
 
 		$path = joosCore::path(self::$controller, 'controller');
 
@@ -966,7 +952,7 @@ class joosController {
 
 		$class = 'actions' . ucfirst(self::$controller);
 
-		JDEBUG ? jd_log($class . '::' . self::$task) : null;
+		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
 
 		$path = joosCore::path(self::$controller, 'ajax_controller');
 
@@ -1455,7 +1441,7 @@ class joosSession {
 				self::set_user_state($var_name, $var_default);
 			}
 
-			self::$_userstate[$var_name] = InputFilter::instance()->process(self::$_userstate[$var_name]);
+			self::$_userstate[$var_name] = joosInputFilter::instance()->process(self::$_userstate[$var_name]);
 			return self::$_userstate[$var_name];
 		} else {
 			return null;
@@ -1485,7 +1471,7 @@ class joosFlashMessage {
 	 * @return void
 	 */
 	public static function add($msg) {
-		$msg = Jstring::trim($msg);
+		$msg = joosString::trim($msg);
 
 		if ($msg != '') {
 			if (joosMainframe::is_admin()) {
@@ -1518,8 +1504,8 @@ class joosFlashMessage {
 
 		$mosmsg = joosRequest::session('joostina.mosmsg', false);
 
-		if ($mosmsg != '' && Jstring::strlen($mosmsg) > 300) { // выводим сообщения не длинее 300 символов
-			$mosmsg = Jstring::substr($mosmsg, 0, 300);
+		if ($mosmsg != '' && joosString::strlen($mosmsg) > 300) { // выводим сообщения не длинее 300 символов
+			$mosmsg = joosString::substr($mosmsg, 0, 300);
 		}
 
 		/**
@@ -1744,42 +1730,53 @@ class joosModule extends Modules {
 
 }
 
-// заглушка для дальнейшей локализации, все строки просто обрамляем __('текст')
-function __($t) {
-	return $t;
-}
-
-class joosSingleton {
+// "хлебные крошки"
+class joosBreadcrumbs {
 
 	private static $instance;
+	private static $breadcrumbs = array();
 
-	private function __construct() {
-
-	}
-
-	private function __clone() {
-
-	}
-
+	/**
+	 *
+	 * @return joosBreadcrumbs
+	 */
 	public static function instance() {
-
-		// пример отладочного механизма для выявления мест вызова инстанций
-		if (function_exists('debug_backtrace')) {
-			$n = true;
-			foreach (debug_backtrace() as $back) {
-				if ($n && @$back['file']) {
-					JDEBUG ? jd_inc('joosSinglton::instance()->' . $back['file'] . ': ' . $back['line']) : null;
-					$n = false;
-				}
-			}
-		}
-
-		if (self::$instance === null) {
+		if (self::$instance === NULL) {
 			self::$instance = new self;
+			joosLoader::lib('html');
 		}
 		return self::$instance;
 	}
 
+	public function add($name, $href = false) {
+		self::$breadcrumbs[] = $href ? HTML::anchor($href, $name, array('class' => 'breadcrumbs_link', 'title' => $name)) : $name;
+		return $this;
+	}
+
+	public function remove($index = false, $name = false) {
+		return $this;
+	}
+
+	public function get() {
+		// поисковикам очень хорошо подсказать что это крошки, и использовать значек › - поисковики его любят ( проштудировал кучу ссылок )
+		return '<div class="breadcrumbs">' . implode(' › ', self::$breadcrumbs) . '</div>';
+	}
+
+	public function get_breadcrumbs_array() {
+		return self::$breadcrumbs;
+	}
+
+	// переопределим ВСЕ установленные вручную title, и сформируем их из "хлебных крошек"
+	public static function add_to_title() {
+		joosDocument::instance()
+				->set_page_title(strip_tags(implode(' › ', self::$breadcrumbs)));
+	}
+
+}
+
+// заглушка для дальнейшей локализации, все строки просто обрамляем __('текст')
+function __($t) {
+	return $t;
 }
 
 /**
@@ -1789,10 +1786,10 @@ class joosSingleton {
  * @param mixed The default value to give if no key found
  * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
  */
-define("_NOTRIM", 0x0001);
-define("_ALLOWHTML", 0x0002);
+//define("_NOTRIM", 0x0001);
+//define("_ALLOWHTML", 0x0002);
 
-function mosGetParam(&$arr, $name, $def = null, $mask = 0) {
+function __mosGetParam(&$arr, $name, $def = null, $mask = 0) {
 
 	$return = null;
 	if (isset($arr[$name])) {
@@ -1801,31 +1798,12 @@ function mosGetParam(&$arr, $name, $def = null, $mask = 0) {
 		if (is_string($return)) {
 			$return = (!($mask & _NOTRIM)) ? trim($return) : $return;
 
-			$return = (!($mask & _ALLOWHTML)) ? InputFilter::instance()->process($return) : $return;
+			$return = (!($mask & _ALLOWHTML)) ? joosInputFilter::instance()->process($return) : $return;
 		}
 
 		return $return;
 	} else {
 		return $def;
-	}
-}
-
-function mosMakeHtmlSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '') {
-	if (is_object($mixed)) {
-		foreach (get_object_vars($mixed) as $k => $v) {
-			if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_') {
-				continue;
-			}
-			if (is_string($exclude_keys) && $k == $exclude_keys) {
-				continue;
-			} else
-			if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
-				continue;
-			}
-			$mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
-		}
-	} elseif (is_string($mixed)) {
-		return htmlspecialchars($mixed, $quote_style, 'UTF-8');
 	}
 }
 
@@ -1860,7 +1838,7 @@ function _xdump($var, $text = '<pre>') {
  * Информация о версии
  * @package Joostina
  */
-class coreVersion {
+class joosVersion {
 
 	public static
 	/** @var строка CMS */
@@ -1870,7 +1848,7 @@ class coreVersion {
 	/** @var int Номер сборки */
 	$BUILD = '$: 1***',
 	/** @var string Дата */
-	$RELDATE = '03:04:2011',
+	$RELDATE = '15:04:2011',
 	/** @var string Время */
 	$RELTIME = 'xx:xx:xx',
 	/** @var string Текст авторских прав */

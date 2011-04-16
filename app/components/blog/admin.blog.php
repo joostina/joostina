@@ -10,17 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('blog') ? joosRoute::redirect('index2.php?', _NOT_AUTH) : null;
-
 /**
  * Содержимое
  */
-class actionsBlog {
-
-	public static function on_start() {
-		joosLoader::admin_model('blog');
-		joosLoader::admin_view('blog');
-	}
+class actionsAdminBlog {
 
 	/**
 	 * Название обрабатываемой модели
@@ -33,16 +26,16 @@ class actionsBlog {
 	 */
 	public static function index($option) {
 		$obj = new self::$model;
-		$obj_count = JoiAdmin::get_count($obj);
+		$obj_count = joosAutoAdmin::get_count($obj);
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'id DESC'
 		);
-		$obj_list = JoiAdmin::get_list($obj, $param);
+		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
 		// передаём данные в представление
 		thisHTML::index($obj, $obj_list, $pagenav);
@@ -82,7 +75,7 @@ class actionsBlog {
 		$tags->save_tags($obj_data);
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 

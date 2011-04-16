@@ -23,7 +23,7 @@
 /**
  * @see Zend_Acl_Role_Interface
  */
-require_once JPATH_BASE . DS. 'core' . DS . 'libraries' . DS. 'system' . DS. 'acl' . DS. 'Zend'. DS.'Acl'. DS.'Role'. DS.'Interface.php';
+require_once JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . 'system' . DS . 'acl' . DS . 'Zend' . DS . 'Acl' . DS . 'Role' . DS . 'Interface.php';
 
 
 /**
@@ -100,9 +100,9 @@ class Zend_Acl_Role_Registry
 
         $this->_roles[$roleId] = array(
             'instance' => $role,
-            'parents'  => $roleParents,
+            'parents' => $roleParents,
             'children' => array()
-            );
+        );
 
         return $this;
     }
@@ -121,7 +121,7 @@ class Zend_Acl_Role_Registry
         if ($role instanceof Zend_Acl_Role_Interface) {
             $roleId = $role->getRoleId();
         } else {
-            $roleId = (string) $role;
+            $roleId = (string)$role;
         }
 
         if (!$this->has($role)) {
@@ -148,7 +148,7 @@ class Zend_Acl_Role_Registry
         if ($role instanceof Zend_Acl_Role_Interface) {
             $roleId = $role->getRoleId();
         } else {
-            $roleId = (string) $role;
+            $roleId = (string)$role;
         }
 
         return isset($this->_roles[$roleId]);
@@ -197,7 +197,7 @@ class Zend_Acl_Role_Registry
          */
         require_once 'Zend/Acl/Role/Registry/Exception.php';
         try {
-            $roleId     = $this->get($role)->getRoleId();
+            $roleId = $this->get($role)->getRoleId();
             $inheritId = $this->get($inherit)->getRoleId();
         } catch (Zend_Acl_Role_Registry_Exception $e) {
             throw new Zend_Acl_Role_Registry_Exception($e->getMessage(), $e->getCode(), $e);

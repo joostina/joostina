@@ -11,5 +11,5 @@ defined('_JOOS_CORE') or die();
 
 ?>
 
-У нас уже зарегано <b><?php echo $users_count ?></b>, то-то.<br />
+У нас уже зарегано <b><?php echo $users_count ?></b>, то-то.<br/>
 Да, а это <?php echo $page ?> страница списка пользователй, то-то

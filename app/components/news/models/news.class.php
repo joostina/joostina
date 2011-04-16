@@ -15,17 +15,11 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-//Поддержка метаданных
-joosLoader::lib('metainfo', 'seo');
-
-//Поддержка параметров
-joosLoader::lib('params', 'system');
-
 /**
  * Class News
- * @package	News
- * @subpackage	Joostina CMS
- * @created	2010-10-03 00:41:28
+ * @package    News
+ * @subpackage    Joostina CMS
+ * @created    2010-10-03 00:41:28
  */
 class News extends joosDBModel {
 
@@ -42,7 +36,7 @@ class News extends joosDBModel {
 	 */
 	public $slug;
 	/**
-	 * @var text
+	 * @var joosText
 	 */
 	public $introtext;
 	/**
@@ -70,10 +64,9 @@ class News extends joosDBModel {
 	 */
 	public $special;
 	/**
-	 * @var text
+	 * @var joosText
 	 */
-	public $attachments;	
-	
+	public $attachments;
 	private static $news_array = array(
 		1 => array(
 			'title' => 'Новости сайта',
@@ -124,11 +117,10 @@ class News extends joosDBModel {
 		return joosDate::format($obj->created_at, '%d/%m/%Y');
 	}
 
-
 	public static function get_image($item, $type = 'thumb', $image_attr = array()) {
 
-		$file_location = JPATH_SITE_IMAGES.'/' . $item->image . '/' . $type.'.jpg';
-	
+		$file_location = JPATH_SITE_IMAGES . '/' . $item->image . '/' . $type . '.jpg';
+
 		$image_attr += array('src' => $file_location, 'title' => $item->title, 'alt' => $item->title);
 		return HTML::image($image_attr);
 	}

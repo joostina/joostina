@@ -13,18 +13,14 @@ defined('_JOOS_CORE') or die();
 /**
  * Содержимое
  */
-class actionsUsers {
-
-	public static function on_start() {
-		joosLoader::lib('html');
-	}
+class actionsAdminUsers {
 
 	private static $headers_data = array(
 		'User' => array('Пользователи',
 			array('id', 'username', 'gid', 'lastvisitDate', 'state')
 		),
 		'UsersGroups' => array('Группы пользователей',
-			array('group_title','title', 'parent_id')
+			array('group_title', 'title', 'parent_id')
 		)
 	);
 	/**
@@ -98,21 +94,21 @@ class actionsCurrent {
 
 	public static function index($option) {
 
-		JoiAdmin::$model = self::$model;
+		joosAutoAdmin::$model = self::$model;
 		// верхнее меню текущего компонента
-		JoiAdmin::$submenu = self::$headers_menu;
+		joosAutoAdmin::$submenu = self::$headers_menu;
 
 		$obj = new self::$model;
-		$obj_count = JoiAdmin::get_count($obj);
+		$obj_count = joosAutoAdmin::get_count($obj);
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'id DESC'
 		);
-		$obj_list = JoiAdmin::get_list($obj, $param);
+		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
 		viewsCurrent::index($obj, $obj_list, $pagenav, self::$model_data[1]);
 	}
@@ -123,7 +119,7 @@ class actionsCurrent {
 
 	public static function edit($option) {
 
-		JoiAdmin::$model = self::$model;
+		joosAutoAdmin::$model = self::$model;
 
 		$obj_data = new self::$model;
 
@@ -138,13 +134,13 @@ class actionsCurrent {
 	public static function save($option, $redirect = 0) {
 		joosSpoof::check_code();
 
-		JoiAdmin::$model = self::$model;
+		joosAutoAdmin::$model = self::$model;
 
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 
@@ -177,7 +173,7 @@ class actionsCurrent {
 
 		$cid = joosRequest::array_param('cid');
 
-		JoiAdmin::$model = self::$model;
+		joosAutoAdmin::$model = self::$model;
 
 		$obj_data = new self::$model;
 		$obj_data->delete_array($cid, $obj_data->get_key_field());
@@ -195,7 +191,7 @@ class viewsCurrent {
 		$base_href = sprintf('index2.php?option=%s&model=', $option);
 		$result = array();
 		foreach ($data as $name => $table) {
-			$result[] = array('href' => $base_href . $name, 'name' => $table[0], 'active' => ( $model == $name ? 1 : 0 ));
+			$result[] = array('href' => $base_href . $name, 'name' => $table[0], 'active' => ($model == $name ? 1 : 0));
 		}
 		return $result;
 	}
@@ -204,10 +200,10 @@ class viewsCurrent {
 	 * Список объектов
 	 * @param joosDBModel $obj - основной объект отображения
 	 * @param array $obj_list - список объектов вывода
-	 * @param joosPagenator $pagenav - объект постраничной навигации
+	 * @param joosAdminPagenator $pagenav - объект постраничной навигации
 	 */
 	public static function index($obj, array $obj_list, $pagenav, array $fields_list = array()) {
-		JoiAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -218,7 +214,7 @@ class viewsCurrent {
 	public static function edit($articles_obj, $articles_data) {
 
 		// передаём данные в формирование представления
-		JoiAdmin::edit($articles_obj, $articles_data);
+		joosAutoAdmin::edit($articles_obj, $articles_data);
 	}
 
 }

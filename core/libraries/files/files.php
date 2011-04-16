@@ -23,14 +23,16 @@ defined('_JOOS_CORE') or die();
 /**
  * Provides functions for managing file system
  */
-class Files {
+class Files
+{
 
     const LIST_FILE = 'file';
     const LIST_FOLDER = 'folder';
 
     public $chmod;
 
-    public function  __construct($chmod=null) {
+    public function  __construct($chmod = null)
+    {
         $this->chmod = $chmod;
     }
 
@@ -39,18 +41,19 @@ class Files {
      * @param string $dir Path of the folder to be deleted
      * @return int Total of deleted files/folders
      */
-    public function purgeContent($dir) {
+    public function purgeContent($dir)
+    {
         $totalDel = 0;
         $handle = opendir($dir);
 
         while (false !== ($file = readdir($handle))) {
             if ($file != '.' && $file != '..') {
-                if (is_dir($dir.$file)) {
-                    $totalDel += $this->purgeContent($dir.$file.'/');
-                    if( rmdir($dir.$file) )
+                if (is_dir($dir . $file)) {
+                    $totalDel += $this->purgeContent($dir . $file . '/');
+                    if (rmdir($dir . $file))
                         $totalDel++;
-                }else {
-                    if( unlink($dir.$file) )
+                } else {
+                    if (unlink($dir . $file))
                         $totalDel++;
                 }
             }
@@ -65,21 +68,22 @@ class Files {
      * @param bool $deleteSelf true if the folder should be deleted. false if just its contents.
      * @return int|bool Returns the total of deleted files/folder. Returns false if delete failed
      */
-    public function delete($path, $deleteSelf=true) {
+    public function delete($path, $deleteSelf = true)
+    {
 
         //delete all sub folder/files under, then delete the folder itself
-        if(is_dir($path)) {
-            if($path[strlen($path)-1] != '/' && $path[strlen($path)-1] != '\\' ) {
+        if (is_dir($path)) {
+            if ($path[strlen($path) - 1] != '/' && $path[strlen($path) - 1] != '\\') {
                 $path .= DIRECTORY_SEPARATOR;
                 $path = str_replace('\\', '/', $path);
             }
-            if($total = $this->purgeContent($path)) {
-                if($deleteSelf)
-                    if($t = rmdir($path))
+            if ($total = $this->purgeContent($path)) {
+                if ($deleteSelf)
+                    if ($t = rmdir($path))
                         return $total + $t;
                 return $total;
             }
-            else if($deleteSelf) {
+            else if ($deleteSelf) {
                 return rmdir($path);
             }
             return false;
@@ -97,30 +101,31 @@ class Files {
      * @param string $writeFileMode Mode to write the file
      * @return bool Returns true if file/folder created
      */
-    public function create($path, $content=null, $writeFileMode='w+') {
+    public function create($path, $content = null, $writeFileMode = 'w+')
+    {
         //create file if content not empty
         if (!empty($content)) {
-            if(strpos($path, '/')!==false || strpos($path, '\\')!==false) {
+            if (strpos($path, '/') !== false || strpos($path, '\\') !== false) {
                 $path = str_replace('\\', '/', $path);
                 $filename = $path;
                 $path = explode('/', $path);
-                array_splice($path, sizeof($path)-1);
+                array_splice($path, sizeof($path) - 1);
 
                 $path = implode('/', $path);
-                if($path[strlen($path)-1] != '/') {
+                if ($path[strlen($path) - 1] != '/') {
                     $path .= '/';
                 }
-            }else {
+            } else {
                 $filename = $path;
             }
 
-            if($filename!=$path && !file_exists($path))
+            if ($filename != $path && !file_exists($path))
                 mkdir($path, $this->chmod, true);
             $fp = fopen($filename, $writeFileMode);
             $rs = fwrite($fp, $content);
             fclose($fp);
-            return ($rs>0);
-        }else {
+            return ($rs > 0);
+        } else {
             if (!file_exists($path)) {
                 return mkdir($path, $this->chmod, true);
             } else {
@@ -135,17 +140,18 @@ class Files {
      * @param string $to Destination path of the folder/file
      * @return bool Returns true if file/folder created
      */
-    public function move($from, $to) {
-        if(strpos($to, '/')!==false || strpos($to, '\\')!==false) {
+    public function move($from, $to)
+    {
+        if (strpos($to, '/') !== false || strpos($to, '\\') !== false) {
             $path = str_replace('\\', '/', $to);
             $path = explode('/', $path);
-            array_splice($path, sizeof($path)-1);
+            array_splice($path, sizeof($path) - 1);
 
             $path = implode('/', $path);
-            if($path[strlen($path)-1] != '/') {
+            if ($path[strlen($path) - 1] != '/') {
                 $path .= '/';
             }
-            if(!file_exists($path)) {
+            if (!file_exists($path)) {
                 mkdir($path, $this->chmod, true);
             }
         }
@@ -160,32 +166,33 @@ class Files {
      * @param array $exclude An array of file and folder names to be excluded from a copy
      * @return bool|int Returns true if file copied. If $from is a folder, returns the number of files/folders copied
      */
-    public function copy($from, $to, $exclude=array()) {
-        if(is_dir($from)) {
-            if($to[strlen($to)-1] != '/' && $to[strlen($to)-1] != '\\' ) {
+    public function copy($from, $to, $exclude = array())
+    {
+        if (is_dir($from)) {
+            if ($to[strlen($to) - 1] != '/' && $to[strlen($to) - 1] != '\\') {
                 $to .= DIRECTORY_SEPARATOR;
                 $to = str_replace('\\', '/', $to);
             }
-            if($from[strlen($from)-1] != '/' && $from[strlen($from)-1] != '\\' ) {
+            if ($from[strlen($from) - 1] != '/' && $from[strlen($from) - 1] != '\\') {
                 $from .= DIRECTORY_SEPARATOR;
                 $from = str_replace('\\', '/', $from);
             }
-            if(!file_exists($to))
+            if (!file_exists($to))
                 mkdir($to, $this->chmod, true);
 
             return $this->copyContent($from, $to, $exclude);
-        }else {
-            if(strpos($to, '/')!==false || strpos($to, '\\')!==false) {
+        } else {
+            if (strpos($to, '/') !== false || strpos($to, '\\') !== false) {
                 $path = str_replace('\\', '/', $to);
                 $path = explode('/', $path);
-                array_splice($path, sizeof($path)-1);
+                array_splice($path, sizeof($path) - 1);
 
                 $path = implode('/', $path);
-                if($path[strlen($path)-1] != '/') {
+                if ($path[strlen($path) - 1] != '/') {
                     $path .= '/';
                 }
 
-                if(!file_exists($path))
+                if (!file_exists($path))
                     mkdir($path, $this->chmod, true);
             }
             return copy($from, $to);
@@ -199,20 +206,21 @@ class Files {
      * @param array $exclude An array of file and folder names to be excluded from a copy
      * @return int Total of files/folders copied
      */
-    public function copyContent($dir, $to, $exclude=array()) {
+    public function copyContent($dir, $to, $exclude = array())
+    {
         $totalCopy = 0;
         $handle = opendir($dir);
 
-        while(false !== ($file = readdir($handle))) {
-            if($file != '.' && $file != '..' && !in_array($file, $exclude)) {
+        while (false !== ($file = readdir($handle))) {
+            if ($file != '.' && $file != '..' && !in_array($file, $exclude)) {
 
-                if (is_dir($dir.$file)) {
-                    if(!file_exists($to.$file))
-                        mkdir($to.$file, $this->chmod, true);
+                if (is_dir($dir . $file)) {
+                    if (!file_exists($to . $file))
+                        mkdir($to . $file, $this->chmod, true);
 
-                    $totalCopy += $this->copyContent($dir.$file.'/', $to.$file.'/', $exclude);
-                }else {
-                    if( copy($dir.$file, $to.$file) )
+                    $totalCopy += $this->copyContent($dir . $file . '/', $to . $file . '/', $exclude);
+                } else {
+                    if (copy($dir . $file, $to . $file))
                         $totalCopy++;
                 }
             }
@@ -229,22 +237,23 @@ class Files {
      * @param int $precision
      * @return float total space used up by the folder (KB)
      */
-    public function getSize($dir, $unit='KB', $precision=2) {
-        if(!is_dir($dir)) return filesize($dir);
+    public function getSize($dir, $unit = 'KB', $precision = 2)
+    {
+        if (!is_dir($dir)) return filesize($dir);
         $dir = str_replace('\\', '/', $dir);
-        if($dir[strlen($dir)-1] != '/') {
+        if ($dir[strlen($dir) - 1] != '/') {
             $dir .= '/';
         }
 
         $totalSize = 0;
         $handle = opendir($dir);
 
-        while(false !== ($file = readdir($handle))) {
-            if($file != '.' && $file != '..') {
-                if (is_dir($dir.$file)) {
-                    $totalSize += $this->getSize($dir.$file, false);
-                }else {
-                    $totalSize += filesize($dir.$file);
+        while (false !== ($file = readdir($handle))) {
+            if ($file != '.' && $file != '..') {
+                if (is_dir($dir . $file)) {
+                    $totalSize += $this->getSize($dir . $file, false);
+                } else {
+                    $totalSize += filesize($dir . $file);
                 }
             }
         }
@@ -259,26 +268,28 @@ class Files {
      * @param int $precision
      * @return float
      */
-    public static function formatBytes($bytes, $unit='KB', $precision=2) {
+    public static function formatBytes($bytes, $unit = 'KB', $precision = 2)
+    {
         if ($unit === false) {
             return $bytes;
         }
         $unit = strtoupper($unit);
-        $unitPow = array('B'=>0, 'KB'=>1, 'MB'=>2, 'GB'=>3, 'TB'=>4);
+        $unitPow = array('B' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4);
         $bytes /= pow(1024, $unitPow[$unit]);
         return round($bytes, $precision);
     }
-    
-    public static function filesize_format($bytes, $format = '', $force = ''){
+
+    public static function filesize_format($bytes, $format = '', $force = '')
+    {
         $force = strtoupper($force);
         $defaultFormat = '%01d %s';
         if (strlen($format) == 0)
-        $format = $defaultFormat;
-        $bytes = max(0, (int) $bytes);
+            $format = $defaultFormat;
+        $bytes = max(0, (int)$bytes);
         $units = array('b', 'Kb', 'Mb', 'GB', 'TB', 'PB');
         $power = array_search($force, $units);
         if ($power === false)
-        $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
+            $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
         return sprintf($format, $bytes / pow(1024, $power), $units[$power]);
     }
 
@@ -291,53 +302,54 @@ class Files {
      * @param int $precision Number of decimal digits to round the file size to
      * @return array Returns an assoc array with keys: name(file name), path(full path to file/folder), folder(boolean), extension, type, size(KB)
      */
-    public function getList($path, $listOnly=null, $unit='KB', $precision=2) {
+    public function getList($path, $listOnly = null, $unit = 'KB', $precision = 2)
+    {
         $path = str_replace('\\', '/', $path);
-        if($path[strlen($path)-1] != '/') {
+        if ($path[strlen($path) - 1] != '/') {
             $path .= '/';
         }
 
         $filetype = array('.', '..');
-        $name = array( '.svn');
+        $name = array('.svn');
 
         $dir = @opendir($path);
-        if ($dir === false ) {
+        if ($dir === false) {
             return false;
         }
 
-        while( $file = readdir($dir) ) {
-            if( !in_array(substr($file, -1, strlen($file)), $filetype) && !in_array(substr($file, -2, strlen($file)), $filetype) ) {
+        while ($file = readdir($dir)) {
+            if (!in_array(substr($file, -1, strlen($file)), $filetype) && !in_array(substr($file, -2, strlen($file)), $filetype)) {
                 $name[] = $path . $file;
             }
         }
         closedir($dir);
 
-        if(count($name)==0)return false;
+        if (count($name) == 0) return false;
 
-        $fileInfo=array();
-        foreach($name as $key=>$val) {
-            if($listOnly==self::LIST_FILE) {
-                if(is_dir($val)) continue;
+        $fileInfo = array();
+        foreach ($name as $key => $val) {
+            if ($listOnly == self::LIST_FILE) {
+                if (is_dir($val)) continue;
             }
-            if ($listOnly==self::LIST_FOLDER) {
-                if(!is_dir($val)) continue;
+            if ($listOnly == self::LIST_FOLDER) {
+                if (!is_dir($val)) continue;
             }
             $filename = explode('/', $val);
-            $filename = $filename[count($filename)-1];
-            $ext = explode('.',$val);
+            $filename = $filename[count($filename) - 1];
+            $ext = explode('.', $val);
 
-            if(!is_dir($val)) {
+            if (!is_dir($val)) {
                 $fileInfo[] = array('name' => $filename,
-                        'path' => $val,
-                        'folder' => is_dir($val),
-                        'extension' => strtolower($ext[sizeof($ext)-1]),
-                        'type' => self::mime_content_type($val),
-                        'size' => filesize($val)
+                                    'path' => $val,
+                                    'folder' => is_dir($val),
+                                    'extension' => strtolower($ext[sizeof($ext) - 1]),
+                                    'type' => self::mime_content_type($val),
+                                    'size' => filesize($val)
                 );
-            }else {
+            } else {
                 $fileInfo[] = array('name' => $filename,
-                        'path' => $val,
-                        'folder' => is_dir($val));
+                                    'path' => $val,
+                                    'folder' => is_dir($val));
             }
         }
         return $fileInfo;
@@ -352,20 +364,21 @@ class Files {
      * @param string $rename Rename the uploaded file (without extension)
      * @return string|array The file name of the uploaded file.
      */
-    public function upload($uploadPath, $filename, $rename='') {
+    public function upload($uploadPath, $filename, $rename = '')
+    {
         $file = !empty($_FILES[$filename]) ? $_FILES[$filename] : null;
-        if($file==Null) return;
+        if ($file == Null) return;
 
         if (!file_exists($uploadPath)) {
             $this->create($uploadPath);
         }
 
-        if(is_array($file['name'])===False) {
+        if (is_array($file['name']) === False) {
             $pic = strrpos($file['name'], '.');
-            $ext = substr($file['name'], $pic+1);
+            $ext = substr($file['name'], $pic + 1);
 
-            if($rename=='')
-                $newName = time().'-'.mt_rand(1000,9999) . '.' . $ext;
+            if ($rename == '')
+                $newName = time() . '-' . mt_rand(1000, 9999) . '.' . $ext;
             else
                 $newName = $rename . '.' . $ext;
 
@@ -380,14 +393,14 @@ class Files {
                 $this->create($uploadPath);
             }
             $uploadedPath = array();
-            foreach($file['error'] as $k=>$error) {
-                if(empty($file['name'][$k])) continue;
+            foreach ($file['error'] as $k => $error) {
+                if (empty($file['name'][$k])) continue;
                 if ($error == UPLOAD_ERR_OK) {
                     $pic = strrpos($file['name'][$k], '.');
-                    $ext = substr($file['name'][$k], $pic+1);
+                    $ext = substr($file['name'][$k], $pic + 1);
 
-                    if($rename=='')
-                        $newName = time().'-'.mt_rand(1000,9999) . '_' . $k . '.' . $ext;
+                    if ($rename == '')
+                        $newName = time() . '-' . mt_rand(1000, 9999) . '_' . $k . '.' . $ext;
                     else
                         $newName = $rename . '_' . $k . '.' . $ext;
 
@@ -396,7 +409,7 @@ class Files {
                     if (move_uploaded_file($file['tmp_name'][$k], $filePath)) {
                         $uploadedPath[] = $newName;
                     }
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -410,17 +423,18 @@ class Files {
      * @param string $filename The file field name in $_FILES HTTP File Upload variables
      * @return string|array The image format type of the uploaded image.
      */
-    public function getUploadFormat($filename) {
-        if(!empty($_FILES[$filename])) {
+    public function getUploadFormat($filename)
+    {
+        if (!empty($_FILES[$filename])) {
             $type = $_FILES[$filename]['type'];
-            if(is_array($type)===False) {
-                if(!empty($type)) {
+            if (is_array($type) === False) {
+                if (!empty($type)) {
                     return $type;
                 }
             }
             else {
                 $typelist = array();
-                foreach($type as $t) {
+                foreach ($type as $t) {
                     $typelist[] = $t;
                 }
                 return $typelist;
@@ -435,14 +449,15 @@ class Files {
      * @param array $allowType Allowed file type.
      * @return bool Returns true if file mime type is in the allowed list.
      */
-    public function checkFileType($filename, $allowType) {
+    public function checkFileType($filename, $allowType)
+    {
         $type = $this->getUploadFormat($filename);
-        if(is_array($type)===False)
+        if (is_array($type) === False)
             return in_array($type, $allowType);
         else {
-            foreach($type as $t) {
-                if($t===Null || $t==='') continue;
-                if(!in_array($t, $allowType)) {
+            foreach ($type as $t) {
+                if ($t === Null || $t === '') continue;
+                if (!in_array($t, $allowType)) {
                     return false;
                 }
             }
@@ -457,19 +472,20 @@ class Files {
      * @param array $allowExt Allowed file extensions.
      * @return bool Returns true if file extension is in the allowed list.
      */
-    public function checkFileExtension($filename, $allowExt) {
-        if(!empty($_FILES[$filename])) {
+    public function checkFileExtension($filename, $allowExt)
+    {
+        if (!empty($_FILES[$filename])) {
             $name = $_FILES[$filename]['name'];
-            if(is_array($name)===False) {
+            if (is_array($name) === False) {
                 $n = strrpos($name, '.');
-                $ext = strtolower(substr($name, $n+1));
+                $ext = strtolower(substr($name, $n + 1));
                 return in_array($ext, $allowExt);
             }
             else {
-                foreach($name as $nm) {
+                foreach ($name as $nm) {
                     $n = strrpos($nm, '.');
-                    $ext = strtolower(substr($nm, $n+1));
-                    if(!in_array($ext, $allowExt)) {
+                    $ext = strtolower(substr($nm, $n + 1));
+                    if (!in_array($ext, $allowExt)) {
                         return false;
                     }
                 }
@@ -485,17 +501,18 @@ class Files {
      * @param int $maxSize Allowed max file size in kilo bytes.
      * @return bool Returns true if file size does not exceed the max file size allowed.
      */
-    public function checkFileSize($filename, $maxSize) {
-        if(!empty($_FILES[$filename])) {
+    public function checkFileSize($filename, $maxSize)
+    {
+        if (!empty($_FILES[$filename])) {
             $size = $_FILES[$filename]['size'];
-            if(is_array($size)===False) {
-                if(($size/1024)>$maxSize) {
+            if (is_array($size) === False) {
+                if (($size / 1024) > $maxSize) {
                     return false;
                 }
             }
             else {
-                foreach($size as $s) {
-                    if(($s/1024)>$maxSize) {
+                foreach ($size as $s) {
+                    if (($s / 1024) > $maxSize) {
                         return false;
                     }
                 }
@@ -509,7 +526,8 @@ class Files {
      * @param string $fullFilePath Full path to file whose contents should be read
      * @return string|bool Returns file contents or false if file not found
      */
-    function readFileContents($fullFilePath, $flags = 0, resource $context = null, $offset = -1, $maxlen = null) {
+    function readFileContents($fullFilePath, $flags = 0, resource $context = null, $offset = -1, $maxlen = null)
+    {
         if (file_exists($fullFilePath)) {
             if ($maxlen !== null)
                 return file_get_contents($fullFilePath, $flags, $context, $offset, $maxlen);
@@ -520,84 +538,85 @@ class Files {
         }
     }
 
-    public static function mime_content_type($filename) {
+    public static function mime_content_type($filename)
+    {
         $mime_types = array(
-                // all
-                'txt' => 'text/plain',
-                'htm' => 'text/html',
-                'html' => 'text/html',
-                'php' => 'text/html',
-                'css' => 'text/css',
-                'js' => 'application/javascript',
-                'json' => 'application/json',
-                'xml' => 'application/xml',
-                'swf' => 'application/x-shockwave-flash',
-                'flv' => 'video/x-flv',
-                'sql' => 'text/x-sql',
+            // all
+            'txt' => 'text/plain',
+            'htm' => 'text/html',
+            'html' => 'text/html',
+            'php' => 'text/html',
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'json' => 'application/json',
+            'xml' => 'application/xml',
+            'swf' => 'application/x-shockwave-flash',
+            'flv' => 'video/x-flv',
+            'sql' => 'text/x-sql',
 
-                // images
-                'png' => 'image/png',
-                'jpe' => 'image/jpeg',
-                'jpeg' => 'image/jpeg',
-                'jpg' => 'image/jpeg',
-                'gif' => 'image/gif',
-                'bmp' => 'image/bmp',
-                'ico' => 'image/vnd.microsoft.icon',
-                'tiff' => 'image/tiff',
-                'tif' => 'image/tiff',
-                'svg' => 'image/svg+xml',
-                'svgz' => 'image/svg+xml',
-                'tga' => 'image/x-targa',
-                'psd' => 'image/vnd.adobe.photoshop',
+            // images
+            'png' => 'image/png',
+            'jpe' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'jpg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'bmp' => 'image/bmp',
+            'ico' => 'image/vnd.microsoft.icon',
+            'tiff' => 'image/tiff',
+            'tif' => 'image/tiff',
+            'svg' => 'image/svg+xml',
+            'svgz' => 'image/svg+xml',
+            'tga' => 'image/x-targa',
+            'psd' => 'image/vnd.adobe.photoshop',
 
-                // archives
-                'zip' => 'application/zip',
-                'rar' => 'application/x-rar-compressed',
-                'exe' => 'application/x-msdownload',
-                'msi' => 'application/x-msdownload',
-                'cab' => 'application/vnd.ms-cab-compressed',
-                'gz' => 'application/x-gzip',
-                'tgz' => 'application/x-gzip',
-                'bz' => 'application/x-bzip2',
-                'bz2' => 'application/x-bzip2',
-                'tbz' => 'application/x-bzip2',
-                'zip' => 'application/zip',
-                'rar' => 'application/x-rar',
-                'tar' => 'application/x-tar',
-                '7z' => 'application/x-7z-compressed',
+            // archives
+            'zip' => 'application/zip',
+            'rar' => 'application/x-rar-compressed',
+            'exe' => 'application/x-msdownload',
+            'msi' => 'application/x-msdownload',
+            'cab' => 'application/vnd.ms-cab-compressed',
+            'gz' => 'application/x-gzip',
+            'tgz' => 'application/x-gzip',
+            'bz' => 'application/x-bzip2',
+            'bz2' => 'application/x-bzip2',
+            'tbz' => 'application/x-bzip2',
+            'zip' => 'application/zip',
+            'rar' => 'application/x-rar',
+            'tar' => 'application/x-tar',
+            '7z' => 'application/x-7z-compressed',
 
-                // audio/video
-                'mp3' => 'audio/mpeg',
-                'qt' => 'video/quicktime',
-                'mov' => 'video/quicktime',
-                'avi' => 'video/x-msvideo',
-                'dv' => 'video/x-dv',
-                'mp4' => 'video/mp4',
-                'mpeg' => 'video/mpeg',
-                'mpg' => 'video/mpeg',
-                'wm' => 'video/x-ms-wmv',
-                'flv' => 'video/x-flv',
-                'mkv' => 'video/x-matroska',
+            // audio/video
+            'mp3' => 'audio/mpeg',
+            'qt' => 'video/quicktime',
+            'mov' => 'video/quicktime',
+            'avi' => 'video/x-msvideo',
+            'dv' => 'video/x-dv',
+            'mp4' => 'video/mp4',
+            'mpeg' => 'video/mpeg',
+            'mpg' => 'video/mpeg',
+            'wm' => 'video/x-ms-wmv',
+            'flv' => 'video/x-flv',
+            'mkv' => 'video/x-matroska',
 
-                // adobe
-                'pdf' => 'application/pdf',
-                'psd' => 'image/vnd.adobe.photoshop',
-                'ai' => 'application/postscript',
-                'eps' => 'application/postscript',
-                'ps' => 'application/postscript',
+            // adobe
+            'pdf' => 'application/pdf',
+            'psd' => 'image/vnd.adobe.photoshop',
+            'ai' => 'application/postscript',
+            'eps' => 'application/postscript',
+            'ps' => 'application/postscript',
 
-                // ms office
-                'doc' => 'application/msword',
-                'rtf' => 'application/rtf',
-                'xls' => 'application/vnd.ms-excel',
-                'ppt' => 'application/vnd.ms-powerpoint',
+            // ms office
+            'doc' => 'application/msword',
+            'rtf' => 'application/rtf',
+            'xls' => 'application/vnd.ms-excel',
+            'ppt' => 'application/vnd.ms-powerpoint',
 
-                // open office
-                'odt' => 'application/vnd.oasis.opendocument.text',
-                'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+            // open office
+            'odt' => 'application/vnd.oasis.opendocument.text',
+            'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
 
-        $f = explode('.',$filename);
+        $f = explode('.', $filename);
         $ext = strtolower(array_pop($f));
         if (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
@@ -612,12 +631,14 @@ class Files {
             return 'application/octet-stream';
         }
     }
+
     /**
      * Формирование вложенного пути к фацлу с учетом разделения по каталогам
      * @param integer $id - номер файла в БД
      * @return string - путь к файлу в структуре подкаталогов
      */
-    public static function makefilename( $id ) {
+    public static function makefilename($id)
+    {
         $p = sprintf('%09d', $id);
         $h = str_split($p, 3);
         return implode('/', $h);
@@ -628,11 +649,13 @@ class Files {
      * @param string полное или краткое имя файла $filename
      * @return string расширение файла
      */
-    public static function ext($filename) {
+    public static function ext($filename)
+    {
         return pathinfo($filename);
     }
 
-    public static function filedata($filename) {
+    public static function filedata($filename)
+    {
         $f = self::ext($filename);
 
         $r = array();

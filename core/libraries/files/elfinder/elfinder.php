@@ -13,11 +13,11 @@ defined('_JOOS_CORE') or die();
 joosHTML::load_jquery_ui();
 
 joosDocument::instance()
-		->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.js')
-		->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.view.js')
-		->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.quickLook.js')
-		->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.eventsManager.js')
-		->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.ui.js')
-		->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/i18n/elfinder.ru.js')
-		->add_css(JPATH_SITE . '/includes/libraries/elfinder/js/ui-themes/base/ui.all.css')
-		->add_css(JPATH_SITE . '/includes/libraries/elfinder/css/elfinder.css');
+        ->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.js')
+        ->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.view.js')
+        ->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.quickLook.js')
+        ->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.eventsManager.js')
+        ->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/elFinder.ui.js')
+        ->add_js_file(JPATH_SITE . '/includes/libraries/elfinder/js/i18n/elfinder.ru.js')
+        ->add_css(JPATH_SITE . '/includes/libraries/elfinder/js/ui-themes/base/ui.all.css')
+        ->add_css(JPATH_SITE . '/includes/libraries/elfinder/css/elfinder.css');

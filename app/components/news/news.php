@@ -15,13 +15,13 @@ joosLoader::model('news');
 class actionsNews extends joosController {
 
 	public static function on_start($active_task) {
-		
+
 		//Хлебные крошки
-		Jbreadcrumbs::instance()
+		joosBreadcrumbs::instance()
 				->add('Новости', $active_task == 'index' ? false : joosRoute::href('news'));
-				
+
 		//Метаинформация страницы
-		Metainfo::set_meta('news', '', '', array('title'=>'Новости'));
+		joosMetainfo::set_meta('news', '', '', array('title' => 'Новости'));
 	}
 
 	public static function index() {
@@ -41,13 +41,13 @@ class actionsNews extends joosController {
 
 		// опубликованные записи блога
 		$news_items = $news->get_list(
-			array(
-				'select' => '*',
-				'offset' => $pager->offset,
-				'limit' => $pager->limit,
-                'where' => 'state = 1',
-				'order' => 'id DESC', // сначала последние
-			)
+						array(
+							'select' => '*',
+							'offset' => $pager->offset,
+							'limit' => $pager->limit,
+							'where' => 'state = 1',
+							'order' => 'id DESC', // сначала последние
+						)
 		);
 
 		return array(
@@ -64,36 +64,36 @@ class actionsNews extends joosController {
 		// формируем объект записей блога
 		$news = new News();
 
-		$params = new Params;
+		$params = new joosParams;
 		$params->group = 'news';
 		$params->subgroup = 'default';
 		$params->find();
 		$params = json_decode($params->data, true);
 		$years = explode(',', $params['archive_eyars']);
 
-		$where = 'YEAR(created_at)='.$year;
+		$where = 'YEAR(created_at)=' . $year;
 
 		// число записей в блоге
-		$count = $news->count('WHERE state = 1 AND '.$where);
+		$count = $news->count('WHERE state = 1 AND ' . $where);
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('news_archive_year', array('year'=>$year)), $count, 3, 5);
+		$pager = new Pager(joosRoute::href('news_archive_year', array('year' => $year)), $count, 3, 5);
 		$pager->paginate($page);
 
 		// опубликованные записи блога
 		$news_items = $news->get_list(
-			array(
-				'select' => '*',
-				'where' => 'state = 1 AND '.$where,
-				'offset' => $pager->offset,
-				'limit' => $pager->limit,
-				'order' => 'id DESC', // сначала последние
-			)
+						array(
+							'select' => '*',
+							'where' => 'state = 1 AND ' . $where,
+							'offset' => $pager->offset,
+							'limit' => $pager->limit,
+							'order' => 'id DESC', // сначала последние
+						)
 		);
 
 		//Хлебные крошки
-		Jbreadcrumbs::instance()->add('Архив новостей');
+		joosBreadcrumbs::instance()->add('Архив новостей');
 		JoosDocument::instance()->add_title('Архив новостей');
 
 		return array(
@@ -103,7 +103,6 @@ class actionsNews extends joosController {
 			'pager' => $pager
 		);
 	}
-
 
 	public static function view() {
 
@@ -119,11 +118,11 @@ class actionsNews extends joosController {
 			return;
 		}
 
-		Jbreadcrumbs::instance()->add($item->title);
+		joosBreadcrumbs::instance()->add($item->title);
 
 		//Метаинформация страницы
-		Metainfo::set_meta('news', 'item', $item->id, array('title'=>$item->title));
-		
+		joosMetainfo::set_meta('news', 'item', $item->id, array('title' => $item->title));
+
 		// передаём параметры записи и категории в которой находится запись для оформления
 		return array(
 			'item' => $item

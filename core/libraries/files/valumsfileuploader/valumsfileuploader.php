@@ -114,9 +114,12 @@ class qqFileUploader {
 		$val = trim($str);
 		$last = strtolower($str[strlen($str) - 1]);
 		switch ($last) {
-			case 'g': $val *= 1024;
-			case 'm': $val *= 1024;
-			case 'k': $val *= 1024;
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
 		}
 		return $val;
 	}
@@ -125,9 +128,12 @@ class qqFileUploader {
 		$val = trim($str);
 		$last = strtolower($str[strlen($str) - 1]);
 		switch ($last) {
-			case 'g': $val *= 1024;
-			case 'm': $val *= 1024;
-			case 'k': $val *= 1024;
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
 		}
 		return $val;
 	}
@@ -181,47 +187,45 @@ class qqFileUploader {
 }
 
 class ValumsfileUploader {
-	
+
 	public static function upload_temp($allowedExtensions = array(), $sizeLimit = false) {
 		joosLoader::lib('files');
 
-		$fn_get = mosGetParam($_GET, 'qqfile', false);
+		$fn_get = joosRequest::get('qqfile', false);
 		$fileName = $fn_get ? $fn_get : $_FILES['qqfile']['name'];
-		
+
 		$fileData = Files::ext($fileName);
 		$new_file_name = md5(uniqid());
-		$new_file_name_full = $new_file_name.'.'.$fileData['extension'];
+		$new_file_name_full = $new_file_name . '.' . $fileData['extension'];
 
 		$uploader = new qqFileUploader($allowedExtensions, ($sizeLimit ? $sizeLimit : qqFileUploader::_toBytes(ini_get('upload_max_filesize'))));
-		$temp_dir = JPATH_BASE . '/cache/tmp/'.time().'/';
+		$temp_dir = JPATH_BASE . '/cache/tmp/' . time() . '/';
 		mkdir($temp_dir, 0755, true);
-		
+
 		$result = $uploader->handleUpload($temp_dir, true, $new_file_name);
 
 		if ($result) {
 
-			$fileName = $new_file_name_full;		
-			
+			$fileName = $new_file_name_full;
+
 
 			$basename = $temp_dir . $fileName;
 
-			return array('basename' => $basename , 'dir' => $temp_dir );
+			return array('basename' => $basename, 'dir' => $temp_dir);
 		}
 
 		echo json_encode($result);
 		die();
-	}	
-	
+	}
 
 	public static function upload($newnameforfile = false, $rootdir = false, $fileid = false, $show_result = true, $allowedExtensions = array(), $sizeLimit = false) {
-		joosLoader::lib('files');
 
-		$fn_get = mosGetParam($_GET, 'qqfile', false);
+		$fn_get = joosRequest::get('qqfile', false);
 		$fileName = $fn_get ? $fn_get : $_FILES['qqfile']['name'];
-		
+
 		$fileData = Files::ext($fileName);
 		$new_file_name = md5(uniqid());
-		$new_file_name_full = $new_file_name.'.'.$fileData['extension'];
+		$new_file_name_full = $new_file_name . '.' . $fileData['extension'];
 
 		$uploader = new qqFileUploader($allowedExtensions, ($sizeLimit ? $sizeLimit : qqFileUploader::_toBytes(ini_get('upload_max_filesize'))));
 		$result = $uploader->handleUpload(JPATH_BASE . '/cache/tmp/', false, $new_file_name);
@@ -256,12 +260,10 @@ class ValumsfileUploader {
 		echo json_encode($result);
 		die();
 	}
-	
-	
 
 	public static function get_filefolder($rootdir = false, $filename = false, $fileid = false) {
 		joosLoader::lib('attached', 'files');
-		$id = $fileid ? $fileid : Attached::add($filename)->id;
+		$id = $fileid ? $fileid : joosAttached::add($filename)->id;
 
 		$rootdir = $rootdir ? $rootdir : Files::mime_content_type($filename);
 

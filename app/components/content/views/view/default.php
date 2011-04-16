@@ -11,14 +11,14 @@ defined('_JOOS_CORE') or die(); ?>
 
 <?php
 
-	//_xdump($dop_photos);
+//_xdump($dop_photos);
 ?>
 
 
-			<h3><?php echo $category->name ?></h3>
-			<h1><?php echo $item->title?></h1>
+<h3><?php echo $category->name ?></h3>
+<h1><?php echo $item->title?></h1>
 
-				<p><?php echo $item->fulltext?></p>
-				<div class="cl"></div>
+<p><?php echo $item->fulltext?></p>
+<div class="cl"></div>
 
 			

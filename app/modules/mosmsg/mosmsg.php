@@ -9,6 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-if( ($mosmsg = joosFlashMessage::get()) ) {
-	echo '<div class="message">'.$mosmsg.'</div>';
+if (($mosmsg = joosFlashMessage::get())) {
+    echo '<div class="message">' . $mosmsg . '</div>';
 }

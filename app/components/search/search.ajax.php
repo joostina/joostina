@@ -15,9 +15,11 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsSearch extends joosController {
+class actionsSearch extends joosController
+{
 
-	public static function index() {
+    public static function index()
+    {
 
-	}
+    }
 }

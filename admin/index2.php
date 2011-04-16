@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
@@ -15,6 +16,7 @@ define('DS', DIRECTORY_SEPARATOR);
 // рассчет памяти
 function_exists('memory_get_usage') ? define('_MEM_USAGE_START', memory_get_usage()) : null;
 
+
 // считаем время за которое сгенерирована страница
 $sysstart = microtime(true);
 
@@ -25,13 +27,9 @@ define('JPATH_BASE_ADMIN', dirname(__FILE__));
 
 // подключаем ядро
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
-require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
-// класс работы с визуальным редактором
-require_once (JPATH_BASE . DS . 'core' . DS . 'editor.php');
-
-database::instance();
+joosDatabase::instance();
 
 // работа с сессиями начинается до создания главного объекта взаимодействия с ядром
 session_name(md5(JPATH_SITE));
@@ -40,19 +38,11 @@ session_start();
 header('Content-type: text/html; charset=UTF-8');
 
 // получение основных параметров
-$option = strval(strtolower(mosGetParam($_REQUEST, 'option', '')));
-$task = strval(mosGetParam($_REQUEST, 'task', ''));
-$no_html = (int) mosGetParam($_REQUEST, 'no_html', 0);
-$id = (int) mosGetParam($_REQUEST, 'id', 0);
-
 // mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
 $mainframe = joosMainframe::instance(true);
 
-require_once($mainframe->get_lang_path());
-require_once($mainframe->get_lang_path('administrator'));
-
 // запуск сессий панели управления
-$my = joosCoreAdmin::init_session_admin($option, $task);
+$my = joosCoreAdmin::init_session_admin();
 
 // класс работы с правами пользователей
 joosLoader::lib('acl', 'system');
@@ -61,43 +51,30 @@ Jacl::init_admipanel();
 Jacl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
 
 // страница панели управления по умолчанию
-$option = $_REQUEST['option'] = ($option == '') ? 'admin' : $option;
+$option = $_REQUEST['option'] = joosRequest::param('option', 'admin');
 
 ob_start();
-if ($path = $mainframe->getPath('admin')) {
-	//Подключаем язык компонента
-	if ($mainframe->get_lang_path($option)) {
-		include_once($mainframe->get_lang_path($option));
-	}
-	require_once ($path);
-
-	joosLoader::lib('joiadmin', 'system');
-	JoiAdmin::dispatch();
+$file_controller = JPATH_BASE . '/app/components/' . $option . DS . 'admin.' . $option . '.php';
+if (is_file($file_controller)) {
+	require_once ($file_controller);
+	joosAutoAdmin::dispatch();
 } else {
-	?><img src="<?php echo joosConfig::get('admin_icons_path') ?>error.png" border="0" alt="Joostina!" /><?php
+	throw new joosException(sprintf(__('Не найден предполагаемый файл контроллера %s'), $file_controller));
 }
 
-$_MOS_OPTION['buffer'] = ob_get_contents();
+joosCoreAdmin::set_body(ob_get_contents());
 ob_end_clean();
 
 ob_start();
 
 // начало вывода html
-if ($no_html == 0) {
-	// загрузка файла шаблона
-
-	if (!file_exists(JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php')) {
-		echo _TEMPLATE_NOT_FOUND . ': ' . JTEMPLATE;
-	} else {
-		//Подключаем язык шаблона
-		if ($mainframe->get_lang_path('tmpl_' . JTEMPLATE)) {
-			include_once($mainframe->get_lang_path('tmpl_' . JTEMPLATE));
-		}
-		require_once (JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php');
-	}
+// загрузка файла шаблона
+if (!file_exists(JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php')) {
+	throw new joosException(sprintf(__('Файл index.php шаблона %s не найден'), JTEMPLATE));
 } else {
-	admin_body();
+	require_once (JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php');
 }
+
 
 // подсчет израсходованной памяти
 if (defined('_MEM_USAGE_START')) {
@@ -109,17 +86,10 @@ if (defined('_MEM_USAGE_START')) {
 
 // подсчет времени генерации страницы
 if (JDEBUG) {
-	jd_log_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
+	joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
 }
-
-
 
 // информация отладки, число запросов в БД
-JDEBUG ? jd_get() : null;
-
-// восстановление сессий
-if ($task == 'save' || $task == 'apply' || $task == 'save_and_new') {
-	$mainframe->initSessionAdmin($option, '');
-}
+JDEBUG ? joosDebug::get() : null;
 
 ob_end_flush();

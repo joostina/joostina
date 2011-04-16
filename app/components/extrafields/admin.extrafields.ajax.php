@@ -17,17 +17,20 @@
 defined('_JOOS_CORE') or die();
 
 joosLoader::lib('joiadmin', 'system');
-JoiAdmin::dispatch_ajax();
-JoiAdmin::autoajax();	
+joosAutoAdmin::dispatch_ajax();
+joosAutoAdmin::autoajax();
 
-class actionsAjaxExtrafields {
+class actionsAjaxExtrafields
+{
 
-	public static function on_start() {
-		require joosLoader::admin_model('extrafields');
-	}
+    public static function on_start()
+    {
+        require joosLoader::admin_model('extrafields');
+    }
 
-	public static function index() {
+    public static function index()
+    {
 
-	}
-	
+    }
+
 }

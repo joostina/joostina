@@ -4,81 +4,81 @@
 * @section opacity
 */
 .b-opacity {
-	opacity: .6;
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60); /* IE6, IE7, IE8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=60)"; /* IE8 only */
+    opacity: .6;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity = 60); /* IE6, IE7, IE8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=60)"; /* IE8 only */
 }
-
 
 /**
 * @section corners
 */
 .b-rounded {
-	border: none;
-	border-radius: 6px;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	position: relative; /*IE*/
+    border: none;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    position: relative; /*IE*/
     z-index: 1; /*IE*/
-	behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
-}
-/* IE 7 */
-*+html .b-rounded{ 
-	position: static;
-}
-
-.b-rounded_top {
- 	-webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-	position: relative;/*IE*/
-    z-index: 1;/*IE*/
     behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
 }
 
+/* IE 7 */
+*+html .b-rounded {
+    position: static;
+}
+
+.b-rounded_top {
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+    position: relative; /*IE*/
+    z-index: 1; /*IE*/
+    behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
+}
 
 /**
 * @section box-shadow
 */
 .b-shadow {
-	box-shadow: 5px 5px 2px #CCC;
-	-moz-box-shadow: 5px 5px 2px #CCC;
-	-webkit-box-shadow: 5px 5px 2px #CCC;
-	behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
+    box-shadow: 5px 5px 2px #CCC;
+    -moz-box-shadow: 5px 5px 2px #CCC;
+    -webkit-box-shadow: 5px 5px 2px #CCC;
+    behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
 }
- 
+
 /**
 * @section gradient
 */
 .b-gradient {
-	background: #EEFF99;
-	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#F8F8F8), to(#B5B5B5));
-	background: -moz-linear-gradient(#F8F8F8, #B5B5B5);
-	background: linear-gradient(#F8F8F8, #B5B5B5);
-	-pie-background: linear-gradient(#F8F8F8, #B5B5B5); /*IE*/
-	behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
+    background: #EEFF99;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#F8F8F8), to(#B5B5B5));
+    background: -moz-linear-gradient(#F8F8F8, #B5B5B5);
+    background: linear-gradient(#F8F8F8, #B5B5B5);
+    -pie-background: linear-gradient(#F8F8F8, #B5B5B5); /*IE*/
+    behavior: url(templates/joostina/css/css3/PIE.htc); /*IE*/
 }
 
 /**
 * @section text-shadow
 */
 .tshadow {
-	text-shadow: 0 1px 0 #FFFFFF;
+    text-shadow: 0 1px 0 #FFFFFF;
 }
-
 
 /**
 * @section fancy-fonts
 */
 @font-face {
-	font-family: 'm_Ben';
-	src: url('m_Ben_Krush.ttf');
+    font-family: 'm_Ben';
+    src: url('m_Ben_Krush.ttf');
 }
+
 .fancyfont, .fancyfont * {
-	font-size: 20px;	
-	font-family: m_Ben, Impact, Arial\9 ;
+    font-size: 20px;
+    font-family: m_Ben, Impact, Arial\9 ;
 }
-*:first-child+html .fancyfont, *:first-child+html .fancyfont *{
-	font-size: 22px !important;	
+
+*:first-child+html .fancyfont, *:first-child+html .fancyfont * {
+    font-size: 22px !important;
 }
 

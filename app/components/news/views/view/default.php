@@ -10,22 +10,23 @@
 defined('_JOOS_CORE') or die();
 
 ?>
-	<?php $image = News::get_image($item, 'medium'); ?>
-<div class="full_news">		
-		<h1><?php echo $item->title?></h1>
-		<div class="date"><?php echo joosDate::format($item->created_at, '%d.%m.%Y') ?></div>
+<?php $image = News::get_image($item, 'medium'); ?>
+<div class="full_news">
+    <h1><?php echo $item->title?></h1>
+
+    <div class="date"><?php echo joosDate::format($item->created_at, '%d.%m.%Y') ?></div>
 
 
-		<div class="news_block">
-				<div class="news_img"><?php echo $image;?></div>
-			<div class="news_text">
+    <div class="news_block">
+        <div class="news_img"><?php echo $image;?></div>
+        <div class="news_text">
 
-				<p><?php echo $item->introtext;?></p>
-				
-				<br/><a href="<?php echo joosRoute::href('news') ?>">Все новости</a><br/><br/>
-			</div>
-			<div class="cl"></div>
-		</div>
+            <p><?php echo $item->introtext;?></p>
+
+            <br/><a href="<?php echo joosRoute::href('news') ?>">Все новости</a><br/><br/>
+        </div>
+        <div class="cl"></div>
+    </div>
 </div>
 <div class="cl"></div>
 

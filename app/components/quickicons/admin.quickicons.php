@@ -10,15 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-Jacl::isDeny('quickicons') ? joosRoute::redirect('index2.php?', _NOT_AUTH) : null;
-
-require joosCore::path('quickicons', 'admin_class');
-require joosCore::path('quickicons', 'admin_html');
-
 /**
  * Содержимое
  */
-class actionsQuickicons {
+class actionsAdminQuickicons {
 
 	/**
 	 * Название обрабатываемой модели
@@ -33,7 +28,7 @@ class actionsQuickicons {
 		$obj = new self::$model;
 		$obj_count = $obj->count();
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,

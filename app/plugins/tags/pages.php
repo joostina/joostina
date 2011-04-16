@@ -8,25 +8,28 @@
  */
 
 // запрет прямого доступа
-defined('_JOOS_CORE') or die(); 
+defined('_JOOS_CORE') or die();
 
-function Tags_pages_object_tags($row, $tags) {
-	if($_tags = $tags->load_by_obj($row)) {
-		return $tags->print_tags($row);
-	}
-	else {
-		return 'Тэги не указаны';
-	}
+function Tags_pages_object_tags($row, $tags)
+{
+    if ($_tags = $tags->load_by_obj($row)) {
+        return $tags->print_tags($row);
+    }
+    else {
+        return 'Тэги не указаны';
+    }
 
-
-}
-
-function Tags_pages_object_tags_edit($row, $tags) {
-	//$_tags = $tags->load_by_obj($row);
-	return $tags->print_tags_edit($row);
 
 }
 
-function Tags_pages_group_tags($rows, $tags) {
-	$tags->load_by_group($rows, 'id');
+function Tags_pages_object_tags_edit($row, $tags)
+{
+    //$_tags = $tags->load_by_obj($row);
+    return $tags->print_tags_edit($row);
+
+}
+
+function Tags_pages_group_tags($rows, $tags)
+{
+    $tags->load_by_group($rows, 'id');
 }

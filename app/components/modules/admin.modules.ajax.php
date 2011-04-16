@@ -12,41 +12,46 @@ defined('_JOOS_CORE') or die();
 
 joosLoader::admin_model('modules');
 
-// подключаем библиотеку JoiAdmin
+// подключаем библиотеку joosAutoAdmin
 joosLoader::lib('joiadmin', 'system');
 
 // передаём управление полётом в автоматический Ajax - обработчик
-echo JoiAdmin::autoajax();
-		
-		
-class actionsModules {
-
-	private static $implode_model = true;
+echo joosAutoAdmin::autoajax();
 
 
-	public static function on_start() {
+class actionsModules
+{
 
-	}
+    private static $implode_model = true;
 
-	public static function index() {
 
-	}
-	
-	public static function get_positions(){
-		joosLoader::admin_model('templates');
-		$positions = new TemplatePositions;
-				
-		$obj = new Modules;
-		
-	}
-		
-	public static function save_position(){
-		$obj_id = joosRequest::int('obj_id', 0, $_POST);
-		$obj = new Modules;
-		$obj->load($obj_id);
-		
-		$obj->position = joosRequest::post('val');
-		$obj->store();
-	}
+    public static function on_start()
+    {
+
+    }
+
+    public static function index()
+    {
+
+    }
+
+    public static function get_positions()
+    {
+        joosLoader::admin_model('templates');
+        $positions = new TemplatePositions;
+
+        $obj = new Modules;
+
+    }
+
+    public static function save_position()
+    {
+        $obj_id = joosRequest::int('obj_id', 0, $_POST);
+        $obj = new Modules;
+        $obj->load($obj_id);
+
+        $obj->position = joosRequest::post('val');
+        $obj->store();
+    }
 
 }

@@ -49,7 +49,7 @@ class Zend_Acl_Role implements Zend_Acl_Role_Interface
      */
     public function __construct($roleId)
     {
-        $this->_roleId = (string) $roleId;
+        $this->_roleId = (string)$roleId;
     }
 
     /**

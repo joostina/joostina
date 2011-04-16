@@ -9,19 +9,21 @@ defined('_JOOS_CORE') or die();
 
 joosLoader::model('polls');
 
-class pollsHelper {
+class pollsHelper
+{
 
-	public static function get_poll(array $params) {
+    public static function get_poll(array $params)
+    {
 
-		$id = isset($params['id']) ? $params['id'] : 1;
+        $id = isset($params['id']) ? $params['id'] : 1;
 
-		$poll = new Polls;
+        $poll = new Polls;
 
-		if (!$poll->load($id)) {
-			return false;
-		} else {
-			return $poll;
-		}
-	}
+        if (!$poll->load($id)) {
+            return false;
+        } else {
+            return $poll;
+        }
+    }
 
 }

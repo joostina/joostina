@@ -6,13 +6,13 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsConfig {
+class actionsAdminConfig {
 
 	/**
 	 * Название обрабатываемой модели
 	 * @var string
 	 */
-	public static $model = 'Params';
+	public static $model = 'joosParams';
 	/**
 	 * Массив с пунктами подменю
 	 * @var array
@@ -57,7 +57,7 @@ class actionsConfig {
 			self::$submenu['params']['active'] = true;
 		}
 
-		JoiAdmin::edit($params, $params);
+		joosAutoAdmin::edit($params, $params);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class actionsConfig {
 
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 

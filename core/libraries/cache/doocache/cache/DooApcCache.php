@@ -18,7 +18,8 @@
  * @since 1.1
  */
 
-class DooApcCache{
+class DooApcCache
+{
 
     /**
      * Adds a cache with an unique Id.
@@ -28,7 +29,8 @@ class DooApcCache{
      * @param int $expire Seconds to expired
      * @return bool True if success
      */
-    public function set($id, $data, $expire=0){
+    public function set($id, $data, $expire = 0)
+    {
         return apc_store($id, $data, $expire);
     }
 
@@ -38,7 +40,8 @@ class DooApcCache{
      * @param string|array $id A unique key identifying the cache or a list of keys.
      * @return mixed The value stored in cache. Return false if no cache found or already expired.
      */
-    public function get($id){
+    public function get($id)
+    {
         return apc_fetch($id);
     }
 
@@ -48,7 +51,8 @@ class DooApcCache{
      * @param string $id Id of the cache
      * @return bool True if success
      */
-    public function flush($id){
+    public function flush($id)
+    {
         return apc_delete($id);
     }
 
@@ -56,7 +60,8 @@ class DooApcCache{
      * Deletes all APC data cache
      * @return bool True if success
      */
-    public function flushAll(){
+    public function flushAll()
+    {
         return apc_clear_cache('user');
     }
 

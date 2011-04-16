@@ -13,24 +13,29 @@
  **/
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
-	
-class paramsPages {
 
-    public static function get_install(){
-        
-    } 
-    
-    public static function get_access(){
-        
-    }  
-    
-    public static function get_info(){
-        
+class paramsPages
+{
+
+    public static function get_install()
+    {
+
     }
-    
-    public static function get_params_scheme($type = ''){
+
+    public static function get_access()
+    {
+
+    }
+
+    public static function get_info()
+    {
+
+    }
+
+    public static function get_params_scheme($type = '')
+    {
         return false;
     }
 
-   
+
 }

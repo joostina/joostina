@@ -1,29 +1,35 @@
-.mapspace{
-	margin: 0 0 20px 0;
+.mapspace {
+    margin: 0 0 20px 0;
 }
+
 .mapspace ul,
-.mapspace ul li{
-	list-style: none;	
-	padding: 4px 0;
+.mapspace ul li {
+    list-style: none;
+    padding: 4px 0;
 }
-	.maplevel-1{
-		font-size: 20px;
-		font-weight: bold;
-		margin: 0 0 10px 0;
-	}
-	.maplevel-2{
-		font-size: 18px;
-		margin: 0 0 0 20px;
-	}
-	.maplevel-3{
-		font-size: 16px;
-		margin: 0 0 0 40px;
-	}
-	.maplevel-4{
-		font-size: 14px;
-		margin: 0 0 0 60px;
-	}
-	.maplevel-5{
-		font-size: 12px;
-		margin: 0 0 0 80px;
-	}	
+
+.maplevel-1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+.maplevel-2 {
+    font-size: 18px;
+    margin: 0 0 0 20px;
+}
+
+.maplevel-3 {
+    font-size: 16px;
+    margin: 0 0 0 40px;
+}
+
+.maplevel-4 {
+    font-size: 14px;
+    margin: 0 0 0 60px;
+}
+
+.maplevel-5 {
+    font-size: 12px;
+    margin: 0 0 0 80px;
+}

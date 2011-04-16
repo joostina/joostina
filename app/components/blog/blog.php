@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -16,7 +15,7 @@ joosLoader::model('blog');
 class actionsBlog extends joosController {
 
 	public static function on_start($active_task) {
-		Jbreadcrumbs::instance()
+		joosBreadcrumbs::instance()
 				->add('Блоги', $active_task == 'index' ? false : joosRoute::href('blog'));
 	}
 
@@ -39,9 +38,9 @@ class actionsBlog extends joosController {
 		$blog_items = $blogs->get_list(
 						array(
 					'select' => "b.*,c.slug AS cat_slug, u.gid, u.id AS userid, u.username, u.realname, comm.counter AS comments, votesresults.votes_count AS votesresults",
-					'join' => 'AS b 
-								INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 ) 
-								INNER JOIN #__users AS u ON u.id=b.user_id 
+					'join' => 'AS b
+								INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 )
+								INNER JOIN #__users AS u ON u.id=b.user_id
 								LEFT JOIN #__comments_counter AS comm ON (comm.obj_option = "Blog" AND comm.obj_id = b.id)
 								LEFT JOIN #__votes_blog_results AS votesresults ON ( votesresults.obj_id=b.id )',
 					'where' => 'b.state=1',
@@ -106,7 +105,7 @@ class actionsBlog extends joosController {
 						), array('controller', 'blog', 'comments', 'rater')
 		);
 
-		Jbreadcrumbs::instance()
+		joosBreadcrumbs::instance()
 				->add($blog_category->title);
 
 
@@ -210,7 +209,7 @@ class actionsBlog extends joosController {
 		joosDocument::instance()
 				->set_page_title('Блоги');
 
-		Jbreadcrumbs::instance()
+		joosBreadcrumbs::instance()
 				->add($user->username, joosRoute::href('user_view', array('username' => $user->username)))
 				->add('Блог');
 
@@ -282,14 +281,15 @@ class actionsBlog extends joosController {
 
 		//Выбирать категорию могут только админы
 		// Для обычных пользователей - ID категории = 3
-		$blog->category_id = (User::current()->gid == 8 || User::current()->gid == 9 ) ? mosGetParam($_POST, 'category_id', 1) : 3;
+		$blog->category_id = (User::current()->gid == 8 || User::current()->gid == 9) ? joosRequest::post('category_id', 1) : 3;
 		$blog->save($_POST);
 
 		if ($blog->id) {
 			$blog_category = new BlogCategory;
 			$blog_category->load($blog->category_id);
 			joosRoute::redirect(joosRoute::href('blog_view', array('id' => $blog->id, 'cat_slug' => $blog_category->slug)));
-		};
+		}
+		;
 	}
 
 }

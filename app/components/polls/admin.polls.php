@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
@@ -12,49 +13,45 @@ defined('_JOOS_CORE') or die();
 /**
  * Содержимое
  */
-class actionsPolls {
+class actionsAdminPolls {
 
 	/**
 	 * Название обрабатываемой модели
 	 * @var joosDBModel модель
 	 */
 	public static $model = 'adminPolls';
-	
 	/**
 	 * Тулбары
-	 */	
-	public static  $toolbars = array();
-	
-	
-	public static function on_start() {		
-		joosLoader::admin_model('polls');
+	 */
+	public static $toolbars = array();
 
-	}	
-			
+
+	public static function on_start() {
+		joosLoader::admin_model('polls');
+	}
 
 	/**
 	 * Список объектов
 	 */
 	public static function index($option) {
-		
-		$obj = new self::$model;
-		$obj_count = JoiAdmin::get_count($obj);
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$obj = new self::$model;
+		$obj_count = joosAutoAdmin::get_count($obj);
+
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'id DESC'
 		);
-		$obj_list = JoiAdmin::get_list($obj, $param);
+		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
-        // массив названий элементов для отображения в таблице списка
-        $fields_list = array( 'id', 'title',  'state');
-        // передаём информацию о объекте и настройки полей в формирование представления
-        JoiAdmin::listing( $obj, $obj_list, $pagenav, $fields_list );
+		// массив названий элементов для отображения в таблице списка
+		$fields_list = array('id', 'title', 'state');
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
-	
 
 	/**
 	 * Редактирование
@@ -70,12 +67,12 @@ class actionsPolls {
 	public static function edit($option, $id) {
 		$obj_data = new self::$model;
 		$id > 0 ? $obj_data->load($id) : null;
-		
-		$obj_data->questions =  implode( "\n",  json_decode($obj_data->questions, true) );
-		$obj_data->variants =  implode( "\n",  json_decode($obj_data->variants, true) );
 
-        // передаём данные в формирование представления
-        JoiAdmin::edit($obj_data, $obj_data);
+		$obj_data->questions = implode("\n", json_decode($obj_data->questions, true));
+		$obj_data->variants = implode("\n", json_decode($obj_data->variants, true));
+
+		// передаём данные в формирование представления
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**
@@ -87,9 +84,9 @@ class actionsPolls {
 
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
-		
+
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 

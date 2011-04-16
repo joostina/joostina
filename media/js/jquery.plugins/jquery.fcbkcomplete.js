@@ -1,51 +1,51 @@
 /*
  FCBKcomplete 2.7.4
  - Jquery version required: 1.2.x, 1.3.x, 1.4.x
- 
+
  Changelog:
  - 2.00	new version of fcbkcomplete
- 
+
  - 2.01 fixed bugs & added features
- 		fixed filter bug for preadded items
-		focus on the input after selecting tag
-		the element removed pressing backspace when the element is selected
-		input tag in the control has a border in IE7
-		added iterate over each match and apply the plugin separately
-		set focus on the input after selecting tag
- 
+ fixed filter bug for preadded items
+ focus on the input after selecting tag
+ the element removed pressing backspace when the element is selected
+ input tag in the control has a border in IE7
+ added iterate over each match and apply the plugin separately
+ set focus on the input after selecting tag
+
  - 2.02 fixed fist element selected bug
-		fixed defaultfilter error bug
- 
+ fixed defaultfilter error bug
+
  - 2.5 	removed selected="selected" attribute due ie bug
-		element search algorithm changed
-		better performance fix added
-		fixed many small bugs
-		onselect event added
-		onremove event added
- 
+ element search algorithm changed
+ better performance fix added
+ fixed many small bugs
+ onselect event added
+ onremove event added
+
  - 2.6 	ie6/7 support fix added
-		added new public method addItem due request
-		added new options "firstselected" that you can set true/false to select first element on dropdown list
-		autoexpand input element added
-		removeItem bug fixed
-		and many more bug fixed
- 		fixed public method to use it $("elem").trigger("addItem",[{"title": "test", "value": "test"}]);
-		
-- 2.7 	jquery 1.4 compability
- 		item lock possability added by adding locked class to preadded option <option value="value" class="selected locked">text</option>
- 		maximum item that can be added
+ added new public method addItem due request
+ added new options "firstselected" that you can set true/false to select first element on dropdown list
+ autoexpand input element added
+ removeItem bug fixed
+ and many more bug fixed
+ fixed public method to use it $("elem").trigger("addItem",[{"title": "test", "value": "test"}]);
 
-- 2.7.1 bug fixed
-		ajax delay added thanks to http://github.com/dolorian
+ - 2.7 	jquery 1.4 compability
+ item lock possability added by adding locked class to preadded option <option value="value" class="selected locked">text</option>
+ maximum item that can be added
 
-- 2.7.2 some minor bug fixed
-		minified version recompacted due some problems
-		
-- 2.7.3 event call fixed thanks to William Parry <williamparry!at!gmail.com>
+ - 2.7.1 bug fixed
+ ajax delay added thanks to http://github.com/dolorian
 
-- 2.7.4 standart event change call added on addItem, removeItem
-		preSet also check if item have "selected" attribute
-		addItem minor fix
+ - 2.7.2 some minor bug fixed
+ minified version recompacted due some problems
+
+ - 2.7.3 event call fixed thanks to William Parry <williamparry!at!gmail.com>
+
+ - 2.7.4 standart event change call added on addItem, removeItem
+ preSet also check if item have "selected" attribute
+ addItem minor fix
 
  */
 /* Coded by: emposha <admin@emposha.com> */
@@ -65,45 +65,45 @@
  * maxitimes		- maximum items that can be added
  * delay			- delay between ajax request (bigger delay, lower server time request)
  */
-jQuery(function($){
-    $.fn.fcbkcomplete = function(opt){
-        return this.each(function(){
-            function init(){
+jQuery(function($) {
+    $.fn.fcbkcomplete = function(opt) {
+        return this.each(function() {
+            function init() {
                 createFCBK();
                 preSet();
                 addInput(0);
             }
-            
-            function createFCBK(){
+
+            function createFCBK() {
                 element.hide();
                 element.attr("multiple", "multiple");
                 if (element.attr("name").indexOf("[]") == -1) {
                     element.attr("name", element.attr("name") + "[]");
                 }
-                
+
                 holder = $(document.createElement("ul"));
                 holder.attr("class", "holder");
                 element.after(holder);
-                
+
                 complete = $(document.createElement("div"));
                 complete.addClass("facebook-auto");
                 complete.append('<div class="default">' + options.complete_text + "</div>");
-                
+
                 if (browser_msie) {
                     complete.append('<iframe class="ie6fix" scrolling="no" frameborder="0"></iframe>');
                     browser_msie_frame = complete.children('.ie6fix');
                 }
-                
+
                 feed = $(document.createElement("ul"));
                 feed.attr("id", elemid + "_feed");
-                
+
                 complete.prepend(feed);
                 holder.after(complete);
                 feed.css("width", complete.width());
             }
-            
-            function preSet(){
-                element.children("option").each(function(i, option){
+
+            function preSet() {
+                element.children("option").each(function(i, option) {
                     option = $(option);
                     if (option.hasClass("selected") || option.is(':selected')) {
                         addItem(option.text(), option.val(), true, option.hasClass("locked"));
@@ -112,7 +112,7 @@ jQuery(function($){
                     else {
                         option.removeAttr("selected");
                     }
-                    
+
                     cache.push({
                         caption: option.text(),
                         value: option.val()
@@ -120,13 +120,13 @@ jQuery(function($){
                     search_string += "" + (cache.length - 1) + ":" + option.text() + ";";
                 });
             }
-            
+
             //public method to add new item
-            $(this).bind("addItem", function(event, data){
+            $(this).bind("addItem", function(event, data) {
                 addItem(data.title, data.value, 0, 0, 0);
             });
-            
-            function addItem(title, value, preadded, locked, focusme){
+
+            function addItem(title, value, preadded, locked, focusme) {
                 if (!maxItems()) {
                     return false;
                 }
@@ -143,15 +143,15 @@ jQuery(function($){
                     "class": "closebutton",
                     "href": "#"
                 });
-                
+
                 li.appendChild(aclose);
                 holder.append(li);
-                
-                $(aclose).click(function(){
+
+                $(aclose).click(function() {
                     removeItem($(this).parent("li"));
                     return false;
                 });
-                
+
                 if (!preadded) {
                     $("#" + elemid + "_annoninput").remove();
                     var _item;
@@ -173,14 +173,14 @@ jQuery(function($){
                     if (options.onselect.length) {
                         funCall(options.onselect, _item)
                     }
-					element.change();
+                    element.change();
                 }
                 holder.children("li.bit-box.deleted").removeClass("deleted");
                 feed.hide();
                 browser_msie ? browser_msie_frame.hide() : '';
             }
-            
-            function removeItem(item){
+
+            function removeItem(item) {
                 if (!item.hasClass('locked')) {
                     item.fadeOut("fast");
                     if (options.onremove.length) {
@@ -189,16 +189,16 @@ jQuery(function($){
                     }
                     element.children('option[value="' + item.attr("rel") + '"]').removeAttr("selected").removeClass("selected");
                     item.remove();
-					element.change();
+                    element.change();
                     deleting = 0;
                 }
             }
-            
-            function addInput(focusme){
+
+            function addInput(focusme) {
                 var li = $(document.createElement("li"));
                 var input = $(document.createElement("input"));
                 var getBoxTimeout = 0;
-				
+
                 li.attr({
                     "class": "bit-input",
                     "id": elemid + "_annoninput"
@@ -209,16 +209,16 @@ jQuery(function($){
                     "size": "1"
                 });
                 holder.append(li.append(input));
-                
-                input.focus(function(){
+
+                input.focus(function() {
                     complete.fadeIn("fast");
                 });
-                
-                input.blur(function(){
+
+                input.blur(function() {
                     complete.fadeOut("fast");
                 });
-                
-                holder.click(function(){
+
+                holder.click(function() {
                     input.focus();
                     if (feed.length && input.val().length) {
                         feed.show();
@@ -229,26 +229,26 @@ jQuery(function($){
                         complete.children(".default").show();
                     }
                 });
-                
-                input.keypress(function(event){
+
+                input.keypress(function(event) {
                     if (event.keyCode == 13 || event.keyCode == 9) {
                         return false;
                     }
                     //auto expand input							
                     input.attr("size", input.val().length + 1);
                 });
-                
-                input.keydown(function(event){
+
+                input.keydown(function(event) {
                     //prevent to enter some bad chars when input is empty
                     if (event.keyCode == 191) {
                         event.preventDefault();
                         return false;
                     }
                 });
-                
-                input.keyup(function(event){
+
+                input.keyup(function(event) {
                     var etext = xssPrevent(input.val());
-                    
+
                     if (event.keyCode == 8 && etext.length == 0) {
                         feed.hide();
                         browser_msie ? browser_msie_frame.hide() : '';
@@ -262,17 +262,17 @@ jQuery(function($){
                                     return;
                                 }
                                 deleting = 1;
-                                holder.children("li.bit-box.deleted").fadeOut("fast", function(){
+                                holder.children("li.bit-box.deleted").fadeOut("fast", function() {
                                     removeItem($(this));
                                     return false;
                                 });
                             }
                         }
                     }
-                    
+
                     if (event.keyCode != 40 && event.keyCode != 38 && etext.length != 0) {
                         counter = 0;
-                        
+
                         if (options.json_url) {
                             if (options.cache && json_cache) {
                                 addMembers(etext);
@@ -280,16 +280,16 @@ jQuery(function($){
                             }
                             else {
                                 getBoxTimeout++;
-                                var getBoxTimeoutValue = getBoxTimeout;   
-                                setTimeout (function() {
+                                var getBoxTimeoutValue = getBoxTimeout;
+                                setTimeout(function() {
                                     if (getBoxTimeoutValue != getBoxTimeout) return;
                                     $.getJSON(options.json_url + ( options.json_url.indexOf("?") > -1 ? "&" : "?" ) + "tag=" + etext, null, function (data) {
                                         addMembers(etext, data);
                                         json_cache = true;
                                         bindEvents();
                                     });
-                                }, options.delay);                            
-							}
+                                }, options.delay);
+                            }
                         }
                         else {
                             addMembers(etext);
@@ -300,25 +300,25 @@ jQuery(function($){
                     }
                 });
                 if (focusme) {
-                    setTimeout(function(){
+                    setTimeout(function() {
                         input.focus();
                         complete.children(".default").show();
                     }, 1);
                 }
             }
-            
-            function addMembers(etext, data){
+
+            function addMembers(etext, data) {
                 feed.html('');
-                
+
                 if (!options.cache && data != null) {
                     cache = new Array();
                     search_string = "";
                 }
-                
+
                 addTextItem(etext);
-                
+
                 if (data != null && data.length) {
-                    $.each(data, function(i, val){
+                    $.each(data, function(i, val) {
                         cache.push({
                             caption: val.caption,
                             value: val.value
@@ -326,21 +326,22 @@ jQuery(function($){
                         search_string += "" + (cache.length - 1) + ":" + val.caption + ";";
                     });
                 }
-                
+
                 var maximum = options.maxshownitems < cache.length ? options.maxshownitems : cache.length;
                 var filter = "i";
                 if (options.filter_case) {
                     filter = "";
                 }
-                
+
                 var myregexp, match;
                 try {
                     myregexp = eval('/(?:^|;)\\s*(\\d+)\\s*:[^;]*?' + etext + '[^;]*/g' + filter);
                     match = myregexp.exec(search_string);
-                } 
+                }
                 catch (ex) {
-                };
-                
+                }
+                ;
+
                 var content = '';
                 while (match != null && maximum > 0) {
                     var id = match[1];
@@ -356,12 +357,12 @@ jQuery(function($){
                     match = myregexp.exec(search_string);
                 }
                 feed.append(content);
-                
+
                 if (options.firstselected) {
                     focuson = feed.children("li:visible:first");
                     focuson.addClass("auto-focus");
                 }
-                
+
                 if (counter > options.height) {
                     feed.css({
                         "height": (options.height * 24) + "px",
@@ -384,70 +385,72 @@ jQuery(function($){
                     }
                 }
             }
-            
-            function itemIllumination(text, etext){
+
+            function itemIllumination(text, etext) {
                 if (options.filter_case) {
                     try {
                         eval("var text = text.replace(/(.*)(" + etext + ")(.*)/gi,'$1<em>$2</em>$3');");
-                    } 
+                    }
                     catch (ex) {
-                    };
-                                    }
+                    }
+                    ;
+                }
                 else {
                     try {
                         eval("var text = text.replace(/(.*)(" + etext.toLowerCase() + ")(.*)/gi,'$1<em>$2</em>$3');");
-                    } 
+                    }
                     catch (ex) {
-                    };
-                                    }
+                    }
+                    ;
+                }
                 return text;
             }
-            
-            function bindFeedEvent(){
-                feed.children("li").mouseover(function(){
+
+            function bindFeedEvent() {
+                feed.children("li").mouseover(function() {
                     feed.children("li").removeClass("auto-focus");
                     $(this).addClass("auto-focus");
                     focuson = $(this);
                 });
-                
-                feed.children("li").mouseout(function(){
+
+                feed.children("li").mouseout(function() {
                     $(this).removeClass("auto-focus");
                     focuson = null;
                 });
             }
-            
-            function removeFeedEvent(){
+
+            function removeFeedEvent() {
                 feed.children("li").unbind("mouseover");
                 feed.children("li").unbind("mouseout");
-                feed.mousemove(function(){
+                feed.mousemove(function() {
                     bindFeedEvent();
                     feed.unbind("mousemove");
                 });
             }
-            
-            function bindEvents(){
+
+            function bindEvents() {
                 var maininput = $("#" + elemid + "_annoninput").children(".maininput");
                 bindFeedEvent();
                 feed.children("li").unbind("mousedown");
-                feed.children("li").mousedown(function(){
+                feed.children("li").mousedown(function() {
                     var option = $(this);
                     addItem(option.text(), option.attr("rel"));
                     feed.hide();
                     browser_msie ? browser_msie_frame.hide() : '';
                     complete.hide();
                 });
-                
+
                 maininput.unbind("keydown");
-                maininput.keydown(function(event){
+                maininput.keydown(function(event) {
                     if (event.keyCode == 191) {
                         event.preventDefault();
                         return false;
                     }
-                    
+
                     if (event.keyCode != 8) {
                         holder.children("li.bit-box.deleted").removeClass("deleted");
                     }
-                    
+
                     if ((event.keyCode == 13 || event.keyCode == 9) && checkFocusOn()) {
                         var option = focuson;
                         addItem(option.text(), option.attr("rel"));
@@ -456,7 +459,7 @@ jQuery(function($){
                         focuson = null;
                         return false;
                     }
-                    
+
                     if ((event.keyCode == 13 || event.keyCode == 9) && !checkFocusOn()) {
                         if (options.newel) {
                             var value = xssPrevent($(this).val());
@@ -467,7 +470,7 @@ jQuery(function($){
                         }
                         return false;
                     }
-                    
+
                     if (event.keyCode == 40) {
                         removeFeedEvent();
                         if (focuson == null || focuson.length == 0) {
@@ -506,8 +509,8 @@ jQuery(function($){
                     }
                 });
             }
-            
-            function maxItems(){
+
+            function maxItems() {
                 if (options.maxitems != 0) {
                     if (holder.children("li.bit-box").length < options.maxitems) {
                         return true;
@@ -517,8 +520,8 @@ jQuery(function($){
                     }
                 }
             }
-            
-            function addTextItem(value){
+
+            function addTextItem(value) {
                 if (options.newel && maxItems()) {
                     feed.children("li[fckb=1]").remove();
                     if (value.length == 0) {
@@ -536,8 +539,8 @@ jQuery(function($){
                     return;
                 }
             }
-            
-            function funCall(func, item){
+
+            function funCall(func, item) {
                 var _object = "";
                 for (i = 0; i < item.get(0).attributes.length; i++) {
                     if (item.get(0).attributes[i].nodeValue != null) {
@@ -547,8 +550,8 @@ jQuery(function($){
                 _object = "{" + _object + " notinuse: 0}";
                 func.call(func, _object);
             }
-            
-            function checkFocusOn(){
+
+            function checkFocusOn() {
                 if (focuson == null) {
                     return false;
                 }
@@ -557,15 +560,15 @@ jQuery(function($){
                 }
                 return true;
             }
-            
-            function xssPrevent(string){
+
+            function xssPrevent(string) {
                 string = string.replace(/[\"\'][\s]*javascript:(.*)[\"\']/g, "\"\"");
                 string = string.replace(/script(.*)/g, "");
                 string = string.replace(/eval\((.*)\)/g, "");
                 string = string.replace('/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/', '');
                 return string;
             }
-            
+
             var options = $.extend({
                 json_url: null,
                 cache: false,
@@ -579,9 +582,9 @@ jQuery(function($){
                 maxitems: 10,
                 onselect: "",
                 onremove: "",
-				delay: 350
+                delay: 350
             }, opt);
-            
+
             //system variables
             var holder = null;
             var feed = null;
@@ -594,11 +597,11 @@ jQuery(function($){
             var deleting = 0;
             var browser_msie = "\v" == "v";
             var browser_msie_frame;
-            
+
             var element = $(this);
             var elemid = element.attr("id");
             init();
-            
+
             return this;
         });
     };

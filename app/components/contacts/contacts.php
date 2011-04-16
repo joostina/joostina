@@ -15,7 +15,7 @@ class actionsContacts extends joosController {
 	public static function index() {
 
 		joosDocument::instance()->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.validate.js');
-		Jbreadcrumbs::instance()->add('Обратная связь');
+		joosBreadcrumbs::instance()->add('Обратная связь');
 
 		session_name(md5(JPATH_SITE));
 		session_start();
@@ -46,8 +46,8 @@ class actionsContacts extends joosController {
 			'body' => 'Сообщение'
 		);
 
-		$from = mosGetParam($_POST, 'usermail');
-		$fromname = mosGetParam($_POST, 'username');
+		$from = joosRequest::post('usermail');
+		$fromname = joosRequest::post('username');
 		$recipient = joosConfig::get2('mail', 'from');
 		$subject = joosRequest::post('subject') ? joosRequest::post('subject') : 'Сообщение с сайта ' . JPATH_SITE;
 

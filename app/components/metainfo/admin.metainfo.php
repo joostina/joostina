@@ -1,24 +1,22 @@
 <?php
 
 /**
- * Компонент используется в качестве интерфейса для отображения 
- * дефолтной мета-информации. Эти же данные используются для главной страницы компонента 
+ * Компонент используется в качестве интерфейса для отображения
+ * дефолтной мета-информации. Эти же данные используются для главной страницы компонента
  */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('metainfo', 'seo');
-
 /**
  * Содержимое
  */
-class actionsMetainfo {
+class actionsAdminMetainfo {
 
 	/**
 	 * Название обрабатываемой модели
 	 * @var joosDBModel модель
 	 */
-	public static $model = 'Metainfo';
+	public static $model = 'joosMetainfo';
 	/**
 	 * Массив с пунктами подменю
 	 * @var array
@@ -59,7 +57,7 @@ class actionsMetainfo {
 		$metainfo->find();
 
 		//Определяем заголовок компонента, с которым работаем
-		JoiAdmin::$component_title = JoiAdmin::get_component_title($metainfo->group);
+		joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($metainfo->group);
 
 		//вытягиваем подменю, если оно есть
 		$controller = 'actions' . ucfirst($metainfo->group);
@@ -69,7 +67,7 @@ class actionsMetainfo {
 			self::$submenu['metainfo']['active'] = true;
 		}
 
-		JoiAdmin::edit($metainfo, $metainfo);
+		joosAutoAdmin::edit($metainfo, $metainfo);
 	}
 
 	/**
@@ -87,7 +85,7 @@ class actionsMetainfo {
 
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 

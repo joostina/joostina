@@ -38,9 +38,10 @@ class actionsUsers extends joosController {
 
 	public static function send_email() {
 
-		$user_id = mosGetParam($_POST, 'user_id', 0);
-		$subject = mosGetParam($_POST, 'subject', '');
-		$text = strip_tags(trim(mosGetParam($_POST, 'text', '')));
+		$user_id = joosRequest::int('user_id', 0, $_POST);
+		$subject = joosRequest::post('subject');
+		$text = joosRequest::post('text');
+		$text = strip_tags(trim($text));
 
 		if (!User::current()->id) {
 			return json_encode(array('message' => 'Сначала авторизуйтесь'));
@@ -70,7 +71,7 @@ class actionsUsers extends joosController {
 						$subject, //тема
 						$message, //сообщение
 						1
-			)
+        )
 		) {
 			return json_encode(array('message' => 'Сообщение успешно отправлено'));
 		} else {
@@ -82,8 +83,8 @@ class actionsUsers extends joosController {
 
 		//joosSpoof::check_code(null, 1);
 		//joosMainframe::instance()->login();
-		$username = mosGetParam($_POST, 'username');
-		$password = mosGetParam($_POST, 'password');
+		$username = joosRequest::post('username');
+		$password = joosRequest::post('password');
 
 		$response = json_decode(User::login($username, $password, array('return' => 1)), true);
 
@@ -118,7 +119,8 @@ class actionsUsers extends joosController {
 		}
 
 		if ($user->save($_POST)) {
-			$response = json_decode(User::login($user->username, mosGetParam($_POST, 'password', ''), array('return' => 1)), true);
+			$password = joosRequest::post('password');
+			$response = json_decode(User::login($user->username, $password, array('return' => 1)), true);
 			if (isset($response['error'])) {
 				echo json_encode(array('error' => $response['error']));
 				return false;

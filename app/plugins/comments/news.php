@@ -10,18 +10,20 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class commentsNews {
+class commentsNews
+{
 
-	public static function href(Comments $comment) {
-		
-		joosLoader::model('news');
+    public static function href(Comments $comment)
+    {
 
-		$sql = sprintf('SELECT id,type_id FROM #__news AS n  WHERE n.id=%s', $comment->obj_id);
-		$new = database::instance()->set_query($sql, 0, 1)->load_assoc_row();
+        joosLoader::model('news');
 
-		$new['slug'] = News::get_types_slug_by_type_id($new['type_id']);
-		
-		return str_replace( JPATH_SITE , '', joosRoute::href('news_view', array('type' => $new['slug'], 'id' => $new['id'])));
-	}
+        $sql = sprintf('SELECT id,type_id FROM #__news AS n  WHERE n.id=%s', $comment->obj_id);
+        $new = joosDatabase::instance()->set_query($sql, 0, 1)->load_assoc_row();
+
+        $new['slug'] = News::get_types_slug_by_type_id($new['type_id']);
+
+        return str_replace(JPATH_SITE, '', joosRoute::href('news_view', array('type' => $new['slug'], 'id' => $new['id'])));
+    }
 
 }

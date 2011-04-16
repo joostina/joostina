@@ -13,11 +13,11 @@ defined('_JOOS_CORE') or die();
 class joiadminHTML {
 
 	public static function _listing() {
-		
+
 	}
 
 	public static function _edit() {
-		
+
 	}
 
 	public static function header($header, array $extra = array()) {
@@ -25,7 +25,6 @@ class joiadminHTML {
 		$return = '<h1 class="title"><span>' . $header . '</span>';
 
 		//Toolbar
-		//$task = mosGetParam($_REQUEST, 'task', 'index');
 		require_once (JPATH_BASE_ADMIN . '/includes/menubar.html.php');
 		if ($path = joosMainframe::instance()->getPath('toolbar')) {
 			ob_start();
@@ -49,8 +48,8 @@ class joiadminHTML {
 	public static function footer() {
 		return '';
 	}
-	
-	public static function header_menu( $headers_menu ) {
+
+	public static function header_menu($headers_menu) {
 
 		if (count($headers_menu) < 1) {
 			return false;
@@ -69,8 +68,8 @@ class joiadminHTML {
 		if (is_array($obj::$_submenu)) {
 			joosLoader::lib('html');
 			$return = array();
-            /** @var $_submenu array */
-            foreach ($obj::$_submenu as $href) {
+			/** @var $_submenu array */
+			foreach ($obj::$_submenu as $href) {
 				$return[] = '<li>' . (!isset($href['active']) ? HTML::anchor($href['href'], $href['title']) : '<span>' . $href['title'] . '</span>') . '</li>';
 			}
 			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode('', $return) . '</ul></div>';

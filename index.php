@@ -1,7 +1,7 @@
 <?php
 /**
  * Frontend - точка входа
- * 
+ *
  * @package Joostina.Core
  * @author JoostinaTeam
  * @copyright (C) 2008-2011 Joostina Team
@@ -30,8 +30,6 @@ $mosConfig_time_generate ? $sysstart = microtime(true) : null;
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 // классы работы фронта сайта
 require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
-// роутер
-require_once (JPATH_BASE . DS . 'app' . DS . 'route.php');
 
 // загрузка файла русского языка по умолчанию
 //TODO: это страшная вещь! на установку констант тратится тонннна времени. Языковые файлы стоит переписать на INI или массивы
@@ -45,15 +43,15 @@ joosMainframe::instance();
 
 // начало буферизации основного содержимого
 ob_start();
-	joosController::run();
-	// главное содержимое - стек вывода компонента - mainbody
-	joosDocument::$data['page_body'] = ob_get_contents(); 
+joosController::run();
+// главное содержимое - стек вывода компонента - mainbody
+joosDocument::$data['page_body'] = ob_get_contents();
 ob_end_clean();
 
 ob_start();
-	// загрузка файла шаблона
-	require_once (JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php');
-	joosDocument::$data['html_body'] = ob_get_contents();
+// загрузка файла шаблона
+require_once (JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php');
+joosDocument::$data['html_body'] = ob_get_contents();
 ob_end_clean();
 
 echo joosDocument::$data['html_body'];
@@ -70,8 +68,8 @@ if (JDEBUG) {
     }
 
     // подсчет времени генерации страницы
-    jd_log_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
+    joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
 
     // вывод итогового лога отлатчика
-    jd_get();
+	joosDebug::get();
 }

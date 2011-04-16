@@ -9,4 +9,5 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-?><div class="back_button"><a href='javascript:history.go(-1)'><?php echo _BACK; ?></a></div>
+?>
+<div class="back_button"><a href='javascript:history.go(-1)'><?php echo _BACK; ?></a></div>

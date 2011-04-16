@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
@@ -9,13 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::admin_model('modules');
-joosLoader::admin_view('modules');
-
 /**
  * Содержимое
  */
-class actionsModules {
+class actionsAdminModules {
 
 	/**
 	 * Название обрабатываемой модели
@@ -28,10 +26,10 @@ class actionsModules {
 	 */
 	public static function index($option) {
 		$obj = new self::$model;
-		
+
 		$obj_count = $obj->count('WHERE client_id = 0');
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'where' => 'client_id = 0',
@@ -39,7 +37,7 @@ class actionsModules {
 			'limit' => $pagenav->limit,
 			'order' => 'position, ordering'
 		);
-		$obj_list = JoiAdmin::get_list($obj, $param);
+		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
 		// передаём данные в представление
 		thisHTML::index($obj, $obj_list, $pagenav);
@@ -59,9 +57,9 @@ class actionsModules {
 	public static function edit($option, $id) {
 		$obj_data = new self::$model;
 		$id > 0 ? $obj_data->load($id) : null;
-		
+
 		//Прицепляем дополнительные параметры конкретного модуля
-		$obj_data->params  = json_decode($obj_data->params, true);
+		$obj_data->params = json_decode($obj_data->params, true);
 
 		thisHTML::edit($obj_data, $obj_data);
 	}
@@ -74,58 +72,58 @@ class actionsModules {
 		joosSpoof::check_code();
 
 		$obj_data = new self::$model;
-		
+
 		$_POST['params'] = json_encode($_POST['params']);
-		
+
 		$result = $obj_data->save($_POST);
-		
-		
+
+
 		//Настройка прав
-		if(isset($_POST['access'])){
-			
+		if (isset($_POST['access'])) {
+
 			joosLoader::admin_model('access');
-			$access = new Access;	
-			
-			foreach($_POST['access'] as $action=>$new_access){
+			$access = new Access;
+
+			foreach ($_POST['access'] as $action => $new_access) {
 				$access->section = 'Module';
 				$access->subsection = $obj_data->id;
 				$access->action = $action;
-				
+
 				$access->find();
-				
-				$access->accsess = json_encode($new_access);	
+
+				$access->accsess = json_encode($new_access);
 				$access->store();
-			}			
+			}
 		}
-		
-		
-		//Привязка модуля к страницам сайта	
+
+
+		//Привязка модуля к страницам сайта
 		$pages = new ModulesPages;
-		if($_POST['pages']){
+		if ($_POST['pages']) {
 			$_pages = $_POST['pages'];
-			
+
 			//Удалим старые записи
-			$pages->delete_list(array('where'=>'moduleid = '.$obj_data->id));
-			
-			foreach($_pages as $page){				
-				
-				if($page['controller']){
+			$pages->delete_list(array('where' => 'moduleid = ' . $obj_data->id));
+
+			foreach ($_pages as $page) {
+
+				if ($page['controller']) {
 					$pages->moduleid = $obj_data->id;
 					$pages->controller = $page['controller'];
 					$pages->method = $page['method'];
 					$pages->rule = $page['rule'];
-					
+
 					//сохраняем
-					$pages->store();	
+					$pages->store();
 					//сбрасываем
-					$pages->reset();		
-					
+					$pages->reset();
 				}
-			}//endforeach				
+			}
+			//endforeach
 		}
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 

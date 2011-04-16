@@ -14,28 +14,31 @@ defined('_JOOS_CORE') or die();
  * @package Joostina
  * @subpackage Config
  */
-class TOOLBAR_config {
+class TOOLBAR_config
+{
 
-	/**
-	 * Меню для сохранялки параметров отдельных компонентов
-	 */
-	public static function _SAVE_EXT_CONFIG() {
-		mosMenuBar::startTable();
-		mosMenuBar::save('save_component_config');
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
-	}
+    /**
+     * Меню для сохранялки параметров отдельных компонентов
+     */
+    public static function _SAVE_EXT_CONFIG()
+    {
+        mosMenuBar::startTable();
+        mosMenuBar::save('save_component_config');
+        mosMenuBar::spacer();
+        mosMenuBar::cancel();
+        mosMenuBar::endTable();
+    }
 
-	public static function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::ext(_APPLY,'#','-apply','id="tb-apply" onclick="ch_apply();return;"');
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help('screen.config');
-		mosMenuBar::endTable();
-	}
+    public static function _DEFAULT()
+    {
+        mosMenuBar::startTable();
+        mosMenuBar::save();
+        mosMenuBar::spacer();
+        mosMenuBar::ext(_APPLY, '#', '-apply', 'id="tb-apply" onclick="ch_apply();return;"');
+        mosMenuBar::spacer();
+        mosMenuBar::cancel();
+        mosMenuBar::spacer();
+        mosMenuBar::help('screen.config');
+        mosMenuBar::endTable();
+    }
 }

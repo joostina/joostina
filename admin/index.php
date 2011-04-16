@@ -19,7 +19,7 @@ define('JPATH_BASE_ADMIN', dirname(__FILE__));
 //require_once (JPATH_BASE . DS . 'configuration.php');
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
- 
+
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
@@ -29,20 +29,17 @@ joosDocument::header();
 
 $mainframe = joosMainframe::instance(true);
 
-$mainframe->set('lang', 'russian');
-include_once($mainframe->get_lang_path());
-
 session_name(md5(JPATH_SITE));
 session_start();
 
 
 $my = new stdClass;
-$my->id = intval(mosGetParam($_SESSION, 'session_user_id', ''));
-$my->username = strval(mosGetParam($_SESSION, 'session_USER', ''));
-$my->groupname = strval(mosGetParam($_SESSION, 'session_groupname', ''));
-$my->gid = intval(mosGetParam($_SESSION, 'session_gid', ''));
-$session_id = strval(mosGetParam($_SESSION, 'session_id', ''));
-$logintime = strval(mosGetParam($_SESSION, 'session_logintime', ''));
+$my->id = (int) joosRequest::session('session_user_id');
+$my->username = joosRequest::session('session_USER');
+$my->groupname = joosRequest::session('session_groupname');
+$my->gid = (int) joosRequest::session('session_gid');
+$session_id = joosRequest::session('session_id');
+$logintime = joosRequest::session('session_logintime');
 
 if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
 	joosRoute::redirect('index2.php');
@@ -52,15 +49,15 @@ if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
 
 if (isset($_POST['submit'])) {
 
-	$usrname =  joosRequest::post('usrname', null);
-	$pass = joosRequest::post('pass', null);
+	$usrname = joosRequest::post('username');
+	$pass = joosRequest::post('password');
 
 	if ($pass == null) {
 		joosRoute::redirect(JPATH_SITE_ADMIN . '/', _PLEASE_ENTER_PASSWORDWORD);
 		exit();
 	}
 
-	$database = database::instance();
+	$database = joosDatabase::instance();
 
 	$my = null;
 	$query = 'SELECT * FROM #__users WHERE username =' . $database->quote($usrname) . ' AND state = 1';
@@ -106,7 +103,7 @@ if (isset($_POST['submit'])) {
 		$database->set_query($query)->query();
 
 		$query = "DELETE FROM #__session WHERE  is_admin=1 AND session_id != " . $database->quote($session_id) . " AND userid = " . (int) $my->id;
-		database::instance()->set_query($query)->query();
+		joosDatabase::instance()->set_query($query)->query();
 
 		$_SESSION['session_id'] = $session_id;
 		$_SESSION['session_user_id'] = $my->id;
@@ -119,7 +116,7 @@ if (isset($_POST['submit'])) {
 
 		session_write_close();
 
-		$expired = JPATH_SITE_ADMIN .'/index2.php';
+		$expired = JPATH_SITE_ADMIN . '/index2.php';
 
 		// скидываем счетчик неудачных авторзаций в админке
 		$query = 'UPDATE #__users SET bad_auth_count = 0 WHERE id = ' . $my->id;

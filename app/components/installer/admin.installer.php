@@ -9,20 +9,21 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsInstaller {
-	
+class actionsAdminInstaller {
+
 	public static function on_start() {
 		joosDocument::instance()->add_js_file(JPATH_SITE . '/media/js/valumsfileuploader/fileuploader.js');
-		joosDocument::instance()->add_js_file(JPATH_SITE . '/administrator/components/installer/media/js/installer.js');		
-	}	
-	
+		joosDocument::instance()->add_js_file(JPATH_SITE . '/administrator/components/installer/media/js/installer.js');
+	}
+
 	public static function index($option) {
-		echo Joiadmin::header('Установка расширений');
+		echo joosAutoAdmin::header('Установка расширений');
 		?>
 		<div id="installer_wrapper">
 			<div id="installer_result"></div>
 			<div id="file-uploader"></div>
 		</div>
 		<?php
-	}	
+	}
+
 }

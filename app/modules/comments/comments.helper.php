@@ -17,12 +17,14 @@ defined('_JOOS_CORE') or die();
 
 joosLoader::model('comments');
 
-class commentsHelper {
+class commentsHelper
+{
 
-	//Получение последних комментариев   
-	public static function get_latest($limit = 5) {
-		$comments = new Comments;
+    //Получение последних комментариев
+    public static function get_latest($limit = 5)
+    {
+        $comments = new Comments;
 
-		return $comments->get_list(array('group' => 'user_id', 'limit' => 5, 'order' => 'id DESC'), array('comments'), 600);
-	}
+        return $comments->get_list(array('group' => 'user_id', 'limit' => 5, 'order' => 'id DESC'), array('comments'), 600);
+    }
 }

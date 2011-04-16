@@ -10,15 +10,13 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-//joosMainframe::addClass('mosAdminMenus');
-joosLoader::lib('html');
+joosLoader::lang('system');
+joosLoader::lang('admin');
 
+//joosMainframe::addClass('mosAdminMenus');
+//joosLoader::lib('html');
 //Грузим модули для админки
 joosModule::modules_for_backend();
-
-function admin_body() {
-	echo $GLOBALS['_MOS_OPTION']['buffer'];
-}
 
 /* вывод информационного поля */
 
@@ -30,13 +28,27 @@ function ajax_acl_error() {
 	echo json_encode(array('error' => 'acl'));
 }
 
+/**
+ * Расширение ядра для работы панели управления
+ * @category core
+ * @category admin_cp
+ */
 class joosCoreAdmin {
 
-	public static function init_session_admin($option, $task) {
+	/**
+	 * Содержимое вывода компонента панели управления
+	 * @var string
+	 */
+	private static $body;
+
+	public static function init_session_admin() {
+
+		$option = joosRequest::param('option');
+		$task = joosRequest::param('task');
 
 		// logout check
 		if ($option == 'logout') {
-			$database = database::instance();
+			$database = joosDatabase::instance();
 
 			// обновление записи последнего посещения панели управления в базе данных
 			if (isset($_SESSION['session_user_id']) && $_SESSION['session_user_id'] != '') {
@@ -58,7 +70,6 @@ class joosCoreAdmin {
 			exit();
 		}
 
-		// check if session name corresponds to correct format
 		if (session_name() != md5(JPATH_SITE)) {
 			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/');
 			exit();
@@ -87,7 +98,7 @@ class joosCoreAdmin {
 			// if task action is to `save` or `apply` complete action before doing session checks.
 			if ($task != 'save' && $task != 'apply') {
 
-				$database = database::instance();
+				$database = joosDatabase::instance();
 
 				$session_life_admin = joosConfig::get2('session', 'life_admin');
 
@@ -112,10 +123,6 @@ class joosCoreAdmin {
 					setcookie(md5(JPATH_SITE));
 					// TODO тут можно сделать нормальную запоминалку последней активной страницы, и разных данных с неё. И записывать всё это как параметры пользователя в JSON
 					joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _ADMIN_SESSION_ENDED);
-				} else {
-					// load variables into session, used to help secure /popups/ functionality
-					$_SESSION['option'] = $option;
-					$_SESSION['task'] = $task;
 				}
 			}
 		} elseif ($session_id == '') {
@@ -142,19 +149,29 @@ class joosCoreAdmin {
 		}
 	}
 
+	public static function set_body($body) {
+		self::$body = $body;
+	}
+
+	public static function get_body() {
+		return self::$body;
+	}
+
 }
 
 /**
- * Page navigation support class
+ * Постраничная навигация для панели управления
+ * @category core
+ * @category admin_cp
  * @package Joostina
  */
-class joosPagenator {
+class joosAdminPagenator {
 
 	public $limitstart;
 	public $limit;
 	public $total;
 
-	function joosPagenator($total, $limitstart, $limit) {
+	function joosAdminPagenator($total, $limitstart, $limit) {
 		$this->total = (int) $total;
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 1);
@@ -189,7 +206,7 @@ class joosPagenator {
 	}
 
 	function write_limit_box() {
-		echo joosPagenator::get_limit_box();
+		echo joosAdminPagenator::get_limit_box();
 	}
 
 	function write_pages_counter() {
@@ -278,7 +295,7 @@ class joosPagenator {
 		}
 	}
 
-	function order_down_icon($i, $n, $condition = true, $task = 'orderdown', $alt =_PN_MOVE_DOWN) {
+	function order_down_icon($i, $n, $condition = true, $task = 'orderdown', $alt = _PN_MOVE_DOWN) {
 		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb' . $i . '\',\'' . $task . '\')" title="' . $alt . '"><img src="' . joosConfig::get('admin_icons_path') . 'downarrow.png" width="12" height="12" border="0" alt="' . $alt . '" /></a>';
 		} else {

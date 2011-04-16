@@ -15,89 +15,93 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsNews extends joosController {
+class actionsNews extends joosController
+{
 
-	/**
-	 * Cтартовый метод, запускается до вызова основного метода контроллера
-	 */
-	public static function on_start($active_task) {
-		
-		//Модель компонента
-		joosLoader::model('extrafields');
-		
-		//Хлебные крошки
-		Jbreadcrumbs::instance()
-				->add('Дополнительные поля', $active_task == 'index' ? false : joosRoute::href('extrafields'));
-				
-		//Метаинформация страницы
-		Metainfo::set_meta('extrafields', '', '', array('title'=>'Дополнительные поля'));
-	}
+    /**
+     * Cтартовый метод, запускается до вызова основного метода контроллера
+     */
+    public static function on_start($active_task)
+    {
 
-	/**
-	 * Главная страница компонента
-	 */
-	public static function index() {
+        //Модель компонента
+        joosLoader::model('extrafields');
 
-		$page = isset(self::$param['page']) ? self::$param['page'] : 0;
+        //Хлебные крошки
+        joosBreadcrumbs::instance()
+                ->add('Дополнительные поля', $active_task == 'index' ? false : joosRoute::href('extrafields'));
 
-		// формируем объект
-		$extrafields = new Extrafields();
+        //Метаинформация страницы
+        joosMetainfo::set_meta('extrafields', '', '', array('title' => 'Дополнительные поля'));
+    }
 
-		// число записей
-		$count = $extrafields->count();
+    /**
+     * Главная страница компонента
+     */
+    public static function index()
+    {
 
-		// подключаем библиотеку постраничной навигации
-		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('extrafields'), $count, 5);
-		$pager->paginate($page);
+        $page = isset(self::$param['page']) ? self::$param['page'] : 0;
 
-		// опубликованные записи
-		$items = $extrafields->get_list(
-			array(	'select' => '*',
-					'offset' => $pager->offset,
-					'limit' => $pager->limit,
-					'order' => 'id DESC', // сначала последние
-			)
-		);
+        // формируем объект
+        $extrafields = new Extrafields();
 
-		return array(
-			'items' => $items,
-			'pager' => $pager
-		);
-	}
+        // число записей
+        $count = $extrafields->count();
 
-	/**
-	 * Просмотр записи
-	 */
-	public static function view() {
+        // подключаем библиотеку постраничной навигации
+        joosLoader::lib('pager', 'utils');
+        $pager = new Pager(joosRoute::href('extrafields'), $count, 5);
+        $pager->paginate($page);
 
-		// номер просматриваемой записи
-		$id = self::$param['id'];
+        // опубликованные записи
+        $items = $extrafields->get_list(
+            array('select' => '*',
+                 'offset' => $pager->offset,
+                 'limit' => $pager->limit,
+                 'order' => 'id DESC', // сначала последние
+            )
+        );
 
-		// формируем и загружаем просматриваемую запись
-		$item = new Extrafields;
-		$item->load($id) ? null : self::error404();
+        return array(
+            'items' => $items,
+            'pager' => $pager
+        );
+    }
 
-		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
-		if (self::$error) {
-			return;
-		}
+    /**
+     * Просмотр записи
+     */
+    public static function view()
+    {
 
-		//Метаинформация страницы
-		Metainfo::set_meta('extrafields', 'item', $item->id, array('title'=>$item->title));
+        // номер просматриваемой записи
+        $id = self::$param['id'];
 
-		return array(
-			'item' => $item
-		);
-	}
-	
-	/**
-	 * Создание/редактирование записи
-	 */	
-	 
-	 
-	/**
-	 * Просмотр по категориям
-	 */		 
+        // формируем и загружаем просматриваемую запись
+        $item = new Extrafields;
+        $item->load($id) ? null : self::error404();
+
+        // одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
+        if (self::$error) {
+            return;
+        }
+
+        //Метаинформация страницы
+        joosMetainfo::set_meta('extrafields', 'item', $item->id, array('title' => $item->title));
+
+        return array(
+            'item' => $item
+        );
+    }
+
+    /**
+     * Создание/редактирование записи
+     */
+
+
+    /**
+     * Просмотр по категориям
+     */
 
 }

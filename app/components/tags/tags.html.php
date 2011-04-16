@@ -14,22 +14,25 @@ defined('_JOOS_CORE') or die();
  * Класс формирования представлений
  */
 
-class tagsHTML {
+class tagsHTML
+{
 
-	/**
-	 * Страница с результатами поиска по тэгу
-	 */
-	public static function tag_search($tag, array $tags_results, paginator3000 $pager) {
-		joosLoader::lib('text');
-		joosLoader::lib('images');
-		require_once 'views/results/default.php';
-	}
+    /**
+     * Страница с результатами поиска по тэгу
+     */
+    public static function tag_search($tag, array $tags_results, paginator3000 $pager)
+    {
+        joosLoader::lib('text');
+        joosLoader::lib('images');
+        require_once 'views/results/default.php';
+    }
 
-	/**
-	 * Страница с полным облаком
-	 */
-	public static function full_cloud($tags_cloud) {
-		require_once 'views/full_cloud/default.php';
-	}
+    /**
+     * Страница с полным облаком
+     */
+    public static function full_cloud($tags_cloud)
+    {
+        require_once 'views/full_cloud/default.php';
+    }
 
 }

@@ -13,7 +13,7 @@ defined('_JOOS_CORE') or die();
 /**
  * Содержимое
  */
-class actionsComments {
+class actionsAdminComments {
 
 	public static function on_start() {
 		joosLoader::model('comments');
@@ -34,7 +34,7 @@ class actionsComments {
 		$obj = new self::$model;
 		$obj_count = $obj->count();
 
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,

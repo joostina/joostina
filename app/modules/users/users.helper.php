@@ -15,10 +15,12 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class usersHelper {
+class usersHelper
+{
 
-	//Блок в профиле пользователя
-	public static function get_user_block() {
-		
-	}
+    //Блок в профиле пользователя
+    public static function get_user_block()
+    {
+
+    }
 }

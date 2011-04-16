@@ -10,29 +10,32 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class contactsMap {
-	
-	public static function get_params(){
-		return array();
-	}	
+class contactsMap
+{
 
-	public static function get_mapdata_scheme($params = array()) {
+    public static function get_params()
+    {
+        return array();
+    }
 
-		return array(
-			//map_block
-			array(
-				'id' => 'index',
-				'link' => joosRoute::href('contacts'),
-				'title' => 'Контакты',
-				'level' => 1,
-				'type' => 'single',
-				'priority' => 0.5,
-				'changefreq' => 'daily'
-			),
+    public static function get_mapdata_scheme($params = array())
+    {
 
-		);
-		
-	}
+        return array(
+            //map_block
+            array(
+                'id' => 'index',
+                'link' => joosRoute::href('contacts'),
+                'title' => 'Контакты',
+                'level' => 1,
+                'type' => 'single',
+                'priority' => 0.5,
+                'changefreq' => 'daily'
+            ),
+
+        );
+
+    }
 
 
 }

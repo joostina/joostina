@@ -12,7 +12,6 @@ defined('_JOOS_CORE') or die();
 joosLoader::view('comments');
 joosLoader::model('comments');
 
-
 class actionsComments extends joosController {
 
 	/**
@@ -21,39 +20,12 @@ class actionsComments extends joosController {
 	public static function comments_first_load($option, $id, $page, $task) {
 
 		$comments = new Comments;
-		$comments->obj_option = mosGetParam($_GET, 'obj_option', '');
-		$comments->obj_id = (int) mosGetParam($_GET, 'obj_id', '');
+		$comments->obj_option = joosRequest::get('obj_option', '');
+		$comments->obj_id = joosRequest::int('obj_id', 0, $_GET);
 
-		//Определяем общее количество комментариев
-		$comments_count = $comments->count('WHERE obj_option = \'' . $comments->obj_option . '\' AND obj_id=' . $comments->obj_id);
-
-		/* для этого проекта нам не нужна постраничная аякс-навигация  вкомментариях
-		  //первая страница
-		  $page = 1;
-		  //Подключаем библиотеку ajax-пагинации
-		  joosLoader::lib('ajaxpager');
-		  $pager = new AjaxPager;
-		  $pager->first_load($into = 'comments_list',
-		  $callback = array(
-		  'option' => 'com_comments',
-		  'task' => 'get_comments',
-		  'obj_option' => $comments->obj_option,
-		  'obj_id' => $comments->obj_id
-		  ),
-		  $comments_count, (int) mosGetParam($_GET, 'limit', 10), (int) mosGetParam($_GET, 'display', 5), 'comments_pagenav');
-
-		  $pager->ajaxPaginate($page);
-
-		  $comments_list = $comments->get_comments($pager->offset, $pager->limit);
-		 */
 		$comments_list = $comments->get_comments();
 
 		if ($comments_list) {
-			//Область с пагинацией нам необходимо вывести всего один раз,
-			//поэтому исключаем её из шаблона
-			//Выводим пагинацию
-			//CommentsHTML::pagination($pager);
-			//Выводим список комментариев
 			CommentsHTML::lists($comments_list);
 		}
 
@@ -63,8 +35,8 @@ class actionsComments extends joosController {
 	public static function get_comments($option, $id, $page, $task) {
 
 		$comments = new Comments;
-		$comments->obj_option = mosGetParam($_GET, 'obj_option', '');
-		$comments->obj_id = mosGetParam($_GET, 'obj_id', '');
+		$comments->obj_option = joosRequest::get('obj_option', '');
+		$comments->obj_id = joosRequest::int('obj_id', 0, $_GET);
 
 		//Подключаем библиотеку ajax-пагинации
 		joosLoader::lib('ajaxpager');
@@ -96,10 +68,10 @@ class actionsComments extends joosController {
 		$jevix = new JJevix();
 
 		$comment = new Comments;
-		$comment->obj_option = mosGetParam($_POST, 'obj_option', '');
-		$comment->obj_id = (int) mosGetParam($_POST, 'obj_id', '');
-		$comment->comment_text = mosGetParam($_POST, 'comment_text', '');
-		$comment->comment_text = Text::word_limiter(Text::strip_tags_smart($comment->comment_text), 200);
+		$comment->obj_option = joosRequest::get('obj_option', '');
+		$comment->obj_id = joosRequest::int('obj_id', 0, $_GET);
+		$comment->comment_text = joosRequest::post('comment_text');
+		$comment->comment_text = joosText::word_limiter(joosText::strip_tags_smart($comment->comment_text), 200);
 		$comment->comment_text = $jevix->Parser($comment->comment_text);
 		$comment->user_id = User::instance()->id;
 		$comment->user_name = User::instance()->id ? User::instance()->username : _GUEST_USER;
@@ -107,7 +79,7 @@ class actionsComments extends joosController {
 
 		$comment->state = 1;
 
-		$comment->parent_id = mosGetParam($_POST, 'parent_id', 0);
+		$comment->parent_id = joosRequest::int('parent_id', 0, $_POST);
 
 		if ($comment->parent_id > 0) {
 			$parent = new Comments();
@@ -147,10 +119,10 @@ class actionsComments extends joosController {
 
 	//Вывод одного комментария
 	public static function print_comment() {
-		$comment_data = mosGetParam($_POST, 'comment_data', array());
+		$comment_data = joosRequest::array_param('comment_data', array(), $_POST);
 		$comment = new Comments;
 		$comment->bind($comment_data);
-		?><div class="comment_item" id="comment-item-<?php echo $comment->id; ?>"><?php CommentsHTML::comment($comment); ?>	</div><?php
+		?><div class="comment_item" id="comment-item-<?php echo $comment->id; ?>"><?php CommentsHTML::comment($comment); ?></div><?php
 	}
 
 	/**
@@ -169,7 +141,8 @@ class actionsComments extends joosController {
 
 		$comment = new Comments;
 
-		if (!$comment->load((int) mosGetParam($_GET, 'id', ''))) {
+		$id = joosRequest::int('id', 0, $_GET);
+		if (!$comment->load($id)) {
 			$comment_arr['error'] = 'Нет такого комментария';
 			echo json_encode($comment_arr);
 			return false;

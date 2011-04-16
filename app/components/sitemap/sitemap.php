@@ -13,27 +13,30 @@ defined('_JOOS_CORE') or die();
 joosLoader::model('sitemap');
 joosLoader::lib('metainfo', 'joostina');
 
-class actionsSitemap {
-	
-	
-	public static function on_start($active_task) {		
-		//Хлебные крошки
-		Jbreadcrumbs::instance()
-				->add('Карта сайта');
-				
-		//Метаинформация страницы
-		Metainfo::set_meta('sitemap', '', '', array('title'=>'Карта сайта'));
-	}	
-	
-	
-	public static function index(){
-		
-		$map = Sitemap::get_map();
-		
-		return array(
-			'map' => $map
-		);		
-	}
+class actionsSitemap
+{
+
+
+    public static function on_start($active_task)
+    {
+        //Хлебные крошки
+        joosBreadcrumbs::instance()
+                ->add('Карта сайта');
+
+        //Метаинформация страницы
+        joosMetainfo::set_meta('sitemap', '', '', array('title' => 'Карта сайта'));
+    }
+
+
+    public static function index()
+    {
+
+        $map = Sitemap::get_map();
+
+        return array(
+            'map' => $map
+        );
+    }
 
 
 }

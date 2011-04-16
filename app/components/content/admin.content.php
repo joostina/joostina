@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content - компонент управления контентом
  * Контроллер админ-панели
@@ -10,21 +11,20 @@
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  *
- **/
+ * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsContent{
-	
+class actionsAdminContent {
+
 	/**
 	 * Название обрабатываемой модели
 	 * @var joosDBModel модель
 	 */
-	public static $model = 'adminContent';	
-		
+	public static $model = 'adminContent';
 	/**
 	 * Подменю
-	 */	
+	 */
 	public static $submenu = array(
 		'content_all' => array(
 			'name' => 'Все статьи',
@@ -47,8 +47,7 @@ class actionsContent{
 			'active' => false
 		),
 	);
-		
-			
+
 	/**
 	 * Выполняется сразу после запуска контроллера
 	 */
@@ -58,42 +57,43 @@ class actionsContent{
 		joosDocument::instance()->add_css(JPATH_SITE . '/app/components/content/media/css/content.admin.css');
 	}
 
-
 	/**
 	 * Список объектов
-	 * 
+	 *
 	 * @param string $option
-	 */	
-	public static function index($option) {	
-		ob_start();	mosMenuBar::copy();	$add = ob_get_contents(); ob_end_clean();	
-		JoiAdminToolbar::add_button($add);	
-				
+	 */
+	public static function index($option) {
+		ob_start();
+		mosMenuBar::copy();
+		$add = ob_get_contents();
+		ob_end_clean();
+		JoiAdminToolbar::add_button($add);
+
 		self::$submenu['content_all']['active'] = true;
-		
+
 		$obj = new self::$model;
-		
+
 		$where = '';
-		
+
 		//Если сработал фильтр по категориям
 		$catid = joosRequest::request('category_id', 0);
-		if($catid  > 0){
+		if ($catid > 0) {
 			$category = new Categories('content');
 			$category->load($catid);
 			$ids = implode(', ', array_keys($category->get_branch($category->lft, $category->rgt, $catid, true)));
-			
-			$where = $ids ? 'i.category_id IN('.$ids.')' : 'i.category_id = '. $catid;
-		}		
-		
-		if($where){
+
+			$where = $ids ? 'i.category_id IN(' . $ids . ')' : 'i.category_id = ' . $catid;
+		}
+
+		if ($where) {
 			$where_for_count = str_replace('i.', '', $where);
-			$obj_count =  $obj->count('WHERE ' . $where_for_count);	
+			$obj_count = $obj->count('WHERE ' . $where_for_count);
+		} else {
+			$obj_count = $obj->count();
 		}
-		else{
-			$obj_count =  $obj->count();		
-		}
-		
-		
-		$pagenav = JoiAdmin::pagenav($obj_count, $option);
+
+
+		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'select' => 'i.*, c.name AS catname',
@@ -103,26 +103,24 @@ class actionsContent{
 			'join' => 'LEFT JOIN #__categories AS c ON (c.id = i.category_id)',
 			'pseudonim' => 'i'
 		);
-		
-		if($where){
+
+		if ($where) {
 			$param['where'] = $where;
 		}
-		
-		
-		$obj_list = $obj->get_list($param);
-		
-		
-        // массив названий элементов для отображения в таблице списка
-        $fields_list = array( 'id', 'title', 'slug', 'category_id', 'ordering', 'state');
-        // передаём информацию о объекте и настройки полей в формирование представления
-        JoiAdmin::listing( $obj, $obj_list, $pagenav, $fields_list, 'category_id' );		
 
+
+		$obj_list = $obj->get_list($param);
+
+
+		// массив названий элементов для отображения в таблице списка
+		$fields_list = array('id', 'title', 'slug', 'category_id', 'ordering', 'state');
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list, 'category_id');
 	}
 
-	
 	/**
 	 * Создание объекта
-	 * 
+	 *
 	 * @param string $option
 	 */
 	public static function create($option) {
@@ -131,7 +129,7 @@ class actionsContent{
 
 	/**
 	 * Редактирование объекта
-	 * 
+	 *
 	 * @param string $option
 	 * @param integer $id - номер редактируемого объекта
 	 */
@@ -139,20 +137,19 @@ class actionsContent{
 
 		$obj_data = new self::$model;
 		$id > 0 ? $obj_data->load($id) : null;
-		
+
 		//Параметры
-		$obj_data->params = Params::get_params('content', 'item', $obj_data->id);
+		$obj_data->params = joosParams::get_params('content', 'item', $obj_data->id);
 
 		//Мета-информация
-		$obj_data->metainfo = Metainfo::get_meta('content', 'item', $obj_data->id);
+		$obj_data->metainfo = joosMetainfo::get_meta('content', 'item', $obj_data->id);
 
-		JoiAdmin::edit($obj_data, $obj_data);
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
-	
 	/**
 	 * Сохранение информации
-	 * 
+	 *
 	 * @param string $option
 	 * @param integer $redirect
 	 */
@@ -161,26 +158,26 @@ class actionsContent{
 		joosSpoof::check_code();
 
 		$obj = new self::$model;
-		
+
 		$result = $obj->save($_POST);
-		
-		if(isset($_POST['params'])){
-			$params = new Params;		
-			$params->save_params($_POST['params'], 'content', 'item', $obj->id);			
+
+		if (isset($_POST['params'])) {
+			$params = new joosParams;
+			$params->save_params($_POST['params'], 'content', 'item', $obj->id);
 		}
 
 		//Сохранение мета-информации
-		Metainfo::add_meta($_POST['metainfo'], 'content', 'item', $obj->id);
+		joosMetainfo::add_meta($_POST['metainfo'], 'content', 'item', $obj->id);
 
 		//Сохранение данных дополнительных полей
-		if(isset($_POST['extra_fields'])){
+		if (isset($_POST['extra_fields'])) {
 			$ef = new ExtrafieldsData();
 			$ef->save_data($_POST['extra_fields'], $obj->id);
 		}
-		
+
 
 		if ($result == false) {
-			echo 'Ошибочка: ' . database::instance()->get_error_msg();
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 
@@ -199,21 +196,20 @@ class actionsContent{
 				break;
 		}
 	}
-	
+
 	/**
-	 * Сохранение отредактированного или созданного объекта 
+	 * Сохранение отредактированного или созданного объекта
 	 * и перенаправление на главную страницу компонента
-	 * 
+	 *
 	 * @param string $option
 	 */
-	public static function save($option) {		
+	public static function save($option) {
 		self::save_this($option);
 	}
-	
 
 	/**
 	 * Сохраняем и возвращаем на форму редактирования
-	 * 
+	 *
 	 * @param string $option
 	 */
 	public static function apply($option) {
@@ -222,7 +218,7 @@ class actionsContent{
 
 	/**
 	 * Сохраняем и направляем на форму создания нового объекта
-	 * 
+	 *
 	 * @param mixed $option
 	 */
 	public static function save_and_new($option) {
@@ -231,7 +227,7 @@ class actionsContent{
 
 	/**
 	 * Удаление объекта или группы объектов, возврат на главную
-	 * 
+	 *
 	 * @param string $option
 	 * @return
 	 */
@@ -245,19 +241,18 @@ class actionsContent{
 
 		//Удаление данных дополнительных полей
 		$ef_data = new ExtrafieldsData();
-        
-        if($obj_data->delete_array($cid, 'id')){
-	        $ef_data->delete_array($cid, 'obj_id');
-            joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!');
-        } 
-        else{
-            joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
-        }  
+
+		if ($obj_data->delete_array($cid, 'id')) {
+			$ef_data->delete_array($cid, 'obj_id');
+			joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!');
+		} else {
+			joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
+		}
 	}
-	
+
 	/**
 	 * Копирование объекта или группы объектов, возврат на главную
-	 * 
+	 *
 	 * @param string $option
 	 * @return
 	 */
@@ -268,13 +263,12 @@ class actionsContent{
 		$cid = (array) joosRequest::array_param('cid');
 
 		$obj_data = new self::$model;
-        
-        if($obj_data->copy_array($cid, 'id')){
-            joosRoute::redirect('index2.php?option=' . $option, 'Скопировано успешно!');
-        } 
-        else{
-            joosRoute::redirect('index2.php?option=' . $option, 'Ошибка копирования');
-        }  
-	}				
+
+		if ($obj_data->copy_array($cid, 'id')) {
+			joosRoute::redirect('index2.php?option=' . $option, 'Скопировано успешно!');
+		} else {
+			joosRoute::redirect('index2.php?option=' . $option, 'Ошибка копирования');
+		}
+	}
 
 }

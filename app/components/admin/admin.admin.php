@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsAdmin {
+class actionsAdminAdmin {
 
 	public static function index() {
 		$path = JPATH_BASE . '/app/templates/' . JTEMPLATE . '/html/cpanel.php';

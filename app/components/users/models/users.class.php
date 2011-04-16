@@ -169,7 +169,7 @@ class User extends joosDBModel {
 	public static function instance() {
 		if (self::$user_instance === NULL) {
 			$sessionCookieName = joosSession::sessionCookieName();
-			$sessioncookie = strval(mosGetParam($_COOKIE, $sessionCookieName, null));
+			$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
 			$session = new joldSession;
 			if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::sessionCookieValue($sessioncookie))) {
 				if ($session->userid > 0) {
@@ -209,7 +209,7 @@ class User extends joosDBModel {
 
 		$extra = new UserExtra;
 		$extra->user_id = $this->id;
-		database::instance()->insert_object('#__users_extra', $extra);
+		joosDatabase::instance()->insert_object('#__users_extra', $extra);
 	}
 
 	public function check($validator = null) {
@@ -225,7 +225,7 @@ class User extends joosDBModel {
 			return false;
 		}
 
-		$this->_db = database::instance();
+		$this->_db = joosDatabase::instance();
 
 		$query = "SELECT id FROM #__users WHERE username = " . $this->_db->quote($this->username) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
@@ -241,10 +241,6 @@ class User extends joosDBModel {
 			return false;
 		}
 
-//		if( !$this->id && $this->password != mosgetParam( $_POST, 'password2' ) ) {
-//			$this->_error = 'А пароли то - разные!';
-//			return false;
-//		}
 		// формируем дополнителньое каноничное имя
 		$this->username_canonikal = UserHelper::get_canonikal($this->username);
 		return true;
@@ -281,7 +277,7 @@ class User extends joosDBModel {
 	/**
 	 * User::check_password()
 	 * Проверка введенного пароля на соответствие паролю в БД
-	 * 
+	 *
 	 * @param str $input_password
 	 * @param str $real_password
 	 * @return bool
@@ -303,9 +299,9 @@ class User extends joosDBModel {
 	/**
 	 * User::prepare_password()
 	 * Подготовка пароля для записи в БД
-	 * 
+	 *
 	 * @param str $password
-	 * @return str 
+	 * @return str
 	 */
 	public static function prepare_password($password) {
 		$salt = self::mosMakePassword(16);
@@ -353,9 +349,9 @@ class User extends joosDBModel {
 		joosLoader::lib('text');
 		joosLoader::lib('datetime', 'joostina');
 
-		$delta = DateAndTime::get_delta(DateAndTime::mysql_to_unix($birthdate), DateAndTime::mysql_to_unix(_CURRENT_SERVER_TIME));
+		$delta = joosDateTime::get_delta(joosDateTime::mysql_to_unix($birthdate), joosDateTime::mysql_to_unix(_CURRENT_SERVER_TIME));
 		$age = $delta['year'];
-		return $age . ' ' . Text::declension($age, array(_YEAR, _YEAR_, _YEARS));
+		return $age . ' ' . joosText::declension($age, array(_YEAR, _YEAR_, _YEARS));
 	}
 
 	/**
@@ -365,11 +361,11 @@ class User extends joosDBModel {
 	 */
 	public static function current() {
 		global $my;
-		// TODO тут надо как-то унифицировать 
+		// TODO тут надо как-то унифицировать
 		return joosMainframe::is_admin() ? $my : self::instance();
 	}
 
-	public static function avatar($id, $size= false) {
+	public static function avatar($id, $size = false) {
 
 		$size = $size ? '_' . $size : false;
 
@@ -433,11 +429,11 @@ class User extends joosDBModel {
 
 	public static function login($username, $password = false, array $params = array()) {
 
-		$params +=array(
+		$params += array(
 			'redirect' => true
 		);
 
-		$return = strval(mosGetParam($_REQUEST, 'return', null));
+		$return = (string) joosRequest::param('return');
 		if ($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))) {
 			$return = $return;
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
@@ -450,7 +446,7 @@ class User extends joosDBModel {
 		$user->username = $username;
 		$user->find();
 
-		// если акаунт заблокирован 		
+		// если акаунт заблокирован
 		if (!$user->id) {
 			if (isset($params['return'])) {
 				return json_encode(array('error' => 'Такого пользователя нет'));
@@ -500,7 +496,7 @@ class User extends joosDBModel {
 
 		// очищаем базу от всех прежних сессий вновь авторизовавшегося пользователя
 		$query = "DELETE FROM #__session WHERE  is_admin=0 AND session_id != " . $session->_db->quote($session->session_id) . " AND userid = " . (int) $user->id;
-		database::instance()->set_query($query)->query();
+		joosDatabase::instance()->set_query($query)->query();
 
 		// обновляем дату последнего визита авторизованного пользователя
 		$user->lastvisitDate = _CURRENT_SERVER_TIME;
@@ -509,14 +505,15 @@ class User extends joosDBModel {
 		// а тут еще ставится кука на год если пользователь решил запоить авторизацию
 		// не работает
 		/**
-		 * 		if (mosGetParam($_REQUEST, 'remember', 0)) {
-		 * 			// cookie lifetime of 365 days
-		 * 			$lifetime = time() + 365 * 24 * 60 * 60;
-		 * 			$remCookieName = joosMainframe::remCookieName_User();
-		 * 			//а в конце - ID пользователя в базе
-		 * 			$remCookieValue = joosMainframe::remCookieValue_User($row->username) . joosMainframe::remCookieValue_Pass($hash) . $row->id;
-		 * 			setcookie($remCookieName, $remCookieValue, $lifetime, '/');
-		 * 		}
+		 *         $remember = joosRequest::param('remember',false);
+		 *         if ( $remember ) {
+		 *             // cookie lifetime of 365 days
+		 *             $lifetime = time() + 365 * 24 * 60 * 60;
+		 *             $remCookieName = joosMainframe::remCookieName_User();
+		 *             //а в конце - ID пользователя в базе
+		 *             $remCookieValue = joosMainframe::remCookieValue_User($row->username) . joosMainframe::remCookieValue_Pass($hash) . $row->id;
+		 *             setcookie($remCookieName, $remCookieValue, $lifetime, '/');
+		 *         }
 		 */
 		if (isset($params['return'])) {
 			return json_encode(array('user' => $user));
@@ -529,7 +526,7 @@ class User extends joosDBModel {
 		// получаем название куки ктоторая должна быть у пользователя
 		$sessionCookieName = joosSession::sessionCookieName();
 		// из куки пробуем получить ХЕШ - значение
-		$sessioncookie = strval(mosGetParam($_COOKIE, $sessionCookieName, null));
+		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
 
 		// в базе хранится еще рах хешированное значение куки, повторим его что бы получить нужное
 		$sessionValueCheck = joosSession::sessionCookieValue($sessioncookie);
@@ -539,8 +536,8 @@ class User extends joosDBModel {
 		//session_start();
 		//@session_destroy();
 
-		$query = "DELETE FROM #__session WHERE session_id = " . database::instance()->quote($sessionValueCheck);
-		return database::instance()->set_query($query)->query();
+		$query = "DELETE FROM #__session WHERE session_id = " . joosDatabase::instance()->quote($sessionValueCheck);
+		return joosDatabase::instance()->set_query($query)->query();
 	}
 
 	// проверка что пользователь уже авторизован
@@ -548,7 +545,7 @@ class User extends joosDBModel {
 		// получаем название куки ктоторая должна быть у пользователя
 		$sessionCookieName = joosSession::sessionCookieName();
 		// из куки пробуем получить ХЕШ - значение
-		$sessioncookie = strval(mosGetParam($_COOKIE, $sessionCookieName, null));
+		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
 
 		// в базе хранится еще рах хешированное значение куки, повторим его что бы получить нужное
 		$sessionValueCheck = joosSession::sessionCookieValue($sessioncookie);
@@ -566,7 +563,7 @@ class User extends joosDBModel {
 	// быстрая проверка авторизации пользователя
 	public static function is_loged() {
 		$sessionCookieName = joosSession::sessionCookieName();
-		$sessioncookie = strval(mosGetParam($_COOKIE, $sessionCookieName, null));
+		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
 		$session = new joldSession;
 		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::sessionCookieValue($sessioncookie))) {
 			return true;
@@ -628,7 +625,7 @@ class UserExtra extends joosDBModel {
 	}
 
 	public function before_store() {
-		
+
 	}
 
 	public static function get_contacts_types() {
@@ -661,7 +658,7 @@ class UserExtra extends joosDBModel {
 	 */
 	public static function update_cache_bookmarks(User $user) {
 
-		$current_cache = database::instance()->set_query('SELECT * FROM #__bookmarks WHERE user_id=' . (int) $user->id)->load_object_list();
+		$current_cache = joosDatabase::instance()->set_query('SELECT * FROM #__bookmarks WHERE user_id=' . (int) $user->id)->load_object_list();
 
 		$new_cache = array();
 		foreach ($current_cache as $cache) {
@@ -683,12 +680,12 @@ class UserExtra extends joosDBModel {
 
 		$new_cache = array();
 
-		$current_cache = database::instance()->set_query("SELECT * FROM #__votes_blog WHERE user_id=" . (int) $user->id)->load_object_list();
+		$current_cache = joosDatabase::instance()->set_query("SELECT * FROM #__votes_blog WHERE user_id=" . (int) $user->id)->load_object_list();
 		foreach ($current_cache as $cache) {
 			$new_cache['blog'][$cache->obj_id] = $cache->vote;
 		}
 
-		//$current_cache = database::instance()->setQuery("SELECT * FROM #__votes_comment WHERE user_id=" . (int) $user->id)->loadObjectList();
+		//$current_cache = joosDatabase::instance()->setQuery("SELECT * FROM #__votes_comment WHERE user_id=" . (int) $user->id)->loadObjectList();
 		//foreach ($current_cache as $cache) {
 		//$new_cache['comment'][$cache->obj_id] = $cache->vote;
 		//}
@@ -704,9 +701,9 @@ class UserExtra extends joosDBModel {
 
 /**
  * Class UsersGroups
- * @package	UsersGroups
- * @subpackage	Joostina CMS
- * @created	2010-10-20 16:48:08
+ * @package    UsersGroups
+ * @subpackage    Joostina CMS
+ * @created    2010-10-20 16:48:08
  */
 class UsersGroups extends joosDBModel {
 
@@ -869,7 +866,7 @@ class joldSession extends joosDBModel {
 		return $this->_session_cookie;
 	}
 
-	function purge($inc = 1800, $and = '', $lifetime='') {
+	function purge($inc = 1800, $and = '', $lifetime = '') {
 
 		if ($inc == 'core') {
 			$past_logged = time() - $lifetime;
@@ -881,6 +878,7 @@ class joldSession extends joosDBModel {
 		}
 		return $this->_db->set_query($query)->query();
 	}
+
 }
 
 class UserValidations {
@@ -906,7 +904,7 @@ class UserValidations {
 	}
 
 	public static function login() {
-		
+
 	}
 
 	public static function edit() {
@@ -929,7 +927,7 @@ class UserHelper {
 
 	public static function get_canonikal($username) {
 		// приводим к единому нижнему регистру
-		$text = Jstring:: strtolower($username);
+		$text = joosString:: strtolower($username);
 
 		// убираем спецсимволы
 		$to_del = array('~', '@', '#', '$', '%', '^', '&amp;', '*', '(', ')', '-', '_', '+', '=', '|', '?', ',', '.', '/', ';', ':', '"', "'", '№', ' ');
@@ -942,9 +940,9 @@ class UserHelper {
 
 		// убираем дуУубли символов
 		$return = $o = '';
-		$_l = Jstring::strlen($text);
+		$_l = joosString::strlen($text);
 		for ($i = 0; $i < $_l; $i++) {
-			$c = Jstring::substr($text, $i, 1);
+			$c = joosString::substr($text, $i, 1);
 			if ($c != $o) {
 				$return .= $c;
 				$o = $c;
