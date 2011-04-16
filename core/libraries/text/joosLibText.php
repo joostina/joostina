@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class joosText {
+class joosLibText {
 
 	/**
 	 * Символы русского алфавита
@@ -36,8 +36,7 @@ class joosText {
 	public static function declension($int, $expressions) {
 		if (count($expressions) < 3) {
 			$expressions[2] = $expressions[1];
-		}
-		;
+		};
 		settype($int, 'integer');
 		$count = $int % 100;
 		if ($count >= 5 && $count <= 20) {
@@ -63,15 +62,15 @@ class joosText {
 	 * @return string обработанная строка
 	 */
 	public static function word_limiter($str, $limit = 100, $end_char = '&#8230;') {
-		if (joosString::trim($str) == '') {
+		if (Jstring::trim($str) == '') {
 			return $str;
 		}
 
 		preg_match('/^\s*+(?:\S++\s*+){1,' . (int) $limit . '}/u', $str, $matches);
 
-		$end_char = (joosString::strlen($str) == joosString::strlen($matches[0])) ? '' : $end_char;
+		$end_char = (Jstring::strlen($str) == Jstring::strlen($matches[0])) ? '' : $end_char;
 
-		return joosString::rtrim($matches[0]) . $end_char;
+		return Jstring::rtrim($matches[0]) . $end_char;
 	}
 
 	/**
@@ -83,29 +82,29 @@ class joosText {
 	 * @return string обработанная строка
 	 */
 	public static function character_limiter($str, $limit = 500, $end_char = '&#8230;', $max_word_lench = 500) {
-		if (joosString::strlen($str) < $limit) {
+		if (Jstring::strlen($str) < $limit) {
 			return $str;
 		}
 
 		$str = preg_replace("/\s+/u", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 
-		if (joosString::strlen($str) <= $limit) {
+		if (Jstring::strlen($str) <= $limit) {
 			return $str;
 		}
 
 		$out = "";
-		foreach (explode(' ', joosString::trim($str)) as $val) {
-			if (joosString::strlen($val) > $max_word_lench) {
-				$val = joosString::substr($val, 0, $max_word_lench) . $end_char;
+		foreach (explode(' ', Jstring::trim($str)) as $val) {
+			if (Jstring::strlen($val) > $max_word_lench) {
+				$val = Jstring::substr($val, 0, $max_word_lench) . $end_char;
 			}
 			$out .= $val . ' ';
 
-			if (joosString::strlen($out) >= $limit) {
-				$out = joosString::trim($out);
-				return (joosString::strlen($out) == joosString::strlen($str)) ? $out : $out . $end_char;
+			if (Jstring::strlen($out) >= $limit) {
+				$out = Jstring::trim($out);
+				return (Jstring::strlen($out) == Jstring::strlen($str)) ? $out : $out . $end_char;
 			}
 		}
-		return joosString::substr($str, 0, $limit) . $end_char;
+		return Jstring::substr($str, 0, $limit) . $end_char;
 	}
 
 	/**
@@ -127,7 +126,7 @@ class joosText {
 			}
 		}
 
-		return joosString::trim($str);
+		return Jstring::trim($str);
 	}
 
 	/**
@@ -142,16 +141,16 @@ class joosText {
 	 *   - защита от подделок типа: "<<fake>script>alert('hi')</</fake>script>"
 	 *
 	 * @param   string  $s
-	 * @param   array   $allowable_tags     Массив тагов, которые не будут вырезаны
-	 *                                       Пример: 'b' -- таг останется с атрибутами, '<b>' -- таг останется без атрибутов
-	 * @param   bool    $is_format_spaces   Форматировать пробелы и переносы строк?
-	 *                                       Вид текста на выходе (plain) максимально приближеется виду текста в браузере на входе.
-	 *                                       Другими словами, грамотно преобразует text/html в text/plain.
-	 *                                       Текст форматируется только в том случае, если были вырезаны какие-либо таги.
+	 * @param   array   $allowable_tags	 Массив тагов, которые не будут вырезаны
+	 * 									  Пример: 'b' -- таг останется с атрибутами, '<b>' -- таг останется без атрибутов
+	 * @param   bool	$is_format_spaces   Форматировать пробелы и переносы строк?
+	 * 									  Вид текста на выходе (plain) максимально приближеется виду текста в браузере на входе.
+	 * 									  Другими словами, грамотно преобразует text/html в text/plain.
+	 * 									  Текст форматируется только в том случае, если были вырезаны какие-либо таги.
 	 * @param   array   $pair_tags   массив имён парных тагов, которые будут удалены вместе с содержимым
-	 *                                см. значения по умолчанию
+	 * 							   см. значения по умолчанию
 	 * @param   array   $para_tags   массив имён парных тагов, которые будут восприниматься как параграфы (если $is_format_spaces = true)
-	 *                                см. значения по умолчанию
+	 * 							   см. значения по умолчанию
 	 * @return  string
 	 *
 	 * @license  http://creativecommons.org/licenses/by-sa/3.0/
@@ -160,8 +159,7 @@ class joosText {
 	 * @version  4.0.14
 	 */
 	public static function strip_tags_smart(
-	/* string */
-	$s, array $allowable_tags = null,
+	/* string */ $s, array $allowable_tags = null,
 	/* boolean */ $is_format_spaces = true, array $pair_tags = array('script', 'style', 'map', 'iframe', 'frameset', 'object', 'applet', 'comment', 'button', 'textarea', 'select'), array $para_tags = array('p', 'td', 'th', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'form', 'title', 'pre')
 	) {
 		static $_callback_type = false;
@@ -275,12 +273,11 @@ class joosText {
 					if ($para_tags)
 						$_para_tags = array_flip($para_tags);
 				}
-			}
-			#if
+			}#if
 			#tags processing
 			if ($is_html) {
 				$_callback_type = 'strip_tags';
-				$s2 = preg_replace_callback($re_tags, array('joosText', 'strip_tags_smart'), $s2);
+				$s2 = preg_replace_callback($re_tags, array('joosLibText', 'strip_tags_smart'), $s2);
 				$_callback_type = false;
 				if (preg_last_error() !== PREG_NO_ERROR) {
 					$i = 999;
@@ -292,11 +289,9 @@ class joosText {
 				break;
 			$s = $s2;
 			$i++;
-		}
-		#while
+		}#while
 		if ($i >= $max)
-			$s = strip_tags($s);
-		#too many cycles for replace...
+			$s = strip_tags($s);#too many cycles for replace...
 
 		if ($is_format_spaces && strlen($s) !== $length) {
 			#remove a duplicate spaces
@@ -336,7 +331,7 @@ class joosText {
 	/**
 	 * Базовая очистка текста от тэгов
 	 * @param string $text исходная строка текста для очистки
-	 * @return string очищенная строка
+	 * @return string очищенная строка 
 	 */
 	public static function simple_clean($text) {
 		$text = html_entity_decode($text, ENT_QUOTES, 'utf-8');
@@ -416,7 +411,7 @@ class joosText {
 	/**
 	 * Преобразование строки в URL-безопасный вариант
 	 * @param string $str исходная строка для обработки
-	 * @return string обработанная и готовая для формирования ссылки строка
+	 * @return string обработанная и готовая для формирования ссылки строка 
 	 */
 	public static function str_to_url($str) {
 		// убираем непроизносимые
@@ -424,7 +419,7 @@ class joosText {
 		// переводим в транслит
 		$str = self::russian_transliterate($str);
 		// в нижний регистр
-		$str = joosString::strtolower($str);
+		$str = Jstring::strtolower($str);
 		// заменям все ненужное нам на "-"
 		$str = str_replace(array("'", '-'), ' ', $str);
 		$str = preg_replace('~[^-a-z0-9_]+~u', '-', $str);
@@ -435,17 +430,17 @@ class joosText {
 	 * Обрезание длиииинных слоооооооооооооооооов через мягкие переносы
 	 * @param string $test строка для обрезки
 	 * @param int $max_length максимальная длина слова
-	 * @return string обрезанная строка
+	 * @return string обрезанная строка 
 	 */
-	public static function text_wrap($text, $max_length = 30) {
+	public static function text_wrap($text, $max_length=30) {
 		$counter = 0;
 		$newText = array();
 		$array = array();
 
-		$textLength = joosString::strlen($text);
+		$textLength = Jstring::strlen($text);
 
 		for ($i = 0; $i <= $textLength; $i++) {
-			$array[] = joosString::substr($text, $i, 1);
+			$array[] = Jstring::substr($text, $i, 1);
 		}
 
 		$textLength = count($array);
@@ -471,11 +466,11 @@ class joosText {
 	/**
 	 * Преобразование текстовой строки к каноничному виду
 	 * @param string $text исходная строка
-	 * @return type
+	 * @return type 
 	 */
 	public static function text_canonikal($text) {
 		// приводим к единому нижнему регистру
-		$text = joosString:: strtolower($text);
+		$text = Jstring:: strtolower($text);
 
 		// убираем спецсимволы
 		$to_del = array('~', '@', '#', '$', '%', '^', '&amp;', '*', '(', ')', '-', '_', '+', '=', '|', '?', ',', '.', '/', ';', ':', '"', "'", '№', ' ', '&nbsp;');
@@ -488,9 +483,9 @@ class joosText {
 
 		// убираем дуУубли символов
 		$return = $o = '';
-		$_l = joosString::strlen($text);
+		$_l = Jstring::strlen($text);
 		for ($i = 0; $i < $_l; $i++) {
-			$c = joosString::substr($text, $i, 1);
+			$c = Jstring::substr($text, $i, 1);
 			if ($c != $o) {
 				$return .= $c;
 				$o = $c;
@@ -508,16 +503,16 @@ class joosText {
 		$text = str_replace('*--*', '&&', $text);
 		return $text;
 	}
-
-	function mosSmartSubstr($text, $length = 200, $searchword = '') {
-
-		$wordpos = joosString::strpos(joosString::strtolower($text), joosString::strtolower($searchword));
-		$halfside = intval($wordpos - $length / 2 - joosString::strlen($searchword));
-		if ($wordpos && $halfside > 0) {
-			return '...' . joosString::substr($text, $halfside, $length) . '...';
-		} else {
-			return joosString::substr($text, 0, $length);
-		}
-	}
+	
+	function mosSmartSubstr($text, $length = 200, $searchword='') {
+	
+	    $wordpos = Jstring::strpos(Jstring::strtolower($text), Jstring::strtolower($searchword));
+	    $halfside = intval($wordpos - $length / 2 - Jstring::strlen($searchword));
+	    if ($wordpos && $halfside > 0) {
+	        return '...' . Jstring::substr($text, $halfside, $length) . '...';
+	    } else {
+	        return Jstring::substr($text, 0, $length);
+	    }
+	}	
 
 }

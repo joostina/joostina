@@ -19,7 +19,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class joosString {
+class joosLibString {
 
 	// Called methods
 	static $called = array();
@@ -674,7 +674,7 @@ class joosString {
 				} elseif (0xF8 == (0xFC & $in)) {
 					// First octet of 5 octet sequence.
 					//
-                    // This is illegal because the encoded codepoint must be either
+					// This is illegal because the encoded codepoint must be either
 					// (a) not the shortest form or
 					// (b) outside the Unicode range of 0-0x10FFFF.
 					// Rather than trying to resynchronize, we will carry on until the end
@@ -732,7 +732,7 @@ class joosString {
 				} else {
 					// ((0xC0 & (*in) != 0x80) AND (mState != 0))
 					// Incomplete multi-octet sequence
-					trigger_error('joosString::to_unicode: Incomplete multi-octet sequence in UTF-8 at byte ' . $i, E_USER_WARNING);
+					trigger_error('joosLibString::to_unicode: Incomplete multi-octet sequence in UTF-8 at byte ' . $i, E_USER_WARNING);
 					return FALSE;
 				}
 			}
