@@ -22,7 +22,6 @@ class actionsBookmarks {
 		$id = (int) joosRequest::int('obj_id', 0, $_POST);
 		$task = joosRequest::post('obj_task', 'all');
 
-		joosLoader::model('bookmarks');
 		echo Bookmarks::add($option, $id, $task);
 	}
 

@@ -9,10 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('text');
-joosLoader::lib('voter', 'joostina');
-joosLoader::model('bookmarks');
-
 // обрабатываем все внешние ссылки
 $blog->fulltext = joosText::outlink_parse($blog->fulltext);
 

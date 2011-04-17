@@ -10,33 +10,24 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::model('sitemap');
-joosLoader::lib('metainfo', 'joostina');
+class actionsSitemap {
 
-class actionsSitemap
-{
+	public static function on_start($active_task) {
+		//Хлебные крошки
+		joosBreadcrumbs::instance()
+				->add('Карта сайта');
 
+		//Метаинформация страницы
+		joosMetainfo::set_meta('sitemap', '', '', array('title' => 'Карта сайта'));
+	}
 
-    public static function on_start($active_task)
-    {
-        //Хлебные крошки
-        joosBreadcrumbs::instance()
-                ->add('Карта сайта');
+	public static function index() {
 
-        //Метаинформация страницы
-        joosMetainfo::set_meta('sitemap', '', '', array('title' => 'Карта сайта'));
-    }
+		$map = Sitemap::get_map();
 
-
-    public static function index()
-    {
-
-        $map = Sitemap::get_map();
-
-        return array(
-            'map' => $map
-        );
-    }
-
+		return array(
+			'map' => $map
+		);
+	}
 
 }

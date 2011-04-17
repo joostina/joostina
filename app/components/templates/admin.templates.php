@@ -90,7 +90,6 @@ class actionsAdminTemplates {
 		$result = $obj_data->save($_POST);
 
 		//Сохраняем тэги
-		joosLoader::model('tags');
 		$tags = new Tags;
 		$tags->save_tags($obj_data);
 

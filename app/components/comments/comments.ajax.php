@@ -10,7 +10,6 @@
 defined('_JOOS_CORE') or die();
 
 joosLoader::view('comments');
-joosLoader::model('comments');
 
 class actionsComments extends joosController {
 

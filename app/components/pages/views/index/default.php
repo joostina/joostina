@@ -13,10 +13,8 @@ defined('_JOOS_CORE') or die();
 echo sprintf('<div class="page"><h1>%s</h1></div>', $page->title);
 echo sprintf('<div class="pc">%s</div>', $page->text);
 
-joosLoader::model('tags');
 $tags = new Tags;
 echo $tags->show_tags($page);
 
-joosLoader::model('comments');
 $comments = new Comments;
 echo '<div class="comments">' . $comments->load_comments_tree($page) . '</div>';

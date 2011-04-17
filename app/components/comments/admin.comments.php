@@ -16,8 +16,6 @@ defined('_JOOS_CORE') or die();
 class actionsAdminComments {
 
 	public static function on_start() {
-		joosLoader::model('comments');
-		joosLoader::admin_model('comments');
 		joosLoader::admin_view('comments');
 	}
 

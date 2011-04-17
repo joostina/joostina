@@ -14,10 +14,6 @@ if (!$blog_items) {
     return;
 }
 
-joosLoader::lib('text');
-joosLoader::lib('voter', 'joostina');
-joosLoader::model('bookmarks');
-
 ?>
 <h3 class="g-blocktitle_blue"><a class="g-blocktitle_link" href="<?php echo joosRoute::href('blog') ?>">Блоги</a></h3>
 <?php foreach ($blog_items as $blog_item): ?>

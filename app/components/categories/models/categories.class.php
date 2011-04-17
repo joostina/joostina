@@ -238,12 +238,12 @@ class Categories extends joosNestedSet {
 		ob_start();
 		?>
 		<select name="parent_id" id="category_id">
-		<?php foreach ($tree as $value): ?>
-			<?php $selected = $value['id'] == $obj->parent_id ? ' selected="selected" ' : ''; ?>
+			<?php foreach ($tree as $value): ?>
+				<?php $selected = $value['id'] == $obj->parent_id ? ' selected="selected" ' : ''; ?>
 				<option <?php echo $selected ?> value="<?php echo $value['id'] ?>">
-			<?php echo str_repeat('-&nbsp;', $value['level'] * 2) . $value['name'] ?>
+					<?php echo str_repeat('-&nbsp;', $value['level'] * 2) . $value['name'] ?>
 				</option>
-		<?php endforeach; ?>
+			<?php endforeach; ?>
 		</select>
 		<?php
 		$return .= ob_get_contents();
@@ -267,11 +267,11 @@ class Categories extends joosNestedSet {
 		ob_start();
 		?>
 		<select name="category_id" id="category_id">
-		<?php foreach ($tree as $value): $selected = $value['id'] == $obj->category_id ? ' selected="selected" ' : ''; ?>
+			<?php foreach ($tree as $value): $selected = $value['id'] == $obj->category_id ? ' selected="selected" ' : ''; ?>
 				<option <?php echo $selected ?> value="<?php echo $value['id'] ?>">
-			<?php echo str_repeat('-&nbsp;', $value['level'] * 2) . $value['name'] ?>
+					<?php echo str_repeat('-&nbsp;', $value['level'] * 2) . $value['name'] ?>
 				</option>
-		<?php endforeach; ?>
+			<?php endforeach; ?>
 		</select>
 		<?php
 		$return .= ob_get_contents();
@@ -333,7 +333,6 @@ class Categories extends joosNestedSet {
 	//	- если у требуемой категории есть поля - отдаются именно они
 	//		- иначе: отдаются поля ближайшей родительской категории. Если же и их нет, то возвращается FALSE
 	public static function get_extrafields_by_category($id, $group) {
-		joosLoader::model('extrafields');
 
 		$cats = new self;
 		$path = $cats->getPathFromRoot($id);

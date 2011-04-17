@@ -10,8 +10,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::model('blog');
-
 class actionsBlog extends joosController {
 
 	public static function on_start($active_task) {
@@ -146,10 +144,7 @@ class actionsBlog extends joosController {
 		joosDocument::instance()
 				->set_page_title($blog->title);
 
-		joosLoader::model('tags');
 		$tags = new Tags;
-
-		joosLoader::model('comments');
 		$comments = new Comments;
 
 		// оценка

@@ -10,60 +10,54 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::model('news');
+class newsMap {
 
-class newsMap
-{
+	public static function get_params() {
+		return array('show_items' => false);
+	}
 
-    public static function get_params()
-    {
-        return array('show_items' => false);
-    }
+	public static function get_mapdata_scheme($params = array()) {
 
-    public static function get_mapdata_scheme($params = array())
-    {
+		$scheme = array();
 
-        $scheme = array();
+		$scheme[] =
+				array(
+					'id' => 'index',
+					'link' => joosRoute::href('news'),
+					'title' => 'Новости',
+					'level' => 1,
+					'type' => 'single',
+					'priority' => 0.5,
+					'changefreq' => 'daily'
+		);
 
-        $scheme[] =
-                array(
-                    'id' => 'index',
-                    'link' => joosRoute::href('news'),
-                    'title' => 'Новости',
-                    'level' => 1,
-                    'type' => 'single',
-                    'priority' => 0.5,
-                    'changefreq' => 'daily'
-                );
+		if ($params['xml']) {
+			$scheme[] = array(
+				'id' => 'news',
+				'link' => '',
+				'title' => '',
+				'level' => 2,
+				'type' => 'list',
+				'call_from' => 'newsMap::lists',
+				'priority' => 0.5,
+				'changefreq' => 'daily'
+			);
+		}
 
-        if ($params['xml']) {
-            $scheme[] = array(
-                'id' => 'news',
-                'link' => '',
-                'title' => '',
-                'level' => 2,
-                'type' => 'list',
-                'call_from' => 'newsMap::lists',
-                'priority' => 0.5,
-                'changefreq' => 'daily'
-            );
-        }
+		return $scheme;
+	}
 
-        return $scheme;
-    }
+	public static function lists($params = array()) {
 
-    public static function lists($params = array())
-    {
+		$news = new News;
+		$news = $news->get_list(array('where' => 'state=1'));
 
-        $news = new News;
-        $news = $news->get_list(array('where' => 'state=1'));
+		foreach ($news as $obj) {
+			$obj->loc = joosRoute::href('news_view', array('id' => $obj->id));
+			$obj->lastmod = $obj->created_at;
+		}
 
-        foreach ($news as $obj) {
-            $obj->loc = joosRoute::href('news_view', array('id' => $obj->id));
-            $obj->lastmod = $obj->created_at;
-        }
-
-        return $news;
-    }
+		return $news;
+	}
 
 }

@@ -128,7 +128,7 @@ class joosAutoAdmin {
 		self::$task = $task;
 
 
-		JDEBUG ? joosDebug::add('joiAdmin::dispatch() - ' . $class . '::' . $task) : null;
+		JDEBUG ? joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task) : null;
 
 		//joosLoader::admin_template_view('joiadmin');
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
@@ -141,9 +141,9 @@ class joosAutoAdmin {
 
 		if (method_exists($class, $task)) {
 			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
-		} elseif(method_exists($class, 'index')) {
+		} elseif (method_exists($class, 'index')) {
 			echo call_user_func_array($class . '::index', array($option, $id, $page, $task));
-		}else{
+		} else {
 			throw new joosException('Ошибкаааа!');
 		}
 
@@ -724,7 +724,6 @@ class joosAutoAdmin {
 				break;
 
 			case 'tags':
-				joosLoader::model('tags');
 				$tags = new Tags;
 
 				$element .= $params['label_begin'];
@@ -1187,14 +1186,14 @@ class mosMenuBar {
 			$href = "javascript:submitbutton('$task')";
 		}
 		?><li><a class="tb-custom<?php echo $icon; ?>" href="<?php echo $href; ?>"><span><?php echo $alt; ?></span></a></li><?php
-	}
-
-	public static function customX($task = '', $class = '', $iconOver = '', $alt = '', $listSelect = true) {
-		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . _PLEASE_CHOOSE_ELEMENT . "');}else{submitbutton('$task')}";
-		} else {
-			$href = "javascript:submitbutton('$task')";
 		}
+
+		public static function customX($task = '', $class = '', $iconOver = '', $alt = '', $listSelect = true) {
+			if ($listSelect) {
+				$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . _PLEASE_CHOOSE_ELEMENT . "');}else{submitbutton('$task')}";
+			} else {
+				$href = "javascript:submitbutton('$task')";
+			}
 		?><li><a class="tb-custom-x<?php echo $class; ?>"
 					   href="<?php echo $href; ?>"><span><?php echo $alt; ?></span></a></li><?php
 	}
@@ -1202,14 +1201,14 @@ class mosMenuBar {
 	public static function addNew($task = 'new', $alt = _NEW) {
 		?><li><a class="tb-add-new"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-	}
+		}
 
-	public static function addNewX($task = 'new', $alt = _NEW) {
+		public static function addNewX($task = 'new', $alt = _NEW) {
 		?><li><a class="tb-add-new-x"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-	}
+		}
 
-	public static function copy($task = 'copy', $alt = 'Копировать') {
+		public static function copy($task = 'copy', $alt = 'Копировать') {
 		?><li><a class="tb-add-new"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -1232,9 +1231,9 @@ class mosMenuBar {
 		public static function assign($task = 'assign', $alt = _ASSIGN) {
 		?><li><a class="tb-assign"
 					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo _PLEASE_CHOOSE_ELEMENT_TO_ASSIGN ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
-	}
+		}
 
-	public static function unpublish($task = 'unpublish', $alt = _HIDE) {
+		public static function unpublish($task = 'unpublish', $alt = _HIDE) {
 		?><li><a class="tb-unpublish"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -1245,7 +1244,7 @@ class mosMenuBar {
 		}
 
 		public static function archiveList($task = 'archive', $alt = _TO_ARCHIVE) {
-			?><li><a class="tb-archive-list"
+		?><li><a class="tb-archive-list"
 					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo _PLEASE_CHOOSE_ELEMENT_TO_ARCHIVE ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
 		}
 
@@ -1280,7 +1279,7 @@ class mosMenuBar {
 		}
 
 		public static function editCssX($task = 'edit_css', $alt = _EDIT_CSS) {
-			?><li><a class="tb-edit-css-x"
+		?><li><a class="tb-edit-css-x"
 					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo _PLEASE_CHOOSE_ELEMENT_TO_EDIT ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
 		}
 
@@ -1308,11 +1307,11 @@ class mosMenuBar {
 		}
 
 		public static function apply($task = 'apply', $alt = _APPLY) {
-			?><li><a class="tb-apply"
+		?><li><a class="tb-apply"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-		}
+	}
 
-		public static function save($task = 'save', $alt = _SAVE) {
+	public static function save($task = 'save', $alt = _SAVE) {
 		?><li><a class="tb-save"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -1339,18 +1338,18 @@ class mosMenuBar {
 
 		public static function divider() {
 		?><li>&nbsp;|&nbsp;</li><?php
-		}
+	}
 
-		public static function media_manager($directory = '', $alt = _TASK_UPLOAD) {
+	public static function media_manager($directory = '', $alt = _TASK_UPLOAD) {
 		?><li><a class="tb-media-manager" href="joiadmin.php#"
 					   onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>&amp;t=<?php echo JTEMPLATE; ?>','win1',250,100,'no');"><span><?php echo $alt; ?></span></a></li><?php
-		}
+	}
 
-		public static function spacer($width = '0') {
-			return '';
-		}
+	public static function spacer($width = '0') {
+		return '';
+	}
 
-		public static function endTable() {
+	public static function endTable() {
 		?></ul></div><?php
 		}
 

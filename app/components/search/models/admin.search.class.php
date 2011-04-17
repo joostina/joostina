@@ -15,8 +15,3 @@
 
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
-//Модель компонента
-joosLoader::model('search');
-
-//Содержимое модели

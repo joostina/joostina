@@ -9,10 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('html');
-joosLoader::lib('text');
-joosLoader::model('pages');
-
 ?>
 <div class="page page_tags">
     <h5><a href="<?php echo sefRelToAbs('index.php?option=com_tags&task=cloud', true) ?>">Тэги</a></h5>

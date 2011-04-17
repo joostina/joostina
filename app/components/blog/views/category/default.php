@@ -9,9 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('text');
-joosLoader::lib('voter', 'joostina');
-joosLoader::model('bookmarks');
 ?>
 <h1><?php echo $blog_category->title ?></h1>
 <ul class="listreset m-blogs_list">

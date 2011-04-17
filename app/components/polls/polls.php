@@ -10,93 +10,80 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::model('polls');
+class actionsPolls extends joosController {
 
-class actionsPolls extends joosController
-{
+	public static function index() {
 
-    public static function on_start($active_task)
-    {
+		if (!isset($_POST['question'])) {
+			joosRoute::redirect(JPATH_SITE, 'Нужно ответить на вопросы');
+			return array();
+		}
 
-    }
+		$poll = new Polls;
+		if (!$poll->load($_POST['poll_id'])) {
+			joosRoute::redirect(JPATH_SITE, 'Нет такого опроса');
+			return array();
+		}
 
-    public static function index()
-    {
+		$polls_users = new PollsUsers;
+		if ($polls_users->already_vote($poll->id)) {
+			joosRoute::redirect(JPATH_SITE, 'Вы уже голосовали', 'error');
+			return array();
+		}
 
-        if (!isset($_POST['question'])) {
-            joosRoute::redirect(JPATH_SITE, 'Нужно ответить на вопросы');
-            return array();
-        }
+		$poll_results = new PollsResults;
 
-        $poll = new Polls;
-        if (!$poll->load($_POST['poll_id'])) {
-            joosRoute::redirect(JPATH_SITE, 'Нет такого опроса');
-            return array();
-        }
+		if ($poll_results->save_results($poll->id, joosRequest::post('question'))) {
 
-        $polls_users = new PollsUsers;
-        if ($polls_users->already_vote($poll->id)) {
-            joosRoute::redirect(JPATH_SITE, 'Вы уже голосовали', 'error');
-            return array();
-        }
+			$poll->total_users = $poll->total_users + 1;
+			$poll->store();
 
-        $poll_results = new PollsResults;
-
-        if ($poll_results->save_results($poll->id, joosRequest::post('question'))) {
-
-            $poll->total_users = $poll->total_users + 1;
-            $poll->store();
-
-            joosRoute::redirect('/polls/' . $poll->id, 'Ваш голос учтён!');
-            return array();
-
-        }
-        else {
-            joosRoute::redirect(JPATH_SITE, 'Что-то пошло не так(');
-            return array();
-        }
+			joosRoute::redirect('/polls/' . $poll->id, 'Ваш голос учтён!');
+			return array();
+		} else {
+			joosRoute::redirect(JPATH_SITE, 'Что-то пошло не так(');
+			return array();
+		}
 
 
-        //_xdump($_POST);
+		//_xdump($_POST);
 
-        return array(
-            'poll' => '',
-        );
-    }
+		return array(
+			'poll' => '',
+		);
+	}
 
-    public static function view()
-    {
+	public static function view() {
 
-        // номер просматриваемой записи
-        $id = self::$param['id'];
+		// номер просматриваемой записи
+		$id = self::$param['id'];
 
-        // формируем и загружаем просматриваемую запись
-        $poll = new Polls;
-        $poll->load($id) ? null : self::error404();
+		// формируем и загружаем просматриваемую запись
+		$poll = new Polls;
+		$poll->load($id) ? null : self::error404();
 
-        $_poll_results = new PollsResults;
-        $_poll_results = $_poll_results->get_list(array('where' => 'poll_id = ' . $poll->id, 'key' => ''));
-        $poll_results = array();
-        foreach ($_poll_results as $res) {
-            $poll_results[$res->question_id][$res->variant_id] = $res;
-        }
+		$_poll_results = new PollsResults;
+		$_poll_results = $_poll_results->get_list(array('where' => 'poll_id = ' . $poll->id, 'key' => ''));
+		$poll_results = array();
+		foreach ($_poll_results as $res) {
+			$poll_results[$res->question_id][$res->variant_id] = $res;
+		}
 
-        // одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
-        if (self::$error) {
-            return;
-        }
+		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
+		if (self::$error) {
+			return;
+		}
 
-        // устанавливаем заголовок страницы
-        joosDocument::instance()
-                ->set_page_title($poll->title);
+		// устанавливаем заголовок страницы
+		joosDocument::instance()
+				->set_page_title($poll->title);
 
 
-        // передаём параметры записи и категории в которой находится запись для оформления
-        return array(
-            'poll' => $poll,
-            'poll_results' => $poll_results
-        );
-    }
-
+		// передаём параметры записи и категории в которой находится запись для оформления
+		return array(
+			'poll' => $poll,
+			'poll_results' => $poll_results
+		);
+	}
 
 }

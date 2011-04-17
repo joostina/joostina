@@ -26,7 +26,6 @@ require_once (JPATH_BASE . DS . 'app' . DS . 'route.php');
 joosAutoloader::init();
 
 /* работа с пользователями  */
-//joosLoader::model('users');
 joosLoader::admin_model('modules');
 
 /**

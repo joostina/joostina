@@ -16,7 +16,6 @@ class actionsUsers extends joosController {
 		joosBreadcrumbs::instance()
 				->add('Пользователи');
 
-		joosLoader::model('users');
 		joosLoader::lang('frontend/users');
 	}
 

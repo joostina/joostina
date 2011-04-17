@@ -10,8 +10,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::model('news');
-
 class actionsNews extends joosController {
 
 	public static function on_start($active_task) {
