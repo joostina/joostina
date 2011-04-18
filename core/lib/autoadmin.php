@@ -14,86 +14,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-/*
- * =================================
- * Вывод заголовка-разделителя:
- * =================================
- * ПРИМЕР:
- * ----------------------------------
- * sep1' => array(
- *                 'name' => 'Заголовок области',
- *                 'editable' => true,
- *                 'html_edit_element' => 'h3'
- *             )
- * ----------------------------------
- * ОПИСАНИЕ:
- * ----------------------------------
- * [sep1] = произвольное имя, в результатах выполнения не фигурирует
- * [name] = текст заголовка
- * [editable] = true (указывать обязательно)
- * [html_edit_element] => 'h3' (указывать обязательно)
- *
- *
- * =================================
- * Вывод области с табами:
- * =================================
- * ПРИМЕР:
- * ----------------------------------
-  //Начало области с табами
-  'startPane1' => array(
-  'name' => '-',
-  'editable' => true,
-  //произвольное, уникальное имя, используется для задания id HTML-контейнера (div-а)
-  'html_edit_element' => 'start_pane'
-  ),
-  //Начинается первый таб
-  //[tab_1] - произвольное имя, в выводе не участвует
-  'tab_1' => array(
-  'name' => 'Первая вкладка', //Заголовок таба
-  'editable' => true,
-  'html_edit_element' => 'start_tab' //ID таба
-  ),
-  //Поля внутри первого таба
-  'поле_формы' => array(
-  .....................
-  ),
-  'поле_формы' => array(
-  .....................
-  ),
-  //Первый таб закончился, закрываем его
-  //[tab_1_end] - произвольное имя, в выводе не участвует
-  'tab_1_end' => array(
-  'name' => '-',
-  'editable' => true,
-  'html_edit_element' => 'end_tab'
-  ),
-
-  //Начинается второй таб
-  'tab_2' => array(
-  'name' => 'Вторая вкладка',
-  'editable' => true,
-  'html_edit_element' => 'start_tab'
-  ),
-  'поле_формы' => array(
-  .....................
-  ),
-  'поле_формы' => array(
-  .....................
-  ),
-  //Второй таб закончился
-  'tab_2_end' => array(
-  'name' => '-',
-  'editable' => true,
-  'html_edit_element' => 'end_tab'
-  ),
-  //Закрываем область с табами
-  //endPane1 - произвольное имя
-  'endPane1' => array(
-  'name' => '-',
-  'editable' => true,
-  'html_edit_element' => 'end_pane'
-  )
- */
 define('DISPATCHED', true);
 
 class joosAutoAdmin {
@@ -202,7 +122,7 @@ class joosAutoAdmin {
 		joosLoader::lib('forms');
 
 		// подключаем js код библиотеки
-		joosDocument::instance()->add_js_file(JPATH_SITE . '/core/libraries/system/joiadmin/media/js/joiadmin.js');
+		joosDocument::instance()->add_js_file(JPATH_SITE . '/core/lib/listing/autoadmin/media/js/autoadmin.js');
 
 
 		$fields_info = $obj->get_fieldinfo();
@@ -436,334 +356,24 @@ class joosAutoAdmin {
 // получение типа элемента для формы редактирования
 	public static function get_edit_html_element($element_param, $key, $value, $obj_data, $params, $tabs) {
 
-		$element = '';
+		$class_file = JPATH_BASE . '/app/plugins/autoadmin/edit.' . $element_param['html_edit_element'] . '.php';
+		$class_name = 'autoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
 
-		switch ($element_param['html_edit_element']) {
-
-			// тип - простое одностроное поле редактирования
-			case 'edit':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), $element_param['name']);
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= forms::input(
-								array(
-							'name' => $key,
-							'class' => 'text_area',
-							'size' => 100,
-							'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:100%'),
-								), $value);
-				$element .= $params['el_end'];
-				break;
-
-			// тип - большое текстовое поле
-			case 'text':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), $element_param['name']);
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= forms::textarea(
-								array(
-							'name' => $key,
-							'class' => 'text_area',
-							'rows' => (isset($element_param['html_edit_element_param']['rows']) ? $element_param['html_edit_element_param']['rows'] : 10),
-							'cols' => (isset($element_param['html_edit_element_param']['cols']) ? $element_param['html_edit_element_param']['cols'] : 40),
-							'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:100%'),
-								), $value);
-				$element .= $params['el_end'];
-				break;
-
-			// тип - большое текстовое поле
-			case 'text_area':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), $element_param['name']);
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= forms::textarea(
-								array(
-							'name' => $key,
-							'class' => 'text_area',
-							'rows' => (isset($element_param['html_edit_element_param']['rows']) ? $element_param['html_edit_element_param']['rows'] : 10),
-							'cols' => (isset($element_param['html_edit_element_param']['cols']) ? $element_param['html_edit_element_param']['cols'] : 40),
-							'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:100%'),
-								), $value);
-				$element .= $params['el_end'];
-				break;
-
-			// тип - большое текстовое поле с редактором
-			case 'text_area_wysiwyg':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), $element_param['name']);
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-
-				$editor_params = array(
-					'editor' => isset($element_param['html_edit_element_param']['editor']) ? $element_param['html_edit_element_param']['editor'] : 'elrte',
-					'rows' => isset($element_param['html_edit_element_param']['rows']) ? $element_param['html_edit_element_param']['rows'] : null,
-					'cols' => isset($element_param['html_edit_element_param']['cols']) ? $element_param['html_edit_element_param']['cols'] : null,
-					'width' => isset($element_param['html_edit_element_param']['width']) ? $element_param['html_edit_element_param']['width'] : '"100%"',
-					'height' => isset($element_param['html_edit_element_param']['height']) ? $element_param['html_edit_element_param']['height'] : '200px',
-				);
-
-				$element .= joosEditor::display($key, $value, $editor_params);
-				self::$js_onformsubmit[] = joosEditor::get_content($key);
-				$element .= $params['el_end'];
-				break;
-
-			// тип - чекбокс
-			case 'checkbox':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), (isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
-				$element .= $params['label_end'];
-				$element .= forms::hidden($key, 0);
-				$element .= $params['el_begin'];
-				$element .= forms::checkbox(
-								array(
-							'name' => $key,
-							'class' => 'text_area',
-								), 1, $value);
-				$element .= $params['el_end'];
-				break;
-
-			// тип - выпадающий список
-			case 'option':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), (isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
-
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$datas_for_select = array();
-				$datas_for_select = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $value) : $datas_for_select;
-				$datas_for_select = isset($element_param['html_edit_element_param']['options']) ? $element_param['html_edit_element_param']['options'] : $datas_for_select;
-
-				$element .= forms::dropdown(array('name' => $key, 'options' => $datas_for_select, 'selected' => $value));
-
-				$element .= $params['el_end'];
-				break;
-
-			// тип - произвольнеое расширенное поле
-			case 'extra':
-				// скрываем левую колонку с названием поля
-				if (!isset($element_param['html_edit_element_param']['hidden_label'])) {
-					$element .= $params['label_begin'];
-					$element .= forms::label(
-									array(
-								'for' => $key
-									), (isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
-
-					$element .= $params['label_end'];
-				}
-				$element .= $params['el_begin'];
-				$element .= ( isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data) : $datas_for_select;
-				$element .= forms::hidden('extrafields[]', $key);
-				$element .= $params['el_end'];
-				break;
-
-			// тип - json
-			case 'json':
-				$_add_data = isset($element_param['html_edit_element_param']['call_params']) ? $element_param['html_edit_element_param']['call_params'] : null;
-				$data = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data, $_add_data) : null;
-
-				if (!$data) {
-					break;
-				}
-
-				$main_key = $key;
-				$values = $obj_data->$main_key;
-
-				foreach ($data as $key => $field) {
-					if (isset($field['editable']) && $field['editable'] == true) {
-						$v = isset($values[$key]) ? $values[$key] : '';
-						$element .= self::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
-					}
-				}
-				break;
-
-
-			case 'access':
-				$data = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data) : null;
-
-				if (!$data) {
-					break;
-				}
-
-				joosLoader::admin_model('access');
-				$access = new Access;
-				$access->fill_rights($data['section'], $data['subsection']);
-
-
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), (isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
-
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= $access->draw_config_table();
-				$element .= $params['el_end'];
-
-				break;
-
-			case 'params':
-				$data = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data) : null;
-
-				if (!$data) {
-					break;
-				}
-
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), (isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
-
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-
-				$main_key = $key;
-				$values = $obj_data->$main_key;
-
-				$element .= '<table class="admin_params">';
-				foreach ($data as $key => $field) {
-					if (isset($field['editable']) && $field['editable'] == true) {
-						$v = isset($values[$key]) ? $values[$key] : '';
-						$element .= self::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
-					}
-				}
-				$element .= '</table>';
-
-
-				$element .= $params['el_end'];
-
-				break;
-
-
-			case 'extra_fields':
-				$data = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data) : null;
-
-				if (!$data) {
-					break;
-				}
-
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), (isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
-
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-
-				$main_key = $key;
-				$values = isset($data['values']) ? $data['values'] : array();
-
-				$element .= '<table class="admin_extrafields">';
-				foreach ($data['rules'] as $key => $field) {
-					if (isset($field['editable']) && $field['editable'] == true) {
-						$v = isset($values[$key]) ? $values[$key] : '';
-						$element .= self::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
-					}
-				}
-				$element .= '</table>';
-				$element .= $params['el_end'];
-
-				break;
-
-			// тип - скрытое поле с идентификатором текущего пользователя
-			case 'current_user_id':
-				global $my;
-				$element .= forms::hidden($key, $my->id);
-				break;
-
-			case 'h3':
-				$element .= $params['label_begin'];
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= '<h3>' . $element_param['name'] . '</h3>';
-				$element .= $params['el_end'];
-				break;
-
-			case 'start_pane':
-				$element .= $params['tab_wrap_begin'];
-				$element .= $tabs->startPane($key, 1);
-				break;
-
-			case 'end_pane':
-				$element .= $tabs->endPane();
-				$element .= $params['tab_wrap_end'];
-				break;
-
-			case 'start_tab':
-				$element .= $tabs->startTab($element_param['name'], $key, 1);
-				$element .= $params['wrap_begin'];
-
-				break;
-
-			case 'end_tab':
-				$element .= $params['wrap_end'];
-				$element .= $tabs->endTab();
-				break;
-
-			case 'tags':
-				$tags = new Tags;
-
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), $element_param['name']);
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= $tags->display_object_tags_edit($obj_data);
-				$element .= $params['el_end'];
-
-				break;
-
-			// тип - прямой вывод значения
-			case 'value':
-				$element .= $params['label_begin'];
-				$element .= forms::label(
-								array(
-							'for' => $key
-								), $element_param['name']);
-				$element .= $params['label_end'];
-				$element .= $params['el_begin'];
-				$element .= $value;
-				$element .= $params['el_end'];
-				break;
-
-			// тип - скрытое поле
-			case 'hidden':
-				$element .= forms::hidden($key, $value);
-				break;
-
-			// по умолчанию поле вывод закомментированным
-			default:
-				$element .= "\n\t";
-				$element .= '<!-- no-viewed :: ' . $key . ' -->';
-				break;
+		if (!is_file($class_file)) {
+			throw new joosAutoAdminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoAdmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
 		}
 
-		return $element;
+		require_once $class_file;
+
+		if (!class_exists($class_name)) {
+			throw new joosAutoAdminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoAdmin в файле %s не найден'), $class_file, $class_name));
+		}
+
+		return call_user_func_array($class_name . '::render', array($element_param, $key, $value, $obj_data, $params, $tabs));
+	}
+
+	public static function add_js_onformsubmit($js_raw_code) {
+		self::$js_onformsubmit[] = $js_raw_code;
 	}
 
 // упрощенная система получения пагинатора
@@ -1109,6 +719,19 @@ class joosAutoAdmin {
 		);
 	}
 
+	private static function get_plugin_name($string) {
+
+		if (strpos($string, '_') === FALSE) {
+			$string = ucfirst($string);
+		} else {
+			$string[0] = strtolower($string[0]);
+			$string = ucfirst($string);
+			$string = preg_replace_callback('#_([a-z0-9])#i', array('self', 'camelizeCallback'), $string);
+		}
+
+		return $string;
+	}
+
 }
 
 class adminHTML {
@@ -1352,5 +975,13 @@ class mosMenuBar {
 	public static function endTable() {
 		?></ul></div><?php
 		}
+
+	}
+
+	class joosAutoAdminFilePluginNotFoundException extends joosException {
+
+	}
+
+	class joosAutoAdminClassPlugionNotFoundException extends joosException {
 
 	}

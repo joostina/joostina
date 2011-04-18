@@ -67,7 +67,7 @@ class adminBlog extends Blog {
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
 				//'html_edit_element' => 'text',
-				'html_edit_element' => 'text_area_wysiwyg',
+				'html_edit_element' => 'wysiwyg',
 				'html_edit_element_param' => array(
 					'editor' => 'none',
 				)
@@ -78,7 +78,7 @@ class adminBlog extends Blog {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area_wysiwyg'
+				'html_edit_element' => 'wysiwyg'
 			),
 			'params' => array(
 				'name' => 'Параметры',

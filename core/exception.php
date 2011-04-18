@@ -45,6 +45,10 @@ class joosException extends Exception {
 	}
 
 	public function __toString() {
+		// очистим всю вышестоящую буферизацию без вывода её в браузер
+		if(ob_get_level() ){
+			ob_end_clean();
+		}
 		parent::__toString();
 		echo html_entity_decode($this->create());
 		die();

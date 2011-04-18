@@ -78,7 +78,7 @@ class adminPages extends Pages {
 			'text' => array(
 				'name' => 'Описание',
 				'editable' => true,
-				'html_edit_element' => 'text_area_wysiwyg',
+				'html_edit_element' => 'wysiwyg',
 				'html_edit_element_param' => array(),
 			),
 			//подключение функционала заполнения мета-информации
