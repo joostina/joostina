@@ -758,23 +758,23 @@ class joosCore {
 
 		switch ($type) {
 			case 'controller':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . $name . '.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
 				break;
 
 			case 'admin_controller':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'admin.' . $name . '.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
 				break;
 
 			case 'ajax_controller':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . $name . '.ajax.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
 				break;
 
 			case 'class':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . $name . '.class.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
 				break;
 
 			case 'admin_class':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'admin.' . $name . '.class.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
 				break;
 
 			case 'html':
@@ -798,11 +798,11 @@ class joosCore {
 				break;
 
 			case 'module_helper':
-				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . $name . '.helper.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
 				break;
 
 			case 'module_admin_helper':
-				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . $name . '.helper.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
 				break;
 
 			case 'lib':

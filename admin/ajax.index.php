@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
@@ -6,7 +7,6 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
-
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
 // разделитель каталогов
@@ -40,26 +40,22 @@ joosLoader::lib('acl', 'system');
 Jacl::init_admipanel();
 
 if (Jacl::isDeny('adminpanel')) {
-    echo json_encode(array('error' => 'acl'));
+	echo json_encode(array('error' => 'acl'));
 }
 
 if (!$my->id) {
-    die('error-my');
+	die('error-my');
 }
 
 ob_start();
 // файл обработки Ajax запрсоов конкретного компонента
-$file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'admin.' . $option . '.ajax.php';
+$file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'controller.admin.' . $option . '.ajax.php';
 
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if (file_exists($file_com)) {
-    //Подключаем язык компонента
-    if ($mainframe->get_lang_path($option)) {
-        include($mainframe->get_lang_path($option));
-    }
-    include_once ($file_com);
+	include_once ($file_com);
 } else {
-    die('error-inc-component');
+	die('error-inc-component');
 }
 
 ob_end_flush();

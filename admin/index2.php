@@ -54,7 +54,7 @@ Jacl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, 'В
 $option = $_REQUEST['option'] = joosRequest::param('option', 'admin');
 
 ob_start();
-$file_controller = JPATH_BASE . '/app/components/' . $option . DS . 'admin.' . $option . '.php';
+$file_controller = JPATH_BASE . '/app/components/' . $option . DS . 'controller.admin.' . $option . '.php';
 if (is_file($file_controller)) {
 	require_once ($file_controller);
 	joosAutoAdmin::dispatch();

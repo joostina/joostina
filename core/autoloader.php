@@ -44,7 +44,7 @@ class joosAutoloader {
 		'joosText' => 'core/lib/text.php',
 		'joosTrash' => 'core/lib/trash.php',
 		// системные модели
-		'User' => 'app/components/users/models/users.class.php',
+		'User' => 'app/components/users/models/model.users.php',
 		// Это старьё, надо переписать либо удалить
 		'htmlTabs' => 'core/libraries/html/html.php'
 	);
@@ -89,7 +89,6 @@ class joosAutoloader {
 		if (!class_exists($class, false)) {
 			throw new AutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
-
 		!JDEBUG ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
 
 		unset($file);
@@ -102,10 +101,14 @@ class joosAutoloader {
 		if (strpos($class, 'admin', 0) === 0) {
 			$name = str_replace('admin', '', $class);
 			$name = strtolower($name);
-			$file = 'app' . DS . 'components/' . $name . DS . 'models' . DS . 'admin.' . $name . '.class.php';
+			$file = 'app' . DS . 'components/' . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
+		} elseif (strpos($class, 'actions', 0) === 0) {
+			$name = str_replace('actions', '', $class);
+			$name = strtolower($name);
+			$file = 'app' . DS . 'components/' . $name . DS . 'controller.' . $name . '.php';
 		} else {
 			$name = strtolower($class);
-			$file = 'app' . DS . 'components/' . $name . DS . 'models' . DS . $name . '.class.php';
+			$file = 'app' . DS . 'components/' . $name . DS . 'models' . DS . 'model.' . $name . '.php';
 		}
 
 		return $file;

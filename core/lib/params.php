@@ -116,7 +116,7 @@ class joosParams extends joosDBModel {
 				'html_table_element_param' => array(),
 				'html_edit_element' => 'json',
 				'html_edit_element_param' => array(
-					'call_from' => 'Params::get_defaults'
+					'call_from' => 'joosParams::get_defaults'
 				),
 			),
 		);
@@ -124,9 +124,9 @@ class joosParams extends joosDBModel {
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => '–Э–∞—Б—В—А–Њ–є–Ї–Є',
-			'header_new' => '–Э–∞—Б—В—А–Њ–є–Ї–Є',
-			'header_edit' => '–Э–∞—Б—В—А–Њ–є–Ї–Є'
+			'header_list' => 'Параметры',
+			'header_new' => 'Создание параметров',
+			'header_edit' => 'Редактирование параметров'
 		);
 	}
 
@@ -140,7 +140,7 @@ class joosParams extends joosDBModel {
 
 	public static function get_defaults($item) {
 
-		$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $item->group . DS . $item->group . '.params.php';
+		$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $item->group . DS . 'params.' . $item->group . '.php';
 
 		$model = 'params' . ucfirst($item->group);
 
@@ -157,7 +157,7 @@ class joosParams extends joosDBModel {
 
 		$group = isset($item->params_group) ? $item->params_group : joosRequest::request('option');
 
-		$file = 'app' . DS . 'components' . DS . $group . DS . $group . '.params.php';
+		$file = 'app' . DS . 'components' . DS . $group . DS . 'params.' . $group . '.php';
 		$file = JPATH_BASE . DS . $file;
 
 		$model = 'params' . ucfirst($group);
