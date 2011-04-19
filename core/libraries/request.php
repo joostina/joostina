@@ -1,0 +1,234 @@
+<?php
+
+/**
+ * @package Joostina
+ * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
+/**
+ * Класс работы с данными полученными от пользователя
+ * @package Joostina
+ * @subpackage Request
+ * @todo в mosGetParams была очистка данных. Может, стоит и сюда прикрутить?
+ */
+class joosRequest {
+
+	/**
+	 * Получение параметра
+	 * @param string $name название параметра
+	 * @param string $default значение для параметра по умолчани
+	 * @param array $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
+	 * @return mixed результат, массив или строка
+	 */
+	public static function param($name, $default = null, $vars = false) {
+		$vars = $vars ? $vars : $_REQUEST;
+		return (isset($vars[$name])) ? $vars[$name] : $default;
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_GET
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function get($name, $default = null) {
+		return self::param($name, $default, $_GET);
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_POST
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function post($name, $default = null) {
+		return self::param($name, $default, $_POST);
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_REQUEST
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function request($name, $default = null) {
+		return self::param($name, $default, $_REQUEST);
+	}
+
+	/**
+	 * Получение параметров загруженного файла из суперглобального массива $_FILES
+	 * @param string $name название параметра $name
+	 * @return mixed массив с информацией о файле, либо FALSE в случае отсутствия данных
+	 */
+	public static function file($name) {
+		return self::param($name, false, $_FILES);
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_SERVER
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function server($name, $default = null) {
+		return self::param($name, $default, $_SERVER);
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_ENV
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function env($name, $default = null) {
+		return self::param($name, $default, $_ENV);
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_SESSION
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function session($name, $default = null) {
+		return self::param($name, $default, $_SESSION);
+	}
+
+	/**
+	 * Получение параметров из суперглобального массива $_COOKIE
+	 * @param string $name название параметра $name
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка
+	 */
+	public static function cookies($name, $default = null) {
+		return self::param($name, $default, $_COOKIE);
+	}
+
+	/**
+	 * Получение параметра из заголовков сервера или клиенского браузера
+	 * @param string $name название параметра
+	 * @param string $default значение для параметра, используемое по умолчанию
+	 * @return mixed результат, массив или строка, либо false если параметр не обнаружен ( по умолчанию )
+	 */
+	public static function header($name, $default = false) {
+
+		$name_ = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
+		if (isset($_SERVER[$name_])) {
+			return $_SERVER[$name_];
+		}
+
+		if (function_exists('apache_request_headers')) {
+			$headers = apache_request_headers();
+			if (isset($headers[$name])) {
+				return $headers[$name];
+			}
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Получение параметра с принудительным приведением к цельночисленному (йифровому) варианту
+	 * @param string $name название параметра
+	 * @param string $default значение для параметра по умолчани
+	 * @param array $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
+	 * @return mixed результат, массив или строка
+	 */
+	public static function int($name = null, $default = null, $vars = null) {
+		return (int) self::param($name, $default, $vars);
+	}
+
+	/**
+	 * Получение массива параметров
+	 * @param string $name название параметра
+	 * @param string $default значение для параметра по умолчани
+	 * @param array $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
+	 * @return mixed результат, массив или строка
+	 */
+	public static function array_param($name = null, array $default = null, $vars = null) {
+		return (array) self::param($name, $default, $vars);
+	}
+
+	/**
+	 * Получение протокола активного соединения, http или https в случае защищенного соединения
+	 * @return string http или https
+	 */
+	public static function protocol() {
+		return ('on' == self::server('HTTPS') || 443 == self::server('SERVER_PORT')) ? 'https' : 'http';
+	}
+
+	/**
+	 * Проверка на работу методом GET
+	 * @return bool результат проверки
+	 */
+	public static function is_get() {
+		return (bool) 'GET' == self::server('REQUEST_METHOD');
+	}
+
+	/**
+	 * Проверка на работу методом POST
+	 * @return bool результат проверки
+	 */
+	public static function is_post() {
+		return (bool) 'POST' == self::server('REQUEST_METHOD');
+	}
+
+	/**
+	 * Проверка на работу методом PUT
+	 * @return bool результат проверки
+	 */
+	public static function is_put() {
+		return (bool) 'PUT' == self::server('REQUEST_METHOD');
+	}
+
+	/**
+	 * Проверка на работу методом DELETE
+	 * @return bool результат проверки
+	 */
+	public static function is_delete() {
+		return (bool) 'DELETE' == self::server('REQUEST_METHOD');
+	}
+
+	/**
+	 * Проверка работы через Ajax-соединение
+	 * @return bool результат проверки
+	 */
+	public static function is_ajax() {
+		return (bool) 'xmlhttprequest' == strtolower(self::header('X_REQUESTED_WITH'));
+	}
+
+	/**
+	 * Проверка работы через через безопасное https соединение
+	 * @return bool результат проверки
+	 */
+	public static function is_https() {
+		return (bool) 'https' === self::protocol();
+	}
+
+	/**
+	 * Получение IP адреса активного пользователя
+	 * @return string IP адрес пользователя, либо FALSE в случае если IP адрес не получен
+	 */
+	public static function user_ip() {
+		$keys = array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'REMOTE_ADDR');
+
+		foreach ($keys as $key) {
+			if (!isset($_SERVER[$key])) {
+				continue;
+			}
+			$ips = explode(',', $_SERVER[$key], 1);
+			$ip = $ips[0];
+			if (false != ip2long($ip) && long2ip(ip2long($ip) === $ip)) {
+				return $ips[0];
+			}
+		}
+
+		return false;
+	}
+
+}

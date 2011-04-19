@@ -5,8 +5,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('forms');
-
 $validate_js_code =
 		<<<EOD
         	var validator = $('.usereditform').validate({
@@ -106,7 +104,7 @@ joosDocument::instance()->add_js_code($js_code);
             <div class="f f-50 f-50_2">
                 <label class="lbl_block lbl_ganres" for="">Интересуюсь</label>
 				<?php
-				$all_interests = UserExtra::get_interests();
+				$all_interests = UsersExtra::get_interests();
 				$interests_ch = array_chunk($all_interests, round(count($all_interests) / 2));
 
 				$user_interests = $user_e->interests ? json_decode($user_e->interests) : array();
@@ -143,7 +141,7 @@ joosDocument::instance()->add_js_code($js_code);
 					foreach ($contacts as $type => $values) {
 						foreach ($values as $val) {
 							echo '<div class="f">';
-							echo forms::dropdown_simple('contact_type', UserExtra::get_contacts_types(), $type) . "\n";
+							echo forms::dropdown_simple('contact_type', UsersExtra::get_contacts_types(), $type) . "\n";
 							echo '<input type="text" value="' . $val . '" name="contacts[' . $type . '][]" />';
 							echo '<span class="g-pseudolink" id="field_del">[x]</span>';
 							echo '</div>';
@@ -187,7 +185,7 @@ joosDocument::instance()->add_js_code($js_code);
     </form>
 
     <div class="f f-50 f-50_1" id="user_avatar_wrapper">
-        <img id="edit_avatar_img" src="<?php echo User::avatar($user->id, '75x75') ?>?<?php echo time() ?>" alt=""/>
+        <img id="edit_avatar_img" src="<?php echo Users::avatar($user->id, '75x75') ?>?<?php echo time() ?>" alt=""/>
 
         <div id="file-uploader-avatar"></div>
     </div>

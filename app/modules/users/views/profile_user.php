@@ -20,7 +20,7 @@ $user_interests = $user->extra($user->id)->interests ? json_decode($user->extra(
         <?php if ($user->gid == 9) : echo Bookmarks::addlink_fan(null, array('class' => 'Fan_dj', 'id' => $user->id));
     endif; ?>
         <div class="g-thumb_75x75"><img class="g-thumb_75x75"
-                                        src="<?php echo User::avatar($user->id, '75x75') ?>?<?php echo time() ?>"
+                                        src="<?php echo Users::avatar($user->id, '75x75') ?>?<?php echo time() ?>"
                                         alt="<?php echo $user->username ?>"/></div>
         <h2 class="m-artist_about_title">
             <?php echo $user->username ?><br/>
@@ -43,8 +43,8 @@ $user_interests = $user->extra($user->id)->interests ? json_decode($user->extra(
 
     </ul>
 
-    <?php if (User::current()->id == $user->id): ?>
-    <a href="<?php echo joosRoute::href('user_edit', array('username' => User::instance()->username)) ?>"
+    <?php if (Users::current()->id == $user->id): ?>
+    <a href="<?php echo joosRoute::href('user_edit', array('username' => Users::instance()->username)) ?>"
        class="button">Настройки профиля</a>
     <a href="<?php echo joosRoute::href('blog_add') ?>" class="button">Написать в блог</a>
     <?php endif; ?>

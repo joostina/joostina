@@ -31,7 +31,7 @@ defined('_JOOS_CORE') or die();
         <div class="m-blogs_author">
             <a href="<?php echo joosRoute::href('user_view', array('username' => $blog_item->username)) ?>"
                class="m-blogs_author_link">
-                <img class="g-thumb_40 g-user_avatar" src="<?php echo User::avatar($blog_item->userid, '75x75') ?>"
+                <img class="g-thumb_40 g-user_avatar" src="<?php echo Users::avatar($blog_item->userid, '75x75') ?>"
                      alt="<?php echo $blog_item->username ?>"/>
                 <span class="el-user"><?php echo $blog_item->username ?></span>
             </a>
@@ -39,7 +39,7 @@ defined('_JOOS_CORE') or die();
             <a href="<?php echo $href ?>#comments"
                class="el-comments"><?php echo isset($blog_item->comments) ? $blog_item->comments : 'нет комментариев' ?></a>
 
-            <?php echo (User::current()->id == $blog_item->userid || User::current()->gid == 8) ? '<span class="el-edit"><a href="' . $edit_href . '" title="Редактировать">Редактировать</a></span>' : '' ?>
+            <?php echo (Users::current()->id == $blog_item->userid || Users::current()->gid == 8) ? '<span class="el-edit"><a href="' . $edit_href . '" title="Редактировать">Редактировать</a></span>' : '' ?>
             <?php echo joosVoter::controls('blog', $blog_item->id, $blog_item->votesresults) ?>
             <?php echo Bookmarks::addlink(null, array('class' => 'Blogs', 'id' => $blog_item->id)) ?>
         </div>

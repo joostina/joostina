@@ -257,8 +257,6 @@ class Modules extends joosDBModel {
 	}
 
 	public static function get_modules_positions($item) {
-		joosLoader::admin_model('templates');
-		joosLoader::lib('forms');
 		$positions = new TemplatePositions;
 
 		$opt = $positions->get_selector(array("key" => "position", "value" => "position"));
@@ -282,7 +280,7 @@ class Modules extends joosDBModel {
 		ob_start();
 		?>
 		<div id="modules_pages">
-		<?php foreach ($pages_list as $page): ?>
+			<?php foreach ($pages_list as $page): ?>
 
 				<div class="fields" title="<?php echo $i ?>">
 					<div class="b b-left b-30">
@@ -308,8 +306,8 @@ class Modules extends joosDBModel {
 						<span class="g-pseudolink module_page_del">[x]</span>
 					</div>
 				</div>
-			<?php $i++;
-		endforeach; ?>
+				<?php $i++;
+			endforeach; ?>
 		</div>
 
 		<input type="hidden" name="fields_count" id="fields_count" value="<?php echo $i ?>"/>

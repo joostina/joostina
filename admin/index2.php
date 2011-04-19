@@ -44,11 +44,9 @@ $mainframe = joosMainframe::instance(true);
 // запуск сессий панели управления
 $my = joosCoreAdmin::init_session_admin();
 
-// класс работы с правами пользователей
-joosLoader::lib('acl', 'system');
 // загружаем набор прав для панели управления
-Jacl::init_admipanel();
-Jacl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
+joosAcl::init_admipanel();
+joosAcl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
 
 // страница панели управления по умолчанию
 $option = $_REQUEST['option'] = joosRequest::param('option', 'admin');

@@ -28,7 +28,7 @@ $image = Blog::get_image($blog);
 
         <?php echo $blog->state == 0 ? '<span class="error">Не опубликовано</span>' : '' ?>
         <?php $edit_href = joosRoute::href('blog_edit', array('id' => $blog->id)) ?>
-        <?php echo (User::current()->id == $blog->user_id || User::current()->gid == 8) ? '<span class="el-edit"><a href="' . $edit_href . '" title="Редактировать">Редактировать</a></span>' : '' ?>
+        <?php echo (Users::current()->id == $blog->user_id || Users::current()->gid == 8) ? '<span class="el-edit"><a href="' . $edit_href . '" title="Редактировать">Редактировать</a></span>' : '' ?>
         <?php echo joosVoter::controls('blog', $blog->id, $blog->votesresults) ?>
         <?php echo Bookmarks::addlink(null, array('class' => 'Blogs', 'id' => $blog->id)) ?>
     </div>

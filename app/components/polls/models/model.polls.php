@@ -332,7 +332,7 @@ class PollsResults extends joosDBModel
         $polls_users = new PollsUsers;
 
         $polls_users->poll_id = $poll_id;
-        $polls_users->user_id = User::current()->id;
+        $polls_users->user_id = Users::current()->id;
         $polls_users->user_ip = joosRequest::user_ip();
         $polls_users->created_at = _CURRENT_SERVER_TIME;
         $polls_users->store();
@@ -494,7 +494,7 @@ class PollsUsers extends joosDBModel
     {
 
         $this->poll_id = $poll_id;
-        $this->user_id = User::current()->id;
+        $this->user_id = Users::current()->id;
         $this->user_ip = joosRequest::user_ip();
 
         if ($this->find() === true) {

@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class User extends joosDBModel {
+class Users extends joosDBModel {
 
 	public $id;
 	public $username;
@@ -107,11 +107,11 @@ class User extends joosDBModel {
 				'in_admintable' => true,
 				'html_edit_element' => 'option',
 				'html_edit_element_param' => array(
-					'call_from' => 'User::get_usergroup_title'
+					'call_from' => 'Users::get_usergroup_title'
 				),
 				'html_table_element' => 'one_from_array',
 				'html_table_element_param' => array(
-					'call_from' => 'User::get_usergroup_title'
+					'call_from' => 'Users::get_usergroup_title'
 				),
 			),
 			'registerDate' => array(
@@ -159,7 +159,7 @@ class User extends joosDBModel {
 			'filter' => array(
 				'gid' => array(
 					'name' => 'Группа',
-					'call_from' => 'User::get_usergroup_title'
+					'call_from' => 'Users::get_usergroup_title'
 				)
 			)
 		);
@@ -207,7 +207,7 @@ class User extends joosDBModel {
 	// добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
 	public function after_insert() {
 
-		$extra = new UserExtra;
+		$extra = new UsersExtra;
 		$extra->user_id = $this->id;
 		joosDatabase::instance()->insert_object('#__users_extra', $extra);
 	}
@@ -275,7 +275,7 @@ class User extends joosDBModel {
 	}
 
 	/**
-	 * User::check_password()
+	 * Users::check_password()
 	 * Проверка введенного пароля на соответствие паролю в БД
 	 *
 	 * @param str $input_password
@@ -297,7 +297,7 @@ class User extends joosDBModel {
 	}
 
 	/**
-	 * User::prepare_password()
+	 * Users::prepare_password()
 	 * Подготовка пароля для записи в БД
 	 *
 	 * @param str $password
@@ -393,13 +393,13 @@ class User extends joosDBModel {
 
 	/**
 	 * Получение расширенной информации о пользователе
-	 * @return UserExtra
+	 * @return UsersExtra
 	 */
 	public function extra() {
 
 		if (!isset($this->extra) || $this->extra === NULL) {
 
-			$extra = new UserExtra;
+			$extra = new UsersExtra;
 			$extra->load($this->id);
 
 			//кэш закладок декодируем из JSON
@@ -442,7 +442,7 @@ class User extends joosDBModel {
 			$return = JPATH_SITE;
 		}
 
-		$user = new User;
+		$user = new Users;
 		$user->username = $username;
 		$user->find();
 
@@ -509,9 +509,9 @@ class User extends joosDBModel {
 		 *         if ( $remember ) {
 		 *             // cookie lifetime of 365 days
 		 *             $lifetime = time() + 365 * 24 * 60 * 60;
-		 *             $remCookieName = joosMainframe::remCookieName_User();
+		 *             $remCookieName = joosMainframe::remCookieName_Users();
 		 *             //а в конце - ID пользователя в базе
-		 *             $remCookieValue = joosMainframe::remCookieValue_User($row->username) . joosMainframe::remCookieValue_Pass($hash) . $row->id;
+		 *             $remCookieValue = joosMainframe::remCookieValue_Users($row->username) . joosMainframe::remCookieValue_Pass($hash) . $row->id;
 		 *             setcookie($remCookieName, $remCookieValue, $lifetime, '/');
 		 *         }
 		 */
@@ -575,7 +575,7 @@ class User extends joosDBModel {
 
 /* расширенная информация о пользователе */
 
-class UserExtra extends joosDBModel {
+class UsersExtra extends joosDBModel {
 
 	/**
 	 * @var int(11)

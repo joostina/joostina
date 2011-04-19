@@ -9,7 +9,7 @@ navigation_ul_li_recurse($menu_items, $level = 1);
 
 function navigation_ul_li_recurse(array $items, $level = 1)
 {
-    $gid = User::current()->gid;
+    $gid = Users::current()->gid;
     ?>
 <ul class="dropdown<?php echo $level > 1 ? $level : '' ?>">
     <?php foreach ($items as $item => $data) : ?>

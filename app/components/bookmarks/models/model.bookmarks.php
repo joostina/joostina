@@ -76,7 +76,7 @@ class Bookmarks extends joosDBModel
     public static function add($option, $id, $task = '')
     {
         $bookmarks = new self;
-        $bookmarks->user_id = User::current()->id;
+        $bookmarks->user_id = Users::current()->id;
         $bookmarks->obj_id = $id;
         $bookmarks->obj_option = $option;
         $bookmarks->obj_task = $task;
@@ -107,7 +107,7 @@ class Bookmarks extends joosDBModel
         $result['count'] = $bookmarks_counter->counter;
 
         $where = array();
-        $where[] = "user_id = " . User::current()->id;
+        $where[] = "user_id = " . Users::current()->id;
         $where[] = "obj_option = '" . $option . "'";
         $where[] = "obj_task = '" . $task . "'";
 
@@ -132,7 +132,7 @@ class Bookmarks extends joosDBModel
     private function update_user_cache()
     {
         joosMainframe::instance()->getPath('class', 'com_users');
-        UserExtra::update_cache_bookmarks(User::current());
+        UsersExtra::update_cache_bookmarks(Users::current());
     }
 
     public static function addlink($obj = false, array $obj_array = array())
@@ -140,7 +140,7 @@ class Bookmarks extends joosDBModel
         $obj_option = $obj ? get_class($obj) : $obj_array['class'];
         $obj_id = $obj ? $obj->id : $obj_array['id'];
 
-        if (isset(User::current()->extra(User::current()->id)->cache_bookmarks[$obj_option]['all'][$obj_id])) {
+        if (isset(Users::current()->extra(Users::current()->id)->cache_bookmarks[$obj_option]['all'][$obj_id])) {
             $title = self::get_label('label', 'del', $obj_option);
             return sprintf('<span title="%s" class="g-bookmark g-bookmark_simple active" obj_option="%s" obj_id="%s">-</span>', $title, $obj_option, $obj_id);
         }

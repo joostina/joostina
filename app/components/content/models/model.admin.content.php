@@ -24,7 +24,7 @@ defined('_JOOS_CORE') or die();
 class adminContent extends Content {
 
 	public function check() {
-		joosLoader::lib('jevix', 'text');
+
 		$jevix = new JJevix();
 		$this->fulltext = $jevix->Parser($this->fulltext);
 		$this->introtext = $jevix->Parser($this->introtext);
@@ -220,7 +220,7 @@ class adminContent extends Content {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'fulltext' => array(

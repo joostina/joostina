@@ -13,8 +13,6 @@ defined('_JOOS_CORE') or die();
 joosLoader::lang('system');
 joosLoader::lang('admin');
 
-//joosMainframe::addClass('mosAdminMenus');
-//joosLoader::lib('html');
 //Грузим модули для админки
 joosModule::modules_for_backend();
 
@@ -76,7 +74,7 @@ class joosCoreAdmin {
 		}
 
 		// restore some session variables
-		$my = new User();
+		$my = new Users();
 		$my->id = joosRequest::int('session_user_id', 0, $_SESSION);
 		$my->username = joosRequest::session('session_USER');
 		$my->groupname = joosRequest::session('session_groupname');

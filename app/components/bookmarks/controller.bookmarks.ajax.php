@@ -16,7 +16,7 @@ class actionsBookmarks {
 	public static function add() {
 
 		// закладки могут добавлять только авторизованные пользователи
-		User::current()->id ? null : die(json_encode(array('error' => 'Необходимо авторизоваться')));
+		Users::current()->id ? null : die(json_encode(array('error' => 'Необходимо авторизоваться')));
 
 		$option = joosRequest::post('obj_option', 'all');
 		$id = (int) joosRequest::int('obj_id', 0, $_POST);

@@ -14,9 +14,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-// класс работы с формами
-joosLoader::lib('forms');
-
 $ico = JPATH_SITE . '/' . JADMIN_BASE . '/components/content/media/ico/' ?>
 
 

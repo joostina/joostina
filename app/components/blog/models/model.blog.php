@@ -84,7 +84,6 @@ class Blog extends joosDBModel {
 		$this->filter(array('fulltext'));
 
 		//Для визуального реадктора
-		joosLoader::lib('jevix', 'text');
 		$jevix = new JJevix;
 		$this->fulltext = $jevix->Parser($this->fulltext);
 
@@ -96,16 +95,15 @@ class Blog extends joosDBModel {
 	}
 
 	public function before_insert() {
-		$this->user_id = $this->user_id ? $this->user_id : User::instance()->id;
+		$this->user_id = $this->user_id ? $this->user_id : Users::instance()->id;
 		return true;
 	}
 
 	// преед сохранением записи блога
 	public function before_store() {
-		joosLoader::lib('text');
+
 		$this->slug = trim($this->slug) == '' ? joosText::str_to_url($this->title) . '--' . rand(1, 10000) : $this->slug;
 
-		joosLoader::lib('jevix', 'text');
 		$jevix = new JJevix;
 		$this->fulltext = $jevix->Parser($this->fulltext);
 
@@ -135,7 +133,6 @@ class Blog extends joosDBModel {
 		if (trim($blog_item->params) != '') {
 			$params = json_decode($blog_item->params);
 			if (isset($params->image_id) && $params->image_id != '') {
-				joosLoader::lib('html');
 				joosLoader::lib('files');
 				$location = Files::makefilename($params->image_id);
 				$size = $size ? 'image_' . $size . '.png' : 'image.png';
@@ -148,7 +145,6 @@ class Blog extends joosDBModel {
 	}
 
 	public static function get_image_default($image_attr = array()) {
-		joosLoader::lib('html');
 		$file_location = JPATH_SITE . '/media/images/nomp3s.jpg';
 		$image_attr += array('src' => $file_location, 'alt' => '');
 		return HTML::image($image_attr);

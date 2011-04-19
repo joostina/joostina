@@ -132,7 +132,7 @@ class actionsBlog extends joosController {
 		// проверяем что в ссылки на текущаю запись название slug-категории соответствует реальным данным этой категории
 		$blog_category->slug == $cat_name ? null : self::error404();
 
-		$user = new User;
+		$user = new Users;
 		$user->load($blog->user_id) ? null : self::error404();
 
 		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
@@ -172,7 +172,7 @@ class actionsBlog extends joosController {
 
 		isset(self::$param['username']) ? null : self::error404();
 
-		$user = new User;
+		$user = new Users;
 		$user->load_by_field('username', self::$param['username']) ? null : self::error404();
 
 		// формируем объект записей блога
@@ -181,7 +181,7 @@ class actionsBlog extends joosController {
 		// число записей в блоге
 		$count = $blogs->count('WHERE state=1 AND user_id = ' . $user->id);
 
-		$state = (User::current()->id == $user->id || User::current()->gid == 8) ? 'b.state>=0' : 'b.state=1';
+		$state = (Users::current()->id == $user->id || Users::current()->gid == 8) ? 'b.state>=0' : 'b.state=1';
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
@@ -222,7 +222,7 @@ class actionsBlog extends joosController {
 
 	public static function add() {
 
-		if (!User::current()->id) {
+		if (!Users::current()->id) {
 			joosRoute::redirect(JPATH_SITE);
 		}
 
@@ -237,7 +237,7 @@ class actionsBlog extends joosController {
 			'validator' => BlogValidations::add(),
 			'core::modules' => array(
 				'sidebar' => array(
-					'users' => array('type' => 'profile_user', 'template' => 'profile_user', 'user' => User::current())
+					'users' => array('type' => 'profile_user', 'template' => 'profile_user', 'user' => Users::current())
 				)
 			)
 		);
@@ -245,7 +245,7 @@ class actionsBlog extends joosController {
 
 	public static function edit() {
 
-		if (!User::current()->id) {
+		if (!Users::current()->id) {
 			joosRoute::redirect(JPATH_SITE);
 		}
 
@@ -257,7 +257,7 @@ class actionsBlog extends joosController {
 			self::save_blog_item($blog);
 		}
 
-		$user = new User;
+		$user = new Users;
 		$user->load($blog->user_id);
 
 		return array(
@@ -276,7 +276,7 @@ class actionsBlog extends joosController {
 
 		//Выбирать категорию могут только админы
 		// Для обычных пользователей - ID категории = 3
-		$blog->category_id = (User::current()->gid == 8 || User::current()->gid == 9) ? joosRequest::post('category_id', 1) : 3;
+		$blog->category_id = (Users::current()->gid == 8 || Users::current()->gid == 9) ? joosRequest::post('category_id', 1) : 3;
 		$blog->save($_POST);
 
 		if ($blog->id) {

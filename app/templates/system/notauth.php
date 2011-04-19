@@ -11,6 +11,6 @@
 defined('_JOOS_CORE') or die();
 
 echo _NOT_AUTH;
-if (User::current()->id < 1) {
+if (Users::current()->id < 1) {
     echo "<br />" . _DO_LOGIN;
 }

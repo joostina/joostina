@@ -16,7 +16,7 @@ class actionsBookmarks extends joosController {
 	public static function index() {
 		$username = self::$param['username'];
 
-		$user = new User;
+		$user = new Users;
 		$user->load_by_field('username', $username);
 
 		$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (');

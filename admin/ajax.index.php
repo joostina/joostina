@@ -35,11 +35,9 @@ $task = joosRequest::param('task', 'index');
 $mainframe = joosMainframe::instance(true);
 $my = joosCoreAdmin::init_session_admin($option, $task);
 
-// класс работы с правами пользователей
-joosLoader::lib('acl', 'system');
-Jacl::init_admipanel();
+joosAcl::init_admipanel();
 
-if (Jacl::isDeny('adminpanel')) {
+if (joosAcl::isDeny('adminpanel')) {
 	echo json_encode(array('error' => 'acl'));
 }
 

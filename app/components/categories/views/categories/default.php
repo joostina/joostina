@@ -13,10 +13,6 @@
  * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
-// класс работы с формами
-joosLoader::lib('forms');
-
 $ico = JPATH_SITE . '/app/components/categories/media/ico/';
 
 ?>

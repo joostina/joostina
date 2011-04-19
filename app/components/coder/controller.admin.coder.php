@@ -30,9 +30,7 @@ class actionsAdminCoder {
 	);
 
 	public static function on_start() {
-		joosLoader::lib('forms');
 		joosDocument::instance()->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
-		joosLoader::admin_model('coder');
 	}
 
 	public static function index() {
@@ -111,7 +109,7 @@ class actionsAdminCoder {
 			</tr>
 			<tr>
 				<td width="200">
-		<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
+					<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
 					<label for="">Имя компонента:</label><br/>
 					<input type="text" name="component_name" class="text" value="news"/>
 					<br/><br/>
@@ -131,7 +129,7 @@ class actionsAdminCoder {
 					<label for="">Email:</label><br/>
 					<input type="text" name="component_authoremail" class="text" value="info@joostina.ru"/>
 					<br/><br/>
-		<?php echo forms::close(); ?>
+					<?php echo forms::close(); ?>
 					<button id="create_component">Сгенерировать</button>
 				</td>
 				<td>
@@ -139,8 +137,8 @@ class actionsAdminCoder {
 				</td>
 			</tr>
 		</table>
-					<?php
-					echo joosAutoAdmin::footer();
-				}
+		<?php
+		echo joosAutoAdmin::footer();
+	}
 
-			}
+}

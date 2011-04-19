@@ -16,10 +16,10 @@ defined('_JOOS_CORE') or die();
 class actionsAdminUsers {
 
 	private static $headers_data = array(
-		'User' => array('Пользователи',
+		'adminUsers' => array('Пользователи',
 			array('id', 'username', 'gid', 'lastvisitDate', 'state')
 		),
-		'UsersGroups' => array('Группы пользователей',
+		'adminUsersGroups' => array('Группы пользователей',
 			array('group_title', 'title', 'parent_id')
 		)
 	);
@@ -27,7 +27,7 @@ class actionsAdminUsers {
 	 * Название обрабатываемой модели
 	 * @var joosDBModel модель
 	 */
-	public static $model = 'User';
+	public static $model = 'adminUsers';
 
 	public static function index($option) {
 		$current_model = joosRequest::request('model', self::$model);

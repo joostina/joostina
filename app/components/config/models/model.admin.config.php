@@ -99,7 +99,7 @@ class adminNews extends News {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'fulltext' => array(
@@ -167,12 +167,11 @@ class adminNews extends News {
 
 	public function check() {
 
-		joosLoader::lib('jevix', 'text');
+		$this->filter(array('fulltext'));
+
 		$jevix = new JJevix();
 		$this->fulltext = $jevix->Parser($this->fulltext);
 		$this->introtext = $jevix->Parser($this->introtext);
-
-		$this->filter(array('fulltext'));
 
 		// TODO тут можно сделать формирование ссылочного слага из заголовка новости, либо добавить отдельное поля во вьюшку
 		$this->slug = _CURRENT_SERVER_TIME;

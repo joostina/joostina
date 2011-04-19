@@ -19,9 +19,9 @@ return array(
     ),
     'cache' => array(
         'enable' => false,
-        'handler' => 'files',
+        'handler' => 'file', // 'apc', 'file', 'memcache', 'xcache'
         'admin_menu_cache' => false,
-        'filepath' => JPATH_BASE . 'cache/',
+        'cachepath' => JPATH_BASE . '/cache/cache.php', // TODO нехорошо
         'memcache_host' => '127.0.0.1',
         'memcache_port' => 11211
     ),

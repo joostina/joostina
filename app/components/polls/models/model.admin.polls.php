@@ -105,7 +105,7 @@ class adminPolls extends Polls {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'questions' => array(
@@ -114,7 +114,7 @@ class adminPolls extends Polls {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'variants' => array(
@@ -123,7 +123,7 @@ class adminPolls extends Polls {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'total_users' => array(

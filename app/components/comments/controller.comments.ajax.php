@@ -56,14 +56,12 @@ class actionsComments extends joosController {
 
 		$comment_arr = array();
 
-		if (!User::instance()->id) {
-			$comment_arr['error'] = 'Комментарии могут оставлять только авторизованные пользователи';
+		if (!Users::instance()->id) {
+			$comment_arr['error'] = __('Комментарии могут оставлять только авторизованные пользователи');
 			echo json_encode($comment_arr);
 			return false;
 		}
 
-		joosLoader::lib('text');
-		joosLoader::lib('jevix', 'text');
 		$jevix = new JJevix();
 
 		$comment = new Comments;
@@ -72,8 +70,8 @@ class actionsComments extends joosController {
 		$comment->comment_text = joosRequest::post('comment_text');
 		$comment->comment_text = joosText::word_limiter(joosText::strip_tags_smart($comment->comment_text), 200);
 		$comment->comment_text = $jevix->Parser($comment->comment_text);
-		$comment->user_id = User::instance()->id;
-		$comment->user_name = User::instance()->id ? User::instance()->username : _GUEST_USER;
+		$comment->user_id = Users::instance()->id;
+		$comment->user_name = Users::instance()->id ? Users::instance()->username : _GUEST_USER;
 		$comment->created_at = _CURRENT_SERVER_TIME;
 
 		$comment->state = 1;

@@ -15,9 +15,9 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-echo joosHTML::js_code('_current_uid=' . (User::instance()->id ? User::instance()->id : 'false'));
+echo joosHTML::js_code('_current_uid=' . (Users::instance()->id ? Users::instance()->id : 'false'));
 
-$user = isset($params['user']) ? $params['user'] : User::current();
+$user = isset($params['user']) ? $params['user'] : Users::current();
 
 echo '<div id="login_area">';
 require_once $user->id ? 'views/logout/default.php' : 'views/login/default.php';

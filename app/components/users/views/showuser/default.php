@@ -9,7 +9,7 @@ defined('_JOOS_CORE') or die();
 <div class="artist-about b-gray">
 
     <div class="b-70 b-left">
-        <strong>Возраст:</strong> <?php echo $user->extra()->birthdate ? User::get_age($user->extra->birthdate) : ' не указан'; ?>
+        <strong>Возраст:</strong> <?php echo $user->extra()->birthdate ? Users::get_age($user->extra->birthdate) : ' не указан'; ?>
     <br/>
         <strong>Местоположение:</strong> <?php echo $user->extra()->location ? $user->extra->location : ' не указано'; ?>
     <br/>
@@ -20,7 +20,7 @@ defined('_JOOS_CORE') or die();
 
 <?php
     $user_contacts = json_decode($user->extra->contacts);
-    $contacts_types = UserExtra::get_contacts_types();
+    $contacts_types = UsersExtra::get_contacts_types();
     ?>
     <?php if (count($user_contacts)): ?>
     <div class="b-20 b-right">

@@ -248,21 +248,21 @@ class joiRights {
 	}
 
 	private function admin() {
-		if (User::current()->gid == 8) {
+		if (Users::current()->gid == 8) {
 			return true;
 		}
 		return false;
 	}
 
 	private function registred() {
-		if (User::current()->id) {
+		if (Users::current()->id) {
 			return true;
 		}
 		return false;
 	}
 
 	private function owner() {
-		if (User::current()->id == $this->object->user_id) {
+		if (Users::current()->id == $this->object->user_id) {
 			return true;
 		}
 		return false;

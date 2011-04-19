@@ -27,7 +27,7 @@ if (!$comments) {
         <li class="m-comments_list_item">
             <div class="comment_author">
                 <a href="<?php echo $linkuser ?>" class="comment_author_link">
-                    <img class="g-thumb_40 g-user_avatar" src="<?php echo User::avatar($comment->user_id, '40x40') ?>"
+                    <img class="g-thumb_40 g-user_avatar" src="<?php echo Users::avatar($comment->user_id, '40x40') ?>"
                          alt=""/>
                 </a>
             </div>

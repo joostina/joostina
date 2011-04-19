@@ -4,11 +4,11 @@
  * News - компонент новостей
  * Модель
  *
- * @version 1.0
+ * @version 2.0
  * @package Components
  * @subpackage News
  * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
+ * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  *
  * */
@@ -41,7 +41,7 @@ class adminNews extends News {
 				'name' => 'Создано',
 				'editable' => true,
 				'in_admintable' => true,
-				'html_table_element' => 'valu',
+				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
@@ -99,7 +99,7 @@ class adminNews extends News {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'fulltext' => array(
@@ -167,7 +167,6 @@ class adminNews extends News {
 
 	public function check() {
 
-		joosLoader::lib('jevix', 'text');
 		$jevix = new JJevix();
 		$this->fulltext = $jevix->Parser($this->fulltext);
 		$this->introtext = $jevix->Parser($this->introtext);

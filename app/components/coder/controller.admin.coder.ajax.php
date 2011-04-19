@@ -16,10 +16,6 @@ class actionsAjaxCoder {
 
 	private static $implode_model = true;
 
-	public static function on_start() {
-		joosLoader::lib('forms');
-	}
-
 	public static function index() {
 		$tables = joosRequest::array_param('codertable');
 

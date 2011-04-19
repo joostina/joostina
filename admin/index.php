@@ -64,13 +64,12 @@ if (isset($_POST['submit'])) {
 	$database->set_query($query)->load_object($my);
 
 	if (isset($my->id)) {
-		joosLoader::lib('acl', 'system');
-		Jacl::init_admipanel();
+		joosAcl::init_admipanel();
 
 		list($hash, $salt) = explode(':', $my->password);
 		$cryptpass = md5($pass . $salt);
 
-		if (strcmp($hash, $cryptpass) || !Jacl::isAllowed('adminpanel')) {
+		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed('adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
 			$database->set_query($query)->query();

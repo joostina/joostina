@@ -77,7 +77,7 @@ joosDocument::instance()->add_js_code($js_code);
 
             </div>
         </div>
-        <?php if (User::current()->gid == 8 || User::current()->gid == 9): ?>
+        <?php if (Users::current()->gid == 8 || Users::current()->gid == 9): ?>
         <div class="f-block">
             <div class="f f-50 f-50_1">
                 <label for="category_id">Категория</label>

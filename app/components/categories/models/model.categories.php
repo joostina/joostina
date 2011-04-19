@@ -158,7 +158,7 @@ class Categories extends joosNestedSet {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'desc_full' => array(
@@ -444,7 +444,6 @@ class CategoriesDetails extends joosDBModel {
 
 		$this->filter(array('desc_full'));
 
-		joosLoader::lib('jevix', 'text');
 		$jevix = new JJevix();
 		$this->desc_full = $jevix->Parser($this->desc_full);
 

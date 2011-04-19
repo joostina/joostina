@@ -101,7 +101,7 @@ class adminComments extends Comments {
 				'sortable' => true,
 				'in_admintable' => true,
 				'editlink' => true,
-				'html_edit_element' => 'text_area',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(
 					'height' => 100,
 				),
@@ -151,7 +151,7 @@ class adminComments extends Comments {
 	}
 
 	public static function get_users_array() {
-		$obj = new User();
+		$obj = new Users();
 		return $obj->get_selector(array('key' => 'id', 'value' => 'username'), array('select' => 'id, username'));
 	}
 

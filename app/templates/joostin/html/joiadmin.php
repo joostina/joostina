@@ -66,7 +66,6 @@ class joiadminHTML {
 	public static function submenu($obj) {
 
 		if (is_array($obj::$_submenu)) {
-			joosLoader::lib('html');
 			$return = array();
 			/** @var $_submenu array */
 			foreach ($obj::$_submenu as $href) {

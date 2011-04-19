@@ -47,7 +47,7 @@ class commentsHTML
     <ul class="comment_menu">
         <li class="comment_avatar">
             <a class="avatar_small" href="<?php echo $linkuser; ?>">
-                <img class="g-thumb_40 g-user_avatar" src="<?php echo User::avatar($comment->user_id, '40x40') ?>"
+                <img class="g-thumb_40 g-user_avatar" src="<?php echo Users::avatar($comment->user_id, '40x40') ?>"
                      alt="<?php echo $comment->user_name ?>"/>
             </a>
         </li>

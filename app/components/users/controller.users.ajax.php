@@ -22,7 +22,7 @@ class actionsUsers extends joosController {
 		}
 
 		//Загружаем оригинальное изображение (original.png)
-		$file = ValumsfileUploader::upload('original', 'avatars', User::current()->id, false);
+		$file = ValumsfileUploader::upload('original', 'avatars', Users::current()->id, false);
 
 		//Путь к оригинальному изображению
 		$img = dirname($file['basename']);
@@ -43,7 +43,7 @@ class actionsUsers extends joosController {
 		$text = joosRequest::post('text');
 		$text = strip_tags(trim($text));
 
-		if (!User::current()->id) {
+		if (!Users::current()->id) {
 			return json_encode(array('message' => 'Сначала авторизуйтесь'));
 		}
 
@@ -58,10 +58,10 @@ class actionsUsers extends joosController {
 		$message .= $text;
 
 		$message .= '<br/><br/><strong>Для просмотра информации об отправителе, перейдите в его профиль:</strong><br/>';
-		$recipient = new User;
+		$recipient = new Users;
 		$recipient->load($user_id);
 		$recipient->user_id = $recipient->id;
-		$message .= '<a href="' . User::profile_link($recipient) . '">' . User::profile_link($recipient) . '</a>';
+		$message .= '<a href="' . Users::profile_link($recipient) . '">' . Users::profile_link($recipient) . '</a>';
 
 
 		if (mosMail(
@@ -86,7 +86,7 @@ class actionsUsers extends joosController {
 		$username = joosRequest::post('username');
 		$password = joosRequest::post('password');
 
-		$response = json_decode(User::login($username, $password, array('return' => 1)), true);
+		$response = json_decode(Users::login($username, $password, array('return' => 1)), true);
 
 		if (isset($response['error'])) {
 			echo json_encode(array('error' => $response['error']));
@@ -97,7 +97,7 @@ class actionsUsers extends joosController {
 
 	public static function logout() {
 		joosSpoof::check_code(1);
-		User::logout();
+		Users::logout();
 		echo json_encode(array('success' => 'всё пучком'));
 	}
 
@@ -105,7 +105,7 @@ class actionsUsers extends joosController {
 
 		$validator = UserValidations::registration();
 
-		$user = new User;
+		$user = new Users;
 		$user->bind($_POST);
 
 		if (!$user->check($validator)) {
@@ -120,7 +120,7 @@ class actionsUsers extends joosController {
 
 		if ($user->save($_POST)) {
 			$password = joosRequest::post('password');
-			$response = json_decode(User::login($user->username, $password, array('return' => 1)), true);
+			$response = json_decode(Users::login($user->username, $password, array('return' => 1)), true);
 			if (isset($response['error'])) {
 				echo json_encode(array('error' => $response['error']));
 				return false;

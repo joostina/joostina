@@ -13,7 +13,7 @@ defined('_JOOS_CORE') or die();
 		</span>
     <?php endforeach; ?>
 
-    <?php if (Jacl::isAllowed('quickicons', 'edit')) { ?>
+    <?php if (joosAcl::isAllowed('quickicons', 'edit')) { ?>
     <a href="index2.php?option=quickicons">
         <img src="../media/images/icons/16x16/candy/applications-system.png"
              title="<?php echo __('Изменить кнопки быстрого доступа') ?>"/>
