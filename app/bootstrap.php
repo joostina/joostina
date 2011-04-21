@@ -69,7 +69,7 @@ DEFINE('_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S');
 DEFINE('_CURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
 
 // пробуем устанавить более удобный режим работы
-@set_magic_quotes_runtime(0);
+//@set_magic_quotes_runtime(0);
 // установка режима отображения ошибок
 JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
 

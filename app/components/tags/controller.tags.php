@@ -22,7 +22,7 @@ class actionsTags extends joosController {
 	 * @param <type> $tag
 	 */
 	public static function index() {
-		$tag = joosString::clean(urldecode(self::$param['tag']));
+		$tag = urldecode(self::$param['tag']);
 		$page = isset(self::$param['page']) ? self::$param['page'] : 0;
 
 

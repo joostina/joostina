@@ -22,13 +22,8 @@ joosAutoloader::init();
 require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
 // ядро
 require JPATH_BASE . DS . 'core' . DS . 'extraroute.php';
-
 // роутер
 require_once (JPATH_BASE . DS . 'app' . DS . 'route.php');
-
-
-/* работа с пользователями  */
-joosLoader::admin_model('modules');
 
 /**
  * Корневой клас ядра Joostina!

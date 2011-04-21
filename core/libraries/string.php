@@ -25,40 +25,6 @@ class joosString {
 	static $called = array();
 
 	/**
-	 * Recursively cleans arrays, objects, and strings. Removes ASCII control
-	 * codes and converts to UTF-8 while silently discarding incompatible
-	 * UTF-8 characters.
-	 *
-	 * @param   string  string to clean
-	 * @return  string
-	 */
-	public static function clean($str) {
-		if (is_array($str) OR is_object($str)) {
-			foreach ($str as $key => $val) {
-				// Recursion!
-				$str[self::clean($key)] = self::clean($val);
-			}
-		} elseif (is_string($str) AND $str !== '') {
-			// Remove control characters
-			$str = self::strip_ascii_ctrl($str);
-
-			if (!self::is_ascii($str)) {
-
-				// Disable notices
-				$ER = error_reporting(~E_NOTICE);
-
-				// iconv is expensive, so it is only used when needed
-				$str = iconv('UTF-8', 'UTF-8//IGNORE', $str);
-
-				// Turn notices back on
-				error_reporting($ER);
-			}
-		}
-
-		return $str;
-	}
-
-	/**
 	 * Tests whether a string contains only 7bit ASCII bytes. This is used to
 	 * determine when to use native functions or UTF-8 functions.
 	 *

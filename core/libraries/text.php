@@ -520,4 +520,21 @@ class joosText {
 		}
 	}
 
+	/**
+	 * Кодировкищик, позволяющий хранить 8 492 487 570 записей всего в 6 символах.
+	 * @param type $string
+	 * @return type
+	 */
+	function id_decode($string) {
+		$chars = '23456789abcdeghkmnpqsuvxyzABCDEGHKLMNPQSUVXYZ'; // Используем непохожие друг на друга символы
+		$length = 45; //strlen($chars); // если изменяем набор символов, то число нужно изменить
+		$size = strlen($string) - 1;
+		$array = str_split($string);
+		$id = strpos($chars, array_pop($array));
+		foreach ($array as $i => $char) {
+			$id += strpos($chars, $char) * pow($length, $size - $i);
+		}
+		return $id;
+	}
+
 }
