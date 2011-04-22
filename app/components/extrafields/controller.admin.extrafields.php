@@ -1,21 +1,21 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
- * Extrafields - Компонент для управления дополнительными полями
- * Контроллер админ-панели
+ * Extrafields    - Компонент управления дополнительными полями
+ * Контроллер панели управления
  *
  * @version 1.0
- * @package Joostina.Components
- * @subpackage Extrafields
+ * @package Joostina.Components.Controllers
+ * @subpackage Extrafields  
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
 class actionsAdminExtrafields {
 
 	/**
@@ -35,7 +35,6 @@ class actionsAdminExtrafields {
 	 * Выполняется сразу после запуска контроллера
 	 */
 	public static function on_start() {
-		joosLoader::admin_model('extrafields');
 
 		$group = joosRequest::request('group', '');
 		if ($group) {

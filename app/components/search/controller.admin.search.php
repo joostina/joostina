@@ -1,21 +1,21 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
  * Search - Компонент поиска
- * Контроллер админ-панели
+ * Контроллер панели управления
  *
  * @version 1.0
- * @package Joostina.Components
- * @subpackage Search
+ * @package Joostina.Components.Controllers
+ * @subpackage Search    
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
 class actionsAdminSearch {
 
 	/**
@@ -51,13 +51,6 @@ class actionsAdminSearch {
 	 * Тулбары
 	 */
 	public static $toolbars = array();
-
-	/**
-	 * Выполняется сразу после запуска контроллера
-	 */
-	public static function on_start() {
-		joosLoader::admin_model('search');
-	}
 
 	/**
 	 * Список объектов

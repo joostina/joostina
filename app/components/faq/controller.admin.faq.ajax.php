@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Job - Компонент вакансий
  * Аякс-контроллер админ-панели
@@ -11,26 +12,21 @@
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
- **/
-
+ * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('joiadmin', 'system');
 joosAutoAdmin::dispatch_ajax();
 joosAutoAdmin::autoajax();
 
-class actionsAjaxFaq
-{
+class actionsAjaxFaq {
 
-    public static function on_start()
-    {
-        require joosCore::path('faq', 'admin_class');
-    }
+	public static function on_start() {
+		require joosCore::path('faq', 'admin_class');
+	}
 
-    public static function index()
-    {
-
-    }
+	public static function index() {
+		
+	}
 
 }

@@ -1,20 +1,21 @@
 <?php
-/**
- * Modules - управление модулями
- * Модель
- *
- * @version 1.0
- * @package ComponentsAdmin
- * @subpackage Modules
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license see license.txt
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class Modules extends joosDBModel {
+/**
+ * Modules - Модель модулей
+ * Модель для работы сайта
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Modules
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class Modules extends joosModel {
 
 	/**
 	 * @var int(11)
@@ -68,190 +69,6 @@ class Modules extends joosDBModel {
 		$this->joosDBModel('#__modules', 'id');
 	}
 
-	public function check() {
-		$this->filter(array('content'));
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
-	public function get_fieldinfo() {
-		return array(
-			'id' => array(
-				'name' => 'id',
-				'editable' => false,
-				'in_admintable' => true,
-				'html_table_element' => 'value'
-			),
-			'module' => array(
-				'name' => 'Модуль',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(
-					'width' => '150px',
-				),
-				'html_edit_element' => 'extra',
-				'html_edit_element_param' => array(
-					'call_from' => 'Modules::get_module_filename',
-				),
-			),
-			'client_id' => array(
-				'name' => 'Тип',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'option',
-				'html_edit_element_param' => array(
-					'options' => array(
-						'0' => 'Модуль сайта',
-						'1' => 'Модуль админпанели'
-					)
-				),
-			),
-			'state' => array(
-				'name' => 'Состояние',
-				'editable' => true,
-				'sortable' => true,
-				'in_admintable' => true,
-				'editlink' => true,
-				'html_edit_element' => 'checkbox',
-				'html_table_element' => 'state_box',
-				'html_edit_element_param' => array(
-					'text' => 'Опубликовано',
-				),
-				'html_table_element' => 'statuschanger',
-				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
-					'align' => 'center',
-					'class' => 'td-state-joiadmin',
-					'width' => '20px',
-				)
-			),
-			'title' => array(
-				'name' => 'Заголовок',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'editlink',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit',
-				'html_edit_element_param' => array(),
-			),
-			'template' => array(
-				'name' => 'Шаблон',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit',
-				'html_edit_element_param' => array(),
-			),
-			'ordering' => array(
-				'name' => 'Порядок',
-				'editable' => false,
-				'in_admintable' => true,
-				'html_table_element' => 'ordering',
-				'html_table_element_param' => array(
-					'scope' => array('position'),
-					'width' => '100px',
-					'align' => 'center'
-				),
-				'html_edit_element' => 'edit',
-				'html_edit_element_param' => array(),
-			),
-			'position' => array(
-				'name' => 'Позиция',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'extra',
-				'html_edit_element_param' => array(
-					'call_from' => 'Modules::get_modules_positions',
-				),
-			),
-			'cache_time' => array(
-				'name' => 'Время кеширования',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit',
-				'html_edit_element_param' => array(),
-			),
-			'params' => array(
-				'name' => 'Параметры',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'json',
-				'html_edit_element_param' => array(
-					'call_from' => 'Modules::parce_params'
-				),
-			),
-			'content' => array(
-				'name' => 'Содержимое (HTML)',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'text',
-				'html_edit_element_param' => array(),
-			),
-			'%modules_pages' => array(
-				'name' => 'Где показывать',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'extra',
-				'html_edit_element_param' => array(
-					'call_from' => 'Modules::get_modules_pages',
-				),
-			),
-			'%access' => array(
-				'name' => 'Права доступа',
-				'editable' => true,
-				'html_edit_element' => 'access',
-				'html_edit_element_param' => array(
-					'call_from' => 'Modules::get_access_init'
-				),
-			),
-		);
-	}
-
-	public function get_tableinfo() {
-		return array(
-			'header_main' => 'Модули',
-			'header_list' => 'Модули',
-			'header_new' => 'Создание Modules',
-			'header_edit' => 'Редактирование модуля'
-		);
-	}
-
 	public static function get_module_filename($item) {
 		return $item->module ? $item->module . '.php' : 'содержимое пользователя';
 	}
@@ -280,7 +97,7 @@ class Modules extends joosDBModel {
 		ob_start();
 		?>
 		<div id="modules_pages">
-			<?php foreach ($pages_list as $page): ?>
+		<?php foreach ($pages_list as $page): ?>
 
 				<div class="fields" title="<?php echo $i ?>">
 					<div class="b b-left b-30">
@@ -306,8 +123,8 @@ class Modules extends joosDBModel {
 						<span class="g-pseudolink module_page_del">[x]</span>
 					</div>
 				</div>
-				<?php $i++;
-			endforeach; ?>
+			<?php $i++;
+		endforeach; ?>
 		</div>
 
 		<input type="hidden" name="fields_count" id="fields_count" value="<?php echo $i ?>"/>
@@ -351,7 +168,7 @@ class Modules extends joosDBModel {
  * @subpackage    Joostina CMS
  * @created    2010-12-12 14:52:47
  */
-class ModulesPages extends joosDBModel {
+class ModulesPages extends joosModel {
 
 	/**
 	 * @var int(11)
@@ -379,27 +196,6 @@ class ModulesPages extends joosDBModel {
 	 */
 	function __construct() {
 		$this->joosDBModel('#__modules_pages', 'id');
-	}
-
-	public function check() {
-		//$this->filter();
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
 	}
 
 }

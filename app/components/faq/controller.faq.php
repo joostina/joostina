@@ -1,12 +1,21 @@
 <?php
 
-/**
-
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * Faq - Компонент управления структурой вопрос-ответ
+ * Контроллер сайта
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Faq       
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsFaq extends joosController {
 
 	/**
@@ -37,7 +46,7 @@ class actionsFaq extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('faq'), $count, 2);
+		$pager = new joosPager(joosRoute::href('faq'), $count, 2);
 		$pager->paginate($page);
 
 		// опубликованные записи
@@ -78,7 +87,7 @@ class actionsFaq extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('faq_archive_year', array('year' => $year)), $count, 2, 5);
+		$pager = new joosPager(joosRoute::href('faq_archive_year', array('year' => $year)), $count, 2, 5);
 		$pager->paginate($page);
 
 		// опубликованные записи блога

@@ -7,7 +7,7 @@ class autoadminListOneFromArray {
 
 	private static $element_datas = array();
 
-	public static function render(joosDBModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
+	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 		$datas_for_select = array();
 
 		// избавления из от множества запросов

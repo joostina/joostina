@@ -1,26 +1,21 @@
 <?php
 
-/**
- * Content - компонент управления контентом
- * Модель
- *
- * @version 1.0
- * @package ComponentsAdmin
- * @subpackage Content
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license see license.txt
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Class Content
- * @package    Content
- * @subpackage    Joostina CMS
- * @created    2011-02-09 11:51:55
- */
+ * adminContent - Модель компонента управления контентом
+ * Модель панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage NewContents
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class adminContent extends Content {
 
 	public function check() {

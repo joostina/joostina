@@ -15,8 +15,6 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::admin_model('categories');
-
 //Текущая категория
 $current_category = $object_data['category'];
 

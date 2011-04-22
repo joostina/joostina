@@ -1,23 +1,21 @@
 <?php
 
-/**
- * Pages - компонент независимых страниц
- * Контроллер
- *
- * @version 1.0
- * @package Components
- * @subpackage Pages
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
- *
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Содержимое
- */
+ * Pages - Компонент управления независимыми страницами
+ * Контроллер панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Pages  
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsAdminPages {
 
 	/**
@@ -49,13 +47,6 @@ class actionsAdminPages {
 	 * Тулбары
 	 */
 	public static $toolbars = array();
-
-	/**
-	 * Выполняется сразу после запуска контроллера
-	 */
-	public static function on_start() {
-		joosLoader::admin_model('pages');
-	}
 
 	/**
 	 * Список объектов

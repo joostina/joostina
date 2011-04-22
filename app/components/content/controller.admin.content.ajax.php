@@ -104,7 +104,7 @@ class actionsAjaxContent {
 		}
 		//иначе - построим путь c учётом выбранного родителя
 		else {
-			$path = $cats->getPathFromRoot($cat_id);
+			$path = $cats->get_path_from_root($cat_id);
 			unset($path[1]);
 
 			$_repeat = '';

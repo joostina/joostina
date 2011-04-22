@@ -10,8 +10,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::admin_model('modules');
-
 function sefRelToAbs($string, $ext = false, $route_name = false) {
 
 	JDEBUG ? joosDebug::add('Избавься наконец от sefRelToAbs!!!') : null;

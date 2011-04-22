@@ -1,27 +1,22 @@
 <?php
 
-/**
- * News - компонент новостей
- * Модель
- *
- * @version 1.0
- * @package Components
- * @subpackage News
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license see license.txt
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Class News
- * @package    News
- * @subpackage    Joostina CMS
- * @created    2010-10-03 00:41:28
- */
-class News extends joosDBModel {
+ * News - Модель новостей
+ * Модель для работы сайта
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage News
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class News extends joosModel {
 
 	/**
 	 * @var int(11)

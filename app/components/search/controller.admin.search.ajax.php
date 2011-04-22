@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Search - Компонент поиска
  * Аякс-контроллер админ-панели
@@ -11,26 +12,17 @@
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
- **/
-
+ * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('joiadmin', 'system');
 joosAutoAdmin::dispatch_ajax();
 joosAutoAdmin::autoajax();
 
-class actionsAjaxSearch
-{
+class actionsAjaxSearch {
 
-    public static function on_start()
-    {
-        require joosLoader::admin_model('search');
-    }
-
-    public static function index()
-    {
-
-    }
+	public static function index() {
+		
+	}
 
 }

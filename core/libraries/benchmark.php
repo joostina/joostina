@@ -1,17 +1,20 @@
 <?php
-
-/**
- * @package Joostina
- * @subpackage Cache handler
- * @copyright Авторские права (C) 2007-2009 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
-// Check to ensure this file is within the rest of the framework
+// запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-// замер времени потраченного на определённые операции, сюда надо еще добавить просто start-stop
+/**
+ * joosBenchmark - Библиотека профилирования системы
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class joosBenchmark {
 
 	/**

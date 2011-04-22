@@ -1,16 +1,22 @@
 <?php
 
-/**
- * JoiTags classes
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * joiTags
- */
-class Tags extends joosDBModel {
+ * Tags - Модель тэгов
+ * Модель для работы сайта
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Tags
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class Tags extends joosModel {
 
 	/**
 	 * @var $id int ID тэга
@@ -106,10 +112,10 @@ class Tags extends joosDBModel {
 
 	/**
 	 * Вывод тэгов указанного объекта
-	 * @param joosDBModel $obj требуемый объект
+	 * @param joosModel $obj требуемый объект
 	 * @return string html код ссылок-тэгов
 	 */
-	function show_tags(joosDBModel $obj) {
+	function show_tags(joosModel $obj) {
 
 		$id = $obj->{$obj->_tbl_key};
 

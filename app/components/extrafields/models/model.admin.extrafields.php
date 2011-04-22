@@ -1,11 +1,14 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
- * Extrafields - Компонент для управления дополнительными полями
- * Модель админ-панели
+ * adminExtrafields - Модель компонента управления дополнительными полями
+ * Модель панели управления
  *
  * @version 1.0
- * @package Joostina.Components
+ * @package Joostina.Models
  * @subpackage Extrafields
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
@@ -13,42 +16,10 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
 class adminExtrafields extends Extrafields {
 
 	public function check() {
 		$this->filter();
-		return true;
-	}
-
-	public function before_insert() {
-		return true;
-	}
-
-	public function after_insert() {
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-
 		return true;
 	}
 

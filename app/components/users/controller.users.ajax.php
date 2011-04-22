@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsUsers extends joosController {
+class actionsAjaxUsers extends joosController {
 
 	public static function index() {
 		joosLoader::lib('valumsfileuploader', 'files');

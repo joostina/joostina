@@ -15,14 +15,13 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('joiadmin', 'system');
 joosAutoAdmin::dispatch_ajax();
 joosAutoAdmin::autoajax();
 
 class actionsAjaxNews {
 
 	public static function index() {
-
+		
 	}
 
 	//public static function statuschanger(){

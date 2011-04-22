@@ -77,13 +77,6 @@ class joosRoute extends RouteMap {
 			$map->connect('search_page_index', 'search/:slug/:searchword', 'search', 'index', array('slug' => '\S+', 'searchword' => '(.*?)'));
 			$map->connect('search_page_num', 'search/:slug/:searchword/page/:page', 'search', 'index', array('slug' => '\S+', 'searchword' => '(.*?)', 'page' => '\d+'));
 			//$map->connect('search_page_num', 'search/:slug/:searchword/:page', 'search', 'index', array('slug' => '\S+', 'searchword' => '\S+', 'page' => '\d+'));
-			// -----------------------------------------------------------------------------------Вакансии
-			$map->connect('job', 'job', 'job', 'index');
-			$map->connect('job_page_index', 'job/page', 'job', 'index');
-			$map->connect('job_page_num', 'job/page/:page', 'job', 'index', array('page' => '\d+'));
-			$map->connect('job_view', 'job/:id', 'job', 'view', array('id' => '\d+'));
-			$map->connect('job_send_response', 'job/send', 'job', 'send_response');
-
 			// -----------------------------------------------------------------------------------Вопрос-ответ
 			$map->connect('faq', 'faq', 'faq', 'index');
 			$map->connect('faq_page_index', 'faq/page', 'job', 'index');

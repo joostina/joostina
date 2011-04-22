@@ -1,20 +1,25 @@
 <?php
 
-/**
- * Класс для манипуляции с деревьями
- *
- * @version 1.0
- * @package Joostina CMS
- * @subpackage Libraries
- * @filename nestedset.php
- * @author JoostinaTeam
- * @copyright (C) 2007-2010 Joostina Team
- * @license see license.txt
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class joosNestedSet extends joosDBModel {
+/**
+ * joosNestedSet - Библиотека рвботы с вложенными категориями и деревьями в базе данных
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @subpackage Metainfo
+ * @subpackage joosModel
+ * @subpackage joosDatabase
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class joosNestedSet extends joosModel {
 
 	/**
 	 * Уникальный идентификатор узла
@@ -581,7 +586,7 @@ class joosNestedSet extends joosDBModel {
 	 * @param     integer     $nodeId     Id узла
 	 * @return    mixed                    массив или False
 	 */
-	public function getPathFromRoot($nodeId, $object_list = false) {
+	public function get_path_from_root($nodeId, $object_list = false) {
 
 		$sql = "SELECT p.*
 			FROM $this->_tbl AS n, $this->_tbl AS p

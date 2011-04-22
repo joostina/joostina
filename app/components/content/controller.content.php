@@ -1,15 +1,21 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * Content - Компонент управления контентом
+ * Контроллер сайта
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Content       
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsContent extends joosController {
 
 	public static function on_start($active_task) {
@@ -82,7 +88,7 @@ class actionsContent extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('content_cats_paginate', array('slug' => $category->slug)), $count, 6, 5);
+		$pager = new joosPager(joosRoute::href('content_cats_paginate', array('slug' => $category->slug)), $count, 6, 5);
 		$pager->paginate($page);
 
 		//категории
@@ -122,7 +128,7 @@ class actionsContent extends joosController {
 			$sort = $sort == 1 ? 'id' : 'ordering';
 
 
-			$path = $category->getPathFromRoot($category->id, true);
+			$path = $category->get_path_from_root($category->id, true);
 
 			//Выбираем записи
 			if ($category->level == 4) {
@@ -173,7 +179,7 @@ class actionsContent extends joosController {
 
 		$path = null;
 		if ($category->level > 1) {
-			$path = $category->getPathFromRoot($category->id, true);
+			$path = $category->get_path_from_root($category->id, true);
 		}
 
 		Categories::set_breadcrumbs($category, $path, true);

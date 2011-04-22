@@ -1,20 +1,21 @@
 <?php
 
-/**
- * Content - компонент управления контентом
- * Контроллер админ-панели
- *
- * @version 1.0
- * @package Components
- * @subpackage Content
- * @author JoostinaTeam <info@joostina.ru>
- * @copyright (C) 2008-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * Content   - Компонент управления контентом
+ * Контроллер панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Content 
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsAdminContent {
 
 	/**
@@ -52,7 +53,6 @@ class actionsAdminContent {
 	 * Выполняется сразу после запуска контроллера
 	 */
 	public static function on_start() {
-		joosLoader::admin_model('content');
 		joosDocument::instance()->add_js_file(JPATH_SITE . '/app/components/content/media/js/content.admin.js');
 		joosDocument::instance()->add_css(JPATH_SITE . '/app/components/content/media/css/content.admin.css');
 	}

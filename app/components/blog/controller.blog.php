@@ -1,15 +1,21 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * Blog - Компонент управления пользователями
+ * Контроллер сайта
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Blog      
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsBlog extends joosController {
 
 	public static function on_start($active_task) {
@@ -29,7 +35,7 @@ class actionsBlog extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('blog'), $count, 5, 6);
+		$pager = new joosPager(joosRoute::href('blog'), $count, 5, 6);
 		$pager->paginate($page);
 
 		// опубликованные записи блога
@@ -85,7 +91,7 @@ class actionsBlog extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('blog_cat', array('cat_slug' => $blog_category->slug)), $count, 5, 6);
+		$pager = new joosPager(joosRoute::href('blog_cat', array('cat_slug' => $blog_category->slug)), $count, 5, 6);
 		$pager->paginate($page);
 
 		// опубликованные записи блога
@@ -185,7 +191,7 @@ class actionsBlog extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('blog_user', array('username' => $user->username)), $count, 5, 6);
+		$pager = new joosPager(joosRoute::href('blog_user', array('username' => $user->username)), $count, 5, 6);
 		$pager->paginate($page);
 
 		// опубликованные записи блога

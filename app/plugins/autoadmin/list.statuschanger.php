@@ -5,7 +5,7 @@ defined('_JOOS_CORE') or die();
 
 class autoadminListStatuschanger {
 
-	public static function render(joosDBModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
+	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 
 		$images = isset($element_param['html_table_element_param']['images'][$value]) ? $element_param['html_table_element_param']['images'][$value] : 'error.png';
 		$text = isset($element_param['html_table_element_param']['statuses'][$value]) ? $element_param['html_table_element_param']['statuses'][$value] : 'ERROR';

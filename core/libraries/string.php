@@ -1,24 +1,26 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
-/**
- * Базируется н акласа UTF-8 (c) Kohana Team
+ * joosString - Библиотека работы со строками в правильной кодировке UTF-8
+ * Системная библиотека
  *
- * @package    Core
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ * 
  * @author     Kohana Team
  * @copyright  (c) 2007 Kohana Team
  * @copyright  (c) 2005 Harry Fuecks
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
- */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
+ *
+ * */
 class joosString {
 
 	// Called methods

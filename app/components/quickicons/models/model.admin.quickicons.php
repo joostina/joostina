@@ -1,65 +1,22 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Class Quickicons
- * @package    Quickicons
- * @subpackage    Joostina CMS
- * @created    2010-09-26 02:05:12
- */
-class Quickicons extends joosDBModel {
-
-	/**
-	 * @var int(11)
-	 */
-	public $id;
-	/**
-	 * @var varchar(64)
-	 */
-	public $title;
-	/**
-	 * @var varchar(255)
-	 */
-	public $alt_text;
-	/**
-	 * @var varchar(255)
-	 */
-	public $href;
-	/**
-	 * @var varchar(100)
-	 */
-	public $icon;
-	/**
-	 * @var int(10) unsigned
-	 */
-	public $ordering;
-	/**
-	 * @var tinyint(1) unsigned
-	 */
-	public $state;
-	/**
-	 * @var int(3)
-	 */
-	public $gid;
-	// каталог размещения значков для кнопок быстрого доступа
-	private static $ico_dir = "/media/images/icons/32x32/candy";
-
-	/*
-	 * Constructor
-	 * @param object Database object
-	 */
-	function __construct() {
-		$this->joosDBModel('#__quickicons', 'id');
-	}
+ * adminPolls - Модель компонента управления кнопками быстрого доступа панели управления
+ * Модель панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Polls
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class adminQuickicons extends Quickicons {
 
 	public function check() {
 		$this->filter();
@@ -255,6 +212,66 @@ class Quickicons extends joosDBModel {
 		$images[] = sprintf('<input type="hidden" name="icon" id="quickicons_icon_value" value="%s"  />', $cur_obj->icon);
 
 		return implode("\n", $images);
+	}
+
+}
+
+/**
+ * Quickicons - Модель компонента управления кнопками быстрого доступа панели управления
+ * Модель панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Quickicons
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class Quickicons extends joosModel {
+
+	/**
+	 * @var int(11)
+	 */
+	public $id;
+	/**
+	 * @var varchar(64)
+	 */
+	public $title;
+	/**
+	 * @var varchar(255)
+	 */
+	public $alt_text;
+	/**
+	 * @var varchar(255)
+	 */
+	public $href;
+	/**
+	 * @var varchar(100)
+	 */
+	public $icon;
+	/**
+	 * @var int(10) unsigned
+	 */
+	public $ordering;
+	/**
+	 * @var tinyint(1) unsigned
+	 */
+	public $state;
+	/**
+	 * @var int(3)
+	 */
+	public $gid;
+	// каталог размещения значков для кнопок быстрого доступа
+	private static $ico_dir = "/media/images/icons/32x32/candy";
+
+	/*
+	 * Constructor
+	 * @param object Database object
+	 */
+	function __construct() {
+		$this->joosDBModel('#__quickicons', 'id');
 	}
 
 }

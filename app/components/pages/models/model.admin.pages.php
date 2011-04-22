@@ -1,20 +1,21 @@
 <?php
 
-/**
- * Pages - компонент независимых страниц
- * Модель административного интерфейса
- *
- * @version 1.0
- * @package Components
- * @subpackage Pages
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
- *
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * adminPages - Модель компонента независимыми страницами
+ * Модель панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Pages
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class adminPages extends Pages {
 
 	public function get_fieldinfo() {

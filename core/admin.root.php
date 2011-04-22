@@ -31,7 +31,7 @@ function ajax_acl_error() {
  * @category core
  * @category admin_cp
  */
-class joosCoreAdmin {
+class joosCoreAdmin extends joosCore {
 
 	/**
 	 * Содержимое вывода компонента панели управления

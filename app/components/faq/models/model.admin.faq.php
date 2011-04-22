@@ -1,25 +1,25 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
- * Job - Компонент вакансий
- * Модель админ-панели
+ * adminFaq - Модель компонента управления структурой вопрос-ответ
+ * Модель панели управления
  *
  * @version 1.0
- * @package Joostina.Components
- * @subpackage Job
+ * @package Joostina.Models
+ * @subpackage Faq
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
 class adminFaq extends Faq {
 
 	public function check() {
-		//$this->filter();
+		$this->filter();
 		return true;
 	}
 

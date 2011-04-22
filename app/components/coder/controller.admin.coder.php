@@ -1,14 +1,20 @@
 <?php
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * Coder - Компонент управляемой генерации расширений системы
+ * Контроллер панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Coder
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsAdminCoder {
 
 	public static $submenu = array(
@@ -109,7 +115,7 @@ class actionsAdminCoder {
 			</tr>
 			<tr>
 				<td width="200">
-					<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
+		<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
 					<label for="">Имя компонента:</label><br/>
 					<input type="text" name="component_name" class="text" value="news"/>
 					<br/><br/>
@@ -129,7 +135,7 @@ class actionsAdminCoder {
 					<label for="">Email:</label><br/>
 					<input type="text" name="component_authoremail" class="text" value="info@joostina.ru"/>
 					<br/><br/>
-					<?php echo forms::close(); ?>
+		<?php echo forms::close(); ?>
 					<button id="create_component">Сгенерировать</button>
 				</td>
 				<td>

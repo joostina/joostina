@@ -1,35 +1,36 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-/*
+
+/**
  * Компонент - главная страница
  * Позволяет использовать 2 типа страниц:
  * 1. Компонент - выбирается любой доступный компонент системы и настройки для него
  * 2. Страница модулей - позволяет расположить конструкцию составленную из произвольных модулей по специально подготовленному макету
- */
+ * Контроллер сайта
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Faq       
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 
-class actionsMainpage extends joosController
-{
+class actionsMainpage extends joosController {
 
-    public static function index()
-    {
+	public static function index() {
 
-        //Хлебные крошки
-        //joosBreadcrumbs::instance()
-        //->add('Главная', $active_task == 'mainpage' ? false : JPATH_SITE);
+		//Хлебные крошки
+		//joosBreadcrumbs::instance()
+		//->add('Главная', $active_task == 'mainpage' ? false : JPATH_SITE);
 
-
-        return array(
-            'task' => 'modules'
-        );
-    }
+		return array(
+			'task' => 'modules'
+		);
+	}
 
 }

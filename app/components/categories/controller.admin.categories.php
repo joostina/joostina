@@ -1,19 +1,21 @@
 <?php
 
-/**
- * Categories - компонент управления категориями
- * Контроллер админ-панели
- *
- * @version 1.0
- * @package ComponentsAdmin
- * @subpackage Categories
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license see license.txt
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
+
+/**
+ * Categories - Компонент управления категориями
+ * Контроллер панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Categories
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 
 class actionsAdminCategories {
 

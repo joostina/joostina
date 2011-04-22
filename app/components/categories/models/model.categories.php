@@ -1,25 +1,21 @@
 <?php
-/**
- * Categories - компонент управления категориями
- * Модель
- *
- * @version 1.0
- * @package ComponentsAdmin
- * @subpackage Categories
- * @author JoostinaTeam
- * @copyright (C) 2008-2010 Joostina Team
- * @license see license.txt
- *
- * */
+
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Class Categories
- * @package    Categories
- * @subpackage    Joostina CMS
- * @created    2011-01-22 11:27:49
- */
+ * Categories - Модель категорий
+ * Модель панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Categories
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class Categories extends joosNestedSet {
 
 	/**
@@ -295,7 +291,7 @@ class Categories extends joosNestedSet {
 		joosLoader::lib('params', 'system');
 
 		$cats = new self;
-		$path = $cats->getPathFromRoot($id);
+		$path = $cats->get_path_from_root($id);
 		unset($path[1]);
 
 		$ids = array_keys($path);
@@ -335,7 +331,7 @@ class Categories extends joosNestedSet {
 	public static function get_extrafields_by_category($id, $group) {
 
 		$cats = new self;
-		$path = $cats->getPathFromRoot($id);
+		$path = $cats->get_path_from_root($id);
 		unset($path[1]);
 
 		$ids = array_keys($path);
@@ -393,12 +389,19 @@ class Categories extends joosNestedSet {
 }
 
 /**
- * Class CategoriesDetails
- * @package    CategoriesDetails
- * @subpackage    Joostina CMS
- * @created    2011-02-05 17:09:28
- */
-class CategoriesDetails extends joosDBModel {
+ * CategoriesDetails - Модель расширенной информации о категориях
+ * Модель панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Categories
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class CategoriesDetails extends joosModel {
 
 	/**
 	 * @var int(11)

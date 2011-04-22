@@ -1,15 +1,21 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * joosDebug - Библиотека отладки и логирования системных действий
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class joosDebug {
 
 	private static $instance;
@@ -35,17 +41,16 @@ class joosDebug {
 	}
 
 	private function __clone() {
-
+		
 	}
 
 	public static function add($text, $top = 0) {
 		$top ? array_unshift(self::$_log, $text) : self::$_log[] = $text;
 	}
 
-	public static function add_top($text){
+	public static function add_top($text) {
 		self::add($text, true);
 	}
-
 
 	public static function inc($key) {
 		if (!isset(self::$_inc[$key])) {

@@ -10,7 +10,5 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-// подключаем библиотеку joosAutoAdmin
-joosLoader::lib('joiadmin', 'system');
 // передаём управление полётом в автоматический Ajax - обработчик
 echo joosAutoAdmin::autoajax();

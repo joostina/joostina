@@ -1,19 +1,20 @@
 <?php
-/**
- * joosAutoAdmin - класс для автоматической генерации административного интерфейса компонента
- *
- * @version 1.0
- * @package Joostina CMS
- * @subpackage Libraries
- * @filename joiadmin.php
- * @author JoostinaTeam
- * @copyright (C) 2007-2010 Joostina Team
- * @license see license.txt
- *
- * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * joosAutoAdmin - Библиотека автоматической генерации интерфейсов панели управлениями 
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 define('DISPATCHED', true);
 
 class joosAutoAdmin {
@@ -50,7 +51,6 @@ class joosAutoAdmin {
 
 		!JDEBUG ? : joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task);
 
-		//joosLoader::admin_template_view('joiadmin');
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'on_start') ? call_user_func_array($class . '::on_start', array()) : null;
 
@@ -110,7 +110,7 @@ class joosAutoAdmin {
 	 * @param object joosAdminPagenator $pagenav
 	 * @param array $fields_list
 	 */
-	public static function listing(joosDBModel $obj, array $obj_list, joosAdminPagenator $pagenav, array $fields_list, $group_by = '') {
+	public static function listing(joosModel $obj, array $obj_list, joosAdminPagenator $pagenav, array $fields_list, $group_by = '') {
 
 		// получаем название текущего компонента
 		$option = joosRequest::param('option');
@@ -186,7 +186,7 @@ class joosAutoAdmin {
 		echo forms::close();
 	}
 
-	public static function get_listing_html_element(joosDBModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
+	public static function get_listing_html_element(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 
 		$class_file = JPATH_BASE . '/app/plugins/autoadmin/list.' . $element_param['html_table_element'] . '.php';
 		$class_name = 'autoadminList' . self::get_plugin_name($element_param['html_table_element']);
@@ -219,7 +219,7 @@ class joosAutoAdmin {
 	 * @param object $obj_data
 	 * @param array $params
 	 */
-	public static function edit(joosDBModel $obj, $obj_data, $params = null) {
+	public static function edit(joosModel $obj, $obj_data, $params = null) {
 
 		self::$model = get_class($obj);
 
@@ -370,7 +370,8 @@ class joosAutoAdmin {
 	//например: компонент категорий, компонент настроек и т .п
 	public static function get_component_title($name) {
 		$admin_model = 'admin' . ucfirst($name);
-		joosLoader::admin_model($name);
+
+		//joosLoader::admin_model($name);
 		$admin_model = new $admin_model;
 		$titles = $admin_model->get_tableinfo();
 		$component_title = isset($titles['header_main']) ? $titles['header_main'] : '';
@@ -513,7 +514,7 @@ class joosAutoAdmin {
 		return;
 	}
 
-	private static function prepare_extra(joosDBModel $obj, array $extra_data) {
+	private static function prepare_extra(joosModel $obj, array $extra_data) {
 
 		if (self::$data === NULL) {
 
@@ -607,7 +608,7 @@ class joosAutoAdmin {
 		return self::$data;
 	}
 
-	private static function get_extrainfo(joosDBModel $obj) {
+	private static function get_extrainfo(joosModel $obj) {
 
 		$fields_info = $obj->get_fieldinfo();
 		$header_extra = $obj->get_extrainfo();
@@ -624,7 +625,7 @@ class joosAutoAdmin {
 		return $header_extra;
 	}
 
-	public static function get_count(joosDBModel $obj) {
+	public static function get_count(joosModel $obj) {
 
 		$header_extra = self::get_extrainfo($obj);
 		$header_extra = self::prepare_extra($obj, $header_extra);
@@ -637,7 +638,7 @@ class joosAutoAdmin {
 		return self::$data_overload ? call_user_func(self::$data_overload, $params) : $obj->count('WHERE ' . $header_extra['wheres']);
 	}
 
-	public static function get_list(joosDBModel $obj, $params) {
+	public static function get_list(joosModel $obj, $params) {
 
 		$header_extra = self::get_extrainfo($obj);
 		$header_extra = self::prepare_extra($obj, $header_extra);
@@ -647,7 +648,7 @@ class joosAutoAdmin {
 		return self::$data_overload ? call_user_func(self::$data_overload, $params) : $obj->get_list($params);
 	}
 
-	public static function get_state_selector(joosDBModel $obj, $params_key) {
+	public static function get_state_selector(joosModel $obj, $params_key) {
 		return array(
 			0 => 'Не активно',
 			1 => 'Активно',
@@ -758,9 +759,9 @@ class mosMenuBar {
 			}
 		?><li><a class="tb-custom-x<?php echo $class; ?>"
 					   href="<?php echo $href; ?>"><span><?php echo $alt; ?></span></a></li><?php
-	}
+		}
 
-	public static function addNew($task = 'new', $alt = _NEW) {
+		public static function addNew($task = 'new', $alt = _NEW) {
 		?><li><a class="tb-add-new"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -871,9 +872,9 @@ class mosMenuBar {
 		public static function apply($task = 'apply', $alt = _APPLY) {
 		?><li><a class="tb-apply"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-	}
+		}
 
-	public static function save($task = 'save', $alt = _SAVE) {
+		public static function save($task = 'save', $alt = _SAVE) {
 		?><li><a class="tb-save"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -918,9 +919,9 @@ class mosMenuBar {
 	}
 
 	class joosAutoAdminFilePluginNotFoundException extends joosException {
-
+		
 	}
 
 	class joosAutoAdminClassPlugionNotFoundException extends joosException {
-
+		
 	}

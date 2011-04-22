@@ -1,21 +1,22 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Класс работы с базой данных
- * @package Joostina
- * @subpackage Database
- * @category libraries/joostina
- */
+ * joosDatabase - Библиотека работы с базой данных
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @subpackage joosDatabase
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class joosDatabase {
 
 	/**
@@ -159,7 +160,7 @@ class joosDatabase {
 	 */
 	// TODO исправить, метод CLONE используется при кешированиии и сериалзации модели
 	public function __clone() {
-
+		
 	}
 
 	/**
@@ -670,8 +671,19 @@ class joosDatabase {
 }
 
 /**
- * Утилиты для работы с базой данных
- */
+ * joosDatabaseUtils - Библиотека утилитарных функций работы с базой данных
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @subpackage joosDatabase
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class joosDatabaseUtils extends joosDatabase {
 
 	/**
@@ -844,10 +856,20 @@ class joosDatabaseUtils extends joosDatabase {
 }
 
 /**
- * ORM, расширяющий общий объект работы с базой данных
- * используется в непосредственной работе моделей системы
- */
-class joosDBModel {
+ * joosModel - Библиотека ORM расширения для гибкой работы с информацией в юазе данных
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @subpackage joosDatabase
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class joosModel {
 
 	/**
 	 * Название таблицы, используемой текущей моделью
@@ -1098,49 +1120,49 @@ class joosDBModel {
 	 * Метод, выполняемый до обновления значений модели
 	 */
 	public function before_update() {
-
+		
 	}
 
 	/**
 	 * Метод, выполняемый после обновления значений модели
 	 */
 	public function after_update() {
-
+		
 	}
 
 	/**
 	 * Метод выполняемый до добавления значений модели
 	 */
 	public function before_insert() {
-
+		
 	}
 
 	/**
 	 * Метод выполняемый после вставки значений модели
 	 */
 	public function after_insert() {
-
+		
 	}
 
 	/**
 	 * Метод выполняемый до сохранения значений модели ( вставка / обновление )
 	 */
 	public function before_store() {
-
+		
 	}
 
 	/**
 	 * Метод выполняемый после полного сохранения данных модели ( вставка / обновление )
 	 */
 	public function after_store() {
-
+		
 	}
 
 	/**
 	 * Метод выполняемый после удаления конкретной записи модели
 	 */
 	public function before_delete() {
-
+		
 	}
 
 	/**

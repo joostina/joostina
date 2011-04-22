@@ -1,20 +1,22 @@
 <?php
 
-/**
- * Class Faq
- * @package    Joostina.Components
- * @subpackage    Faq
- * @author JoostinaTeam
- * @copyright (C) 2008-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
- * @version
- * @created 2011-03-27 19:56:48
- * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class Faq extends joosDBModel {
+/**
+ * Faq - Модель структуры вопрос-ответ
+ * Модель для работы сайта
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Faq
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class Faq extends joosModel {
 
 	/**
 	 * @var int(11)

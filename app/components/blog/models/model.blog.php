@@ -1,22 +1,22 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Class Blog
- * @package    Blog
- * @subpackage    joosDBModel
- * @created    2010-09-24 02:37:11
- */
-class Blog extends joosDBModel {
+ * Blog - Модель компонента блогов
+ * Модель для работы сайта
+ *
+ * @version 1.0
+ * @package Joostina.Models
+ * @subpackage Blog
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class Blog extends joosModel {
 
 	/**
 	 * @var int(11) unsigned
@@ -145,7 +145,7 @@ class Blog extends joosDBModel {
 	}
 
 	public static function get_image_default($image_attr = array()) {
-		$file_location = JPATH_SITE . '/media/images/nomp3s.jpg';
+		$file_location = JPATH_SITE . '/media/images/noimg.jpg';
 		$image_attr += array('src' => $file_location, 'alt' => '');
 		return HTML::image($image_attr);
 	}
@@ -158,7 +158,7 @@ class Blog extends joosDBModel {
  * @subpackage    joosDBModel
  * @created    2010-09-24 02:37:11
  */
-class BlogCategory extends joosDBModel {
+class BlogCategory extends joosModel {
 
 	/**
 	 * @var int(10) unsigned
@@ -195,96 +195,6 @@ class BlogCategory extends joosDBModel {
 	 */
 	function __construct() {
 		$this->joosDBModel('#__blog_category', 'id');
-	}
-
-	public function check() {
-		$this->filter();
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
-	public function get_fieldinfo() {
-		return array(
-			'id' => array(
-				'name' => 'id',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'title' => array(
-				'name' => 'title',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'slug' => array(
-				'name' => 'slug',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'description' => array(
-				'name' => 'description',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'params' => array(
-				'name' => 'params',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'created_at' => array(
-				'name' => 'created_at',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'state' => array(
-				'name' => 'state',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-		);
-	}
-
-	public function get_tableinfo() {
-		return array(
-			'header_list' => 'BlogCategory',
-			'header_new' => 'Создание BlogCategory',
-			'header_edit' => 'Редактирование BlogCategory'
-		);
 	}
 
 }

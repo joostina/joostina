@@ -1,27 +1,20 @@
 <?php
 
-/**
- * Joostina CMS
- * An open source content managment system
- *
- * @package        Joostina
- * @author        Joostina Team
- * @copyright    Copyright (c) 2007 - 2010, Joostina Team. See /COPYRIGHTS
- * @license        http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL see license.txt
- * @link        http://www.joostina.ru
- * @filesource
- *
- */
+// запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
 /**
- * Image
- * Класс работы с изображениями
+ * joosImage - Библиотека работы с изображениями
+ * Системная библиотека
  *
- * @package  Joostina
+ * @version 1.0
+ * @package Joostina.Libraries
  * @subpackage Libraries
- * @category Images
- * @vendor Joostina
+ * @subpackage joosImage
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
 class joosImage {
@@ -105,14 +98,21 @@ define('THUMBNAIL_ALIGN_TOP', -1);
 define('THUMBNAIL_ALIGN_BOTTOM', +1);
 
 /**
- * Thumbnail
- * Библиотека для создания ресайзенных копий изображения
+ * Thumbnail - Библиотека работы с изображениями
+ * Системная библиотека
  *
- * @package  Joostina
+ * @version 1.0
+ * @package Joostina.Libraries
  * @subpackage Libraries
- * @category Images
+ * @subpackage joosImage
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
  * @author      Ildar N. Shaimordanov <ildar-sh@mail.ru>
  * @license     http://www.php.net/license/3_0.txt  The PHP License, version 3.0
+ * 
  * */
 class Thumbnail {
 

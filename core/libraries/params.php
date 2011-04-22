@@ -1,12 +1,23 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
- * Class joosParams
- * @package    joosParams
- * @subpackage    Joostina CMS
- * @created    2011-02-03 21:37:41
- */
-class joosParams extends joosDBModel {
+ * joosParams - Библиотека работы с параметрами
+ * Системная библиотека
+ *
+ * @version 1.0
+ * @package Joostina.Libraries
+ * @subpackage Libraries
+ * @subpackage Params
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class joosParams extends joosModel {
 
 	/**
 	 * @var int(11)
@@ -34,7 +45,7 @@ class joosParams extends joosDBModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__params', 'id');
+		$this->joosModel('#__params', 'id');
 	}
 
 	public function check() {
@@ -124,9 +135,9 @@ class joosParams extends joosDBModel {
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => 'Параметры',
-			'header_new' => 'Создание параметров',
-			'header_edit' => 'Редактирование параметров'
+			'header_list' => '–Я–∞—А–∞–Љ–µ—В—А—Л',
+			'header_new' => '–°–Њ–Ј–і–∞–љ–Є–µ –њ–∞—А–∞–Љ–µ—В—А–Њ–≤',
+			'header_edit' => '–†–µ–і–∞–Ї—В–Є—А–Њ–≤–∞–љ–Є–µ –њ–∞—А–∞–Љ–µ—В—А–Њ–≤'
 		);
 	}
 
@@ -167,11 +178,11 @@ class joosParams extends joosDBModel {
 
 			$params = array(
 				'notdefault' => array(
-					'name' => '–°–њ–µ—Ж–Є–∞–ї—М–љ—Л–µ –љ–∞—Б—В—А–Њ–є–Ї–Є',
+					'name' => 'вАУ¬∞вАУ—ЪвАУ¬µвАФ–ЦвАУ–ДвАУвИЮвАУ—ЧвАФ–ЬвАУ—ЩвАФ–ЫвАУ¬µ вАУ—ЩвАУвИЮвАФ–СвАФ–ТвАФ–РвАУ–КвАУ—ФвАУ–ЗвАУ–Д',
 					'editable' => true,
 					'html_edit_element' => 'checkbox',
 					'html_edit_element_param' => array(
-						'text' => '–°–њ–µ—Ж–Є–∞–ї—М–љ—Л–µ –љ–∞—Б—В—А–Њ–є–Ї–Є',
+						'text' => 'вАУ¬∞вАУ—ЪвАУ¬µвАФ–ЦвАУ–ДвАУвИЮвАУ—ЧвАФ–ЬвАУ—ЩвАФ–ЫвАУ¬µ вАУ—ЩвАУвИЮвАФ–СвАФ–ТвАФ–РвАУ–КвАУ—ФвАУ–ЗвАУ–Д',
 					)
 				)
 			);

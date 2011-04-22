@@ -1,21 +1,21 @@
 <?php
 
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
 /**
- * Search - Компонент поиска
- * Фронтенд-контроллер
+ * Search   - Компонент поиска
+ * Контроллер сайта
  *
  * @version 1.0
- * @package Joostina.Components
- * @subpackage Search
+ * @package Joostina.Components.Controllers
+ * @subpackage Search    
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
 class actionsSearch extends joosController {
 
 	/**
@@ -78,7 +78,7 @@ class actionsSearch extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('search_process', array('slug' => 'catalog', 'searchword' => $searchword)), $count, 3, 5);
+		$pager = new joosPager(joosRoute::href('search_process', array('slug' => 'catalog', 'searchword' => $searchword)), $count, 3, 5);
 		$pager->paginate($page);
 
 		$results = $content->get_list(array(
@@ -110,7 +110,7 @@ class actionsSearch extends joosController {
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
-		$pager = new Pager(joosRoute::href('search_process', array('slug' => 'news', 'searchword' => $searchword)), $count, 3, 5);
+		$pager = new joosPager(joosRoute::href('search_process', array('slug' => 'news', 'searchword' => $searchword)), $count, 3, 5);
 		$pager->paginate($page);
 
 		//Ищем по основному содержимому
