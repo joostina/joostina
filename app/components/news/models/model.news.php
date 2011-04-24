@@ -78,7 +78,7 @@ class News extends joosModel {
 	 * @param object Database object
 	 */
 	function __construct() {
-		$this->joosDBModel('#__news', 'id');
+		parent::__construct('#__news', 'id');
 	}
 
 	public static function get_types() {

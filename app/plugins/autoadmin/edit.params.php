@@ -30,7 +30,7 @@ class autoadminEditParams {
 		foreach ($data as $key => $field) {
 			if (isset($field['editable']) && $field['editable'] == true) {
 				$v = isset($values[$key]) ? $values[$key] : '';
-				$element[] = self::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
+				$element[] = joosAutoAdmin::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
 			}
 		}
 		$element[] = '</table>';

@@ -45,7 +45,7 @@ class Tags extends joosModel {
 	 *
 	 */
 	function __construct() {
-		$this->joosDBModel('#__tags', 'id');
+		parent::__construct('#__tags', 'id');
 	}
 
 	public function check() {

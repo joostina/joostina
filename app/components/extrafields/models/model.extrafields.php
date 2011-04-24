@@ -55,7 +55,7 @@ class Extrafields extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__extrafields', 'id');
+		parent::__construct('#__extrafields', 'id');
 	}
 
 	public static function get_fields_with_values($group, $subgroup = '', $object = null, $item_id = null) {
@@ -192,7 +192,7 @@ class ExtrafieldsData extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__extrafields_data', 'id');
+		parent::__construct('#__extrafields_data', 'id');
 	}
 
 	public function check() {

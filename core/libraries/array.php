@@ -10,6 +10,7 @@ defined('_JOOS_CORE') or die();
  * @version 1.0
  * @package Joostina.Libraries
  * @subpackage Libraries
+ * @category Libraries
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -88,14 +89,14 @@ class joosArray {
 	 * @param string $k свойство-ключ объекта
 	 * @param int $sort_direction направление сортировки, 1 - по возрастанию (по умолчанию), -1 - по убывания
 	 */
-	function SortArrayObjects(array &$a, $k, $sort_direction = 1) {
+	public static function sort_array_objects(array &$a, $k, $sort_direction = 1) {
 		global $csort_cmp;
 		$csort_cmp = array('key' => $k, 'direction' => $sort_direction);
-		usort($a, 'SortArrayObjects_cmp');
+		usort($a, 'joosArray::sort_array_objects_cmp');
 		unset($csort_cmp);
 	}
 
-	function SortArrayObjects_cmp(&$a, &$b) {
+	public static function sort_array_objects_cmp(&$a, &$b) {
 		global $csort_cmp;
 		if ($a->$csort_cmp['key'] > $b->$csort_cmp['key']) {
 			return $csort_cmp['direction'];

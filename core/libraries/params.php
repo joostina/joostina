@@ -45,7 +45,7 @@ class joosParams extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosModel('#__params', 'id');
+		parent::__construct('#__params', 'id');
 	}
 
 	public function check() {

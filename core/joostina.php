@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
 // Обработчик ошибок
 require JPATH_BASE . DS . 'core' . DS . 'exception.php';
 // Автозагрузчик
-require JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . 'autoloader.php';
+require JPATH_BASE . DS . 'core' . DS . 'autoloader.php';
 joosAutoloader::init();
 // предстартовые конфигурации
 require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
@@ -276,7 +276,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-
+		
 	}
 
 	/**
@@ -1152,9 +1152,16 @@ class joosModule extends Modules {
 
 }
 
-// заглушка для дальнейшей локализации, все строки просто обрамляем __('текст')
-function __($t) {
-	return $t;
+/**
+ * Заглушка для локализации интерфейса 
+ * 
+ * @example __('К нам пришёл :username', array(':username'=>'Дед мороз') );
+ * @param string $string
+ * @param array $args
+ * @return string
+ */
+function __($string, array $args=null) {
+	return $args === NULL ? $string : strtr($string, $args);
 }
 
 /**

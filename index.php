@@ -14,7 +14,7 @@
 define('_JOOS_CORE', 1);
 
 // корень файлов
-define('JPATH_BASE', dirname(__file__));
+define('JPATH_BASE', __DIR__ );
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 
@@ -62,7 +62,7 @@ if (JDEBUG) {
     // подсчет израсходованной памяти
     if (defined('_MEM_USAGE_START')) {
         $mem_usage = (memory_get_usage() - _MEM_USAGE_START);
-        $mem_usage = sprintf('%0.4f', $mem_usage / 1048576) . ' MB';
+		$mem_usage = joosFile::convert_size($mem_usage);
     } else {
         $mem_usage = 'недоступно';
     }

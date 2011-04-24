@@ -10,20 +10,19 @@
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
 
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
-
 // рассчет памяти
 function_exists('memory_get_usage') ? define('_MEM_USAGE_START', memory_get_usage()) : null;
-
 
 // считаем время за которое сгенерирована страница
 $sysstart = microtime(true);
 
+// разделитель каталогов
+define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
-define('JPATH_BASE', dirname(dirname(__FILE__)));
+// корень файлов
+define('JPATH_BASE', dirname( __DIR__ ));
 // корень файлов админкиы
-define('JPATH_BASE_ADMIN', dirname(__FILE__));
+define('JPATH_BASE_ADMIN', __DIR__ );
 
 // подключаем ядро
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');

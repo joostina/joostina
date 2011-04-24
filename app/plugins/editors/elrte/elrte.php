@@ -10,37 +10,34 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class elrteEditor
-{
+class elrteEditor {
 
-    public static function init()
-    {
+	public static function init() {
 
-        joosHTML::load_jquery();
-        joosHTML::load_jquery_ui();
+		joosHTML::load_jquery();
+		joosHTML::load_jquery_ui();
 
-        joosDocument::instance()
-                ->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css')
-                ->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/elrte.css')
-                ->add_js_file(JPATH_SITE_PLUGINS . '/editors/elrte/js/elrte.js')
-                ->add_js_file(JPATH_SITE_PLUGINS . '/editors/elrte/js/i18n/elrte.ru.js');
+		joosDocument::instance()
+				->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css')
+				->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/elrte.css')
+				->add_js_file(JPATH_SITE_PLUGINS . '/editors/elrte/js/elrte.js')
+				->add_js_file(JPATH_SITE_PLUGINS . '/editors/elrte/js/i18n/elrte.ru.js');
 
-        joosLoader::lib('elfinder', 'files');
-    }
+		//joosLoader::lib('elfinder', 'files');
+	}
 
-    public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params)
-    {
+	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {
 
-        /**
-         *  tiny: только кнопки изменения стиля текста (жирный, наклонный, подчеркнутый, перечеркнутый, subscript, superscript)
-         * compact: тоже, что и tiny + сохранить, отмена/повтор, выравнивание, списки, ссылки, полноэкранный режим
-         * normal: compact + копировать/вставить, цвета, отступы, элементы, изображения
-         * complete: normal + форматирование, размер и стиль шрифта
-         * maxi: complete + таблицы
-         */
-        $toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
+		/**
+		 *  tiny: только кнопки изменения стиля текста (жирный, наклонный, подчеркнутый, перечеркнутый, subscript, superscript)
+		 * compact: тоже, что и tiny + сохранить, отмена/повтор, выравнивание, списки, ссылки, полноэкранный режим
+		 * normal: compact + копировать/вставить, цвета, отступы, элементы, изображения
+		 * complete: normal + форматирование, размер и стиль шрифта
+		 * maxi: complete + таблицы
+		 */
+		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
 
-        $code_on_ready = <<< EOD
+		$code_on_ready = <<< EOD
 	elRTE.prototype.filter.prototype.replaceTags = false;	
 		
 		$().ready(function() {
@@ -68,13 +65,12 @@ class elrteEditor
 			});
 		});
 EOD;
-        joosDocument::instance()->add_js_code($code_on_ready);
-        return '<div id="finder"></div><textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
-    }
+		joosDocument::instance()->add_js_code($code_on_ready);
+		return '<div id="finder"></div><textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
+	}
 
-    public static function get_content($name, $params = array())
-    {
-        return isset($params['js_wrap']) ? joosHTML::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
-    }
+	public static function get_content($name, $params = array()) {
+		return isset($params['js_wrap']) ? joosHTML::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
+	}
 
 }

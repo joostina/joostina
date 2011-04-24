@@ -11,7 +11,7 @@
 define('_JOOS_CORE', 1);
 
 // корень файлов
-define('JPATH_BASE', dirname(__file__));
+define('JPATH_BASE', __DIR__ );
 
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);

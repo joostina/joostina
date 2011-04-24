@@ -9,6 +9,7 @@ defined('_JOOS_CORE') or die();
  * @version 1.0
  * @package Joostina.Libraries
  * @subpackage Libraries
+ * @category Libraries
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -105,7 +106,7 @@ class joosAutoAdmin {
 	 *
 	 * Генерация таблицы с записями
 	 *
-	 * @param object joosDBModel $obj
+	 * @param object joosModel $obj
 	 * @param array $obj_list
 	 * @param object joosAdminPagenator $pagenav
 	 * @param array $fields_list

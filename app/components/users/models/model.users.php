@@ -35,7 +35,7 @@ class Users extends joosModel {
 	private static $user_instance;
 
 	function __construct() {
-		$this->joosDBModel('#__users', 'id');
+		parent::__construct('#__users', 'id');
 	}
 
 	// получение инстанции ТЕКУЩЕГО АВТОРИЗОВАННОГО пользователя
@@ -500,7 +500,7 @@ class UsersExtra extends joosModel {
 	public $cache_muzvotes;
 
 	public function __construct() {
-		$this->joosDBModel('#__users_extra', 'user_id');
+		parent::__construct('#__users_extra', 'user_id');
 	}
 
 	public function check() {
@@ -619,7 +619,7 @@ class UsersGroups extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__users_groups', 'id');
+		parent::__construct('#__users_groups', 'id');
 	}
 
 }
@@ -636,7 +636,7 @@ class joldSession extends joosModel {
 	public $_session_cookie = null;
 
 	function __construct() {
-		$this->joosDBModel('#__session', 'session_id');
+		parent::__construct('#__session', 'session_id');
 	}
 
 	function insert() {

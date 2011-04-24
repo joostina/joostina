@@ -20,7 +20,7 @@ class actionsAdminModules {
 
 	/**
 	 * Название обрабатываемой модели
-	 * @var joosDBModel модель
+	 * @var joosModel модель
 	 */
 	public static $model = 'Modules';
 

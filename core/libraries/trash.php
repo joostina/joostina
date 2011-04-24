@@ -29,7 +29,7 @@ class joosTrash extends joosModel {
 	public $deleted_at;
 
 	public function __construct() {
-		$this->joosDBModel('#__trash', 'id');
+		parent::__construct('#__trash', 'id');
 	}
 
 	/**

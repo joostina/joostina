@@ -138,7 +138,7 @@ class joosRoute extends RouteMap {
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
-			@ob_end_clean(); // clear output buffer
+			!ob_get_level() ? : ob_end_clean();
 			header('HTTP/1.1 301 Moved Permanently');
 			header("Location: " . $url);
 		}

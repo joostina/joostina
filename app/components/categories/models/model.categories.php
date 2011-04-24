@@ -440,7 +440,7 @@ class CategoriesDetails extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__categories_details', 'cat_id');
+		parent::__construct('#__categories_details', 'cat_id');
 	}
 
 	public function check() {

@@ -16,6 +16,8 @@ defined('_JOOS_CORE') or die();
 set_error_handler('joosErrorHandler');
 register_shutdown_function('joosfatalErrorShutdownHandler');
 
+//set_exception_handler(array( new joosException , 'handle'));
+
 function joosErrorHandler($code, $message, $file, $line) {
 	throw new joosException(sprintf('Ошибка %s! <br /> Код: <pre>%s</pre> Файл: %s<br />Строка %s', $message, $code, $file, $line));
 }
@@ -23,7 +25,6 @@ function joosErrorHandler($code, $message, $file, $line) {
 function joosfatalErrorShutdownHandler() {
 	$last_error = error_get_last();
 	if ($last_error['type'] === E_ERROR) {
-// fatal error
 		joosErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
 	}
 }
@@ -62,9 +63,8 @@ class joosException extends Exception {
 
 	public function __toString() {
 		// очистим всю вышестоящую буферизацию без вывода её в браузер
-		if (ob_get_level()) {
-			ob_end_clean();
-		}
+		!ob_get_level() ? : ob_end_clean();
+		
 		parent::__toString();
 		echo html_entity_decode($this->create());
 		die();

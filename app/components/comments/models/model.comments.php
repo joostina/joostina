@@ -79,7 +79,7 @@ class Comments extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__comments', 'id');
+		parent::__construct('#__comments', 'id');
 	}
 
 	public function check() {

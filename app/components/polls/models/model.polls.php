@@ -51,7 +51,7 @@ class Polls extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__polls', 'id');
+		parent::__construct('#__polls', 'id');
 	}
 
 }
@@ -92,7 +92,7 @@ class PollsResults extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__polls_results', 'id');
+		parent::__construct('#__polls_results', 'id');
 	}
 
 	public function check() {
@@ -163,7 +163,7 @@ class PollsUsers extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__polls_users', 'id');
+		parent::__construct('#__polls_users', 'id');
 	}
 
 	public function check() {

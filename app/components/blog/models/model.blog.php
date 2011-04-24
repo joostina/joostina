@@ -68,7 +68,7 @@ class Blog extends joosModel {
 	 * @param object Database object
 	 */
 	function __construct() {
-		$this->joosDBModel('#__blog', 'id');
+		parent::__construct('#__blog', 'id');
 	}
 
 	public function check() {
@@ -155,7 +155,7 @@ class Blog extends joosModel {
 /**
  * Class BlogCategory
  * @package    Blog
- * @subpackage    joosDBModel
+ * @subpackage    joosModel
  * @created    2010-09-24 02:37:11
  */
 class BlogCategory extends joosModel {
@@ -194,7 +194,7 @@ class BlogCategory extends joosModel {
 	 * @param object Database object
 	 */
 	function __construct() {
-		$this->joosDBModel('#__blog_category', 'id');
+		parent::__construct('#__blog_category', 'id');
 	}
 
 }

@@ -20,17 +20,7 @@ class actionsAdminTest {
 
 	public static function index() {
 
-		echo $date = _CURRENT_SERVER_TIME;
-
-		echo '<br />';
-
-		$cache = new joosCache();
-
-		if ($v = $cache->get('asd')) {
-			echo $v;
-		} else {
-			$cache->set('asd', $date);
-		}
+		joosFile::delete( JPATH_BASE . DS. '555.php' );
 	}
 
 }

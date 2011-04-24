@@ -66,7 +66,7 @@ class Modules extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__modules', 'id');
+		parent::__construct('#__modules', 'id');
 	}
 
 	public static function get_module_filename($item) {
@@ -97,7 +97,7 @@ class Modules extends joosModel {
 		ob_start();
 		?>
 		<div id="modules_pages">
-		<?php foreach ($pages_list as $page): ?>
+			<?php foreach ($pages_list as $page): ?>
 
 				<div class="fields" title="<?php echo $i ?>">
 					<div class="b b-left b-30">
@@ -123,8 +123,8 @@ class Modules extends joosModel {
 						<span class="g-pseudolink module_page_del">[x]</span>
 					</div>
 				</div>
-			<?php $i++;
-		endforeach; ?>
+				<?php $i++;
+			endforeach; ?>
 		</div>
 
 		<input type="hidden" name="fields_count" id="fields_count" value="<?php echo $i ?>"/>
@@ -195,7 +195,7 @@ class ModulesPages extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__modules_pages', 'id');
+		parent::__construct('#__modules_pages', 'id');
 	}
 
 }

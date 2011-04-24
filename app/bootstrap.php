@@ -54,6 +54,7 @@ DEFINE('JDEBUG', true);
 if (JDEBUG) {
 	// отлаживаем по максимуму
 	error_reporting(E_ALL & ~E_DEPRECATED);
+	//error_reporting((JDEBUG ? E_ALL ^ E_STRICT : 0));
 	ini_set('display_errors', 1);
 	//require_once 'exception.php';
 }
@@ -69,7 +70,9 @@ DEFINE('_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S');
 DEFINE('_CURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
 
 // пробуем устанавить более удобный режим работы
-//@set_magic_quotes_runtime(0);
+if(version_compare(PHP_VERSION, '5.3.0', '<')) {
+	set_magic_quotes_runtime(0);
+}
 // установка режима отображения ошибок
 JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
 

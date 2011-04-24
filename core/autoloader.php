@@ -20,11 +20,6 @@ defined('_JOOS_CORE') or die();
 class joosAutoloader {
 
 	/**
-	 * Скрытая интанция автозагрузчика
-	 * @var @static joosAutoloader
-	 */
-	private static $_instance;
-	/**
 	 * Массив предустановленных системных библиотек
 	 * @var array
 	 */
@@ -38,19 +33,20 @@ class joosAutoloader {
 		'joosCache' => 'core/libraries/cache.php',
 		'joosConfig' => 'core/libraries/config.php',
 		'joosDatabase' => 'core/libraries/database.php',
-		'joosDBModel' => 'core/libraries/database.php',
+		'joosModel' => 'core/libraries/database.php',
 		'joosDateTime' => 'core/libraries/datetime.php',
 		'joosDebug' => 'core/libraries/debug.php',
 		'joosEditor' => 'core/libraries/editor.php',
+		'joosFile' => 'core/libraries/file.php',
 		'joosFlashMessage' => 'core/libraries/flashmessage.php',
-		'joosHit' => 'core/libraries/hit.php',		
+		'joosHit' => 'core/libraries/hit.php',
 		'joosHTML' => 'core/libraries/html.php',
 		'joosImage' => 'core/libraries/image.php',
 		'joosInputFilter' => 'core/libraries/inputfilter.php',
 		'joosAutoAdmin' => 'core/libraries/autoadmin.php',
 		'joosMetainfo' => 'core/libraries/metainfo.php',
 		'joosNestedSet' => 'core/libraries/nestedset.php',
-		'joosPager' => 'core/libraries/pager.php',		
+		'joosPager' => 'core/libraries/pager.php',
 		'joosParams' => 'core/libraries/params.php',
 		'joosRequest' => 'core/libraries/request.php',
 		'joosSession' => 'core/libraries/session.php',
@@ -70,24 +66,16 @@ class joosAutoloader {
 	);
 	private static $_debug = true;
 
-	public static function instance() {
-
-		if (self::$_instance === NULL) {
-			self::$_instance = new self;
-		}
-		return self::$_instance;
-	}
-
 	public static function init() {
-		self::instance();
+		spl_autoload_register(array(new self, 'autoload'));
 	}
 
 	private function __construct() {
-		spl_autoload_register(array($this, 'autoload'));
+		
 	}
 
 	private function __clone() {
-
+		
 	}
 
 	public static function autoload($class) {
@@ -116,24 +104,60 @@ class joosAutoloader {
 	}
 
 	private static function get_class_dinamic_path($class) {
-		//echo $class.'<br />';
 
 		$file = '';
 		if (strpos($class, 'admin', 0) === 0) {
 			$name = str_replace('admin', '', $class);
 			$name = strtolower($name);
-			$file = 'app' . DS . 'components/' . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
+			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
 		} elseif (strpos($class, 'actions', 0) === 0) {
 			$name = str_replace('actions', '', $class);
 			$name = strtolower($name);
-			$file = 'app' . DS . 'components/' . $name . DS . 'controller.' . $name . '.php';
+			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
+		} elseif (strpos($class, 'joos', 0) === 0) {
+			$name = str_replace('joos', '', $class);
+			$name = strtolower($name);
+			$file = 'core' . DS . 'libraries' . DS . $name . '.php';
 		} else {
 			$name = strtolower($class);
-			$file = 'app' . DS . 'components/' . $name . DS . 'models' . DS . 'model.' . $name . '.php';
+			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
 		}
 
 		return $file;
-		die();
+	}
+
+	/**
+	 * Преобразование названия вложенной модели
+	 * Требуется для определения файла содержащего множественный модели единого контроллера
+	 * @example UserGroops => User_Groops
+	 * 
+	 * @param type $string
+	 * @return string
+	 */
+	private static function underscore($string) {
+		return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string));
+	}
+
+	/**
+	 * Предстартовая загрузка необходимого списка 
+	 * 
+	 * @example joosAutoloader( array('text','array','acl') )
+	 * 
+	 * @param array $names
+	 * @return void
+	 */
+	public static function libraries_load_on_start(array $names = array()) {
+
+		foreach ($names as $name) {
+
+			$file = JPATH_BASE . 'core' . DS . 'libraries' . $names . '.php';
+
+			if (!is_file($file)) {
+				throw new AutoloaderOnStartFileNotFoundException(sprintf(__(), $names, $file));
+			}
+
+			require_once ($helper_file);
+		}
 	}
 
 }
@@ -142,13 +166,19 @@ class joosAutoloader {
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
 class AutoloaderFileNotFoundException extends joosException {
-
+	
 }
 
 /**
  * Обработка исключений отсутсвия нужных классов в найденных файлах автозагрузчика
  */
 class AutoloaderClassNotFoundException extends joosException {
-
+	
 }
 
+/**
+ * Обработка исключений отсутствующих классов при работе автозагрузчика
+ */
+class AutoloaderOnStartFileNotFoundException extends joosException {
+	
+}

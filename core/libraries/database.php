@@ -23,7 +23,7 @@ class joosDatabase {
 	 * Объект активного соединения с базой данных
 	 * @var joosDatabase
 	 */
-	protected static $instance;
+	private static $instance;
 	/**
 	 * Переменныя хранения активной или готовящейся к выполнению SQL команды
 	 * @var string
@@ -129,18 +129,7 @@ class joosDatabase {
 
 		// отметка получения инстенции базы данных
 		JDEBUG ? joosDebug::inc('joosDatabase::instance()') : null;
-		/*
-		  if (function_exists('debug_backtrace')) {
-		  $n = true;
-		  foreach (debug_backtrace() as $back) {
-		  if ( $n && @$back['file']) {
-		  JDEBUG ? joosDebug::inc('joosDatabase::instance()->'.$back['file'].': '.$back['line']) : null;
-		  $n = false;
-		  }
-		  }
-		  $n = true;
-		  }
-		 */
+
 		if (self::$instance === NULL) {
 			$db_config = joosConfig::get('db');
 			$database = new joosDatabase($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name'], $db_config['prefix'], $db_config['debug']);
@@ -403,7 +392,7 @@ class joosDatabase {
 			}
 			if (($array = mysqli_fetch_assoc($cur))) {
 				mysqli_free_result($cur);
-				self::bind_array_to_object($array, $object, null, null, false);
+				$this->bind_array_to_object($array, $object, null, null, false);
 				return true;
 			} else {
 				return false;
@@ -648,7 +637,7 @@ class joosDatabase {
 	 * @param bool $checkSlashes флаг экранизации значений через addslashes
 	 * @return bool результат предразования
 	 */
-	public static function bind_array_to_object(array $array, &$obj, $ignore = '', $prefix = null, $checkSlashes = false) {
+	public function bind_array_to_object(array $array, &$obj, $ignore = '', $prefix = null, $checkSlashes = false) {
 
 		$ignore = ' ' . $ignore . ' ';
 		foreach (get_object_vars($obj) as $k => $v) {
@@ -904,7 +893,7 @@ class joosModel {
 	 * @param string $table название используемой таблицы, можно с преффиксом, например #__news
 	 * @param string $key Название поля первичного ключа таблицы,
 	 */
-	public function joosDBModel($table, $key) {
+	public function __construct($table, $key) {
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
 		$this->_db = joosDatabase::instance();
@@ -1044,7 +1033,7 @@ class joosModel {
 	 * @return boolean результат заполнения
 	 */
 	function bind(array $array, $ignore = '') {
-		return joosDatabase::bind_array_to_object($array, $this, $ignore);
+		return $this->_db->bind_array_to_object($array, $this, $ignore);
 	}
 
 	/**

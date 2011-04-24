@@ -52,7 +52,7 @@ class Faq extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__faq', 'id');
+		parent::__construct('#__faq', 'id');
 	}
 
 }

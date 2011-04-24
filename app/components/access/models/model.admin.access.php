@@ -49,7 +49,7 @@ class Access extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__access', 'id');
+		parent::__construct('#__access', 'id');
 	}
 
 	public function check() {

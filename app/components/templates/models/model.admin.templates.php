@@ -35,7 +35,7 @@ class adminTemplates extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__templates', 'id');
+		parent::__construct('#__templates', 'id');
 	}
 
 	public function check() {
@@ -126,7 +126,7 @@ class TemplatePositions extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosDBModel('#__template_positions', 'id');
+		parent::__construct('#__template_positions', 'id');
 	}
 
 	public function check() {

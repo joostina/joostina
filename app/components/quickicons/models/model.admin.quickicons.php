@@ -81,7 +81,7 @@ class adminQuickicons extends Quickicons {
 				'html_table_element_param' => array(),
 				'html_edit_element' => 'extra',
 				'html_edit_element_param' => array(
-					'call_from' => 'Quickicons::get_href_helper'
+					'call_from' => 'adminQuickicons::get_href_helper'
 				),
 			),
 			'ordering' => array(
@@ -123,11 +123,11 @@ class adminQuickicons extends Quickicons {
 				'in_admintable' => true,
 				'html_edit_element' => 'option',
 				'html_edit_element_param' => array(
-					'call_from' => 'Quickicons::get_usergroup'
+					'call_from' => 'adminQuickicons::get_usergroup'
 				),
 				'html_table_element' => 'one_from_array',
 				'html_table_element_param' => array(
-					'call_from' => 'Quickicons::get_usergroup'
+					'call_from' => 'adminQuickicons::get_usergroup'
 				),
 			),
 			'icon' => array(
@@ -138,7 +138,7 @@ class adminQuickicons extends Quickicons {
 				'html_table_element_param' => array(),
 				'html_edit_element' => 'extra',
 				'html_edit_element_param' => array(
-					'call_from' => 'Quickicons::get_icon_list'
+					'call_from' => 'adminQuickicons::get_icon_list'
 				),
 			),
 		);
@@ -263,15 +263,16 @@ class Quickicons extends joosModel {
 	 * @var int(3)
 	 */
 	public $gid;
+	
 	// каталог размещения значков для кнопок быстрого доступа
-	private static $ico_dir = "/media/images/icons/32x32/candy";
+	protected static $ico_dir = "/media/images/icons/32x32/candy";
 
 	/*
 	 * Constructor
 	 * @param object Database object
 	 */
 	function __construct() {
-		$this->joosDBModel('#__quickicons', 'id');
+		parent::__construct('#__quickicons', 'id');
 	}
 
 }

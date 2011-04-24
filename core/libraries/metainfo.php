@@ -52,7 +52,7 @@ class joosMetainfo extends joosModel {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->joosModel('#__metainfo', 'id');
+		parent::__construct('#__metainfo', 'id');
 	}
 
 	public function check() {

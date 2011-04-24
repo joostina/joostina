@@ -20,7 +20,7 @@ class actionsAdminMetainfo {
 
 	/**
 	 * Название обрабатываемой модели
-	 * @var joosDBModel модель
+	 * @var joosModel модель
 	 */
 	public static $model = 'joosMetainfo';
 	/**

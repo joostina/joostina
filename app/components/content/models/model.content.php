@@ -73,7 +73,7 @@ class Content extends joosModel {
 	 * @param object Database object
 	 */
 	function __construct() {
-		$this->joosDBModel('#__content', 'id');
+		parent::__construct('#__content', 'id');
 	}
 
 	public static function get_types() {

@@ -83,7 +83,7 @@ class joosNestedSet extends joosModel {
 	 * @return     void
 	 */
 	public function __construct($params) {
-		$this->joosDBModel($params['table'], 'id');
+		parent::__construct($params['table'], 'id');
 
 		$this->params = array('nid' => 'id',
 			'l' => 'lft',

@@ -53,7 +53,7 @@ class adminCoder {
 		$buffer[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
 
 		$buffer[] = "\n */";
-		$buffer[] = "\nclass $className extends joosDBModel {";
+		$buffer[] = "\nclass $className extends joosModel {";
 		foreach ($table_fields as $k => $v) {
 			$buffer[] = "\n	/**";
 			$buffer[] = "\n	 * @var $v";
@@ -68,7 +68,7 @@ class adminCoder {
 		//$buffer[] = "\n	 * @param object Database object";
 		$buffer[] = "\n	 */";
 		$buffer[] = "\n	function __construct(){";
-		$buffer[] = "\n		\$this->joosDBModel( '#__$tableName', 'id' );";
+		$buffer[] = "\n		\parent::__construct( '#__$tableName', 'id' );";
 		$buffer[] = "\n	}";
 
 		$buffer[] = "\n\n	public function check() {";

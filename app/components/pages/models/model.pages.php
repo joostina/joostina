@@ -28,7 +28,7 @@ class Pages extends joosModel {
 	public $state;
 
 	function __construct() {
-		$this->joosDBModel('#__pages', 'id');
+		parent::__construct('#__pages', 'id');
 	}
 
 	function check() {

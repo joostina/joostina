@@ -12,9 +12,10 @@ define('_JOOS_CORE', 1);
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
-define('JPATH_BASE', dirname(dirname(__FILE__)));
+// корень файлов
+define('JPATH_BASE', dirname( __DIR__ ));
 // корень файлов админкиы
-define('JPATH_BASE_ADMIN', dirname(__FILE__));
+define('JPATH_BASE_ADMIN', __DIR__ );
 
 //require_once (JPATH_BASE . DS . 'configuration.php');
 // для совместимости
