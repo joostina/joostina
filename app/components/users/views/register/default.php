@@ -76,6 +76,6 @@ joosDocument::$data['footer'][] = $register_js_code;
 <dd><input class="inputbox" type="password" name="password2" id="password2_f" size="40" value="" /></dd>-->
         </dl>
         <input type="submit" value="<?php echo _BUTTON_SEND_REG; ?>" class="button"/>
-        <input type="hidden" name="<?php echo joosSpoof::get_code() ?>" value="1"/>
+        <input type="hidden" name="<?php echo joosCSRF::get_code() ?>" value="1"/>
     </form>
 </div>

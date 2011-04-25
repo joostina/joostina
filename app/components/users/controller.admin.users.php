@@ -135,7 +135,7 @@ class actionsCurrent {
 	}
 
 	public static function save($option, $redirect = 0) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		joosAutoAdmin::$model = self::$model;
 
@@ -172,7 +172,7 @@ class actionsCurrent {
 	}
 
 	public static function remove($option) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$cid = joosRequest::array_param('cid');
 

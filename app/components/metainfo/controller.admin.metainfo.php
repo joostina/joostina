@@ -81,7 +81,7 @@ class actionsAdminMetainfo {
 	 */
 	public static function save($option, $redirect = 0) {
 
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 

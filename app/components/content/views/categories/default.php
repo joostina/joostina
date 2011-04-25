@@ -115,6 +115,6 @@ $ico = JPATH_SITE . '/' . JADMIN_BASE . '/components/content/media/ico/' ?>
     echo forms::hidden('option', 'content');
     echo forms::hidden('model', 'ContentCategories');
     echo forms::hidden('task', '');
-    echo forms::hidden(joosSpoof::get_code(), 1);
+    echo forms::hidden(joosCSRF::get_code(), 1);
     ?>
 </form>

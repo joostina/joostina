@@ -13,9 +13,9 @@ define('_JOOS_CORE', 1);
 define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
 // корень файлов
-define('JPATH_BASE', dirname( __DIR__ ));
+define('JPATH_BASE', dirname(__DIR__));
 // корень файлов админкиы
-define('JPATH_BASE_ADMIN', __DIR__ );
+define('JPATH_BASE_ADMIN', __DIR__);
 
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
@@ -30,7 +30,6 @@ header("Cache-Control: no-cache, must-revalidate ");
 
 $option = joosRequest::param('option');
 $task = joosRequest::param('task', 'index');
-
 
 // mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
 $mainframe = joosMainframe::instance(true);
@@ -47,7 +46,8 @@ if (!$my->id) {
 }
 
 ob_start();
-// файл обработки Ajax запрсоов конкретного компонента
+
+// файл обработки Ajax запросов конкретного компонента
 $file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'controller.admin.' . $option . '.ajax.php';
 
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса

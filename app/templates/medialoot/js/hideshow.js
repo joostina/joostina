@@ -25,11 +25,11 @@ $(document).ready(function() {
 		// change the link text depending on whether the element is shown or hidden
 		if ($(this).text()==showText) {
 			$(this).text(hideText);
-			$(this).parent().next('.toggle').slideDown('fast');
+			$(this).parent().next('.toggle').show('fast');
 		}
 		else {
 			$(this).text(showText);
-			$(this).parent().next('.toggle').slideUp('fast');
+			$(this).parent().next('.toggle').hide('fast');
 		}
 
 		// return false so any link destination is not followed

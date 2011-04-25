@@ -135,7 +135,7 @@ class actionsAdminCategories {
 	 */
 	public static function save_this($option, $redirect = 0) {
 
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj = new self::$model;
 

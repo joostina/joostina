@@ -101,6 +101,6 @@ endif; ?>
     echo forms::hidden('model', 'Categories');
     echo forms::hidden('task', '');
     echo forms::hidden('group', $cats->group);
-    echo forms::hidden(joosSpoof::get_code(), 1);
+    echo forms::hidden(joosCSRF::get_code(), 1);
     ?>
 </form>

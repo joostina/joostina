@@ -12,6 +12,7 @@ defined('_JOOS_CORE') or die();
  * @subpackage Libraries
  * @subpackage joosModel
  * @subpackage joosDatabase
+ * @category Libraries
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -46,8 +47,9 @@ class joosTrash extends joosModel {
 		$_tbl_key = $obj->_tbl_key;
 
 		// если у удаляемого объекта отсутствует ключ - то объет не определён
-		if (!$obj_original->$_tbl_key)
+		if (!$obj_original->$_tbl_key){
 			return false;
+		}
 
 		// удаляем объект базы данных
 		unset($obj->_db, $obj->_error);

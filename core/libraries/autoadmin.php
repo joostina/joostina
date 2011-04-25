@@ -120,7 +120,8 @@ class joosAutoAdmin {
 		echo joosHTML::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
 
 		// подключаем js код библиотеки
-		joosDocument::instance()->add_js_file(JPATH_SITE . '/core/lib/listing/autoadmin/media/js/autoadmin.js');
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
 
 		$fields_info = $obj->get_fieldinfo();
 
@@ -183,7 +184,7 @@ class joosAutoAdmin {
 		echo forms::hidden('task', '');
 		echo forms::hidden('boxchecked', '');
 		echo forms::hidden('obj_name', get_class($obj));
-		echo forms::hidden(joosSpoof::get_code(), 1);
+		echo forms::hidden(joosCSRF::get_code(), 1);
 		echo forms::close();
 	}
 
@@ -276,7 +277,7 @@ class joosAutoAdmin {
 		echo forms::hidden('option', $option) . "\t";
 		echo forms::hidden('model', self::$model) . "\t";
 		echo forms::hidden('task', 'save') . "\t";
-		echo forms::hidden(joosSpoof::get_code(), 1); // элемент защиты от XSS
+		echo forms::hidden(joosCSRF::get_code(), 1); // элемент защиты от XSS
 		//Конец общего контейнера
 		echo $params['wrap_end'];
 
@@ -760,9 +761,9 @@ class mosMenuBar {
 			}
 		?><li><a class="tb-custom-x<?php echo $class; ?>"
 					   href="<?php echo $href; ?>"><span><?php echo $alt; ?></span></a></li><?php
-		}
+	}
 
-		public static function addNew($task = 'new', $alt = _NEW) {
+	public static function addNew($task = 'new', $alt = _NEW) {
 		?><li><a class="tb-add-new"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -873,9 +874,9 @@ class mosMenuBar {
 		public static function apply($task = 'apply', $alt = _APPLY) {
 		?><li><a class="tb-apply"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-		}
+	}
 
-		public static function save($task = 'save', $alt = _SAVE) {
+	public static function save($task = 'save', $alt = _SAVE) {
 		?><li><a class="tb-save"
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
 		}
@@ -902,9 +903,9 @@ class mosMenuBar {
 
 		public static function divider() {
 		?><li>&nbsp;|&nbsp;</li><?php
-		}
+	}
 
-		public static function media_manager($directory = '', $alt = _TASK_UPLOAD) {
+	public static function media_manager($directory = '', $alt = _TASK_UPLOAD) {
 		?><li><a class="tb-media-manager" href="joiadmin.php#"
 					   onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>&amp;t=<?php echo JTEMPLATE; ?>','win1',250,100,'no');"><span><?php echo $alt; ?></span></a></li><?php
 	}

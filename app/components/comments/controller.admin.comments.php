@@ -70,7 +70,7 @@ class actionsAdminComments {
 	 * Сохранение отредактированного или созданного объекта
 	 */
 	public static function save($option, $id, $page, $task, $create_new = false) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 		$obj_data->save($_POST);
@@ -86,7 +86,7 @@ class actionsAdminComments {
 	 * Удаление одного или группы объектов
 	 */
 	public static function remove($option) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		// идентификаторы удаляемых объектов
 		$cid = joosRequest::array_param('cid');

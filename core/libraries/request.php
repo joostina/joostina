@@ -10,6 +10,7 @@ defined('_JOOS_CORE') or die();
  * @version 1.0
  * @package Joostina.Libraries
  * @subpackage Libraries
+ * @category Libraries
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -169,7 +170,7 @@ class joosRequest {
 	 * @return bool результат проверки
 	 */
 	public static function is_get() {
-		return (bool) 'GET' == self::server('REQUEST_METHOD');
+		return 'GET' === strtoupper(self::server('REQUEST_METHOD'));
 	}
 
 	/**
@@ -177,7 +178,7 @@ class joosRequest {
 	 * @return bool результат проверки
 	 */
 	public static function is_post() {
-		return (bool) 'POST' == self::server('REQUEST_METHOD');
+		return 'POST' == strtoupper(self::server('REQUEST_METHOD'));
 	}
 
 	/**
@@ -185,7 +186,7 @@ class joosRequest {
 	 * @return bool результат проверки
 	 */
 	public static function is_put() {
-		return (bool) 'PUT' == self::server('REQUEST_METHOD');
+		return 'PUT' == strtoupper(self::server('REQUEST_METHOD'));
 	}
 
 	/**
@@ -193,7 +194,7 @@ class joosRequest {
 	 * @return bool результат проверки
 	 */
 	public static function is_delete() {
-		return (bool) 'DELETE' == self::server('REQUEST_METHOD');
+		return 'DELETE' == strtoupper(self::server('REQUEST_METHOD'));
 	}
 
 	/**
@@ -201,7 +202,7 @@ class joosRequest {
 	 * @return bool результат проверки
 	 */
 	public static function is_ajax() {
-		return (bool) 'xmlhttprequest' == strtolower(self::header('X_REQUESTED_WITH'));
+		return 'xmlhttprequest' == strtolower(self::header('X_REQUESTED_WITH'));
 	}
 
 	/**
@@ -209,7 +210,7 @@ class joosRequest {
 	 * @return bool результат проверки
 	 */
 	public static function is_https() {
-		return (bool) 'https' === self::protocol();
+		return 'https' == self::protocol();
 	}
 
 	/**

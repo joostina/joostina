@@ -86,7 +86,7 @@ class actionsAdminParams {
 	 */
 	public static function save_this($option, $redirect = 0) {
 
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 		$_POST['data'] = json_encode($_POST['data']);

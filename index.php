@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Frontend - точка входа
  *
@@ -9,26 +10,21 @@
  * @version SVN: $Id: index.php 232 2011-03-12 12:20:47Z LeeHarvey $
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
-
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
 
 // корень файлов
-define('JPATH_BASE', __DIR__ );
+define('JPATH_BASE', __DIR__);
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 
 // рассчет памяти
 function_exists('memory_get_usage') ? define('_MEM_USAGE_START', memory_get_usage()) : null;
 
-$mosConfig_time_generate = true;
-
-// считаем время за которое сгенерирована страница
-$mosConfig_time_generate ? $sysstart = microtime(true) : null;
+$sysstart = TRUE ? microtime(true) : null;
 
 // подключение главного файла - ядра системы
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
-// классы работы фронта сайта
 require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
 
 // загрузка файла русского языка по умолчанию
@@ -36,7 +32,6 @@ require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
 joosLoader::lang('system');
 
 joosController::init();
-joosRoute::route();
 
 // mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
 joosMainframe::instance();
@@ -59,17 +54,17 @@ echo joosDocument::$data['html_body'];
 // вывод лога отладки
 if (JDEBUG) {
 
-    // подсчет израсходованной памяти
-    if (defined('_MEM_USAGE_START')) {
-        $mem_usage = (memory_get_usage() - _MEM_USAGE_START);
+	// подсчет израсходованной памяти
+	if (defined('_MEM_USAGE_START')) {
+		$mem_usage = (memory_get_usage() - _MEM_USAGE_START);
 		$mem_usage = joosFile::convert_size($mem_usage);
-    } else {
-        $mem_usage = 'недоступно';
-    }
+	} else {
+		$mem_usage = 'недоступно';
+	}
 
-    // подсчет времени генерации страницы
-    joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
+	// подсчет времени генерации страницы
+	joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
 
-    // вывод итогового лога отлатчика
+	// вывод итогового лога отлатчика
 	joosDebug::get();
 }

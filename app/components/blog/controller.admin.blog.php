@@ -67,7 +67,7 @@ class actionsAdminBlog {
 	 */
 	public static function save($option, $id, $page, $task, $redirect = 0) {
 
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
@@ -109,7 +109,7 @@ class actionsAdminBlog {
 	 * Удаление одного или группы объектов
 	 */
 	public static function remove($option) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		// идентификаторы удаляемых объектов
 		$cid = (array) joosRequest::array_param('cid');

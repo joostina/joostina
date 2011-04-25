@@ -17,13 +17,8 @@ defined('_JOOS_CORE') or die();
 require JPATH_BASE . DS . 'core' . DS . 'exception.php';
 // Автозагрузчик
 require JPATH_BASE . DS . 'core' . DS . 'autoloader.php';
-joosAutoloader::init();
 // предстартовые конфигурации
 require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
-// ядро
-require JPATH_BASE . DS . 'core' . DS . 'extraroute.php';
-// роутер
-require_once (JPATH_BASE . DS . 'app' . DS . 'route.php');
 
 /**
  * Корневой клас ядра Joostina!
@@ -714,6 +709,8 @@ class joosLoader {
  * Базовый контроллер Joostina CMS
  * @package Joostina
  * @subpackage Contlroller
+ * 
+ * @todo разделить/расширить инициализации контроллера для front, front-ajax, admin, admin-ajax
  */
 class joosController {
 
@@ -724,11 +721,10 @@ class joosController {
 	public static $error = false;
 	private static $jsondata = array('extradata' => array());
 
+	
 	public static function init() {
-		//
 		joosDocument::header();
-		// инициализируем соединение с базой
-		//joosDatabase::instance();
+		joosRoute::route();
 	}
 
 	/**
@@ -805,44 +801,17 @@ class joosController {
 
 	private static function views(array $params, $option, $task) {
 
-		//Это для того, чтобы просто пропускать аяксовые запросы через основной контроллер
-		if (!joosRequest::is_ajax()) {
-			//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
-			self::prepare_modules_for_current_page($params, $option, $task);
-		}
-
-		if (joosRequest::is_ajax()) {
-			ob_start();
-			self::as_html($params, $option, $task);
-			$jsob_body = ob_get_contents();
-			ob_end_clean();
-
-			$json = self::$jsondata;
-			$json += array(joosConfig::get2('ajax', 'component_dom', '#component') => $jsob_body,);
-
-			$json['extradata']['title'] = joosDocument::get_title();
-			$json += joosModule::load_for_ajax();
-
-			//$json += isset($params['core::extradata']) ? array('extradata' => $params['core::extradata']) : array();
-			$json['extradata'] += isset($params['core::extradata']) ? $params['core::extradata'] : array();
-
-			$js_code = joosDocument::instance()->js_code();
-			if ($js_code) {
-				$json['extradata']['js_code'] = $js_code;
-			}
-
-
-			echo json_encode($json);
-			exit();
-		}
+		//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
+		self::prepare_modules_for_current_page($params, $option, $task);
 
 		(isset($params['as_json']) && $params['as_json'] == true) ? self::as_json($params) : self::as_html($params, $option, $task);
 	}
 
 	private static function as_html(array $params, $option, $task) {
+
 		$template = isset($params['template']) ? $params['template'] : 'default';
 		$views = isset($params['task']) ? $params['task'] : $task;
-		;
+
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'views' . DS . $views . DS . $template . '.php';
 
@@ -1198,6 +1167,10 @@ function mosErrorAlert($text, $action = 'window.history.go(-1);', $mode = 1) {
 	$text = strip_tags($text);
 
 	switch ($mode) {
+		case 3:
+			joosRoute::redirect(JPATH_SITE_ADMIN, __($text));
+			break;
+
 		case 2:
 			echo "<script>$action</script> \n";
 			break;

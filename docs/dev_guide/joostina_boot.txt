@@ -1,0 +1,18 @@
+Последовательность загрузки Joostina CMS
+
+index.php
+-> joostina.php
+-> exception.php
+-> autoloader.php
+--> bootstrap.php -> spl_autoload_register( joosAutoloader )  -> joosConfig::init()
+---> joosController::init();
+---> joosDocument::header();
+---> joosRoute::route();
+----> joosController::run();
+-----> template
+
+
+При старте системы можно указать список необходимых библиотек для постоянной загрузки. для этого в файле *** надо прописать:
+[code lang="php"]
+joosAutoloader::libraries_load_on_start( array('text', 'session') );
+[code]

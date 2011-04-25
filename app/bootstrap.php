@@ -17,6 +17,8 @@ defined('_JOOS_CORE') or die();
 // язык сайта
 DEFINE('JLANG', 'russian');
 
+spl_autoload_register(array(new joosAutoloader, 'autoload'));
+
 // сначала инициализация базовой конфигурации
 joosConfig::init();
 
@@ -70,9 +72,10 @@ DEFINE('_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S');
 DEFINE('_CURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
 
 // пробуем устанавить более удобный режим работы
-if(version_compare(PHP_VERSION, '5.3.0', '<')) {
+if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 	set_magic_quotes_runtime(0);
 }
+
 // установка режима отображения ошибок
 JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
 
@@ -82,17 +85,8 @@ DEFINE('_USERNAME_REGEX', '/^[a-zA-Zа-яА-Я0-9_-]{3,25}$/iu');
 // секретная фраза для хеширования
 DEFINE('_SECRET_CODE', 'i-love-joostina');
 
+/**
+*  Авто-загружаемые библиотеки
+* joosAutoloader::libraries_load_on_start( array('text', 'session') );
+**/
 
-/*
-| -------------------------------------------------------------------
-|  Авто-загружаемые библиотеки
-| -------------------------------------------------------------------
-| These are the classes located in the system/libraries folder
-| or in your application/libraries folder.
-|
-| Prototype:
-|
-|	$autoload['libraries'] = array('joosDatabase', 'session', 'xmlrpc');
-*/
-
-//$autoload['libraries'] = array();

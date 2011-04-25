@@ -72,7 +72,7 @@ joosDocument::instance()->add_js_code($register_js_code);
             <input type="hidden" name="return" value="<?php echo JPATH_SITE ?>"/>
             <input type="hidden" name="message" value="aaaa"/>
             <input type="hidden" name="force_session" value="1"/>
-            <input type="hidden" name="<?php echo joosSpoof::get_code(1); ?>" value="1"/>
+            <input type="hidden" name="<?php echo joosCSRF::get_code(1); ?>" value="1"/>
         </form>
     </div>
 

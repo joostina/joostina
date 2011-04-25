@@ -38,6 +38,6 @@ defined('_JOOS_CORE') or die();
         </dl>
 
         <span class="button"><input type="submit" value="Восстановить пароль" class="button"/></span>
-        <input type="hidden" name="<?php echo joosSpoof::get_code() ?>" value="1"/>
+        <input type="hidden" name="<?php echo joosCSRF::get_code() ?>" value="1"/>
     </form>
 </div>

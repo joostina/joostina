@@ -12,17 +12,11 @@ define('_JOOS_CORE', 1);
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
-// корень файлов
-define('JPATH_BASE', dirname( __DIR__ ));
+define('JPATH_BASE', dirname(__DIR__));
 // корень файлов админкиы
-define('JPATH_BASE_ADMIN', __DIR__ );
-
-//require_once (JPATH_BASE . DS . 'configuration.php');
-// для совместимости
-$mosConfig_absolute_path = JPATH_BASE;
+define('JPATH_BASE_ADMIN', __DIR__);
 
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
-require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
 
@@ -48,8 +42,10 @@ if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
 }
 
 
-if (isset($_POST['submit'])) {
+if ( joosRequest::is_post() ) {
 
+	joosCSRF::check_code('admin_login');
+	
 	$usrname = joosRequest::post('username');
 	$pass = joosRequest::post('password');
 

@@ -931,7 +931,7 @@ class HTML_config
     <input type="hidden" name="config_auto_activ_login" value="0"/>
     <input type="hidden" name="config_multilingual_support" value="<?php echo $row->config_multilingual_support ?>"/>
     <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="<?php echo joosSpoof::get_code(); ?>" value="1"/>
+    <input type="hidden" name="<?php echo joosCSRF::get_code(); ?>" value="1"/>
     </form>
     </div>
         <?php

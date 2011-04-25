@@ -125,7 +125,7 @@ class actionsAdminSearch {
 	 */
 	private static function save_this($option, $redirect = 0) {
 
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 
@@ -195,7 +195,7 @@ class actionsAdminSearch {
 	 * @return
 	 */
 	public static function remove($option) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		//идентификаторы удаляемых объектов
 		$cid = (array) joosRequest::array_param('cid');

@@ -155,7 +155,7 @@ class actionsUsers extends joosController {
 	 */
 	public static function logout() {
 
-		joosSpoof::check_code(1);
+		joosCSRF::check_code(1);
 
 		Users::logout();
 

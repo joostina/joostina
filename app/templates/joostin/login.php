@@ -50,9 +50,9 @@ joosDocument::instance()
 					</div>
 
 				</div>
+				<input type="hidden" value="1" name="<?php echo joosCSRF::get_code('admin_login') ?>" />
 			</form>
 		</div>
-
 
 		<div align="center">
 			<noscript>

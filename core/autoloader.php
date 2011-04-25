@@ -49,6 +49,7 @@ class joosAutoloader {
 		'joosPager' => 'core/libraries/pager.php',
 		'joosParams' => 'core/libraries/params.php',
 		'joosRequest' => 'core/libraries/request.php',
+		'joosRoute' => 'core/libraries/route.php',
 		'joosSession' => 'core/libraries/session.php',
 		'joosSpoof' => 'core/libraries/spoof.php',
 		'joosString' => 'core/libraries/string.php',
@@ -68,10 +69,6 @@ class joosAutoloader {
 
 	public static function init() {
 		spl_autoload_register(array(new self, 'autoload'));
-	}
-
-	private function __construct() {
-		
 	}
 
 	private function __clone() {
@@ -150,13 +147,13 @@ class joosAutoloader {
 
 		foreach ($names as $name) {
 
-			$file = JPATH_BASE . 'core' . DS . 'libraries' . $names . '.php';
+			$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
 
 			if (!is_file($file)) {
-				throw new AutoloaderOnStartFileNotFoundException(sprintf(__(), $names, $file));
+				throw new AutoloaderOnStartFileNotFoundException(sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name));
 			}
 
-			require_once ($helper_file);
+			require_once ($file);
 		}
 	}
 

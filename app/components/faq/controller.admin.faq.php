@@ -123,7 +123,7 @@ class actionsAdminFaq {
 	 */
 	private static function save_this($option, $redirect = 0) {
 
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 
@@ -189,7 +189,7 @@ class actionsAdminFaq {
 	 * @return
 	 */
 	public static function remove($option) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		//идентификаторы удаляемых объектов
 		$cid = (array) joosRequest::array_param('cid');
@@ -212,7 +212,7 @@ class actionsAdminFaq {
 	 * @return
 	 */
 	public static function copy($option) {
-		joosSpoof::check_code();
+		joosCSRF::check_code();
 
 		//идентификаторы удаляемых объектов
 		$cid = (array) joosRequest::array_param('cid');

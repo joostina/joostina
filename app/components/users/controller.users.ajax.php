@@ -96,7 +96,7 @@ class actionsAjaxUsers extends joosController {
 	}
 
 	public static function logout() {
-		joosSpoof::check_code(1);
+		joosCSRF::check_code(1);
 		Users::logout();
 		echo json_encode(array('success' => 'всё пучком'));
 	}

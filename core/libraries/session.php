@@ -11,6 +11,7 @@ defined('_JOOS_CORE') or die();
  * @package Joostina.Libraries
  * @subpackage Libraries
  * @subpackage Session
+ * @category Libraries
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -21,7 +22,7 @@ class joosSession {
 
 	private static $_userstate;
 
-	function get($key, $default = null) {
+	public static function get($key, $default = null) {
 		return joosRequest::session($key, $default);
 	}
 
@@ -49,13 +50,13 @@ class joosSession {
 				// slightly reduced security - 3rd level IP authentication for those behind IP Proxy
 				$remote_addr = explode('.', $_SERVER['REMOTE_ADDR']);
 				$ip = $remote_addr[0] . '.' . $remote_addr[1] . '.' . $remote_addr[2];
-				$value = joosSpoof::hash($id . $ip . $browser);
+				$value = joosCSRF::hash($id . $ip . $browser);
 				break;
 
 			default:
 				// Highest security level - new default for 1.0.8 and beyond
 				$ip = $_SERVER['REMOTE_ADDR'];
-				$value = joosSpoof::hash($id . $ip . $browser);
+				$value = joosCSRF::hash($id . $ip . $browser);
 				break;
 		}
 
