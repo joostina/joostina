@@ -234,4 +234,11 @@ class joosRequest {
 		return false;
 	}
 
+	/**
+	 * @todo реализовать, документировать
+	 */
+	public static function send_headers(){
+		
+	}
+	
 }

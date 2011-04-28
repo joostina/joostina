@@ -55,32 +55,23 @@ DEFINE('JDEBUG', true);
 
 if (JDEBUG) {
 	// отлаживаем по максимуму
-	error_reporting(E_ALL & ~E_DEPRECATED);
+	error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT  );
 	//error_reporting((JDEBUG ? E_ALL ^ E_STRICT : 0));
 	ini_set('display_errors', 1);
-	//require_once 'exception.php';
 }
 
 // склеивать и кешировать js+css файлы
 DEFINE('_JSCSS_CACHE', false);
 DEFINE('JFILE_ANTICACHE', '?v=1');
 
-// формат даты
-DEFINE('_CURRENT_SERVER_TIME_FORMAT', '%Y-%m-%d %H:%M:%S');
-
 // текущее время сервера
 DEFINE('_CURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
-
-// пробуем устанавить более удобный режим работы
-if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-	set_magic_quotes_runtime(0);
-}
 
 // установка режима отображения ошибок
 JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
 
 // ГЛАВНОЕ регулярное выражение для проверки логина-имени пользователя
-DEFINE('_USERNAME_REGEX', '/^[a-zA-Zа-яА-Я0-9_-]{3,25}$/iu');
+DEFINE('_USERNAME_REGEX', '/^[a-zA-Z0-9_-]{3,25}$/iu');
 
 // секретная фраза для хеширования
 DEFINE('_SECRET_CODE', 'i-love-joostina');
