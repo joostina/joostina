@@ -19,10 +19,9 @@ $sysstart = microtime(true);
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
-// корень файлов
-define('JPATH_BASE', dirname( __DIR__ ));
+define('JPATH_BASE', dirname(__DIR__));
 // корень файлов админкиы
-define('JPATH_BASE_ADMIN', __DIR__ );
+define('JPATH_BASE_ADMIN', __DIR__);
 
 // подключаем ядро
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
@@ -66,27 +65,25 @@ ob_start();
 
 // начало вывода html
 // загрузка файла шаблона
-if (!file_exists(JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php')) {
-	throw new joosException(sprintf(__('Файл index.php шаблона %s не найден'), JTEMPLATE));
+$template_file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE_ADMIN . DS . 'index.php';
+if (file_exists($template_file)) {
+	require_once $template_file;
 } else {
-	require_once (JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php');
-}
-
-
-// подсчет израсходованной памяти
-if (defined('_MEM_USAGE_START')) {
-	$mem_usage = (memory_get_usage() - _MEM_USAGE_START);
-	$mem_usage = sprintf('%0.2f', $mem_usage / 1048576) . ' MB';
-} else {
-	$mem_usage = 'недоступно';
+	throw new joosException(sprintf(__('Файл index.php шаблона %s не найден'), JTEMPLATE_ADMIN));
 }
 
 // подсчет времени генерации страницы
 if (JDEBUG) {
-	joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
-}
+	if (defined('_MEM_USAGE_START')) {
+		$mem_usage = joosFile::convert_size((memory_get_usage() - _MEM_USAGE_START));
+	} else {
+		$mem_usage = __('недоступно');
+	}
 
-// информация отладки, число запросов в БД
-JDEBUG ? joosDebug::get() : null;
+	joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round((microtime(true) - $sysstart), 5), $mem_usage));
+
+	// информация отладки, число запросов в БД
+	joosDebug::get();
+}
 
 ob_end_flush();

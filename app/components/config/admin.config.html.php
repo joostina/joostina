@@ -347,7 +347,7 @@ class HTML_config
         ?>
     <table width="100%">
         <tr>
-            <td width="185"><?php echo mosToolTip(_TIME_OFFSET2 . " " . joosDate::current(_DATE_FORMAT_LC2), '', '', '', _TIME_OFFSET)?>
+            <td width="185"><?php echo mosToolTip(_TIME_OFFSET2 . " " . joosDateTime::current(_DATE_FORMAT_LC2), '', '', '', _TIME_OFFSET)?>
                 :
             </td>
             <td><?php echo $lists['offset'];?></td>
@@ -358,7 +358,7 @@ class HTML_config
                        value="<?php echo $row->config_offset; ?>" disabled="disabled"/></td>
         </tr>
         <tr>
-            <td width="185"><?php echo mosToolTip(_CURR_DATE_TIME_RSS . ": " . joosDate::current(_DATE_FORMAT_LC2), '', '', '', _TIME_DIFF2)?>
+            <td width="185"><?php echo mosToolTip(_CURR_DATE_TIME_RSS . ": " . joosDateTime::current(_DATE_FORMAT_LC2), '', '', '', _TIME_DIFF2)?>
                 :
             </td>
             <td><?php echo $lists['feed_timeoffset']; ?></td>

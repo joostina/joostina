@@ -35,7 +35,7 @@ defined('_JOOS_CORE') or die();
                      alt="<?php echo $blog_item->username ?>"/>
                 <span class="el-user"><?php echo $blog_item->username ?></span>
             </a>
-            <span class="el-date"><?php echo joosDate::format($blog_item->created_at) ?></span>
+            <span class="el-date"><?php echo joosDateTime::format($blog_item->created_at) ?></span>
             <a href="<?php echo $href ?>#comments"
                class="el-comments"><?php echo isset($blog_item->comments) ? $blog_item->comments : 'нет комментариев' ?></a>
 

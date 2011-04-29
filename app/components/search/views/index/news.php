@@ -42,7 +42,7 @@ joosLoader::lib('text');
     <?php foreach ($results as $item) : ?>
     <?php $href = joosRoute::href('news_view', array('id' => $item->id)); ?>
     <div class="news_text">
-        <div class="date"><?php echo joosDate::format($item->created_at, '%d/%m/%Y') ?></div>
+        <div class="date"><?php echo joosDateTime::format($item->created_at, '%d/%m/%Y') ?></div>
         <h3><a href="<?php echo $href;?>"><?php echo $item->title;?></a></h3>
 
         <p><?php echo $item->introtext;?></p>

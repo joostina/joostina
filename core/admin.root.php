@@ -13,8 +13,33 @@ defined('_JOOS_CORE') or die();
 joosLoader::lang('system');
 joosLoader::lang('admin');
 
-//Грузим модули для админки
-joosModule::modules_for_backend();
+class joosModuleAdmin {
+
+	public static function load_by_name($module_name) {
+		$module_file = JPATH_BASE_APP . DS . 'modules' . DS . $module_name . DS . $module_name . '.php';
+		if (is_file($module_file)) {
+			require_once $module_file;
+		} else {
+			throw new joosException('Файл :file_name для модуля :module_name не найден',
+					array(':module_name' => $module_name, ':file_name' => $module_file)
+			);
+		}
+	}
+
+	public static function view($module_name, $template_view = 'default') {
+		return JPATH_BASE_APP . DS . 'modules' . DS . $module_name . DS . 'views' . DS . $template_view . '.php';
+	}
+
+	public static function render($module_name, array $params = array()) {
+
+		$template_view = isset($params['template']) ? $params['template'] : 'default';
+
+		extract($params, EXTR_OVERWRITE);
+
+		require_once self::view($module_name, $template_view);
+	}
+
+}
 
 /* вывод информационного поля */
 

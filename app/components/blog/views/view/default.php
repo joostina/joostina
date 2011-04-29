@@ -24,7 +24,7 @@ $image = Blog::get_image($blog);
     <div class="m-blogs_program">
         <span class="el-user"><a
                 href="<?php echo joosRoute::href('user_view', array('username' => $user->username, 'id' => $user->id)) ?>"><?php echo $user->username ?></a></span>
-        <span class="el-date"><?php echo joosDate::format($blog->created_at) ?>.</span>
+        <span class="el-date"><?php echo joosDateTime::format($blog->created_at) ?>.</span>
 
         <?php echo $blog->state == 0 ? '<span class="error">Не опубликовано</span>' : '' ?>
         <?php $edit_href = joosRoute::href('blog_edit', array('id' => $blog->id)) ?>

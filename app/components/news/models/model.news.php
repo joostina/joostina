@@ -109,7 +109,7 @@ class News extends joosModel {
 	}
 
 	public static function show_date(stdClass $obj) {
-		return joosDate::format($obj->created_at, '%d/%m/%Y');
+		return joosDateTime::format($obj->created_at, '%d/%m/%Y');
 	}
 
 	public static function get_image($item, $type = 'thumb', $image_attr = array()) {

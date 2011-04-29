@@ -20,8 +20,10 @@ class actionsTest {
 
 	public static function index() {
 
-		echo joosDate::format('2004-08-19 20:11:07');
+		echo joosDateTime::format('2004-08-19 20:11:07');
 
+		echo joosDatabase::models('Users')->count();
+		
 		die();
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));

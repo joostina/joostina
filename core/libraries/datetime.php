@@ -230,4 +230,45 @@ class joosDateTime {
 		return $all_month[$month];
 	}
 
+	/**
+	 * @todo документировать
+	 * @param type $date
+	 * @param string $format
+	 * @param type $offset
+	 * @return type 
+	 */
+	public static function format($date, $format = '', $offset = null) {
+
+		if ($date == '0000-00-00 00:00:00') {
+			return $date;
+		}
+
+		if ($format == '') {
+			$format = _DATE_FORMAT_LC;
+		}
+
+		if (is_null($offset)) {
+			$config_offset = joosConfig::get2('locale', 'offset');
+			$offset = $config_offset;
+		}
+
+		return strftime($format, strtotime($date) + ($offset * 60 * 60));
+	}
+
+	/**
+	 * @todo документировать
+	 * @param string $format
+	 * @return type 
+	 */
+	public static function current($format = "") {
+
+		$config_offset = joosConfig::get2('locale', 'offset');
+
+		if ($format == '') {
+			$format = _DATE_FORMAT_LC;
+		}
+
+		return strftime($format, time() + ($config_offset * 60 * 60));
+	}
+
 }

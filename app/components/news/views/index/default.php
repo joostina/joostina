@@ -21,7 +21,7 @@ defined('_JOOS_CORE') or die();
         <div class="news_text">
             <h3><a href="<?php echo $href;?>"><?php echo $item->title;?></a></h3>
 
-            <div class="date"><?php echo joosDate::format($item->created_at, '%d.%m.%Y') ?></div>
+            <div class="date"><?php echo joosDateTime::format($item->created_at, '%d.%m.%Y') ?></div>
             <p><?php echo $item->introtext;?></p>
         </div>
     </div>

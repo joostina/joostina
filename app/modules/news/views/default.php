@@ -19,7 +19,7 @@ defined('_JOOS_CORE') or die();
     <?php foreach ($items as $item): ?>
     <?php $view_href = joosRoute::href('news_view', array('id' => $item->id)); ?>
     <div class="news">
-        <div class="date"><?php echo joosDate::format($item->created_at, '%d/%m/%Y') ?></div>
+        <div class="date"><?php echo joosDateTime::format($item->created_at, '%d/%m/%Y') ?></div>
         <a href="<?php echo $view_href ?>"><?php echo $item->title ?></a>
     </div>
     <?php endforeach; ?>

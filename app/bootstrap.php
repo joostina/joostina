@@ -17,6 +17,7 @@ defined('_JOOS_CORE') or die();
 // язык сайта
 DEFINE('JLANG', 'russian');
 
+// регистрация автолоадера
 spl_autoload_register(array(new joosAutoloader, 'autoload'));
 
 // сначала инициализация базовой конфигурации
@@ -24,6 +25,11 @@ joosConfig::init();
 
 // http адрес сайта
 define('JPATH_SITE', joosConfig::get('live_site'));
+
+DEFINE('JPATH_BASE_APP', __DIR__);
+
+define('JTEMPLATE', joosConfig::get('template'));
+define('JTEMPLATE_ADMIN', joosConfig::get('template_admin'));
 
 // http корень для изображений
 DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
@@ -55,7 +61,7 @@ DEFINE('JDEBUG', true);
 
 if (JDEBUG) {
 	// отлаживаем по максимуму
-	error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT  );
+	error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
 	//error_reporting((JDEBUG ? E_ALL ^ E_STRICT : 0));
 	ini_set('display_errors', 1);
 }

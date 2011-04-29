@@ -41,15 +41,12 @@ class joosMainframe {
 		if ($is_admin) {
 			// указываем параметр работы в админ-панели напрямую
 			self::$is_admin = true;
-			define('JTEMPLATE', joosConfig::get('template_admin'));
 			//joosConfig::set('admin_icons_path', sprintf('%s/%s/templates/%s/media/images/ico/', JPATH_SITE, JADMIN_BASE, JTEMPLATE));
 			$option = joosRequest::param('option');
 			$this->_setAdminPaths($option);
 
-			// это что бы в админке запоминались фильтры, последние страницы   и прочие вкусняшки
+			// это что бы в админке запоминались фильтры, последние страницы и прочие вкусняшки
 			joosSession::init_user_state();
-		} else {
-			define('JTEMPLATE', joosConfig::get('template'));
 		}
 	}
 
@@ -721,7 +718,6 @@ class joosController {
 	public static $error = false;
 	private static $jsondata = array('extradata' => array());
 
-	
 	public static function init() {
 		joosDocument::header();
 		joosRoute::route();
@@ -903,220 +899,6 @@ class joosController {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $task . DS . $template . '.php';
 		is_file($viewfile) ? require ($viewfile) : null;
-	}
-
-}
-
-/**
- * Класс работы с датами
- * @package Joostina
- * @subpackage Date
- */
-class joosDate {
-
-	public static function format($date, $format = '', $offset = null) {
-
-		if ($date == '0000-00-00 00:00:00') {
-			return $date;
-		}
-
-		if ($format == '') {
-			$format = _DATE_FORMAT_LC;
-		}
-
-		if (is_null($offset)) {
-			$config_offset = joosConfig::get2('locale', 'offset');
-			$offset = $config_offset;
-		}
-
-		return strftime($format, strtotime($date) + ($offset * 60 * 60));
-	}
-
-	public static function current($format = "") {
-
-		$config_offset = joosConfig::get2('locale', 'offset');
-
-		if ($format == '') {
-			$format = _DATE_FORMAT_LC;
-		}
-
-		return strftime($format, time() + ($config_offset * 60 * 60));
-	}
-
-}
-
-// общий класс работы с модулями ( на фронте )
-class joosModule extends Modules {
-
-	private static $data = array();
-	private static $_object_data = array();
-
-	public static function get_data() {
-		return self::$data;
-	}
-
-	public static function add_array(array $modules) {
-		self::$data += $modules;
-	}
-
-	/**
-	 * Загрузка ВСЕХ модулей для текущей страницы
-	 */
-	public static function modules_by_page($controller, $method, $object_data = array()) {
-		$modules_pages = new ModulesPages;
-
-		$modules = $modules_pages->get_list(array('select' => "mp.*,m.*", 'join' =>
-					'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )', 'where' =>
-					'mp.controller = "all" OR mp.controller = "' . $controller . '"', 'order' => 'm.position, m.ordering',));
-
-
-		$by_position = array();
-		$by_name = array();
-		$by_id = array();
-
-		foreach ($modules as $module) {
-			if ($module->controller == 'all' || (!$module->method || ($module->method == $method))) {
-				$by_position[$module->position][$module->id] = $module;
-				$by_name[$module->module] = $module;
-				$by_id[$module->id] = $module;
-			}
-		}
-
-		self::$data += $by_position;
-		self::$data += $by_name;
-		self::$data += $by_id;
-
-		self::$_object_data = $object_data;
-	}
-
-	/**
-	 * Загрузка модулей админпанели
-	 */
-	public static function modules_for_backend() {
-		$modules = new Modules;
-
-		$modules = $modules->get_list(array('select' => "*", 'where' => 'state = 1 AND client_id = 1', 'order' => 'position, ordering',));
-
-
-		$by_position = array();
-		$by_name = array();
-		$by_id = array();
-
-		foreach ($modules as $module) {
-			$by_position[$module->position][$module->id] = $module;
-			$by_name[$module->module] = $module;
-			$by_id[$module->id] = $module;
-		}
-
-		self::$data += $by_position;
-		self::$data += $by_name;
-		self::$data += $by_id;
-	}
-
-	/**
-	 * Загрузка ВСЕХ модулей определённой позиции
-	 * @param string $name название позиции
-	 */
-	public static function load_by_position($name) {
-		if (self::in_position($name)) {
-			foreach (self::$data[$name] as $position_name => $module) {
-				self::module($module);
-			}
-		}
-	}
-
-	public static function load_by_name($name, $add_params = array()) {
-		if (isset(self::$data[$name])) {
-			self::module(self::$data[$name], $add_params);
-		}
-	}
-
-	public static function load_by_id($id, $add_params = array()) {
-		if (isset(self::$data[$id])) {
-			self::module(self::$data[$id], $add_params);
-		}
-	}
-
-	/**
-	 * Получение числа модулей расположенных в определённой позиции
-	 * @param string $name название позиции
-	 * @return int число модулей в выбранной позиции
-	 */
-	public static function count_by_position($name) {
-		return isset(self::$data[$name]) ? count(self::$data[$name]) : false;
-	}
-
-	/**
-	 * Проверка наличия модулей определённой позиции
-	 * @param string $name название позиции
-	 * @return bool наличие модулей в выбранной позиции
-	 */
-	public static function in_position($name) {
-		return isset(self::$data[$name]);
-	}
-
-	/**
-	 * Подключение (вывод) модуля в тело страницы
-	 * @var module stdClass Объект модуля
-	 */
-	public static function module($module = null, $add_params = array()) {
-
-		if (!$module) {
-			return;
-		}
-
-		//Определяем имя главного исполняемого файла модуля
-		$name = $module->module ? $module->module : 'custom';
-		$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . $name . '.php';
-
-		//Пытаемся сразу определить шаблон для вывода
-		$module->template_path = self::module_template($module);
-
-
-		//Разворачиваем параметры модуля
-		$params = json_decode($module->params, true);
-		if ($add_params) {
-			$params = array_merge($params, $add_params);
-		}
-
-		$object_data = self::$_object_data;
-
-		//Подключаем модуль
-		is_file($file) ? require ($file) : null;
-	}
-
-	/**
-	 * Определение имени шаблона для вывода
-	 * @var name str Имя модуля
-	 * @var params array Массив параметров
-	 */
-	private static function module_template($module) {
-		$_tpl = $module->template ? $module->template : 'default';
-		$name = $module->module ? $module->module : 'custom';
-		$_tpl_file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'views' . DS . $_tpl . '.php';
-		return is_file($_tpl_file) ? $_tpl_file : null;
-	}
-
-	/**
-	 * Загрузка всех активированных модулей для аякс-представления
-	 */
-	public static function load_for_ajax() {
-		$modules = array();
-		foreach (self::$data as $position => $data) {
-			if (self::in_position($position)) {
-				ob_start();
-
-				foreach (self::$data[$position] as $position_name => $position_params) {
-					$position_params = is_array($position_params) ? $position_params : array();
-					self::module($position_name, $position_params, array('hide_frame' => true));
-				}
-
-				$key = '#jpos_' . $position;
-				$modules[$key] = ob_get_contents();
-				ob_end_clean();
-			}
-		}
-		return $modules;
 	}
 
 }

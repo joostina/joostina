@@ -27,7 +27,7 @@ switch ($task) {
 			$query = "SELECT published FROM #__modules WHERE id = " . (int) $mid;
 			$published = $database->set_query($query)->load_result();
 		}
-		$cur_template = JTEMPLATE;
+		$cur_template = JPATH_SITE_ADMIN;
 		TOOLBAR_modules::_EDIT($cur_template, $published);
 		break;
 

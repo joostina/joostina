@@ -19,7 +19,9 @@ register_shutdown_function('joosfatalErrorShutdownHandler');
 //set_exception_handler(array( new joosException , 'handle'));
 
 function joosErrorHandler($code, $message, $file, $line) {
-	throw new joosException(sprintf('Ошибка %s! <br /> Код: <pre>%s</pre> Файл: %s<br />Строка %s', $message, $code, $file, $line));
+	throw new joosException(__('Ошибка :message! <br /> Код: <pre>:code</pre> Файл: :error_file<br />Строка :error_line'),
+			array(':message' => $message, ':code' => $code, ':error_file' => $file, ':error_line' => $line)
+	);
 }
 
 function joosfatalErrorShutdownHandler() {
@@ -31,15 +33,23 @@ function joosfatalErrorShutdownHandler() {
 
 // на основе http://alexmuz.ru/php-exception-code/
 class joosException extends Exception {
-	const CONTEXT_RADIUS = 5;
-	/*
-	  public function __construct($msg = '', $code = 0, Exception $previous = null) {
-	  parent::__construct($msg, (int) $code, $previous);
-	  echo $this->__toString();
-	  }
-	 */
+	const CONTEXT_RADIUS = 10;
 
-	private function getFileContext() {
+	public function __construct($message='', array $params = array()) {
+		parent::__construct(strtr($message, $params));
+
+		if (isset($params[':error_file'])) {
+			$this->file = $params[':error_file'];
+		}
+
+		if (isset($params[':error_line'])) {
+			$this->line = $params[':error_line'];
+		}
+
+		$this->__toString();
+	}
+
+	private function get_file_context() {
 
 		$file = $this->getFile();
 		$line_number = $this->getLine();
@@ -50,13 +60,14 @@ class joosException extends Exception {
 			$i++;
 			if ($i >= $line_number - self::CONTEXT_RADIUS && $i <= $line_number + self::CONTEXT_RADIUS) {
 				if ($i == $line_number) {
-					$context[] = ' >>' . $i . "\t" . $line;
+					$context[] = ' >>   ' . $i . "\t" . $line;
 				} else {
-					$context[] = '   ' . $i . "\t" . $line;
+					$context[] = "\t" . $i . "\t" . $line;
 				}
 			}
-			if ($i > $line_number + self::CONTEXT_RADIUS)
+			if ($i > $line_number + self::CONTEXT_RADIUS) {
 				break;
+			}
 		}
 		return "\n" . implode("", $context);
 	}
@@ -64,9 +75,9 @@ class joosException extends Exception {
 	public function __toString() {
 		// очистим всю вышестоящую буферизацию без вывода её в браузер
 		!ob_get_level() ? : ob_end_clean();
-		
+
 		parent::__toString();
-		echo html_entity_decode($this->create());
+		echo $this->create();
 		die();
 	}
 
@@ -86,43 +97,15 @@ class joosException extends Exception {
   </style>
 <div style="width:99%; position:relative">
 <h2 id='Title'>{$message}</h2>
-<div id="Context" style="display: block;"><h3>Error with code {$this->getCode()} in '{$this->getFile()}' around line {$this->getLine()}:</h3><pre>{$this->getFileContext()}</pre></div>
-<div id="Trace"><h2>Call stack</h2><pre>{$this->getTraceAsString()}</pre></div>
+<div id="Context" style="display: block;"><h3>Ошибка с кодом {$this->getCode()} в файле '{$this->getFile()}' в строке {$this->getLine()}:</h3><pre>{$this->prepare($this->get_file_context())}</pre></div>
+<div id="Trace"><h2>Стэк вызовов</h2><pre>{$this->getTraceAsString()}</pre></div>
 HTML;
 		$result .= "</div></div>";
 		return $result;
 	}
 
-}
-
-/*
-function PHP_errorHandler($errno, $errmsg, $filename, $linenum, $errcontext = NULL) {
-	throw new joosException($errmsg, 0);
-	//throw new joosException($errmsg, 0, $errno, $filename, $linenum);
-}
-
-if (set_error_handler("PHP_errorHandler", E_ALL & ~E_DEPRECATED) === false) {
-	die(__('Обработчик ошибок не зарегистрирован'));
-};
-
-// обработка фатальных ошибок
-register_shutdown_function('shutdown');
-
-//only call this if debug on
-function shutdown() {
-	$isError = false;
-	if (($error = error_get_last())) {
-		switch ($error['type']) {
-			case E_ERROR:
-			case E_CORE_ERROR:
-			case E_COMPILE_ERROR:
-			case E_USER_ERROR:
-				$isError = true;
-				break;
-		}
+	protected function prepare($content) {
+		return htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
 	}
-	if ($isError) {
-		PHP_errorHandler('Fatal', $error['message'], $error['file'], $error['line'], $error['type']);
-	}
+
 }
- */

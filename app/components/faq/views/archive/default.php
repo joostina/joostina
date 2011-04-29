@@ -26,7 +26,7 @@ defined('_JOOS_CORE') or die();
     <?php foreach ($items as $item) : ?>
     <div class="question_block">
         <div class="name"><b><?php echo $item->username ?></b> <span
-                class="date">/ <?php echo joosDate::format($item->created_at, '%d.%m.%Y') ?></span></div>
+                class="date">/ <?php echo joosDateTime::format($item->created_at, '%d.%m.%Y') ?></span></div>
         <div class="question">
             <?php echo $item->question ?>
             <div class="question_text">

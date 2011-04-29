@@ -20,7 +20,7 @@ if (!$blog_items) {
 <?php $href = joosRoute::href('blog_view', array('id' => $blog_item->id, 'cat_slug' => $blog_item->cat_slug)); ?>
 <?php $user_href = joosRoute::href('user_view', array('id' => $blog_item->userid, 'username' => $blog_item->username)) ?>
 <?php $edit_href = joosRoute::href('blog_edit', array('id' => $blog_item->id)) ?>
-<?php $created_at = joosDate::format($blog_item->created_at) ?>
+<?php $created_at = joosDateTime::format($blog_item->created_at) ?>
 	<ul class="listreset m-blogs_list">
 		<li class="m-blogs_list_item">
             <h4 class="title_item"><a class="title_item_link" href="<?php echo $href ?>"

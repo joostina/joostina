@@ -14,7 +14,7 @@ defined('_JOOS_CORE') or die();
 <div class="full_news">
     <h1><?php echo $item->title?></h1>
 
-    <div class="date"><?php echo joosDate::format($item->created_at, '%d.%m.%Y') ?></div>
+    <div class="date"><?php echo joosDateTime::format($item->created_at, '%d.%m.%Y') ?></div>
 
 
     <div class="news_block">

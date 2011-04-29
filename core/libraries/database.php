@@ -631,6 +631,7 @@ class joosDatabase {
 
 	/**
 	 * Преобразование массива в объект
+	 * 
 	 * @param array $array исходный массив ключ=>значение
 	 * @param object $obj объект, свойства которого будут заполнены значениями сообтветсвующих ключей массива
 	 * @param string $ignore свойства объекта которые следует игнорировать, через пробел ('id title slug')
@@ -656,6 +657,20 @@ class joosDatabase {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Быстрое статическое создание модели и доступ к её медотам и свойствам
+	 * 
+	 * @example joosDatabase::models('Users')->count()
+	 * @example joosDatabase::model('Blog')->get_list( array('where'=>'sate=1') )
+	 * @example joosDatabase::model('Blog')->save( $_POST )
+	 * 
+	 * @param string $model_name
+	 * @return joosModel объект выбранной модели
+	 */
+	public static function models($model_name) {
+		return new $model_name;
 	}
 
 }
@@ -1045,7 +1060,6 @@ class joosModel {
 	 */
 	function load($oid) {
 
-		// TODO тут было немного магии, восстановить в случае ошибочной работы
 		// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
 		$this->reset();
 
@@ -1061,6 +1075,7 @@ class joosModel {
 	 * @return boolean результат заполнения свойств модели
 	 */
 	function load_by_field($field, $value) {
+
 		$this->reset();
 
 		$query = 'SELECT * FROM ' . $this->_db->name_quote($this->_tbl) . ' WHERE ' . $this->_db->name_quote($field) . ' = ' . $this->_db->quote($value);
@@ -1080,7 +1095,6 @@ class joosModel {
 
 		if (isset($this->$k) && $this->$k != 0) {
 			$this->before_update();
-			// TODO сюда можно добавить "версионность", т.е. сохранять текущие версии объектов перед внесением правок
 			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			$this->after_update();
 		} else {
@@ -1110,49 +1124,56 @@ class joosModel {
 	 * Метод, выполняемый до обновления значений модели
 	 */
 	public function before_update() {
-		
+		return true;
 	}
 
 	/**
 	 * Метод, выполняемый после обновления значений модели
 	 */
 	public function after_update() {
-		
+		return true;
 	}
 
 	/**
 	 * Метод выполняемый до добавления значений модели
 	 */
 	public function before_insert() {
-		
+		return true;
 	}
 
 	/**
 	 * Метод выполняемый после вставки значений модели
 	 */
 	public function after_insert() {
-		
+		return true;
 	}
 
 	/**
 	 * Метод выполняемый до сохранения значений модели ( вставка / обновление )
 	 */
 	public function before_store() {
-		
+		return true;
 	}
 
 	/**
 	 * Метод выполняемый после полного сохранения данных модели ( вставка / обновление )
 	 */
 	public function after_store() {
-		
+		return true;
+	}
+
+	/**
+	 * Метод выполняемый до удаления конкретной записи модели
+	 */
+	public function before_delete() {
+		return true;
 	}
 
 	/**
 	 * Метод выполняемый после удаления конкретной записи модели
 	 */
-	public function before_delete() {
-		
+	public function after_delete() {
+		return true;
 	}
 
 	/**
@@ -1180,6 +1201,7 @@ class joosModel {
 		$this->_db->set_query($query);
 
 		if ($this->_db->query()) {
+			$this->after_delete();
 			return true;
 		} else {
 			$this->_error = $this->_db->get_error_msg();
@@ -1274,8 +1296,6 @@ class joosModel {
 		}
 
 		return true;
-
-		//joosDatabaseUtils::query_batch();
 	}
 
 	/**
@@ -1299,8 +1319,14 @@ class joosModel {
 		return true;
 	}
 
-	// TODO переделать на set_state
-	function publish($cid = null, $publish = 1) {
+	/**
+	 * @todo прередалать на set_state
+	 * @param array $cid
+	 * @param type $publish
+	 * @return type 
+	 */
+	function publish(array $cid = null, $publish = 1) {
+
 		joosCore::array_to_ints($cid, array());
 
 		if (count($cid) < 1) {
@@ -1387,12 +1413,16 @@ class joosModel {
 		}
 	}
 
-	// TODO понять что это, как работает и описать как пользоваться
+	/**
+	 * @todo понять что это, как работает и описать как пользоваться
+	 * @param type $where
+	 * @return type 
+	 */
 	function update_order($where = '') {
 		$k = $this->_tbl_key;
 
 		if (!array_key_exists('ordering', get_class_vars(strtolower(get_class($this))))) {
-			$this->_error = "ВНИМАНИЕ: " . strtolower(get_class($this)) . " не поддерживает сортировку.";
+			$this->_error = __("ВНИМАНИЕ: :class_name не поддерживает сортировку.", array(':class_name' => $this->classname()));
 			return false;
 		}
 
@@ -1636,11 +1666,6 @@ class joosModel {
 		$tbl_key = isset($params['key']) ? $params['key'] : $this->_tbl_key;
 
 		return $this->_db->set_query(sprintf($fmtsql, implode(' AND ', $tmp)), $offset, $limit)->load_object_list($tbl_key);
-	}
-
-	function max($name) {
-		$query = 'SELECT  ' . $name . ' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
-		return $this->_db->set_query($query)->load_result();
 	}
 
 }

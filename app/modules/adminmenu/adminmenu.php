@@ -1,4 +1,5 @@
 <?php
+
 /**
 
  */
@@ -11,5 +12,5 @@ require_once joosCore::path('adminmenu', 'module_helper');
 //Получение дерева пунктов меню
 $menu_items = adminmenuHelper::get_items();
 
-//Подключение шаблона вывода
-require_once $module->template_path;
+// рендер
+joosModuleAdmin::render('adminmenu', array('menu_items' => $menu_items));

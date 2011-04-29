@@ -355,7 +355,7 @@ class joosAutoAdmin {
 
 		//Вывод системного соощения
 		ob_start();
-		joosModule::load_by_name('adminmsg');
+		joosModuleAdmin::load_by_name('flashmessage');
 		$return .= ob_get_contents();
 		ob_end_clean();
 
@@ -907,7 +907,7 @@ class mosMenuBar {
 
 	public static function media_manager($directory = '', $alt = _TASK_UPLOAD) {
 		?><li><a class="tb-media-manager" href="joiadmin.php#"
-					   onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>&amp;t=<?php echo JTEMPLATE; ?>','win1',250,100,'no');"><span><?php echo $alt; ?></span></a></li><?php
+					   onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>&amp;t=<?php echo JPATH_SITE_ADMIN; ?>','win1',250,100,'no');"><span><?php echo $alt; ?></span></a></li><?php
 	}
 
 	public static function spacer($width = '0') {

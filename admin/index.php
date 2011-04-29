@@ -19,14 +19,12 @@ define('JPATH_BASE_ADMIN', __DIR__);
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
-
 joosDocument::header();
 
 $mainframe = joosMainframe::instance(true);
 
 session_name(md5(JPATH_SITE));
 session_start();
-
 
 $my = new stdClass;
 $my->id = (int) joosRequest::session('session_user_id');
@@ -127,6 +125,6 @@ if ( joosRequest::is_post() ) {
 		exit();
 	}
 } else {
-	$path = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'login.php';
+	$path = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE_ADMIN . DS . 'login.php';
 	require_once ($path);
 }

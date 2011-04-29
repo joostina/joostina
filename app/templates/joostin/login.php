@@ -24,7 +24,7 @@ joosDocument::instance()
 		<?php echo joosDocument::stylesheet(); ?>
 	</head>
 	<body>
-		<?php include_once (JPATH_BASE . DS . 'app' . DS . 'modules' . DS . 'mosmsg' . DS . 'mosmsg.php'); ?>
+		<?php joosModuleAdmin::load_by_name('flashmessage') ?>
 		<div class="login">
 			<form action="<?php echo JPATH_SITE_ADMIN ?>/index.php" method="post" name="loginForm" id="loginForm">
 				<div class="form-block">

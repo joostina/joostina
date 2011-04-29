@@ -38,4 +38,8 @@ return array(
 		'href' => 'feedback',
 		'defaults' => array('controller' => 'contacts', 'action' => 'index')
 	),
+	'test' => array(
+		'href' => 'test',
+		'defaults' => array('controller' => 'test', 'action' => 'index')
+	),
 );
