@@ -82,6 +82,9 @@ DEFINE('_USERNAME_REGEX', '/^[a-zA-Z0-9_-]{3,25}$/iu');
 // секретная фраза для хеширования
 DEFINE('_SECRET_CODE', 'i-love-joostina');
 
+// формат для функций вывода времени на сайте
+DEFINE('JDATE_FORMAT', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime
+
 /**
 *  Авто-загружаемые библиотеки
 * joosAutoloader::libraries_load_on_start( array('text', 'session') );

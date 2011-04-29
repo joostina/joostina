@@ -218,15 +218,6 @@ class Users extends joosModel {
 		return $gender;
 	}
 
-	public static function get_age($birthdate) {
-		joosLoader::lib('text');
-		joosLoader::lib('datetime', 'joostina');
-
-		$delta = joosDateTime::get_delta(joosDateTime::mysql_to_unix($birthdate), joosDateTime::mysql_to_unix(_CURRENT_SERVER_TIME));
-		$age = $delta['year'];
-		return $age . ' ' . joosText::declension($age, array(_YEAR, _YEAR_, _YEARS));
-	}
-
 	/**
 	 * Получение объекта текущего пользователя
 	 * @global <type> $my

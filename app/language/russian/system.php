@@ -12,24 +12,9 @@ defined('_JOOS_CORE') or die();
 
 global $mosConfig_form_date, $mosConfig_form_date_full;
 
-DEFINE('_DATE_FORMAT_LC', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime
-DEFINE('_DATE_FORMAT_LC2', $mosConfig_form_date_full); // Полный формат времени
 DEFINE('_DATE_FORMAT', 'Сегодня: d.m.Y г.'); //Используйте формат PHP-функции DATE
 
 DEFINE('_LANGUAGE', 'ru');
-
-DEFINE('_JAN', 'Январь');
-DEFINE('_FEB', 'Февраль');
-DEFINE('_MAR', 'Март');
-DEFINE('_APR', 'Апрель');
-DEFINE('_MAY', 'Май');
-DEFINE('_JUN', 'Июнь');
-DEFINE('_JUL', 'Июль');
-DEFINE('_AUG', 'Август');
-DEFINE('_SEP', 'Сентябрь');
-DEFINE('_OCT', 'Октябрь');
-DEFINE('_NOV', 'Ноябрь');
-DEFINE('_DEC', 'Декабрь');
 
 /**
  * даты со склонением
