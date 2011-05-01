@@ -287,6 +287,14 @@ class joosDocument {
 		return isset(self::$data[$name]) ? self::$data[$name] : false;
 	}
 
+	public static function set_body($body) {
+		self::$data['page_body'] = $body;
+	}
+
+	public static function get_body() {
+		return self::$data['page_body'];
+	}
+
 	/**
 	 * Полностью заменяет заголовок страницы на переданный
 	 *
@@ -437,7 +445,7 @@ class joosDocument {
 	public static function javascript() {
 
 		$result = '';
-		$result .= _JSCSS_CACHE ? self::js_files_cache() : self::js_files();
+		$result .= JSCSS_CACHE ? self::js_files_cache() : self::js_files();
 		echo $result .= self::js_code();
 
 		//return $result . "\n";
@@ -456,16 +464,13 @@ class joosDocument {
 
 	public static function js_code() {
 
-		if (joosRequest::is_ajax()) {
-			$result = self::$data['js_code'];
-		} else {
-			$c = array();
-			foreach (self::$data['js_code'] as $js_code) {
-				//$result[] = JHTML::js_code($js_code);
-				$c[] = $js_code . ";\n";
-			}
-			$result = joosHTML::js_code(implode("", $c));
+		$c = array();
+		foreach (self::$data['js_code'] as $js_code) {
+			//$result[] = JHTML::js_code($js_code);
+			$c[] = $js_code . ";\n";
 		}
+		$result = joosHTML::js_code(implode("", $c));
+
 		return $result;
 	}
 
@@ -543,8 +548,7 @@ class joosDocument {
 				header('Cache-Control: no-cache, must-revalidate');
 			}
 			header('X-Powered-By: Joostina CMS');
-			joosRequest::is_ajax() ? header('Content-type: application/json') : header('Content-type: text/html; charset=UTF-8');
-			joosRequest::is_ajax() ? ob_start("ob_gzhandler") : null;
+			header('Content-type: text/html; charset=UTF-8');
 		}
 	}
 
@@ -557,6 +561,34 @@ class joosDocument {
  */
 class joosCore {
 
+	/**
+	 * Флаг работы ядра в режиме FALSE - сайт, TRUE - панель управления
+	 * @var bool
+	 */
+	private static $is_admin = false;
+
+
+	/**
+	 * Получение инстанции текущего авторизованного пользователя
+	 * Функция поддерживает работу и на фронте и в панели управления сайта
+	 * 
+	 * @example joosCore::user() => Объект пользователя Users
+	 * 
+	 * @return Users
+	 */
+	public static function user() {
+		return self::$is_admin ? joosCoreAdmin::user() : Users::instance();
+	}
+
+	public static function admin(){
+		self::$is_admin = TRUE;
+	}
+
+	public static function is_admin(){
+		return (bool) self::$is_admin;
+	}
+
+		
 	/**
 	 * Вычисление пути расположений файлов
 	 * @static
@@ -841,19 +873,10 @@ class joosController {
 
 	public static function error404() {
 
-		// если обработка идёт через Ajax
-		if (joosRequest::is_ajax()) {
-
-			$json = self::$jsondata;
-			$json += array(joosConfig::get2('ajax', 'component_dom', '#component') => _NOT_EXIST,);
-			echo json_encode($json);
-			exit();
-		}
-
 		header('HTTP/1.0 404 Not Found');
 
 		if (!joosConfig::get('404_page')) {
-			echo _NOT_EXIST;
+			echo __('Страница не найдена');
 		} else {
 			require_once (JPATH_BASE . '/app/templates/system/404.php');
 			exit(404);

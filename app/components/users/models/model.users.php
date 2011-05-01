@@ -220,13 +220,12 @@ class Users extends joosModel {
 
 	/**
 	 * Получение объекта текущего пользователя
-	 * @global <type> $my
 	 * @return User
 	 */
 	public static function current() {
 		global $my;
 		// TODO тут надо как-то унифицировать
-		return joosMainframe::is_admin() ? $my : self::instance();
+		return joosCore::is_admin() ? $my : self::instance();
 	}
 
 	public static function avatar($id, $size = false) {

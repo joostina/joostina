@@ -27,20 +27,15 @@ $sysstart = TRUE ? microtime(true) : null;
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
 
-// загрузка файла русского языка по умолчанию
-//TODO: это страшная вещь! на установку констант тратится тонннна времени. Языковые файлы стоит переписать на INI или массивы
-joosLoader::lang('system');
+joosDocument::header();
 
 joosController::init();
-
-// mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
-joosMainframe::instance();
 
 // начало буферизации основного содержимого
 ob_start();
 joosController::run();
 // главное содержимое - стек вывода компонента - mainbody
-joosDocument::$data['page_body'] = ob_get_contents();
+joosDocument::set_body(ob_get_contents());
 ob_end_clean();
 
 ob_start();

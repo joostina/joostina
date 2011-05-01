@@ -30,7 +30,7 @@ class joosFlashMessage {
 		$msg = joosString::trim($msg);
 
 		if ($msg != '') {
-			if (joosMainframe::is_admin()) {
+			if ( joosCore::is_admin()) {
 				$_s = session_id();
 				if (empty($_s)) {
 					session_name(md5(JPATH_SITE));
@@ -53,7 +53,7 @@ class joosFlashMessage {
 
 		$_s = session_id();
 
-		if (!joosMainframe::is_admin() && empty($_s)) {
+		if (!joosCore::is_admin() && empty($_s)) {
 			session_name(joosSession::sessionCookieName());
 			session_start();
 		}

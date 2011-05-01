@@ -62,7 +62,7 @@ joosDocument::instance()->add_js_code($register_js_code);
             </dl>
 
             <a class="g-italic g-smaller" href="<?php echo joosRoute::href('lostpassword') ?>"
-               id="lost_pass"><?php echo _LOST_PASSWORDWORD ?></a>
+               id="lost_pass"><?php echo __('Забыл пароль?') ?></a>
 
             <button type="submit" id="submit_login">Войти</button>
 

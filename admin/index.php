@@ -20,11 +20,7 @@ require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
 joosDocument::header();
-
-$mainframe = joosMainframe::instance(true);
-
-session_name(md5(JPATH_SITE));
-session_start();
+joosCoreAdmin::start();
 
 $my = new stdClass;
 $my->id = (int) joosRequest::session('session_user_id');
@@ -39,11 +35,10 @@ if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
 	die();
 }
 
-
-if ( joosRequest::is_post() ) {
+if (joosRequest::is_post()) {
 
 	joosCSRF::check_code('admin_login');
-	
+
 	$usrname = joosRequest::post('username');
 	$pass = joosRequest::post('password');
 
@@ -64,7 +59,7 @@ if ( joosRequest::is_post() ) {
 		list($hash, $salt) = explode(':', $my->password);
 		$cryptpass = md5($pass . $salt);
 
-		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed('adminpanel')) {
+		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed($my,'adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
 			$database->set_query($query)->query();
@@ -88,7 +83,7 @@ if ( joosRequest::is_post() ) {
 		$logintime = time();
 		$session_id = md5($my->id . $my->username . $my->groupname . $logintime);
 
-		session_name(md5(JPATH_SITE));
+		session_name(JADMIN_SESSION_NAME);
 		session_id($session_id);
 		session_start();
 

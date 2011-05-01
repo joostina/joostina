@@ -82,7 +82,7 @@ class actionsAjaxUsers extends joosController {
 	public static function login() {
 
 		//joosSpoof::check_code(null, 1);
-		//joosMainframe::instance()->login();
+
 		$username = joosRequest::post('username');
 		$password = joosRequest::post('password');
 

@@ -187,7 +187,7 @@ class actionsBlog extends joosController {
 		// число записей в блоге
 		$count = $blogs->count('WHERE state=1 AND user_id = ' . $user->id);
 
-		$state = (Users::current()->id == $user->id || Users::current()->gid == 8) ? 'b.state>=0' : 'b.state=1';
+		$state = (joosCore::user()->id == $user->id || joosCore::user()->gid == 8) ? 'b.state>=0' : 'b.state=1';
 
 		// подключаем библиотеку постраничной навигации
 		joosLoader::lib('pager', 'utils');
@@ -228,7 +228,7 @@ class actionsBlog extends joosController {
 
 	public static function add() {
 
-		if (!Users::current()->id) {
+		if (!joosCore::user()->id) {
 			joosRoute::redirect(JPATH_SITE);
 		}
 
@@ -243,7 +243,7 @@ class actionsBlog extends joosController {
 			'validator' => BlogValidations::add(),
 			'core::modules' => array(
 				'sidebar' => array(
-					'users' => array('type' => 'profile_user', 'template' => 'profile_user', 'user' => Users::current())
+					'users' => array('type' => 'profile_user', 'template' => 'profile_user', 'user' => joosCore::user())
 				)
 			)
 		);
@@ -251,7 +251,7 @@ class actionsBlog extends joosController {
 
 	public static function edit() {
 
-		if (!Users::current()->id) {
+		if (!joosCore::user()->id) {
 			joosRoute::redirect(JPATH_SITE);
 		}
 
@@ -282,7 +282,7 @@ class actionsBlog extends joosController {
 
 		//Выбирать категорию могут только админы
 		// Для обычных пользователей - ID категории = 3
-		$blog->category_id = (Users::current()->gid == 8 || Users::current()->gid == 9) ? joosRequest::post('category_id', 1) : 3;
+		$blog->category_id = (joosCore::user()->gid == 8 || joosCore::user()->gid == 9) ? joosRequest::post('category_id', 1) : 3;
 		$blog->save($_POST);
 
 		if ($blog->id) {

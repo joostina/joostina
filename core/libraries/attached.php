@@ -79,7 +79,7 @@ class joosAttached extends joosModel {
 
 		$file = new self;
 		$file->created_at = _CURRENT_SERVER_TIME;
-		$file->user_id = Users::current()->id;
+		$file->user_id = joosCore::user()->id;
 		$file->file_ext = $filedata['ext'];
 		$file->file_mime = $filedata['mime'];
 		$file->file_name = $filedata['name'];

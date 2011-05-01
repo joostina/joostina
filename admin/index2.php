@@ -27,29 +27,26 @@ define('JPATH_BASE_ADMIN', __DIR__);
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
-joosDatabase::instance();
+joosDocument::header();
 
 // работа с сессиями начинается до создания главного объекта взаимодействия с ядром
-session_name(md5(JPATH_SITE));
-session_start();
+joosCoreAdmin::start();
 
-header('Content-type: text/html; charset=UTF-8');
+// стартуем пользователя
+joosCoreAdmin::init_user();
 
 // получение основных параметров
 // mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
-$mainframe = joosMainframe::instance(true);
-
-// запуск сессий панели управления
-$my = joosCoreAdmin::init_session_admin();
-
+//$mainframe = joosMainframe::instance(true);
 // загружаем набор прав для панели управления
 joosAcl::init_admipanel();
-joosAcl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
+joosAcl::isAllowed(joosCore::user(), 'adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
 
 // страница панели управления по умолчанию
 $option = $_REQUEST['option'] = joosRequest::param('option', 'admin');
 
 ob_start();
+
 $file_controller = JPATH_BASE . '/app/components/' . $option . DS . 'controller.admin.' . $option . '.php';
 if (is_file($file_controller)) {
 	require_once ($file_controller);
@@ -58,11 +55,10 @@ if (is_file($file_controller)) {
 	throw new joosException(sprintf(__('Не найден предполагаемый файл контроллера %s'), $file_controller));
 }
 
-joosCoreAdmin::set_body(ob_get_contents());
+joosDocument::set_body(ob_get_contents());
 ob_end_clean();
 
 ob_start();
-
 // начало вывода html
 // загрузка файла шаблона
 $template_file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE_ADMIN . DS . 'index.php';
@@ -85,5 +81,4 @@ if (JDEBUG) {
 	// информация отладки, число запросов в БД
 	joosDebug::get();
 }
-
 ob_end_flush();

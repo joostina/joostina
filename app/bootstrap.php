@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
+DEFINEd('_JOOS_CORE') or die();
 
 //Europe/Moscow // GMT0
 //function_exists('date_default_timezone_set') ? date_default_timezone_set(date_default_timezone_get()) : null;
@@ -24,12 +24,12 @@ spl_autoload_register(array(new joosAutoloader, 'autoload'));
 joosConfig::init();
 
 // http адрес сайта
-define('JPATH_SITE', joosConfig::get('live_site'));
+DEFINE('JPATH_SITE', joosConfig::get('live_site'));
 
 DEFINE('JPATH_BASE_APP', __DIR__);
 
-define('JTEMPLATE', joosConfig::get('template'));
-define('JTEMPLATE_ADMIN', joosConfig::get('template_admin'));
+DEFINE('JTEMPLATE', joosConfig::get('template'));
+DEFINE('JTEMPLATE_ADMIN', joosConfig::get('template_admin'));
 
 // http корень для изображений
 DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
@@ -67,7 +67,7 @@ if (JDEBUG) {
 }
 
 // склеивать и кешировать js+css файлы
-DEFINE('_JSCSS_CACHE', false);
+DEFINE('JSCSS_CACHE', false);
 DEFINE('JFILE_ANTICACHE', '?v=1');
 
 // текущее время сервера
@@ -80,7 +80,12 @@ JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
 DEFINE('_USERNAME_REGEX', '/^[a-zA-Z0-9_-]{3,25}$/iu');
 
 // секретная фраза для хеширования
-DEFINE('_SECRET_CODE', 'i-love-joostina');
+DEFINE('JSECRET_CODE', 'i-love-joostina');
+
+DEFINE('JADMIN_SESSION_NAME', md5(JPATH_BASE . md5(JSECRET_CODE)));
+
+//echo JADMIN_SESSION_NAME;
+//die();
 
 // формат для функций вывода времени на сайте
 DEFINE('JDATE_FORMAT', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime

@@ -47,12 +47,12 @@ joosDocument::$config['seotag'] = FALSE;
 <div id="wrapper">
 
     <div id="header">
-        <a href="index2.php?option=logout" class="logout_link"><?PHP echo sprintf(__('Выйти %s'),$my->username) ?></a>
+        <a href="index2.php?option=logout" class="logout_link"><?PHP echo sprintf(__('Выйти %s'),joosCore::user()->username) ?></a>
         <div id="admin_menu"><?php joosModuleAdmin::load_by_name('adminmenu'); ?></div>
     </div>
     <!-- #header-->
     <div id="content">
-        <div id="component"><?php echo joosCoreAdmin::get_body(); ?></div>
+        <div id="component"><?php echo joosDocument::get_body(); ?></div>
     </div>
     <!-- #content-->
 </div>

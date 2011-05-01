@@ -20,7 +20,7 @@ defined('_JOOS_CORE') or die();
 class joosCSRF {
 
 	public static function hash($seed) {
-		return md5(_SECRET_CODE . md5($seed));
+		return md5(JSECRET_CODE . md5($seed));
 	}
 
 	public static function get_code($alt = null) {

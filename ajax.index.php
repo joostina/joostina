@@ -11,20 +11,13 @@
 define('_JOOS_CORE', 1);
 
 // корень файлов
-define('JPATH_BASE', __DIR__ );
+define('JPATH_BASE', __DIR__);
 
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once (JPATH_BASE . DS . 'configuration.php');
-
-// предстартовые конфигурации
-require_once (JPATH_BASE . DS . 'bootstrap' . DS . 'bootstrap.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'route.php');
-
-// загрузка файла русского языка по умолчанию
-joosLoader::lang('system');
+require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
 
 // инициализация контроллера
 joosController::init();

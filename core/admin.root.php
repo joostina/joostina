@@ -59,12 +59,25 @@ function ajax_acl_error() {
 class joosCoreAdmin extends joosCore {
 
 	/**
-	 * Содержимое вывода компонента панели управления
-	 * @var string
+	 * Скрытая инстанция текущего авторизованного пользователя
+	 * @var User
 	 */
-	private static $body;
+	private static $user;
 
-	public static function init_session_admin() {
+	public static function start() {
+
+		// стартуем сессиию с названием из конфигурации
+		session_name(JADMIN_SESSION_NAME);
+		session_start();
+
+		joosCore::admin();
+	}
+
+	public static function user() {
+		return self::$user;
+	}
+
+	public static function init_user() {
 
 		$option = joosRequest::param('option');
 		$task = joosRequest::param('task');
@@ -85,17 +98,12 @@ class joosCoreAdmin extends joosCore {
 				$database->set_query($query)->query();
 			}
 
-			// destroy PHP session
 			session_destroy();
-
-			// return to site homepage
 			joosRoute::redirect('index.php');
-			exit();
 		}
 
-		if (session_name() != md5(JPATH_SITE)) {
+		if (session_name() != JADMIN_SESSION_NAME) {
 			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/');
-			exit();
 		}
 
 		// restore some session variables
@@ -111,14 +119,12 @@ class joosCoreAdmin extends joosCore {
 		$logintime = joosRequest::session('session_logintime');
 
 		if ($session_id != session_id()) {
-			// session id does not correspond to required session format
-			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _YOU_NEED_TO_AUTH);
+			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', __('Вы не авторизованы'));
 		}
 
 		// check to see if session id corresponds with correct format
 		if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
 
-			// if task action is to `save` or `apply` complete action before doing session checks.
 			if ($task != 'save' && $task != 'apply') {
 
 				$database = joosDatabase::instance();
@@ -143,24 +149,19 @@ class joosCoreAdmin extends joosCore {
 
 				// если в таблице нет информации о текущей сессии - она устарела
 				if ($count == 0) {
-					setcookie(md5(JPATH_SITE));
+					setcookie(JADMIN_SESSION_NAME);
 					// TODO тут можно сделать нормальную запоминалку последней активной страницы, и разных данных с неё. И записывать всё это как параметры пользователя в JSON
-					joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', _ADMIN_SESSION_ENDED);
+					joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/', __('Вы не авторизованы'));
 				}
 			}
 		} elseif ($session_id == '') {
-			// no session_id as user has not attempted to login, or session.auto_start is switched on
-			if (ini_get('session.auto_start') || !ini_get('session.use_cookies')) {
-				joosRoute::redirect(JPATH_SITE, _YOU_NEED_TO_AUTH_AND_FIX_PHP_INI);
-			} else {
-				joosRoute::redirect(JPATH_SITE, _YOU_NEED_TO_AUTH);
-			}
+			joosRoute::redirect(JPATH_SITE, __('Вы не авторизованы'));
 		} else {
-			joosRoute::redirect(JPATH_SITE, _WRONG_USER_SESSION);
+			joosRoute::redirect(JPATH_SITE, __('Вы не авторизованы'));
 			exit();
 		}
 
-		return $my;
+		self::$user = $my;
 	}
 
 	public static function set_session_garbage_clean($session_life_admin) {
@@ -170,14 +171,6 @@ class joosCoreAdmin extends joosCore {
 			$garbage_timeout = $session_life_admin + 600;
 			@ini_set('session.gc_maxlifetime', $garbage_timeout);
 		}
-	}
-
-	public static function set_body($body) {
-		self::$body = $body;
-	}
-
-	public static function get_body() {
-		return self::$body;
 	}
 
 }
@@ -217,10 +210,11 @@ class joosAdminPagenator {
 		for ($i = 5; $i <= 30; $i += 5) {
 			$limits[] = html::make_option("$i");
 		}
+
 		$limits[] = html::make_option('50');
 		$limits[] = html::make_option('100');
 		$limits[] = html::make_option('150');
-		$limits[] = html::make_option('5000', _PN_ALL);
+		$limits[] = html::make_option('50000', _PN_ALL);
 		// build the html select list
 		$html = ' ' . _PN_DISPLAY_NR . ' ';
 		$html .= html::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);

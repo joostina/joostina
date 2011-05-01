@@ -40,14 +40,13 @@ class joosAcl {
 		}
 	}
 
-	public static function isAllowed($obj, $task = null) {
-		global $my;
+	public static function isAllowed($user, $obj, $task = null) {
 
 		if (self::$instance === NULL) {
 			self::instance();
 		}
 
-		$groupname = strtolower($my->groupname);
+		$groupname = strtolower($user->groupname);
 		return self::$acl->isAllowed($groupname, $obj, $task);
 	}
 
