@@ -257,21 +257,21 @@ class joiRights {
 	}
 
 	private function admin() {
-		if (Users::current()->gid == 8) {
+		if (joosCore::user()->gid == 8) {
 			return true;
 		}
 		return false;
 	}
 
 	private function registred() {
-		if (Users::current()->id) {
+		if (joosCore::user()->id) {
 			return true;
 		}
 		return false;
 	}
 
 	private function owner() {
-		if (Users::current()->id == $this->object->user_id) {
+		if (joosCore::user()->id == $this->object->user_id) {
 			return true;
 		}
 		return false;

@@ -22,7 +22,7 @@ class actionsAjaxUsers extends joosController {
 		}
 
 		//Загружаем оригинальное изображение (original.png)
-		$file = ValumsfileUploader::upload('original', 'avatars', Users::current()->id, false);
+		$file = ValumsfileUploader::upload('original', 'avatars', joosCore::user()->id, false);
 
 		//Путь к оригинальному изображению
 		$img = dirname($file['basename']);
@@ -43,7 +43,7 @@ class actionsAjaxUsers extends joosController {
 		$text = joosRequest::post('text');
 		$text = strip_tags(trim($text));
 
-		if (!Users::current()->id) {
+		if (!joosCore::user()->id) {
 			return json_encode(array('message' => 'Сначала авторизуйтесь'));
 		}
 

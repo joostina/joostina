@@ -73,7 +73,7 @@ class actionsUsers extends joosController {
 		$user = new Users;
 		$user->load_by_field('username', $username);
 
-		if (Users::current()->id != $user->id) {
+		if (joosCore::user()->id != $user->id) {
 			joosRoute::redirect(JPATH_SITE, 'Ай, ай!');
 		}
 

@@ -43,7 +43,7 @@ $user_interests = $user->extra($user->id)->interests ? json_decode($user->extra(
 
     </ul>
 
-    <?php if (Users::current()->id == $user->id): ?>
+    <?php if (joosCore::user()->id == $user->id): ?>
     <a href="<?php echo joosRoute::href('user_edit', array('username' => Users::instance()->username)) ?>"
        class="button">Настройки профиля</a>
     <a href="<?php echo joosRoute::href('blog_add') ?>" class="button">Написать в блог</a>

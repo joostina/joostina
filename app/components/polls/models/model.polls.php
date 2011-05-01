@@ -113,7 +113,7 @@ class PollsResults extends joosModel {
 		$polls_users = new PollsUsers;
 
 		$polls_users->poll_id = $poll_id;
-		$polls_users->user_id = Users::current()->id;
+		$polls_users->user_id = joosCore::user()->id;
 		$polls_users->user_ip = joosRequest::user_ip();
 		$polls_users->created_at = _CURRENT_SERVER_TIME;
 		$polls_users->store();
@@ -174,7 +174,7 @@ class PollsUsers extends joosModel {
 	public function already_vote($poll_id) {
 
 		$this->poll_id = $poll_id;
-		$this->user_id = Users::current()->id;
+		$this->user_id = joosCore::user()->id;
 		$this->user_ip = joosRequest::user_ip();
 
 		if ($this->find() === true) {
