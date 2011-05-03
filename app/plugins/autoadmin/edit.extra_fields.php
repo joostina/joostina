@@ -3,6 +3,20 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * autoadminEditeditExtraFields - расширение joosAutoAdmin для вывода вывода вложенных элементов joosAutoAdmin
+ * Базовый плагин
+ *
+ * @version 1.0
+ * @package Joostina.Plugins
+ * @subpackage Plugins
+ * @category joosAutoAdmin
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class autoadminEditeditExtraFields {
 
 	public static function render($element_param, $key, $value, $obj_data, $params, $tabs) {
@@ -30,7 +44,7 @@ class autoadminEditeditExtraFields {
 		foreach ($data['rules'] as $key => $field) {
 			if (isset($field['editable']) && $field['editable'] == true) {
 				$v = isset($values[$key]) ? $values[$key] : '';
-				$element[] = self::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
+				$element[] = joosAutoAdmin::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
 			}
 		}
 		$element[] = '</table>';
