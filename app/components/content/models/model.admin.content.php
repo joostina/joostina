@@ -18,93 +18,6 @@ defined('_JOOS_CORE') or die();
  * */
 class adminContent extends Content {
 
-	public function check() {
-
-		$jevix = new JJevix();
-		$this->fulltext = $jevix->Parser($this->fulltext);
-		$this->introtext = $jevix->Parser($this->introtext);
-
-		$this->filter(array('fulltext'));
-
-		return true;
-	}
-
-	public function before_insert() {
-		$this->created_at = _CURRENT_SERVER_TIME;
-		$this->ordering = $this->max('ordering') + 1;
-		return true;
-	}
-
-	public function after_insert() {
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-
-		if (isset($_POST['images'])) {
-
-			$images = $_POST['images'];
-
-			$i = 1;
-			$_images = array();
-			foreach ($images as $img) {
-				if ($img['id'] && $img['path']) {
-					if ($i == 1) {
-						$this->image = $img['path'];
-					}
-					$_images['image_' . $i] = $img;
-					++$i;
-				}
-			}
-			$this->attachments = json_encode(array('images' => $_images));
-
-			//если какие-то изображения отмечены для использования в качестве изображений для родительской категории -
-			//запишем соответствующие данные в данные категории
-			$items_images = array();
-			foreach ($_images as $key => $img) {
-				if (isset($img['for_category'])) {
-					$items_images[$img['id']] = $img['path'];
-				}
-			}
-
-			$category = new CategoriesDetails();
-			$category->load($this->category_id);
-			$cat_attaches = json_decode($category->attachments, true);
-
-			if ($items_images) {
-				foreach ($items_images as $_id => $_path) {
-					$cat_attaches['items_images'][$_id] = $_path;
-				}
-			} else {
-				foreach ($_images as $img) {
-					if (isset($cat_attaches['items_images'][$img['id']])) {
-						unset($cat_attaches['items_images'][$img['id']]);
-					}
-				}
-			}
-			$category->attachments = json_encode($cat_attaches);
-			$category->store();
-		}
-
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 	public function get_fieldinfo() {
 		return array(
 			'id' => array(
@@ -160,14 +73,6 @@ class adminContent extends Content {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',
@@ -186,18 +91,6 @@ class adminContent extends Content {
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
 			),
-//			'special' => array(
-//				'name' => 'Конкурс',
-//				'editable' => true,
-//				'sortable' => true,
-//				'in_admintable' => true,
-//				'editlink' => true,
-//				'html_edit_element' => 'checkbox',
-//				'html_table_element' => 'state_box',
-//				'html_edit_element_param' => array(
-//					'text' => 'Конкурс',
-//				)
-//			),
 			'slug' => array(
 				'name' => 'Ссылка',
 				'editable' => true,
@@ -287,6 +180,93 @@ class adminContent extends Content {
 				),
 			)
 		);
+	}
+
+	public function check() {
+
+		$jevix = new JJevix();
+		$this->fulltext = $jevix->Parser($this->fulltext);
+		$this->introtext = $jevix->Parser($this->introtext);
+
+		$this->filter(array('fulltext'));
+
+		return true;
+	}
+
+	public function before_insert() {
+		$this->created_at = _CURRENT_SERVER_TIME;
+		$this->ordering = $this->max('ordering') + 1;
+		return true;
+	}
+
+	public function after_insert() {
+		return true;
+	}
+
+	public function before_update() {
+		return true;
+	}
+
+	public function after_update() {
+		return true;
+	}
+
+	public function before_store() {
+
+		if (isset($_POST['images'])) {
+
+			$images = $_POST['images'];
+
+			$i = 1;
+			$_images = array();
+			foreach ($images as $img) {
+				if ($img['id'] && $img['path']) {
+					if ($i == 1) {
+						$this->image = $img['path'];
+					}
+					$_images['image_' . $i] = $img;
+					++$i;
+				}
+			}
+			$this->attachments = json_encode(array('images' => $_images));
+
+			//если какие-то изображения отмечены для использования в качестве изображений для родительской категории -
+			//запишем соответствующие данные в данные категории
+			$items_images = array();
+			foreach ($_images as $key => $img) {
+				if (isset($img['for_category'])) {
+					$items_images[$img['id']] = $img['path'];
+				}
+			}
+
+			$category = new CategoriesDetails();
+			$category->load($this->category_id);
+			$cat_attaches = json_decode($category->attachments, true);
+
+			if ($items_images) {
+				foreach ($items_images as $_id => $_path) {
+					$cat_attaches['items_images'][$_id] = $_path;
+				}
+			} else {
+				foreach ($_images as $img) {
+					if (isset($cat_attaches['items_images'][$img['id']])) {
+						unset($cat_attaches['items_images'][$img['id']]);
+					}
+				}
+			}
+			$category->attachments = json_encode($cat_attaches);
+			$category->store();
+		}
+
+		return true;
+	}
+
+	public function after_store() {
+		return true;
+	}
+
+	public function before_delete() {
+		return true;
 	}
 
 	public static function get_cats_selector($item) {

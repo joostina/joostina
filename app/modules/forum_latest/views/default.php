@@ -11,7 +11,6 @@ if (!$items) {
     return;
 }
 
-joosLoader::lib('text');
 ?>
 <div class="m-forum_latest">
     <h5 class="g-blocktitle_footer"><a class="g-blocktitle_footer_link" target="_blank" href="http://forum.joostina.ru">Новое

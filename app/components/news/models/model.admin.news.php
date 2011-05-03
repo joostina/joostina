@@ -60,31 +60,11 @@ class adminNews extends News {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',
-				)
+				),
 			),
-//			'special' => array(
-//				'name' => 'Конкурс',
-//				'editable' => true,
-//				'sortable' => true,
-//				'in_admintable' => true,
-//				'editlink' => true,
-//				'html_edit_element' => 'checkbox',
-//				'html_table_element' => 'state_box',
-//				'html_edit_element_param' => array(
-//					'text' => 'Конкурс',
-//				)
-//			),
 			'slug' => array(
 				'name' => 'slug',
 				'editable' => false,

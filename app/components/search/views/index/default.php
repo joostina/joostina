@@ -3,8 +3,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lib('text');
-
 ?>
 <h1>Поиск по <?php echo $type == 'news' ? 'новостям' : 'каталогу' ?></h1>
 <form method="get" id="search_form" class="form_block" action="search/catalog/">

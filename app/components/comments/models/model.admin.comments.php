@@ -129,14 +129,6 @@ class adminComments extends Comments {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 				)

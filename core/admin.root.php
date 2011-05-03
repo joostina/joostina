@@ -62,7 +62,7 @@ class joosCoreAdmin extends joosCore {
 	 * Скрытая инстанция текущего авторизованного пользователя
 	 * @var User
 	 */
-	private static $user;
+	private static $user = false;
 
 	public static function start() {
 

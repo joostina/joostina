@@ -23,22 +23,6 @@ class adminQuickicons extends Quickicons {
 		return true;
 	}
 
-	public function after_update() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 	public function get_fieldinfo() {
 		return array(
 			'id' => array(
@@ -105,14 +89,6 @@ class adminQuickicons extends Quickicons {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 				)
@@ -159,7 +135,6 @@ class adminQuickicons extends Quickicons {
 	public static function get_usergroup($gid = false) {
 		$groop = new UsersGroups;
 		return $groop->get_selector(array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title'));
-		//return $gid ? $groups[$gid] : $groups;
 	}
 
 	public static function get_usergroup_title() {

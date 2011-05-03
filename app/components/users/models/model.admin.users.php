@@ -56,10 +56,6 @@ class adminUsers extends Users {
 						0 => 'Разрешён',
 						1 => 'Заблокирован',
 					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',
@@ -115,7 +111,7 @@ class adminUsers extends Users {
 				'html_edit_element' => 'edit',
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(
-					'width' => '110px',
+					'width' => '200px',
 					'align' => 'center'
 				)
 			),

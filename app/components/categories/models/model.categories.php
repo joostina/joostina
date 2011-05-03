@@ -1,5 +1,4 @@
 <?php
-
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
@@ -115,14 +114,6 @@ class Categories extends joosNestedSet {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',

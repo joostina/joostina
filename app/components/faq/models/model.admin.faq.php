@@ -18,40 +18,6 @@ defined('_JOOS_CORE') or die();
  * */
 class adminFaq extends Faq {
 
-	public function check() {
-		$this->filter();
-		return true;
-	}
-
-	public function before_insert() {
-		return true;
-	}
-
-	public function after_insert() {
-		$this->created_at = _CURRENT_SERVER_TIME;
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 	public function get_fieldinfo() {
 		return array(
 			'id' => array(
@@ -78,7 +44,7 @@ class adminFaq extends Faq {
 				'in_admintable' => true,
 				'html_table_element' => 'editlink',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'answer' => array(
@@ -121,14 +87,6 @@ class adminFaq extends Faq {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',
@@ -144,6 +102,40 @@ class adminFaq extends Faq {
 			'header_new' => 'Создание вопроса',
 			'header_edit' => 'Редактирование вопроса'
 		);
+	}
+
+	public function check() {
+		$this->filter();
+		return true;
+	}
+
+	public function before_insert() {
+		return true;
+	}
+
+	public function after_insert() {
+		$this->created_at = _CURRENT_SERVER_TIME;
+		return true;
+	}
+
+	public function before_update() {
+		return true;
+	}
+
+	public function after_update() {
+		return true;
+	}
+
+	public function before_store() {
+		return true;
+	}
+
+	public function after_store() {
+		return true;
+	}
+
+	public function before_delete() {
+		return true;
 	}
 
 	public function get_extrainfo() {

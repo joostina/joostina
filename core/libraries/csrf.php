@@ -30,7 +30,7 @@ class joosCSRF {
 			$random = date('dmY');
 		}
 
-		return 'j' . joosCSRF::hash(JPATH_BASE . $random . joosCore::user()->id);
+		return 'joosCSRF-' . joosCSRF::hash(JPATH_BASE . $random . (joosCore::user() ? joosCore::user()->id : 'null' ));
 	}
 
 	public static function check_code($alt = null, $method = 'post') {

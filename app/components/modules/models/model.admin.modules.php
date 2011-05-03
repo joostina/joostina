@@ -17,27 +17,6 @@ defined('_JOOS_CORE') or die();
  * */
 class adminModules extends Modules {
 
-	public function check() {
-		$this->filter(array('content'));
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 	public function get_fieldinfo() {
 		return array(
 			'id' => array(
@@ -86,14 +65,6 @@ class adminModules extends Modules {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',
@@ -199,6 +170,27 @@ class adminModules extends Modules {
 			'header_new' => 'Создание Modules',
 			'header_edit' => 'Редактирование модуля'
 		);
+	}
+
+	public function check() {
+		$this->filter(array('content'));
+		return true;
+	}
+
+	public function after_update() {
+		return true;
+	}
+
+	public function after_store() {
+		return true;
+	}
+
+	public function before_store() {
+		return true;
+	}
+
+	public function before_delete() {
+		return true;
 	}
 
 	public static function get_module_filename($item) {

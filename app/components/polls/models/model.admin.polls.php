@@ -18,50 +18,6 @@ defined('_JOOS_CORE') or die();
  * */
 class adminPolls extends Polls {
 
-	public function check() {
-		//$this->filter();
-		return true;
-	}
-
-	public function before_insert() {
-		return true;
-	}
-
-	public function after_insert() {
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-
-		$questions_values = explode("\n", $this->questions);
-		$questions_keys = range(1, count($questions_values));
-		$c = array_combine($questions_keys, $questions_values);
-		$this->questions = json_encode($c);
-
-		$variants_values = explode("\n", $this->variants);
-		$variants_keys = range(1, count($variants_values));
-		$c = array_combine($variants_keys, $variants_values);
-		$this->variants = json_encode($c);
-
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 	public function get_fieldinfo() {
 		return array(
 			'id' => array(
@@ -95,14 +51,6 @@ class adminPolls extends Polls {
 				),
 				'html_table_element' => 'statuschanger',
 				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Скрыто',
-						1 => 'Опубликовано'
-					),
-					'images' => array(
-						0 => 'publish_x.png',
-						1 => 'publish_g.png',
-					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
 					'width' => '20px',
@@ -161,6 +109,50 @@ class adminPolls extends Polls {
 			'filter' => array(),
 			'extrafilter' => array()
 		);
+	}
+
+	public function check() {
+		//$this->filter();
+		return true;
+	}
+
+	public function before_insert() {
+		return true;
+	}
+
+	public function after_insert() {
+		return true;
+	}
+
+	public function before_update() {
+		return true;
+	}
+
+	public function after_update() {
+		return true;
+	}
+
+	public function before_store() {
+
+		$questions_values = explode("\n", $this->questions);
+		$questions_keys = range(1, count($questions_values));
+		$c = array_combine($questions_keys, $questions_values);
+		$this->questions = json_encode($c);
+
+		$variants_values = explode("\n", $this->variants);
+		$variants_keys = range(1, count($variants_values));
+		$c = array_combine($variants_keys, $variants_values);
+		$this->variants = json_encode($c);
+
+		return true;
+	}
+
+	public function after_store() {
+		return true;
+	}
+
+	public function before_delete() {
+		return true;
 	}
 
 }

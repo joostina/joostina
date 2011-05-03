@@ -193,7 +193,6 @@ class Comments extends joosModel {
 		$r->last_user_id = rand(1, 10);
 		$r->last_comment_id = rand(1, 1000);
 
-		joosLoader::lib('text');
 		$r->count_text = joosText::declension($r->count, array('комментарий', 'комментария', 'комментариев'));
 
 		return $r;
