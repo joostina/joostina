@@ -22,7 +22,7 @@ class actionsTest {
 
 		
 		echo joosDateTime::russian_date('d F Y года, l', strtotime('31-10-1983') );
-
+		
 		die();
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));
