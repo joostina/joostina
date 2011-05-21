@@ -39,7 +39,7 @@ class Login {
 
 }
 
-interface LoginHook  {
+interface LoginHook {
 
 	public function update(Login $login, $state);
 }
@@ -96,7 +96,7 @@ print_r($login);
 $login->attach(new PreLoginHook());
 $login->attach(new PostLoginHook());
 $login->attach(new FailedLoginHook());
-$login->attach( new LoginErorrrrer );
+$login->attach(new LoginErorrrrer);
 
 print_r($login);
 

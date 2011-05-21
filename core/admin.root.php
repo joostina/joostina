@@ -214,9 +214,9 @@ class joosAdminPagenator {
 		$limits[] = html::make_option('50');
 		$limits[] = html::make_option('100');
 		$limits[] = html::make_option('150');
-		$limits[] = html::make_option('50000', _PN_ALL);
+		$limits[] = html::make_option('50000', __('-Всё-'));
 		// build the html select list
-		$html = ' ' . _PN_DISPLAY_NR . ' ';
+		$html = ' ' . __('Отображать') . ' ';
 		$html .= html::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		return $html;
@@ -239,9 +239,9 @@ class joosAdminPagenator {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$html .= "\n" . _NAV_SHOW . " " . $from_result . " - " . $to_result . " " . _NAV_SHOW_FROM . " " . $this->total;
+			$html .= "\n" . __('Показано') . " " . $from_result . " - " . $to_result . " " . __('из') . " " . $this->total;
 		} else {
-			$html .= "\n" . _NO_ITEMS;
+			$html .= "\n" . __('Записи не найдены');
 		}
 		return '' . $html;
 	}
@@ -268,7 +268,7 @@ class joosAdminPagenator {
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
 
-			$html .= "\n<a href=\"#prev\" id=\"pagenav_prev\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">&larr;&nbsp;" . _PN_PREVIOUS . "</a>";
+			$html .= "\n<a href=\"#prev\" id=\"pagenav_prev\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">&larr;&nbsp;" . __('Предыдущая') . "</a>";
 		} else {
 
 			$html .= "\n<span  id=\"pagenav_prev\" class=\"pagenav\">&larr;&nbsp;" . _PN_PREVIOUS . "</span>";
