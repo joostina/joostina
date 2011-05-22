@@ -801,9 +801,8 @@ td {
     overflow: hidden;
     padding: 10px 20px;
     
-	-webkit-border-radius: 6px 6px 0 0;
-	-moz-border-radius:  0 0  6px 6px;
-	border-radius:  6px 6px 0 0;     
+	-webkit-border-radius:0 0  6px 6px;
+	border-radius:  0 0  6px 6px;
     border: 1px solid #FFF;
     border-top: 1px solid #CCC;
 
