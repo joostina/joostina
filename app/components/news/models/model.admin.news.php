@@ -159,6 +159,10 @@ class adminNews extends News {
 		return true;
 	}
 
+	public function before_insert(){
+		$this->created_at = _CURRENT_SERVER_TIME;
+	}
+
 	public function after_insert() {
 		$this->created_at = _CURRENT_SERVER_TIME;
 		return true;
