@@ -737,33 +737,30 @@ td {
     height: 26px;
     padding: 5px 20px 0 20px;
     background: #6D767E;
-    -moz-border-radius: 5px; /* FF1+ */
-    -webkit-border-radius: 5px; /* Saf3-4 */
-    border-radius: 5px; /* Opera 10.5, IE9, Saf5, Chrome */
-    margin: 10px 10px 10px 10px;
+    -moz-border-radius: 6px; /* FF1+ */
+    -webkit-border-radius: 6px; /* Saf3-4 */
+    border-radius: 6px; /* Opera 10.5, IE9, Saf5, Chrome */
+    margin: 20px 20px 10px 20px;
 }
-
-#admin_menu {
-    float: left;
-}
-
-.logout_link {
-    float: right;
-    color: #FFF;
-    font-size: 11px;
-}
-
-.logout_link:hover {
-    text-decoration: none;
-    color: #CCC
-}
+    #admin_menu{
+        float: left;
+    }
+    .logout_link{
+        float: right;
+        color: #FFF;
+        font-size: 11px;
+    }
+        .logout_link:hover{
+            text-decoration: none;
+            color: #CCC
+        }
 
 #content {
     padding: 0 0 18px
 }
 
 #component {
-    padding: 0 25px;
+    padding: 0 45px
 }
 
 .page_title {
@@ -800,13 +797,13 @@ td {
     background: #F9F9F9;
     margin: 0 -18px 10px -18px;
     border: 1px solid #CDCDCD;
-
-    overflow: hidden; /* boston - креативщик */
-/*padding: 10px 20px;*/
-
-    -webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
+ 
+    overflow: hidden;
+    padding: 10px 20px;
+    
+	-webkit-border-radius: 6px 6px 0 0;
+	-moz-border-radius:  0 0  6px 6px;
+	border-radius:  6px 6px 0 0;     
     border: 1px solid #FFF;
     border-top: 1px solid #CCC;
 

@@ -17,6 +17,7 @@ define('JPATH_BASE', dirname(__DIR__));
 define('JPATH_BASE_ADMIN', __DIR__);
 
 require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
 joosDocument::header();
@@ -43,7 +44,7 @@ if (joosRequest::is_post()) {
 	$pass = joosRequest::post('password');
 
 	if ($pass == null) {
-		joosRoute::redirect(JPATH_SITE_ADMIN . '/', _PLEASE_ENTER_PASSWORDWORD);
+		joosRoute::redirect(JPATH_SITE_ADMIN . '/', 'Необходимо ввести пароль');
 		exit();
 	}
 
@@ -59,19 +60,24 @@ if (joosRequest::is_post()) {
 		list($hash, $salt) = explode(':', $my->password);
 		$cryptpass = md5($pass . $salt);
 
+		// TODO переделать логику с bad_auth (сбрасывать счетчик в таблице после успешного логина + $_SESSION['bad_auth'] не работает)
+		// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
+		$bad_auth = $my->bad_auth_count;
+
 		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed($my,'adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
 			$database->set_query($query)->query();
-			$_SESSION['bad_auth'] = $bad_auth_count + 1;
+			$_SESSION['bad_auth'] = $bad_auth + 1;
 
-			// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
-			if ($_SESSION['bad_auth'] >= 5) {
+			if ($bad_auth >= 5) {
 				$query = 'UPDATE #__users SET state = 0 WHERE id = ' . (int) $my->id;
 				$database->set_query($query)->query();
+
+				joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', 'Ваш аккаунт был заблокирован. Обратитесь к администратору сайта: '. joosConfig::get2('mail', 'from'));
 			}
 
-			joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', _BAD_USERNAME_OR_PASSWORDWORD);
+			joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', 'Неправильный логин или пароль');
 			exit();
 		}
 
@@ -116,7 +122,7 @@ if (joosRequest::is_post()) {
 		echo "<script>document.location.href='$expired';</script>\n";
 		exit();
 	} else {
-		joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php?' . $config->config_admin_secure_code, _BAD_USERNAME_OR_PASSWORDWORD);
+		joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', 'Такой пользователь не существует или ваш аккаунт был заблокирован. Обратитесь к администратору сайта: '. joosConfig::get2('mail', 'from'));
 		exit();
 	}
 } else {
