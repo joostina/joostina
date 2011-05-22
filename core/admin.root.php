@@ -271,7 +271,7 @@ class joosAdminPagenator {
 			$html .= "\n<a href=\"#prev\" id=\"pagenav_prev\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">&larr;&nbsp;" . __('Предыдущая') . "</a>";
 		} else {
 
-			$html .= "\n<span  id=\"pagenav_prev\" class=\"pagenav\">&larr;&nbsp;" . _PN_PREVIOUS . "</span>";
+			$html .= "\n<span  id=\"pagenav_prev\" class=\"pagenav\">&larr;&nbsp;" . __('Предыдущая') . "</span>";
 		}
 
 		for ($i = $start_loop; $i <= $stop_loop; $i++) {
@@ -286,9 +286,9 @@ class joosAdminPagenator {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages - 1) * $this->limit;
-			$html .= "\n<a href=\"#next\"  id=\"pagenav_next\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> " . _PN_NEXT . "&nbsp;&rarr;</a>";
+			$html .= "\n<a href=\"#next\"  id=\"pagenav_next\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> " . __('Следующая') . "&nbsp;&rarr;</a>";
 		} else {
-			$html .= "\n<span id=\"pagenav_next\"  class=\"pagenav\">" . _PN_NEXT . "&nbsp;&rarr;</span>";
+			$html .= "\n<span id=\"pagenav_next\"  class=\"pagenav\">" . __('Следующая') . "&nbsp;&rarr;</span>";
 		}
 		return $html;
 	}
