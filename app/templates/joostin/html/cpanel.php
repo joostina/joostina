@@ -10,24 +10,21 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-//mosLoadAdminModules('icon', 0);
-$imgp = JPATH_SITE . '/media/images/icons/32x32/candy'
 ?>
-
 <div class="cpanel">
 
     <div class="b b-50 b-left">
         <h3>Каталог</h3>
-        <span><a href="index2.php?option=categories&group=content"><img src="<?php echo $imgp; ?>/folder-move.png"/>Категории
+        <span><a href="index2.php?option=categories&group=content"><img src="<?php echo joosHTML::ico('folder-move', '32x32') ?>"/>Категории
 				каталога</a></span>
-        <span><a href="index2.php?option=content&task=create"><img src="<?php echo $imgp; ?>/folder-documents.png"/>Добавить
+        <span><a href="index2.php?option=content&task=create"><img src="<?php echo joosHTML::ico('folder-documents', '32x32') ?>"/>Добавить
 				категорию</a></span>
     </div>
 
     <div class="b b-50 b-left">
         <h3>Новости</h3>
-        <span><a href="index2.php?option=news"><img src="<?php echo $imgp; ?>/stock_copy.png"/>Все новости</a></span>
-        <span><a href="index2.php?option=news&task=create"><img src="<?php echo $imgp; ?>/contact-new.png"/>Добавить
+        <span><a href="index2.php?option=news"><img src="<?php echo joosHTML::ico('stock_copy', '32x32') ?>"/>Все новости</a></span>
+        <span><a href="index2.php?option=news&task=create"><img src="<?php echo joosHTML::ico('filenew', '32x32') ?>"/>Добавить
 				новость</a></span>
     </div>
 
@@ -35,13 +32,13 @@ $imgp = JPATH_SITE . '/media/images/icons/32x32/candy'
 
     <div class="b b-50 b-left">
         <h3>Статичные страницы</h3>
-        <span><a href="index2.php?option=pages"><img src="<?php echo $imgp; ?>/stock_copy.png"/>Страницы</a></span>
-        <span><a href="index2.php?option=pages&task=create"><img src="<?php echo $imgp; ?>/stock_copy.png"/>Добавить
+        <span><a href="index2.php?option=pages"><img src="<?php echo joosHTML::ico('stock_copy', '32x32') ?>"/>Страницы</a></span>
+        <span><a href="index2.php?option=pages&task=create"><img src="<?php echo joosHTML::ico('filenew', '32x32') ?>"/>Добавить
 				страницу</a></span>
     </div>
 
     <div class="b b-50 b-left">
-        <h3>Вопрос-ответ</h3>
-        <span><a href="index2.php?option=faq"><img src="<?php echo $imgp; ?>/stock_copy.png"/>Все вопросы</a></span>
+        <h3>Инструменты</h3>
+        <span><a href="index2.php?option=coder"><img src="<?php echo joosHTML::ico('system-run', '32x32') ?>"/>Кодогенератор</a></span>
     </div>
 </div>

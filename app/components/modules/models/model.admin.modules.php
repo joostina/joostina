@@ -138,7 +138,7 @@ class adminModules extends Modules {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
-				'html_edit_element' => 'text',
+				'html_edit_element' => 'textarea',
 				'html_edit_element_param' => array(),
 			),
 			'%modules_pages' => array(

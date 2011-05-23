@@ -10,8 +10,8 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::lang('system');
-joosLoader::lang('admin');
+//joosLoader::lang('system');
+//joosLoader::lang('admin');
 
 class joosModuleAdmin {
 
@@ -66,11 +66,14 @@ class joosCoreAdmin extends joosCore {
 
 	public static function start() {
 
-		// стартуем сессиию с названием из конфигурации
+		// стартуем сессию с названием из конфигурации
 		session_name(JADMIN_SESSION_NAME);
 		session_start();
 
 		joosCore::admin();
+
+		// это что бы в админке запоминались фильтры, последние страницы и прочие вкусняшки
+		joosSession::init_user_state();
 	}
 
 	public static function user() {
@@ -109,7 +112,7 @@ class joosCoreAdmin extends joosCore {
 		// restore some session variables
 		$my = new Users();
 		$my->id = joosRequest::int('session_user_id', 0, $_SESSION);
-		$my->username = joosRequest::session('session_USER');
+		$my->username = joosRequest::session('session_username');
 		$my->groupname = joosRequest::session('session_groupname');
 		$my->gid = joosRequest::int('session_gid', 0, $_SESSION);
 		$my->params = joosRequest::session('session_user_params');

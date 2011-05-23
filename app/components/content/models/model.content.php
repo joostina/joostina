@@ -145,8 +145,7 @@ class Content extends joosModel {
 			//Достаём данные
 			$f_ids = array_keys($fields);
 			$f_data = new ExtrafieldsData();
-			$f_data = $f_data->get_selector(
-							array('key' => 'field_id', 'value' => 'value'), array(
+			$f_data = $f_data->get_selector(array('key' => 'field_id', 'value' => 'value'), array(
 						'where' => 'field_id IN (' . implode(',', $f_ids) . ') AND obj_id = ' . $item->id
 							)
 			);

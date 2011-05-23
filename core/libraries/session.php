@@ -20,7 +20,7 @@ defined('_JOOS_CORE') or die();
  * */
 class joosSession {
 
-	private static $_userstate;
+	private static $_userstate = null;
 
 	public static function get($key, $default = null) {
 		return joosRequest::session($key, $default);
@@ -76,8 +76,7 @@ class joosSession {
 		if (is_array(self::$_userstate)) {
 			if (isset($_REQUEST[$req_name])) {
 				self::set_user_state($var_name, $_REQUEST[$req_name]);
-			} else
-			if (!isset(self::$_userstate[$var_name])) {
+			} elseif (!isset(self::$_userstate[$var_name])) {
 				self::set_user_state($var_name, $var_default);
 			}
 

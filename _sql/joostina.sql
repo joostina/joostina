@@ -83,7 +83,8 @@ CREATE TABLE `jos_categories` (
 --
 -- Дамп данных таблицы `jos_categories`
 --
-
+INSERT INTO `jos_categories` (`id`, `lft`, `rgt`, `level`, `parent_id`, `moved`, `name`, `group`, `slug`, `state`) VALUES
+(1, 1, 2, 0, 0, 0, 'root', '', 'root', 0);
 
 -- --------------------------------------------------------
 
@@ -206,29 +207,6 @@ CREATE TABLE `jos_extrafields_data` (
 -- Дамп данных таблицы `jos_extrafields_data`
 --
 
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_faq`
---
-
-CREATE TABLE `jos_faq` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `question` text NOT NULL,
-  `answer` text NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `useremail` varchar(255) NOT NULL,
-  `state` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_faq`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -243,50 +221,10 @@ CREATE TABLE `jos_hits` (
   `hit` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `obj_id` (`obj_id`,`obj_option`,`obj_task`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_hits`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_job`
---
-
-CREATE TABLE `jos_job` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `fulltext` text NOT NULL,
-  `state` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_job`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_job_responses`
---
-
-CREATE TABLE `jos_job_responses` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `useremail` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `resume` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_job_responses`
 --
 
 
@@ -490,71 +428,6 @@ CREATE TABLE `jos_params` (
   KEY `name` (`object`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Дамп данных таблицы `jos_params`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_polls`
---
-
-CREATE TABLE `jos_polls` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` mediumtext NOT NULL,
-  `questions` text NOT NULL,
-  `variants` text NOT NULL,
-  `total_users` int(11) DEFAULT NULL,
-  `state` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_polls`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_polls_results`
---
-
-CREATE TABLE `jos_polls_results` (
-  `poll_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  `variant_id` int(11) NOT NULL,
-  `result` int(11) NOT NULL,
-  UNIQUE KEY `question` (`poll_id`,`question_id`,`variant_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_polls_results`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_polls_users`
---
-
-CREATE TABLE `jos_polls_users` (
-  `poll_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `user_ip` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `poll_results` text NOT NULL,
-  UNIQUE KEY `user` (`poll_id`,`user_id`,`user_ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_polls_users`
---
-
 
 -- --------------------------------------------------------
 
@@ -628,30 +501,6 @@ CREATE TABLE `jos_session` (
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `jos_session`
---
-
-INSERT INTO `jos_session` VALUES('admin', NULL, '1301785405', '97d5ccf98624de202f3b4aa371e76ca6', 1, 1, 'SuperAdministrator', 8, 1);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_templates`
---
-
-CREATE TABLE `jos_templates` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_templates`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -663,7 +512,7 @@ CREATE TABLE `jos_template_positions` (
   `position` varchar(10) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_template_positions`
@@ -803,3 +652,43 @@ INSERT INTO `jos_users_groups` VALUES(5, 4, 'Publisher', 'Публикаторы
 INSERT INTO `jos_users_groups` VALUES(6, 1, 'Manager', 'Менеджеры');
 INSERT INTO `jos_users_groups` VALUES(7, 6, 'Administrator', 'Администраторы');
 INSERT INTO `jos_users_groups` VALUES(8, 7, 'SuperAdministrator', 'Супер Администраторы');
+
+--
+-- Структура таблицы `jos_blog`
+--
+
+CREATE TABLE `jos_blog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `introtext` text,
+  `fulltext` longtext,
+  `params` text,
+  `category_id` tinyint(2) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`slug`),
+  KEY `state` (`state`),
+  KEY `category_id` (`category_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_blog_category`
+--
+
+CREATE TABLE `jos_blog_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `slug` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `params` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`slug`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

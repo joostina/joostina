@@ -4,12 +4,12 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * adminPolls - Модель компонента управления кнопками быстрого доступа панели управления
+ * adminQuickicons - Модель компонента управления кнопками быстрого доступа панели управления
  * Модель панели управления
  *
  * @version 1.0
  * @package Joostina.Models
- * @subpackage Polls
+ * @subpackage Quickicons
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -128,8 +128,11 @@ class adminQuickicons extends Quickicons {
 		);
 	}
 
+	// каталог размещения значков для кнопок быстрого доступа
+	//protected static $ico_dir = "/media/images/icons/32x32/candy";
+
 	public static function get_ico_pach() {
-		return self::$ico_dir . '/';
+		return '/media/images/icons/32x32/candy/';
 	}
 
 	public static function get_usergroup($gid = false) {
@@ -157,7 +160,7 @@ class adminQuickicons extends Quickicons {
 
 	public static function get_icon_list(self $cur_obj) {
 
-		$files = new File(0755);
+		$files = new joosFile(0755);
 		$icons = $files->getList(JPATH_BASE . self::get_ico_pach(), 'file');
 
 		$icon_web_root = JPATH_SITE . self::get_ico_pach();

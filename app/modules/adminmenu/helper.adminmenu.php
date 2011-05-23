@@ -132,6 +132,11 @@ class adminmenuHelper {
 						'href' => 'index2.php?option=news',
 						'ico' => '',
 					),
+					'Новости' => array(
+						'href' => 'index2.php?option=news',
+						'ico' => '',
+					),
+					/*
 					'Опросы' => array(
 						'href' => 'index2.php?option=polls',
 						'ico' => '',
@@ -139,7 +144,7 @@ class adminmenuHelper {
 					'Блоги' => array(
 						'href' => 'index2.php?option=blog',
 						'ico' => '',
-					),
+					),*/
 				)
 			),
 			'Центр расширений' => array(

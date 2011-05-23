@@ -38,6 +38,8 @@ class joosMainframe {
 	 */
 	protected function __construct($is_admin = false) {
 
+		die('Чтоэто?');
+		
 		if ($is_admin) {
 			// указываем параметр работы в админ-панели напрямую
 			self::$is_admin = true;
@@ -45,8 +47,6 @@ class joosMainframe {
 			$option = joosRequest::param('option');
 			$this->_setAdminPaths($option);
 
-			// это что бы в админке запоминались фильтры, последние страницы и прочие вкусняшки
-			joosSession::init_user_state();
 		}
 	}
 

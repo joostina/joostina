@@ -22,7 +22,7 @@ class actionsAdminModules {
 	 * Название обрабатываемой модели
 	 * @var joosModel модель
 	 */
-	public static $model = 'Modules';
+	public static $model = 'adminModules';
 
 	/**
 	 * Список объектов
@@ -42,8 +42,10 @@ class actionsAdminModules {
 		);
 		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
-		// передаём данные в представление
-		thisHTML::index($obj, $obj_list, $pagenav);
+		// массив названий элементов для отображения в таблице списка
+		$fields_list = array('id', 'title', 'position', 'ordering', 'module', 'state');
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -64,7 +66,7 @@ class actionsAdminModules {
 		//Прицепляем дополнительные параметры конкретного модуля
 		$obj_data->params = json_decode($obj_data->params, true);
 
-		thisHTML::edit($obj_data, $obj_data);
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**

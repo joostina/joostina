@@ -184,11 +184,11 @@ class adminContent extends Content {
 
 	public function check() {
 
+		$this->filter(array('fulltext'));
+
 		$jevix = new JJevix();
 		$this->fulltext = $jevix->Parser($this->fulltext);
 		$this->introtext = $jevix->Parser($this->introtext);
-
-		$this->filter(array('fulltext'));
 
 		return true;
 	}

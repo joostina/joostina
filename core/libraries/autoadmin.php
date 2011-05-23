@@ -319,7 +319,6 @@ class joosAutoAdmin {
 // упрощенная система получения пагинатора
 	public static function pagenav($total, $com_name = '') {
 
-
 		$limit = (int) joosSession::get_user_state_from_request("{$com_name}_viewlistlimit", 'limit', joosConfig::get2('admin', 'list_limit', 25));
 		$limitstart = (int) joosSession::get_user_state_from_request("{$com_name}_limitstart" . self::$model, 'limitstart', 0);
 

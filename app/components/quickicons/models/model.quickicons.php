@@ -50,8 +50,6 @@ class Quickicons extends joosModel {
 	 * @var int(3)
 	 */
 	public $gid;
-	// каталог размещения значков для кнопок быстрого доступа
-	protected static $ico_dir = "/media/images/icons/32x32/candy";
 
 	/*
 	 * Constructor

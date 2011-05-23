@@ -850,7 +850,7 @@ class joosDatabaseUtils extends joosDatabase {
 		echo $sql ? '<pre>' . $sql . '</pre><b>UseFiles</b>::' : '';
 		if (function_exists('debug_backtrace')) {
 			foreach (debug_backtrace() as $back) {
-				if (@$back['file']) {
+				if ( isset($back['file'])) {
 					echo '<br />' . $back['file'] . ':' . $back['line'];
 				}
 			}

@@ -40,8 +40,10 @@ class actionsAdminQuickicons {
 		);
 		$obj_list = $obj->get_list($param);
 
-		// передаём данные в представление
-		quickiconsHTML::index($obj, $obj_list, $pagenav);
+		// массив названий элементов для отображения в таблице списка
+		$fields_list = array('id', 'title', 'gid', 'state');
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -61,8 +63,8 @@ class actionsAdminQuickicons {
 
 		$obj_data = new self::$model;
 		$obj_data->load($id);
-
-		quickiconsHTML::edit($obj_data, $obj_data);
+		
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**

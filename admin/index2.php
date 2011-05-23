@@ -36,10 +36,12 @@ joosCoreAdmin::start();
 joosCoreAdmin::init_user();
 
 // получение основных параметров
-// mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
-//$mainframe = joosMainframe::instance(true);
 // загружаем набор прав для панели управления
 joosAcl::init_admipanel();
+
+//_xdump(joosCore::user());
+//die();
+
 joosAcl::isAllowed(joosCore::user(), 'adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
 
 // страница панели управления по умолчанию

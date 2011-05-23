@@ -132,7 +132,8 @@ class joosAcl {
 		self::instance(true);
 
 		// собираем роли
-		self::$acl->addRole(new Zend_Acl_Role('guest'))
+		self::$acl
+				->addRole(new Zend_Acl_Role('guest'))
 				->addRole(new Zend_Acl_Role('registered'))
 				->addRole(new Zend_Acl_Role('superadministrator'))
 				->addRole(new Zend_Acl_Role('administrator'))
@@ -144,19 +145,19 @@ class joosAcl {
 		self::$acl
 				->add(new Zend_Acl_Resource('adminpanel')) // вообще доступ в админку
 				->add(new Zend_Acl_Resource('config')) // глобальная конфигурации
-				->add(new Zend_Acl_Resource('plugins')) // расширения и хуки
+				//->add(new Zend_Acl_Resource('plugins')) // расширения и хуки
 				->add(new Zend_Acl_Resource('modules')) // модули
-				->add(new Zend_Acl_Resource('filemanager')) // файловый менеджер
+				//->add(new Zend_Acl_Resource('filemanager')) // файловый менеджер
 				->add(new Zend_Acl_Resource('installer')) // установщик расширений
-				->add(new Zend_Acl_Resource('languages')) // управление языками
-				->add(new Zend_Acl_Resource('linkeditor')) // редактор ссылок на компоненты
+				//->add(new Zend_Acl_Resource('languages')) // управление языками
+				//->add(new Zend_Acl_Resource('linkeditor')) // редактор ссылок на компоненты
 				->add(new Zend_Acl_Resource('menumanager')) // менеджер корневого меню
 				->add(new Zend_Acl_Resource('pages')) // управление страницами
 				->add(new Zend_Acl_Resource('quickicons')) // кнопками быстрого доступа
 				->add(new Zend_Acl_Resource('templates')) // управление шаблонами
-				->add(new Zend_Acl_Resource('trash')) // корзина
+				//->add(new Zend_Acl_Resource('trash')) // корзина
 				->add(new Zend_Acl_Resource('users')) // управление пользователями
-				->add(new Zend_Acl_Resource('cache')) // управление кешем
+				//->add(new Zend_Acl_Resource('cache')) // управление кешем
 				->add(new Zend_Acl_Resource('blog')); // блог
 
 
@@ -164,8 +165,6 @@ class joosAcl {
 				->deny('guest') // неавторизованным ничего нелья
 				->deny('registered') // просто пользователям ничего нелья
 				->allow('superadministrator'); // суперадмину можно всё
-		//_xdump(self::$acl);
-		//exit();
 	}
 
 }

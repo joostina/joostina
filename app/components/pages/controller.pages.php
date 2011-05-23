@@ -54,7 +54,7 @@ class actionsPages extends joosController {
 		}
 
 		//Метаинформация страницы
-		joosMetainfo::set_meta('news', 'item', $page->id, array('title' => $page->title));
+		joosMetainfo::set_meta('pages', 'item', $page->id, array('title' => $page->title));
 
 		joosBreadcrumbs::instance()
 				->add($page->title);

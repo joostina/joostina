@@ -340,6 +340,10 @@ class Categories extends joosNestedSet {
 
 		array_push($ids, 'default');
 
+		if( count($cats_fields)<1 ){
+			return false;
+		}
+		
 		$fields_array = array();
 		foreach ($cats_fields as $f) {
 			$key = $f->object ? $f->object : 'default';
@@ -351,7 +355,6 @@ class Categories extends joosNestedSet {
 				return $fields_array[$id];
 			}
 		}
-
 
 		return false;
 	}

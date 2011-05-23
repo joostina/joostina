@@ -4,38 +4,39 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * adminTemplates - Модель компонента управления шаблонами оформления сайта
- * Модель панели управления
+ * TemplatePositions - Модель позиций шаблона оформления сайта
+ * Модель
  *
  * @version 1.0
  * @package Joostina.Models
  * @subpackage Templates
- * @author Joostina Team <info@joostina.ru>
+ * @subpackage Modules
+ *  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminTemplates extends joosModel {
+class TemplatePositions extends joosModel {
 
 	/**
 	 * @var int(11)
 	 */
 	public $id;
 	/**
-	 * @var varchar(255)
+	 * @var varchar(10)
 	 */
-	public $name;
+	public $position;
 	/**
 	 * @var varchar(255)
 	 */
-	public $title;
+	public $description;
 
 	/*
 	 * Constructor
 	 */
 	function __construct() {
-		parent::__construct('#__templates', 'id');
+		parent::__construct('#__template_positions', 'id');
 	}
 
 	public function check() {
@@ -70,8 +71,8 @@ class adminTemplates extends joosModel {
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
 			),
-			'name' => array(
-				'name' => 'name',
+			'position' => array(
+				'name' => 'position',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',
@@ -79,8 +80,8 @@ class adminTemplates extends joosModel {
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
 			),
-			'title' => array(
-				'name' => 'title',
+			'description' => array(
+				'name' => 'description',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',
@@ -93,9 +94,9 @@ class adminTemplates extends joosModel {
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => 'Шаблоны',
-			'header_new' => 'Создание шаблона',
-			'header_edit' => 'Редактирование шаблона'
+			'header_list' => 'TemplatePositions',
+			'header_new' => 'Создание TemplatePositions',
+			'header_edit' => 'Редактирование TemplatePositions'
 		);
 	}
 
