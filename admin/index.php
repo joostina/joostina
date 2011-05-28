@@ -9,14 +9,11 @@
  */
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
-// корень файлов
-define('JPATH_BASE', dirname(__DIR__));
-// корень файлов админкиы
+
+// корень файлов панели управления
 define('JPATH_BASE_ADMIN', __DIR__);
 
-require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once ( dirname(JPATH_BASE_ADMIN)  . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 
@@ -64,7 +61,7 @@ if (joosRequest::is_post()) {
 		// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
 		$bad_auth = $my->bad_auth_count;
 
-		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed($my, 'adminpanel')) {
+		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed('adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
 			$database->set_query($query)->query();

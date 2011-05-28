@@ -9,41 +9,39 @@
  */
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
-// корень файлов
-// корень файлов
-define('JPATH_BASE', dirname(__DIR__));
-// корень файлов админкиы
+
+// корень файлов панели управления
 define('JPATH_BASE_ADMIN', __DIR__);
 
-require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once ( dirname(JPATH_BASE_ADMIN) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
 require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
-// создаём сессии
-session_name(md5(JPATH_SITE));
-session_start();
+joosDocument::header();
 
-header("Content-type: text/html; charset=utf-8");
-header("Cache-Control: no-cache, must-revalidate ");
+// работа с сессиями начинается до создания главного объекта взаимодействия с ядром
+joosCoreAdmin::start();
 
-$option = joosRequest::param('option');
-$task = joosRequest::param('task', 'index');
+// стартуем пользователя
+joosCoreAdmin::init_user();
 
-// mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
-$mainframe = joosMainframe::instance(true);
-$my = joosCoreAdmin::init_session_admin($option, $task);
-
+// загружаем набор прав для панели управления
 joosAcl::init_admipanel();
+
+$my = joosCore::user();
 
 if (joosAcl::isDeny('adminpanel')) {
 	echo json_encode(array('error' => 'acl'));
 }
 
+
+
 if (!$my->id) {
 	die('error-my');
 }
+
+$option = joosRequest::param('option');
+$task = joosRequest::param('task', 'index');
 
 ob_start();
 
@@ -53,6 +51,7 @@ $file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'c
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if (file_exists($file_com)) {
 	include_once ($file_com);
+	joosAutoAdmin::dispatch_ajax();
 } else {
 	die('error-inc-component');
 }

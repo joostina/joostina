@@ -16,15 +16,10 @@ function_exists('memory_get_usage') ? define('_MEM_USAGE_START', memory_get_usag
 // считаем время за которое сгенерирована страница
 $sysstart = microtime(true);
 
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
-// корень файлов
-define('JPATH_BASE', dirname(__DIR__));
-// корень файлов админкиы
+// корень файлов панели управления
 define('JPATH_BASE_ADMIN', __DIR__);
 
-// подключаем ядро
-require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once ( dirname(JPATH_BASE_ADMIN) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 
 joosDocument::header();
@@ -35,14 +30,10 @@ joosCoreAdmin::start();
 // стартуем пользователя
 joosCoreAdmin::init_user();
 
-// получение основных параметров
 // загружаем набор прав для панели управления
 joosAcl::init_admipanel();
 
-//_xdump(joosCore::user());
-//die();
-
-joosAcl::isAllowed(joosCore::user(), 'adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
+joosAcl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
 
 // страница панели управления по умолчанию
 $option = $_REQUEST['option'] = joosRequest::param('option', 'admin');

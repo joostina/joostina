@@ -445,9 +445,20 @@ class joosAutoAdmin {
 					// получаем настройки полей
 					$fields_info = $obj->get_fieldinfo();
 
+					$fields_info[$obj_key] = array_merge_recursive($fields_info[$obj_key], array('html_table_element_param' => array(
+							'statuses' => array(
+								0 => __('Скрыто'),
+								1 => __('Опубликовано')
+							),
+							'images' => array(
+								0 => 'publish_x.png',
+								1 => 'publish_g.png',
+							)
+							)));
+					
 					// формируем ответ из противоположных элементов текущему состоянию
-					$return_onj->image = $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key];
-					$return_onj->mess = $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key];
+					$return_onj->image = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';
+					$return_onj->mess = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'ERROR';
 					break;
 
 				case 'ordering':

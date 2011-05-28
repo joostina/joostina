@@ -40,12 +40,14 @@ class joosAcl {
 		}
 	}
 
-	public static function isAllowed($user, $obj, $task = null) {
+	public static function isAllowed($obj, $task = null) {
 
 		if (self::$instance === NULL) {
 			self::instance();
 		}
 
+		$user = joosCore::user();
+		
 		$groupname = strtolower($user->groupname);
 		return self::$acl->isAllowed($groupname, $obj, $task);
 	}

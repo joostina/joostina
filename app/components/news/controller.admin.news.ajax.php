@@ -15,18 +15,11 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosAutoAdmin::dispatch_ajax();
-joosAutoAdmin::autoajax();
-
 class actionsAjaxNews {
 
-	public static function index() {
-		
+	public static function statuschanger() {
+		joosAutoAdmin::autoajax();
 	}
-
-	//public static function statuschanger(){
-	//joosAutoAdmin::autoajax();
-	//}
 
 	public static function image_uploader() {
 

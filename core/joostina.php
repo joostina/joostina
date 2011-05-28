@@ -13,6 +13,11 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+// разделитель каталогов
+define('DS', DIRECTORY_SEPARATOR);
+// корень файлов
+define('JPATH_BASE', dirname(__DIR__));
+
 // Обработчик ошибок
 require JPATH_BASE . DS . 'core' . DS . 'exception.php';
 // Автозагрузчик
