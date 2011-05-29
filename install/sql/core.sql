@@ -1,19 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 3.3.9.2
--- http://www.phpmyadmin.net
---
--- Хост: localhost
--- Время создания: Апр 03 2011 г., 05:04
--- Версия сервера: 5.5.9
--- Версия PHP: 5.3.5
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
---
--- База данных: `joostinagit`
---
-
--- --------------------------------------------------------
+-- Joostina CMS SQL dump 
 
 --
 -- Структура таблицы `jos_access`
@@ -28,13 +13,12 @@ CREATE TABLE `jos_access` (
   `accsess` tinytext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `section` (`section`,`subsection`,`action`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_access`
 --
 
-INSERT INTO `jos_access` VALUES(1, 'Module', '10', 'action1', 'Какое-то действие', '["7","8"]');
 
 -- --------------------------------------------------------
 
@@ -62,6 +46,58 @@ CREATE TABLE `jos_attached` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `jos_blog`
+--
+
+CREATE TABLE `jos_blog` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `introtext` text,
+  `fulltext` longtext,
+  `params` text,
+  `category_id` tinyint(2) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`slug`),
+  KEY `state` (`state`),
+  KEY `category_id` (`category_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_blog`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_blog_category`
+--
+
+CREATE TABLE `jos_blog_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `slug` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `params` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`slug`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_blog_category`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `jos_categories`
 --
 
@@ -78,13 +114,13 @@ CREATE TABLE `jos_categories` (
   `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `lft` (`lft`,`rgt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_categories`
 --
-INSERT INTO `jos_categories` (`id`, `lft`, `rgt`, `level`, `parent_id`, `moved`, `name`, `group`, `slug`, `state`) VALUES
-(1, 1, 2, 0, 0, 0, 'root', '', 'root', 0);
+
+INSERT INTO `jos_categories` VALUES(1, 1, 2, 0, 0, 0, 'root', '', 'root', 0);
 
 -- --------------------------------------------------------
 
@@ -108,8 +144,6 @@ CREATE TABLE `jos_categories_details` (
 -- Дамп данных таблицы `jos_categories_details`
 --
 
-INSERT INTO `jos_categories_details` VALUES(2, 'Краткое описание же!', 'Большое такое описание, с форматированием даже ;) ', '0000-00-00 00:00:00', 0, '', '{"images":[]}', '');
-
 
 -- --------------------------------------------------------
 
@@ -129,14 +163,12 @@ CREATE TABLE `jos_components` (
   `client_id` tinyint(1) NOT NULL,
   `update_url` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_components`
 --
 
-INSERT INTO `jos_components` VALUES(1, 'Joostina TEAM', 0.1, 'Странички', 'pages', 0, 'administrator/images/menu/icon-16-featured.png', '', 0, '');
-INSERT INTO `jos_components` VALUES(2, 'Joostina TEAM', 1.01, 'Авторизация', 'login', 0, 'administrator/images/menu/icon-16-clear.png', NULL, 0, '');
 
 -- --------------------------------------------------------
 
@@ -158,7 +190,7 @@ CREATE TABLE `jos_content` (
   `special` tinyint(1) NOT NULL,
   `attachments` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_content`
@@ -181,7 +213,7 @@ CREATE TABLE `jos_extrafields` (
   `rules` text NOT NULL,
   `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_extrafields`
@@ -204,6 +236,7 @@ CREATE TABLE `jos_extrafields_data` (
 --
 -- Дамп данных таблицы `jos_extrafields_data`
 --
+
 
 -- --------------------------------------------------------
 
@@ -254,13 +287,13 @@ CREATE TABLE `jos_menu` (
   PRIMARY KEY (`id`),
   KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
   KEY `menutype` (`menutype`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_menu`
 --
 
-INSERT INTO `jos_menu` VALUES(1, 'mainmenu', 'Главная', 'Главнее не бывает', 'index.php?option=com_mainpage', 'components', 1, 0, 1, 0, 9999, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '');
+INSERT INTO `jos_menu` VALUES(1, 'mainmenu', 'Главная', 'Главнее не бывает', 'index.php?option=mainpage', 'components', 1, 0, 1, 0, 9999, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '');
 INSERT INTO `jos_menu` VALUES(2, 'mainmenu', 'Странички', '', 'index.php?option=pages', 'components', 1, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '{ "page_id": "1" }');
 
 -- --------------------------------------------------------
@@ -278,7 +311,7 @@ CREATE TABLE `jos_metainfo` (
   `meta_description` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `meta_keywords` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_metainfo`
@@ -306,24 +339,18 @@ CREATE TABLE `jos_modules` (
   PRIMARY KEY (`id`),
   KEY `published` (`state`),
   KEY `newsfeeds` (`module`,`state`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=132 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_modules`
 --
 
-INSERT INTO `jos_modules` VALUES(3, 'Главное меню', '', 2, 'left', 1, 'navigation', 'yax', 'null', 0, 32767);
-INSERT INTO `jos_modules` VALUES(10, 'Авторизация', '', 1, 'header', 1, 'login', '', '{"param1":"","param2":""}', 0, 0);
-INSERT INTO `jos_modules` VALUES(19, 'Компоненты', '', 2, 'cpanel', 1, 'mod_components', '', '', 1, 0);
 INSERT INTO `jos_modules` VALUES(1, 'Админменю', '', 1, 'top', 1, 'adminmenu', '', '', 1, 0);
-INSERT INTO `jos_modules` VALUES(27, 'Путь', '', 1, 'pathway', 1, 'mod_pathway', '', '', 1, 0);
-INSERT INTO `jos_modules` VALUES(28, 'Панель инструментов', '', 1, 'toolbar', 1, 'mod_toolbar', '', '', 1, 0);
 INSERT INTO `jos_modules` VALUES(2, 'Системные сообщения', '', 1, 'inset', 0, 'adminmsg', '', '', 1, 0);
-INSERT INTO `jos_modules` VALUES(30, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '{ "use_cache": "0", "use_ext": "0" }', 1, 604800);
-INSERT INTO `jos_modules` VALUES(118, 'Форма вакансий', '', 0, 'right', 1, 'job_form', '', 'null', 0, 0);
-INSERT INTO `jos_modules` VALUES(115, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', 'null', 0, 0);
-INSERT INTO `jos_modules` VALUES(116, 'Цвета коллекции', '', 0, 'right', 1, '', 'color', 'null', 0, 0);
-INSERT INTO `jos_modules` VALUES(130, 'Форма вопроса', '', 0, 'right', 1, 'faq_form', '', 'null', 0, 0);
+INSERT INTO `jos_modules` VALUES(3, 'Главное меню', '', 2, 'left', 1, 'navigation', 'yax', 'null', 0, 32767);
+INSERT INTO `jos_modules` VALUES(4, 'Авторизация', '', 1, 'header', 1, 'login', '', '{"param1":"","param2":""}', 0, 0);
+INSERT INTO `jos_modules` VALUES(5, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '{ "use_cache": "0", "use_ext": "0" }', 1, 604800);
+INSERT INTO `jos_modules` VALUES(6, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', 'null', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -339,22 +366,15 @@ CREATE TABLE `jos_modules_pages` (
   `rule` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_id` (`moduleid`,`controller`,`method`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_modules_pages`
 --
 
-INSERT INTO `jos_modules_pages` VALUES(1, 10, 'all', '', '');
-INSERT INTO `jos_modules_pages` VALUES(8, 3, 'all', '', '');
-INSERT INTO `jos_modules_pages` VALUES(3, 111, 'mainpage', '', '');
-INSERT INTO `jos_modules_pages` VALUES(11, 112, 'contacts', '', '');
-INSERT INTO `jos_modules_pages` VALUES(5, 115, 'all', '', '');
-INSERT INTO `jos_modules_pages` VALUES(10, 116, 'all', '', '');
-INSERT INTO `jos_modules_pages` VALUES(12, 118, 'job', '', '');
-INSERT INTO `jos_modules_pages` VALUES(13, 119, 'pages', '', '');
-INSERT INTO `jos_modules_pages` VALUES(14, 130, 'faq', '', '');
-INSERT INTO `jos_modules_pages` VALUES(15, 131, 'pages', '', '');
+INSERT INTO `jos_modules_pages` VALUES(2, 6, 'all', '', '');
+INSERT INTO `jos_modules_pages` VALUES(3, 3, 'all', '', '');
+INSERT INTO `jos_modules_pages` VALUES(5, 4, 'all', '', '');
 
 -- --------------------------------------------------------
 
@@ -378,7 +398,7 @@ CREATE TABLE `jos_news` (
   UNIQUE KEY `slug` (`slug`),
   KEY `type_id` (`category_id`),
   KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_news`
@@ -403,7 +423,7 @@ CREATE TABLE `jos_pages` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
   KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_pages`
@@ -424,7 +444,11 @@ CREATE TABLE `jos_params` (
   `data` text,
   PRIMARY KEY (`id`),
   KEY `name` (`object`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_params`
+--
 
 
 -- --------------------------------------------------------
@@ -443,22 +467,20 @@ CREATE TABLE `jos_quickicons` (
   `state` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `gid` int(3) DEFAULT '25',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_quickicons`
 --
 
 INSERT INTO `jos_quickicons` VALUES(1, 'Комментарии', 'Тыц-мегатыц', 'index2.php?option=comments', 'empathy.png', 5, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(3, 'Пользователи', '', 'index2.php?option=users', 'contact-new.png', 10, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(4, 'Странички', '', 'index2.php?option=pages', 'edit-select-all.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(33, 'Файловый манипулятор', '', 'index2.php?option=finder', 'folder-move.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(31, 'Блог', '', 'index2.php?option=blog', 'folder-documents.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(30, 'Кодер', '', 'index2.php?option=coder', 'gnome-fs-bookmark-missing.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(34, 'Новости', '', 'index2.php?option=news', 'xfce4-menueditor.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(37, 'Корзина', '', 'index2.php?option=trash', 'emptytrash.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(38, 'Группы пользователей', 'Группы пользователей', 'index2.php?option=usergroups', 'gwibber.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(39, 'Расширения', 'Расширения', 'index2.php?option=exts', 'gnome-power-manager.png', 0, 1, 1);
+INSERT INTO `jos_quickicons` VALUES(2, 'Пользователи', '', 'index2.php?option=users', 'contact-new.png', 10, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(3, 'Странички', '', 'index2.php?option=pages', 'edit-select-all.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(4, 'Блог', '', 'index2.php?option=blog', 'folder-documents.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(5, 'Кодер', '', 'index2.php?option=coder', 'gnome-fs-bookmark-missing.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(6, 'Новости', '', 'index2.php?option=news', 'xfce4-menueditor.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(7, 'Корзина', '', 'index2.php?option=trash', 'emptytrash.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(8, 'Группы пользователей', 'Группы пользователей', 'index2.php?option=usergroups', 'gwibber.png', 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -498,6 +520,11 @@ CREATE TABLE `jos_session` (
   KEY `userid` (`userid`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_session`
+--
+
 
 -- --------------------------------------------------------
 
@@ -556,7 +583,7 @@ CREATE TABLE `jos_trash` (
   `user_id` int(11) NOT NULL,
   `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_trash`
@@ -589,13 +616,13 @@ CREATE TABLE `jos_users` (
   KEY `idxemail` (`email`),
   KEY `block_id` (`state`,`id`),
   KEY `username_canonikal` (`username_canonikal`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=141 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_users`
 --
 
-INSERT INTO `jos_users` VALUES(1, 'admin', 'adm1n', '', 'admin@joostina.ru', '', '8946ff6c645d05bc6b1635ac03b80798:OgaubbtrYeZn1KJ3', 1, 8, 'SuperAdministrator', '2010-11-28 15:29:47', '2011-01-20 21:16:27', '', 0);
+INSERT INTO `jos_users` VALUES(1, 'admin', 'adm1n', '', 'admin@joostina.ru', '', '8946ff6c645d05bc6b1635ac03b80798:OgaubbtrYeZn1KJ3', 1, 8, 'SuperAdministrator', '2010-11-28 15:29:47', '2011-05-30 03:35:20', '', 0);
 
 -- --------------------------------------------------------
 
@@ -636,7 +663,7 @@ CREATE TABLE `jos_users_groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_users_groups`
@@ -650,43 +677,3 @@ INSERT INTO `jos_users_groups` VALUES(5, 4, 'Publisher', 'Публикаторы
 INSERT INTO `jos_users_groups` VALUES(6, 1, 'Manager', 'Менеджеры');
 INSERT INTO `jos_users_groups` VALUES(7, 6, 'Administrator', 'Администраторы');
 INSERT INTO `jos_users_groups` VALUES(8, 7, 'SuperAdministrator', 'Супер Администраторы');
-
---
--- Структура таблицы `jos_blog`
---
-
-CREATE TABLE `jos_blog` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `introtext` text,
-  `fulltext` longtext,
-  `params` text,
-  `category_id` tinyint(2) NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `state` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`slug`),
-  KEY `state` (`state`),
-  KEY `category_id` (`category_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_blog_category`
---
-
-CREATE TABLE `jos_blog_category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) NOT NULL,
-  `slug` varchar(100) NOT NULL,
-  `description` text NOT NULL,
-  `params` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `state` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`slug`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -1,6 +1,6 @@
 User-agent: *
 Disallow: /admin/
+Disallow: /app/
 Disallow: /cache/
 Disallow: /core/
 Disallow: /docs/
-Disallow: /tmp/

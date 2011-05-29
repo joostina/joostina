@@ -78,7 +78,7 @@ class actionsAdminModules {
 
 		$obj_data = new self::$model;
 
-		$_POST['params'] = json_encode($_POST['params']);
+		$_POST['params'] = json_encode( joosRequest::param('params','') );
 
 		$result = $obj_data->save($_POST);
 

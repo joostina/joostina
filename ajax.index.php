@@ -10,13 +10,8 @@
 // Установка флага, что это - родительский файл
 define('_JOOS_CORE', 1);
 
-// корень файлов
-define('JPATH_BASE', __DIR__);
 
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
-
-require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once (__DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
 
 // инициализация контроллера

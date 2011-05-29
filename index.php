@@ -13,18 +13,13 @@
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
 
-// корень файлов
-define('JPATH_BASE', __DIR__);
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
-
 // рассчет памяти
 function_exists('memory_get_usage') ? define('_MEM_USAGE_START', memory_get_usage()) : null;
 
 $sysstart = TRUE ? microtime(true) : null;
 
 // подключение главного файла - ядра системы
-require_once (JPATH_BASE . DS . 'core' . DS . 'joostina.php');
+require_once (__DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'front.root.php');
 
 joosDocument::header();

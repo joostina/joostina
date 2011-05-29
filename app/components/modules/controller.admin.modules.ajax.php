@@ -10,16 +10,12 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-
-// передаём управление полётом в автоматический Ajax - обработчик
-echo joosAutoAdmin::autoajax();
-
-class actionsModules {
+class actionsAjaxModules {
 
 	private static $implode_model = true;
 
-	public static function on_start() {
-		
+	public static function statuschanger() {
+		joosAutoAdmin::autoajax();
 	}
 
 	public static function index() {
@@ -28,7 +24,6 @@ class actionsModules {
 
 	public static function get_positions() {
 		$positions = new TemplatePositions;
-
 		$obj = new Modules;
 	}
 

@@ -37,7 +37,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
         <div id="top" class="wrapper">
             <a class="logo" href="<?php echo JPATH_SITE?>">&nbsp;</a>
 
-            <div class="right_part"><?php joosModule::load_by_id(10); ?></div>
+            <div class="right_part"><?php joosModule::load_by_id(4); ?></div>
         </div>
         <div class="topmenu">
             <div class="wrapper"><?php joosModule::load_by_id(3); ?></div>

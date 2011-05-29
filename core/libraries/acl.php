@@ -20,6 +20,10 @@ defined('_JOOS_CORE') or die();
 class joosAcl {
 
 	private static $instance;
+	/**
+	 *
+	 * @var Zend_Acl
+	 */
 	private static $acl;
 
 	public static function instance($isAdmin = false) {
@@ -39,6 +43,11 @@ class joosAcl {
 			self::$instance = new self;
 		}
 	}
+
+	public static function acl(){
+		return self::$acl;
+	}
+
 
 	public static function isAllowed($obj, $task = null) {
 

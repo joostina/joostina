@@ -15,8 +15,6 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-echo joosHTML::js_code('_current_uid=' . (Users::instance()->id ? Users::instance()->id : 'false'));
-
 $user = isset($params['user']) ? $params['user'] : joosCore::user();
 
 echo '<div id="login_area">';

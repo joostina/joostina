@@ -9,7 +9,7 @@ return array(
     'db' => array(
         //'host' => 'p:localhost', - для постоянного соединения
         'host' => 'localhost',
-        'name' => 'joostinagit',
+        'name' => 'jgit',
         'prefix' => 'jos_',
         'user' => 'root',
         'password' => 'root',

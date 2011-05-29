@@ -13,7 +13,7 @@ define('_JOOS_CORE', 1);
 // корень файлов панели управления
 define('JPATH_BASE_ADMIN', __DIR__);
 
-require_once ( dirname(JPATH_BASE_ADMIN)  . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
+require_once ( dirname(JPATH_BASE_ADMIN) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php');
 require_once (JPATH_BASE . DS . 'core' . DS . 'admin.root.php');
 require_once (JPATH_BASE . DS . 'app' . DS . 'bootstrap.php');
 
@@ -61,7 +61,8 @@ if (joosRequest::is_post()) {
 		// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
 		$bad_auth = $my->bad_auth_count;
 
-		if (strcmp($hash, $cryptpass) || !joosAcl::isAllowed('adminpanel')) {
+
+		if (strcmp($hash, $cryptpass) || !joosAcl::acl()->isAllowed(strtolower($my->groupname), 'adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
 			$database->set_query($query)->query();
