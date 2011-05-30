@@ -1,1 +1,7 @@
 1. Проверить все while в joosDatabase, joosInputFilter, Jevix
+
+joosPlugin::add('content.on.save', function(){} );
+joosPlugin::add('content.on.before.insert', 'tags' );
+joosPlugin::add('system.on.start', 'joosDebuger::start_timer' );
+
+joosPlugin::add('model.Blog.on.save', function(&$blog_item_obj){ $blog_item_obj->title = trim( $blog_item_obj->title ) } );

@@ -15,5 +15,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-// передаём управление полётом в автоматический Ajax - обработчик
-echo joosAutoAdmin::autoajax();
+class actionsAjaxPages {
+
+	public static function statuschanger() {
+		return joosAutoAdmin::autoajax();
+	}
+
+}

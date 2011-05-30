@@ -10,4 +10,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-echo joosAutoAdmin::autoajax();
+class actionsAjaxUsers{
+
+	public static function statuschanger() {
+		return joosAutoAdmin::autoajax();
+	}
+
+}

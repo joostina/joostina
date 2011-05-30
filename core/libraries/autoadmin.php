@@ -458,7 +458,7 @@ class joosAutoAdmin {
 					
 					// формируем ответ из противоположных элементов текущему состоянию
 					$return_onj->image = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';
-					$return_onj->mess = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'ERROR';
+					$return_onj->mess = isset($fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key] : 'ERROR';
 					break;
 
 				case 'ordering':
