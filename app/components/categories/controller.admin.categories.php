@@ -16,7 +16,6 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-
 class actionsAdminCategories {
 
 	/**
@@ -47,8 +46,6 @@ class actionsAdminCategories {
 				->add_css(JPATH_SITE . '/app/components/categories/media/css/categories.admin.css')
 				->add_js_file(JPATH_SITE . '/core/libraries/system/joiadmin/media/js/joiadmin.js')
 				->add_js_file(JPATH_SITE . '/app/components/categories/media/js/categories.admin.js');
-
-		joosLoader::admin_view('categories');
 
 		$group = joosRequest::request('group', '');
 		if ($group) {
@@ -123,8 +120,7 @@ class actionsAdminCategories {
 			$obj_data->metainfo = joosMetainfo::get_meta('category', 'item', $id);
 		}
 
-
-		thisHTML::edit($obj_data, $obj_data);
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**

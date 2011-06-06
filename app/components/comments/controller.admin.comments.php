@@ -18,10 +18,6 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsAdminComments {
 
-	public static function on_start() {
-		joosLoader::admin_view('comments');
-	}
-
 	/**
 	 * Название обрабатываемой модели
 	 * @var joosModel модель
@@ -44,8 +40,10 @@ class actionsAdminComments {
 		);
 		$obj_list = $obj->get_list($param);
 
-		// передаём данные в представление
-		thisHTML::index($obj, $obj_list, $pagenav);
+		// массив названий элементов для отображения в таблице списка
+		$fields_list = array('id', 'comment_text', 'user_id', 'obj_option', 'obj_id', 'state');
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -63,7 +61,7 @@ class actionsAdminComments {
 		$obj_data = new self::$model;
 		$obj_data->load($id);
 
-		thisHTML::edit($obj_data, $obj_data);
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**

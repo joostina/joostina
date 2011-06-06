@@ -40,8 +40,9 @@ class actionsAdminTemplates {
 		);
 		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
-		// передаём данные в представление
-		thisHTML::index($obj, $obj_list, $pagenav);
+		$fields_list = array('id', 'title', 'name');
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -61,7 +62,8 @@ class actionsAdminTemplates {
 		$obj_list = joosAutoAdmin::get_list($obj, $param);
 
 		// передаём данные в представление
-		thisHTML::index_positions($obj, $obj_list, $pagenav);
+		joosLoader::admin_view('templates');
+		htmlAdminTemplates::index_positions($obj, $obj_list, $pagenav);
 	}
 
 	/**
@@ -79,7 +81,7 @@ class actionsAdminTemplates {
 		$obj_data = new self::$model;
 		$id > 0 ? $obj_data->load($id) : null;
 
-		thisHTML::edit($obj_data, $obj_data);
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**
@@ -91,10 +93,6 @@ class actionsAdminTemplates {
 
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
-
-		//Сохраняем тэги
-		$tags = new Tags;
-		$tags->save_tags($obj_data);
 
 		if ($result == false) {
 			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();

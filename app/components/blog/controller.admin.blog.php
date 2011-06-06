@@ -61,7 +61,7 @@ class actionsAdminBlog {
 		$obj_data = new self::$model;
 		$id > 0 ? $obj_data->load($id) : null;
 
-		thisHTML::edit($obj_data, $obj_data);
+		joosAutoAdmin::edit($obj_data, $obj_data);
 	}
 
 	/**

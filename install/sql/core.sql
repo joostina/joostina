@@ -525,6 +525,12 @@ CREATE TABLE `jos_session` (
 -- Дамп данных таблицы `jos_session`
 --
 
+CREATE TABLE `jos_templates` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -677,3 +683,44 @@ INSERT INTO `jos_users_groups` VALUES(5, 4, 'Publisher', 'Публикаторы
 INSERT INTO `jos_users_groups` VALUES(6, 1, 'Manager', 'Менеджеры');
 INSERT INTO `jos_users_groups` VALUES(7, 6, 'Administrator', 'Администраторы');
 INSERT INTO `jos_users_groups` VALUES(8, 7, 'SuperAdministrator', 'Супер Администраторы');
+
+
+--
+-- Структура таблицы `jos_comments`
+--
+
+CREATE TABLE `jos_comments` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `path` varchar(255) NOT NULL,
+  `level` tinyint(1) NOT NULL DEFAULT '0',
+  `obj_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `obj_option` varchar(30) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `user_name` varchar(100) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
+  `user_ip` varchar(50) NOT NULL,
+  `comment_text` mediumtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `params` longtext,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `obj_id` (`obj_id`,`obj_option`),
+  KEY `state` (`state`),
+  KEY `path` (`path`,`level`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_comments_counter`
+--
+
+CREATE TABLE `jos_comments_counter` (
+  `obj_id` int(11) unsigned NOT NULL,
+  `obj_option` varchar(30) NOT NULL,
+  `last_user_id` int(11) unsigned NOT NULL,
+  `last_comment_id` int(11) unsigned NOT NULL,
+  `counter` int(11) unsigned NOT NULL,
+  UNIQUE KEY `obj_id` (`obj_id`,`obj_option`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
