@@ -102,6 +102,13 @@ class joosAutoloader {
 
 	private static function get_class_dinamic_path($class) {
 
+		// если в названии класса есть _ - то это подласс в общем файле класса модели
+		if (strpos($class, '_') > 0) {
+			$class_names = explode('_', $class);
+			$class = $class_names[0];
+		}
+
+
 		$file = '';
 		if (strpos($class, 'admin', 0) === 0) {
 			$name = str_replace('admin', '', $class);

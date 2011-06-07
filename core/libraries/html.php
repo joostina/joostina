@@ -132,4 +132,8 @@ class joosHTML {
 		}
 	}
 
+	public static function idBox($rowNum, $recId, $checkedOut = false, $name = 'cid') {
+		return $checkedOut ? '' : '<input boxtype="idbox" type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId . '" onclick="isChecked(this.checked);" />';
+	}
+
 }

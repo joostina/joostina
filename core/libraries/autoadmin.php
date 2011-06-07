@@ -159,7 +159,7 @@ class joosAutoAdmin {
 			$dop_class = $group_by ? $group_by . '-' . $values->$group_by : '';
 
 			echo "\n\t" . '<tr class="row-' . $k . '" ' . ($group_by ? 'obj_ordering="' . $values->ordering . '"' : '') . ' obj_id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">' . "\n\t";
-			echo "\t" . '<td align="center">' . html::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
+			echo "\t" . '<td align="center">' . joosHTML::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
 			for ($index = 0; $index < $n; $index++) {
 				$current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
 				$data = joosAutoAdmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
@@ -398,7 +398,7 @@ class joosAutoAdmin {
 
 			$return = array();
 			foreach ($class::$submenu as $href) {
-				$return[] = '<li>' . ($href['active'] == false ? HTML::anchor($href['href'], $href['name']) : '<span>' . $href['name'] . '</span>') . '</li>';
+				$return[] = '<li>' . ($href['active'] == false ? sprintf('<a href="%s">%s</a>',$href['href'], $href['name']) : '<span>' . $href['name'] . '</span>') . '</li>';
 			}
 
 			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode('', $return) . '</ul></div>';

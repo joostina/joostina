@@ -43,12 +43,12 @@ class adminCoder {
 		$buffer = array();
 		$buffer[] = "\n/**";
 		$buffer[] = "\n * Class $className";
-		$buffer[] = "\n * @package	Joostina.Components";
-		$buffer[] = "\n * @subpackage	$className";
+		$buffer[] = "\n * @package Joostina.Components";
+		$buffer[] = "\n * @subpackage $className";
 		$buffer[] = "\n * @author JoostinaTeam";
-		$buffer[] = "\n * @copyright (C) 2008-2011 Joostina Team";
+		$buffer[] = "\n * @copyright (C) 2007-2011 Joostina Team";
 		$buffer[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
-		$buffer[] = "\n * @version ";
+		$buffer[] = "\n * @version 1";
 		$buffer[] = "\n * @created " . _CURRENT_SERVER_TIME;
 		$buffer[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
 
@@ -68,7 +68,7 @@ class adminCoder {
 		//$buffer[] = "\n	 * @param object Database object";
 		$buffer[] = "\n	 */";
 		$buffer[] = "\n	function __construct(){";
-		$buffer[] = "\n		\parent::__construct( '#__$tableName', 'id' );";
+		$buffer[] = "\n		parent::__construct( '#__$tableName', 'id' );";
 		$buffer[] = "\n	}";
 
 		$buffer[] = "\n\n	public function check() {";
@@ -149,40 +149,44 @@ class adminCoder {
 
 }
 
-class dbFaker {
+class adminCoder_Faker {
 
 	public static $data_types = array(
 		'text' => array(
 			'name' => 'Текст',
-			'type' => ''
+			'types' => array('text', 'tinytext', 'mediumtext', 'longtext', 'blob', 'tinyblob', 'mediumblob', 'longblob'),
 		),
 		'text_small' => array(
 			'name' => 'Заголовок',
-			'type' => ''
+			'types' => array('varchar'),
 		),
 		'text_name' => array(
 			'name' => 'Имя',
-			'type' => ''
+			'types' => array('varchar'),
 		),
 		'href' => array(
 			'name' => 'Ссылка',
-			'type' => ''
+			'types' => array('varchar'),
 		),
 		'integer' => array(
 			'name' => 'Число',
-			'type' => ''
+			'types' => array('tinyint', 'smallint', 'int'),
 		),
 		'integer_range' => array(
 			'name' => 'Числа из диапазона',
-			'type' => ''
+			'types' => array('tinyint', 'smallint', 'int'),
 		),
 		'date' => array(
 			'name' => 'Дата',
-			'type' => ''
+			'types' => array('date'),
+		),
+		'time' => array(
+			'name' => 'Время',
+			'types' => array('time'),
 		),
 		'date_time' => array(
 			'name' => 'Дата и время',
-			'type' => ''
+			'types' => array('datetime'),
 		)
 	);
 	public static $types_mapping = array(
@@ -190,3 +194,5 @@ class dbFaker {
 	);
 
 }
+
+#<select id="field_0_2" name="field_type[0]"><option value="VARCHAR">VARCHAR</option><option selected="selected" value="TINYINT">TINYINT</option><option value="TEXT">TEXT</option><option value="DATE">DATE</option><option value="SMALLINT">SMALLINT</option><option value="MEDIUMINT">MEDIUMINT</option><option value="INT">INT</option><option value="BIGINT">BIGINT</option><option value="FLOAT">FLOAT</option><option value="DOUBLE">DOUBLE</option><option value="DECIMAL">DECIMAL</option><option value="DATETIME">DATETIME</option><option value="TIMESTAMP">TIMESTAMP</option><option value="TIME">TIME</option><option value="YEAR">YEAR</option><option value="CHAR">CHAR</option><option value="TINYBLOB">TINYBLOB</option><option value="TINYTEXT">TINYTEXT</option><option value="BLOB">BLOB</option><option value="MEDIUMBLOB">MEDIUMBLOB</option><option value="MEDIUMTEXT">MEDIUMTEXT</option><option value="LONGBLOB">LONGBLOB</option><option value="LONGTEXT">LONGTEXT</option><option value="ENUM">ENUM</option><option value="SET">SET</option>    </select>

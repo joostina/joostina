@@ -1,17 +1,21 @@
 <?php
 
-/**
- * @package Joostina
- * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosAutoAdmin::dispatch_ajax();
-
+/**
+ * Coder - Компонент управляемой генерации расширений системы
+ * Аякс - контроллер панели управления
+ *
+ * @version 1.0
+ * @package Joostina.Components.Controllers
+ * @subpackage Coder
+ * @author Joostina Team <info@joostina.ru>
+ * @copyright (C) 2008-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class actionsAjaxCoder {
 
 	private static $implode_model = true;
@@ -30,25 +34,32 @@ class actionsAjaxCoder {
 	public static function table_select() {
 		$table = joosRequest::post('table');
 
-		$types = dbFaker::$data_types;
+		$types = adminCoder_Faker::$data_types;
+		$type_names = array();
 
-		array_walk($types, function(&$v) {
-					$v = $v['name'];
+		array_walk($types, function($v, $k) use (&$type_names) {
+					$type_names[$k] = $v['name'];
 				});
 
 		$table_fields = joosDatabase::instance()->get_utils()->get_table_fields($table);
 
 		$ret = array();
-		$ret[] = '<table><tr><th>Поле<th><th>Заполнить<th></tr>';
+		$ret[] = '<table valign="top"><tr><th>Поле<th><th>Заполнить<th></tr>';
 		foreach ($table_fields as $key => $value) {
 			$type = preg_replace('#[^A-Z]#i', '', $value);
 			$type = str_replace('unsigned', '', $type);
-			$faker_selector = forms::dropdown('type', $types, null);
+			$active_option = null;
+
+			array_walk($types, function($v, $k) use ($type, &$active_option) {
+						$active_option = (in_array($type, $v['types']) && $active_option === null) ? $k : $active_option;
+					});
+
+			$faker_selector = forms::dropdown('type', $type_names, $active_option);
 			$ret[] = sprintf('<tr><td>%s <small>(%s)</small></td><td>%s</td></tr>', $key, $type, $faker_selector);
 		}
 		$ret[] = '</table>';
 
-		return implode('<br />', $ret);
+		return implode('', $ret);
 	}
 
 	public static function generate_code() {

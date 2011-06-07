@@ -19,24 +19,25 @@ class actionsAdminCoder {
 
 	public static $submenu = array(
 		'model_generator' => array(
-			'name' => 'Моделегенератор',
+			'name' => 'Генератор моделей',
 			'href' => 'index2.php?option=coder',
 			'active' => false
 		),
+		'component_generator' => array(
+			'name' => 'Генератор компонента',
+			'href' => 'index2.php?option=coder&task=componenter',
+			'active' => false
+		),
 		'db_faker' => array(
-			'name' => 'Базадурьюзаполнялка',
+			'name' => 'Генератор тестовых данных',
 			'href' => 'index2.php?option=coder&task=faker',
 			'active' => false
 		),
-		'component_generator' => array(
-			'name' => 'Компонентогенератор',
-			'href' => 'index2.php?option=coder&task=componenter',
-			'active' => false
-		)
 	);
 
 	public static function on_start() {
-		joosDocument::instance()->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
 	}
 
 	public static function index() {
@@ -44,7 +45,7 @@ class actionsAdminCoder {
 		//Установка подменю
 		self::$submenu['model_generator']['active'] = true;
 
-		echo joosAutoAdmin::header('Кодер', 'Моделегенератор');
+		echo joosAutoAdmin::header('Кодер', self::$submenu['model_generator']['name']);
 
 
 		$rets = array();
@@ -74,7 +75,7 @@ class actionsAdminCoder {
 		//Установка подменю
 		self::$submenu['db_faker']['active'] = true;
 
-		echo joosAutoAdmin::header('Кодер', 'БазаДурьюЗаполнялка');
+		echo joosAutoAdmin::header('Кодер', self::$submenu['db_faker']['name']);
 
 
 		$rets = array();
@@ -106,7 +107,7 @@ class actionsAdminCoder {
 		self::$submenu['component_generator']['active'] = true;
 
 		//Установка заголовка
-		echo joosAutoAdmin::header('Кодер', 'Компонентогенератор');
+		echo joosAutoAdmin::header('Кодер', self::$submenu['db_faker']['name']);
 		?>
 		<table class="adminlist">
 			<tr>
@@ -115,7 +116,7 @@ class actionsAdminCoder {
 			</tr>
 			<tr>
 				<td width="200">
-		<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
+					<?php echo forms::open('#', array('id' => 'componenter_form')); ?>
 					<label for="">Имя компонента:</label><br/>
 					<input type="text" name="component_name" class="text" value="news"/>
 					<br/><br/>
@@ -135,7 +136,7 @@ class actionsAdminCoder {
 					<label for="">Email:</label><br/>
 					<input type="text" name="component_authoremail" class="text" value="info@joostina.ru"/>
 					<br/><br/>
-		<?php echo forms::close(); ?>
+					<?php echo forms::close(); ?>
 					<button id="create_component">Сгенерировать</button>
 				</td>
 				<td>

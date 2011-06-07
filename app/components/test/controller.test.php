@@ -21,7 +21,7 @@ class actionsTest {
 	public static function index() {
 
 		
-		echo joosDateTime::russian_date('d F Y года, l', strtotime('31-10-1983') );
+		echo strpos('asdad_sda', '_');
 		
 		die();
 
