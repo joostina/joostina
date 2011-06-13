@@ -480,7 +480,6 @@ INSERT INTO `jos_quickicons` VALUES(4, 'Блог', '', 'index2.php?option=blog',
 INSERT INTO `jos_quickicons` VALUES(5, 'Кодер', '', 'index2.php?option=coder', 'gnome-fs-bookmark-missing.png', 0, 1, 0);
 INSERT INTO `jos_quickicons` VALUES(6, 'Новости', '', 'index2.php?option=news', 'xfce4-menueditor.png', 0, 1, 0);
 INSERT INTO `jos_quickicons` VALUES(7, 'Корзина', '', 'index2.php?option=trash', 'emptytrash.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(8, 'Группы пользователей', 'Группы пользователей', 'index2.php?option=usergroups', 'gwibber.png', 0, 1, 0);
 
 -- --------------------------------------------------------
 

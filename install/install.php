@@ -165,7 +165,7 @@ function __($s) {
 				</tr>
 				<tr class="warning">
 					<th>Всю ответственность понимаю</th>
-					<td><button >Установить базу данных</button></td>
+					<td><button id="check_mysql_connect">Установить базу данных</button></td>
 				</tr>
 				<tr class="warning description">
 					<td colspan="2">Если все поля выше заполнены правильно - можно нажать на кнопку выше</td>
