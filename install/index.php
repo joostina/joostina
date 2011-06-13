@@ -42,7 +42,7 @@ $tests[] = array(
 );
 
 $tests['ha'] = array(
-	'title' => '.htaccess file protection',
+	'title' => 'Защита через файл .htaccess',
 	'required' => FALSE,
 	'description' => 'File protection by <code>.htaccess</code> is optional. If it is absent, you must be careful to put files into document_root folder.',
 	'script' => "var el = document.getElementById('resha');\nel.className = typeof checkerScript == 'undefined' ? 'passed' : 'warning';\nel.parentNode.removeChild(el.nextSibling.nodeType === 1 ? el.nextSibling : el.nextSibling.nextSibling);",

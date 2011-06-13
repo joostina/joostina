@@ -155,7 +155,7 @@ class adminUsers extends Users {
  * @subpackage    Joostina CMS
  * @created    2010-10-20 16:48:08
  */
-class adminUsersGroups extends UsersGroups {
+class adminUsers_Groups extends UsersGroups {
 
 	public function check() {
 		$this->filter();
@@ -182,11 +182,11 @@ class adminUsersGroups extends UsersGroups {
 				'in_admintable' => false,
 				'html_table_element' => 'one_from_array',
 				'html_table_element_param' => array(
-					'call_from' => 'UsersGroups::get_parent_usergroup'
+					'call_from' => 'adminUsers_Groups::get_parent_usergroup'
 				),
 				'html_edit_element' => 'extra',
 				'html_edit_element_param' => array(
-					'call_from' => 'UsersGroups::get_parent_usergroup_selector'
+					'call_from' => 'adminUsers_Groups::get_parent_usergroup_selector'
 				),
 			),
 			'title' => array(

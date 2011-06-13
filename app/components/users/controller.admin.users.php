@@ -22,8 +22,23 @@ class actionsAdminUsers {
 		'adminUsers' => array('Пользователи',
 			array('id', 'username', 'gid', 'lastvisitDate', 'state')
 		),
-		'adminUsersGroups' => array('Группы пользователей',
+		'adminUsers_Groups' => array('Группы пользователей',
 			array('group_title', 'title', 'parent_id')
+		)
+	);
+	/**
+	 * Подменю
+	 */
+	public static $submenu = array(
+		'users' => array(
+			'name' => 'Пользователи',
+			'href' => 'index2.php?option=users',
+			'active' => false
+		),
+		'usersgroups' => array(
+			'name' => 'Группы пользователей',
+			'href' => 'index2.php?option=users&model=adminUsers_Groups',
+			'active' => false
 		)
 	);
 	/**

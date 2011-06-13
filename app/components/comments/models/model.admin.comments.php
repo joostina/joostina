@@ -38,7 +38,7 @@ class adminComments extends Comments {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(
-					'width' => '20px',
+					'width' => '100px',
 					'align' => 'center'
 				)
 			),
@@ -49,7 +49,7 @@ class adminComments extends Comments {
 				'in_admintable' => true,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(
-					'width' => '50px',
+					'width' => '100px',
 					'align' => 'center'
 				)
 			),

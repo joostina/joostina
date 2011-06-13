@@ -159,22 +159,22 @@ class joosMetainfo extends joosModel {
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => '–Ь–µ—В–∞–і–∞–љ–љ—Л–µ',
-			'header_new' => '–Ь–µ—В–∞–і–∞–љ–љ—Л–µ',
-			'header_edit' => '–Ь–µ—В–∞–і–∞–љ–љ—Л–µ'
+			'header_list' => 'Метаданные',
+			'header_new' => 'Метаданные',
+			'header_edit' => 'Метаданные'
 		);
 	}
 
-	//–£—Б—В–∞–љ–Њ–≤–Ї–∞ –Љ–µ—В–∞–і–∞–љ–љ—Л—Е —Б—В—А–∞–љ–Є—Ж—Л
+	//Установка метаданных страницы
 
 	/**
 	 * joosMetainfo::set_meta()
-	 * –£—Б—В–љ–Њ–≤–Ї–∞ –Љ–µ—В–∞–і–∞–љ–љ—Л—Е —Б—В—А–∞–љ–Є—Ж—Л: title,  MetaDescription, MetaKeywords
+	 * Устновка метаданных страницы: title, MetaDescription, MetaKeywords
 	 *
-	 * @param string $group –Ъ–Њ–Љ–њ–Њ–љ–µ–љ—В
-	 * @param string $subgroup –Ь–µ—В–Њ–і –Ї–Њ–љ—В—А–Њ–ї–ї–µ—А–∞
-	 * @param mixed $obj_id ID –Њ–±—К–µ–Ї—В–∞
-	 * @param array $defaults –Ь–∞—Б—Б–Є–≤ –і–µ—Д–Њ–ї—В–љ—Л—Е –Ј–љ–∞—З–µ–љ–Є–µ array('title'=>'', 'description'=>'', 'keywords'=>''))
+	 * @param string $group Компонент
+	 * @param string $subgroup Метод контроллера
+	 * @param mixed $obj_id ID объекта
+	 * @param array $defaults Массив дефолтных значение array('title'=>'', 'description'=>'', 'keywords'=>''))
 	 */
 	public static function set_meta($group, $subgroup, $obj_id = '', $defaults = array()) {
 
@@ -190,7 +190,7 @@ class joosMetainfo extends joosModel {
 			$meta_keywords = isset($meta_array['meta_keywords']) ? $meta_array['meta_keywords'] : $defaults['keywords'];
 		}
 
-		//–Ч–∞–≥–Њ–ї–Њ–≤–Њ–Ї —Б—В—А–∞–љ–Є—Ж—Л
+		//Заголовок страницы
 		joosDocument::instance()
 				->add_title($meta_title);
 
@@ -210,7 +210,7 @@ class joosMetainfo extends joosModel {
 
 	/**
 	 * Meta::add()
-	 * –Э–Њ–≤–∞—П –Ј–∞–њ–Є—Б—М —Б –Љ–µ—В–∞–Є–љ—Д–Њ—А–Љ–∞—Ж–Є–µ–є —Б—В—А–∞–љ–Є—Ж—Л
+	 * Новая запись с метаинформацией страницы
 	 */
 	public static function add_meta($source, $group, $subgroup = '', $obj_id = '') {
 
@@ -230,7 +230,7 @@ class joosMetainfo extends joosModel {
 
 	/**
 	 * Meta::get_meta()
-	 * –Я–Њ–ї—Г—З–µ–љ–Є–µ –Љ–µ—В–∞–Є–љ—Д–Њ—А–Љ–∞—Ж–Є–Є —Б—В—А–∞–љ–Є—Ж—Л
+	 * Получение метаинформации страницы
 	 */
 	public static function get_meta($group, $subgroup = '', $obj_id = null) {
 
@@ -245,7 +245,7 @@ class joosMetainfo extends joosModel {
 
 	/**
 	 * Meta::get_all_meta()
-	 * –Я–Њ–ї—Г—З–µ–љ–Є–µ –≤—Б–µ—Е –Љ–µ—В–∞–і–∞–љ–љ—Л—Е
+	 * Получение всех метаданных
 	 */
 	public static function get_all_meta() {
 		return joosDatabase::getInstance()->setQuery('SELECT * FROM #__metainfo')->loadObjectList('obj_id');
@@ -253,7 +253,7 @@ class joosMetainfo extends joosModel {
 
 	/**
 	 * Meta::get_all_meta_items()
-	 * –Я–Њ–ї—Г—З–µ–љ–Є–µ –≤—Б–µ—Е –Љ–µ—В–∞–і–∞–љ–љ—Л—Е
+	 * Получение всех метаданных
 	 */
 	public static function get_all_meta_items($group, $subgroup) {
 		return joosDatabase::getInstance()->setQuery("SELECT id as meta_id, obj_id, meta_title, meta_description, meta_keywords FROM #__metainfo WHERE subgroup='" . $subgroup . "' AND obj_id > 0 AND group = '" . $group . "'")->loadObjectList('obj_id');
