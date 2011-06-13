@@ -39,6 +39,14 @@ class adminUsers extends Users {
 				'html_edit_element' => 'edit',
 				'html_table_element' => 'editlink',
 			),
+			'realname' => array(
+				'name' => 'Настоящее имя',
+				'editable' => true,
+				'sortable' => true,
+				'in_admintable' => true,
+				'html_edit_element' => 'edit',
+				'html_table_element' => 'value',
+			),
 			'state' => array(
 				'name' => 'Разрешен',
 				'editable' => true,
