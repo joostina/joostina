@@ -679,7 +679,8 @@ table th {
 }
 
 td.td-state-joiadmin {
-    text-align: center
+    text-align: center;
+	cursor: pointer;
 }
 
 td {

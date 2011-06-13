@@ -10,17 +10,12 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosAutoAdmin::dispatch_ajax();
-
-// передаём управление полётом в автоматический Ajax - обработчик
-joosAutoAdmin::autoajax();
-
 class actionsAjaxContent {
 
 	private static $implode_model = true;
 
 	public static function index() {
-
+		joosAutoAdmin::autoajax();
 	}
 
 	public static function image_uploader() {

@@ -136,9 +136,9 @@ class joosParams extends joosModel {
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => '–Я–∞—А–∞–Љ–µ—В—А—Л',
-			'header_new' => '–°–Њ–Ј–і–∞–љ–Є–µ –њ–∞—А–∞–Љ–µ—В—А–Њ–≤',
-			'header_edit' => '–†–µ–і–∞–Ї—В–Є—А–Њ–≤–∞–љ–Є–µ –њ–∞—А–∞–Љ–µ—В—А–Њ–≤'
+			'header_list' => 'Параметры',
+			'header_new' => 'Создание параметров',
+			'header_edit' => 'Редактирование параметров'
 		);
 	}
 
@@ -179,10 +179,12 @@ class joosParams extends joosModel {
 
 			$params = array(
 				'notdefault' => array(
+					// @todo исправить кодировку
 					'name' => 'вАУ¬∞вАУ—ЪвАУ¬µвАФ–ЦвАУ–ДвАУвИЮвАУ—ЧвАФ–ЬвАУ—ЩвАФ–ЫвАУ¬µ вАУ—ЩвАУвИЮвАФ–СвАФ–ТвАФ–РвАУ–КвАУ—ФвАУ–ЗвАУ–Д',
 					'editable' => true,
 					'html_edit_element' => 'checkbox',
 					'html_edit_element_param' => array(
+						// @todo исправить кодировку
 						'text' => 'вАУ¬∞вАУ—ЪвАУ¬µвАФ–ЦвАУ–ДвАУвИЮвАУ—ЧвАФ–ЬвАУ—ЩвАФ–ЫвАУ¬µ вАУ—ЩвАУвИЮвАФ–СвАФ–ТвАФ–РвАУ–КвАУ—ФвАУ–ЗвАУ–Д',
 					)
 				)

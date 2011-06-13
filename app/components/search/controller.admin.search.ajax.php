@@ -16,13 +16,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosAutoAdmin::dispatch_ajax();
-joosAutoAdmin::autoajax();
-
 class actionsAjaxSearch {
 
 	public static function index() {
-		
+		joosAutoAdmin::autoajax();
 	}
 
 }

@@ -49,7 +49,10 @@ class joosAutoAdmin {
 		self::$option = $option;
 		self::$task = $task;
 
-
+		// подключаем js код библиотеки
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
+		
 		!JDEBUG ? : joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task);
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
@@ -118,10 +121,6 @@ class joosAutoAdmin {
 
 		// путь к текущим графическим элементам
 		echo joosHTML::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
-
-		// подключаем js код библиотеки
-		joosDocument::instance()
-				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
 
 		$fields_info = $obj->get_fieldinfo();
 

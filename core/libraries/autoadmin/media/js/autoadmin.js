@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     // клики на ячуйки и значки смены статуса
     $('.adminlist .td-state-joiadmin').live('click', function() {
         // объект по которому производится клик

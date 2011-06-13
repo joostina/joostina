@@ -10,14 +10,12 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosAutoAdmin::dispatch_ajax();
-
 class actionsAjaxCategories {
 
 	private static $implode_model = true;
 
 	public static function index() {
-
+		
 	}
 
 	public static function image_uploader() {

@@ -44,7 +44,6 @@ class actionsAdminCategories {
 
 		joosDocument::instance()
 				->add_css(JPATH_SITE . '/app/components/categories/media/css/categories.admin.css')
-				->add_js_file(JPATH_SITE . '/core/libraries/system/joiadmin/media/js/joiadmin.js')
 				->add_js_file(JPATH_SITE . '/app/components/categories/media/js/categories.admin.js');
 
 		$group = joosRequest::request('group', '');
