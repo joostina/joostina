@@ -1668,4 +1668,14 @@ class joosModel {
 		return $this->_db->set_query(sprintf($fmtsql, implode(' AND ', $tmp)), $offset, $limit)->load_object_list($tbl_key);
 	}
 
+	/**
+	 * Возвращает максимальное значение по заданному полю
+	 * @param string $name Иимя поля
+	 * @return integer максимальное значение
+	 */
+	function get_max_by_field($name) {
+		$query = 'SELECT  '.$name.' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
+		return  $this->_db->set_query($query)->load_result();
+	}
+
 }

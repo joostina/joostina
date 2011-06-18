@@ -177,6 +177,7 @@ class actionsAdminContent {
 		}
 
 
+
 		if ($result == false) {
 			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;

@@ -147,7 +147,9 @@ class actionsAdminCategories {
 		} else {
 			$cat_details->bind($_POST);
 			$cat_details->cat_id = $obj->id;
+
 			joosDatabase::instance()->insert_object('#__categories_details', $cat_details);
+
 		}
 
 		//Сохранение параметров
@@ -159,6 +161,8 @@ class actionsAdminCategories {
 
 		//Сохранение мета-информации
 		joosMetainfo::add_meta($_POST['metainfo'], 'category', 'item', $obj->id);
+
+		
 
 		switch ($redirect) {
 			default:

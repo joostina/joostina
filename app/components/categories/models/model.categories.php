@@ -448,11 +448,12 @@ class CategoriesDetails extends joosModel {
 	}
 
 	public function before_insert() {
-		$this->created_at = _CURRENT_SERVER_TIME;
+
 		return true;
 	}
 
 	public function after_insert() {
+
 		return true;
 	}
 

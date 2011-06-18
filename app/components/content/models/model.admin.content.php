@@ -195,7 +195,7 @@ class adminContent extends Content {
 
 	public function before_insert() {
 		$this->created_at = _CURRENT_SERVER_TIME;
-		$this->ordering = $this->max('ordering') + 1;
+		$this->ordering = $this->get_max_by_field('ordering') + 1;
 		return true;
 	}
 
