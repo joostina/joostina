@@ -60,19 +60,17 @@ class actionsAjaxCategories {
 			return;
 		}
 
-		$cat = clone $cats;
-		$cat->load($cat_id);
-
-		$segments = array();
-
 		//Если  в качестве родителя выбран корень
 		if ($parent_id == 1) {
 			//просто транслитерируем название категории
-			$slug = joosText::str_to_url($cat->name);
+			$slug = joosText::str_to_url($cat_name);
 		}
 
 		//иначе - построим путь c учётом выбранного родителя
 		else {
+
+			$segments = array();
+
 			$path = $cats->get_path_from_root($parent_id);
 			unset($path[1]);
 
