@@ -140,19 +140,19 @@ class joosNestedSet extends joosModel {
 			return false;
 		}
 
-		if (!joosRequest::post('id', 0)) {
-			$sql = 'UPDATE ' . $this->_tbl . ' SET `rgt` = `rgt` + 2  WHERE `rgt` >= ' . $parent->rgt;
-			$this->_db->set_query($sql)->query();
+		//TODO: здесь можно добавить проверку на то, сменился ли родитель и делать пересчет узла только в случаем смены
+		$sql = 'UPDATE ' . $this->_tbl . ' SET `rgt` = `rgt` + 2  WHERE `rgt` >= ' . $parent->rgt;
+		$this->_db->set_query($sql)->query();
 
 
-			$sql = 'UPDATE ' . $this->_tbl . ' SET `lft` = `lft` + 2  WHERE `lft` > ' . $parent->rgt;
-			$this->_db->set_query($sql)->query();
+		$sql = 'UPDATE ' . $this->_tbl . ' SET `lft` = `lft` + 2  WHERE `lft` > ' . $parent->rgt;
+		$this->_db->set_query($sql)->query();
 
-			$this->lft = $parent->rgt;
-			$this->rgt = $parent->rgt + 1;
-			$this->level = $parent->level + 1;
-			$this->parent_id = $parent->id;
-		}
+		$this->lft = $parent->rgt;
+		$this->rgt = $parent->rgt + 1;
+		$this->level = $parent->level + 1;
+		$this->parent_id = $parent->id;
+
 
 		parent::save($source, $ignore);
 

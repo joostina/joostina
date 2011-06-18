@@ -230,13 +230,11 @@ class actionsAdminCategories {
 
 		$cats = new Categories;
 
-
 		if (joosRequest::request('del_childs', 'no') == 'yes') {
 			$action = $cats->delete_branch(joosRequest::request('id'));
 		} else {
 			$action = $cats->delete_node(joosRequest::request('id'));
 		}
-
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
 		$action === true ? joosRoute::redirect($redirect, 'Категория удалена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
