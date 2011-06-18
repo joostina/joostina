@@ -58,7 +58,7 @@ class joosImage {
 			$size = $size ? 'image_' . $size . '.png' : 'image.png';
 			$file_location = '/attachments/' . $dir . '/' . $location . '/' . $size;
 			$image_attr += array('src' => JPATH_SITE . '/' . $file_location);
-			return is_file(JPATH_BASE . DS . $file_location) ? HTML::image($image_attr) : false;
+			return is_file(JPATH_BASE . DS . $file_location) ? joosHtml::image($image_attr) : false;
 		}
 		return false;
 	}
@@ -66,7 +66,7 @@ class joosImage {
 	public static function get_image_default($image_attr = array()) {
 		$file_location = JPATH_SITE . '/media/images/nomp3s.jpg';
 		$image_attr += array('src' => $file_location, 'alt' => '');
-		return HTML::image($image_attr);
+		return joosHtml::image($image_attr);
 	}
 
 }

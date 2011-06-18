@@ -138,7 +138,7 @@ class Blog extends joosModel {
 				$size = $size ? 'image_' . $size . '.png' : 'image.png';
 				$file_location = JPATH_SITE . '/attachments/blogs/' . $location . '/' . $size;
 				$image_attr += array('src' => $file_location, 'title' => $blog_item->title, 'alt' => $blog_item->title);
-				return HTML::image($image_attr);
+				return joosHtml::image($image_attr);
 			}
 		}
 		return false;
@@ -147,7 +147,7 @@ class Blog extends joosModel {
 	public static function get_image_default($image_attr = array()) {
 		$file_location = JPATH_SITE . '/media/images/noimg.jpg';
 		$image_attr += array('src' => $file_location, 'alt' => '');
-		return HTML::image($image_attr);
+		return joosHtml::image($image_attr);
 	}
 
 }

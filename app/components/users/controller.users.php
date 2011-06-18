@@ -127,7 +127,7 @@ class actionsUsers extends joosController {
 			joosBreadcrumbs::instance()
 					->add($username);
 
-			joosHTML::make_safe($user);
+			joosHtml::make_safe($user);
 
 			return array(
 				'user' => $user,
@@ -221,7 +221,7 @@ class actionsUsers extends joosController {
 			Users::login($user->username, $_POST['password']);
 		} else {
 			joosRoute::redirect(JPATH_SITE);
-			//userHTML::register($user, $validator);
+			//userjoosHtml::register($user, $validator);
 		}
 	}
 
@@ -229,7 +229,7 @@ class actionsUsers extends joosController {
 	 * Форма восстановления пароля
 	 */
 	public static function lostpassword() {
-		$_POST ? self::send_new_pass() : userHTML::lostpassword();
+		$_POST ? self::send_new_pass() : userjoosHtml::lostpassword();
 	}
 
 	/**

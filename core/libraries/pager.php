@@ -281,7 +281,6 @@ class joosPager {
 		$this->offset = $this->low;
 
 
-		$this->components['jump_menu'] = $this->showJumpMenu();
 		$this->components['current_page'] = $this->currentPage;
 		$this->components['total_page'] = $this->totalPage;
 

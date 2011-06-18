@@ -28,11 +28,11 @@ class navigationHelper
             ),
             'О нас' => array(
                 'title' => '',
-                'href' => '/about',
+                'href' => joosRoute::href('pages_view', array('page_name'=>'about')),
                 'children' => array(
                     'О нас' => array(
                         'title' => '',
-                        'href' => '/about',
+                        'href' => joosRoute::href('pages_view', array('page_name'=>'about')),
                     ),
                     'Обратная связь' => array(
                         'title' => '',

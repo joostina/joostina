@@ -14,8 +14,8 @@ class elrteEditor {
 
 	public static function init() {
 
-		joosHTML::load_jquery();
-		joosHTML::load_jquery_ui();
+		joosHtml::load_jquery();
+		joosHtml::load_jquery_ui();
 
 		joosDocument::instance()
 				->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css')
@@ -70,7 +70,7 @@ EOD;
 	}
 
 	public static function get_content($name, $params = array()) {
-		return isset($params['js_wrap']) ? joosHTML::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
+		return isset($params['js_wrap']) ? joosHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
 	}
 
 }

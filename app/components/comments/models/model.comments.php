@@ -126,7 +126,7 @@ class Comments extends joosModel {
 		joosDocument::instance()
 				->add_js_file(JPATH_SITE . '/includes/libraries/ajaxpager/media/js/jquery.paginate.js')
 				->add_css(JPATH_SITE . '/includes/libraries/ajaxpager/media/css/ajaxpager.css')
-				->add_custom_head_tag(joosHTML::js_code("var _comments_objoption = '$this->obj_option';var _comments_objid = $this->obj_id;var _comments_limit = $limit;var _comments_display = $visible_pages;"))
+				->add_custom_head_tag(joosHtml::js_code("var _comments_objoption = '$this->obj_option';var _comments_objid = $this->obj_id;var _comments_limit = $limit;var _comments_display = $visible_pages;"))
 				->add_js_file(JPATH_SITE . '/components/comments/media/js/comments.js');
 	}
 
@@ -141,7 +141,7 @@ class Comments extends joosModel {
 		$this->obj_option = get_class($obj);
 		$this->obj_id = $obj->{$obj->_tbl_key}; // настоящая уличная магия
 		//JS объявления, необходимые для загрузки первой страницы комментариев
-		$script = joosHTML::js_code("var _comments_objoption = '$this->obj_option';var _comments_objid = $this->obj_id;");
+		$script = joosHtml::js_code("var _comments_objoption = '$this->obj_option';var _comments_objid = $this->obj_id;");
 
 		if (joosRequest::is_ajax()) {
 			echo $script;
@@ -154,9 +154,9 @@ class Comments extends joosModel {
 		$comments_list = $this->get_comments();
 
 		//Выводим список комментариев если они есть
-		$comments_list ? commentsHTML::lists($comments_list) : commentsHTML::emptylists();
+		$comments_list ? commentsjoosHtml::lists($comments_list) : commentsjoosHtml::emptylists();
 
-		commentsHTML::addform();
+		commentsjoosHtml::addform();
 	}
 
 	/**

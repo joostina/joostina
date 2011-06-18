@@ -117,14 +117,14 @@ class News extends joosModel {
 		$file_location = JPATH_SITE_IMAGES . '/' . $item->image . '/' . $type . '.jpg';
 
 		$image_attr += array('src' => $file_location, 'title' => $item->title, 'alt' => $item->title);
-		return HTML::image($image_attr);
+		return joosHtml::image($image_attr);
 	}
 
 	public static function get_image_default($image_attr = array()) {
 
 		$file_location = JPATH_SITE . '/media/images/noimg.jpg';
 		$image_attr += array('src' => $file_location, 'alt' => '');
-		return HTML::image($image_attr);
+		return joosHtml::image($image_attr);
 	}
 
 }

@@ -120,7 +120,7 @@ class joosAutoAdmin {
 		$option = joosRequest::param('option');
 
 		// путь к текущим графическим элементам
-		echo joosHTML::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
+		echo joosHtml::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
 
 		$fields_info = $obj->get_fieldinfo();
 
@@ -158,7 +158,7 @@ class joosAutoAdmin {
 			$dop_class = $group_by ? $group_by . '-' . $values->$group_by : '';
 
 			echo "\n\t" . '<tr class="row-' . $k . '" ' . ($group_by ? 'obj_ordering="' . $values->ordering . '"' : '') . ' obj_id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">' . "\n\t";
-			echo "\t" . '<td align="center">' . joosHTML::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
+			echo "\t" . '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
 			for ($index = 0; $index < $n; $index++) {
 				$current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
 				$data = joosAutoAdmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
@@ -360,7 +360,7 @@ class joosAutoAdmin {
 		$return .= '<div id="component_form">';
 
 		//Поиск, фильтры и т.п.
-		$return .= adminHTML::controller_header(false, 'config', $extra);
+		$return .= adminHtml::controller_header(false, 'config', $extra);
 
 		return $return;
 	}

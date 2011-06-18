@@ -211,16 +211,16 @@ class joosAdminPagenator {
 
 		$limits = array();
 		for ($i = 5; $i <= 30; $i += 5) {
-			$limits[] = html::make_option("$i");
+			$limits[] = joosHtml::make_option("$i");
 		}
 
-		$limits[] = html::make_option('50');
-		$limits[] = html::make_option('100');
-		$limits[] = html::make_option('150');
-		$limits[] = html::make_option('50000', __('-Всё-'));
+		$limits[] = joosHtml::make_option('50');
+		$limits[] = joosHtml::make_option('100');
+		$limits[] = joosHtml::make_option('150');
+		$limits[] = joosHtml::make_option('50000', __('-Всё-'));
 		// build the html select list
 		$html = ' ' . __('Отображать') . ' ';
-		$html .= html::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
+		$html .= joosHtml::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		return $html;
 	}

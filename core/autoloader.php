@@ -59,9 +59,8 @@ class joosAutoloader {
 		// системные модели
 		//'User' => 'app/components/users/models/model.users.php',
 		// Это старьё, надо переписать либо удалить
-		'htmlTabs' => 'core/vendors/html/html.php',
+		'htmlTabs' => 'core/libraries/html.php',
 		'forms' => 'core/vendors/forms/forms.php',
-		'html' => 'core/vendors/html/html.php',
 		// Библиотеки сторонних вендоров
 		'JJevix' => 'core/vendors/text/jevix/jevix.php',
 	);

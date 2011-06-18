@@ -65,7 +65,7 @@ class forms {
 	 * @return  string
 	 */
 	public static function open_fieldset($data = NULL, $extra = '') {
-		return '<fieldset' . html::attributes((array) $data) . ' ' . $extra . '>' . "\n";
+		return '<fieldset' . joosHtml::attributes((array) $data) . ' ' . $extra . '>' . "\n";
 	}
 
 	/**
@@ -199,7 +199,7 @@ class forms {
 		// Value is not part of the attributes
 		unset($data['value']);
 
-		return '<textarea' . forms::attributes($data, 'textarea') . ' ' . $extra . '>' . html::specialchars($value, $double_encode) . '</textarea>';
+		return '<textarea' . forms::attributes($data, 'textarea') . ' ' . $extra . '>' . joosHtml::specialchars($value, $double_encode) . '</textarea>';
 	}
 
 	/**
@@ -513,7 +513,7 @@ class forms {
 		}
 
 		// Combine the sorted and unsorted attributes and create an HTML string
-		return html::attributes(array_merge($sorted, $attr));
+		return joosHtml::attributes(array_merge($sorted, $attr));
 	}
 
 }

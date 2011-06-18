@@ -49,7 +49,7 @@ $currentLevel = 0;
 
 <!--Comment item-->
 	<div class="comment_item <?php echo ($i % 2 ? 'odd' : 'even'); ?>" id="comment-item-<?php echo $id; ?>">
-		<?php CommentsHTML::comment($comment); ?>
+		<?php CommentsjoosHtml::comment($comment); ?>
 
     <?php
             if ($comment->children == 0) {

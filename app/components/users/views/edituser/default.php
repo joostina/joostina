@@ -73,7 +73,7 @@ joosDocument::instance()->add_js_code($js_code);
         <div class="f-block odd">
             <div class="f  f-50 f-50_1">
                 <label class="lbl_block" for="">Местоположение</label>
-                <input type="text" name="location" value="<?php echo joosHTML::make_safe($user_e->location) ?>"
+                <input type="text" name="location" value="<?php echo joosHtml::make_safe($user_e->location) ?>"
                        class="input-100"/>
             </div>
         </div>

@@ -14,7 +14,7 @@ class noneEditor {
 
 	public static function init() {
 
-		joosHTML::load_jquery();
+		joosHtml::load_jquery();
 
 		joosDocument::instance()
 				->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.insertatcaret.js');

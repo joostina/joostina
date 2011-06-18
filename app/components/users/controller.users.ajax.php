@@ -129,7 +129,7 @@ class actionsAjaxUsers extends joosController {
 				return;
 			}
 		} else {
-			//userHTML::register($user, $validator);
+			//userjoosHtml::register($user, $validator);
 			echo json_encode(array('error' => 'Что-то не так с данными для регистрации'));
 			return;
 		}

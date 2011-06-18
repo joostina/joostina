@@ -39,7 +39,7 @@ class joiadminHTML {
 		$return .= ob_get_contents();
 		ob_end_clean();
 
-		$return .= adminHTML::controller_header(false, 'config', $extra);
+		$return .= adminHtml::controller_header(false, 'config', $extra);
 
 
 		return $return;
@@ -57,7 +57,7 @@ class joiadminHTML {
 
 		$result = array();
 		foreach ($headers_menu as $href) {
-			$result[] = $href['active'] == false ? HTML::anchor($href['href'], $href['name']) : $href['name'];
+			$result[] = $href['active'] == false ? joosHtml::anchor($href['href'], $href['name']) : $href['name'];
 		}
 
 		return implode(' | ', $result);
@@ -69,7 +69,7 @@ class joiadminHTML {
 			$return = array();
 			/** @var $_submenu array */
 			foreach ($obj::$_submenu as $href) {
-				$return[] = '<li>' . (!isset($href['active']) ? HTML::anchor($href['href'], $href['title']) : '<span>' . $href['title'] . '</span>') . '</li>';
+				$return[] = '<li>' . (!isset($href['active']) ? joosHtml::anchor($href['href'], $href['title']) : '<span>' . $href['title'] . '</span>') . '</li>';
 			}
 			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode('', $return) . '</ul></div>';
 		}

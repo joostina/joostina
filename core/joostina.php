@@ -334,10 +334,7 @@ class joosDocument {
 	 * @return string Заголовок
 	 */
 	public static function get_title() {
-
-		//TODO: может, можно что-то поизящнее придумать?
 		$title = array_reverse(self::$data['title']);
-
 		return implode(' / ', $title);
 	}
 
@@ -461,7 +458,7 @@ class joosDocument {
 
 		foreach (self::$data['js_files'] as $js_file) {
 			// если включена отладка - то будет добавлять антикеш к имени файла
-			$result[] = joosHTML::js_file($js_file . (JDEBUG ? '?' . time() : false));
+			$result[] = joosHtml::js_file($js_file . (JDEBUG ? '?' . time() : false));
 		}
 
 		return implode("\n\t", $result) . "\n";
@@ -471,10 +468,10 @@ class joosDocument {
 
 		$c = array();
 		foreach (self::$data['js_code'] as $js_code) {
-			//$result[] = JHTML::js_code($js_code);
+			//$result[] = JjoosHtml::js_code($js_code);
 			$c[] = $js_code . ";\n";
 		}
-		$result = joosHTML::js_code(implode("", $c));
+		$result = joosHtml::js_code(implode("", $c));
 
 		return $result;
 	}
@@ -484,7 +481,7 @@ class joosDocument {
 
 		foreach (self::$data['css'] as $css_file) {
 			// если включена отладка - то будет добавлять онтикеш к имени файла
-			$result[] = joosHTML::css_file($css_file[0] . (JDEBUG ? '?' . time() : JFILE_ANTICACHE), $css_file[1]['media']);
+			$result[] = joosHtml::css_file($css_file[0] . (JDEBUG ? '?' . time() : JFILE_ANTICACHE), $css_file[1]['media']);
 		}
 
 		return implode("\n\t", $result) . "\n";
@@ -713,6 +710,7 @@ class joosLoader {
 		require_once joosCore::path($name, 'admin_controller');
 	}
 
+	//TODO зачем оно здесь?
 	public static function core_class($name) {
 		require_once joosCore::path($name, 'core_class');
 	}

@@ -168,11 +168,11 @@ class adminQuickicons extends Quickicons {
 		$images = array();
 		$images[] = '<table><tr>';
 		$images[] = '<td align="center" width="150">';
-		$images[] = HTML::image(array('src' => $icon_web_root . $cur_obj->icon));
+		$images[] = joosHtml::image(array('src' => $icon_web_root . $cur_obj->icon));
 		$images[] = '<br /> Текущий значек ';
 		$images[] = '</td>';
 		$images[] = '<td align="center" width="150">';
-		$images[] = HTML::image(array('src' => $icon_web_root . $cur_obj->icon, 'id' => 'new_quickicons_icon'));
+		$images[] = joosHtml::image(array('src' => $icon_web_root . $cur_obj->icon, 'id' => 'new_quickicons_icon'));
 		$images[] = '<br /> Новый значек ';
 		$images[] = '</td>';
 		$images[] = '</tr>';
@@ -182,7 +182,7 @@ class adminQuickicons extends Quickicons {
 		foreach ($icons as $icon) {
 			if ($icon['extension'] == 'png') {
 				$class = $icon['name'] == $cur_obj->icon ? 'quickicons_icons_active' : false;
-				$image_icons[] = HTML::image(array('src' => $icon_web_root . $icon['name'], 'class' => $class, 'alt' => $icon['name']));
+				$image_icons[] = joosHtml::image(array('src' => $icon_web_root . $icon['name'], 'class' => $class, 'alt' => $icon['name']));
 			}
 		}
 

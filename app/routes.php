@@ -42,4 +42,30 @@ return array(
 		'href' => 'test',
 		'defaults' => array('controller' => 'test', 'action' => 'index')
 	),
+
+	/*Компонент новостей*/
+	'news' => array(
+		'href' => 'news',
+		'defaults' => array('controller' => 'news', 'action' => 'index')
+	),
+	'news_view' => array(
+		'href' => 'news/view/<id>',
+		'params_rules' => array('id' => '\d+'),
+		'defaults' => array('controller' => 'news', 'action' => 'view')
+	),
+	'news_archive' => array(
+		'href' => 'news',
+		'defaults' => array('controller' => 'news', 'action' => 'archive')
+	),
+
+	/*Компонент страниц*/
+	'pages' => array(
+		'href' => 'pages',
+		'defaults' => array('controller' => 'pages', 'action' => 'index')
+	),
+	'pages_view' => array(
+		'href' => '<page_name>',
+		'params_rules' => array('page_name' => '\w+'),
+		'defaults' => array('controller' => 'pages', 'action' => 'view')
+	),
 );

@@ -52,12 +52,12 @@ endif; ?>
 
                 <td>
                     <a href="index2.php?option=categories&amp;task=node_del&amp;id=<?php echo $tree[$i]['id'] ?><?php echo $cats->get_link_suff() ?>">
-                        <img src="<?php echo joosHTML::ico('trashcan_empty'); ?>" alt="Удалить"
+                        <img src="<?php echo joosHtml::ico('trashcan_empty'); ?>" alt="Удалить"
                              title="Удалить узел"/></a>
 
                     <?php if ($tree[$i]['childs'] > 0): ?>
                     <a href="index2.php?option=categories&amp;task=node_del&amp;id=<?php echo $tree[$i]['id'] ?>&amp;del_childs=yes<?php echo $cats->get_link_suff() ?>">
-                        <img src="<?php echo joosHTML::ico('trashcan_full') ?>" alt="Удалить вместе с потомками"
+                        <img src="<?php echo joosHtml::ico('trashcan_full') ?>" alt="Удалить вместе с потомками"
                              title="Удалить узел вместе с потомками"/></a>
                     <?php endif; ?>
                 </td>
@@ -65,7 +65,7 @@ endif; ?>
                 <td class="b-center">
                     <?php if ($tree[$i]['level'] > 1): ?>
                     <a href="index2.php?option=categories&amp;task=node_move_up&amp;id=<?php echo $tree[$i]['id'] ?><?php echo $cats->get_link_suff() ?>">
-                        <img src="<?php echo joosHTML::ico('stock_up') ?>" alt="Узел на уровень ВВЕРХ"
+                        <img src="<?php echo joosHtml::ico('stock_up') ?>" alt="Узел на уровень ВВЕРХ"
                              title="Узел на уровень ВВЕРХ"/></a>
                     <?php endif; ?>
                 </td>
@@ -73,7 +73,7 @@ endif; ?>
                 <td class="b-center">
                     <?php if ($tree[$i]['level'] != 1 && $tree[$i]['upper'] > 0): ?>
                     <a href="index2.php?option=categories&amp;task=node_move_down&amp;id=<?php echo $tree[$i]['id'] ?><?php echo $cats->get_link_suff() ?>">
-                        <img src="<?php echo joosHTML::ico('stock_down') ?>" alt="Узел на уровень ВНИЗ"
+                        <img src="<?php echo joosHtml::ico('stock_down') ?>" alt="Узел на уровень ВНИЗ"
                              title="Узел на уровень ВНИЗ"/></a>
                     <?php endif; ?>
                 </td>
@@ -81,14 +81,14 @@ endif; ?>
                 <td class="b-center">
                     <?php if ($tree[$i]['level'] != 0 && $tree[$i]['upper'] > 0 && $i > 0): ?>
                     <a href="index2.php?option=categories&amp;task=node_move_lft&amp;id=<?php echo $tree[$i]['id'] ?><?php echo $cats->get_link_suff() ?>">
-                        <img src="<?php echo joosHTML::ico('stock_left') ?>" alt="Порядок вверх" title="Порядок вверх"/></a>
+                        <img src="<?php echo joosHtml::ico('stock_left') ?>" alt="Порядок вверх" title="Порядок вверх"/></a>
                     <?php endif; ?>
                 </td>
 
                 <td class="b-center">
                     <?php if ($tree[$i]['level'] != 0 && $tree[$i]['lower'] > 0): ?>
                     <a href="index2.php?option=categories&amp;task=node_move_rgt&amp;id=<?php echo $tree[$i]['id'] ?><?php echo $cats->get_link_suff() ?>">
-                        <img src="<?php echo joosHTML::ico('stock_right')  ?>" alt="Порядок вниз" title="Порядок вниз"/></a>
+                        <img src="<?php echo joosHtml::ico('stock_right')  ?>" alt="Порядок вниз" title="Порядок вниз"/></a>
                     <?php endif; ?>
                 </td>
                 <td><?php echo $tree[$i]['id'] ?></td>

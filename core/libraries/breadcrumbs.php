@@ -34,7 +34,7 @@ class joosBreadcrumbs {
 
 	public function add($name, $href = false) {
 		$name = __($name);
-		self::$breadcrumbs[] = $href ? HTML::anchor($href, $name, array('class' => 'breadcrumbs_link', 'title' => $name)) : $name;
+		self::$breadcrumbs[] = $href ? joosHtml::anchor($href, $name, array('class' => 'breadcrumbs_link', 'title' => $name)) : $name;
 		return $this;
 	}
 

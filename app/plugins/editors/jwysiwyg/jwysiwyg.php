@@ -14,7 +14,7 @@ class jwysiwygEditor {
 
 	public static function init() {
 
-		joosHTML::load_jquery();
+		joosHtml::load_jquery();
 
 		joosDocument::instance()
 				->add_css(JPATH_SITE . '/plugins/editors/jwysiwyg/media/css/jquery.wysiwyg.css')
@@ -33,7 +33,7 @@ class jwysiwygEditor {
 
 	public static function get_content($name, $params = array()) {
 		// $('#wysiwyg').val();
-		//return isset($params['js_wrap']) ? JHTML::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
+		//return isset($params['js_wrap']) ? JjoosHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
 	}
 
 }
