@@ -226,9 +226,8 @@ class Users extends joosModel {
 	 * @return User
 	 */
 	public static function current() {
-		global $my;
 		// TODO тут надо как-то унифицировать
-		return joosCore::is_admin() ? $my : self::instance();
+		return joosCore::is_admin() ? joosCoreAdmin::user() : self::instance();
 	}
 
 	public static function avatar($id, $size = false) {
