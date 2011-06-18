@@ -404,6 +404,24 @@ class joosAutoAdmin {
 		}
 	}
 
+	/**
+	 * Получение меню компонента по его имени
+	 *
+	 * @param string $component Название компонента
+	 * @return array меню компонента или false
+	 */
+	public static function get_component_submenu($component){
+
+		$controller = 'actionsAdmin' . ucfirst($component);
+		joosLoader::admin_controller($component);
+
+		if (isset($controller::$submenu)) {
+			return $controller::$submenu;
+		}
+		
+		return false;
+	}
+
 	public static function footer() {
 		return '</div>';
 	}

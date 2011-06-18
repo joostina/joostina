@@ -43,11 +43,11 @@ class actionsAdminMetainfo {
 	public static function on_start() {
 
 		ob_start();
-		mosMenuBar::startTable();
-		mosMenuBar::save();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
-		$index_tools = ob_get_contents();
+			mosMenuBar::startTable();
+			mosMenuBar::save();
+			mosMenuBar::cancel();
+			mosMenuBar::endTable();
+			$index_tools = ob_get_contents();
 		ob_end_clean();
 
 		self::$toolbars['index'] = $index_tools;
@@ -66,10 +66,9 @@ class actionsAdminMetainfo {
 		joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($metainfo->group);
 
 		//вытягиваем подменю, если оно есть
-		$controller = 'actions' . ucfirst($metainfo->group);
-		joosLoader::admin_controller($metainfo->group);
-		if (isset($controller::$submenu)) {
-			self::$submenu = $controller::$submenu;
+		$component_menu = joosAutoAdmin::get_component_submenu($metainfo->group);
+		if ($component_menu) {
+			self::$submenu = $component_menu;
 			self::$submenu['metainfo']['active'] = true;
 		}
 

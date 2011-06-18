@@ -71,10 +71,9 @@ class actionsAdminParams {
 		joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($params->group);
 
 		//вытягиваем подменю, если оно есть
-		$controller = 'actions' . ucfirst($params->group);
-		joosLoader::admin_controller($params->group);
-		if (isset($controller::$submenu)) {
-			self::$submenu = $controller::$submenu;
+		$component_menu = joosAutoAdmin::get_component_submenu($params->group);
+		if ($component_menu) {
+			self::$submenu = $component_menu;
 			self::$submenu['params']['active'] = true;
 		}
 
