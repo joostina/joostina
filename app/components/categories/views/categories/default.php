@@ -37,6 +37,7 @@ endif; ?>
             <th class="b-10"><?php echo __('Порядок выше') ?></th>
             <th class="b-10"><?php echo __('Порядок ниже') ?></th>
             <th style="width:40px;">ID</th>
+	        <th style="width:50px; text-align:center">Состояние</th>
         </tr>
 <?php
         $treeCount = count($tree);
@@ -92,6 +93,19 @@ endif; ?>
                     <?php endif; ?>
                 </td>
                 <td><?php echo $tree[$i]['id'] ?></td>
+
+<td class="td-state-joiadmin">
+					<?php
+					if( $tree[$i]['state'] == 1 ){
+						echo $state_img = '<img alt="Опубликовано" obj_key="state" obj_id="'.$tree[$i]['id'] .'" id="img-pub-'.$tree[$i]['id'] .'" src="../media/images/admin/publish_g.png" class="img-mini-state">';
+					}
+					else{
+						echo $state_img = '<img alt="Скрыто" obj_key="state" obj_id="'.$tree[$i]['id'] .'" id="img-pub-'.$tree[$i]['id'] .'" src="../media/images/admin/publish_x.png" class="img-mini-state">';
+						}
+
+					?>
+
+				</td>
             </tr>
             <?php endfor ?>
     </table>
@@ -101,6 +115,7 @@ endif; ?>
     echo forms::hidden('model', 'Categories');
     echo forms::hidden('task', '');
     echo forms::hidden('group', $cats->group);
+	echo forms::hidden('obj_name', 'categories');
     echo forms::hidden(joosCSRF::get_code(), 1);
     ?>
 </form>

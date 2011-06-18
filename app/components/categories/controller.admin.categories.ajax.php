@@ -18,6 +18,10 @@ class actionsAjaxCategories {
 		
 	}
 
+	public static function statuschanger() {
+		joosAutoAdmin::autoajax();
+	}
+
 	public static function image_uploader() {
 
 		joosLoader::lib('valumsfileuploader', 'files');
