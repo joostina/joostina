@@ -33,7 +33,7 @@ class jwysiwygEditor {
 
 	public static function get_content($name, $params = array()) {
 		// $('#wysiwyg').val();
-		//return isset($params['js_wrap']) ? JjoosHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
+		//return isset($params['js_wrap']) ? JHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
 	}
 
 }

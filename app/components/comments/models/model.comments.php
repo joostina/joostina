@@ -154,9 +154,9 @@ class Comments extends joosModel {
 		$comments_list = $this->get_comments();
 
 		//Выводим список комментариев если они есть
-		$comments_list ? commentsjoosHtml::lists($comments_list) : commentsjoosHtml::emptylists();
+		$comments_list ? CommentsHTML::lists($comments_list) : CommentsHTML::emptylists();
 
-		commentsjoosHtml::addform();
+		CommentsHTML::addform();
 	}
 
 	/**

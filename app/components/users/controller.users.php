@@ -221,7 +221,7 @@ class actionsUsers extends joosController {
 			Users::login($user->username, $_POST['password']);
 		} else {
 			joosRoute::redirect(JPATH_SITE);
-			//userjoosHtml::register($user, $validator);
+			//userHtml::register($user, $validator);
 		}
 	}
 
@@ -229,7 +229,7 @@ class actionsUsers extends joosController {
 	 * Форма восстановления пароля
 	 */
 	public static function lostpassword() {
-		$_POST ? self::send_new_pass() : userjoosHtml::lostpassword();
+		$_POST ? self::send_new_pass() : userHtml::lostpassword();
 	}
 
 	/**

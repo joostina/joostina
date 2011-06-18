@@ -25,10 +25,10 @@ class actionsComments extends joosController {
 		$comments_list = $comments->get_comments();
 
 		if ($comments_list) {
-			CommentsjoosHtml::lists($comments_list);
+			CommentsHTML::lists($comments_list);
 		}
 
-		CommentsjoosHtml::addform();
+		CommentsHTML::addform();
 	}
 
 	public static function get_comments($option, $id, $page, $task) {
@@ -46,7 +46,7 @@ class actionsComments extends joosController {
 		$comments_list = $comments->get_comments($pager->offset, $pager->limit);
 
 		//Выводим список комментариев
-		CommentsjoosHtml::lists($comments_list);
+		CommentsHTML::lists($comments_list);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class actionsComments extends joosController {
 		$comment_data = joosRequest::array_param('comment_data', array(), $_POST);
 		$comment = new Comments;
 		$comment->bind($comment_data);
-		?><div class="comment_item" id="comment-item-<?php echo $comment->id; ?>"><?php CommentsjoosHtml::comment($comment); ?></div><?php
+		?><div class="comment_item" id="comment-item-<?php echo $comment->id; ?>"><?php CommentsHTML::comment($comment); ?></div><?php
 	}
 
 	/**

@@ -13,7 +13,7 @@ defined('_JOOS_CORE') or die();
  * Класс формирования представлений
  */
 
-class commentsHTML {
+class CommentsHTML {
 
 	/**
 	 * Вывод списка комментариев для заданного объекта

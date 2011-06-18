@@ -468,7 +468,7 @@ class joosDocument {
 
 		$c = array();
 		foreach (self::$data['js_code'] as $js_code) {
-			//$result[] = JjoosHtml::js_code($js_code);
+			//$result[] = JHtml::js_code($js_code);
 			$c[] = $js_code . ";\n";
 		}
 		$result = joosHtml::js_code(implode("", $c));
