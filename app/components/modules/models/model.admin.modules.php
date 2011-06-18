@@ -96,7 +96,8 @@ class adminModules extends Modules {
 				'html_table_element_param' => array(
 					'scope' => array('position'),
 					'width' => '100px',
-					'align' => 'center'
+					'align' => 'center',
+					'class'=>'ordering'
 				),
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),

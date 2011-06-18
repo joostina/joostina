@@ -18,6 +18,10 @@ class actionsAjaxModules {
 		joosAutoAdmin::autoajax();
 	}
 
+	public static function reorder() {
+		joosAutoAdmin::autoajax();
+	}
+
 	public static function index() {
 		
 	}

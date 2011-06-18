@@ -50,8 +50,8 @@ class joosAutoAdmin {
 		self::$task = $task;
 
 		// подключаем js код библиотеки
-		joosDocument::instance()
-				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
+		joosDocument::instance()->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
+										   
 		
 		!JDEBUG ? : joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task);
 
@@ -113,6 +113,7 @@ class joosAutoAdmin {
 	 * @param array $obj_list
 	 * @param object joosAdminPagenator $pagenav
 	 * @param array $fields_list
+	 * @param string $group_by Используется для указания границ сортировки (для сортировки в пределах определенного значения. Например, в модулях, сортировка происходит в границах позиции модуля (за пределы группы нельзя перетащить строку в процессе сортировки))
 	 */
 	public static function listing(joosModel $obj, array $obj_list, joosAdminPagenator $pagenav, array $fields_list, $group_by = '') {
 
@@ -134,7 +135,7 @@ class joosAutoAdmin {
 
 		//Вывод основного содержимого - таблицы с записями
 		echo '<form action="index2.php" method="post" name="adminForm" id="adminForm">';
-		echo '<table class="adminlist' . ($group_by ? ' drag' : '') . '" id="adminlist"><thead><tr>';
+		echo '<table class="adminlist' . ( in_array('ordering', $fields_list) ? ' drag' : '') . '" id="adminlist"><thead><tr>';
 		echo '<th width="20px"><input type="checkbox" onclick="checkAll();" value="" name="toggle"></th>';
 
 		$fields_to_table = array();
@@ -497,6 +498,7 @@ class joosAutoAdmin {
 					break;
 
 				case 'reorder':
+					
 					$objs = joosRequest::post('objs');
 					$return_onj->mess = implode('; ', $objs);
 
@@ -509,22 +511,19 @@ class joosAutoAdmin {
 					}
 
 					$min = min($old_order);
-					$count = count($objs);
 
 					$mess = '';
 					$sql = '';
-					$i = $min;
+					$i = $min > 1 ? $min : 1;
 					foreach ($new_order as $id) {
-						$order =
-								$query = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
+						$query = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
 						$obj->get('_db')->set_query($query)->query();
 						++$i;
-						//$mess .= $query . "\n";
+						$mess .=  $query. "\n";
 					}
-					//$obj->ordering = $new_ordering;
-					//$obj->store();
 					$return_onj->mess = $mess;
 					$return_onj->min = $min;
+
 					break;
 
 				default:

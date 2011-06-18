@@ -45,7 +45,7 @@ class actionsAdminModules {
 		// массив названий элементов для отображения в таблице списка
 		$fields_list = array('id', 'title', 'position', 'ordering', 'module', 'state');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list, 'position');
 	}
 
 	/**
