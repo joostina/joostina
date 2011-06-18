@@ -87,7 +87,10 @@ class adminUsers extends Users {
 				'name' => 'Пароль',
 				'editable' => true,
 				'in_admintable' => true,
-				'html_edit_element' => 'edit',
+				'html_edit_element' => 'extra',
+				'html_edit_element_param' => array(
+					'call_from' => 'adminUsers::get_password_field'
+				),
 				'html_table_element' => 'value',
 			),
 			'gid' => array(
@@ -153,6 +156,15 @@ class adminUsers extends Users {
 				)
 			)
 		);
+	}
+
+	public static function get_password_field($user){
+		if($user->id){
+			return '<input name="new_password" type="text" class="text_area" />';
+		}
+		else{
+			return '<input name="password" type="text" class="text_area" />';
+		}
 	}
 
 }

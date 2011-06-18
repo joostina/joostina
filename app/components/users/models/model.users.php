@@ -139,6 +139,9 @@ class Users extends joosModel {
 			$this->password = self::prepare_password($this->password);
 			$this->registerDate = _CURRENT_SERVER_TIME;
 		} else {
+			if($_POST['new_password']){
+				$this->password = self::prepare_password($_POST['new_password']);
+			}
 			//$query = "SELECT password FROM #__users WHERE id = " . $this->id;
 			//$db_password = $this->_db->setQuery($query)->loadResult();
 			//$new_pas = self::prepare_password($this->password);
