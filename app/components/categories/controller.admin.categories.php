@@ -138,18 +138,20 @@ class actionsAdminCategories {
 			return;
 		}
 
+		//Сохранение дополинтельной информации о категории
 		$cat_details = new CategoriesDetails;
 
+		//существующая категория
 		if (joosRequest::post('id', 0)) {
 			$_POST['cat_id'] = $obj->id;
 			$cat_details->load($obj->id);
 			$cat_details->save($_POST);
-		} else {
+		}
+		//новая категория
+		else {
 			$cat_details->bind($_POST);
 			$cat_details->cat_id = $obj->id;
-
-			joosDatabase::instance()->insert_object('#__categories_details', $cat_details);
-
+			$cat_details->store(false, true);
 		}
 
 		//Сохранение параметров
@@ -158,11 +160,8 @@ class actionsAdminCategories {
 			$params->save_params($_POST['params'], $obj->group, 'category', $obj->id);
 		}
 
-
 		//Сохранение мета-информации
 		joosMetainfo::add_meta($_POST['metainfo'], 'category', 'item', $obj->id);
-
-		
 
 		switch ($redirect) {
 			default:

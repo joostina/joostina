@@ -448,7 +448,8 @@ class CategoriesDetails extends joosModel {
 	}
 
 	public function before_insert() {
-
+		$this->created_at = _CURRENT_SERVER_TIME;
+		$this->user_id = Users::current()->id;
 		return true;
 	}
 

@@ -1085,15 +1085,16 @@ class joosModel {
 	/**
 	 * Сохранение свойств модели в БД
 	 * Производит непосредственно запись в БД значений заполненных полей модели. При этом сами свойства должны быть указаны ранее, методом bind, либо set, либо прямого присвоения $news->title='Новость 1'
-	 * @param type $updateNulls флаг обновления неопределённых свойств
+	 * @param bool $updateNulls флаг обновления неопределённых свойств
+	 * @param bool $forcedIns флаг принудительной вставки. Необходимо в случаях, когда значение ключевого поля уже задано, но всё-равно необходимо создать новую запись (например, в компоненте категорий: category_id известно, но в таблице `categories_details` нужно создать запись с этим ключом )
 	 * @return boolean результат сохранения модели
 	 */
-	public function store($updateNulls = false) {
+	public function store($updateNulls = false, $forcedIns = false) {
 		$k = $this->_tbl_key;
 
 		$this->before_store();
 
-		if (isset($this->$k) && $this->$k != 0) {
+		if ( (isset($this->$k) && $this->$k != 0) && !$forcedIns) {
 			$this->before_update();
 			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			$this->after_update();
