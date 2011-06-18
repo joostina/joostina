@@ -277,7 +277,7 @@ class actionsAdminCategories {
 		$cats = new Categories;
 
 		$action = $cats->move_rgt(joosRequest::get('id'));
-
+		
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
 		$action === true ? joosRoute::redirect($redirect, 'Категория перемещена') : joosRoute::redirect($redirect, implode(' ', $cats->get_error()));
 	}

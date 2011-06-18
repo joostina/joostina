@@ -243,13 +243,13 @@ class joosNestedSet extends joosModel {
 		$a_rgt = $node->rgt;
 
 		if (!$b_id = $this->_get_id($a_lft - 1, 'r')) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $nodeId . ')');
+			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $id . ')');
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$b = $this->_get_node($b_id)) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $nodeId . ')');
+			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $iId . ')');
 			$this->_set_error($error);
 			return false;
 		}
@@ -284,8 +284,8 @@ class joosNestedSet extends joosModel {
 	public function move_rgt($nodeId) {
 		$nodeLevel = $this->_get_node_level($nodeId);
 
-		if ($nodeLevel == 1) {
-			$error = __('Это корневой узел, его нельзя перемещать. NestedSet::move_rgt (' . $nodeId . ')');
+		if ($nodeLevel == 0) {
+			$error = __('Это корневой узел, его нельзя перемещать. NestedSet::move_rgt (' . $nodeId . ' '.$nodeLevel .')' );
 			$this->_set_error($error);
 			return false;
 		}
@@ -656,9 +656,10 @@ class joosNestedSet extends joosModel {
 	 *
 	 * @param     integer     $nodeId        Id узла
 	 * @return     mixed        integer     Уровень узла (0 = Root) или False
-	 * @deprecated
 	 */
 	private function _get_node_level($nodeId) {
+
+		/*
 		$sql = sprintf('
 							SELECT COUNT(*) AS `level`
 							FROM `%3$s` `%2$s`,`%3$s` `%1$s`
@@ -682,6 +683,14 @@ class joosNestedSet extends joosModel {
 
 		$row = $result->fetch_assoc();
 		return $row['level'];
+		*/
+
+		$query = 'SELECT level FROM `'.$this->_tbl.'` WHERE `'.$this->_tbl.'`.`'. $this->params['nid'].'` = ' . (int) $nodeId;
+		if(!$result = $this->_db->set_query($query)->load_result()){
+			return false;
+		}
+		return $result;
+
 	}
 
 	/**
