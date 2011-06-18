@@ -52,10 +52,9 @@ class actionsAdminCategories {
 			joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($group);
 
 			//вытягиваем подменю, если оно есть
-			$controller = 'actions' . ucfirst($group);
-			joosLoader::admin_controller($group);
-			if (isset($controller::$submenu)) {
-				self::$submenu = $controller::$submenu;
+			$component_menu = joosAutoAdmin::get_component_submenu($group);
+			if ($component_menu) {
+				self::$submenu = $component_menu;
 				self::$submenu['categories']['active'] = true;
 			}
 		}
