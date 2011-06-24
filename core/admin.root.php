@@ -10,9 +10,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-//joosLoader::lang('system');
-//joosLoader::lang('admin');
-
 class joosModuleAdmin {
 
 	public static function load_by_name($module_name) {

@@ -44,14 +44,13 @@ class joosMainframe {
 	protected function __construct($is_admin = false) {
 
 		die('Чтоэто?');
-		
+
 		if ($is_admin) {
 			// указываем параметр работы в админ-панели напрямую
 			self::$is_admin = true;
 			//joosConfig::set('admin_icons_path', sprintf('%s/%s/templates/%s/media/images/ico/', JPATH_SITE, JADMIN_BASE, JTEMPLATE));
 			$option = joosRequest::param('option');
 			$this->_setAdminPaths($option);
-
 		}
 	}
 
@@ -569,7 +568,6 @@ class joosCore {
 	 */
 	private static $is_admin = false;
 
-
 	/**
 	 * Получение инстанции текущего авторизованного пользователя
 	 * Функция поддерживает работу и на фронте и в панели управления сайта
@@ -582,15 +580,14 @@ class joosCore {
 		return self::$is_admin ? joosCoreAdmin::user() : Users::instance();
 	}
 
-	public static function admin(){
+	public static function admin() {
 		self::$is_admin = TRUE;
 	}
 
-	public static function is_admin(){
+	public static function is_admin() {
 		return (bool) self::$is_admin;
 	}
 
-		
 	/**
 	 * Вычисление пути расположений файлов
 	 * @static
@@ -616,33 +613,26 @@ class joosCore {
 				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
 				break;
 
-			case 'class':
+			case 'model':
 				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
 				break;
 
-			case 'admin_class':
+			case 'admin_model':
 				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
 				break;
 
-			case 'html':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . $name . '.html.php';
+			case 'view':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'views' . DS . $cat . DS . 'default.php';
 				break;
 
-			case 'admin_html':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'admin.' . $name . '.html.php';
+			case 'admin_view':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'admin_views' . DS . $cat . DS . 'default.php';
 				break;
 
 			case 'admin_template_html':
 				$file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'html' . DS . $name . '.php';
 				break;
 
-			case 'admin_view':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $type . DS . 'admin_views' . DS . $cat . DS . $name . '.php';
-				break;
-
-			case 'lang':
-				$file = JPATH_BASE . DS . 'app' . DS . 'language' . DS . JLANG . DS . $name . '.php';
-				break;
 
 			case 'module_helper':
 				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
@@ -653,15 +643,11 @@ class joosCore {
 				break;
 
 			case 'lib':
-				$file = JPATH_BASE . DS . 'core' . DS . 'vendors' . DS . $name . DS . $name . '.php';
+				$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
 				break;
 
-			case 'lib-cat':
+			case 'lib-vendor':
 				$file = JPATH_BASE . DS . 'core' . DS . 'vendors' . DS . $cat . DS . $name . DS . $name . '.php';
-				break;
-
-			case 'core_class':
-				$file = JPATH_BASE . DS . 'core' . DS . 'classes' . DS . $name . '.class.php';
 				break;
 
 			default:
@@ -681,21 +667,21 @@ class joosCore {
 class joosLoader {
 
 	public static function model($name) {
-		// TODO разрешить после полной натсройки автозагрузчика
-		//require_once joosCore::path($name, 'class');
+		// TODO разрешить после полной настройки автозагрузчика
+		require_once joosCore::path($name, 'model');
 	}
 
 	public static function admin_model($name) {
-		// TODO разрешить после полной натсройки автозагрузчика
-		//require_once joosCore::path($name, 'admin_class');
+		// TODO разрешить после полной настройки автозагрузчика
+		require_once joosCore::path($name, 'admin_model');
 	}
 
-	public static function view($name) {
-		require_once joosCore::path($name, 'html');
+	public static function view($name, $task) {
+		require_once joosCore::path($name, 'view', $task);
 	}
 
-	public static function admin_view($name) {
-		require_once joosCore::path($name, 'admin_html');
+	public static function admin_view($name, $task) {
+		require_once joosCore::path($name, 'admin_view', $task);
 	}
 
 	public static function admin_template_view($name) {
@@ -710,29 +696,13 @@ class joosLoader {
 		require_once joosCore::path($name, 'admin_controller');
 	}
 
-	//TODO зачем оно здесь?
-	public static function core_class($name) {
-		require_once joosCore::path($name, 'core_class');
-	}
-
 	/**
 	 * Прямое подключение внешних библиотек
 	 * @param string $name название библиотеки
 	 * @param string $category  подкаталог расположения библиотеки
 	 */
 	public static function lib($name, $vendor = false) {
-		require_once $vendor ? joosCore::path($name, 'lib-cat', $vendor) : joosCore::path($name, 'lib');
-	}
-
-	public static function lang($name) {
-		$file = joosCore::path($name, 'lang');
-
-		// для языковый файлов такая вот жусткач штуковина
-		if (is_file($file)) {
-			require_once $file;
-		} else {
-			!JDEBUG ? : joosDebug::add(sprintf(('Отсутствует файл языка для %s'), $name));
-		}
+		require_once $vendor ? joosCore::path($name, 'lib-vendor', $vendor) : joosCore::path($name, 'lib');
 	}
 
 }

@@ -42,8 +42,12 @@ return array(
 		'href' => 'test',
 		'defaults' => array('controller' => 'test', 'action' => 'index')
 	),
-
-	/*Компонент новостей*/
+	// сборник тестиования системных функций
+	'unittest' => array(
+		'href' => 'unittest',
+		'defaults' => array('controller' => 'example', 'action' => 'index')
+	),
+	/* Компонент новостей */
 	'news' => array(
 		'href' => 'news',
 		'defaults' => array('controller' => 'news', 'action' => 'index')
@@ -57,8 +61,7 @@ return array(
 		'href' => 'news',
 		'defaults' => array('controller' => 'news', 'action' => 'archive')
 	),
-
-	/*Компонент страниц*/
+	/* Компонент страниц */
 	'pages' => array(
 		'href' => 'pages',
 		'defaults' => array('controller' => 'pages', 'action' => 'index')

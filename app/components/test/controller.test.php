@@ -21,7 +21,7 @@ class actionsTest {
 	public static function index() {
 
 		
-		echo strpos('asdad_sda', '_');
+		echo joosCore::path('blog', 'controller');
 		
 		die();
 
