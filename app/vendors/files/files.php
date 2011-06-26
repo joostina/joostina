@@ -18,12 +18,14 @@ defined('_JOOS_CORE') or die();
  * @copyright Copyright &copy; 2009-2010 Leng Sheng Hong
  * @license http://www.doophp.com/license
  * @since 1.3
+ * 
+ * @deprecated адаптировать функционал, убрать библиотеку
  */
 
 /**
  * Provides functions for managing file system
  */
-class Files {
+class __Files {
 	const LIST_FILE = 'file';
 	const LIST_FOLDER = 'folder';
 
@@ -608,7 +610,7 @@ class Files {
 	 * @param integer $id - номер файла в БД
 	 * @return string - путь к файлу в структуре подкаталогов
 	 */
-	public static function makefilename($id) {
+	public static function make_file_location($id) {
 		$p = sprintf('%09d', $id);
 		$h = str_split($p, 3);
 		return implode('/', $h);

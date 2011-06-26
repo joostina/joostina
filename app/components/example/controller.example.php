@@ -21,8 +21,6 @@ class actionsExample {
 
 		$results = array();
 
-// joosCore::path ************************************************************
-		// тестирование joosCore::path
 		$results['joosCore::path'] = array(
 			"joosCore::path('example', 'controller');" => joosCore::path('example', 'controller'),
 			"joosCore::path('example', 'admin_controller');" => joosCore::path('example', 'admin_controller'),
@@ -43,10 +41,6 @@ class actionsExample {
 			$_t = str_replace(JPATH_BASE, '[JPATH_BASE]', $_t);
 		}
 
-// joosCore::path //************************************************************
-
-// joosLoader ************************************************************
-
 		$results['joosLoader'] = array(
 			"joosLoader::model('example');" => joosLoader::model('example'),
 			"joosLoader::admin_model('example');" => joosLoader::admin_model('example'),
@@ -59,7 +53,34 @@ class actionsExample {
 			"joosLoader::lib('example','example');" => joosLoader::lib('example', 'example'),
 		);
 
-// joosLoader //************************************************************
+		$results['joosFile::file_info'] = array(
+			"joosFile::file_info( __FILE__ );" => joosFile::file_info(__FILE__),
+			"joosFile::file_info( JPATH_BASE . DS. 'index.php' );" => joosFile::file_info(JPATH_BASE . DS . 'index.php'),
+			"joosFile::file_info( 'index.php');" => joosFile::file_info('index.php'),
+		);
+
+		$results['joosFile::make_file_location'] = array(
+			"joosFile::make_file_location( 1 );" => joosFile::make_file_location(1),
+			"joosFile::make_file_location( 123 );" => joosFile::make_file_location(123),
+			"joosFile::make_file_location( 123456789 );" => joosFile::make_file_location(123456789),
+		);
+
+		$results['joosFile::mime_content_type'] = array(
+			"joosFile::mime_content_type( __FILE__ );" => joosFile::mime_content_type(__FILE__),
+			"joosFile::mime_content_type( JPATH_BASE .DS. 'media' . DS . 'favicon.ico' );" => joosFile::mime_content_type(JPATH_BASE . DS . 'media' . DS . 'favicon.ico'),
+			"joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');" => joosFile::mime_content_type(JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js')
+		);
+
+		$results['joosFile::exists'] = array(
+			"joosFile::exists( JPATH_BASE . DS. 'index.php' );" => joosFile::exists(JPATH_BASE . DS . 'index.php'),
+			"joosFile::exists( JPATH_BASE . DS. 'non_exist_file.php');" => joosFile::exists(JPATH_BASE . DS . 'non_exist_file.php'),
+		);
+
+		$results['joosFile::convert_size'] = array(
+			"joosFile::convert_size( filesize(__FILE__) );" => joosFile::convert_size( filesize(__FILE__) ),
+			"joosFile::convert_size( 123456 );" => joosFile::convert_size(12345678),
+			"joosFile::convert_size( 1234567890 );" => joosFile::convert_size(1234567890),
+		);
 
 		return array(
 			'results' => $results

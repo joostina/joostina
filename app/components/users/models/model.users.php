@@ -139,7 +139,7 @@ class Users extends joosModel {
 			$this->password = self::prepare_password($this->password);
 			$this->registerDate = _CURRENT_SERVER_TIME;
 		} else {
-			if($_POST['new_password']){
+			if ($_POST['new_password']) {
 				$this->password = self::prepare_password($_POST['new_password']);
 			}
 			//$query = "SELECT password FROM #__users WHERE id = " . $this->id;
@@ -234,17 +234,16 @@ class Users extends joosModel {
 
 		$size = $size ? '_' . $size : false;
 
-		joosLoader::lib('files');
-		$file = Files::makefilename($id);
-		//$file = $id;
+		$file = joosFile::make_file_location($id);
+
 
 		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar' . $size . '.png';
 		return is_file($base_file) ? JPATH_SITE . '/attachments/avatars/' . $file . '/avatar' . $size . '.png' : JPATH_SITE . '/media/images/noavatar/avatar' . $size . '.png';
 	}
 
 	public static function avatar_check($id) {
-		joosLoader::lib('files');
-		$file = Files::makefilename($id);
+
+		$file = joosFile::make_file_location($id);
 		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar.png';
 		return is_file($base_file) ? 1 : 0;
 	}

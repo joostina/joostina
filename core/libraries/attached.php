@@ -73,9 +73,8 @@ class joosAttached extends joosModel {
 	 * @return self
 	 */
 	public static function add($filename) {
-		joosLoader::lib('files');
 
-		$filedata = Files::filedata($filename);
+		$filedata = joosFile::file_info($filename);
 
 		$file = new self;
 		$file->created_at = _CURRENT_SERVER_TIME;

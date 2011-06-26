@@ -10,6 +10,11 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+
+/**
+ * @deprecated переписать и упростить функционал, адаптировать в класс joosUpload
+ */
+
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -189,14 +194,13 @@ class qqFileUploader {
 class ValumsfileUploader {
 
 	public static function upload_temp($allowedExtensions = array(), $sizeLimit = false) {
-		joosLoader::lib('files');
 
 		$fn_get = joosRequest::get('qqfile', false);
 		$fileName = $fn_get ? $fn_get : $_FILES['qqfile']['name'];
 
-		$fileData = Files::ext($fileName);
+		$fileData = joosFile::file_info($fileName);
 		$new_file_name = md5(uniqid());
-		$new_file_name_full = $new_file_name . '.' . $fileData['extension'];
+		$new_file_name_full = $new_file_name . '.' . $fileData['ext'];
 
 		$uploader = new qqFileUploader($allowedExtensions, ($sizeLimit ? $sizeLimit : qqFileUploader::_toBytes(ini_get('upload_max_filesize'))));
 		$temp_dir = JPATH_BASE . '/cache/tmp/' . time() . '/';
@@ -223,7 +227,7 @@ class ValumsfileUploader {
 		$fn_get = joosRequest::get('qqfile', false);
 		$fileName = $fn_get ? $fn_get : $_FILES['qqfile']['name'];
 
-		$fileData = Files::ext($fileName);
+		$fileData = pathinfo($fileName);
 		$new_file_name = md5(uniqid());
 		$new_file_name_full = $new_file_name . '.' . $fileData['extension'];
 
@@ -237,8 +241,8 @@ class ValumsfileUploader {
 			$filelocation = JPATH_BASE . '/cache/tmp/' . $fileName;
 
 			if ($newnameforfile) {
-				$filedata = Files::ext($filelocation);
-				$fileName = $newnameforfile . '.' . $filedata['extension'];
+				$filedata = joosFile::file_info($filelocation);
+				$fileName = $newnameforfile . '.' . $filedata['ext'];
 			}
 
 			$file_upload = self::get_filefolder($rootdir, $filelocation, $fileid);
@@ -246,15 +250,21 @@ class ValumsfileUploader {
 
 			is_dir($file_upload['filelocation']) ? null : mkdir($file_upload['filelocation'], 0755, true);
 
-			$file = new Files(0755);
+
 			$file_pach = $file_upload['file'] . DS . $fileName;
-			$file->move($filelocation, $file_pach);
+			joosFile::move($filelocation, $file_pach, 0755);
 
 			$file_live = str_replace(JPATH_BASE, '', $file_pach);
 			$file_live = str_replace('\\', '/', $file_live);
 			$file_location = str_replace($fileName, '', $file_live);
 
-			return array('basename' => $file_pach, 'livename' => $file_live, 'location' => $file_location, 'file_id' => $file_upload['file_id'], 'file_name' => $fileName);
+			return array(
+				'basename' => $file_pach,
+				'livename' => $file_live,
+				'location' => $file_location,
+				'file_id' => $file_upload['file_id'],
+				'file_name' => $fileName
+			);
 		}
 
 		echo json_encode($result);
@@ -262,12 +272,16 @@ class ValumsfileUploader {
 	}
 
 	public static function get_filefolder($rootdir = false, $filename = false, $fileid = false) {
-		joosLoader::lib('attached', 'files');
+
 		$id = $fileid ? $fileid : joosAttached::add($filename)->id;
 
-		$rootdir = $rootdir ? $rootdir : Files::mime_content_type($filename);
+		$rootdir = $rootdir ? $rootdir : joosFile::mime_content_type($filename);
 
-		return array('file' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . Files::makefilename($id), 'filelocation' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . Files::makefilename($id), 'file_id' => $id);
+		$location = joosFile::make_file_location($id);
+		return array(
+			'file' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . $location,
+			'filelocation' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . $location,
+			'file_id' => $id);
 	}
 
 }

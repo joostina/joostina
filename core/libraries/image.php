@@ -53,8 +53,8 @@ class joosImage {
 	 */
 	public static function get_image($dir = '', $image_id = 0, $size = '', $image_attr = array()) {
 		if ($image_id && $dir) {
-			joosLoader::lib('files');
-			$location = Files::makefilename($image_id);
+
+			$location = joosFile::make_file_location($image_id);
 			$size = $size ? 'image_' . $size . '.png' : 'image.png';
 			$file_location = '/attachments/' . $dir . '/' . $location . '/' . $size;
 			$image_attr += array('src' => JPATH_SITE . '/' . $file_location);

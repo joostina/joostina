@@ -93,7 +93,8 @@ class actionsAjaxCoder {
 
 		$c_path = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $tpls_vars['name_lower'];
 		if ($create_files == true) {
-			joosLoader::lib('files');
+
+			// @todo переделать на joosFile
 			$_blank = '<html><body></body></html>';
 			$file = new Files;
 			$file->create($c_path);

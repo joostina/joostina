@@ -56,17 +56,17 @@ class joosAutoloader {
 		'joosText' => 'core/libraries/text.php',
 		'joosTrash' => 'core/libraries/trash.php',
 		'joosVersion' => 'core/libraries/version.php',
-
 		// системные модели
 		//'User' => 'app/components/users/models/model.users.php',
 		'Categories' => 'app/components/categories/models/model.categories.php',
 		'CategoriesDetails' => 'app/components/categories/models/model.categories.php',
-
 		// Это старьё, надо переписать либо удалить
 		'htmlTabs' => 'core/libraries/html.php',
-		'forms' => 'core/vendors/forms/forms.php',
+		'forms' => 'app/vendors/forms/forms.php',
 		// Библиотеки сторонних вендоров
-		'JJevix' => 'core/vendors/text/jevix/jevix.php',
+		'JJevix' => 'app/vendors/text/jevix/jevix.php',
+		// пока не адаптированные библиотеки
+		'Thumbnail' => 'core/libraries/image.php',
 	);
 	private static $_debug = true;
 
@@ -90,13 +90,16 @@ class joosAutoloader {
 		}
 
 		if (!is_file($file)) {
-			throw new AutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));
+			throw new AutoloaderFileNotFoundException(
+					sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class)
+			);
 		}
 
 		require_once $file;
 
 		if (!class_exists($class, false)) {
-			throw new AutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
+			throw new AutoloaderClassNotFoundException(
+					sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
 		!self::$_debug ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
 
@@ -113,18 +116,26 @@ class joosAutoloader {
 
 
 		$file = '';
+
+		// модели панели упралвения
 		if (strpos($class, 'admin', 0) === 0) {
 			$name = str_replace('admin', '', $class);
 			$name = strtolower($name);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
+
+			// контроллеры фронта
 		} elseif (strpos($class, 'actions', 0) === 0) {
 			$name = str_replace('actions', '', $class);
 			$name = strtolower($name);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
+
+			// системные библиотеки
 		} elseif (strpos($class, 'joos', 0) === 0) {
 			$name = str_replace('joos', '', $class);
 			$name = strtolower($name);
 			$file = 'core' . DS . 'libraries' . DS . $name . '.php';
+
+			// модели фронта
 		} else {
 			$name = strtolower($class);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
@@ -160,7 +171,8 @@ class joosAutoloader {
 			$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
 
 			if (!is_file($file)) {
-				throw new AutoloaderOnStartFileNotFoundException(sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name));
+				throw new AutoloaderOnStartFileNotFoundException(
+						sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name));
 			}
 
 			require_once ($file);

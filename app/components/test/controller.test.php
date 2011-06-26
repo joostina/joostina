@@ -20,9 +20,10 @@ class actionsTest {
 
 	public static function index() {
 
-		
-		echo joosCore::path('blog', 'controller');
-		
+
+		$r = joosFile::exists( JPATH_BASE . DS. 'index.php1' );
+
+		var_dump($r);
 		die();
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));

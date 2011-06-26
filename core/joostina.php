@@ -647,7 +647,7 @@ class joosCore {
 				break;
 
 			case 'lib-vendor':
-				$file = JPATH_BASE . DS . 'core' . DS . 'vendors' . DS . $cat . DS . $name . DS . $name . '.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'vendors' . DS . $cat . DS . $name . DS . $name . '.php';
 				break;
 
 			default:

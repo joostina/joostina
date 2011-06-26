@@ -24,7 +24,6 @@ class actionsAjaxNews {
 	public static function image_uploader() {
 
 		joosLoader::lib('valumsfileuploader', 'files');
-		joosLoader::lib('images');
 
 		$image_id = joosRequest::request('image_id', 0);
 		$image_id = $image_id ? $image_id : false;
@@ -38,7 +37,6 @@ class actionsAjaxNews {
 		//Настройки ресайза изображений
 		$params = new joosParams;
 		$params->load_params('news', 'default');
-
 
 		//массив с настройками размеров изображений
 		//Размеры изображений задаются по следующим правилам:

@@ -161,7 +161,7 @@ class adminQuickicons extends Quickicons {
 	public static function get_icon_list(self $cur_obj) {
 
 		$files = new joosFile(0755);
-		$icons = $files->getList(JPATH_BASE . self::get_ico_pach(), 'file');
+		$icons = $files->get_list(JPATH_BASE . self::get_ico_pach(), 'file');
 
 		$icon_web_root = JPATH_SITE . self::get_ico_pach();
 

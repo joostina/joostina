@@ -11,8 +11,6 @@ defined('_JOOS_CORE') or die();
 
 global $my;
 
-joosLoader::lib('files');
-
 //Библиотека работы с деревьями
 joosLoader::lib('tree', 'joomlatune');
 $tree = new JoomlaTuneTree($comments_list);

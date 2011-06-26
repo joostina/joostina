@@ -133,8 +133,7 @@ class Blog extends joosModel {
 		if (trim($blog_item->params) != '') {
 			$params = json_decode($blog_item->params);
 			if (isset($params->image_id) && $params->image_id != '') {
-				joosLoader::lib('files');
-				$location = Files::makefilename($params->image_id);
+				$location = joosFile::make_file_location($params->image_id);
 				$size = $size ? 'image_' . $size . '.png' : 'image.png';
 				$file_location = JPATH_SITE . '/attachments/blogs/' . $location . '/' . $size;
 				$image_attr += array('src' => $file_location, 'title' => $blog_item->title, 'alt' => $blog_item->title);
