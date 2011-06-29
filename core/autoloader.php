@@ -37,6 +37,7 @@ class joosAutoloader {
 		'joosDateTime' => 'core/libraries/datetime.php',
 		'joosDebug' => 'core/libraries/debug.php',
 		'joosEditor' => 'core/libraries/editor.php',
+		'joosEvents' => 'core/libraries/events.php',
 		'joosFile' => 'core/libraries/file.php',
 		'joosFlashMessage' => 'core/libraries/flashmessage.php',
 		'joosHit' => 'core/libraries/hit.php',
