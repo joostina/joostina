@@ -103,8 +103,7 @@ class Extrafields extends joosModel {
 
 					ob_start();
 					eval($f->rules);
-					$add_ = ob_get_contents();
-					ob_get_clean();
+					$add_ = ob_get_clean();
 
 					$_rules[$f->id] += $rules;
 				}
@@ -146,8 +145,7 @@ class Extrafields extends joosModel {
 
 					ob_start();
 					eval($f->rules);
-					$add_ = ob_get_contents();
-					ob_get_clean();
+					$add_ = ob_get_clean();
 
 					$_rules[$f->id] += $rules;
 				}

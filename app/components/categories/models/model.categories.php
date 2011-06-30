@@ -233,10 +233,7 @@ class Categories extends joosNestedSet {
 			<?php endforeach; ?>
 		</select>
 		<?php
-		$return .= ob_get_contents();
-		ob_end_clean();
-
-		return $return;
+		return ob_get_clean();
 	}
 
 	public function get_cats_selector_for_items($obj) {
@@ -261,10 +258,7 @@ class Categories extends joosNestedSet {
 			<?php endforeach; ?>
 		</select>
 		<?php
-		$return .= ob_get_contents();
-		ob_end_clean();
-
-		return $return;
+		return ob_get_clean();
 	}
 
 	public function get_link_suff() {

@@ -184,4 +184,85 @@ class joosDateTime {
 		return strtr($datetime, self::$date_translation);
 	}
 
+	/**
+	 * Рассчет и прописное представление прошедшего времени
+	 * 
+	 * @param int $timestamp первоначальный момент времени в секундах
+	 * @param int $current_time конечный момент времени в секундах, по умолчанию - текущее время
+	 * @return string логическое прописное обозначение времени
+	 */
+	public static function time_ago($timestamp, $current_time = false) {
+
+		$timestamp = (int) $timestamp;
+		$current_time = $current_time ? $current_time : time();
+
+		// считаем число секунд между собыьтиями
+		$seconds_between = $current_time - $timestamp;
+
+		// года
+		$years_ago = floor($seconds_between / (365.242199 * 24 * 60 * 60));
+		if ($years_ago > 1) {
+			return sprintf(__('%s %s назад'), $years_ago, joosText::declension($years_ago, array('год', 'года', 'лет')));
+		}
+		if ($years_ago == 1) {
+			return __('год назад');
+		}
+
+		// месяцы
+		$months_ago = floor($seconds_between / ((365.242199 / 12) * 24 * 60 * 60));
+		if ($months_ago > 1) {
+			return sprintf(__('%s %s назад'), $months_ago, joosText::declension($months_ago, array('месяц', 'месяца', 'месяцев')));
+		}
+		if ($months_ago == 1) {
+			return __('месяц назад');
+		}
+
+		// недели
+		$weeks_ago = floor($seconds_between / (7 * 24 * 60 * 60));
+		if ($weeks_ago > 1) {
+			return sprintf(__('%s %s назад'), $weeks_ago, joosText::declension($weeks_ago, array('неделя', 'недели', 'недель')));
+		}
+		if ($weeks_ago == 1) {
+			return __('неделю назад');
+		}
+
+		// дней
+		$days_ago = floor($seconds_between / (24 * 60 * 60));
+		if ($days_ago > 1) {
+			return sprintf(__('%s %s назад'), $days_ago, joosText::declension($days_ago, array('день', 'дня', 'дней')));
+		}
+		if ($days_ago == 1) {
+			return __('день назад');
+		}
+
+		// часов
+		$hours_ago = floor($seconds_between / (60 * 60));
+		if ($hours_ago > 1) {
+			return sprintf(__('%s %s назад'), $hours_ago, joosText::declension($hours_ago, array('час', 'часа', 'часов')));
+		}
+		if ($hours_ago == 1) {
+			return __('час назад');
+		}
+
+		// минут
+		$minutes_ago = floor($seconds_between / 60);
+		if ($minutes_ago > 1) {
+			return sprintf('%s %s назад', $minutes_ago, joosText::declension($minutes_ago, array('минуту', 'минуты', 'минут')));
+		}
+		if ($minutes_ago == 1) {
+			return __('минуту назад');
+		}
+
+		// секунд
+		$seconds_ago = floor($seconds_between);
+		if ($seconds_ago > 1) {
+			return sprintf(__('%s %s назад'), $seconds_ago, joosText::declension($seconds_ago, array('секунда', 'секунд', 'секунды')));
+		}
+		if ($seconds_ago <= 1) {
+			return __('секунда');
+		}
+
+		return __('Очень давно');
+	}
+
 }

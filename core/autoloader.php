@@ -39,6 +39,7 @@ class joosAutoloader {
 		'joosEditor' => 'core/libraries/editor.php',
 		'joosEvents' => 'core/libraries/events.php',
 		'joosFile' => 'core/libraries/file.php',
+		'joosFilter' => 'core/libraries/filter.php',
 		'joosFlashMessage' => 'core/libraries/flashmessage.php',
 		'joosHit' => 'core/libraries/hit.php',
 		'joosHTML' => 'core/libraries/html.php',
@@ -56,6 +57,7 @@ class joosAutoloader {
 		'joosString' => 'core/libraries/string.php',
 		'joosText' => 'core/libraries/text.php',
 		'joosTrash' => 'core/libraries/trash.php',
+		'joosValidate' => 'core/libraries/validate.php',
 		'joosVersion' => 'core/libraries/version.php',
 		// системные модели
 		//'User' => 'app/components/users/models/model.users.php',

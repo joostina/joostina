@@ -20,22 +20,12 @@ class actionsTest {
 
 	public static function index() {
 
-
-		joosEvents::add_events('system.onstart', function($a, $b) {
-					echo sprintf('1. a=%s; $b=%s', $a, $b);
-				});
-
-		joosEvents::add_events('system.onstart', function($a, $b) {
-					echo sprintf('2. a=%s; $b=%s', $a, $b);
-				});
-
-		joosEvents::add_events('system.onstart', 'absd');
-
-		joosEvents::add_events('system.onstart', 'actionsTest::viewtest');
+		$a = array(1,'aad',time());
 		
-		joosEvents::fire_events('system.onstart', 1, 2);
-
-
+		joosDebug::dump($a,true, joosCore::user() );
+		
+		echo 888;
+		
 		die();
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));
@@ -99,7 +89,7 @@ class actionsTest {
 	public static function viewtest() {
 
 		echo time();
-		
+
 		//вьюшка должна возвращать массив параметров, в котором можно указывать и название шаблона вьюшки ( в пределах определённого каталог ) и тип вывода HTML/JSON
 		return array(
 			'aaa' => 'bbbb',

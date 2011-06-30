@@ -3,6 +3,20 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+joosEvents::add_events('system.onstart', function($a, $b) {
+			echo sprintf('1. a=%s; $b=%s', $a, $b);
+		});
+
+joosEvents::add_events('system.onstart', function($a, $b) {
+			echo sprintf('2. a=%s; $b=%s', $a, $b);
+		});
+
+joosEvents::add_events('system.onstart', 'absd');
+
+joosEvents::add_events('system.onstart', 'actionsTest::viewtest');
+
+joosEvents::fire_events('system.onstart', 1, 2);
+
 /**
  * joosEvents - Библиотека работы с плагинами, реализация метода Observer
  * Системная библиотека
@@ -59,8 +73,7 @@ class joosEvents {
 
 }
 
-function absd(){
+function absd() {
 	echo 555;
 }
-
 

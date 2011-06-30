@@ -13,11 +13,11 @@ defined('_JOOS_CORE') or die();
 class joiadminHTML {
 
 	public static function _listing() {
-
+		
 	}
 
 	public static function _edit() {
-
+		
 	}
 
 	public static function header($header, array $extra = array()) {
@@ -29,18 +29,15 @@ class joiadminHTML {
 		if ($path = joosMainframe::instance()->getPath('toolbar')) {
 			ob_start();
 			include_once ($path);
-			$return .= ob_get_contents();
-			ob_end_clean();
+			$return .= ob_get_clean();
 		}
 		$return .= '</h1>';
 
 		ob_start();
 		mosLoadAdminModule('mosmsg');
-		$return .= ob_get_contents();
-		ob_end_clean();
+		$return .= ob_get_clean();
 
 		$return .= adminHtml::controller_header(false, 'config', $extra);
-
 
 		return $return;
 	}

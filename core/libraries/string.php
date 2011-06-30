@@ -770,9 +770,7 @@ class joosString {
 			}
 		}
 
-		$result = ob_get_contents();
-		ob_end_clean();
-		return $result;
+		return ob_get_clean();
 	}
 
 	public static function to_utf8(&$text) {

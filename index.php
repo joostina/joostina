@@ -30,14 +30,14 @@ joosController::init();
 ob_start();
 joosController::run();
 // главное содержимое - стек вывода компонента - mainbody
-joosDocument::set_body(ob_get_contents());
-ob_end_clean();
+joosDocument::set_body(ob_get_clean() );
+
 
 ob_start();
 // загрузка файла шаблона
 require_once (JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php');
-joosDocument::$data['html_body'] = ob_get_contents();
-ob_end_clean();
+joosDocument::$data['html_body'] = ob_get_clean();
+
 
 echo joosDocument::$data['html_body'];
 

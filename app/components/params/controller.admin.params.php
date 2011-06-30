@@ -48,8 +48,8 @@ class actionsAdminParams {
 		mosMenuBar::apply();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
-		$index_tools = ob_get_contents();
-		ob_end_clean();
+		$index_tools = ob_get_clean();
+
 
 		self::$toolbars['index'] = $index_tools;
 	}

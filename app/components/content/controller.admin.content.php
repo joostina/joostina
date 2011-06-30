@@ -66,8 +66,8 @@ class actionsAdminContent {
 	public static function index($option) {
 		ob_start();
 		mosMenuBar::copy();
-		$add = ob_get_contents();
-		ob_end_clean();
+		$add = ob_get_clean();
+
 		JoiAdminToolbar::add_button($add);
 
 		self::$submenu['content_all']['active'] = true;

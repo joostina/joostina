@@ -355,8 +355,7 @@ class joosAutoAdmin {
 		//Вывод системного соощения
 		ob_start();
 		joosModuleAdmin::load_by_name('flashmessage');
-		$return .= ob_get_contents();
-		ob_end_clean();
+		$return .= ob_get_clean();
 
 		$return .= '<div id="component_form">';
 
@@ -730,8 +729,7 @@ class JoiAdminToolbar {
 		echo implode('', self::$add_button);
 		mosMenuBar::endTable();
 
-		$return = ob_get_contents();
-		ob_end_clean();
+		$return = ob_get_clean();
 
 		return $return;
 	}
@@ -747,8 +745,7 @@ class JoiAdminToolbar {
 		joosRequest::int('id', false) ? mosMenuBar::cancel('cancel', __('Закрыть')) : mosMenuBar::cancel();
 		mosMenuBar::endTable();
 
-		$return = ob_get_contents();
-		ob_end_clean();
+		$return = ob_get_clean();
 
 		return $return;
 	}

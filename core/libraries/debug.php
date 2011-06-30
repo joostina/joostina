@@ -118,4 +118,23 @@ class joosDebug {
 		return implode('', $r);
 	}
 
+	/**
+	 * Вывод информации о переменной
+	 * 
+	 * @example joosDebug::dump( array(1, 'aad', time() ), $var_name );
+	 * @example joosDebug::dump( $var_name_1,  $var_name_2,  $var_name_3,  $var_name_4 );
+	 * 
+	 * @param mixed функция принимает неограниченное число параметров - переменных для анализа и вывода
+	 */
+	public static function dump() {
+
+		ob_start();
+		var_dump(func_get_args());
+		$output = ob_get_clean();
+
+		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);
+
+		echo '<pre>' . joosFilter::htmlspecialchars($output) . '</pre>';
+	}
+
 }

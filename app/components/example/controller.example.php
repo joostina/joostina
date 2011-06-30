@@ -77,7 +77,7 @@ class actionsExample {
 		);
 
 		$results['joosFile::convert_size'] = array(
-			"joosFile::convert_size( filesize(__FILE__) );" => joosFile::convert_size( filesize(__FILE__) ),
+			"joosFile::convert_size( filesize(__FILE__) );" => joosFile::convert_size(filesize(__FILE__)),
 			"joosFile::convert_size( 123456 );" => joosFile::convert_size(12345678),
 			"joosFile::convert_size( 1234567890 );" => joosFile::convert_size(1234567890),
 		);
@@ -85,6 +85,16 @@ class actionsExample {
 		return array(
 			'results' => $results
 		);
+	}
+
+	// примеры использования joosBenchmark
+	private static function joosBenchmark() {
+		joosBenchmark::start();
+		joosBenchmark::mark('111');
+		//sleep(1);
+		joosBenchmark::mark('222');
+		echo joosBenchmark::get_time();
+		_xdump(joosBenchmark::get_markers());
 	}
 
 }

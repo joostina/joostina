@@ -48,8 +48,8 @@ if (is_file($file_controller)) {
 	throw new joosException(sprintf(__('Не найден предполагаемый файл контроллера %s'), $file_controller));
 }
 
-joosDocument::set_body(ob_get_contents());
-ob_end_clean();
+joosDocument::set_body(ob_get_clean());
+
 
 ob_start();
 // начало вывода html

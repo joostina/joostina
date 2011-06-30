@@ -108,4 +108,28 @@ HTML;
 		return htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
 	}
 
+	/**
+	 * 
+	 * @todo адаптировать для Ajax обработки исключений
+	 * 
+	 * @param type $exception
+	 * @param type $output 
+	 */
+	public static function exception_ajax($exception, $output) {
+		// redefine
+		$output = (string) $output;
+
+		// set headers
+		SpoonHTTP::setHeaders('content-type: application/json');
+
+		// create response array
+		$response = array('code' => ($exception->getCode() != 0) ? $exception->getCode() : 500, 'message' => $exception->getMessage());
+
+		// output to the browser
+		echo json_encode($response);
+
+		// stop script execution
+		exit;
+	}
+
 }

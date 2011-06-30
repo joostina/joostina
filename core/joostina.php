@@ -657,6 +657,40 @@ class joosCore {
 		return $file;
 	}
 
+	/**
+	 * Установка кода в заголовок страницы
+	 * 
+	 * @example joosCore::set_headers_by_code(200);
+	 * @example joosCore::set_headers_by_code(301);
+	 * @example joosCore::set_headers_by_code(404);
+	 * @example joosCore::set_headers_by_code(504);
+	 * 
+	 * @param int $code номер кода
+	 */
+	public static function set_headers_by_code($code = 200) {
+
+		$code_array = array(
+			200 => '200 OK',
+			301 => '301 Moved Permanently',
+			302 => '302 Found',
+			304 => '304 Not Modified',
+			307 => '307 Temporary Redirect',
+			400 => '400 Bad Request',
+			401 => '401 Unauthorized',
+			403 => '403 Forbidden',
+			404 => '404 Not Found',
+			410 => '410 Gone',
+			500 => '500 Internal Server Error',
+			501 => '501 Not Implemented',
+			504 => '504 Gateway Time-out'
+		);
+
+		// code
+		$code_string = isset($code_array[$code]) ? (int) $code : $code_array[$code];
+
+		header('HTTP/1.1 ' . $code_string);
+	}
+
 }
 
 /**
