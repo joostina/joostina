@@ -133,6 +133,11 @@ class actionsAdminNews {
 		//сохраняем основные данные
 		$result = $obj_data->save($_POST);
 
+		if ($result == false) {
+			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
+			return;
+		}
+
 		//Сохранение параметров
 		if (isset($_POST['params'])) {
 			$params = new joosParams;
@@ -141,11 +146,6 @@ class actionsAdminNews {
 
 		//Сохранение мета-информации
 		joosMetainfo::add_meta($_POST['metainfo'], 'news', 'item', $obj_data->id);
-
-		if ($result == false) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
-		}
 
 		switch ($redirect) {
 			default:

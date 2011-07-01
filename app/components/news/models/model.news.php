@@ -62,16 +62,7 @@ class News extends joosModel {
 	 * @var joosText
 	 */
 	public $attachments;
-	private static $news_array = array(
-		1 => array(
-			'title' => 'Новости сайта',
-			'slug' => 'sitenews',
-		),
-		2 => array(
-			'title' => 'Новости разработки',
-			'slug' => 'devnews',
-		),
-	);
+
 
 	/*
 	 * Constructor
@@ -79,33 +70,6 @@ class News extends joosModel {
 	 */
 	function __construct() {
 		parent::__construct('#__news', 'id');
-	}
-
-	public static function get_types() {
-		$types = array();
-		array_walk(self::$news_array, function($d, $k) use (&$types) {
-					$types[$k] = $d['title'];
-				});
-
-		return $types;
-	}
-
-	public static function get_types_slug() {
-		$slugs = array();
-		array_walk(self::$news_array, function($d, $k) use (&$slugs) {
-					$slugs[$k] = $d['slug'];
-				});
-
-		return $slugs;
-	}
-
-	public static function get_types_slug_array() {
-		return array_flip(self::get_types_slug());
-	}
-
-	public static function get_types_slug_by_type_id($type_id) {
-		$types = self::get_types_slug();
-		return $types[$type_id];
 	}
 
 	public static function show_date(stdClass $obj) {

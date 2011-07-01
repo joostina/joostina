@@ -152,7 +152,7 @@ class adminNews extends News {
 		$this->fulltext = $jevix->Parser($this->fulltext);
 		$this->introtext = $jevix->Parser($this->introtext);
 
-		$this->filter(array('fulltext', 'introtext'));
+		$this->filter(array('fulltext'));
 
 		// TODO тут можно сделать формирование ссылочного слага из заголовка новости, либо добавить отдельное поля во вьюшку
 		$this->slug = _CURRENT_SERVER_TIME;

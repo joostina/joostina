@@ -57,6 +57,11 @@ return array(
 		'params_rules' => array('id' => '\d+'),
 		'defaults' => array('controller' => 'news', 'action' => 'view')
 	),
+	'news_pages' => array(
+		'href' => 'news/page/<page>',
+		'params_rules' => array('page' => '\d+'),
+		'defaults' => array('controller' => 'news', 'action' => 'index')
+	),
 	'news_archive' => array(
 		'href' => 'news',
 		'defaults' => array('controller' => 'news', 'action' => 'archive')

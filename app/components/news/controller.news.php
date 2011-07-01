@@ -34,10 +34,10 @@ class actionsNews extends joosController {
 		$page = isset(self::$param['page']) ? self::$param['page'] : 0;
 
 		// формируем объект записей блога
-		$news = new News('WHERE state = 1');
+		$news = new News();
 
 		// число записей в блоге
-		$count = $news->count();
+		$count = $news->count( 'WHERE state = 1' );
 
 		$pager = new joosPager(joosRoute::href('news'), $count, 3, 5);
 		$pager->paginate($page);
@@ -96,8 +96,10 @@ class actionsNews extends joosController {
 		);
 
 		//Хлебные крошки
-		joosBreadcrumbs::instance()->add('Архив новостей');
-		JoosDocument::instance()->add_title('Архив новостей');
+		joosBreadcrumbs::instance()
+				->add('Архив новостей');
+		JoosDocument::instance()
+				->add_title('Архив новостей');
 
 		return array(
 			'news_items' => $news_items,
@@ -114,14 +116,12 @@ class actionsNews extends joosController {
 
 		// формируем и загружаем просматриваемую запись
 		$item = new News;
-		$item->load($id) ? null : self::error404();
+		// новость доступна и опубликована
+		($item->load($id) && $item->state==1) ? null : self::error404();
 
-		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
-		if (self::$error) {
-			return;
-		}
-
-		joosBreadcrumbs::instance()->add($item->title);
+		// хлебные крошки
+		joosBreadcrumbs::instance()
+				->add($item->title);
 
 		//Метаинформация страницы
 		joosMetainfo::set_meta('news', 'item', $item->id, array('title' => $item->title));

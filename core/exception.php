@@ -77,7 +77,7 @@ class joosException extends Exception {
 		!ob_get_level() ? : ob_end_clean();
 
 		parent::__toString();
-		echo $this->create();
+		echo joosRequest::is_ajax() ? $this->to_json() : $this->create();
 		die();
 	}
 
@@ -105,31 +105,18 @@ HTML;
 	}
 
 	protected function prepare($content) {
-		return htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
+		return joosFilter::htmlspecialchars($content);
 	}
 
 	/**
+	 * Возврат информации об ошибки в JSON-сериализованном виде
 	 * 
-	 * @todo адаптировать для Ajax обработки исключений
-	 * 
-	 * @param type $exception
-	 * @param type $output 
+	 * @return json string строка с кодом ошибки закодированная в JSON
 	 */
-	public static function exception_ajax($exception, $output) {
-		// redefine
-		$output = (string) $output;
+	private function to_json() {
+		$response = array('code' => ($this->getCode() != 0) ? $this->getCode() : 500, 'message' => $this->getMessage());
 
-		// set headers
-		SpoonHTTP::setHeaders('content-type: application/json');
-
-		// create response array
-		$response = array('code' => ($exception->getCode() != 0) ? $exception->getCode() : 500, 'message' => $exception->getMessage());
-
-		// output to the browser
-		echo json_encode($response);
-
-		// stop script execution
-		exit;
+		return json_encode($response);
 	}
 
 }

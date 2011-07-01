@@ -51,8 +51,8 @@ class joosAutoAdmin {
 
 		// подключаем js код библиотеки
 		joosDocument::instance()->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
-										   
-		
+
+
 		!JDEBUG ? : joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task);
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
@@ -397,7 +397,7 @@ class joosAutoAdmin {
 
 			$return = array();
 			foreach ($class::$submenu as $href) {
-				$return[] = '<li>' . ($href['active'] == false ? sprintf('<a href="%s">%s</a>',$href['href'], $href['name']) : '<span>' . $href['name'] . '</span>') . '</li>';
+				$return[] = '<li>' . ($href['active'] == false ? sprintf('<a href="%s">%s</a>', $href['href'], $href['name']) : '<span>' . $href['name'] . '</span>') . '</li>';
 			}
 
 			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode('', $return) . '</ul></div>';
@@ -410,7 +410,7 @@ class joosAutoAdmin {
 	 * @param string $component Название компонента
 	 * @return array меню компонента или false
 	 */
-	public static function get_component_submenu($component){
+	public static function get_component_submenu($component) {
 
 		$controller = 'actionsAdmin' . ucfirst($component);
 		joosLoader::admin_controller($component);
@@ -418,7 +418,7 @@ class joosAutoAdmin {
 		if (isset($controller::$submenu)) {
 			return $controller::$submenu;
 		}
-		
+
 		return false;
 	}
 
@@ -430,9 +430,6 @@ class joosAutoAdmin {
 	public static function autoajax() {
 
 		$option = joosRequest::param('option');
-		$file = joosCore::path($option, 'class');
-
-		(is_file($file) || is_file($file = joosCore::path($option, 'admin_class'))) ? require_once $file : null;
 
 		// выполняемая задача
 		$task = joosRequest::param('task');
@@ -451,7 +448,6 @@ class joosAutoAdmin {
 		if (class_exists($obj_name)) {
 			// создаём объект класса
 			$obj = new $obj_name;
-
 
 			switch ($task) {
 				case 'statuschanger':
@@ -472,7 +468,7 @@ class joosAutoAdmin {
 								1 => 'publish_g.png',
 							)
 							)));
-					
+
 					// формируем ответ из противоположных элементов текущему состоянию
 					$return_onj->image = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';
 					$return_onj->mess = isset($fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key] : 'ERROR';
@@ -497,7 +493,7 @@ class joosAutoAdmin {
 					break;
 
 				case 'reorder':
-					
+
 					$objs = joosRequest::post('objs');
 					$return_onj->mess = implode('; ', $objs);
 
@@ -518,7 +514,7 @@ class joosAutoAdmin {
 						$query = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
 						$obj->get('_db')->set_query($query)->query();
 						++$i;
-						$mess .=  $query. "\n";
+						$mess .= $query . "\n";
 					}
 					$return_onj->mess = $mess;
 					$return_onj->min = $min;

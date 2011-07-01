@@ -60,7 +60,7 @@ class actionsAjaxNews {
 			$thumbs_params['thumb'] = explode('x', $params->get('item_image_size_thumb'));
 		}
 
-		Thumbnail::create_thumbs($file['basename'], $img, $thumbs_params, $params->get('item_image_ext', 'jpg'), $params->get('item_image_quality', 70));
+		Thumbnail::create_thumbs($file['basename'], $img.'/thumb.jpg', $thumbs_params, $params->get('item_image_ext', 'jpg'), $params->get('item_image_quality', 70));
 
 		echo json_encode(array('location' => $file['location'], 'file_id' => $file['file_id'], 'livename' => $file['livename'], 'success' => true));
 	}
