@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsBlog extends joosController {
 
-	public static function on_start($active_task) {
+	public static function action_before($active_task) {
 		joosBreadcrumbs::instance()
 				->add('Блоги', $active_task == 'index' ? false : joosRoute::href('blog'));
 	}

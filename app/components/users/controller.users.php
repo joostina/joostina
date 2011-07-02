@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsUsers extends joosController {
 
-	public static function on_start() {
+	public static function action_before() {
 		joosBreadcrumbs::instance()
 				->add('Пользователи');
 

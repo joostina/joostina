@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsAdminInstaller {
 
-	public static function on_start() {
+	public static function action_before() {
 		joosDocument::instance()
 				->add_js_file(JPATH_SITE . '/media/js/valumsfileuploader/fileuploader.js')
 				->add_js_file(JPATH_SITE . '/administrator/components/installer/media/js/installer.js');

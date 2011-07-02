@@ -34,7 +34,7 @@ class actionsAdminExtrafields {
 	/**
 	 * Выполняется сразу после запуска контроллера
 	 */
-	public static function on_start() {
+	public static function action_before() {
 
 		$group = joosRequest::request('group', '');
 		if ($group) {

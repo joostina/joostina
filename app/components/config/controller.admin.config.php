@@ -35,7 +35,7 @@ class actionsAdminConfig {
 	public static $toolbars = array();
 
 
-	public static function on_start() {
+	public static function action_before() {
 
 		ob_start();
 		mosMenuBar::startTable();

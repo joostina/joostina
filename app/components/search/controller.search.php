@@ -21,7 +21,7 @@ class actionsSearch extends joosController {
 	/**
 	 * Cтартовый метод, запускается до вызова основного метода контроллера
 	 */
-	public static function on_start($active_task) {
+	public static function action_before($active_task) {
 
 		//Хлебные крошки
 		joosBreadcrumbs::instance()

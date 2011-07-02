@@ -50,29 +50,31 @@ class joosAutoAdmin {
 		self::$task = $task;
 
 		// подключаем js код библиотеки
-		joosDocument::instance()->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
 
 
 		!JDEBUG ? : joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task);
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
-		method_exists($class, 'on_start') ? call_user_func_array($class . '::on_start', array()) : null;
+		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
 		//Установка тулбаров
 		//Если тулбары определены в компоненте - выводим их
 		//self::toolbar();
 
-
 		if (method_exists($class, $task)) {
 			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
 		} elseif (method_exists($class, 'index')) {
 			echo call_user_func_array($class . '::index', array($option, $id, $page, $task));
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
 		} else {
 			throw new joosException('Ошибкаааа!');
 		}
 
 		// если контроллер содержит метод вызываемый после окончания работы основного контроллера, то он тоже вызовется
-		method_exists($class, 'on_stop') ? call_user_func_array($class . '::on_stop', array()) : null;
+		method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array()) : null;
 	}
 
 	// автодиспатчер для Ajax - обработчиков
@@ -92,7 +94,7 @@ class joosAutoAdmin {
 
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
-		method_exists($class, 'on_start') ? call_user_func_array($class . '::on_start', array()) : null;
+		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array()) : null;
 
 		if (method_exists($class, $task)) {
 			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
@@ -101,7 +103,7 @@ class joosAutoAdmin {
 		}
 
 		// контроллер может содержать метод вызываемый после окончания работы основного контроллера, но тоже вызовется
-		method_exists($class, 'on_stop') ? call_user_func_array($class . '::on_stop', array()) : null;
+		method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array()) : null;
 	}
 
 	/**

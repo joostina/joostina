@@ -40,7 +40,7 @@ class actionsAdminCategories {
 	public static $toolbars = array();
 
 
-	public static function on_start() {
+	public static function action_before() {
 
 		joosDocument::instance()
 				->add_css(JPATH_SITE . '/app/components/categories/media/css/categories.admin.css')

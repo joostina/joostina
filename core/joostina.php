@@ -770,21 +770,32 @@ class joosController {
 		$class = 'actions' . ucfirst(self::$controller);
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
+		/*
+		 * Это разруливает автозагрузчик, оставлено для тестирования
+		  $path = joosCore::path(self::$controller, 'controller');
 
-		$path = joosCore::path(self::$controller, 'controller');
+		  if (!is_file($path) || self::$activroute == '404') {
+		  return self::error404();
+		  } else {
+		  require_once ($path);
+		  }
+		 */
 
-		if (!is_file($path) || self::$activroute == '404') {
-			return self::error404();
-		} else {
-			require_once ($path);
-		}
-
+		/**
+		 * @todo тут можно переписать из статических методов в общие публичные, тока будет ли в этом профит?
+		 * $controller = new $class;
+		 * $results = call_user_func_array( array( $controller, self::$task ) );
+		 */
 		if (method_exists($class, self::$task)) {
 
 			// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
-			method_exists($class, 'on_start') ? call_user_func_array($class . '::on_start', array(self::$task)) : null;
+			method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
-			$results = call_user_func_array($class . '::' . self::$task, array());
+			$results = call_user_func($class . '::' . self::$task);
+
+			// действия контроллера вызываемые после работы основного действия, на вход принимает результат работы основного действия
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
+
 			if (is_array($results)) {
 				self::views($results, self::$controller, self::$task);
 			} elseif (is_string($results)) {
@@ -805,20 +816,23 @@ class joosController {
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
 
-		$path = joosCore::path(self::$controller, 'ajax_controller');
+		/* 		
+		  $path = joosCore::path(self::$controller, 'ajax_controller');
 
-		if (!is_file($path) || self::$activroute == '404') {
-			return self::error404();
-		} else {
-			require_once ($path);
-		}
-
+		  if (!is_file($path) || self::$activroute == '404') {
+		  return self::error404();
+		  } else {
+		  require_once ($path);
+		  }
+		 */
 		if (method_exists($class, self::$task)) {
 
 			// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
-			method_exists($class, 'on_start') ? call_user_func_array($class . '::on_start', array(self::$task)) : null;
+			method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
-			$results = call_user_func_array($class . '::' . self::$task, array());
+			$results = call_user_func($class . '::' . self::$task);
+
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
 		} else {
 			//  в контроллере нет запрашиваемого метода
 			return self::ajax_error404();

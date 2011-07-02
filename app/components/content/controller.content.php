@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsContent extends joosController {
 
-	public static function on_start($active_task) {
+	public static function action_before($active_task) {
 		//joosBreadcrumbs::instance()
 		//->add('Новости', $active_task == 'index' ? false : joosRoute::href('news'));
 		//joosBreadcrumbs::instance()->add('Бренды', joosRoute::href('content'));

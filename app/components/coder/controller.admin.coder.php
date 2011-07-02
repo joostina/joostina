@@ -35,7 +35,7 @@ class actionsAdminCoder {
 		),
 	);
 
-	public static function on_start() {
+	public static function action_before() {
 		joosDocument::instance()
 				->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
 	}

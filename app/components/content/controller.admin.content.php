@@ -52,7 +52,7 @@ class actionsAdminContent {
 	/**
 	 * Выполняется сразу после запуска контроллера
 	 */
-	public static function on_start() {
+	public static function action_before() {
 		joosDocument::instance()
 				->add_js_file(JPATH_SITE . '/app/components/content/media/js/content.admin.js')
 				->add_css(JPATH_SITE . '/app/components/content/media/css/content.admin.css');
