@@ -120,6 +120,16 @@ class Blog extends joosModel {
 		return true;
 	}
 
+	// после сохранения записи
+	public function after_store() {
+		
+		/*
+		//Сохраняем тэги
+		$tags = new Tags;
+		$tags->save_tags($this);
+		*/
+	}
+
 	public function before_delete() {
 		return true;
 	}

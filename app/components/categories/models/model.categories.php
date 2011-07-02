@@ -205,14 +205,6 @@ class Categories extends joosNestedSet {
 		);
 	}
 
-	public function get_extrainfo() {
-		return array(
-			'search' => array(),
-			'filter' => array(),
-			'extrafilter' => array()
-		);
-	}
-
 	public static function get_cats_selector($obj) {
 
 		$cats = new self;
@@ -334,10 +326,10 @@ class Categories extends joosNestedSet {
 
 		array_push($ids, 'default');
 
-		if( count($cats_fields)<1 ){
+		if (count($cats_fields) < 1) {
 			return false;
 		}
-		
+
 		$fields_array = array();
 		foreach ($cats_fields as $f) {
 			$key = $f->object ? $f->object : 'default';
@@ -558,14 +550,6 @@ class CategoriesDetails extends joosModel {
 			'header_list' => 'CategoriesDetails',
 			'header_new' => 'Создание CategoriesDetails',
 			'header_edit' => 'Редактирование CategoriesDetails'
-		);
-	}
-
-	public function get_extrainfo() {
-		return array(
-			'search' => array(),
-			'filter' => array(),
-			'extrafilter' => array()
 		);
 	}
 

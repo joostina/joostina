@@ -86,8 +86,6 @@ class actionsContent extends joosController {
 		$category_children = $category->get_children($category->id, true);
 		$count = count($category_children);
 
-		// подключаем библиотеку постраничной навигации
-		joosLoader::lib('pager', 'utils');
 		$pager = new joosPager(joosRoute::href('content_cats_paginate', array('slug' => $category->slug)), $count, 6, 5);
 		$pager->paginate($page);
 

@@ -66,6 +66,26 @@ return array(
 		'href' => 'news',
 		'defaults' => array('controller' => 'news', 'action' => 'archive')
 	),
+	/* Компонент блогов */
+	'blog' => array(
+		'href' => 'blogs',
+		'defaults' => array('controller' => 'blog', 'action' => 'index')
+	),
+	'blog_view' => array(
+		'href' => 'blogs/<cat_slug>/<id>',
+		'params_rules' => array('id' => '\d+','cat_slug'=>'[a-z]+'),
+		'defaults' => array('controller' => 'blog', 'action' => 'view')
+	),
+	'blog_cat' => array(
+		'href' => 'blogs/<cat_slug>',
+		'params_rules' => array('cat_slug' => '[a-z]+'),
+		'defaults' => array('controller' => 'blog', 'action' => 'view')
+	),
+	'blog_pages' => array(
+		'href' => 'blogs/page/<page>',
+		'params_rules' => array('page' => '\d+'),
+		'defaults' => array('controller' => 'blog', 'action' => 'index')
+	),
 	/* Компонент страниц */
 	'pages' => array(
 		'href' => 'pages',

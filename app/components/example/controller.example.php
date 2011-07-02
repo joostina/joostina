@@ -88,13 +88,27 @@ class actionsExample {
 	}
 
 	// примеры использования joosBenchmark
-	private static function joosBenchmark() {
+	private static function joosBenchmark_example() {
 		joosBenchmark::start();
 		joosBenchmark::mark('111');
 		//sleep(1);
 		joosBenchmark::mark('222');
 		echo joosBenchmark::get_time();
 		_xdump(joosBenchmark::get_markers());
+	}
+
+	private static function joosModulesException_example() {
+		throw new joosModulesException('Произошла ошибка :custom_name потому как :desc',
+				array(
+					// пользовательские сообщения
+					':custom_name' => 'Суперкрутая ошибка',
+					':desc' => 'описание ошибки',
+					// системные переменные
+					':error_code' => 404,
+					':error_file' => 'Файл в котором произошла ошибка',
+					':error_line' => 'Строка на которой произошла ошибка'
+				)
+		);
 	}
 
 }

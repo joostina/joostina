@@ -76,8 +76,6 @@ class actionsSearch extends joosController {
 				));
 		$count = count($_results);
 
-		// подключаем библиотеку постраничной навигации
-		joosLoader::lib('pager', 'utils');
 		$pager = new joosPager(joosRoute::href('search_process', array('slug' => 'catalog', 'searchword' => $searchword)), $count, 3, 5);
 		$pager->paginate($page);
 
@@ -108,8 +106,6 @@ class actionsSearch extends joosController {
 
 		$count = $content->count('WHERE ' . $where);
 
-		// подключаем библиотеку постраничной навигации
-		joosLoader::lib('pager', 'utils');
 		$pager = new joosPager(joosRoute::href('search_process', array('slug' => 'news', 'searchword' => $searchword)), $count, 3, 5);
 		$pager->paginate($page);
 

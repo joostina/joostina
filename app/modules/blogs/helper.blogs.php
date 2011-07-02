@@ -15,7 +15,7 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class blogsHelper {
+class modulesHelperBlogs {
 
 	//Получение последних записей из всех категорий
 	public static function get_latest($limit = 10) {

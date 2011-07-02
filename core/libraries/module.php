@@ -38,10 +38,12 @@ class joosModule extends Modules {
 	public static function modules_by_page($controller, $method, $object_data = array()) {
 		$modules_pages = new ModulesPages;
 
-		$modules = $modules_pages->get_list(array('select' => "mp.*,m.*", 'join' =>
-					'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )', 'where' =>
-					'mp.controller = "all" OR mp.controller = "' . $controller . '"', 'order' => 'm.position, m.ordering',));
-
+		$modules = $modules_pages->get_list(
+						array(
+							'select' => "mp.*,m.*",
+							'join' => 'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )',
+							'where' => 'mp.controller = "all" OR mp.controller = "' . $controller . '"', 'order' => 'm.position, m.ordering')
+		);
 
 		$by_position = array();
 		$by_name = array();
@@ -121,17 +123,44 @@ class joosModule extends Modules {
 		//Пытаемся сразу определить шаблон для вывода
 		$module->template_path = self::module_template($module);
 
+		// проверяем доступность основного файла модуля
+		if (!is_file($file)) {
+			throw new joosModulesException('Файл модуля :module_name не обнаружен в ожидаемом месте :module_location',
+					array(':module_name' => $name, ':module_location' => $file, ':error_code' => 404)
+			);
+		}
+
+		// параметры модуля по-умолчанию
+		$params = array(
+			'template' => JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'views' . DS . 'default.php',
+			// прямой режим работы модуля без использования внешнего шаблона
+			'modules_no_template' => false
+		);
 
 		//Разворачиваем параметры модуля
-		$params = json_decode($module->params, true);
+		$params_module = json_decode($module->params, true);
+		// параметры модуля перезапишут значения по-умолчанию
+		if ($params_module) {
+			$params = $params_module + $params;
+		}
+		// расширенные параметры модуля перезапишут значения настроек и по-умолчанию
 		if ($add_params) {
-			$params = array_merge($params, $add_params);
+			$params = $params + $add_params;
 		}
 
 		$object_data = self::$_object_data;
 
-		//Подключаем модуль
-		is_file($file) ? require ($file) : null;
+		require $file;
+
+		// проверяем доступность файла шаблона модуля и подключаем его
+		if ($params['modules_no_template'] == false && !is_file($params['template'])) {
+			throw new joosModulesException('Шаблон для модуля :module_name не обнаружен в ожидаемом месте :template_location',
+					array(':template_location' => $params['template'], ':module_name' => $name, ':module_location' => $file, ':error_code' => 404)
+			);
+			// в шаблоне явно не указано что он может работать без внешнего шаблона
+		} elseif ($params['modules_no_template'] == false) {
+			require_once $params['template'];
+		}
 	}
 
 	/**
@@ -146,4 +175,8 @@ class joosModule extends Modules {
 		return is_file($_tpl_file) ? $_tpl_file : null;
 	}
 
+}
+
+class joosModulesException extends joosException {
+	
 }

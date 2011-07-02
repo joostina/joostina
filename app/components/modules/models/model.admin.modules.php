@@ -97,7 +97,7 @@ class adminModules extends Modules {
 					'scope' => array('position'),
 					'width' => '100px',
 					'align' => 'center',
-					'class'=>'ordering'
+					'class' => 'ordering'
 				),
 				'html_edit_element' => 'edit',
 				'html_edit_element_param' => array(),
@@ -168,10 +168,25 @@ class adminModules extends Modules {
 		return array(
 			'header_main' => 'Модули',
 			'header_list' => 'Модули',
-			'header_new' => 'Создание Modules',
+			'header_new' => 'Создание модуля',
 			'header_edit' => 'Редактирование модуля'
 		);
 	}
+
+	public function get_extrainfo() {
+		return array(
+			'search' => array(
+				'title'
+			),
+			'filter' => array(
+				'client_id' => array(
+					'name' => 'Область действия',
+					'call_from' => 'Blog::get_blog_cats'
+				),
+			),
+		);
+	}
+
 
 	public function check() {
 		$this->filter(array('content'));

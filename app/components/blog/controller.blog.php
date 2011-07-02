@@ -33,8 +33,6 @@ class actionsBlog extends joosController {
 		// число записей в блоге
 		$count = $blogs->count('WHERE state=1');
 
-		// подключаем библиотеку постраничной навигации
-		joosLoader::lib('pager', 'utils');
 		$pager = new joosPager(joosRoute::href('blog'), $count, 5, 6);
 		$pager->paginate($page);
 

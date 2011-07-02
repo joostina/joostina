@@ -800,8 +800,12 @@ td {
     border: 1px solid #CDCDCD;
  
     overflow: hidden;
-    padding: 10px 20px;
-    
+    /*padding: 10px 20px;*/
+	/* Ирин, предлагаю таки немного доработать шаблон убрав такие не очень приятные места, картинки в #57 тикете */
+	padding-top: 10px;
+
+	
+	
 	-webkit-border-radius:0 0  6px 6px;
 	border-radius:  0 0  6px 6px;
     border: 1px solid #FFF;
@@ -1871,4 +1875,3 @@ textarea#note {
         border-top-color: rgba(20, 20, 20, 0.92)
     }
 }
-

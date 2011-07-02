@@ -24,9 +24,4 @@ class adminSitemap extends Sitemap {
 		);
 	}
 
-	public function get_extrainfo() {
-		return array(
-		);
-	}
-
 }

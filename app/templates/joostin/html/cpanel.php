@@ -9,7 +9,6 @@
  */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
 ?>
 <div class="cpanel">
 
@@ -28,14 +27,24 @@ defined('_JOOS_CORE') or die();
 				новость</a></span>
     </div>
 
-    <div class="b-clear" style="height:50px"></div>
+    <div class="b-clear" style="height:25px"></div>
 
-    <div class="b b-50 b-left">
+	<div class="b b-50 b-left">
+        <h3>Блоги</h3>
+        <span><a href="index2.php?option=blog"><img src="<?php echo joosHtml::ico('stock_copy', '32x32') ?>"/>Все блогозаписи</a></span>
+        <span><a href="index2.php?option=blog&task=create"><img src="<?php echo joosHtml::ico('filenew', '32x32') ?>"/>Добавить
+				блогозапись</a></span>
+    </div>
+
+	<div class="b b-50 b-left">
         <h3>Статичные страницы</h3>
         <span><a href="index2.php?option=pages"><img src="<?php echo joosHtml::ico('stock_copy', '32x32') ?>"/>Страницы</a></span>
         <span><a href="index2.php?option=pages&task=create"><img src="<?php echo joosHtml::ico('filenew', '32x32') ?>"/>Добавить
 				страницу</a></span>
     </div>
+
+
+    <div class="b-clear" style="height:50px"></div>
 
     <div class="b b-50 b-left">
         <h3>Инструменты</h3>

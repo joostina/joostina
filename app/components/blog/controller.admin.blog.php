@@ -74,15 +74,6 @@ class actionsAdminBlog {
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
 
-		//Сохраняем тэги
-		$tags = new Tags;
-		$tags->save_tags($obj_data);
-
-		if ($result == false) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
-		}
-
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение

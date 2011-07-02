@@ -35,7 +35,7 @@ class autoadminEditEdit {
 					'name' => $key,
 					'class' => 'text_area',
 					'size' => 100,
-					'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:100%'),
+					'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:99%'),
 						), $value);
 		$element[] = $params['el_end'];
 

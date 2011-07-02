@@ -134,20 +134,21 @@ class adminBlog extends Blog {
 		);
 	}
 
-	public function get_extrainfo() {
-		return array(
-			'search' => array(
-				'title', 'slug'
-			),
-			'filter' => array(
-				'category_id' => array(
-					'name' => 'Категория',
-					'call_from' => 'Blog::get_blog_cats'
-				),
-			),
-		);
-	}
-
+	/*
+	  public function get_extrainfo() {
+	  return array(
+	  'search' => array(
+	  'title', 'slug'
+	  ),
+	  'filter' => array(
+	  'category_id' => array(
+	  'name' => 'Категория',
+	  'call_from' => 'Blog::get_blog_cats'
+	  ),
+	  ),
+	  );
+	  }
+	 */
 }
 
 /**

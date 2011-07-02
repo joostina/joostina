@@ -142,7 +142,7 @@ class joosAutoloader {
 		} elseif (strpos($class, 'modulesHelper', 0) === 0) {
 			$name = str_replace('modulesHelper', '', $class);
 			$name = strtolower($name);
-			echo $file = 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
+			$file = 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
 
 			// модели фронта
 		} else {

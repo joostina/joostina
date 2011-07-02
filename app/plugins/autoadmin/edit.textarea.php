@@ -35,7 +35,7 @@ class autoadminEditTextArea {
 					'class' => 'text_area',
 					'rows' => (isset($element_param['html_edit_element_param']['rows']) ? $element_param['html_edit_element_param']['rows'] : 10),
 					'cols' => (isset($element_param['html_edit_element_param']['cols']) ? $element_param['html_edit_element_param']['cols'] : 40),
-					'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:100%'),
+					'style' => (isset($element_param['html_edit_element_param']['style']) ? $element_param['html_edit_element_param']['style'] : 'width:99%'),
 						), $value);
 		$element[] = $params['el_end'];
 

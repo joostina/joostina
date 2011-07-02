@@ -142,14 +142,6 @@ class joosParams extends joosModel {
 		);
 	}
 
-	public function get_extrainfo() {
-		return array(
-			'search' => array(),
-			'filter' => array(),
-			'extrafilter' => array()
-		);
-	}
-
 	public static function get_defaults($item) {
 
 		$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $item->group . DS . 'params.' . $item->group . '.php';

@@ -16,7 +16,6 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-
 class actionsNews extends joosController {
 
 	public static function action_before($active_task) {
@@ -37,7 +36,7 @@ class actionsNews extends joosController {
 		$news = new News();
 
 		// число записей в блоге
-		$count = $news->count( 'WHERE state = 1' );
+		$count = $news->count('WHERE state = 1');
 
 		$pager = new joosPager(joosRoute::href('news'), $count, 3, 5);
 		$pager->paginate($page);
@@ -79,8 +78,6 @@ class actionsNews extends joosController {
 		// число записей в блоге
 		$count = $news->count('WHERE state = 1 AND ' . $where);
 
-		// подключаем библиотеку постраничной навигации
-		joosLoader::lib('pager', 'utils');
 		$pager = new joosPager(joosRoute::href('news_archive_year', array('year' => $year)), $count, 3, 5);
 		$pager->paginate($page);
 
@@ -117,7 +114,7 @@ class actionsNews extends joosController {
 		// формируем и загружаем просматриваемую запись
 		$item = new News;
 		// новость доступна и опубликована
-		($item->load($id) && $item->state==1) ? null : self::error404();
+		($item->load($id) && $item->state == 1) ? null : self::error404();
 
 		// хлебные крошки
 		joosBreadcrumbs::instance()

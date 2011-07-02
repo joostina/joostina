@@ -46,6 +46,11 @@ class joosException extends Exception {
 			$this->line = $params[':error_line'];
 		}
 
+		if (isset($params[':error_code'])) {
+			$this->code = $params[':error_code'];
+		}
+
+		
 		$this->__toString();
 	}
 

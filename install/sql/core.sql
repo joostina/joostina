@@ -347,10 +347,17 @@ CREATE TABLE `jos_modules` (
 
 INSERT INTO `jos_modules` VALUES(1, 'Админменю', '', 1, 'top', 1, 'adminmenu', '', '', 1, 0);
 INSERT INTO `jos_modules` VALUES(2, 'Системные сообщения', '', 1, 'inset', 0, 'adminmsg', '', '', 1, 0);
-INSERT INTO `jos_modules` VALUES(3, 'Главное меню', '', 2, 'left', 1, 'navigation', 'yax', 'null', 0, 32767);
+INSERT INTO `jos_modules` VALUES(3, 'Главное меню', '', 2, 'left', 1, 'navigation', '', 'null', 0, 32767);
 INSERT INTO `jos_modules` VALUES(4, 'Авторизация', '', 1, 'header', 1, 'login', '', '{"param1":"","param2":""}', 0, 0);
-INSERT INTO `jos_modules` VALUES(5, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '{ "use_cache": "0", "use_ext": "0" }', 1, 604800);
-INSERT INTO `jos_modules` VALUES(6, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', 'null', 0, 0);
+INSERT INTO `jos_modules` VALUES(5, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '', 1, 604800);
+INSERT INTO `jos_modules` VALUES(6, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(7, 'Про нас', '', 0, 'pathway', 1, 'about', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(8, 'Новое в блоге', '', 0, 'pathway', 1, 'blogs', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(9, 'Категории', '', 0, 'pathway', 1, 'categories', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(10, 'Меню категорий', '', 0, 'pathway', 1, 'categories_menu', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(11, 'Новости', '', 0, 'pathway', 1, 'news', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(12, 'Промо - текст', '', 0, 'pathway', 1, 'promo', '', '', 0, 0);
+
 
 -- --------------------------------------------------------
 

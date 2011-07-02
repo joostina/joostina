@@ -24,18 +24,22 @@ class actionsAdminModules {
 	 */
 	public static $model = 'adminModules';
 
+	public static function action_before($actiove_task) {
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/app/components/modules/media/js/modules.js');
+	}
+
 	/**
 	 * Список объектов
 	 */
 	public static function index($option) {
 		$obj = new self::$model;
 
-		$obj_count = $obj->count('WHERE client_id = 0');
+		$obj_count = $obj->count();
 
 		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
 
 		$param = array(
-			'where' => 'client_id = 0',
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'position, ordering'
@@ -78,7 +82,7 @@ class actionsAdminModules {
 
 		$obj_data = new self::$model;
 
-		$_POST['params'] = json_encode( joosRequest::param('params','') );
+		$_POST['params'] = json_encode(joosRequest::param('params', ''));
 
 		$result = $obj_data->save($_POST);
 
@@ -120,7 +124,7 @@ class actionsAdminModules {
 					//сохраняем
 					$pages->store();
 					//сбрасываем
-					$pages->reset();
+					//$pages->reset();
 				}
 			}
 			//endforeach
