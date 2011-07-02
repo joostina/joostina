@@ -138,6 +138,12 @@ class joosAutoloader {
 			$name = strtolower($name);
 			$file = 'core' . DS . 'libraries' . DS . $name . '.php';
 
+			// хелперы модулей
+		} elseif (strpos($class, 'modulesHelper', 0) === 0) {
+			$name = str_replace('modulesHelper', '', $class);
+			$name = strtolower($name);
+			echo $file = 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
+
 			// модели фронта
 		} else {
 			$name = strtolower($class);
