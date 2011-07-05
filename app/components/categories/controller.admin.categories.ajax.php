@@ -19,7 +19,7 @@ class actionsAjaxCategories {
 	}
 
 	public static function statuschanger() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 	public static function image_uploader() {

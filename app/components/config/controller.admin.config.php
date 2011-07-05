@@ -66,7 +66,7 @@ class actionsAdminConfig {
 			self::$submenu['params']['active'] = true;
 		}
 
-		joosAutoAdmin::edit($params, $params);
+		joosAutoadmin::edit($params, $params);
 	}
 
 	/**

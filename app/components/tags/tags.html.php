@@ -20,8 +20,6 @@ class tagsHTML {
 	 * Страница с результатами поиска по тэгу
 	 */
 	public static function tag_search($tag, array $tags_results, paginator3000 $pager) {
-		joosLoader::lib('text');
-		joosLoader::lib('images');
 		require_once 'views/results/default.php';
 	}
 

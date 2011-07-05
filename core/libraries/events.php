@@ -3,6 +3,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/*
 joosEvents::add_events('system.onstart', function($a, $b) {
 			echo sprintf('1. a=%s; $b=%s', $a, $b);
 		});
@@ -17,6 +18,7 @@ joosEvents::add_events('system.onstart', 'actionsTest::viewtest');
 
 joosEvents::fire_events('system.onstart', 1, 2);
 
+*/
 /**
  * joosEvents - Библиотека работы с плагинами, реализация метода Observer
  * Системная библиотека
@@ -66,11 +68,22 @@ class joosEvents {
 		foreach (self::$events[$events_name] as $event) {
 
 			if (is_callable($event)) {
+				JDEBUG ? joosDebug::add( sprintf('Запускаем обработку события %s',$events_name) ) : null;
 				call_user_func_array($event, func_get_args());
 			}
 		}
 	}
 
+	/**
+	 * Проверка наличия созданных задач на событие
+	 * 
+	 * @param string $events_name название обытия
+	 * @return bool результат наличия событий
+	 */
+	public static function has_events($events_name){
+		return (isset(self::$events[$events_name]) && count(self::$events[$events_name])>0);
+	}
+	
 }
 
 function absd() {

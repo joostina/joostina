@@ -29,7 +29,7 @@ class Model extends joosModel {
 }
 
 /*
- Новые плагины joosAutoAdmin:
+ Новые плагины joosAutoadmin:
  - dropdown => array(  
 	 'option'=>array( 1=>'Перво',2=>'Вторе' )
   ) 

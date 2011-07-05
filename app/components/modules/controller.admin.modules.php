@@ -37,19 +37,19 @@ class actionsAdminModules {
 
 		$obj_count = $obj->count();
 
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'position, ordering'
 		);
-		$obj_list = joosAutoAdmin::get_list($obj, $param);
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		// массив названий элементов для отображения в таблице списка
 		$fields_list = array('id', 'title', 'position', 'ordering', 'module', 'state');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list, 'position');
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list, 'position');
 	}
 
 	/**
@@ -70,7 +70,7 @@ class actionsAdminModules {
 		//Прицепляем дополнительные параметры конкретного модуля
 		$obj_data->params = json_decode($obj_data->params, true);
 
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

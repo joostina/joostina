@@ -53,19 +53,19 @@ class joosCSRF {
 
 		if (!$validate) {
 			header('HTTP/1.0 403 Forbidden');
-			mosErrorAlert(_NOT_AUTH);
+			mosErrorAlert( __('В доступе отказано') );
 			return;
 		}
 
 		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
 			header('HTTP/1.0 403 Forbidden');
-			mosErrorAlert(_NOT_AUTH);
+			mosErrorAlert( __('В доступе отказано') );
 			return;
 		}
 
 		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
 			header('HTTP/1.0 403 Forbidden');
-			mosErrorAlert(_NOT_AUTH);
+			mosErrorAlert( __('В доступе отказано') );
 			return;
 		}
 	}

@@ -128,13 +128,63 @@ class joosDebug {
 	 */
 	public static function dump() {
 
+		joosCore::set_headers_by_code(307);
+
+		// обозначение места вызова функции отладки
+		$trace = debug_backtrace();
+		$file_content = self::get_file_context($trace[0]['file'], $trace[0]['line']);
+
+		ob_end_clean();
 		ob_start();
 		var_dump(func_get_args());
 		$output = ob_get_clean();
-
 		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);
 
-		echo '<pre>' . joosFilter::htmlspecialchars($output) . '</pre>';
+		$result = joosFilter::htmlspecialchars($output);
+
+		$result = <<<HTML
+  <style>
+    body { background-color: #fff; color: #333; }
+    body, p, ol, ul, td { font-family: verdana, arial, helvetica, sans-serif; font-size: 13px; line-height: 25px; }
+    pre { background-color: #eee; padding: 10px; font-size: 11px; line-height: 18px; }
+    a { color: #000; }
+    a:visited { color: #666; }
+    a:hover { color: #fff; background-color:#000; }
+  </style>
+<div style="width:99%; position:relative">
+<h2 id='Title'>Результат отладки</h2>
+<div id="Context" style="display: block;">Место вызова:<pre>{$file_content}</pre></div>
+<div id="Context" style="display: block;">Полученные параметры:<pre>{$result}</pre></div>
+HTML;
+		echo $result.="</div>";
+
+
+		die();
+	}
+
+	/**
+	 *
+	 * @deprecated собрать с классом joosException в один класс joosFile
+	 */
+	private static function get_file_context($file, $line_number) {
+
+		$context = array();
+		$i = 0;
+		foreach (file($file) as $line) {
+			$i++;
+			if ($i >= $line_number - 3 && $i <= $line_number + 3) {
+				if ($i == $line_number) {
+					$context[] = ' >>   ' . $i . "\t" . $line;
+				} else {
+					$context[] = "\t" . $i . "\t" . $line;
+				}
+			}
+			if ($i > $line_number + 3) {
+				break;
+			}
+		}
+
+		return "\n" . implode("", $context);
 	}
 
 }

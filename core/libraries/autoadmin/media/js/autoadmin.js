@@ -15,6 +15,10 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(data) {
+				if( data.code==500 ){
+					joosNotify(data.message,'error');
+					return;
+				}
                 $('img', current_obj).attr('src', image_path + data.image);
                 $('img', current_obj).attr('alt', image_path + data.mess);
             }

@@ -11,4 +11,4 @@
 defined('_JOOS_CORE') or die();
 
 // передаём управление полётом в автоматический Ajax - обработчик
-echo joosAutoAdmin::autoajax();
+echo joosAutoadmin::autoajax();

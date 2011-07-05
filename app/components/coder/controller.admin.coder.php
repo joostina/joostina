@@ -45,7 +45,7 @@ class actionsAdminCoder {
 		//Установка подменю
 		self::$submenu['model_generator']['active'] = true;
 
-		echo joosAutoAdmin::header('Кодер', self::$submenu['model_generator']['name']);
+		echo joosAutoadmin::header('Кодер', self::$submenu['model_generator']['name']);
 
 
 		$rets = array();
@@ -68,14 +68,14 @@ class actionsAdminCoder {
 
 		echo implode("\n", $rets);
 
-		echo joosAutoAdmin::footer();
+		echo joosAutoadmin::footer();
 	}
 
 	public static function faker($option) {
 		//Установка подменю
 		self::$submenu['db_faker']['active'] = true;
 
-		echo joosAutoAdmin::header('Кодер', self::$submenu['db_faker']['name']);
+		echo joosAutoadmin::header('Кодер', self::$submenu['db_faker']['name']);
 
 
 		$rets = array();
@@ -98,7 +98,7 @@ class actionsAdminCoder {
 
 		echo implode("\n", $rets);
 
-		echo joosAutoAdmin::footer();
+		echo joosAutoadmin::footer();
 	}
 
 	public static function componenter($option) {
@@ -107,7 +107,7 @@ class actionsAdminCoder {
 		self::$submenu['component_generator']['active'] = true;
 
 		//Установка заголовка
-		echo joosAutoAdmin::header('Кодер', self::$submenu['db_faker']['name']);
+		echo joosAutoadmin::header('Кодер', self::$submenu['db_faker']['name']);
 		?>
 		<table class="adminlist">
 			<tr>
@@ -145,7 +145,7 @@ class actionsAdminCoder {
 			</tr>
 		</table>
 		<?php
-		echo joosAutoAdmin::footer();
+		echo joosAutoadmin::footer();
 	}
 
 }

@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
 class actionsAjaxPages {
 
 	public static function statuschanger() {
-		return joosAutoAdmin::autoajax();
+		return joosAutoadmin::autoajax();
 	}
 
 }

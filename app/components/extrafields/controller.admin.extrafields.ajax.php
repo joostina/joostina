@@ -19,7 +19,7 @@ defined('_JOOS_CORE') or die();
 class actionsAjaxExtrafields {
 
 	public static function index() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 }

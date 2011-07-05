@@ -43,7 +43,7 @@ ob_start();
 $file_controller = JPATH_BASE . '/app/components/' . $option . DS . 'controller.admin.' . $option . '.php';
 if (is_file($file_controller)) {
 	require_once ($file_controller);
-	joosAutoAdmin::dispatch();
+	joosAutoadmin::dispatch();
 } else {
 	throw new joosException(sprintf(__('Не найден предполагаемый файл контроллера %s'), $file_controller));
 }

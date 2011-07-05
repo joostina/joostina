@@ -152,7 +152,7 @@ class adminBlog extends Blog {
 }
 
 /**
- * adminBlogCategory - Модель блогов
+ * adminBlog_Category - Модель блогов
  * Модель панели управления
  *
  * @version 1.0
@@ -164,7 +164,7 @@ class adminBlog extends Blog {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminBlogCategory extends BlogCategory {
+class adminBlog_Category extends Blog_Category {
 
 	public function check() {
 		$this->filter();
@@ -250,9 +250,9 @@ class adminBlogCategory extends BlogCategory {
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => 'BlogCategory',
-			'header_new' => 'Создание BlogCategory',
-			'header_edit' => 'Редактирование BlogCategory'
+			'header_list' => 'Blog_Category',
+			'header_new' => 'Создание Blog_Category',
+			'header_edit' => 'Редактирование Blog_Category'
 		);
 	}
 

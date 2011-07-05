@@ -29,20 +29,20 @@ class actionsAdminTemplates {
 	 */
 	public static function index($option) {
 		$obj = new self::$model;
-		$obj_count = joosAutoAdmin::get_count($obj);
+		$obj_count = joosAutoadmin::get_count($obj);
 
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'id DESC'
 		);
-		$obj_list = joosAutoAdmin::get_list($obj, $param);
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		$fields_list = array('id', 'title', 'name');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -50,16 +50,16 @@ class actionsAdminTemplates {
 	 */
 	public static function positions($option) {
 		$obj = new TemplatePositions;
-		$obj_count = joosAutoAdmin::get_count($obj);
+		$obj_count = joosAutoadmin::get_count($obj);
 
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'position'
 		);
-		$obj_list = joosAutoAdmin::get_list($obj, $param);
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		// передаём данные в представление
 		joosLoader::admin_view('templates');
@@ -81,7 +81,7 @@ class actionsAdminTemplates {
 		$obj_data = new self::$model;
 		$id > 0 ? $obj_data->load($id) : null;
 
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

@@ -68,16 +68,16 @@ class actionsAdminParams {
 
 
 		//Определяем заголовок компонента, с которым работаем
-		joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($params->group);
+		joosAutoadmin::$component_title = joosAutoadmin::get_component_title($params->group);
 
 		//вытягиваем подменю, если оно есть
-		$component_menu = joosAutoAdmin::get_component_submenu($params->group);
+		$component_menu = joosAutoadmin::get_component_submenu($params->group);
 		if ($component_menu) {
 			self::$submenu = $component_menu;
 			self::$submenu['params']['active'] = true;
 		}
 
-		joosAutoAdmin::edit($params, $params);
+		joosAutoadmin::edit($params, $params);
 	}
 
 	/**

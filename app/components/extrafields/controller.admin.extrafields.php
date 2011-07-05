@@ -39,7 +39,7 @@ class actionsAdminExtrafields {
 		$group = joosRequest::request('group', '');
 		if ($group) {
 			//Определяем заголовок компонента, с которым работаем
-			joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($group);
+			joosAutoadmin::$component_title = joosAutoadmin::get_component_title($group);
 
 			//вытягиваем подменю, если оно есть
 			$controller = 'actions' . ucfirst($group);
@@ -62,10 +62,10 @@ class actionsAdminExtrafields {
 		$obj = new self::$model;
 
 		//количество записей
-		$obj_count = joosAutoAdmin::get_count($obj);
+		$obj_count = joosAutoadmin::get_count($obj);
 
 		//инициализируем постраничную навигацию
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		//параметры запроса на получение списка записей
 		$param = array(
@@ -75,12 +75,12 @@ class actionsAdminExtrafields {
 		);
 
 		//получаем массив объектов
-		$obj_list = joosAutoAdmin::get_list($obj, $param);
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		//Массив названий элементов для отображения в таблице списка
 		$fields_list = array('id', 'label', 'name');
 		//Передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -105,7 +105,7 @@ class actionsAdminExtrafields {
 		$id > 0 ? $obj_data->load($id) : null;
 
 		//Передаём данные в формирование представления
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

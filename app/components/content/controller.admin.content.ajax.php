@@ -15,7 +15,7 @@ class actionsAjaxContent {
 	private static $implode_model = true;
 
 	public static function index() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 	public static function image_uploader() {

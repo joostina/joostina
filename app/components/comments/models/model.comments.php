@@ -1,5 +1,4 @@
 <?php
-
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
@@ -136,10 +135,9 @@ class Comments extends joosModel {
 	 */
 	public function load_comments_tree($obj) {
 
-		joosLoader::view('comments');
-
 		$this->obj_option = get_class($obj);
 		$this->obj_id = $obj->{$obj->_tbl_key}; // настоящая уличная магия
+		//
 		//JS объявления, необходимые для загрузки первой страницы комментариев
 		$script = joosHtml::js_code("var _comments_objoption = '$this->obj_option';var _comments_objid = $this->obj_id;");
 
@@ -174,7 +172,7 @@ class Comments extends joosModel {
 			'order' => 'c.parent_id, c.created_at ASC',
 			'limit' => $limit,
 			'offset' => $offset,
-				), array('comments', 'com-' . $this->obj_option));
+				));
 	}
 
 	/**
@@ -199,3 +197,82 @@ class Comments extends joosModel {
 	}
 
 }
+
+/**
+ * @deprecated
+ */
+class CommentsHTML {
+
+	/**
+	 * Вывод списка комментариев для заданного объекта
+	 * @param array $comments_list массив объектов комментариев
+	 * @param DooPager $pagenav объект постраничной навигации
+	 */
+	public static function lists(array $comments_list) {
+		require_once 'views/comments/tree/default.php';
+	}
+
+	public static function emptylists() {
+		echo '<div class="comments-list" id="comments-list-0"></div>';
+	}
+
+	/**
+	 * Вывод комментария
+	 * @param $comment объект комментария
+	 */
+	public static function comment($comment) {
+		$linkuser = $comment->user_id ? joosRoute::href('user_view', array('username' => $comment->user_name, 'id' => $comment->user_id)) : '#';
+		$user_name = $comment->user_id ? sprintf('<a class="username user" id="%s" href="%s">%s</a>', $comment->user_id, $linkuser, $comment->user_name) : $comment->user_name;
+		$parent_id = (isset($comment->parent_id)) ? $comment->parent_id : $comment->parent;
+
+		$params = json_decode($comment->params);
+		$link_comment = isset($params->href) ? JPATH_SITE . $params->href . '#comment' . $comment->id : '#';
+		?>
+		<ul class="comment_menu">
+			<li class="comment_avatar">
+				<a class="avatar_small" href="<?php echo $linkuser; ?>">
+					<img class="g-thumb_40 g-user_avatar" src="<?php echo Users::avatar($comment->user_id, '40x40') ?>"
+						 alt="<?php echo $comment->user_name ?>"/>
+				</a>
+			</li>
+			<li class="comment_username">
+		<?php echo $user_name ?>
+			</li>
+			<li class="comment_date"><span class="date"><?php echo $comment->created_at; ?></span></li>
+			<li class="comment_href">
+				<a name="comment<?php echo $comment->id ?>" class="unajax" href="<?php echo $link_comment ?>"
+				   id="comment<?php echo $comment->id ?>">#<?php echo $comment->id ?></a>
+			</li>
+
+		<?php if ($parent_id > 0): ?>
+				<li class="comment_to_parent">
+					<a href="#comment<?php echo $parent_id ?>" class="comment_to_parent unajax" title="Ответ на">↑</a>
+				</li>
+				<li class="comment_to_child hidden">
+					<a href="#comment<?php echo $comment->id ?>" class="comment_to_child unajax" title="Обратно">↓</a>
+				</li>
+		<?php endif; ?>
+		</ul>
+
+		<p><?php echo $comment->comment_text; ?></p>
+		<span class="comment_reply g-pseudolink" comment="#<?php echo $comment->id ?>">ответить</span>
+		<?php
+	}
+
+	/**
+	 * Форма добавления комментария
+	 * @deprecated
+	 */
+	public static function addform() {
+		require_once dirname(dirname(__FILE__)).'/views/form/default.php';
+	}
+
+	/**
+	 * Пагинация
+	 */
+	public static function pagination() {
+		?><div class="pagenav comments_pagenav"></div><?php
+	}
+
+}
+

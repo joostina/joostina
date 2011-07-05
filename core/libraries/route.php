@@ -33,7 +33,6 @@ class joosRoute {
 				Route::set($route_name, $route['href'], ( isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);
 			}
 
-
 			//$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
 			$uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
 			self::$current_url = urldecode($uri);
@@ -70,10 +69,9 @@ class joosRoute {
 		return Route::url($route_name, $params);
 	}
 
-	public static function current_url(){
+	public static function current_url() {
 		return self::$current_url;
 	}
-
 
 	public static function redirect($url, $msg = '', $type = 'success') {
 
@@ -555,9 +553,9 @@ class Kohana_Route {
 				if (isset($this->_defaults[$param])) {
 					$params[$param] = $this->_defaults[$param];
 				} else {
-					// Ungrouped parameters are required
-					throw new Kohana_Exception('Required route parameter not passed: :param', array(
-						':param' => $param,
+					// Ungrouped parameters are required				
+					throw new Kohana_Exception('Требуемый параметр :param не найден в полученных данных для условия :uri', array(
+						':param' => $param, ':uri' => joosFilter::htmlspecialchars($this->_uri),
 					));
 				}
 			}

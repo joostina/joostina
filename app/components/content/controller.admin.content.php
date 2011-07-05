@@ -94,7 +94,7 @@ class actionsAdminContent {
 		}
 
 
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'select' => 'i.*, c.name AS catname',
@@ -116,7 +116,7 @@ class actionsAdminContent {
 		// массив названий элементов для отображения в таблице списка
 		$fields_list = array('id', 'title', 'slug', 'category_id', 'ordering', 'state');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list, 'category_id');
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list, 'category_id');
 	}
 
 	/**
@@ -145,7 +145,7 @@ class actionsAdminContent {
 		//Мета-информация
 		$obj_data->metainfo = joosMetainfo::get_meta('content', 'item', $obj_data->id);
 
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

@@ -2,18 +2,15 @@
 
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
-joosLoader::lib('text');
-
 ?>
 <h1>Поиск по сайту</h1>
 <form method="get" id="search_form" class="form_block" action="search/catalog/">
     <fieldset>
         <div class="search_block">
             <input type="submit" class="go" value=""/>
-            <input class="inp_01" value="Поиск по настроению YAX!"
-                   onblur="javascript:if(this.value=='')this.value='Поиск по настроению YAX!'"
-                   onfocus="javascript:if(this.value=='Поиск по настроению YAX!')this.value=''" id="query"
+            <input class="inp_01" value="Поиск по настроению!"
+                   onblur="javascript:if(this.value=='')this.value='Поиск по настроению!'"
+                   onfocus="javascript:if(this.value=='Поиск по настроению!')this.value=''" id="query"
                    name="searchword"/>
 
             <div class="cl"></div>

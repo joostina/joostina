@@ -45,7 +45,7 @@ class joosAutoloader {
 		'joosHTML' => 'core/libraries/html.php',
 		'joosImage' => 'core/libraries/image.php',
 		'joosInputFilter' => 'core/libraries/inputfilter.php',
-		'joosAutoAdmin' => 'core/libraries/autoadmin.php',
+		'joosAutoadmin' => 'core/libraries/autoadmin.php',
 		'joosMetainfo' => 'core/libraries/metainfo.php',
 		'joosNestedSet' => 'core/libraries/nestedset.php',
 		'joosPager' => 'core/libraries/pager.php',

@@ -89,6 +89,8 @@ DEFINE('JADMIN_SESSION_NAME', md5(JPATH_BASE . md5(JSECRET_CODE) . joosRequest::
 // формат для функций вывода времени на сайте
 DEFINE('JDATE_FORMAT', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime
 
+require 'events.php';
+
 /**
 *  Авто-загружаемые библиотеки
 * joosAutoloader::libraries_load_on_start( array('text', 'session') );

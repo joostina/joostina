@@ -80,7 +80,7 @@ class adminExtrafields extends Extrafields {
 				'html_edit_element_param' => array(),
 			),
 			'rules' => array(
-				'name' => 'Правила (joosAutoAdmin-описание поля)',
+				'name' => 'Правила (joosAutoadmin-описание поля)',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',

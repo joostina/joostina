@@ -65,10 +65,10 @@ class actionsAdminSearch {
 		$obj = new self::$model;
 
 		//количество записей
-		$obj_count = joosAutoAdmin::get_count($obj);
+		$obj_count = joosAutoadmin::get_count($obj);
 
 		//инициализируем постраничную навигацию
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		//параметры запроса на получение списка записей
 		$param = array(
@@ -78,12 +78,12 @@ class actionsAdminSearch {
 		);
 
 		//получаем массив объектов
-		$obj_list = joosAutoAdmin::get_list($obj, $param);
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		//Массив названий элементов для отображения в таблице списка
 		$fields_list = array('date', 'title', 'type_id', 'state');
 		//Передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class actionsAdminSearch {
 		$obj_data->metainfo = joosMetainfo::get_meta('search', 'item', $obj_data->id);
 
 		//Передаём данные в формирование представления
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

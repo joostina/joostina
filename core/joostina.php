@@ -654,6 +654,11 @@ class joosCore {
 				break;
 		}
 
+		if (JDEBUG && !is_file($file)) {
+			throw new joosCoreException('Не найден требуемый файл :file для типа :name',
+					array(':file' => $file, ':name' => ($cat ? sprintf('%s ( %s )', $name, $type) : $name )));
+		}
+
 		return $file;
 	}
 
@@ -1011,9 +1016,14 @@ function mosErrorAlert($text, $action = 'window.history.go(-1);', $mode = 1) {
 	exit;
 }
 
-// отладка определённой переменной
-function _xdump($var, $text = '<pre>') {
-	echo '<pre>';
-	print_r($var);
-	echo "</pre>\n";
+/**
+ * Убрать, заменить везде и использовать как joosDebug::dump($var);
+ * @deprecated
+ */
+function _xdump($var) {
+	joosDebug::dump($var);
+}
+
+class joosCoreException extends joosException {
+	
 }

@@ -9,9 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-// обрабатываем все внешние ссылки
-$blog->fulltext = joosText::outlink_parse($blog->fulltext);
-
 //картинко
 $image = Blog::get_image($blog);
 ?>
@@ -26,12 +23,8 @@ $image = Blog::get_image($blog);
                 href="<?php echo joosRoute::href('user_view', array('username' => $user->username, 'id' => $user->id)) ?>"><?php echo $user->username ?></a></span>
         <span class="el-date"><?php echo joosDateTime::format($blog->created_at) ?>.</span>
 
-        <?php echo $blog->state == 0 ? '<span class="error">Не опубликовано</span>' : '' ?>
-        <?php $edit_href = joosRoute::href('blog_edit', array('id' => $blog->id)) ?>
-        <?php echo (joosCore::user()->id == $blog->user_id || joosCore::user()->gid == 8) ? '<span class="el-edit"><a href="' . $edit_href . '" title="Редактировать">Редактировать</a></span>' : '' ?>
-        <?php echo joosVoter::controls('blog', $blog->id, $blog->votesresults) ?>
-        <?php echo Bookmarks::addlink(null, array('class' => 'Blogs', 'id' => $blog->id)) ?>
+		<?php echo $blog->state == 0 ? '<span class="error">Не опубликовано</span>' : '' ?>
+		<?php $edit_href = joosRoute::href('blog_edit', array('id' => $blog->id)) ?>
+		<?php echo (joosCore::user()->id == $blog->user_id || joosCore::user()->gid == 8) ? '<span class="el-edit"><a href="' . $edit_href . '" title="Редактировать">Редактировать</a></span>' : '' ?>
     </div>
 </div>
-<a name="comments"></a>
-<?php echo $comments->load_comments_tree($blog) ?>

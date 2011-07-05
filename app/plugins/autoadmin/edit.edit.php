@@ -4,13 +4,13 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * autoadminEditCurrentUserId - расширение joosAutoAdmin для вывода элемента input формы
+ * autoadminEditCurrentUserId - расширение joosAutoadmin для вывода элемента input формы
  * Базовый плагин
  *
  * @version 1.0
  * @package Joostina.Plugins
  * @subpackage Plugins
- * @category joosAutoAdmin
+ * @category joosAutoadmin
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php

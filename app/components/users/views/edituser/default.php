@@ -176,7 +176,7 @@ joosDocument::instance()->add_js_code($js_code);
                 <span id="validation_errors" class="g-hidden">Вы заполнили не все поля формы</span>
                 <button type="submit">Сохранить</button>
                 <a class="button"
-                   href="<?php echo joosRoute::href('user_view', array('username' => $user->username)) ?>">Отмена</a>
+                   href="<?php echo joosRoute::href('user_view', array('id'=>$user->id,'username' => $user->username)) ?>">Отмена</a>
             </div>
         </div>
 

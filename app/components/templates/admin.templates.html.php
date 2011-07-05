@@ -26,7 +26,7 @@ class htmlAdminTemplates {
 		// массив названий элементов для отображения в таблице списка
 		$fields_list = array('position', 'description');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 }

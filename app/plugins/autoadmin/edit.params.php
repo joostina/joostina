@@ -4,13 +4,13 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * autoadminEditParams - расширение joosAutoAdmin для вывода элементов параметров joosParams
+ * autoadminEditParams - расширение joosAutoadmin для вывода элементов параметров joosParams
  * Базовый плагин
  *
  * @version 1.0
  * @package Joostina.Plugins
  * @subpackage Plugins
- * @category joosAutoAdmin
+ * @category joosAutoadmin
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -44,7 +44,7 @@ class autoadminEditParams {
 		foreach ($data as $key => $field) {
 			if (isset($field['editable']) && $field['editable'] == true) {
 				$v = isset($values[$key]) ? $values[$key] : '';
-				$element[] = joosAutoAdmin::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
+				$element[] = joosAutoadmin::get_edit_html_element($field, $main_key . '[' . $key . ']', $v, $obj_data, $params, $tabs);
 			}
 		}
 		$element[] = '</table>';

@@ -379,7 +379,6 @@ class Tags extends joosModel {
 			return false;
 		}
 
-		joosLoader::lib('text');
 		$tag = Text::text_clean($tag);
 		return trim($tag);
 	}

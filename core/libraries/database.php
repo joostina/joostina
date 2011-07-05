@@ -500,30 +500,6 @@ class joosDatabase {
 		return $array;
 	}
 
-	// TODO Ирина, опиши пожалуйста функцию
-	public function loadRowArrayExtended($key, $value, $clear = 0) {
-		if (!($cur = $this->query())) {
-			return null;
-		}
-		$array = array();
-		while ($row = mysqli_fetch_object($cur)) {
-			if (isset($array[$row->$key])) {
-				if ($clear) {
-					if (!in_array($row->$value, $array[$row->$key])) {
-						$array[$row->$key][] = $row->$value;
-					}
-				} else {
-					$array[$row->$key][] = $row->$value;
-				}
-			} else {
-				$array[$row->$key] = array($row->$value);
-			}
-		}
-		mysqli_free_result($cur);
-
-		return $array;
-	}
-
 	/**
 	 * Вставка записи.
 	 * Работает с объектами, свойства которых являются названиями поле в базе, а значения свойств - значениями полей
@@ -850,7 +826,7 @@ class joosDatabaseUtils extends joosDatabase {
 		echo $sql ? '<pre>' . $sql . '</pre><b>UseFiles</b>::' : '';
 		if (function_exists('debug_backtrace')) {
 			foreach (debug_backtrace() as $back) {
-				if ( isset($back['file'])) {
+				if (isset($back['file'])) {
 					echo '<br />' . $back['file'] . ':' . $back['line'];
 				}
 			}
@@ -1064,7 +1040,12 @@ class joosModel {
 		$this->reset();
 
 		$query = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->quote($oid);
-		return $this->_db->set_query($query)->load_object($this);
+		$result = $this->_db->set_query($query)->load_object($this);
+		
+		$events_name = 'model.on_load.' .  $this->classname();
+		joosEvents::has_events($events_name) ? joosEvents::fire_events( $events_name ,$result, $this ) : null;
+
+		return $result;
 	}
 
 	/**
@@ -1094,7 +1075,7 @@ class joosModel {
 
 		$this->before_store();
 
-		if ( (isset($this->$k) && $this->$k != 0) && !$forcedIns) {
+		if ((isset($this->$k) && $this->$k != 0) && !$forcedIns) {
 			$this->before_update();
 			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			$this->after_update();
@@ -1194,7 +1175,6 @@ class joosModel {
 
 		// активируем "мягкое удаление", т.е. сохраняем копию в корзине
 		if ($this->_soft_delete) {
-			joosLoader::lib('jtrash', 'joostina');
 			joosTrash::add($this);
 		}
 
@@ -1226,8 +1206,6 @@ class joosModel {
 
 		// "мягкое" удаление объектов
 		if ($this->_soft_delete) {
-
-			joosLoader::lib('jtrash', 'joostina');
 
 			$obj = clone $this;
 			foreach ($oid as $cur_id) {
@@ -1675,8 +1653,8 @@ class joosModel {
 	 * @return integer максимальное значение
 	 */
 	function get_max_by_field($name) {
-		$query = 'SELECT  '.$name.' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
-		return  $this->_db->set_query($query)->load_result();
+		$query = 'SELECT  ' . $name . ' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
+		return $this->_db->set_query($query)->load_result();
 	}
 
 }

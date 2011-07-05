@@ -21,7 +21,6 @@ class actionsUsers extends joosController {
 	public static function action_before() {
 		joosBreadcrumbs::instance()
 				->add('Пользователи');
-
 	}
 
 	//Список пользователей сайта
@@ -92,7 +91,7 @@ class actionsUsers extends joosController {
 				if (Users::check_password($old_password, $user->password)) {
 					$_POST['password'] = Users::prepare_password($new_password);
 				} else {
-					joosRoute::redirect(joosRoute::href('user_view', array('username' => $user->username)), 'Неправильно введён пароль от аккаунта');
+					joosRoute::redirect(joosRoute::href('user_view', array('id' => $user->id, 'username' => $user->username)), 'Неправильно введён пароль от аккаунта');
 				}
 			}
 
@@ -107,7 +106,7 @@ class actionsUsers extends joosController {
 
 			$user_extra->save($_POST);
 
-			joosRoute::redirect(joosRoute::href('user_view', array('username' => $user->username)), 'Данные успешно сохранены');
+			joosRoute::redirect(joosRoute::href('user_view', array('id' => $user->id, 'username' => $user->username)), 'Данные успешно сохранены');
 
 			return array(
 				'user' => $user,
@@ -156,7 +155,7 @@ class actionsUsers extends joosController {
 		joosCSRF::check_code(1);
 
 		Users::logout();
-
+		
 		$return = joosRequest::param('return');
 		if ($return && !(strpos($return, 'registration') || strpos($return, 'login'))) {
 			joosRoute::redirect($return);

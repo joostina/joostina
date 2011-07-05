@@ -265,8 +265,6 @@ class Categories extends joosNestedSet {
 	//		- иначе: отдаются параметры ближайшей родительской категории. Если же и их нет, то отдаются дефолтные параметры компонента
 	public static function get_params_by_category($id, $group) {
 
-		joosLoader::lib('params', 'system');
-
 		$cats = new self;
 		$path = $cats->get_path_from_root($id);
 		unset($path[1]);

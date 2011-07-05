@@ -80,7 +80,6 @@ class joosCoreAdmin extends joosCore {
 	public static function init_user() {
 
 		$option = joosRequest::param('option');
-		$task = joosRequest::param('task');
 
 		// logout check
 		if ($option == 'logout') {
@@ -125,6 +124,7 @@ class joosCoreAdmin extends joosCore {
 		// check to see if session id corresponds with correct format
 		if ($session_id == md5($my->id . $my->username . $my->groupname . $logintime)) {
 
+			$task = joosRequest::param('task');
 			if ($task != 'save' && $task != 'apply') {
 
 				$database = joosDatabase::instance();

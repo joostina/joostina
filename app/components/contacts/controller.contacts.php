@@ -42,7 +42,6 @@ class actionsContacts extends joosController {
 	}
 
 	private static function send_email() {
-		joosLoader::lib('mail', 'utils');
 
 		$fields = array(
 			'usermail' => 'Email',

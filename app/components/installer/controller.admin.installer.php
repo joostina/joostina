@@ -24,7 +24,7 @@ class actionsAdminInstaller {
 	}
 
 	public static function index($option) {
-		echo joosAutoAdmin::header('Установка расширений');
+		echo joosAutoadmin::header('Установка расширений');
 		?>
 		<div id="installer_wrapper">
 			<div id="installer_result"></div>

@@ -112,21 +112,21 @@ class actionsCurrent {
 
 	public static function index($option) {
 
-		joosAutoAdmin::$model = self::$model;
+		joosAutoadmin::$model = self::$model;
 		// верхнее меню текущего компонента
-		joosAutoAdmin::$submenu = self::$headers_menu;
+		joosAutoadmin::$submenu = self::$headers_menu;
 
 		$obj = new self::$model;
-		$obj_count = joosAutoAdmin::get_count($obj);
+		$obj_count = joosAutoadmin::get_count($obj);
 
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
 			'order' => 'id DESC'
 		);
-		$obj_list = joosAutoAdmin::get_list($obj, $param);
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		viewsCurrent::index($obj, $obj_list, $pagenav, self::$model_data[1]);
 	}
@@ -137,7 +137,7 @@ class actionsCurrent {
 
 	public static function edit($option) {
 
-		joosAutoAdmin::$model = self::$model;
+		joosAutoadmin::$model = self::$model;
 
 		$obj_data = new self::$model;
 
@@ -152,7 +152,7 @@ class actionsCurrent {
 	public static function save($option, $redirect = 0) {
 		joosCSRF::check_code();
 
-		joosAutoAdmin::$model = self::$model;
+		joosAutoadmin::$model = self::$model;
 
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
@@ -191,7 +191,7 @@ class actionsCurrent {
 
 		$cid = joosRequest::array_param('cid');
 
-		joosAutoAdmin::$model = self::$model;
+		joosAutoadmin::$model = self::$model;
 
 		$obj_data = new self::$model;
 		$obj_data->delete_array($cid, $obj_data->get_key_field());
@@ -221,7 +221,7 @@ class viewsCurrent {
 	 * @param joosAdminPagenator $pagenav - объект постраничной навигации
 	 */
 	public static function index($obj, array $obj_list, $pagenav, array $fields_list = array()) {
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -232,7 +232,7 @@ class viewsCurrent {
 	public static function edit($articles_obj, $articles_data) {
 
 		// передаём данные в формирование представления
-		joosAutoAdmin::edit($articles_obj, $articles_data);
+		joosAutoadmin::edit($articles_obj, $articles_data);
 	}
 
 }

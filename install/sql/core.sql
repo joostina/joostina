@@ -730,3 +730,31 @@ CREATE TABLE `jos_comments_counter` (
   `counter` int(11) unsigned NOT NULL,
   UNIQUE KEY `obj_id` (`obj_id`,`obj_option`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `jos_votes_blog` (
+  `obj_id` int(11) unsigned NOT NULL,
+  `action_id` int(11) NOT NULL,
+  `action_name` varchar(50) NOT NULL,
+  `action_obj_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `user_ip` varchar(40) NOT NULL,
+  `vote` tinyint(5) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `obj_id` (`obj_id`,`action_id`,`action_obj_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_votes_blog_results`
+--
+
+CREATE TABLE `jos_votes_blog_results` (
+  `obj_id` int(11) unsigned NOT NULL,
+  `votes_count` int(11) NOT NULL,
+  `voters_count` int(11) NOT NULL,
+  `votes_average` float NOT NULL,
+  `created_at` date NOT NULL,
+  PRIMARY KEY (`obj_id`),
+  KEY `votes_average` (`votes_average`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

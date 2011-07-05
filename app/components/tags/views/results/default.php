@@ -8,28 +8,23 @@
  */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
-joosLoader::lib('html');
-joosLoader::lib('text');
-joosLoader::model('pages');
-
 ?>
 <div class="page page_tags">
     <h5><a href="<?php echo sefRelToAbs('index.php?option=com_tags&task=cloud', true) ?>">Тэги</a></h5>
     <br/>
     <h1 style="clear: both;"><?php echo $tag; ?></h1>
 
-<?php foreach ($tags_results as $row) : ?>
-<?php
-	$row->href = sefRelToAbs('index.php?option=pages&task=view&id=' . sprintf('%s:%s', $row->id, $row->title));
-?>
-	<div class="news_item_wrap">
-		<div class="news_item">
-			<h2><?php echo html::anchor($row->href, $row->title); ?></h2>
-			<p><?php echo Text::word_limiter($row->text, 50) ?></p>
+	<?php foreach ($tags_results as $row) : ?>
+		<?php
+		$row->href = sefRelToAbs('index.php?option=pages&task=view&id=' . sprintf('%s:%s', $row->id, $row->title));
+		?>
+		<div class="news_item_wrap">
+			<div class="news_item">
+				<h2><?php echo html::anchor($row->href, $row->title); ?></h2>
+				<p><?php echo Text::word_limiter($row->text, 50) ?></p>
+			</div>
 		</div>
-	</div>
-<?php endforeach; ?>
+	<?php endforeach; ?>
 
 	<?php echo $pager->output; ?>
 	<div class="pagination_wrap">

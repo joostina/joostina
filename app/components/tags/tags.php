@@ -33,7 +33,6 @@ class actionsTags extends joosController {
 		$search_results_nodes_count = $tags->search_count($tag);
 
 		// постраничная навигация
-		joosLoader::lib('paginator3000');
 		$pager = new paginator3000(sefRelToAbs('index.php?option=com_tags&tag=' . $tag), $search_results_nodes_count, 10, 15);
 		$pager->paginate($page);
 
@@ -42,7 +41,6 @@ class actionsTags extends joosController {
 		tagsHTML::tag_search($tag, $tags_results, $pager);
 
 		// считаем обращения к тэгу, но только на первой странице
-		joosLoader::lib('jhit', 'joostina');
 		($page == 0 OR $page == 1) ? Jhit::add('tags', 0, $tag) : null;
 	}
 

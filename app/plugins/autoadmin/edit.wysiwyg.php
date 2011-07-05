@@ -4,13 +4,13 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * autoadminEditWysiwyg - расширение joosAutoAdmin для вывода визуального редактора
+ * autoadminEditWysiwyg - расширение joosAutoadmin для вывода визуального редактора
  * Базовый плагин
  *
  * @version 1.0
  * @package Joostina.Plugins
  * @subpackage Plugins
- * @category joosAutoAdmin
+ * @category joosAutoadmin
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2008-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -41,7 +41,7 @@ class autoadminEditWysiwyg {
 		$element[] = joosEditor::display($key, $value, $editor_params);
 		$element[] = $params['el_end'];
 
-		joosAutoAdmin::add_js_onformsubmit(joosEditor::get_content($key));
+		joosAutoadmin::add_js_onformsubmit(joosEditor::get_content($key));
 
 		return implode("\n", $element);
 	}

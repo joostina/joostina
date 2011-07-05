@@ -183,13 +183,14 @@ class actionsContent extends joosController {
 		Categories::set_breadcrumbs($category, $path, true);
 
 		//материалы из той же категории
-		joosLoader::lib('arraytools', 'utils');
+
 		$other_items = $item->get_list(array('where' => 'state = 1 AND category_id = ' . $item->category_id));
 		//$other_items = ArrayTools::get_next_prev($other_items, $item->id, 2, 1, true);
 		//Дополнительные поля
 		$ef = Content::get_extrafields($item);
 
-		joosBreadcrumbs::instance()->add($item->title);
+		joosBreadcrumbs::instance()
+				->add($item->title);
 
 		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
 		if (self::$error) {

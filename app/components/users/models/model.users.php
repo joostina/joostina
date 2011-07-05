@@ -139,8 +139,8 @@ class Users extends joosModel {
 			$this->password = self::prepare_password($this->password);
 			$this->registerDate = _CURRENT_SERVER_TIME;
 		} else {
-			if ($_POST['new_password']) {
-				$this->password = self::prepare_password($_POST['new_password']);
+			if (($new_password = joosRequest::post('new_password', false))) {
+				$this->password = self::prepare_password($new_password);
 			}
 			//$query = "SELECT password FROM #__users WHERE id = " . $this->id;
 			//$db_password = $this->_db->setQuery($query)->loadResult();
@@ -230,11 +230,15 @@ class Users extends joosModel {
 		return joosCore::is_admin() ? joosCoreAdmin::user() : self::instance();
 	}
 
+	/**
+	 * 
+	 * @deprecated заменить на актуальный код
+	 */
 	public static function avatar($id, $size = false) {
 
 		$size = $size ? '_' . $size : false;
 
-		$file = joosFile::make_file_location($id);
+		$file = joosFile::make_file_location((int) $id);
 
 
 		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar' . $size . '.png';

@@ -15,11 +15,11 @@ class actionsAjaxModules {
 	private static $implode_model = true;
 
 	public static function statuschanger() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 	public static function reorder() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 	public static function index() {

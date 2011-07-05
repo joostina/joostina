@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
 class actionsAjaxNews {
 
 	public static function statuschanger() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 	public static function image_uploader() {

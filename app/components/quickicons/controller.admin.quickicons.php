@@ -31,7 +31,7 @@ class actionsAdminQuickicons {
 		$obj = new self::$model;
 		$obj_count = $obj->count();
 
-		$pagenav = joosAutoAdmin::pagenav($obj_count, $option);
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		$param = array(
 			'offset' => $pagenav->limitstart,
@@ -43,7 +43,7 @@ class actionsAdminQuickicons {
 		// массив названий элементов для отображения в таблице списка
 		$fields_list = array('id', 'title', 'gid', 'state');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoAdmin::listing($obj, $obj_list, $pagenav, $fields_list);
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class actionsAdminQuickicons {
 		$obj_data = new self::$model;
 		$obj_data->load($id);
 		
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

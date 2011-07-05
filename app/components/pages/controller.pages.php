@@ -31,7 +31,6 @@ class actionsPages extends joosController {
 				->seo_tag('rating', false); // тэг rating - скрываем
 		//
         // если для текущего действия аквирован счетчик хитов - то обновим его
-		joosLoader::lib('jooshit', 'utils');
 		joosHit::add('pages', $page->id, 'view');
 
 		return array(

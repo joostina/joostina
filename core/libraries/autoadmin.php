@@ -3,7 +3,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * joosAutoAdmin - Библиотека автоматической генерации интерфейсов панели управлениями 
+ * joosAutoadmin - Библиотека автоматической генерации интерфейсов панели управлениями 
  * Системная библиотека
  *
  * @version 1.0
@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
  * */
 define('DISPATCHED', true);
 
-class joosAutoAdmin {
+class joosAutoadmin {
 
 	private static $js_onformsubmit = array();
 	public static $model;
@@ -54,7 +54,7 @@ class joosAutoAdmin {
 				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
 
 
-		!JDEBUG ? : joosDebug::add('joosAutoAdmin::dispatch() - ' . $class . '::' . $task);
+		!JDEBUG ? : joosDebug::add('joosAutoadmin::dispatch() - ' . $class . '::' . $task);
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
@@ -107,7 +107,7 @@ class joosAutoAdmin {
 	}
 
 	/**
-	 * joosAutoAdmin::listing()
+	 * joosAutoadmin::listing()
 	 *
 	 * Генерация таблицы с записями
 	 *
@@ -164,7 +164,7 @@ class joosAutoAdmin {
 			echo "\t" . '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
 			for ($index = 0; $index < $n; $index++) {
 				$current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
-				$data = joosAutoAdmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
+				$data = joosAutoadmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
 				$class = isset($fields_info[$fields_to_table[$index]]['html_table_element_param']['class']) ? ' class="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['class'] . '"' : '';
 				$align = isset($fields_info[$fields_to_table[$index]]['html_table_element_param']['align']) ? ' align="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['align'] . '" ' : '';
 
@@ -196,13 +196,13 @@ class joosAutoAdmin {
 		$class_name = 'autoadminList' . self::get_plugin_name($element_param['html_table_element']);
 
 		if (!is_file($class_file)) {
-			throw new joosAutoAdminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoAdmin %s  для вывода элемента %s не найден'), $class_file, $class_name));
+			throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name));
 		}
 
 		require_once $class_file;
 
 		if (!class_exists($class_name)) {
-			throw new joosAutoAdminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoAdmin в файле %s не найден'), $class_file, $class_name));
+			throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
 		}
 
 		// ограничение на длину текста
@@ -215,7 +215,7 @@ class joosAutoAdmin {
 	}
 
 	/**
-	 * joosAutoAdmin::edit()
+	 * joosAutoadmin::edit()
 	 *
 	 * Генерация формы добавления/редактирования записи
 	 *
@@ -302,13 +302,13 @@ class joosAutoAdmin {
 		$class_name = 'autoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
 
 		if (!is_file($class_file)) {
-			throw new joosAutoAdminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoAdmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
+			throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
 		}
 
 		require_once $class_file;
 
 		if (!class_exists($class_name)) {
-			throw new joosAutoAdminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoAdmin в файле %s не найден'), $class_file, $class_name));
+			throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
 		}
 
 		return call_user_func_array($class_name . '::render', array($element_param, $key, $value, $obj_data, $params, $tabs));
@@ -328,14 +328,14 @@ class joosAutoAdmin {
 	}
 
 	/**
-	 * joosAutoAdmin::header()
+	 * joosAutoadmin::header()
 	 * Вывод заголовка с управляющими элементами
 	 *
 	 * @param string $component_title Заголовок текущего компонента ('header_main')
 	 * @param string $header Заголовок текущей станицы (берётся из метода `get_tableinfo()` текущей модели)
 	 * @param array  $extra  Всяческие куртые штуки типа поля поиска, фильтров и т.п. (подтягивается из `get_extrainfo()` текущей модели)
 	 * @param string $task   Параметр передается в случае, если необходимо вывести стандартный тулбар
-	 *                         (т.е. когда метод вызывается из joosAutoAdmin::listing или joosAutoAdmin::edit)
+	 *                         (т.е. когда метод вызывается из joosAutoadmin::listing или joosAutoadmin::edit)
 	 * @return HTML-представление заголовка: название текущей страницы, субменю, системное сообщение, фильтры, тулбар (кнопки управления)
 	 */
 	public static function header($component_title = '', $header = '', array $extra = array(), $task = '') {
@@ -349,7 +349,7 @@ class joosAutoAdmin {
 		//Заголовок страницы + тулбар
 		if (isset($class::$submenu)) {
 			$return = '<div class="page_title"><h1 class="title"><span>' . $component_title . '</span></h1>';
-			$return .= joosAutoAdmin::submenu() . '</div>';
+			$return .= joosAutoadmin::submenu() . '</div>';
 		}
 
 		$return .= '<div class="page_subtitle"><h2>' . $header . '</h2>' . self::toolbar($task) . '</div>';
@@ -643,7 +643,7 @@ class joosAutoAdmin {
 			$header_extra['filter'] += array(
 				'state' => array(
 					'name' => 'Состояние',
-					'call_from' => 'joosAutoAdmin::get_state_selector'
+					'call_from' => 'joosAutoadmin::get_state_selector'
 				),
 			);
 		}
@@ -862,10 +862,10 @@ class mosMenuBar {
 
 }
 
-class joosAutoAdminFilePluginNotFoundException extends joosException {
+class joosAutoadminFilePluginNotFoundException extends joosException {
 	
 }
 
-class joosAutoAdminClassPlugionNotFoundException extends joosException {
+class joosAutoadminClassPlugionNotFoundException extends joosException {
 	
 }

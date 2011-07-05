@@ -6,28 +6,25 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
-
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
-
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title><?php echo _404; ?> - <?php echo joosConfig::get2('info', 'title'); ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<h2><?php echo joosConfig::get2('info', 'title'); ?></h2>
+	<head>
+		<title>Опаньки - <?php echo joosConfig::get2('info', 'title'); ?></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body>
+		<h2><?php echo joosConfig::get2('info', 'title'); ?></h2>
 
-<h2><?php echo _404; ?></h2>
+		<h2>Страница не найдена</h2>
 
-<h3>
-    <a href="<?php echo JPATH_SITE; ?>"><?php echo _404_RTS; ?></a>
-</h3>
-<br/>
-404
-</body>
+		<h3>
+			<a href="<?php echo JPATH_SITE; ?>">Страница не найдена, ой-ой с бородой</a>
+		</h3>
+		<br/>
+		404
+	</body>
 </html>

@@ -9,8 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosLoader::view('comments');
-
 class actionsComments extends joosController {
 
 	/**
@@ -19,7 +17,7 @@ class actionsComments extends joosController {
 	public static function comments_first_load($option, $id, $page, $task) {
 
 		$comments = new Comments;
-		$comments->obj_option = joosRequest::get('obj_option', '');
+		$comments->obj_option = joosRequest::get('obj_option', 'all');
 		$comments->obj_id = joosRequest::int('obj_id', 0, $_GET);
 
 		$comments_list = $comments->get_comments();

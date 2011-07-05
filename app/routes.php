@@ -21,6 +21,10 @@ return array(
 		'href' => 'login',
 		'defaults' => array('controller' => 'users', 'action' => 'login')
 	),
+	'logout' => array(
+		'href' => 'logout',
+		'defaults' => array('controller' => 'users', 'action' => 'logout')
+	),
 	'lostpassword' => array(
 		'href' => 'lostpassword',
 		'defaults' => array('controller' => 'users', 'action' => 'lostpassword')
@@ -29,7 +33,7 @@ return array(
 		'href' => 'register',
 		'defaults' => array('controller' => 'users', 'action' => 'register')
 	),
-	'user_view_by_login' => array(
+	'user_view' => array(
 		'href' => 'user/view-<id>/<username>',
 		'params_rules' => array('id' => '\d+', 'username' => '\w+'),
 		'defaults' => array('controller' => 'users', 'action' => 'view')
@@ -73,13 +77,18 @@ return array(
 	),
 	'blog_view' => array(
 		'href' => 'blogs/<cat_slug>/<id>',
-		'params_rules' => array('id' => '\d+','cat_slug'=>'[a-z]+'),
+		'params_rules' => array('id' => '\d+', 'cat_slug' => '[a-z]+'),
+		'defaults' => array('controller' => 'blog', 'action' => 'view')
+	),
+	'blog_edit' => array(
+		'href' => 'blogs/edit/<id>',
+		'params_rules' => array('id' => '\d+'),
 		'defaults' => array('controller' => 'blog', 'action' => 'view')
 	),
 	'blog_cat' => array(
 		'href' => 'blogs/<cat_slug>',
 		'params_rules' => array('cat_slug' => '[a-z]+'),
-		'defaults' => array('controller' => 'blog', 'action' => 'view')
+		'defaults' => array('controller' => 'blog', 'action' => 'category')
 	),
 	'blog_pages' => array(
 		'href' => 'blogs/page/<page>',

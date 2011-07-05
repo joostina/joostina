@@ -22,7 +22,7 @@ class actionsTest {
 
 		$a = array(1,'aad',time());
 		
-		joosDebug::dump($a,true, joosCore::user() );
+		joosDebug::dump($a,true );
 		
 		echo 888;
 		

@@ -49,10 +49,10 @@ class actionsAdminCategories {
 		$group = joosRequest::request('group', '');
 		if ($group) {
 			//Определяем заголовок компонента, с которым работаем
-			joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($group);
+			joosAutoadmin::$component_title = joosAutoadmin::get_component_title($group);
 
 			//вытягиваем подменю, если оно есть
-			$component_menu = joosAutoAdmin::get_component_submenu($group);
+			$component_menu = joosAutoadmin::get_component_submenu($group);
 			if ($component_menu) {
 				self::$submenu = $component_menu;
 				self::$submenu['categories']['active'] = true;
@@ -69,7 +69,7 @@ class actionsAdminCategories {
 
 		self::$toolbars['index'] = $index_tools;
 
-		echo joosAutoAdmin::header(self::$component_title, 'Категории', array(), 'listing');
+		echo joosAutoadmin::header(self::$component_title, 'Категории', array(), 'listing');
 
 		$cats = new Categories;
 		$rootExists = $cats->check_root_node();
@@ -78,7 +78,7 @@ class actionsAdminCategories {
 
 		require_once ('views/categories/default.php');
 
-		echo joosAutoAdmin::footer();
+		echo joosAutoadmin::footer();
 	}
 
 	/**
@@ -117,7 +117,7 @@ class actionsAdminCategories {
 			$obj_data->metainfo = joosMetainfo::get_meta('category', 'item', $id);
 		}
 
-		joosAutoAdmin::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**

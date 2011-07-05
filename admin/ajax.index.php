@@ -31,17 +31,16 @@ joosAcl::init_admipanel();
 $my = joosCore::user();
 
 if (joosAcl::isDeny('adminpanel')) {
-	echo json_encode(array('error' => 'acl'));
+	echo json_encode(array('code' => 500, 'message' => 'Ошибка прав доступа'));
+	die();
 }
 
-
-
 if (!$my->id) {
-	die('error-my');
+	echo json_encode(array('code' => 500, 'message' => 'Ошибка авторизации'));
+	die();
 }
 
 $option = joosRequest::param('option');
-$task = joosRequest::param('task', 'index');
 
 ob_start();
 
@@ -51,9 +50,10 @@ $file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'c
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if (file_exists($file_com)) {
 	include_once ($file_com);
-	joosAutoAdmin::dispatch_ajax();
+	joosAutoadmin::dispatch_ajax();
 } else {
-	die('error-inc-component');
+	echo json_encode(array('code' => 500, 'message' => sprintf('Файл контроллера для %s не найден', $file_com)));
+	die();
 }
 
 ob_end_flush();

@@ -19,7 +19,7 @@ defined('_JOOS_CORE') or die();
 class actionsAjaxSearch {
 
 	public static function index() {
-		joosAutoAdmin::autoajax();
+		joosAutoadmin::autoajax();
 	}
 
 }

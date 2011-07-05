@@ -63,16 +63,16 @@ class actionsAdminMetainfo {
 		$metainfo->find();
 
 		//Определяем заголовок компонента, с которым работаем
-		joosAutoAdmin::$component_title = joosAutoAdmin::get_component_title($metainfo->group);
+		joosAutoadmin::$component_title = joosAutoadmin::get_component_title($metainfo->group);
 
 		//вытягиваем подменю, если оно есть
-		$component_menu = joosAutoAdmin::get_component_submenu($metainfo->group);
+		$component_menu = joosAutoadmin::get_component_submenu($metainfo->group);
 		if ($component_menu) {
 			self::$submenu = $component_menu;
 			self::$submenu['metainfo']['active'] = true;
 		}
 
-		joosAutoAdmin::edit($metainfo, $metainfo);
+		joosAutoadmin::edit($metainfo, $metainfo);
 	}
 
 	/**

@@ -135,7 +135,7 @@ class Blog extends joosModel {
 	}
 
 	public static function get_blog_cats() {
-		$obj = new BlogCategory();
+		$obj = new Blog_Category();
 		return $obj->get_selector(array('key' => 'id', 'value' => 'title'), array('select' => 'id, title', 'order' => 'title ASC'));
 	}
 
@@ -162,12 +162,12 @@ class Blog extends joosModel {
 }
 
 /**
- * Class BlogCategory
+ * Class Blog_Category
  * @package    Blog
  * @subpackage    joosModel
  * @created    2010-09-24 02:37:11
  */
-class BlogCategory extends joosModel {
+class Blog_Category extends joosModel {
 
 	/**
 	 * @var int(10) unsigned
