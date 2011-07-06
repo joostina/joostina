@@ -66,6 +66,11 @@ class Content extends joosModel {
 	 * @var joosText
 	 */
 	public $attachments;
+	/**
+	 * @var int(11)
+	 */
+	public $user_id;
+
 
 
 	/*
@@ -74,33 +79,6 @@ class Content extends joosModel {
 	 */
 	function __construct() {
 		parent::__construct('#__content', 'id');
-	}
-
-	public static function get_types() {
-		$types = array();
-		array_walk(self::$news_array, function($d, $k) use (&$types) {
-					$types[$k] = $d['title'];
-				});
-
-		return $types;
-	}
-
-	public static function get_types_slug() {
-		$slugs = array();
-		array_walk(self::$news_array, function($d, $k) use (&$slugs) {
-					$slugs[$k] = $d['slug'];
-				});
-
-		return $slugs;
-	}
-
-	public static function get_types_slug_array() {
-		return array_flip(self::get_types_slug());
-	}
-
-	public static function get_types_slug_by_type_id($type_id) {
-		$types = self::get_types_slug();
-		return $types[$type_id];
 	}
 
 	public static function show_date(stdClass $obj) {

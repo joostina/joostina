@@ -113,15 +113,6 @@ class adminModules extends Modules {
 					'call_from' => 'Modules::get_modules_positions',
 				),
 			),
-			'cache_time' => array(
-				'name' => 'Время кеширования',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit',
-				'html_edit_element_param' => array(),
-			),
 			'params' => array(
 				'name' => 'Параметры',
 				'editable' => true,
@@ -186,7 +177,6 @@ class adminModules extends Modules {
 			),
 		);
 	}
-
 
 	public function check() {
 		$this->filter(array('content'));

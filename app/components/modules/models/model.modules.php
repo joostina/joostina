@@ -57,10 +57,6 @@ class Modules extends joosModel {
 	 * @var tinyint(4)
 	 */
 	public $client_id = 0;
-	/**
-	 * @var int(11)
-	 */
-	public $cache_time;
 
 	/*
 	 * Constructor

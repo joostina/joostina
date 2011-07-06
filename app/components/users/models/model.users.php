@@ -270,15 +270,6 @@ class Users extends joosModel {
 			$extra = new UsersExtra;
 			$extra->load($this->id);
 
-			//кэш закладок декодируем из JSON
-			$extra->cache_bookmarks = json_decode($extra->cache_bookmarks, true);
-
-			// кэш  выставленного пользователм музыкального рейтинга из JSON
-			$extra->cache_muzvotes = json_decode($extra->cache_muzvotes, true);
-
-			// кэш  выставленного пользователм рейтинга материалов из JSON
-			$extra->cache_votes = json_decode($extra->cache_votes, true);
-
 			$this->extra = $extra;
 		}
 
@@ -484,15 +475,6 @@ class UsersExtra extends joosModel {
 	 * @var text (json)
 	 */
 	public $interests;
-	/**
-	 * @var text (json)
-	 */
-	public $cache_bookmarks;
-	/**
-	 * @var text (json)
-	 */
-	public $cache_votes;
-	public $cache_muzvotes;
 
 	public function __construct() {
 		parent::__construct('#__users_extra', 'user_id');
@@ -529,51 +511,6 @@ class UsersExtra extends joosModel {
 			'Интерфейсы',
 			'Оптимизация'
 		);
-	}
-
-	/**
-	 * Обновление кеша закладок пользователя
-	 * User $user - объект пользователя
-	 */
-	public static function update_cache_bookmarks(User $user) {
-
-		$current_cache = joosDatabase::instance()->set_query('SELECT * FROM #__bookmarks WHERE user_id=' . (int) $user->id)->load_object_list();
-
-		$new_cache = array();
-		foreach ($current_cache as $cache) {
-			$new_cache[$cache->obj_option][$cache->obj_task][$cache->obj_id] = $cache->created_at;
-		}
-
-		$userextra = new self;
-		$userextra->user_id = $user->id;
-		$userextra->cache_bookmarks = json_encode($new_cache);
-		$userextra->check();
-		return (bool) $userextra->store();
-	}
-
-	/**
-	 * Обновление кеша голосований пользователя
-	 * User $user - объект пользователя
-	 */
-	public static function update_votes_cache(User $user, $vote_type = '') {
-
-		$new_cache = array();
-
-		$current_cache = joosDatabase::instance()->set_query("SELECT * FROM #__votes_blog WHERE user_id=" . (int) $user->id)->load_object_list();
-		foreach ($current_cache as $cache) {
-			$new_cache['blog'][$cache->obj_id] = $cache->vote;
-		}
-
-		//$current_cache = joosDatabase::instance()->setQuery("SELECT * FROM #__votes_comment WHERE user_id=" . (int) $user->id)->loadObjectList();
-		//foreach ($current_cache as $cache) {
-		//$new_cache['comment'][$cache->obj_id] = $cache->vote;
-		//}
-
-		$userextra = new self;
-		$userextra->user_id = $user->id;
-		$userextra->cache_votes = json_encode($new_cache);
-		$userextra->check();
-		return (bool) $userextra->store();
 	}
 
 }

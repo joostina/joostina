@@ -5,7 +5,7 @@
 --
 
 CREATE TABLE `jos_access` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `section` varchar(25) NOT NULL,
   `subsection` varchar(25) NOT NULL,
   `action` varchar(25) NOT NULL,
@@ -28,12 +28,12 @@ CREATE TABLE `jos_access` (
 
 CREATE TABLE `jos_attached` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) unsigned NOT NULL,
   `file_name` varchar(200) NOT NULL,
   `file_ext` varchar(25) NOT NULL,
   `file_mime` varchar(50) NOT NULL,
   `file_size` int(11) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -56,10 +56,10 @@ CREATE TABLE `jos_blog` (
   `introtext` text,
   `fulltext` longtext,
   `params` text,
-  `category_id` tinyint(2) unsigned NOT NULL,
+  `category_id` tinyint(2) NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`slug`),
   KEY `state` (`state`),
@@ -84,11 +84,10 @@ CREATE TABLE `jos_blog_category` (
   `slug` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `params` text NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`slug`),
-  KEY `state` (`state`)
+  UNIQUE KEY `alias` (`slug`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -106,16 +105,16 @@ CREATE TABLE `jos_categories` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `lft` mediumint(8) unsigned NOT NULL,
   `rgt` mediumint(8) unsigned NOT NULL,
-  `level` mediumint(8) unsigned NOT NULL,
-  `parent_id` int(11) unsigned NOT NULL,
-  `moved` tinyint(1) unsigned NOT NULL,
+  `level` mediumint(8) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `moved` tinyint(1) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `group` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `lft` (`lft`,`rgt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_categories`
@@ -130,11 +129,11 @@ INSERT INTO `jos_categories` VALUES(1, 1, 2, 0, 0, 0, 'root', '', 'root', 0);
 --
 
 CREATE TABLE `jos_categories_details` (
-  `cat_id` int(11) unsigned NOT NULL,
+  `cat_id` int(11) NOT NULL,
   `desc_short` mediumtext NOT NULL,
   `desc_full` text NOT NULL,
-  `created_at` datetime NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
   `attachments` text NOT NULL,
   `video` varchar(300) NOT NULL,
@@ -152,34 +151,18 @@ CREATE TABLE `jos_categories_details` (
 -- Структура таблицы `jos_components`
 --
 
-CREATE TABLE `jos_comments` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `path` varchar(255) NOT NULL,
-  `level` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  `obj_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `obj_option` varchar(30) NOT NULL,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `user_name` varchar(100) NOT NULL,
-  `user_email` varchar(50) NOT NULL,
-  `user_ip` varchar(50) NOT NULL,
-  `comment_text` mediumtext NOT NULL,
-  `created_at` datetime NOT NULL,
-  `params` longtext,
-  `state` tinyint(1) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `obj_id` (`obj_id`,`obj_option`),
-  KEY `state` (`state`),
-  KEY `path` (`path`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE `jos_comments_counter` (
-  `obj_id` int(11) unsigned NOT NULL,
-  `obj_option` varchar(30) NOT NULL,
-  `last_user_id` int(11) unsigned NOT NULL,
-  `last_comment_id` int(11) unsigned NOT NULL,
-  `counter` int(11) unsigned NOT NULL,
-  UNIQUE KEY `obj_id` (`obj_id`,`obj_option`)
+CREATE TABLE `jos_components` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `author` varchar(255) NOT NULL,
+  `version` float NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `link` varchar(255) NOT NULL DEFAULT '',
+  `parent` int(11) unsigned NOT NULL DEFAULT '0',
+  `admin_menu_img` varchar(255) NOT NULL,
+  `params` text,
+  `client_id` tinyint(1) NOT NULL,
+  `update_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -200,17 +183,14 @@ CREATE TABLE `jos_content` (
   `introtext` text NOT NULL,
   `fulltext` longtext NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `category_id` int(11) unsigned NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `ordering` int(11) unsigned NOT NULL DEFAULT '1',
-  `special` tinyint(1) unsigned NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  `ordering` int(11) NOT NULL DEFAULT '1',
+  `special` tinyint(1) NOT NULL,
   `attachments` text NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 
 --
 -- Дамп данных таблицы `jos_content`
@@ -224,14 +204,14 @@ CREATE TABLE `jos_content` (
 --
 
 CREATE TABLE `jos_extrafields` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `group` varchar(255) NOT NULL,
   `subgroup` varchar(255) NOT NULL,
-  `object` int(11) unsigned NOT NULL,
+  `object` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `label` varchar(255) NOT NULL,
   `rules` text NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -247,8 +227,8 @@ CREATE TABLE `jos_extrafields` (
 --
 
 CREATE TABLE `jos_extrafields_data` (
-  `field_id` int(11) unsigned NOT NULL,
-  `obj_id` int(11) unsigned NOT NULL,
+  `field_id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
   `value` tinytext NOT NULL,
   UNIQUE KEY `field_id` (`field_id`,`obj_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -265,11 +245,11 @@ CREATE TABLE `jos_extrafields_data` (
 --
 
 CREATE TABLE `jos_hits` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `obj_id` int(11) unsigned NOT NULL,
   `obj_option` varchar(30) NOT NULL,
   `obj_task` varchar(20) NOT NULL,
-  `hit` int(11) unsigned NOT NULL,
+  `hit` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `obj_id` (`obj_id`,`obj_option`,`obj_task`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -278,6 +258,44 @@ CREATE TABLE `jos_hits` (
 -- Дамп данных таблицы `jos_hits`
 --
 
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_menu`
+--
+
+CREATE TABLE `jos_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menutype` varchar(25) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `link_title` varchar(200) NOT NULL,
+  `link` text,
+  `type` varchar(50) NOT NULL DEFAULT '',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `parent` int(11) unsigned NOT NULL DEFAULT '0',
+  `componentid` int(11) unsigned NOT NULL DEFAULT '0',
+  `sublevel` int(11) DEFAULT '0',
+  `ordering` int(11) DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `pollid` int(11) NOT NULL DEFAULT '0',
+  `browserNav` tinyint(4) DEFAULT '0',
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `utaccess` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `params` text,
+  PRIMARY KEY (`id`),
+  KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
+  KEY `menutype` (`menutype`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_menu`
+--
+
+INSERT INTO `jos_menu` VALUES(1, 'mainmenu', 'Главная', 'Главнее не бывает', 'index.php?option=mainpage', 'components', 1, 0, 1, 0, 9999, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '');
+INSERT INTO `jos_menu` VALUES(2, 'mainmenu', 'Странички', '', 'index.php?option=pages', 'components', 1, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '{ "page_id": "1" }');
+
 -- --------------------------------------------------------
 
 --
@@ -285,7 +303,7 @@ CREATE TABLE `jos_hits` (
 --
 
 CREATE TABLE `jos_metainfo` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `group` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `subgroup` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `obj_id` int(11) unsigned DEFAULT NULL,
@@ -307,16 +325,17 @@ CREATE TABLE `jos_metainfo` (
 --
 
 CREATE TABLE `jos_modules` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `content` text NOT NULL,
-  `ordering` int(11) unsigned NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   `position` varchar(10) NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL DEFAULT '0',
   `module` varchar(50) NOT NULL,
   `template` varchar(255) NOT NULL,
   `params` text NOT NULL,
-  `client_id` tinyint(4) unsigned NOT NULL DEFAULT '0',
+  `client_id` tinyint(4) NOT NULL DEFAULT '0',
+  `cache_time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `published` (`state`),
   KEY `newsfeeds` (`module`,`state`)
@@ -326,19 +345,18 @@ CREATE TABLE `jos_modules` (
 -- Дамп данных таблицы `jos_modules`
 --
 
-
-INSERT INTO `jos_modules` VALUES(1, 'Админменю', '', 1, 'top', 1, 'adminmenu', '', '', 1);
-INSERT INTO `jos_modules` VALUES(2, 'Системные сообщения', '', 1, 'inset', 0, 'adminmsg', '', '', 1);
-INSERT INTO `jos_modules` VALUES(3, 'Главное меню', '', 2, 'left', 1, 'navigation', '', 'null', 0);
-INSERT INTO `jos_modules` VALUES(4, 'Авторизация', '', 1, 'header', 1, 'login', '', '{"param1":"","param2":""}', 0);
-INSERT INTO `jos_modules` VALUES(5, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '', 1);
-INSERT INTO `jos_modules` VALUES(6, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', '', 0);
-INSERT INTO `jos_modules` VALUES(7, 'Про нас', '', 0, 'pathway', 1, 'about', '', '', 0);
-INSERT INTO `jos_modules` VALUES(8, 'Новое в блоге', '', 0, 'right', 1, 'blogs', '', '""', 0);
-INSERT INTO `jos_modules` VALUES(9, 'Категории', '', 0, 'pathway', 1, 'categories', '', '', 0);
-INSERT INTO `jos_modules` VALUES(10, 'Меню категорий', '', 0, 'pathway', 1, 'categories_menu', '', '', 0);
-INSERT INTO `jos_modules` VALUES(11, 'Новости', '', 0, 'pathway', 1, 'news', '', '', 0);
-INSERT INTO `jos_modules` VALUES(12, 'Промо - текст', '', 0, 'pathway', 1, 'promo', '', '', 0);
+INSERT INTO `jos_modules` VALUES(1, 'Админменю', '', 1, 'top', 1, 'adminmenu', '', '', 1, 0);
+INSERT INTO `jos_modules` VALUES(2, 'Системные сообщения', '', 1, 'inset', 0, 'adminmsg', '', '', 1, 0);
+INSERT INTO `jos_modules` VALUES(3, 'Главное меню', '', 2, 'left', 1, 'navigation', '', 'null', 0, 32767);
+INSERT INTO `jos_modules` VALUES(4, 'Авторизация', '', 1, 'header', 1, 'login', '', '{"param1":"","param2":""}', 0, 0);
+INSERT INTO `jos_modules` VALUES(5, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '', 1, 604800);
+INSERT INTO `jos_modules` VALUES(6, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(7, 'Про нас', '', 0, 'pathway', 1, 'about', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(8, 'Новое в блоге', '', 0, 'pathway', 1, 'blogs', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(9, 'Категории', '', 0, 'pathway', 1, 'categories', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(10, 'Меню категорий', '', 0, 'pathway', 1, 'categories_menu', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(11, 'Новости', '', 0, 'pathway', 1, 'news', '', '', 0, 0);
+INSERT INTO `jos_modules` VALUES(12, 'Промо - текст', '', 0, 'pathway', 1, 'promo', '', '', 0, 0);
 
 
 -- --------------------------------------------------------
@@ -348,8 +366,8 @@ INSERT INTO `jos_modules` VALUES(12, 'Промо - текст', '', 0, 'pathway'
 --
 
 CREATE TABLE `jos_modules_pages` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `moduleid` int(11) unsigned NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `moduleid` int(11) NOT NULL DEFAULT '0',
   `controller` varchar(25) NOT NULL DEFAULT '0',
   `method` varchar(50) NOT NULL,
   `rule` varchar(50) NOT NULL,
@@ -364,7 +382,6 @@ CREATE TABLE `jos_modules_pages` (
 INSERT INTO `jos_modules_pages` VALUES(2, 6, 'all', '', '');
 INSERT INTO `jos_modules_pages` VALUES(3, 3, 'all', '', '');
 INSERT INTO `jos_modules_pages` VALUES(5, 4, 'all', '', '');
-INSERT INTO `jos_modules_pages` VALUES(15, 8, 'mainpage', 'index', '');
 
 -- --------------------------------------------------------
 
@@ -373,16 +390,16 @@ INSERT INTO `jos_modules_pages` VALUES(15, 8, 'mainpage', 'index', '');
 --
 
 CREATE TABLE `jos_news` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `slug` varchar(200) NOT NULL,
   `introtext` text NOT NULL,
   `fulltext` longtext NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `category_id` int(11) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
-  `special` tinyint(1) unsigned NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  `special` tinyint(1) NOT NULL,
   `attachments` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
@@ -408,8 +425,8 @@ CREATE TABLE `jos_pages` (
   `text` text NOT NULL,
   `meta_keywords` text NOT NULL,
   `meta_description` text NOT NULL,
-  `created_at` datetime NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
   KEY `state` (`state`)
@@ -427,7 +444,7 @@ CREATE TABLE `jos_pages` (
 --
 
 CREATE TABLE `jos_params` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `group` varchar(255) NOT NULL,
   `subgroup` varchar(255) NOT NULL,
   `object` varchar(20) NOT NULL,
@@ -448,14 +465,14 @@ CREATE TABLE `jos_params` (
 --
 
 CREATE TABLE `jos_quickicons` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL DEFAULT '',
   `alt_text` varchar(255) NOT NULL,
   `href` varchar(255) NOT NULL DEFAULT '',
   `icon` varchar(100) NOT NULL DEFAULT '',
-  `ordering` tinyint(3) unsigned NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
-  `gid` tinyint(3) unsigned DEFAULT NULL,
+  `ordering` int(10) unsigned NOT NULL DEFAULT '0',
+  `state` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `gid` int(3) DEFAULT '25',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
@@ -466,14 +483,10 @@ CREATE TABLE `jos_quickicons` (
 INSERT INTO `jos_quickicons` VALUES(1, 'Комментарии', 'Тыц-мегатыц', 'index2.php?option=comments', 'empathy.png', 5, 1, 0);
 INSERT INTO `jos_quickicons` VALUES(2, 'Пользователи', '', 'index2.php?option=users', 'contact-new.png', 10, 1, 0);
 INSERT INTO `jos_quickicons` VALUES(3, 'Странички', '', 'index2.php?option=pages', 'edit-select-all.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(4, 'Файловый манипулятор', '', 'index2.php?option=finder', 'folder-move.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(5, 'Блог', '', 'index2.php?option=blog', 'folder-documents.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(6, 'Кодер', '', 'index2.php?option=coder', 'gnome-fs-bookmark-missing.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(7, 'Новости', '', 'index2.php?option=news', 'xfce4-menueditor.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(8, 'Корзина', '', 'index2.php?option=trash', 'emptytrash.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(9, 'Группы пользователей', 'Группы пользователей', 'index2.php?option=usergroups', 'gwibber.png', 0, 1, 0);
-INSERT INTO `jos_quickicons` VALUES(10, 'Расширения', 'Расширения', 'index2.php?option=exts', 'gnome-power-manager.png', 0, 1, 1);
-
+INSERT INTO `jos_quickicons` VALUES(4, 'Блог', '', 'index2.php?option=blog', 'folder-documents.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(5, 'Кодер', '', 'index2.php?option=coder', 'gnome-fs-bookmark-missing.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(6, 'Новости', '', 'index2.php?option=news', 'xfce4-menueditor.png', 0, 1, 0);
+INSERT INTO `jos_quickicons` VALUES(7, 'Корзина', '', 'index2.php?option=trash', 'emptytrash.png', 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -504,8 +517,8 @@ CREATE TABLE `jos_session` (
   `data` longtext,
   `time` varchar(14) DEFAULT '',
   `session_id` varchar(32) NOT NULL DEFAULT '0',
-  `guest` tinyint(4) unsigned DEFAULT '1',
-  `userid` int(11) unsigned DEFAULT '0',
+  `guest` tinyint(4) DEFAULT '1',
+  `userid` int(11) DEFAULT '0',
   `groupname` varchar(50) DEFAULT NULL,
   `gid` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `is_admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -519,7 +532,7 @@ CREATE TABLE `jos_session` (
 --
 
 CREATE TABLE `jos_templates` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -532,7 +545,7 @@ CREATE TABLE `jos_templates` (
 --
 
 CREATE TABLE `jos_template_positions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` varchar(10) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
@@ -579,8 +592,8 @@ CREATE TABLE `jos_trash` (
   `obj_table` varchar(50) NOT NULL,
   `title` varchar(250) NOT NULL,
   `data` longtext NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `deleted_at` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -596,20 +609,20 @@ CREATE TABLE `jos_trash` (
 --
 
 CREATE TABLE `jos_users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL DEFAULT '',
   `username_canonikal` varchar(100) NOT NULL,
   `realname` varchar(200) NOT NULL,
   `email` varchar(100) NOT NULL DEFAULT '',
   `openid` varchar(200) DEFAULT NULL,
   `password` varchar(100) NOT NULL DEFAULT '',
-  `state` tinyint(1) unsigned NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
   `gid` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `groupname` varchar(50) DEFAULT NULL,
   `registerDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `lastvisitDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL DEFAULT '',
-  `bad_auth_count` tinyint(2) unsigned DEFAULT NULL,
+  `bad_auth_count` int(2) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   KEY `idxemail` (`email`),
@@ -630,7 +643,7 @@ INSERT INTO `jos_users` VALUES(1, 'admin', 'adm1n', '', 'admin@joostina.ru', '',
 --
 
 CREATE TABLE `jos_users_extra` (
-  `user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) NOT NULL,
   `realname` varchar(255) NOT NULL,
   `gender` varchar(10) NOT NULL,
   `about` longtext,
@@ -638,6 +651,8 @@ CREATE TABLE `jos_users_extra` (
   `contacts` text NOT NULL,
   `birthdate` date DEFAULT '0000-00-00',
   `interests` text NOT NULL,
+  `cache_bookmarks` text NOT NULL,
+  `cache_votes` text NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -677,25 +692,56 @@ INSERT INTO `jos_users_groups` VALUES(8, 7, 'SuperAdministrator', 'Супер А
 
 
 --
--- Структура таблицы `jos_votes_blog`
+-- Структура таблицы `jos_comments`
 --
+
+CREATE TABLE `jos_comments` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `path` varchar(255) NOT NULL,
+  `level` tinyint(1) NOT NULL DEFAULT '0',
+  `obj_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `obj_option` varchar(30) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `user_name` varchar(100) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
+  `user_ip` varchar(50) NOT NULL,
+  `comment_text` mediumtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `params` longtext,
+  `state` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `obj_id` (`obj_id`,`obj_option`),
+  KEY `state` (`state`),
+  KEY `path` (`path`,`level`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_comments_counter`
+--
+
+CREATE TABLE `jos_comments_counter` (
+  `obj_id` int(11) unsigned NOT NULL,
+  `obj_option` varchar(30) NOT NULL,
+  `last_user_id` int(11) unsigned NOT NULL,
+  `last_comment_id` int(11) unsigned NOT NULL,
+  `counter` int(11) unsigned NOT NULL,
+  UNIQUE KEY `obj_id` (`obj_id`,`obj_option`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `jos_votes_blog` (
   `obj_id` int(11) unsigned NOT NULL,
-  `action_id` int(11) unsigned NOT NULL,
+  `action_id` int(11) NOT NULL,
   `action_name` varchar(50) NOT NULL,
   `action_obj_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `user_ip` varchar(40) NOT NULL,
   `vote` tinyint(5) NOT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `obj_id` (`obj_id`,`action_id`,`action_obj_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_votes_blog`
---
-
 
 -- --------------------------------------------------------
 
@@ -706,7 +752,7 @@ CREATE TABLE `jos_votes_blog` (
 CREATE TABLE `jos_votes_blog_results` (
   `obj_id` int(11) unsigned NOT NULL,
   `votes_count` int(11) NOT NULL,
-  `voters_count` int(11) unsigned NOT NULL,
+  `voters_count` int(11) NOT NULL,
   `votes_average` float NOT NULL,
   `created_at` date NOT NULL,
   PRIMARY KEY (`obj_id`),
