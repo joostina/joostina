@@ -208,4 +208,23 @@ $(document).ready(function() {
         });
     });
 
+
+	//табы-табы-табы
+	$('#tabs_list li:first').addClass('g-active');
+	$('#tabs_list li span').click(function(){
+
+		var _el = $(this);
+		var _target = _el.attr('rel');
+
+		if(!_el.hasClass('g-active')){
+			$('.tab_area').hide();
+			$('#'+_target).show();
+
+			$('#tabs_list li').removeClass('g-active');
+			_el.parent().addClass('g-active');
+		}
+
+
+	})
+
 });

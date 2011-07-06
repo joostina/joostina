@@ -261,18 +261,70 @@ class joosAutoAdmin {
 		//открываем форму
 		echo forms::open('index2.php', array('name' => 'adminForm', 'id' => 'adminForm'));
 
-		//Начало общего контейнера
-		echo $params['wrap_begin'];
-
+		//Массив сформированных элементов для вывода
+		$_elements = array();
 		//Получаем данные о элементах формы
 		$fields_info = $obj->get_fieldinfo();
 		foreach ($fields_info as $key => $field) {
 			if (isset($field['editable']) && $field['editable'] == true):
 				$v = isset($obj_data->$key) ? $obj_data->$key : '';
-				//Вывод элемента
-				echo self::get_edit_html_element($field, $key, $v, $obj_data, $params, $tabs);
+				$_elements[$key] = self::get_edit_html_element($field, $key, $v, $obj_data, $params, $tabs);
 			endif;
 		}
+
+		//Если заданы табы
+		$_tabs_areas = '';
+		$_tabs_array = array();
+		$_tabs_new =  is_callable(array($obj, 'get_tabsinfo')) ? $obj->get_tabsinfo() : null;
+		if($_tabs_new){
+			$_tabs_areas .= '<div id="tabs_wrap"><ul id="tabs_list">';
+			foreach($_tabs_new as $_tab_key => $_tab_fields){
+				$_tabs_areas .= '<li><span rel="tab_'.$_tab_key.'">'.$_tab_fields['title'].'</span></li>';
+				foreach($_tab_fields['fields'] as $f){
+					if (isset($_elements[$f])){
+						$_tabs_array[$_tab_key]['title'] = $_tab_fields['title'];
+						$_tabs_array[$_tab_key]['elements'][] =	$_elements[$f];
+					}
+
+				}
+			}
+			$_tabs_areas .= '</ul></div>';
+
+			$i = 1;
+			foreach($_tabs_array as $tab_area_key => $tab_fields){
+				$_tabs_areas .= '<div '.($i==1 ? '' : 'style="display: none" ').' class="tab_area tab_area_'.$i.'" id="tab_'.$tab_area_key.'">';
+
+				//Начало общего контейнера
+				$_tabs_areas .=  $params['wrap_begin'];
+
+				//Вывод элементов
+				$_tabs_areas .=  implode('', $tab_fields['elements']);
+
+				//Конец общего контейнера
+				$_tabs_areas .=  $params['wrap_end'];
+
+				$_tabs_areas .= '</div>';
+
+				$i++;
+			}
+
+			//_xdump($_tabs_array);
+
+			echo $_tabs_areas;
+		}
+
+		else{
+			//Начало общего контейнера
+			echo $params['wrap_begin'];
+			
+			//Вывод элементов
+			echo implode('', $_elements);
+
+			//Конец общего контейнера
+			echo $params['wrap_end'];
+		}
+
+
 
 		//Выводим скрытые поля формы
 		echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
@@ -280,8 +332,7 @@ class joosAutoAdmin {
 		echo forms::hidden('model', self::$model) . "\t";
 		echo forms::hidden('task', 'save') . "\t";
 		echo forms::hidden(joosCSRF::get_code(), 1); // элемент защиты от XSS
-		//Конец общего контейнера
-		echo $params['wrap_end'];
+
 
 		//Закрываем форму
 		echo forms::close();
@@ -361,6 +412,7 @@ class joosAutoAdmin {
 
 		$return .= '<div id="component_form">';
 
+
 		//Поиск, фильтры и т.п.
 		$return .= adminHtml::controller_header(false, 'config', $extra);
 
@@ -423,6 +475,8 @@ class joosAutoAdmin {
 
 		return false;
 	}
+
+
 
 	public static function footer() {
 		return '</div>';

@@ -132,6 +132,19 @@ class adminNews extends News {
 		);
 	}
 
+	public function get_tabsinfo() {
+		return array(
+			'first' => array(
+				'title' => 'Основное',
+				'fields' => array(
+					'title', 'created_at', 'state', 'slug',
+					'introtext', 'fulltext', 'news_pictures_uploader'
+				)
+			),
+			'second' => array('title'=>'Метаданные', 'fields' => array('metainfo'))
+		);
+	}
+
 	public function get_extrainfo() {
 		return array(
 			'search' => array(
