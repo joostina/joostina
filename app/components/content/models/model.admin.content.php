@@ -194,6 +194,7 @@ class adminContent extends Content {
 	}
 
 	public function before_insert() {
+		$this->user_id = joosCore::user()->id;
 		$this->created_at = _CURRENT_SERVER_TIME;
 		$this->ordering = $this->get_max_by_field('ordering') + 1;
 		return true;
