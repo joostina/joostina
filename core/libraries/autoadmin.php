@@ -285,7 +285,7 @@ class joosAutoadmin {
 				$_tabs_areas .= '<li><span rel="tab_'.$_tab_key.'">'.$_tab_fields['title'].'</span></li>';
 				foreach($_tab_fields['fields'] as $f){
 					if (isset($_elements[$f])){
-						$_tabs_array[$_tab_key]['title'] = $_tab_fields['title'];
+						$_tabs_array[$_tab_key]['title'] = __($_tab_fields['title']);
 						$_tabs_array[$_tab_key]['elements'][] =	$_elements[$f];
 					}
 

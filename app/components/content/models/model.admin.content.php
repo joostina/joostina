@@ -182,6 +182,26 @@ class adminContent extends Content {
 		);
 	}
 
+	public function get_tabsinfo() {
+		return array(
+			'main' => array(
+				'title' => 'Основное',
+				'fields' => array(
+					'title', 'state', 'category_id','slug',
+					'introtext', 'fulltext', 'extra_fields','content_pictures_uploader'
+				)
+			),
+			'meta' => array(
+				'title' => 'Метаданные',
+				'fields' => array('metainfo')
+			),
+			'params' => array(
+				'title' => 'Параметры',
+				'fields' => array('params')
+			)
+		);
+	}
+
 	public function check() {
 
 		$this->filter(array('fulltext'));
