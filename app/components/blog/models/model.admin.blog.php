@@ -118,11 +118,6 @@ class adminBlog extends Blog {
 					'width' => '20px',
 				)
 			),
-			'tags' => array(
-				'name' => 'Тэги',
-				'editable' => true,
-				'html_edit_element' => 'tags',
-			),
 		);
 	}
 
@@ -131,6 +126,22 @@ class adminBlog extends Blog {
 			'header_list' => 'Блоги',
 			'header_new' => 'Добавление записи в блог',
 			'header_edit' => 'Редактирование блогозаписи'
+		);
+	}
+
+	public function get_tabsinfo() {
+		return array(
+			'first' => array(
+				'title' => 'Основное',
+				'fields' => array(
+					'title', 'state', 'slug',
+					'introtext', 'fulltext'
+				)
+			),
+			'second' => array(
+				'title' => 'Расширенные',
+				'fields' => array('created_at')
+			)
 		);
 	}
 
@@ -191,14 +202,14 @@ class adminBlog_Category extends Blog_Category {
 		return array(
 			'id' => array(
 				'name' => 'id',
-				'editable' => true,
-				'in_admintable' => true,
+				'editable' => false,
+				'in_admintable' => false,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(),
 				'html_edit_element' => 'edit'
 			),
 			'title' => array(
-				'name' => 'title',
+				'name' => 'Заголовок',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',
@@ -206,7 +217,7 @@ class adminBlog_Category extends Blog_Category {
 				'html_edit_element' => 'edit'
 			),
 			'slug' => array(
-				'name' => 'slug',
+				'name' => 'Ссылка',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',
@@ -214,23 +225,7 @@ class adminBlog_Category extends Blog_Category {
 				'html_edit_element' => 'edit'
 			),
 			'description' => array(
-				'name' => 'description',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'params' => array(
-				'name' => 'params',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
-			),
-			'created_at' => array(
-				'name' => 'created_at',
+				'name' => 'Описание категории',
 				'editable' => true,
 				'in_admintable' => true,
 				'html_table_element' => 'value',
@@ -238,21 +233,30 @@ class adminBlog_Category extends Blog_Category {
 				'html_edit_element' => 'edit'
 			),
 			'state' => array(
-				'name' => 'state',
+				'name' => 'Состояние',
 				'editable' => true,
+				'sortable' => true,
 				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'edit'
+				'html_edit_element' => 'checkbox',
+				'html_table_element' => 'state_box',
+				'html_edit_element_param' => array(
+					'text' => 'Опубликовано',
+				),
+				'html_table_element' => 'statuschanger',
+				'html_table_element_param' => array(
+					'align' => 'center',
+					'class' => 'td-state-joiadmin',
+					'width' => '20px',
+				)
 			),
 		);
 	}
 
 	public function get_tableinfo() {
 		return array(
-			'header_list' => 'Blog_Category',
-			'header_new' => 'Создание Blog_Category',
-			'header_edit' => 'Редактирование Blog_Category'
+			'header_list' => 'Категории блогов',
+			'header_new' => 'Создание категории блога',
+			'header_edit' => 'Редактирование категории блога'
 		);
 	}
 

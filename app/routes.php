@@ -102,7 +102,7 @@ return array(
 	),
 	'pages_view' => array(
 		'href' => '<page_name>',
-		'params_rules' => array('page_name' => '\w+'),
+		'params_rules' => array('page_name' => '[a-z0-9\_\-\.]+'),
 		'defaults' => array('controller' => 'pages', 'action' => 'view')
 	),
 );

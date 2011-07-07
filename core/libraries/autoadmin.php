@@ -70,7 +70,10 @@ class joosAutoadmin {
 			echo call_user_func_array($class . '::index', array($option, $id, $page, $task));
 			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
 		} else {
-			throw new joosException('Ошибкаааа!');
+			throw new joosException('Контроллер :controller, либо требуемая задача :task не найдены.', array(
+				':controller'=>$class,
+				':task'=>$task
+			) );
 		}
 
 		// если контроллер содержит метод вызываемый после окончания работы основного контроллера, то он тоже вызовется
@@ -323,8 +326,6 @@ class joosAutoadmin {
 			//Конец общего контейнера
 			echo $params['wrap_end'];
 		}
-
-
 
 		//Выводим скрытые поля формы
 		echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта

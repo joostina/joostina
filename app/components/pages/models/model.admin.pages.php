@@ -23,8 +23,7 @@ class adminPages extends Pages {
 			'id' => array(
 				'name' => 'ID',
 				'editable' => false,
-				'sortable' => false,
-				'in_admintable' => true,
+				'in_admintable' => false,
 				'html_table_element' => 'value',
 				'html_table_element_param' => array(
 					'width' => '20px',
@@ -32,7 +31,7 @@ class adminPages extends Pages {
 				)
 			),
 			'title' => array(
-				'name' => 'Название',
+				'name' => 'Заголовок',
 				'editable' => true,
 				'sortable' => true,
 				'in_admintable' => true,
@@ -62,10 +61,11 @@ class adminPages extends Pages {
 				'editable' => true,
 				'sortable' => true,
 				'in_admintable' => true,
-				'html_edit_element' => 'edit',
 				'html_table_element' => 'value',
-				'html_table_element_param' => array(
-					'width' => '100px',
+				'html_table_element_param' => array(),
+				'html_edit_element' => 'extra',
+				'html_edit_element_param' => array(
+					'call_from' => 'adminPages::get_slug',
 				),
 			),
 			'text' => array(
@@ -102,6 +102,29 @@ class adminPages extends Pages {
 			'header_new' => 'Создание страницы',
 			'header_edit' => 'Редактирование страницы'
 		);
+	}
+
+	public function get_tabsinfo() {
+		return array(
+			'first' => array(
+				'title' => 'Основное',
+				'fields' => array(
+					'title', 'created_at', 'state', 'slug',
+					'text'
+				)
+			),
+			'second' => array(
+				'title' => 'Метаданные',
+				'fields' => array('metainfo')
+			)
+		);
+	}
+
+	public static function get_slug($item) {
+		return JPATH_SITE.'/
+			<input type="text" style="width: 80%;" class="text_area" size="50%" value="' . $item->slug . '" name="slug" id="slug">
+			<span class="g-pseudolink" id="pages_slug_generator" obj_id="' . $item->id . '">Сформировать</span>
+		';
 	}
 
 }

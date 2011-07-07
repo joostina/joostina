@@ -141,7 +141,10 @@ class adminNews extends News {
 					'introtext', 'fulltext', 'news_pictures_uploader'
 				)
 			),
-			'second' => array('title'=>'Метаданные', 'fields' => array('metainfo'))
+			'second' => array(
+				'title' => 'Метаданные',
+				'fields' => array('metainfo')
+			)
 		);
 	}
 
@@ -172,7 +175,7 @@ class adminNews extends News {
 		return true;
 	}
 
-	public function before_insert(){
+	public function before_insert() {
 		$this->created_at = _CURRENT_SERVER_TIME;
 	}
 

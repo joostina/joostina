@@ -20,9 +20,38 @@ class actionsAdminBlog {
 
 	/**
 	 * Название обрабатываемой модели
+	 * 
 	 * @var joosModel модель
 	 */
 	public static $model = 'adminBlog';
+	public static $submenu = array(
+		'blog' => array(
+			'name' => 'Блогозаписи',
+			'href' => 'index2.php?option=blog',
+			'model' => 'adminBlog',
+			'active' => false
+		),
+		'blog_category' => array(
+			'name' => 'Категории блогов',
+			'href' => 'index2.php?option=blog&menu=blog_category',
+			'model' => 'adminBlog_Category',
+			'active' => false
+		),
+	);
+
+	public static function action_before() {
+
+		$menu = joosRequest::request('menu', false);
+		if ($menu && isset(self::$submenu[$menu])) {
+
+			$active = self::$submenu[$menu];
+
+			self::$submenu[$menu]['active'] = true;
+			self::$model = $active['model'];
+		}
+
+		joosAutoadmin::$model = self::$model;
+	}
 
 	/**
 	 * Список объектов

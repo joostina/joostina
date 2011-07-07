@@ -48,6 +48,13 @@ class actionsAdminPages {
 	 */
 	public static $toolbars = array();
 
+	public static function action_before() {
+
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/app/components/pages/media/js/pages.admin.js');
+
+	}
+
 	/**
 	 * Список объектов
 	 *

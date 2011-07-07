@@ -286,14 +286,16 @@ CREATE TABLE `jos_hits` (
 
 CREATE TABLE `jos_metainfo` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `subgroup` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `group` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `subgroup` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `obj_id` int(11) unsigned DEFAULT NULL,
   `meta_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `meta_description` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `meta_keywords` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group` (`group`,`subgroup`,`obj_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 --
 -- Дамп данных таблицы `jos_metainfo`
