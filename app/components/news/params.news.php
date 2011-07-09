@@ -8,7 +8,7 @@
  * @package Components
  * @subpackage News
  * @author JoostinaTeam <info@joostina.ru>
- * @copyright (C) 2008-2011 Joostina Team
+ * @copyright (C) 2007-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  *
  * */
