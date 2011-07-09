@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: s-maxage=0, max-age=0, must-revalidate');
 header('Expires: Mon, 23 Jan 1978 10:00:00 GMT');
@@ -135,7 +134,7 @@ function __($s) {
 				display: none;
 			}
 		</style>
-
+		
 	</head>
 
 	<body>
@@ -145,11 +144,11 @@ function __($s) {
 			<p><?php echo __('Скрипт проверяет доступность БД и создаёт все необходимые базовые таблицы и вносит системные данные') ?></p>
 
 			<h2><?php echo __('База данных') ?></h2>
-
+			<form id="db_data" >
 			<table>
 				<tr class="passed">
 					<th>Название базы данных</th>
-					<td><input name="db_name" value="" /></td>
+					<td style="width: 250px"><input name="db_name" value="" /></td>
 				</tr>
 				<tr class="passed">
 					<th>Название базы данных</th>
@@ -165,13 +164,16 @@ function __($s) {
 				</tr>
 				<tr class="warning">
 					<th>Всю ответственность понимаю</th>
-					<td><button id="check_mysql_connect">Установить базу данных</button></td>
+					<td>
+						<button id="check_mysql_connect">Проверить доступность базы данных</button>
+						<button id="install_sql" style="display: none">Установить базу данных</button>
+					</td>
 				</tr>
 				<tr class="warning description">
 					<td colspan="2">Если все поля выше заполнены правильно - можно нажать на кнопку выше</td>
 				</tr>
 			</table>
-
+			</form>
 
 			<h2><?php echo __('Создание администратора') ?></h2>
 			<table>
@@ -210,5 +212,7 @@ function __($s) {
 
 			</table>
 		</div>
+		<script type="text/javascript" src="../media/js/jquery.js"></script>
+		<script type="text/javascript" src="media/js/install.js"></script>
 	</body>
 </html>

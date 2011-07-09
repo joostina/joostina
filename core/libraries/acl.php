@@ -44,10 +44,9 @@ class joosAcl {
 		}
 	}
 
-	public static function acl(){
+	public static function acl() {
 		return self::$acl;
 	}
-
 
 	public static function isAllowed($obj, $task = null) {
 
@@ -56,7 +55,7 @@ class joosAcl {
 		}
 
 		$user = joosCore::user();
-		
+
 		$groupname = strtolower($user->groupname);
 		return self::$acl->isAllowed($groupname, $obj, $task);
 	}
