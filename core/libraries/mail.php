@@ -18,5 +18,24 @@ defined('_JOOS_CORE') or die();
  *
  * */
 class joosMail {
-	
+
+	/**
+	 * Очень упрощённая функция базовой отправки сообщения на email
+	 * 
+	 * @param string $to email получателя
+	 * @param string $title заголовк сообщения
+	 * @param string $message текст сообщения
+	 */
+	public static function simply($to, $title, $message) {
+
+		$headers = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=utf-8\n";
+		$headers .= "X-Priority: 3\n";
+		$headers .= "X-MSMail-Priority: Normal\n";
+		$headers .= "X-Mailer: Joostina CMF mail\n";
+		$headers .= sprintf("From: Joostina::core <no-reply@%s>\n", JPATH_SITE);
+
+		mail($to, $title, $title, $headers);
+	}
+
 }

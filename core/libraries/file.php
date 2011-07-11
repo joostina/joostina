@@ -109,7 +109,6 @@ class joosFile {
 		return (bool) (file_exists($filename) && is_file($filename));
 	}
 
-
 	/**
 	 * Получение MIME типа файла
 	 * 

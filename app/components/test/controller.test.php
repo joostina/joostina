@@ -20,7 +20,6 @@ class actionsTest {
 
 	public static function index() {
 
-		joosFolder::clear('');
 		
 		die();
 

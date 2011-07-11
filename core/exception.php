@@ -50,7 +50,7 @@ class joosException extends Exception {
 			$this->code = $params[':error_code'];
 		}
 
-		
+
 		$this->__toString();
 	}
 
@@ -122,6 +122,20 @@ HTML;
 		$response = array('code' => ($this->getCode() != 0) ? $this->getCode() : 500, 'message' => $this->getMessage());
 
 		return json_encode($response);
+	}
+
+	private static function error_email() {
+
+		// e-mail headers
+		$headers = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-15\n";
+		$headers .= "X-Priority: 3\n";
+		$headers .= "X-MSMail-Priority: Normal\n";
+		$headers .= "X-Mailer: SpoonLibrary Webmail\n";
+		$headers .= "From: Spoon Library <no-reply@spoon-library.com>\n";
+
+		// send email
+		@mail(SPOON_DEBUG_EMAIL, 'Exception Occured', $output, $headers);
 	}
 
 }
