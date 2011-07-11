@@ -20,11 +20,7 @@ class actionsTest {
 
 	public static function index() {
 
-		$a = array(1,'aad',time());
-		
-		joosDebug::dump($a,true );
-		
-		echo 888;
+		joosFolder::clear('');
 		
 		die();
 
