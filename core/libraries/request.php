@@ -27,6 +27,8 @@ class joosRequest {
 	 * @param string $default значение для параметра по умолчани
 	 * @param array $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
 	 * @return mixed результат, массив или строка
+	 * 
+	 * @todo проанализировать необходимоть проверки наличия с empty (isset($vars[$name]) && !empty( $vars[$name] ) ) 
 	 */
 	public static function param($name, $default = null, $vars = false) {
 		$vars = $vars ? $vars : $_REQUEST;

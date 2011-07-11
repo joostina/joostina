@@ -109,69 +109,6 @@ class joosFile {
 		return (bool) (file_exists($filename) && is_file($filename));
 	}
 
-	/**
-	 * Get a list of folders or files or both in a given path.
-	 *
-	 * @param string $path Path to get the list of files/folders
-	 * @param string $listOnly List only files or folders. Use value DooFiles::LIST_FILE or DooFiles::LIST_FOLDER
-	 * @param string $unit Unit for the size of files. Case insensitive units: B, KB, MB, GB or TB
-	 * @param int $precision Number of decimal digits to round the file size to
-	 * @return array Returns an assoc array with keys: name(file name), path(full path to file/folder), folder(boolean), extension, type, size(KB)
-	 */
-	public static function get_list($path, $listOnly=null, $unit='KB', $precision=2) {
-		$path = str_replace('\\', '/', $path);
-		if ($path[strlen($path) - 1] != '/') {
-			$path .= '/';
-		}
-
-		$filetype = array('.', '..');
-		$name = array();
-
-		$dir = @opendir($path);
-		if ($dir === false) {
-			return false;
-		}
-
-		while ($file = readdir($dir)) {
-			if (!in_array(substr($file, -1, strlen($file)), $filetype) && !in_array(substr($file, -2, strlen($file)), $filetype)) {
-				$name[] = $path . $file;
-			}
-		}
-		closedir($dir);
-
-		if (count($name) == 0)
-			return false;
-
-		$fileInfo = array();
-		foreach ($name as $key => $val) {
-			if ($listOnly == self::LIST_FILE) {
-				if (is_dir($val))
-					continue;
-			}
-			if ($listOnly == self::LIST_FOLDER) {
-				if (!is_dir($val))
-					continue;
-			}
-			$filename = explode('/', $val);
-			$filename = $filename[count($filename) - 1];
-			$ext = explode('.', $val);
-
-			if (!is_dir($val)) {
-				$fileInfo[] = array('name' => $filename,
-					'path' => $val,
-					'folder' => is_dir($val),
-					'extension' => strtolower($ext[sizeof($ext) - 1]),
-					'type' => self::mime_content_type($val),
-					'size' => filesize($val)
-				);
-			} else {
-				$fileInfo[] = array('name' => $filename,
-					'path' => $val,
-					'folder' => is_dir($val));
-			}
-		}
-		return $fileInfo;
-	}
 
 	/**
 	 * Получение MIME типа файла
@@ -318,6 +255,29 @@ class joosFile {
 		$r['name'] = $f['basename'];
 
 		return $r;
+	}
+
+	/**
+	 * Преобразование имени файла к безопасному для файлвоой системы виду
+	 * Из строки удаляются все спецсимволы, кирилические символы транслитерируются
+	 * 
+	 * @example  joosFile::make_safe_name('имя файла номер 1 - ( раз)');
+	 * @example  joosFile::make_safe_name(' eminem feat dr.dre i need a doctor.mp3 ');
+	 * 
+	 * @param type $filename
+	 * @return type 
+	 */
+	public static function make_safe_name($filename) {
+		// убираем непроизносимые русские мязкие звуки
+		$filename = str_ireplace(array('ь', 'ъ'), '', $filename);
+		// переводим в транслит
+		$filename = joosText::russian_transliterate($filename);
+		// в нижний регистр
+		$filename = strtolower($filename);
+		// заменям все ненужное нам на "-"
+		$filename = str_replace(array("'", '-'), ' ', $filename);
+		$filename = preg_replace('/[^-a-z0-9._]+/u', '-', $filename);
+		return trim($filename, '-');
 	}
 
 }

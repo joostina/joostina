@@ -419,9 +419,9 @@ class joosText {
 		return strtr($string, $converter);
 	}
 
-	// на основе http://htmlweb.ru/php/example/translit.php
 	/**
 	 * Преобразование строки в URL-безопасный вариант
+	 * 
 	 * @param string $str исходная строка для обработки
 	 * @return string обработанная и готовая для формирования ссылки строка
 	 */
@@ -431,10 +431,10 @@ class joosText {
 		// переводим в транслит
 		$str = self::russian_transliterate($str);
 		// в нижний регистр
-		$str = joosString::strtolower($str);
+		$str = strtolower($str);
 		// заменям все ненужное нам на "-"
 		$str = str_replace(array("'", '-'), ' ', $str);
-		$str = preg_replace('~[^-a-z0-9_]+~u', '-', $str);
+		$str = preg_replace('/[^-a-z0-9_]+/u', '-', $str);
 		return trim($str, '-');
 	}
 
