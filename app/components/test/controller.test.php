@@ -20,6 +20,10 @@ class actionsTest {
 
 	public static function index() {
 
+		//joosCookie::set('test', time(), array('expires' => 'next day', 'secure' => true, 'httponly' => true));
+		//joosCookie::set('test', time(), array('expires' => '+10 day',));
+
+		joosCookie::delete('test');
 		
 		die();
 
