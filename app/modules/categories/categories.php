@@ -21,5 +21,5 @@ require_once joosCore::path('categories', 'module_helper');
 
 $items = categoriesHelper::get_categories($params);
 
-//Подключение шаблона модуля	
+//Подключение шаблона модуля
 require $module->template_path;	

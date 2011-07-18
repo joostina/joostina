@@ -50,5 +50,3 @@ $user_interests = $user->extra($user->id)->interests ? json_decode($user->extra(
     <?php endif; ?>
 
 </div>
-
-

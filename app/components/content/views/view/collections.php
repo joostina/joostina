@@ -57,4 +57,3 @@ defined('_JOOS_CORE') or die(); ?>
     <div class="cl"></div>
 </div>
 <a href="<?php echo joosRoute::href('category_view', array('slug' => $category->slug))?>">Посмотреть всю коллекцию</a>
-

@@ -116,10 +116,4 @@ defined('_JOOS_CORE') or die();
     <?php endif;?>
 </div>
 
-<?php endif; ?>
-
-
-
-
-
-
+<?php endif; 

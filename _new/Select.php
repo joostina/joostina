@@ -142,7 +142,7 @@ class PPI_Model_Select {
      * @var array
      */
 	protected $_where	= array();
-    
+
     /**
      * The ORDER BY part of the SQL
      *

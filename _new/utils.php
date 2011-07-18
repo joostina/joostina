@@ -41,7 +41,7 @@ class joosUtils {
 	}
 
 	/**
-	 * This prevents null characters between ascii characters. 
+	 * This prevents null characters between ascii characters.
 	 * @param string $str String
 	 */
 	function removeInvisibleCharacters($str) {

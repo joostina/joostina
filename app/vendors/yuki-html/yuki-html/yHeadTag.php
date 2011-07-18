@@ -26,4 +26,3 @@ class yHeadTag extends yHtmlTag{
         return $this->appendChild(yHtmlTag::create('meta', array('name'=>$name, 'content'=>$content)));
     }
 }
-

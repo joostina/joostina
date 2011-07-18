@@ -21,5 +21,5 @@ require_once joosCore::path('news', 'module_helper');
 
 $items = newsHelper::get_latest($params);
 
-//Подключение шаблона модуля	
+//Подключение шаблона модуля
 require $module->template_path;	

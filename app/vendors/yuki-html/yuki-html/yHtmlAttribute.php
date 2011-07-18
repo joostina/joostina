@@ -72,4 +72,3 @@ class yHtmlAttribute{
         return $this->_name.'="'.htmlspecialchars($this->get()).'"';
     }
 }
-

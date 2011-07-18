@@ -13,11 +13,11 @@ defined('_JOOS_CORE') or die();
 class joiadminHTML {
 
 	public static function _listing() {
-		
+
 	}
 
 	public static function _edit() {
-		
+
 	}
 
 	public static function header($header, array $extra = array()) {

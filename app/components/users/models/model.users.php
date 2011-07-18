@@ -231,7 +231,7 @@ class Users extends joosModel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @deprecated заменить на актуальный код
 	 */
 	public static function avatar($id, $size = false) {
@@ -486,7 +486,7 @@ class UsersExtra extends joosModel {
 	}
 
 	public function before_store() {
-		
+
 	}
 
 	public static function get_contacts_types() {
@@ -654,7 +654,7 @@ class UserValidations {
 	}
 
 	public static function login() {
-		
+
 	}
 
 	public static function edit() {

@@ -3,7 +3,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * joosAutoadmin - Библиотека автоматической генерации интерфейсов панели управлениями 
+ * joosAutoadmin - Библиотека автоматической генерации интерфейсов панели управлениями
  * Системная библиотека
  *
  * @version 1.0
@@ -319,7 +319,7 @@ class joosAutoadmin {
 		else{
 			//Начало общего контейнера
 			echo $params['wrap_begin'];
-			
+
 			//Вывод элементов
 			echo implode('', $_elements);
 
@@ -918,9 +918,9 @@ class mosMenuBar {
 }
 
 class joosAutoadminFilePluginNotFoundException extends joosException {
-	
+
 }
 
 class joosAutoadminClassPlugionNotFoundException extends joosException {
-	
+
 }

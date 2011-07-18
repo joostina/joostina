@@ -23,7 +23,7 @@ class joosInstall {
 	 * @param type $host
 	 * @param type $user
 	 * @param type $pass
-	 * @param type $db_name 
+	 * @param type $db_name
 	 */
 	public static function check_db($host, $user, $pass, $db_name) {
 

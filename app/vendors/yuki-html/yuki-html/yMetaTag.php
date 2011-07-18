@@ -32,7 +32,7 @@ class yMetaTag extends yHtmlTag{
             $a = array(); // fix initial array("")
 
 
-            
+
 //var_dump($a);
         $a[] = $content;
         $this->setAttribute('content', implode(',', $a));
@@ -46,4 +46,3 @@ class yMetaTag extends yHtmlTag{
         $this->setAttribute('content', implode(',', $a));
     }
 }
-

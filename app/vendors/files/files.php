@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
  * @copyright Copyright &copy; 2009-2010 Leng Sheng Hong
  * @license http://www.doophp.com/license
  * @since 1.3
- * 
+ *
  * @deprecated адаптировать функционал, убрать библиотеку
  */
 

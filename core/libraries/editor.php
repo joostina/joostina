@@ -38,7 +38,7 @@ class joosEditor {
 	 * В классе могут быть объявлены подключения JS и CSS файлов, инициализация переменных
 	 */
 	public static function init() {
-		
+
 	}
 
 	/**

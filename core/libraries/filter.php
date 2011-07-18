@@ -21,8 +21,8 @@ class joosFilter {
 
 	/**
 	 * Преобразует символы в соответствующие HTML сущности
-	 * 
-	 * @param type $value строка для 
+	 *
+	 * @param type $value строка для
 	 * @param string $quoteStyle - одно из доступных значений ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES
 	 * @return type преобразованная строка
 	 */
@@ -32,8 +32,8 @@ class joosFilter {
 
 	/**
 	 * Преобразует специальные символы в HTML сущности
-	 * 
-	 * @param type $value строка для 
+	 *
+	 * @param type $value строка для
 	 * @param string $quoteStyle - одно из доступных значений ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES
 	 * @return type преобразованная строка
 	 */

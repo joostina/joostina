@@ -95,4 +95,3 @@ require 'events.php';
 *  Авто-загружаемые библиотеки
 * joosAutoloader::libraries_load_on_start( array('text', 'session') );
 **/
-

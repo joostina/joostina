@@ -28,5 +28,3 @@ _xdump($params);
 _xdump($object_data);
 
 require $module->template_path;
-
-

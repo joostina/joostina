@@ -31,4 +31,3 @@ class yHtmlTagList{
         return implode("\n", $this->childNodes);
     }
 }
-

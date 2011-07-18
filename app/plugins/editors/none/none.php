@@ -40,7 +40,7 @@ class noneEditor {
 	 * @param string - Название поля формы
 	 */
 	public static function get_content($name, $hiddenField) {
-		
+
 	}
 
 	public static function insert_content($field_name, $content) {

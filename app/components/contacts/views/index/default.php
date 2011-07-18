@@ -74,16 +74,3 @@ joosDocument::instance()->add_js_code('$(".contact_form").validate({errorLabelCo
         </fieldset>
     </form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-

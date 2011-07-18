@@ -113,7 +113,7 @@ define('THUMBNAIL_ALIGN_BOTTOM', +1);
  *
  * @author      Ildar N. Shaimordanov <ildar-sh@mail.ru>
  * @license     http://www.php.net/license/3_0.txt  The PHP License, version 3.0
- * 
+ *
  * */
 class Thumbnail {
 

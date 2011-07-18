@@ -12,4 +12,4 @@ defined('_JOOS_CORE') or die();
 ?>
 
 <h1><?php echo $page->title ?></h1>
-<?php echo $page->text ?>
+<?php echo $page->text 

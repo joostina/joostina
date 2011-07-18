@@ -33,8 +33,8 @@ var validator = $('#m-auto_reg').validate({
 	}
 });
 $.validator.addMethod("usernameRegex",function(value,element){
-	return this.optional(element) || /^[a-zA-Z0-9._-]{3,16}$/i.test(value);  
-},"Username are 3-15 characters");	
+	return this.optional(element) || /^[a-zA-Z0-9._-]{3,16}$/i.test(value);
+},"Username are 3-15 characters");
 EOD;
 joosDocument::instance()->add_js_code($register_js_code);
 

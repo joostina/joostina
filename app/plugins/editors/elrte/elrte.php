@@ -38,8 +38,8 @@ class elrteEditor {
 		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
 
 		$code_on_ready = <<< EOD
-	elRTE.prototype.filter.prototype.replaceTags = false;	
-		
+	elRTE.prototype.filter.prototype.replaceTags = false;
+
 		$().ready(function() {
 			$('#$name').elrte({
 				cssClass : 'el-rte',

@@ -28,7 +28,7 @@ $validate_js_code =
 			element.parent().append(error);
 		},
 		submitHandler: function(form) {
-			ajax_blog(); 
+			ajax_blog();
 		},
 		success: function(label) {
 			label.html('&nbsp;').addClass('checked');
@@ -38,7 +38,7 @@ EOD;
 joosDocument::instance()->add_js_code($validate_js_code);
 
 
-$js_code = "           
+$js_code = "
 	var uploader = new qq.FileUploader({
 		element: $('#file-uploader-blog')[0],
 		multiple: false,

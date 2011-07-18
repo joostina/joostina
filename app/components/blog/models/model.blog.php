@@ -63,7 +63,7 @@ class Blog extends joosModel {
 	 */
 	public $_error_blog;
 
-	/*
+	/**
 	 * Constructor
 	 * @param object Database object
 	 */
@@ -122,7 +122,7 @@ class Blog extends joosModel {
 
 	// после сохранения записи
 	public function after_store() {
-		
+
 		/*
 		//Сохраняем тэги
 		$tags = new Tags;

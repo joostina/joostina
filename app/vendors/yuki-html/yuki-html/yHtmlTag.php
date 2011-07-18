@@ -104,7 +104,7 @@ class yHtmlTag implements ArrayAccess{
     }
     /**
      * Sets attribute.
-     * 
+     *
      * @param string $offset
      * @return yHtmlAttribute
      */

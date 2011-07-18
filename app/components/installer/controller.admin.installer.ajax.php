@@ -20,7 +20,7 @@ joosAutoadmin::dispatch();
 class actionsInstaller {
 
 	public static function index() {
-		
+
 	}
 
 	public static function upload() {

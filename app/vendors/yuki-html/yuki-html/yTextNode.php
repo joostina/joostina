@@ -22,7 +22,7 @@ class yTextNode{
     protected $_value = '';
     /**
      * Constructor.
-     * @param string $text 
+     * @param string $text
      */
     public function __construct($text = ''){
         $this->_value = $text;
@@ -30,7 +30,7 @@ class yTextNode{
     /**
      * Sets node value.
      * @param string $value
-     * @return yTextNode 
+     * @return yTextNode
      */
     public function setValue($value){
         $this->_value = $value;
@@ -51,4 +51,3 @@ class yTextNode{
         return htmlspecialchars($this->_value, ENT_NOQUOTES);
     }
 }
-

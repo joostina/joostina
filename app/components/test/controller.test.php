@@ -9,7 +9,7 @@ defined('_JOOS_CORE') or die();
  *
  * @version 1.0
  * @package Joostina.Components.Controllers
- * @subpackage Tags    
+ * @subpackage Tags
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -24,7 +24,7 @@ class actionsTest {
 		//joosCookie::set('test', time(), array('expires' => '+10 day',));
 
 		joosCookie::delete('test');
-		
+
 		die();
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));

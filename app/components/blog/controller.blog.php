@@ -9,7 +9,7 @@ defined('_JOOS_CORE') or die();
  *
  * @version 1.0
  * @package Joostina.Components.Controllers
- * @subpackage Blog      
+ * @subpackage Blog
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -135,7 +135,7 @@ class actionsBlog extends joosController {
 		if (self::$error) {
 			return;
 		}
-		
+
 		// устанавливаем заголосов страницы
 		joosDocument::instance()
 				->set_page_title($blog->title);
@@ -173,7 +173,7 @@ class actionsBlog extends joosController {
 						array(
 					'select' => "b.*,c.slug AS cat_slug, u.id AS userid, u.username AS username, comm.counter AS comments",
 					'join' => 'AS b INNER JOIN #__blog_category AS c ON ( c.id=b.category_id AND c.state=1 )
-						INNER JOIN #__users AS u ON u.id=b.user_id 
+						INNER JOIN #__users AS u ON u.id=b.user_id
 						LEFT JOIN #__comments_counter AS comm ON (comm.obj_option = "Blog" AND comm.obj_id = b.id)',
 					'where' => $state . ' AND b.user_id = ' . $user->id,
 					'offset' => $pager->offset,

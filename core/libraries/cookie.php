@@ -6,7 +6,7 @@ defined('_JOOS_CORE') or die();
 /**
  * joosCookie - Библиотека работы с куками
  * Системная библиотека
- * 
+ *
  * @version 1.0
  * @package Joostina.Libraries
  * @subpackage Libraries
@@ -21,11 +21,11 @@ class joosCookie {
 
 	/**
 	 * Установка куки
-	 * 
+	 *
 	 * @example joosCookie::set('cookie_name', 'cookie_value'); // просто установка куки с именем cookie_name и значением cookie_value
 	 * @example joosCookie::set('cookie_name', 'cookie_value', array( 'expires'=>'next day' ) ); // установка куки со временем жизни - 1 день
 	 * @example joosCookie::set('cookie_name', 'cookie_value', array( 'expires' => '+1 ', 'secure' => true, 'httponly' => true));
-	 * 
+	 *
 	 * @param string $name название куки
 	 * @param string $value значение куки
 	 * @param array $params массив необязательных параметров, имеет ключи:
@@ -52,10 +52,10 @@ class joosCookie {
 
 	/**
 	 * Получение значения куки по ключу
-	 * 
+	 *
 	 * @example joosCookie::get('cookie_name'); // получение куки с именем cookie_name
 	 * @example joosCookie::get('cookie_name','default_data');  // получение куки с именем cookie_name, если она отсутствует - то будет использовано значение default_data
-	 * 
+	 *
 	 * @param string $name название куки
 	 * @param string $default_value значение куки по умолчанию
 	 * @return string имеющееся значение куки, либо значение переданное в функцию по умолчанию
@@ -66,9 +66,9 @@ class joosCookie {
 
 	/**
 	 * Удаление куки
-	 * 
+	 *
 	 * @example joosCookie::delete( 'cookie_name' ); // удалит куку с именем cookie_name
-	 * 
+	 *
 	 * @param string $name название куки для удаления
 	 * @param array $params массив необязательных параметров, имеет ключи полностью аналогичные необязательным параметрам joosCookie::set
 	 */

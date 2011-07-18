@@ -24,4 +24,3 @@ class yStyleTag extends yHtmlTag{
         $this['type'] = 'text/css';
     }
 }
-

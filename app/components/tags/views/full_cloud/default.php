@@ -15,15 +15,11 @@ defined('_JOOS_CORE') or die();
 <div class="page page_tags">
     <h5>Тэги</h5>
     <br/>
-    <h1 style="clear: both;">Все МегаТэги</h1> 
-    
+    <h1 style="clear: both;">Все МегаТэги</h1>
+
 
         <p>
         <?php echo implode(' ', $tags_cloud);?>
         </p>
-   
+
 </div>
-
-
-
-

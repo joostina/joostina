@@ -12,4 +12,4 @@ defined('_JOOS_CORE') or die();
 <?php $href = joosRoute::href('category_view', array('id' => $cat->id, 'slug' => $cat->slug)); ?>
 <a class="title_item_link" href="<?php echo $href ?>"><?php echo $cat->name ?></a>
 <br/>
-<?php endforeach; ?>
+<?php endforeach; 

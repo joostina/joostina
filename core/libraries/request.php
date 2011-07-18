@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * @todo в mosGetParams была очистка данных. Может, стоит и сюда прикрутить?
- * 
+ *
  * */
 class joosRequest {
 
@@ -27,8 +27,8 @@ class joosRequest {
 	 * @param string $default значение для параметра по умолчани
 	 * @param array $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
 	 * @return mixed результат, массив или строка
-	 * 
-	 * @todo проанализировать необходимоть проверки наличия с empty (isset($vars[$name]) && !empty( $vars[$name] ) ) 
+	 *
+	 * @todo проанализировать необходимоть проверки наличия с empty (isset($vars[$name]) && !empty( $vars[$name] ) )
 	 */
 	public static function param($name, $default = null, $vars = false) {
 		$vars = $vars ? $vars : $_REQUEST;
@@ -240,7 +240,7 @@ class joosRequest {
 	 * @todo реализовать, документировать
 	 */
 	public static function send_headers(){
-		
+
 	}
-	
+
 }

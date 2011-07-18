@@ -27,4 +27,4 @@ defined('_JOOS_CORE') or die();
 
 </div>
 <a class="archive-link" href="<?php echo joosRoute::href('news_archive') ?>">Архив новостей</a>
-<?php echo $pager->output; ?>
+<?php echo $pager->output; 

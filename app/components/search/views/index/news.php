@@ -47,4 +47,4 @@ defined('_JOOS_CORE') or die();
     <?php endforeach; ?>
 </div>
 <?php echo $pager->output ?>
-<?php endif; ?>
+<?php endif; 

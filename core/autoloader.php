@@ -78,7 +78,7 @@ class joosAutoloader {
 	}
 
 	private function __clone() {
-		
+
 	}
 
 	public static function autoload($class) {
@@ -157,7 +157,7 @@ class joosAutoloader {
 	 * Преобразование названия вложенной модели
 	 * Требуется для определения файла содержащего множественный модели единого контроллера
 	 * @example UserGroops => User_Groops
-	 * 
+	 *
 	 * @param type $string
 	 * @return string
 	 */
@@ -166,10 +166,10 @@ class joosAutoloader {
 	}
 
 	/**
-	 * Предстартовая загрузка необходимого списка 
-	 * 
+	 * Предстартовая загрузка необходимого списка
+	 *
 	 * @example joosAutoloader( array('text','array','acl') )
-	 * 
+	 *
 	 * @param array $names
 	 * @return void
 	 */
@@ -194,19 +194,19 @@ class joosAutoloader {
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
 class AutoloaderFileNotFoundException extends joosException {
-	
+
 }
 
 /**
  * Обработка исключений отсутсвия нужных классов в найденных файлах автозагрузчика
  */
 class AutoloaderClassNotFoundException extends joosException {
-	
+
 }
 
 /**
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
 class AutoloaderOnStartFileNotFoundException extends joosException {
-	
+
 }

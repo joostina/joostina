@@ -2604,6 +2604,3 @@ function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter = true)
     }
     return $p_path;
 }
-
-
-?>

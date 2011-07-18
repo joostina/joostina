@@ -20,5 +20,3 @@ defined('_JOOS_CORE') or die(); ?>
 
 <p><?php echo $item->fulltext?></p>
 <div class="cl"></div>
-
-			

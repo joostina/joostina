@@ -37,4 +37,4 @@ defined('_JOOS_CORE') or die();
 </div>
 
 
-<?php endif; ?>
+<?php endif; 

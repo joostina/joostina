@@ -30,4 +30,4 @@
 </body>
 </html>
 
-<?php exit;?>
+<?php exit;

@@ -43,4 +43,4 @@ defined('_JOOS_CORE') or die();
 
 </div>
 
-<?php echo $pager->output; ?>
+<?php echo $pager->output; 

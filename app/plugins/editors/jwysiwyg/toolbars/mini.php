@@ -24,37 +24,37 @@ return "
 	createLink : {visible: false  },
       strikeThrough : { visible : false },
       underline     : { visible : false },
-      
+
       separator00 : { visible : false },
-      
+
       justifyLeft   : { visible : false },
       justifyCenter : { visible : false },
       justifyRight  : { visible : false },
       justifyFull   : { visible : false },
-      
+
       separator01 : { visible : false },
-      
+
       indent  : { visible : false },
       outdent : { visible : false },
-      
+
       separator02 : { visible : false },
-      
+
       subscript   : { visible : false },
       superscript : { visible : false },
-      
+
       separator03 : { visible : false },
-      
+
       undo : { visible : false },
       redo : { visible : false },
-      
+
       separator04 : { visible : false },
-      
+
       insertOrderedList    : { visible : false },
       insertUnorderedList  : { visible : false },
       insertHorizontalRule : { visible : false },
 
       separator07 : { visible : false },
-      
+
       cut   : { visible : false },
       copy  : { visible : false },
       paste : { visible : false }

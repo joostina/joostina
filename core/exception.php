@@ -115,7 +115,7 @@ HTML;
 
 	/**
 	 * Возврат информации об ошибки в JSON-сериализованном виде
-	 * 
+	 *
 	 * @return json string строка с кодом ошибки закодированная в JSON
 	 */
 	private function to_json() {

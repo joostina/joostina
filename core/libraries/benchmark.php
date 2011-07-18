@@ -40,7 +40,7 @@ class joosBenchmark {
 	/**
 	 * Установка точки рассчета времени
 	 * @param string $name название точки рассчера
-	 * 
+	 *
 	 * @return int время прошедшее с установки последней точки до текущей
 	 */
 	public static function mark($name) {
@@ -75,7 +75,7 @@ class joosBenchmark {
 
 	/**
 	 * Очистка всех данных о внутренних точках рассчате и их значениях
-	 * 
+	 *
 	 */
 	public static function clear() {
 		self::$markers = array();
@@ -83,7 +83,7 @@ class joosBenchmark {
 
 	/**
 	 * Получение внутренней информации о точках рассчета времени
-	 * 
+	 *
 	 * @return array массив информации о стоп-точках рассчета времени
 	 */
 	public static function get_markers() {
@@ -92,7 +92,7 @@ class joosBenchmark {
 
 	/**
 	 * Получение полного времени с момента старта до текущего момента
-	 * 
+	 *
 	 * @return float затраченное время
 	 */
 	public static function get_time() {

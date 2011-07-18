@@ -272,7 +272,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-		
+
 	}
 
 	/**
@@ -571,9 +571,9 @@ class joosCore {
 	/**
 	 * Получение инстанции текущего авторизованного пользователя
 	 * Функция поддерживает работу и на фронте и в панели управления сайта
-	 * 
+	 *
 	 * @example joosCore::user() => Объект пользователя Users
-	 * 
+	 *
 	 * @return Users
 	 */
 	public static function user() {
@@ -664,12 +664,12 @@ class joosCore {
 
 	/**
 	 * Установка кода в заголовок страницы
-	 * 
+	 *
 	 * @example joosCore::set_headers_by_code(200);
 	 * @example joosCore::set_headers_by_code(301);
 	 * @example joosCore::set_headers_by_code(404);
 	 * @example joosCore::set_headers_by_code(504);
-	 * 
+	 *
 	 * @param int $code номер кода
 	 */
 	public static function set_headers_by_code($code = 200) {
@@ -750,7 +750,7 @@ class joosLoader {
  * Базовый контроллер Joostina CMS
  * @package Joostina
  * @subpackage Contlroller
- * 
+ *
  * @todo разделить/расширить инициализации контроллера для front, front-ajax, admin, admin-ajax
  */
 class joosController {
@@ -821,7 +821,7 @@ class joosController {
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
 
-		/* 		
+		/*
 		  $path = joosCore::path(self::$controller, 'ajax_controller');
 
 		  if (!is_file($path) || self::$activroute == '404') {
@@ -953,8 +953,8 @@ class joosController {
 }
 
 /**
- * Заглушка для локализации интерфейса 
- * 
+ * Заглушка для локализации интерфейса
+ *
  * @example __('К нам пришёл :username', array(':username'=>'Дед мороз') );
  * @param string $string
  * @param array $args
@@ -1025,5 +1025,5 @@ function _xdump($var) {
 }
 
 class joosCoreException extends joosException {
-	
+
 }

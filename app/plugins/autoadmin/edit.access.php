@@ -21,7 +21,7 @@ class autoadminEditAccess {
 
 	public static function render($element_param, $key, $value, $obj_data, $params, $tabs) {
 		$element = array();
-		
+
 		$data = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data) : null;
 
 		if (!$data) {

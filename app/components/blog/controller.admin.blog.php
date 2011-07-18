@@ -20,7 +20,7 @@ class actionsAdminBlog {
 
 	/**
 	 * Название обрабатываемой модели
-	 * 
+	 *
 	 * @var joosModel модель
 	 */
 	public static $model = 'adminBlog';

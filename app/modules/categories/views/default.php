@@ -27,5 +27,3 @@ defined('_JOOS_CORE') or die();
         <div class="cl"></div>
     </div>
 </div>
-
-

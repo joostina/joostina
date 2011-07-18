@@ -134,7 +134,7 @@ function __($s) {
 				display: none;
 			}
 		</style>
-		
+
 	</head>
 
 	<body>

@@ -21,7 +21,7 @@ class joosMail {
 
 	/**
 	 * Очень упрощённая функция базовой отправки сообщения на email
-	 * 
+	 *
 	 * @param string $to email получателя
 	 * @param string $title заголовк сообщения
 	 * @param string $message текст сообщения

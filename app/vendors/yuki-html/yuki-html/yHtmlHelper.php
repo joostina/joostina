@@ -23,7 +23,7 @@ class yHtmlHelper{
     protected $_dom = null;
     /**
      *
-     * @return yHtmlHelper 
+     * @return yHtmlHelper
      */
     public static function getInstance(){
         if (self::$_instance === null){
@@ -32,7 +32,7 @@ class yHtmlHelper{
         return self::$_instance;
     }
     /**
-     * @return DOMDocument 
+     * @return DOMDocument
      */
     public function getDom(){
         if ($this->_dom === null){
@@ -50,4 +50,3 @@ class yHtmlHelper{
         return $doc->saveXML();
     }
 }
-

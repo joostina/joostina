@@ -9,7 +9,7 @@ foreach ($results as $function => $function_results) {
 	echo sprintf('<h3>Использование: <strong>%s</strong></h3>', $function);
 	echo '<ul>';
 	foreach ($function_results as $function_sample => $result) {
-		
+
 		// возвратила ли функция результат
 		$result = $result===null ? 'Ошибок нет - всё ок, функция ничего не возвращает из себя' : $result;
 

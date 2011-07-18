@@ -56,4 +56,3 @@ if (!defined("PCLERROR_LIB")) {
         return ($g_pcl_error_string . " [code $g_pcl_error_code]");
     }
 }
-?>

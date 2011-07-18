@@ -23,11 +23,11 @@ class actionsAjaxPages {
 
 	/**
 	 * Генерация ссылки на страницу
-	 * 
+	 *
 	 * @return json string
 	 */
 	public static function slug_generator() {
-		
+
 		$title = joosRequest::post('title', '');
 
 		// формируем из введённого заголовка страницы валидный UTL-адрес

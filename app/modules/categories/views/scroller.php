@@ -20,5 +20,3 @@ defined('_JOOS_CORE') or die();
         <?php endforeach; ?>
     </ul>
 </div>
-
-

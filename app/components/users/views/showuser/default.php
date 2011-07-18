@@ -37,4 +37,4 @@ defined('_JOOS_CORE') or die();
 
 <?php //if($user->gid==9 && isset($about->about2)): ?>
 <?php //echo $about->about2;?>
-<?php //endif; ?>
+<?php //endif; 

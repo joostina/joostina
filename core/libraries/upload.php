@@ -27,7 +27,7 @@ class joosUpload {
 	);
 
 	public static function upload() {
-		
+
 	}
 
 }

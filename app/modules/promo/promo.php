@@ -35,4 +35,4 @@ defined('_JOOS_CORE') or die();
     </div>
 </div><!--[3]#promo::END-->
 
-<?php endif; ?>
+<?php endif; 

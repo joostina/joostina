@@ -102,5 +102,3 @@ class zipfile
                . pack('V', strlen($data)) . "\x00\x00";
     }
 }
-
-?>

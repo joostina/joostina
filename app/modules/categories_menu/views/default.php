@@ -31,4 +31,3 @@ array_shift($items);
     </li>
     <?php endforeach; ?>
 </ul>
-

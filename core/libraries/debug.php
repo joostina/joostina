@@ -42,7 +42,7 @@ class joosDebug {
 	}
 
 	private function __clone() {
-		
+
 	}
 
 	public static function add($text, $top = 0) {
@@ -120,10 +120,10 @@ class joosDebug {
 
 	/**
 	 * Вывод информации о переменной
-	 * 
+	 *
 	 * @example joosDebug::dump( array(1, 'aad', time() ), $var_name );
 	 * @example joosDebug::dump( $var_name_1,  $var_name_2,  $var_name_3,  $var_name_4 );
-	 * 
+	 *
 	 * @param mixed функция принимает неограниченное число параметров - переменных для анализа и вывода
 	 */
 	public static function dump() {

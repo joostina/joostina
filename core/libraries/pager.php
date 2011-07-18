@@ -17,12 +17,12 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * @todo переписать joosPager на joosRoute и привести к общему виду
- * 
+ *
  * @author Leng Sheng Hong <darkredz@gmail.com>
  * @link http://www.doophp.com/
  * @copyright Copyright &copy; 2009 Leng Sheng Hong
  * @license http://www.doophp.com/license
- * 
+ *
  * @deprecated замениь на чуть более чем переписанный класс
  * */
 class joosPager {

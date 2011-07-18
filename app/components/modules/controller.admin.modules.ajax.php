@@ -23,7 +23,7 @@ class actionsAjaxModules {
 	}
 
 	public static function index() {
-		
+
 	}
 
 	public static function get_positions() {

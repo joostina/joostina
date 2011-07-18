@@ -42,8 +42,4 @@ defined('_JOOS_CORE') or die();
         <?php endforeach; ?>
     <?php endif; ?>
 
-<?php endif; ?>
-
-
-
-
+<?php endif; 

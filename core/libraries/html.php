@@ -109,10 +109,10 @@ class joosHTML {
 	 * Получение пути до требуемого значка
 	 * В системе используются значки 2х размеров - 16x16 и 32x32
 	 * Функция по умолчанию выводит путь до значка 16x16
-	 * 
+	 *
 	 * @example joosHtml::ico('filenew') => /media/images/icons/16x16/candy/filenew.png
 	 * @example joosHtml::ico('filenew', '32x32') => /media/images/icons/32x32/candy/filenew.png
-	 * 
+	 *
 	 * @param string $name название файла значка
 	 * @param string $size размер значка
 	 */

@@ -19,7 +19,7 @@ defined('_JOOS_CORE') or die();
 class actionsExtrafields extends joosController {
 
 	public static function index() {
-		
+
 	}
 
 }

@@ -150,7 +150,7 @@ class joosDatabase {
 	 */
 	// TODO исправить, метод CLONE используется при кешированиии и сериалзации модели
 	public function __clone() {
-		
+
 	}
 
 	/**
@@ -607,7 +607,7 @@ class joosDatabase {
 
 	/**
 	 * Преобразование массива в объект
-	 * 
+	 *
 	 * @param array $array исходный массив ключ=>значение
 	 * @param object $obj объект, свойства которого будут заполнены значениями сообтветсвующих ключей массива
 	 * @param string $ignore свойства объекта которые следует игнорировать, через пробел ('id title slug')
@@ -637,11 +637,11 @@ class joosDatabase {
 
 	/**
 	 * Быстрое статическое создание модели и доступ к её медотам и свойствам
-	 * 
+	 *
 	 * @example joosDatabase::models('Users')->count()
 	 * @example joosDatabase::model('Blog')->get_list( array('where'=>'sate=1') )
 	 * @example joosDatabase::model('Blog')->save( $_POST )
-	 * 
+	 *
 	 * @param string $model_name
 	 * @return joosModel объект выбранной модели
 	 */
@@ -1041,7 +1041,7 @@ class joosModel {
 
 		$query = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->quote($oid);
 		$result = $this->_db->set_query($query)->load_object($this);
-		
+
 		$events_name = 'model.on_load.' .  $this->classname();
 		joosEvents::has_events($events_name) ? joosEvents::fire_events( $events_name ,$result, $this ) : null;
 
@@ -1302,7 +1302,7 @@ class joosModel {
 	 * @todo прередалать на set_state
 	 * @param array $cid
 	 * @param type $publish
-	 * @return type 
+	 * @return type
 	 */
 	function publish(array $cid = null, $publish = 1) {
 
@@ -1395,7 +1395,7 @@ class joosModel {
 	/**
 	 * @todo понять что это, как работает и описать как пользоваться
 	 * @param type $where
-	 * @return type 
+	 * @return type
 	 */
 	function update_order($where = '') {
 		$k = $this->_tbl_key;

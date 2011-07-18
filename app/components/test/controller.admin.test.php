@@ -9,10 +9,10 @@ defined('_JOOS_CORE') or die();
  *
  * @joostina_admin_menu Тестовая функция. Показывает вариант использования функции joosText::declension
  * @joostina_admin_menu_acl 8,9,10,11. доступно для группа с номерами 8,9,10,11
- * 
+ *
  * @version 1.0
  * @package Joostina.Components.Controllers
- * @subpackage Test     
+ * @subpackage Test
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -22,8 +22,8 @@ defined('_JOOS_CORE') or die();
 class actionsAdminTest {
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @joostina_admin_menu Начало как бэ. Отсюда запускается контроллер
 	 */
 	public static function index() {
@@ -34,7 +34,7 @@ class actionsAdminTest {
 			echo $class = $class_names[1];
 			die();
 		}
-		
+
 		$reflection = new ReflectionClass(__CLASS__);
 
 		echo '<pre>';
@@ -53,10 +53,10 @@ class actionsAdminTest {
 
 	/**
 	 * Вариант использования joosText::declension
-	 * 
+	 *
 	 * @example joosText::declension( 5, array( 'товар', 'товара', 'товаров') );
 	 * @example joosText::declension( 123, array( 'человек', 'человека', 'людей') );
-	 * 
+	 *
 	 * @example_for joosText::declension
 	 * @example_class joosText
 	 * @example_function declension
@@ -66,7 +66,7 @@ class actionsAdminTest {
 	 * @param int $maxlength Number of links for the pager navigation
 	 * @param string $prevText joosText for the Previous button link
 	 * @param string $nextText joosText for the Next button link
-	 * 
+	 *
 	 * @joostina_admin_menu Тестовая функция. Показывает вариант использования функции joosText::declension
 	 * @joostina_admin_menu_acl 8,9,10. доступно для группа с номерами 8,9,10
 	 */

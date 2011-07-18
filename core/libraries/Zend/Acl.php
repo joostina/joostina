@@ -1107,4 +1107,3 @@ class Zend_Acl {
 	}
 
 }
-

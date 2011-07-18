@@ -164,7 +164,7 @@ class Kohana_Route {
 	 */
 	public static $cache = FALSE;
 	/**
-	 * @var  array 
+	 * @var  array
 	 */
 	protected static $_routes = array();
 
@@ -553,7 +553,7 @@ class Kohana_Route {
 				if (isset($this->_defaults[$param])) {
 					$params[$param] = $this->_defaults[$param];
 				} else {
-					// Ungrouped parameters are required				
+					// Ungrouped parameters are required
 					throw new Kohana_Exception('Требуемый параметр :param не найден в полученных данных для условия :uri', array(
 						':param' => $param, ':uri' => joosFilter::htmlspecialchars($this->_uri),
 					));
@@ -613,7 +613,7 @@ class Url {
  * @todo используется в роутинге, переписать, удалить
  */
 class Route extends Kohana_Route {
-	
+
 }
 
 class Kohana_Exception extends joosException {
@@ -623,4 +623,3 @@ class Kohana_Exception extends joosException {
 	}
 
 }
-

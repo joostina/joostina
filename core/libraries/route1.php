@@ -136,7 +136,7 @@ class joosRoute {
 	public static function route() {
 
 		self::instance();
-		
+
 		$_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
 		$routs = self::$instance->dispatch($_SERVER['QUERY_STRING']);
 
@@ -706,25 +706,25 @@ class RouteMap {
  */
 // Base exception
 class ERouteMap extends joosException {
-	
+
 }
 
 // Route name not found in routing tables
 class ERouteMapNotFound extends ERouteMap {
-	
+
 }
 
 // Route match did not find any results
 class ERouteMapNoMatch extends ERouteMap {
-	
+
 }
 
 // Route match did not fulfill all requirements
 class ERouteMapReqs extends ERouteMap {
-	
+
 }
 
 // Multiple routes with same signature but no reqirements
 class ERouteMapNoReqs extends ERouteMap {
-	
+
 }

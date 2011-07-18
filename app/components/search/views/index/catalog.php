@@ -52,4 +52,4 @@ defined('_JOOS_CORE') or die();
     </div>
     <?php ++$i; endforeach;?>
 </div>
-<?php endif; ?>
+<?php endif; 

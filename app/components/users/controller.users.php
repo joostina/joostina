@@ -9,7 +9,7 @@ defined('_JOOS_CORE') or die();
  *
  * @version 1.0
  * @package Joostina.Components.Controllers
- * @subpackage Users    
+ * @subpackage Users
  * @author Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2011 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -155,7 +155,7 @@ class actionsUsers extends joosController {
 		joosCSRF::check_code(1);
 
 		Users::logout();
-		
+
 		$return = joosRequest::param('return');
 		if ($return && !(strpos($return, 'registration') || strpos($return, 'login'))) {
 			joosRoute::redirect($return);
@@ -235,7 +235,7 @@ class actionsUsers extends joosController {
 	 */
 	// TODO обновить до актуального
 	public static function send_new_pass() {
-		
+
 	}
 
 }

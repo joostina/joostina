@@ -178,5 +178,5 @@ class joosModule extends Modules {
 }
 
 class joosModulesException extends joosException {
-	
+
 }

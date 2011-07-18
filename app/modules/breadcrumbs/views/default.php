@@ -31,4 +31,3 @@ if (joosController::$controller == 'content') {
     ?><h1><?php echo $page_header ?></h1><?php
 
 }
-?>

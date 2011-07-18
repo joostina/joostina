@@ -7,7 +7,7 @@ defined('_JOOS_CORE') or die();
  * joosCache - Библиотека кеширования
  * Системная библиотека
  * Базируется на оригинальном класса библиотеки Flourish   http://flourishlib.com/fCache
- * 
+ *
  * @version 1.0
  * @package Joostina.Libraries
  * @subpackage Libraries
@@ -251,5 +251,5 @@ class joosCache {
  * Обработка исключений и ошибок кеширования
  */
 class JoosCacheException extends joosException {
-	
+
 }

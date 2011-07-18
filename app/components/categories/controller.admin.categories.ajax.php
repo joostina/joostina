@@ -15,7 +15,7 @@ class actionsAjaxCategories {
 	private static $implode_model = true;
 
 	public static function index() {
-		
+
 	}
 
 	public static function statuschanger() {

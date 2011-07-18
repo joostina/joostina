@@ -23,5 +23,5 @@ $branch_parent = $current_category->level == 1 ? $current_category : $object_dat
 
 $items = $current_category->get_branch($branch_parent->lft, $branch_parent->rgt);
 
-//Подключение шаблона модуля	
+//Подключение шаблона модуля
 require $module->template_path;

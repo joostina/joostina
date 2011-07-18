@@ -50,7 +50,7 @@ class joosInputFilter {
 	}
 
 	private function __clone() {
-		
+
 	}
 
 	public function process($source) {

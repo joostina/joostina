@@ -40,7 +40,7 @@ class joosEvents {
 
 	/**
 	 * Добавление функции в общий список обработки
-	 * 
+	 *
 	 * @param string $events_name название обытия
 	 * @param mixed $function задача
 	 */
@@ -54,7 +54,7 @@ class joosEvents {
 
 	/**
 	 * Вызов задач повешанных на событие
-	 * 
+	 *
 	 * @param string $events_name название обытия
 	 */
 	public static function fire_events($events_name) {
@@ -76,17 +76,16 @@ class joosEvents {
 
 	/**
 	 * Проверка наличия созданных задач на событие
-	 * 
+	 *
 	 * @param string $events_name название обытия
 	 * @return bool результат наличия событий
 	 */
 	public static function has_events($events_name){
 		return (isset(self::$events[$events_name]) && count(self::$events[$events_name])>0);
 	}
-	
+
 }
 
 function absd() {
 	echo 555;
 }
-
