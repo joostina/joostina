@@ -57,6 +57,12 @@ class joosCache {
 					throw new JoosCacheException(sprintf(__('Расширение кеширования %s недоступно либо не установлено'), $type));
 				}
 				if ($type == 'memcache') {
+
+					if ($data_store == false) {
+						$data_store = new Memcache();
+						$data_store->connect(joosConfig::get2('cache', 'memcache_host'), joosConfig::get2('cache', 'memcache_port'));
+					}
+
 					if (!$data_store instanceof Memcache) {
 						throw new JoosCacheException(__('Объект кеширования не является допустимым объектом Memcache'));
 					}
@@ -251,5 +257,5 @@ class joosCache {
  * Обработка исключений и ошибок кеширования
  */
 class JoosCacheException extends joosException {
-
+	
 }
