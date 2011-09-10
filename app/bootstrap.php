@@ -10,10 +10,6 @@
 // запрет прямого доступа
 DEFINEd('_JOOS_CORE') or die();
 
-//Europe/Moscow // GMT0
-//function_exists('date_default_timezone_set') ? date_default_timezone_set(date_default_timezone_get()) : null;
-// TODO это вообще надо либо настраиваемо, либо убрать либо через другое место сдлеать
-//function_exists('date_default_timezone_set') ? date_default_timezone_set('Europe/Moscow') : null;
 // язык сайта
 DEFINE('JLANG', 'russian');
 
@@ -59,12 +55,28 @@ DEFINE('JDEBUG_TEST_MODE', (bool) isset($_COOKIE['joostinadebugmode']));
 // параметр активации отладки, можно совмещать с JDEBUG_TEST_MODE
 DEFINE('JDEBUG', true);
 
-if (JDEBUG) {
-	// отлаживаем по максимуму
-	error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
-	//error_reporting((JDEBUG ? E_ALL ^ E_STRICT : 0));
-	ini_set('display_errors', 1);
+define('ENVIRONMENT', 'development');
+
+switch (ENVIRONMENT) {
+	case 'development':
+		// установка режима отображения ошибок
+		//error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
+		error_reporting(E_ALL | E_NOTICE | E_STRICT);
+		ini_set('display_errors', 1);
+		break;
+
+	//case 'testing':
+	case 'production':
+		error_reporting(0);
+		ini_set('display_errors', 0);
+		break;
+
+	default:
+		exit('Окружение работы выбрано некорректно.');
 }
+
+// установка часового пояса по умолчанию
+(ini_get('date.timezone') != '') ? : date_default_timezone_set('Europe/Moscow');
 
 // склеивать и кешировать js+css файлы
 DEFINE('JSCSS_CACHE', false);
@@ -73,8 +85,6 @@ DEFINE('JFILE_ANTICACHE', '?v=1');
 // текущее время сервера
 DEFINE('_CURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
 
-// установка режима отображения ошибок
-JDEBUG ? error_reporting(E_ALL | E_NOTICE | E_STRICT) : null;
 
 // ГЛАВНОЕ регулярное выражение для проверки логина-имени пользователя
 DEFINE('_USERNAME_REGEX', '/^[a-zA-Z0-9_-]{3,25}$/iu');
@@ -84,10 +94,15 @@ DEFINE('JSECRET_CODE', 'i-love-joostina');
 
 DEFINE('JADMIN_SESSION_NAME', md5(JPATH_BASE . md5(JSECRET_CODE) . joosRequest::server('HTTP_USER_AGENT')));
 
-//echo JADMIN_SESSION_NAME;
-//die();
 // формат для функций вывода времени на сайте
 DEFINE('JDATE_FORMAT', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime
+
+// права доступа на создаваемые файлы и каталоги
+define('JFILE_READ_MODE', 0644);
+define('JFILE_WRITE_MODE', 0666);
+define('JDIR_READ_MODE', 0755);
+define('JDIR_WRITE_MODE', 0777);
+
 
 require 'events.php';
 

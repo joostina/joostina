@@ -33,6 +33,7 @@ joosEvents::fire_events('system.onstart', 1, 2);
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
+ * @todo добавить возможность указывать файл, который будет непосредственно подключаться при наступлении события, в нём будет проверяться запрашиваемя функция и возможность её выполнения
  * */
 class joosEvents {
 
