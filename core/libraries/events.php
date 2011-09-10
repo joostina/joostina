@@ -86,7 +86,3 @@ class joosEvents {
 	}
 
 }
-
-function absd() {
-	echo 555;
-}

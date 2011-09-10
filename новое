@@ -8,3 +8,29 @@
 
 
 Добавить класс adminTemplate для разруливания интерфейсом админки - туллбарами, шапками и прочими базовыми ништяками
+
+Добавить возможность указывать пути автозагрузчика:
+ * - Single Files AutoLoader::addFile('Blog','/path/to/Blog.php');
+ * - Multiple Files AutoLoader::addFile(array('Blog'=>'/path/to/Blog.php','Post'=>'/path/to/Post.php'));
+ * - Whole Folders AutoLoader::addFolder('path');
+
+Добавить в роутер возможность писать правила проще:
+    $rules = array(
+        'from' => array(
+            ':any',
+            ':maybe',
+            ':digit',
+            ':alpha',
+            ':word',
+            ':index',
+        ),
+        'to' => array(
+            '(.+?)',
+            '(.*?)',
+            '([\d]+)',
+            '([a-z]+)',
+            '([\w-_]+)',
+            '\s*',
+        )
+    );
+

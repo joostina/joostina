@@ -12,3 +12,9 @@ AddDefaultCharset UTF-8
 	#RewriteRule ^(.*)$ ./index.php
 
 </IfModule>
+
+<ifModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif|js|css)$">
+	Header set Cache-Control "max-age=3153600, public"
+    </FilesMatch>
+</ifModule>
