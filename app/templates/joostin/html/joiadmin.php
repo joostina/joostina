@@ -22,16 +22,7 @@ class joiadminHTML {
 
 	public static function header($header, array $extra = array()) {
 
-		$return = '<h1 class="title"><span>' . $header . '</span>';
-
-		//Toolbar
-		require_once (JPATH_BASE_ADMIN . '/includes/menubar.html.php');
-		if ($path = joosMainframe::instance()->getPath('toolbar')) {
-			ob_start();
-			include_once ($path);
-			$return .= ob_get_clean();
-		}
-		$return .= '</h1>';
+		$return = '<h1 class="title"><span>' . $header . '</span></h1>';
 
 		ob_start();
 		mosLoadAdminModule('mosmsg');

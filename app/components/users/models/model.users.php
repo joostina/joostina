@@ -361,19 +361,6 @@ class Users extends joosModel {
 		$user->lastvisitDate = _CURRENT_SERVER_TIME;
 		$user->store();
 
-		// а тут еще ставится кука на год если пользователь решил запоить авторизацию
-		// не работает
-		/**
-		 *         $remember = joosRequest::param('remember',false);
-		 *         if ( $remember ) {
-		 *             // cookie lifetime of 365 days
-		 *             $lifetime = time() + 365 * 24 * 60 * 60;
-		 *             $remCookieName = joosMainframe::remCookieName_Users();
-		 *             //а в конце - ID пользователя в базе
-		 *             $remCookieValue = joosMainframe::remCookieValue_Users($row->username) . joosMainframe::remCookieValue_Pass($hash) . $row->id;
-		 *             setcookie($remCookieName, $remCookieValue, $lifetime, '/');
-		 *         }
-		 */
 		if (isset($params['return'])) {
 			return json_encode(array('user' => $user));
 		} else {
@@ -392,8 +379,6 @@ class Users extends joosModel {
 
 		$lifetime = time() - 86400;
 		setcookie($sessionCookieName, ' ', $lifetime, '/', JCOOKIE_PACH);
-		//session_start();
-		//@session_destroy();
 
 		$query = "DELETE FROM #__session WHERE session_id = " . joosDatabase::instance()->quote($sessionValueCheck);
 		return joosDatabase::instance()->set_query($query)->query();

@@ -128,7 +128,7 @@ class joosDebug {
 	 */
 	public static function dump() {
 
-		joosCore::set_headers_by_code(307);
+		joosRequest::send_headers_by_code(307);
 
 		// обозначение места вызова функции отладки
 		$trace = debug_backtrace();

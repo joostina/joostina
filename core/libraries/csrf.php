@@ -30,7 +30,7 @@ class joosCSRF {
 			$random = date('dmY');
 		}
 
-		return 'joosCSRF-' . joosCSRF::hash(JPATH_BASE . $random . (joosCore::user() ? joosCore::user()->id : 'null' ));
+		return 'joosCSRF-' . self::hash(JPATH_BASE . $random . (joosCore::user() ? joosCore::user()->id : 'null' ));
 	}
 
 	public static function check_code($alt = null, $method = 'post') {
@@ -52,21 +52,15 @@ class joosCSRF {
 		}
 
 		if (!$validate) {
-			header('HTTP/1.0 403 Forbidden');
-			mosErrorAlert( __('В доступе отказано') );
-			return;
+			joosPages::page301();
 		}
 
 		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-			header('HTTP/1.0 403 Forbidden');
-			mosErrorAlert( __('В доступе отказано') );
-			return;
+			joosPages::page301();
 		}
 
 		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			header('HTTP/1.0 403 Forbidden');
-			mosErrorAlert( __('В доступе отказано') );
-			return;
+			joosPages::page301();
 		}
 	}
 

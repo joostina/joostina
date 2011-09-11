@@ -26,204 +26,110 @@ require JPATH_BASE . DS . 'core' . DS . 'autoloader.php';
 require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
 
 /**
- * Корневой клас ядра Joostina!
+ * Главное ядро Joostina CMS
  * @package Joostina
+ * @subpackage Core
  */
-class joosMainframe {
-
-	private static $instance;
-	/**
-	 *  * @var object An object of path variables */
-	private $_path;
-	public static $is_admin = false;
+class joosCore {
 
 	/**
-	 * Инициализация ядра
-	 * @param boolen $is_admin - инициализация в пространстве панели управления
+	 * Флаг работы ядра в режиме FALSE - сайт, TRUE - панель управления
+	 * @var bool
 	 */
-	protected function __construct($is_admin = false) {
-
-		die('Чтоэто?');
-
-		if ($is_admin) {
-			// указываем параметр работы в админ-панели напрямую
-			self::$is_admin = true;
-			//joosConfig::set('admin_icons_path', sprintf('%s/%s/templates/%s/media/images/ico/', JPATH_SITE, JADMIN_BASE, JTEMPLATE));
-			$option = joosRequest::param('option');
-			$this->_setAdminPaths($option);
-		}
-	}
+	private static $is_admin = false;
 
 	/**
-	 * Получение прямой ссылки на объект ядра
-	 * @param boolen $is_admin - инициализация ядра в пространстве панели управления
-	 * @return joosMainframe - объект ядра
+	 * Получение инстанции текущего авторизованного пользователя
+	 * Функция поддерживает работу и на фронте и в панели управления сайта
+	 *
+	 * @example joosCore::user() => Объект пользователя Users
+	 *
+	 * @return Users
 	 */
-	public static function instance($is_admin = false) {
-
-		JDEBUG ? joosDebug::inc('joosMainframe::instance()') : null;
-
-		if (self::$instance === null) {
-			self::$instance = new self($is_admin);
-		}
-
-		return self::$instance;
+	public static function user() {
+		return self::$is_admin ? joosCoreAdmin::user() : Users::instance();
 	}
 
-	function set($property, $value = null) {
-		$this->$property = $value;
+	public static function admin() {
+		self::$is_admin = TRUE;
 	}
 
-	function get($property, $default = null) {
-		return isset($this->$property) ? $this->$property : $default;
-	}
-
-	/**
-	 * Установка переменных окружения для путей
-	 * @param string $name - название переменной пути
-	 * @param string $path  - непосредственно сам путь
-	 */
-	public function setPath($name, $path) {
-		if (is_file($path)) {
-			$this->_path->$name = $path;
-		}
-	}
-
-	private function _setAdminPaths($option, $basePath = JPATH_BASE) {
-		$option = strtolower($option);
-
-		$this->_path = new stdClass();
-
-		// security check to disable use of `/`, `\\` and `:` in $options variable
-		if (strpos($option, '/') !== false || strpos($option, '\\') !== false || strpos($option, ':') !== false) {
-			mosErrorAlert(_ACCESS_DENIED);
-			return;
-		}
-
-		$prefix = substr($option, 0, 4);
-		if ($prefix != 'mod_') {
-			// ensure backward compatibility with existing links
-			$name = $option;
-			$option = $option;
-		} else {
-			$name = substr($option, 4);
-		}
-
-		$template = JTEMPLATE;
-
-		//TODO Здесь какой-то ужысс
-		// components
-		if (file_exists("$basePath/app/templates/$template/components/$name.html.php")) {
-			$this->_path->front = "$basePath/app/components/$option/$name.php";
-			$this->_path->front_html = "$basePath/app/templates/$template/components/$name.html.php";
-		} elseif (file_exists("$basePath/app/components/$option/$name.php")) {
-			$this->_path->front = "$basePath/app/components/$option/$name.php";
-			$this->_path->front_html = "$basePath/capp/omponents/$option/$name.html.php";
-		}
-
-		if (file_exists("$basePath/app/components/$option/admin.$name.php")) {
-			$this->_path->admin = "$basePath/app/components/$option/admin.$name.php";
-			$this->_path->admin_html = "$basePath/app/components/$option/admin.$name.html.php";
-		}
-
-		if (file_exists("$basePath/app/components/$option/toolbar.$name.php")) {
-			$this->_path->toolbar = "$basePath/app/components/$option/toolbar.$name.php";
-			$this->_path->toolbar_html = "$basePath/app/components/$option/toolbar.$name.html.php";
-			$this->_path->toolbar_default = "$basePath/app/core/toolbar.html.php";
-		}
-
-		if (file_exists("$basePath/app/components/$option/$name.class.php")) {
-			$this->_path->class = "$basePath/app/components/$option/$name.class.php";
-		} elseif (file_exists("$basePath/app/components/$option/$name.class.php")) {
-			$this->_path->class = "$basePath/app/components/$option/$name.class.php";
-		} elseif (file_exists("$basePath/core/$name.php")) {
-			$this->_path->class = "$basePath/core/$name.php";
-		}
-
-		if ($prefix == 'mod_' && file_exists("$basePath/app/modules/$option.php")) {
-			$this->_path->admin = "$basePath/app/modules/$option.php";
-			$this->_path->admin_html = "$basePath/app/modules/mod_$name.html.php";
-		} elseif (file_exists("$basePath/app/components/$option/admin.$name.php")) {
-			$this->_path->admin = "$basePath/app/components/$option/admin.$name.php";
-			$this->_path->admin_html = "$basePath/app/components/$option/admin.$name.html.php";
-		} else {
-			$this->_path->admin = "$basePath/app/components/admin/admin.admin.php";
-			$this->_path->admin_html = "$basePath/app/components/admin/admin.admin.html.php";
-		}
-	}
-
-	/**
-	 * Получение пути окружения
-	 * @param string $varname - название переменной
-	 * @param string $option - название компонента дял которого получается переменные окружения
-	 * @return string путь
-	 */
-	public function getPath($varname, $option = '') {
-
-		if ($option) {
-			$temp = $this->_path;
-			$this->_setAdminPaths($option, JPATH_BASE);
-		} else {
-			$temp = '';
-		}
-
-		$result = null;
-		if (isset($this->_path->$varname)) {
-			$result = $this->_path->$varname;
-		} else {
-			switch ($varname) {
-				case 'xml':
-					//$name = substr($option, 4);
-					$path = JPATH_BASE . DS . JADMIN_BASE . "/components/$option/$name.xml";
-					if (file_exists($path)) {
-						$result = $path;
-					} else {
-						$path = JPATH_BASE . "/components/$option/$name.xml";
-						$result = file_exists($path) ? $path : $result;
-					}
-					break;
-
-				case 'mod0_xml':
-					// Site modules
-					if ($option == '') {
-						$path = JPATH_BASE . '/modules/mod_custom/mod_custom.xml';
-					} else {
-						$path = JPATH_BASE . "/modules/$option/$option.xml";
-					}
-					$result = file_exists($path) ? $path :
-							$result;
-					break;
-
-				case 'mod1_xml':
-					// admin modules
-					if ($option == '') {
-						$path = JPATH_BASE . DS . JADMIN_BASE . '/modules/mod_custom/mod_custom.xml';
-					} else {
-						$path = JPATH_BASE . DS . JADMIN_BASE . "/modules/$option/$option.xml";
-					}
-					$result = file_exists($path) ? $path :
-							$result;
-					break;
-
-				case 'menu_xml':
-					$path = JPATH_BASE . DS . JADMIN_BASE . "/components/menus/$option/$option.xml";
-					$result = file_exists($path) ? $path :
-							$result;
-					break;
-			}
-		}
-		if ($option) {
-			$this->_path = $temp;
-		}
-		return $result;
-	}
-
-	/**
-	 * Проверка на работу в режиме сайта или в режиме панели управления
-	 * @return boolean результат проверки. TRUE если панель управления, FALSE если режим сайта
-	 */
 	public static function is_admin() {
-		return self::$is_admin;
+		return (bool) self::$is_admin;
+	}
+
+	/**
+	 * Вычисление пути расположений файлов
+	 * @static
+	 * @param string $name название объекта
+	 * @param string $type тип объекта, компонент, модуль
+	 * @param string $cat категория ( для библиотек )
+	 * @return bool|string
+	 */
+	public static function path($name, $type, $cat = '') {
+
+		(JDEBUG && $name != 'debug') ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
+
+		switch ($type) {
+			case 'controller':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
+				break;
+
+			case 'admin_controller':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
+				break;
+
+			case 'ajax_controller':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
+				break;
+
+			case 'model':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
+				break;
+
+			case 'admin_model':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
+				break;
+
+			case 'view':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'views' . DS . $cat . DS . 'default.php';
+				break;
+
+			case 'admin_view':
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'admin_views' . DS . $cat . DS . 'default.php';
+				break;
+
+			case 'admin_template_html':
+				$file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'html' . DS . $name . '.php';
+				break;
+
+
+			case 'module_helper':
+				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
+				break;
+
+			case 'module_admin_helper':
+				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
+				break;
+
+			case 'lib':
+				$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
+				break;
+
+			case 'lib-vendor':
+				$file = JPATH_BASE . DS . 'app' . DS . 'vendors' . DS . $cat . DS . $name . DS . $name . '.php';
+				break;
+
+			default:
+				break;
+		}
+
+		if (JDEBUG && !is_file($file)) {
+			throw new joosCoreException('Не найден требуемый файл :file для типа :name',
+					array(':file' => $file, ':name' => ($cat ? sprintf('%s ( %s )', $name, $type) : $name )));
+		}
+
+		return $file;
 	}
 
 }
@@ -272,7 +178,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-
+		
 	}
 
 	/**
@@ -556,149 +462,6 @@ class joosDocument {
 }
 
 /**
- * Главное ядро Joostina CMS
- * @package Joostina
- * @subpackage Core
- */
-class joosCore {
-
-	/**
-	 * Флаг работы ядра в режиме FALSE - сайт, TRUE - панель управления
-	 * @var bool
-	 */
-	private static $is_admin = false;
-
-	/**
-	 * Получение инстанции текущего авторизованного пользователя
-	 * Функция поддерживает работу и на фронте и в панели управления сайта
-	 *
-	 * @example joosCore::user() => Объект пользователя Users
-	 *
-	 * @return Users
-	 */
-	public static function user() {
-		return self::$is_admin ? joosCoreAdmin::user() : Users::instance();
-	}
-
-	public static function admin() {
-		self::$is_admin = TRUE;
-	}
-
-	public static function is_admin() {
-		return (bool) self::$is_admin;
-	}
-
-	/**
-	 * Вычисление пути расположений файлов
-	 * @static
-	 * @param string $name название объекта
-	 * @param string $type тип объекта, компонент, модуль
-	 * @param string $cat категория ( для библиотек )
-	 * @return bool|string
-	 */
-	public static function path($name, $type, $cat = '') {
-
-		(JDEBUG && $name != 'debug') ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
-
-		switch ($type) {
-			case 'controller':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
-				break;
-
-			case 'admin_controller':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
-				break;
-
-			case 'ajax_controller':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
-				break;
-
-			case 'model':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
-				break;
-
-			case 'admin_model':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
-				break;
-
-			case 'view':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'views' . DS . $cat . DS . 'default.php';
-				break;
-
-			case 'admin_view':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'admin_views' . DS . $cat . DS . 'default.php';
-				break;
-
-			case 'admin_template_html':
-				$file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE . DS . 'html' . DS . $name . '.php';
-				break;
-
-
-			case 'module_helper':
-				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
-				break;
-
-			case 'module_admin_helper':
-				$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
-				break;
-
-			case 'lib':
-				$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
-				break;
-
-			case 'lib-vendor':
-				$file = JPATH_BASE . DS . 'app' . DS . 'vendors' . DS . $cat . DS . $name . DS . $name . '.php';
-				break;
-
-			default:
-				break;
-		}
-
-		if (JDEBUG && !is_file($file)) {
-			throw new joosCoreException('Не найден требуемый файл :file для типа :name',
-					array(':file' => $file, ':name' => ($cat ? sprintf('%s ( %s )', $name, $type) : $name )));
-		}
-
-		return $file;
-	}
-
-	/**
-	 * Установка кода в заголовок страницы
-	 *
-	 * @example joosCore::set_headers_by_code(200);
-	 * @example joosCore::set_headers_by_code(301);
-	 * @example joosCore::set_headers_by_code(404);
-	 * @example joosCore::set_headers_by_code(504);
-	 *
-	 * @param int $code номер кода
-	 */
-	public static function set_headers_by_code($code = 200) {
-
-		$code_array = array(
-			200 => '200 OK',
-			301 => '301 Moved Permanently',
-			302 => '302 Found',
-			304 => '304 Not Modified',
-			307 => '307 Temporary Redirect',
-			400 => '400 Bad Request',
-			401 => '401 Unauthorized',
-			403 => '403 Forbidden',
-			404 => '404 Not Found',
-			410 => '410 Gone',
-			500 => '500 Internal Server Error',
-			501 => '501 Not Implemented',
-			504 => '504 Gateway Time-out'
-		);
-
-		// code
-		$code_string = isset($code_array[$code]) ? (int) $code : $code_array[$code];
-
-		header('HTTP/1.1 ' . $code_string);
-	}
-
-}
-
-/**
  * Класс подключения файлов
  * @package Joostina
  * @subpackage Loader
@@ -776,16 +539,6 @@ class joosController {
 		$class = 'actions' . ucfirst(self::$controller);
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
-		/*
-		 * Это разруливает автозагрузчик, оставлено для тестирования
-		  $path = joosCore::path(self::$controller, 'controller');
-
-		  if (!is_file($path) || self::$activroute == '404') {
-		  return self::error404();
-		  } else {
-		  require_once ($path);
-		  }
-		 */
 
 		/**
 		 * @todo тут можно переписать из статических методов в общие публичные, тока будет ли в этом профит?
@@ -822,15 +575,6 @@ class joosController {
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
 
-		/*
-		  $path = joosCore::path(self::$controller, 'ajax_controller');
-
-		  if (!is_file($path) || self::$activroute == '404') {
-		  return self::error404();
-		  } else {
-		  require_once ($path);
-		  }
-		 */
 		if (method_exists($class, self::$task)) {
 
 			// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
@@ -968,58 +712,6 @@ function __($string, array $args=null) {
 }
 
 /**
- * Utility function to return a value from a named array or a specified default
- * @param array A named array
- * @param string The key to search for
- * @param mixed The default value to give if no key found
- * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
- */
-//define("_NOTRIM", 0x0001);
-//define("_ALLOWHTML", 0x0002);
-
-function __mosGetParam(&$arr, $name, $def = null, $mask = 0) {
-
-	$return = null;
-	if (isset($arr[$name])) {
-		$return = $arr[$name];
-
-		if (is_string($return)) {
-			$return = (!($mask & _NOTRIM)) ? trim($return) : $return;
-
-			$return = (!($mask & _ALLOWHTML)) ? joosInputFilter::instance()->process($return) : $return;
-		}
-
-		return $return;
-	} else {
-		return $def;
-	}
-}
-
-function mosErrorAlert($text, $action = 'window.history.go(-1);', $mode = 1) {
-	$text = nl2br($text);
-	$text = addslashes($text);
-	$text = strip_tags($text);
-
-	switch ($mode) {
-		case 3:
-			joosRoute::redirect(JPATH_SITE_ADMIN, __($text));
-			break;
-
-		case 2:
-			echo "<script>$action</script> \n";
-			break;
-
-		case 1:
-		default:
-			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
-			echo "<script>alert('$text'); $action</script> \n";
-			break;
-	}
-
-	exit;
-}
-
-/**
  * Убрать, заменить везде и использовать как joosDebug::dump($var);
  * @deprecated
  */
@@ -1028,5 +720,5 @@ function _xdump($var) {
 }
 
 class joosCoreException extends joosException {
-
+	
 }
