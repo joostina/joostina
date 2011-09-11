@@ -64,7 +64,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
 							<?php if (joosController::$controller == 'mainpage'): ?>
 
 								<div class="module m-about">
-									<span class="h2">О проекте</span>
+									<span class="h2">О проекте 111</span>
 
 									<p>В первую очередь, Joostina - это русскоязычный OpenSource-проект, развивающийся силами
 										безгранично любящих его людей. А во вторую очередь - это <strong>профессиональная, быстрая и

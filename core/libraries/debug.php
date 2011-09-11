@@ -26,6 +26,7 @@ class joosDebug {
 	private static $text = null;
 	/* счетчики */
 	private static $_inc = array();
+
 	/**
 	 * Массив внутренней конфигурации отладчика
 	 * @var array
@@ -42,7 +43,7 @@ class joosDebug {
 	}
 
 	private function __clone() {
-
+		
 	}
 
 	public static function add($text, $top = 0) {
@@ -133,9 +134,12 @@ class joosDebug {
 		// обозначение места вызова функции отладки
 		$trace = debug_backtrace();
 		$file_content = self::get_file_context($trace[0]['file'], $trace[0]['line']);
-
-		ob_end_clean();
+		
+		if (ob_get_level()) {
+			ob_end_clean();
+		}
 		ob_start();
+
 		var_dump(func_get_args());
 		$output = ob_get_clean();
 		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);

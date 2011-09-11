@@ -18,7 +18,6 @@ joosDocument::instance()
         ->add_js_file(JPATH_SITE . '/media/js/jquery.js', array('first' => true)) // jquery всегда первое!
         ->add_js_file(JPATH_SITE . '/media/js/jquery.ui/jquery-ui-1.8.7.custom.min.js')
         ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.hotkeys.js')
-        ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.maskedinput.js')
         ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tiptip.js')
         ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.jeditable.js')
         ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tablednd.js')

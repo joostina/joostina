@@ -30,7 +30,7 @@ joosController::init();
 ob_start();
 joosController::run();
 // главное содержимое - стек вывода компонента - mainbody
-joosDocument::set_body(ob_get_clean() );
+joosDocument::set_body(ob_get_clean());
 
 
 ob_start();
@@ -38,9 +38,23 @@ ob_start();
 require_once (JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php');
 joosDocument::$data['html_body'] = ob_get_clean();
 
+echo $html_body = joosDocument::$data['html_body'];
 
-echo joosDocument::$data['html_body'];
+/* эта часть из далёкого будующего
+  $hash = md5($html_body);
 
+  header("Etag: \"" . $hash . "\"");
+
+  if (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&	stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) == '"' . $hash . '"') {
+  joosRequest::send_headers_by_code(304);
+  header('Content-Length: 0');
+  header('X-Powered-By: 304');
+  die();
+  } else {
+  header('X-Powered-By: 200');
+  echo $html_body;
+  }
+ */
 // вывод лога отладки
 if (JDEBUG) {
 
