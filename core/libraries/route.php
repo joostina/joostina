@@ -92,7 +92,7 @@ class joosRoute {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
 			!ob_get_level() ? : ob_end_clean();
-			header('HTTP/1.1 301 Moved Permanently');
+			joosRequest::send_headers_by_code(301);
 			header("Location: " . $url);
 		}
 

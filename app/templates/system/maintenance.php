@@ -1,25 +1,8 @@
 <?php
-/**
- *
- * @version   1.0
- * @author    Paul Dragoonis <dragoonis@php.net>
- * @license   http://opensource.org/licenses/gpl-license.php GNU Public License
- * @copyright Digiflex Development
- * @package   PPI
- */
-	header("HTTP/1.1 500 Internal error");
-?>
 
-<html>
-<head>
-<?php
-  echo '<link rel="stylesheet" href="'.CORECSSPATH.'errors.css'.'" />';
+// запрет прямого доступа
+defined('_JOOS_CORE') or die();
+
+joosRequest::send_headers_by_code(500);
 ?>
-<title>This website is currently undergoing maintenance</title>
-<center>
-	<fieldset>
-		<legend><b>This website is currently undergoing maintenance</b></legend>
-		<br />
-		We are sorry to inform you about downtime for this system, The system administrator is currently working on the system wich will hopefully be functioning soon again.
-	</fieldset>
-</center>
+Техническое обслуживание

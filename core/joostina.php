@@ -644,7 +644,7 @@ class joosController {
 
 	public static function error404() {
 
-		header('HTTP/1.0 404 Not Found');
+		joosRequest::send_headers_by_code(404);
 		header("Status: 404 Not Found");
 
 		if (!joosConfig::get('404_page')) {
@@ -660,7 +660,7 @@ class joosController {
 	}
 
 	public static function ajax_error404() {
-		header('HTTP/1.0 404 Not Found');
+		joosRequest::send_headers_by_code(404);
 		header("Status: 404 Not Found");
 		echo _NOT_EXIST;
 
