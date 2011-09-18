@@ -13,6 +13,8 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+mb_internal_encoding('UTF-8');
+
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
