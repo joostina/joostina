@@ -179,7 +179,7 @@ class actionsUsers extends joosController {
 			self::save_register($validator);
 		} else {
 			return array(
-				'user' => new User,
+				'user' => new Users,
 				'validator' => $validator
 			);
 		}
@@ -227,7 +227,7 @@ class actionsUsers extends joosController {
 	 * Форма восстановления пароля
 	 */
 	public static function lostpassword() {
-		$_POST ? self::send_new_pass() : userHtml::lostpassword();
+		$_POST ? self::send_new_pass() : self::lostpassword();
 	}
 
 	/**

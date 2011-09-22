@@ -1,4 +1,4 @@
-﻿/**
+/**
  * jQuery.placeholder - Placeholder plugin for input fields
  * Written by Blair Mitchelmore (blair DOT mitchelmore AT gmail DOT com)
  * Licensed under the WTFPL (http://sam.zoy.org/wtfpl/).

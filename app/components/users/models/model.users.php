@@ -185,17 +185,6 @@ class Users extends joosModel {
 		return $crypt . ':' . $salt;
 	}
 
-	function get_link($user = false) {
-		$user = $user ? $user : $this;
-
-		$url = 'index.php?option=users&task=user&id=' . sprintf('%s:%s', $user->id, $user->username);
-		return sefRelToAbs($url);
-	}
-
-	public static function profile_link($user) {
-		return sefRelToAbs('index.php?option=com_users&id=' . sprintf('%s:%s', $user->user_id, $user->username));
-	}
-
 	function get_gender($user, $params = null) {
 
 		switch ($user->user_extra->gender) {
@@ -294,7 +283,7 @@ class Users extends joosModel {
 
 		$return = (string) joosRequest::param('return');
 		if ($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))) {
-			$return = $return;
+			//$return = $return;
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
 			$return = $_SERVER['HTTP_REFERER'];
 		} else {

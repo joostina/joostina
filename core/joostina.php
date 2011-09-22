@@ -72,6 +72,8 @@ class joosCore {
 
 		(JDEBUG && $name != 'debug') ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
 
+		$file = false;
+
 		switch ($type) {
 			case 'controller':
 				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
@@ -123,6 +125,8 @@ class joosCore {
 				break;
 
 			default:
+				throw new joosCoreException('Не найдено определние для типа файла :file_type',
+					array(':file_type'=>$type) );
 				break;
 		}
 
@@ -144,7 +148,6 @@ class joosCore {
 class joosDocument {
 
 	private static $instance;
-	private static $title_separator = ' - ';
 	public static $page_body;
 	public static $data = array(
 		'title' => array(),
@@ -354,10 +357,8 @@ class joosDocument {
 	public static function javascript() {
 
 		$result = '';
-		$result .= JSCSS_CACHE ? self::js_files_cache() : self::js_files();
+		$result .= self::js_files();
 		echo $result .= self::js_code();
-
-		//return $result . "\n";
 	}
 
 	public static function js_files() {

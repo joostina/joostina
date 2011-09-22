@@ -59,26 +59,6 @@ class joosString {
 	}
 
 	/**
-	 * Replaces special/accented UTF-8 characters by ASCII-7 'equivalents'.
-	 *
-	 * @author  Andreas Gohr <andi@splitbrain.org>
-	 *
-	 * @param   string   string to transliterate
-	 * @param   integer  -1 lowercase only, +1 uppercase only, 0 both cases
-	 * @return  string
-	 */
-	public static function transliterate_to_ascii($str, $case = 0) {
-		if (!isset(self::$called[__FUNCTION__])) {
-			require SYSPATH . __FUNCTION__ . EXT;
-
-			// Function has been called
-			self::$called[__FUNCTION__] = TRUE;
-		}
-
-		return _transliterate_to_ascii($str, $case);
-	}
-
-	/**
 	 * Returns the length of the given string.
 	 * @see http://php.net/strlen
 	 *
@@ -278,7 +258,7 @@ class joosString {
 					}
 				} else {
 
-					$str = utf8_ireplace($search[$k], $replace, $str, $count);
+					$str = self::str_ireplace($search[$k], $replace, $str, $count);
 				}
 			}
 			return $str;
@@ -789,16 +769,12 @@ class joosString {
 				return iconv('cp1251', 'utf-8//IGNORE//TRANSLIT', $text);
 			}
 
-			if (!function_exists('cp1259_to_utf8')) { // конвертируем собственнвми средствами
-				include_once JPATH_BASE . '/includes/libraries/utf8/to_utf8.php';
-			}
-			return cp1259_to_utf8($text);
+		    throw new joosException('Перекодировка не поддерживается');
 		}
 		return $text;
 	}
 
 	/* проверка на юникод */
-
 	public static function is_utf8(&$data, $is_strict = true) {
 		if (is_array($data)) { // массив
 			foreach ($data as $k => &$v) {

@@ -6,7 +6,7 @@ class joosRequest {
 	 * Получение параметра
 	 * @param string $name название параметра
 	 * @param string $default значение для параметра по умолчани
-	 * @param array $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
+	 * @param array|bool $vars массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
 	 * @return mixed результат, массив или строка
 	 */
 	public static function param($name, $default = null, $vars = false) {

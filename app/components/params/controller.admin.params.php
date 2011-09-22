@@ -95,7 +95,7 @@ class actionsAdminParams {
 
 		if ($result == false) {
 			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
+			return false;
 		}
 
 		switch ($redirect) {

@@ -22,9 +22,9 @@ class joosFilter {
 	/**
 	 * Преобразует символы в соответствующие HTML сущности
 	 *
-	 * @param type $value строка для
+	 * @param string $value строка для
 	 * @param string $quoteStyle - одно из доступных значений ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES
-	 * @return type преобразованная строка
+	 * @return string преобразованная строка
 	 */
 	public static function htmlentities($value, $quoteStyle = ENT_NOQUOTES) {
 		return htmlentities($value, $quoteStyle, 'UTF-8');

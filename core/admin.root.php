@@ -105,14 +105,11 @@ class joosCoreAdmin extends joosCore {
 			joosRoute::redirect(JPATH_SITE . '/' . JADMIN_BASE . '/');
 		}
 
-		// restore some session variables
 		$my = new Users();
 		$my->id = joosRequest::int('session_user_id', 0, $_SESSION);
 		$my->username = joosRequest::session('session_username');
 		$my->groupname = joosRequest::session('session_groupname');
 		$my->gid = joosRequest::int('session_gid', 0, $_SESSION);
-		$my->params = joosRequest::session('session_user_params');
-		$my->bad_auth_count = joosRequest::int('session_user_params', 0, $_SESSION);
 
 		$session_id = joosRequest::session('session_id');
 		$logintime = joosRequest::session('session_logintime');

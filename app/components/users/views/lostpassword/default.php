@@ -28,12 +28,12 @@ defined('_JOOS_CORE') or die();
         </ul>
     </div>
 
-    <form action="<?php echo sefRelToAbs('index.php?option=com_users&task=lostpassword', true) ?>" method="post">
+    <form action="<?php throw new joosException('Переделать!') ?>" method="post">
         <dl class="form_lostpassword">
             <dt><label for="username_f">Введите имя пользователя</label></dt>
             <dd><input type="text" name="username" id="username_f" size="40" value="" class="inputbox" maxlength="20"/>
             </dd>
-            <dt><label for="email_f">или <?php echo _REGISTER_EMAIL; ?></label></dt>
+            <dt><label for="email_f">или email</label></dt>
             <dd><input type="text" name="email" id="email_f" size="40" value="" class="inputbox" maxlength="20"/></dd>
         </dl>
 

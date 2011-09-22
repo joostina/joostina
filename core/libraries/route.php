@@ -44,7 +44,6 @@ class joosRoute {
 
 		self::instance();
 
-
 		$routes = Kohana_Route::all();
 		$params = NULL;
 
@@ -59,7 +58,7 @@ class joosRoute {
 			}
 		}
 
-		joosController::$activroute = $name;
+		joosController::$activroute = 'default';
 		joosController::$controller = $params['controller'];
 		joosController::$task = $params['action'];
 		joosController::$param = $params;

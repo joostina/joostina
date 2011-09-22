@@ -49,7 +49,7 @@ class actionsPages extends joosController {
 
 		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
 		if (self::$error) {
-			return;
+			return false;
 		}
 
 		//Метаинформация страницы

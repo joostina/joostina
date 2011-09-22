@@ -25,7 +25,7 @@ class autoadminEditParams {
 		$data = (isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from'])) ? call_user_func($element_param['html_edit_element_param']['call_from'], $obj_data) : null;
 
 		if (!$data) {
-			return;
+			return false;
 		}
 
 		$element[] = $params['label_begin'];

@@ -12,73 +12,6 @@ defined('_JOOS_CORE') or die();
 
 class actionsAjaxUsers extends joosController {
 
-	public static function index() {
-		joosLoader::lib('valumsfileuploader', 'files');
-		joosLoader::lib('images');
-
-		parse_str($_SERVER['REQUEST_URI'], $r);
-		if (isset($r['?name'])) {
-			$_REQUEST['name'] = $r['?name'];
-		}
-
-		//Загружаем оригинальное изображение (original.png)
-		$file = ValumsfileUploader::upload('original', 'avatars', joosCore::user()->id, false);
-
-		//Путь к оригинальному изображению
-		$img = dirname($file['basename']);
-
-		//Сначала уменьшаем
-		Thumbnail::output($file['basename'], $img . '/avatar.png', array('width' => 100, 'height' => 100));
-		//а потом обрезаем
-		Thumbnail::output($img . '/avatar.png', $img . '/avatar_75x75.png', array('width' => 75, 'height' => 75, 'method' => 1));
-		Thumbnail::output($img . '/avatar_75x75.png', $img . '/avatar_40x40.png', array('width' => 40, 'height' => 40, 'method' => 1));
-
-		echo json_encode(array('location' => $file['location'], 'file_id' => $file['file_id'], 'livename' => $file['livename'], 'success' => true));
-	}
-
-	public static function send_email() {
-
-		$user_id = joosRequest::int('user_id', 0, $_POST);
-		$subject = joosRequest::post('subject');
-		$text = joosRequest::post('text');
-		$text = strip_tags(trim($text));
-
-		if (!joosCore::user()->id) {
-			return json_encode(array('message' => 'Сначала авторизуйтесь'));
-		}
-
-		if (!$user_id) {
-			return json_encode(array('message' => 'Не понятно, кому отправлять письмо'));
-		}
-
-		$message = '<strong>Пользователь сайта Megaplay.ru отправил Вам сообщение:</strong><br/>';
-		if ($subject == '' || $text == '') {
-			return json_encode(array('message' => 'Не хватает данных для отправки'));
-		}
-		$message .= $text;
-
-		$message .= '<br/><br/><strong>Для просмотра информации об отправителе, перейдите в его профиль:</strong><br/>';
-		$recipient = new Users;
-		$recipient->load($user_id);
-		$recipient->user_id = $recipient->id;
-		$message .= '<a href="' . Users::profile_link($recipient) . '">' . Users::profile_link($recipient) . '</a>';
-
-
-		if (mosMail(
-						joosConfig::get2('mail', 'from'), //от кого - email
-						joosConfig::get2('mail', 'name'), //от кого  - имя
-						$recipient->email, //кому - email
-						$subject, //тема
-						$message, //сообщение
-						1
-        )
-		) {
-			return json_encode(array('message' => 'Сообщение успешно отправлено'));
-		} else {
-			return json_encode(array('message' => 'Не удалось отправить сообщение'));
-		}
-	}
-
 	public static function login() {
 
 		//joosSpoof::check_code(null, 1);
@@ -126,12 +59,12 @@ class actionsAjaxUsers extends joosController {
 				return false;
 			} else {
 				echo json_encode(array('success' => 'всё пучком'));
-				return;
+				return true;
 			}
 		} else {
 			//userHtml::register($user, $validator);
 			echo json_encode(array('error' => 'Что-то не так с данными для регистрации'));
-			return;
+			return false;
 		}
 	}
 

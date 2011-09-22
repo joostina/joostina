@@ -74,7 +74,9 @@ class actionsContacts extends joosController {
 			$body .= 'Прикреплённый файл: ' . $file_path;
 		}
 
-		$r = mosMail($from, $fromname, $recipient, $subject, $body);
+		// @todo переделать
+	    throw new joosException('Передалть!');
+		//$r = mosMail($from, $fromname, $recipient, $subject, $body);
 
 		return $r ? joosRoute::redirect(joosRoute::href('contacts'), 'Сообщение отправлено') : joosRoute::redirect(joosRoute::href('contacts'), 'Ошибка при отправке');
 	}

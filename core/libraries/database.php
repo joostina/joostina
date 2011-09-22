@@ -95,28 +95,28 @@ class joosDatabase {
 		$this->_debug = $debug;
 		$this->_table_prefix = $table_prefix;
 
-// проверка доступности поддержки работы с базой данных в php
+		// проверка доступности поддержки работы с базой данных в php
 		if (!function_exists('mysqli_connect')) {
 			$mosSystemError = 1;
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
 
-// попытка соединиться с сервером баз данных
+		// попытка соединиться с сервером баз данных
 		if (!($this->_resource = @mysqli_connect($host, $user, $pass, $db, $port, $socket))) {
 			$mosSystemError = 2;
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
 
-// при активации отладки выполнение дополнительных запросов профилирования
+		// при активации отладки выполнение дополнительных запросов профилирования
 		if ($this->_debug == 1) {
 			mysqli_query($this->_resource, 'set profiling=1');
 			mysqli_query($this->_resource, sprintf('set profiling_history_size=%s', joosConfig::get2('db', 'profiling_history_size', 100)));
 		}
 		;
 
-// устанавливаем кодировку для корректного соединения с сервером базы данных
+		// устанавливаем кодировку для корректного соединения с сервером базы данных
 		mysqli_set_charset($this->_resource, 'utf8');
 	}
 
@@ -126,7 +126,7 @@ class joosDatabase {
 	 */
 	public function __destruct() {
 		if (is_resource($this->_resource)) {
-// TODO это убрать при постоянных соединениях
+			// TODO это убрать при постоянных соединениях
 			mysqli_close($this->_resource);
 		}
 	}
@@ -137,7 +137,7 @@ class joosDatabase {
 	 */
 	public static function instance() {
 
-// отметка получения инстенции базы данных
+		// отметка получения инстенции базы данных
 		JDEBUG ? joosDebug::inc('joosDatabase::instance()') : null;
 
 		if (self::$instance === NULL) {
@@ -159,7 +159,7 @@ class joosDatabase {
 	 */
 // TODO исправить, метод CLONE используется при кешированиии и сериалзации модели
 	public function __clone() {
-		
+
 	}
 
 	/**
@@ -256,7 +256,7 @@ class joosDatabase {
 	 * @return string sql с заменённым преффиксом
 	 */
 	private function replace_prefix($sql, $prefix = '#__') {
-		return str_replace('#__', $this->_table_prefix, $sql);
+		return str_replace($prefix, $this->_table_prefix, $sql);
 	}
 
 	/**
@@ -319,7 +319,7 @@ class joosDatabase {
 	 */
 	public function load_result() {
 
-// TODO, логично, но спорно
+		// TODO, логично, но спорно
 		$this->_limit = 1;
 		$this->_offset = 0;
 
@@ -523,6 +523,7 @@ class joosDatabase {
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 
 		$fields = array();
+		$values = array();
 		foreach (get_object_vars($object) as $k => $v) {
 			if (is_array($v) or is_object($v) or $v === null) {
 				continue;
@@ -541,9 +542,9 @@ class joosDatabase {
 			return false;
 		}
 
-// TODO тут был прямой вызов
+		// TODO тут был прямой вызов
 		$id = $this->insert_id();
-//$id = mysqli_insert_id($this->_resource);
+		//$id = mysqli_insert_id($this->_resource);
 
 		if ($keyName && $id) {
 			$object->$keyName = $id;
@@ -579,8 +580,8 @@ class joosDatabase {
 		}
 
 		array_walk($values, function(&$d) {
-					$d = ' (' . implode(",", $d) . ') ';
-				});
+				$d = ' (' . implode(",", $d) . ') ';
+			});
 
 		$this->set_query(sprintf($fmtsql, implode(",", $fields), implode(",", $values)));
 
@@ -600,6 +601,7 @@ class joosDatabase {
 
 		$fmtsql = "UPDATE $table SET %s  WHERE %s";
 		$tmp = array();
+		$where = '';
 		foreach (get_object_vars($object) as $k => $v) {
 			if (is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
 				continue;
@@ -956,15 +958,39 @@ class joosModel {
 	}
 
 	/**
+	 * Заглушка получения информации о полях
+	 * @return array
+	 */
+	protected function get_fieldinfo(){
+		return array();
+	}
+
+	/**
+	 * Заглушка получения информации о таблице модели
+	 * @return array
+	 */
+	protected function get_tableinfo(){
+		return array();
+	}
+
+	/**
+	 * Заглушка получения информации о вкладках для оформления информации
+	 * @return array
+	 */
+	protected function get_tabsinfo(){
+		return array();
+	}
+
+	/**
 	 * Магический метод восстановления объекта
 	 * Используется при прямом кэшировании модели
 	 * @param array $values - массив значений востановленного объекта
 	 * @return stdClass восстановленный объект модели
 	 */
 	public static function __set_state(array $values) {
-// формируем объект по сохранённым параметрам
+		// формируем объект по сохранённым параметрам
 		$obj = new $values['__obj_name']($values['_tbl'], $values['_tbl_key']);
-// заполняем сохранёнными параметрами настоящие поля модели
+		// заполняем сохранёнными параметрами настоящие поля модели
 		$obj->bind($values);
 
 		return $obj;
@@ -976,9 +1002,9 @@ class joosModel {
 	 */
 	public function to_cache() {
 		$obj = clone $this;
-// удаляем ненужную ссылку на ресурс базы данных и стек ошибок
+		// удаляем ненужную ссылку на ресурс базы данных и стек ошибок
 		unset($obj->_db, $obj->_error);
-// сохраняем оригинальное название модели
+		// сохраняем оригинальное название модели
 		$obj->__obj_name = get_class($obj);
 
 		return $obj;
@@ -1084,7 +1110,7 @@ class joosModel {
 	 */
 	function load($oid) {
 
-// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
+		// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
 		$this->reset();
 
 		$query = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->quote($oid);
@@ -1209,7 +1235,7 @@ class joosModel {
 	/**
 	 * Удаление записи в БД по значению ключевого поля
 	 * Производит непосредственное удаление записи из БД
-	 * @param mix $oid значение ключевого поля
+	 * @param mixed $oid значение ключевого поля
 	 * @return boolean результат удаления
 	 */
 	public function delete($oid) {
@@ -1221,7 +1247,7 @@ class joosModel {
 
 		$this->before_delete();
 
-// активируем "мягкое удаление", т.е. сохраняем копию в корзине
+		// активируем "мягкое удаление", т.е. сохраняем копию в корзине
 		if ($this->_soft_delete) {
 			joosTrash::add($this);
 		}
@@ -1252,7 +1278,7 @@ class joosModel {
 
 		$table = $this->_db->name_quote($table);
 
-// "мягкое" удаление объектов
+		// "мягкое" удаление объектов
 		if ($this->_soft_delete) {
 
 			$obj = clone $this;
@@ -1385,115 +1411,6 @@ class joosModel {
 		return $this->_db->set_query("UPDATE `$this->_tbl` SET `$fieldname` = !`$fieldname` WHERE $this->_tbl_key = $key", 0, 1)->query();
 	}
 
-// TODO понять что куда и главное - зачем
-	function move($dirn, $where = '') {
-		$k = $this->_tbl_key;
-
-		$sql = "SELECT $this->_tbl_key, ordering FROM $this->_tbl";
-
-		if ($dirn < 0) {
-			$sql .= "\n WHERE ordering < " . (int) $this->ordering;
-			$sql .= ( $where ? ' AND ' . $where : '');
-			$sql .= "\n ORDER BY ordering DESC";
-			$sql .= "\n LIMIT 1";
-		} else
-		if ($dirn > 0) {
-			$sql .= "\n WHERE ordering > " . (int) $this->ordering;
-			$sql .= ( $where ? "\n AND $where" : '');
-			$sql .= "\n ORDER BY ordering";
-			$sql .= "\n LIMIT 1";
-		} else {
-			$sql .= "\nWHERE ordering = " . (int) $this->ordering;
-			$sql .= ( $where ? "\n AND $where" : '');
-			$sql .= "\n ORDER BY ordering";
-			$sql .= "\n LIMIT 1";
-		}
-
-		$this->_db->set_query($sql);
-
-		$row = null;
-		if ($this->_db->load_object($row)) {
-			$query = "UPDATE $this->_tbl SET ordering = " . (int) $row->ordering . " WHERE $this->_tbl_key = " . $this->_db->quote($this->$k);
-			$this->_db->set_query($query);
-
-			if (!$this->_db->query()) {
-				$err = $this->_db->get_error_msg();
-				die($err);
-			}
-
-			$query = "UPDATE $this->_tbl SET ordering = " . (int) $this->ordering . " WHERE $this->_tbl_key = " . $this->_db->quote($row->$k);
-			$this->_db->set_query($query);
-
-			if (!$this->_db->query()) {
-				$err = $this->_db->get_error_msg();
-				die($err);
-			}
-
-			$this->ordering = $row->ordering;
-		} else {
-			$query = "UPDATE $this->_tbl SET ordering = " . (int) $this->ordering . " WHERE $this->_tbl_key = " . $this->_db->quote($this->$k);
-			$this->_db->set_query($query);
-			if (!$this->_db->query()) {
-				$err = $this->_db->get_error_msg();
-				die($err);
-			}
-		}
-	}
-
-	/**
-	 * @todo понять что это, как работает и описать как пользоваться
-	 * @param type $where
-	 * @return type
-	 */
-	function update_order($where = '') {
-		$k = $this->_tbl_key;
-
-		if (!array_key_exists('ordering', get_class_vars(strtolower(get_class($this))))) {
-			$this->_error = __("ВНИМАНИЕ: :class_name не поддерживает сортировку.", array(':class_name' => $this->classname()));
-			return false;
-		}
-
-		$query = "SELECT $this->_tbl_key, ordering" . "\n FROM $this->_tbl" . ($where ? "\n WHERE $where" : '') . "\n ORDER BY ordering";
-		$this->_db->set_query($query);
-		if (!($orders = $this->_db->load_object_list())) {
-			$this->_error = $this->_db->get_error_msg();
-			return false;
-		}
-
-		for ($i = 0, $n = count($orders); $i < $n; $i++) {
-			if ($orders[$i]->ordering >= 0) {
-				$orders[$i]->ordering = $i + 1;
-			}
-		}
-
-		$shift = 0;
-		$n = count($orders);
-		for ($i = 0; $i < $n; $i++) {
-			if ($orders[$i]->$k == $this->$k) {
-				$orders[$i]->ordering = min($this->ordering, $n);
-				$shift = 1;
-			} else
-			if ($orders[$i]->ordering >= $this->ordering && $this->ordering > 0) {
-				$orders[$i]->ordering++;
-			}
-		}
-
-		for ($i = 0, $n = count($orders); $i < $n; $i++) {
-			if ($orders[$i]->ordering >= 0) {
-				$orders[$i]->ordering = $i + 1;
-				$query = "UPDATE $this->_tbl" . "\n SET ordering = " . (int) $orders[$i]->ordering . "\n WHERE $k = " . $this->_db->quote($orders[$i]->$k);
-				$this->_db->set_query($query);
-			}
-		}
-
-		if ($shift == 0) {
-			$order = $n + 1;
-			$query = "UPDATE $this->_tbl" . "\n SET ordering = " . (int) $order . "\n WHERE $k = " . $this->_db->quote($this->$k);
-			$this->_db->set_query($query);
-		}
-		return true;
-	}
-
 	/**
 	 * Возвращает число записей в таблице БД активной модели
 	 * @param string $where дополнительное условие для подсчета числа записей, например "WHERE state=1"
@@ -1576,7 +1493,7 @@ class joosModel {
 	public function get_select_one_to_many($table_values, $table_keys, $key_parent, $key_children, array $params = array()) {
 
 		$select = isset($params['select']) ? $params['select'] : 't_val.*';
-		$where = isset($params['where']) ? 'WHERE ' . $params['where'] : "WHERE t_key.$key_parent = $this->id ";
+		$where = isset($params['where']) ? 'WHERE ' . $params['where'] : "WHERE t_key.$key_parent = $this->{$this->_tbl_key} ";
 		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] : '';
 		$offset = isset($params['offset']) ? intval($params['offset']) : 0;
 		$limit = isset($params['limit']) ? intval($params['limit']) : 0;
@@ -1589,10 +1506,10 @@ class joosModel {
 // сохранение значение одного ко многим
 	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, $values) {
 
-//сначала чистим все предыдущие связи
+		//сначала чистим все предыдущие связи
 		$this->_db->set_query("DELETE FROM $name_table_keys WHERE $key_name=$key_value ")->query();
 
-// фомируем массив сохраняемых значений
+		// фомируем массив сохраняемых значений
 		$vals = array();
 		foreach ($values as $value) {
 			$vals[] = " ($key_value, $value  ) ";
@@ -1627,7 +1544,7 @@ class joosModel {
 
 	/**
 	 * Загрузка значение текущей модели через указание произвольных свойств модели
-	 * 
+	 *
 	 * @param array $params массив параметров для условий выборки
 	 * @return boolean результат поиска и загрузки значений в свойства текущей модели
 	 */
@@ -1708,7 +1625,7 @@ class joosModel {
 
 	/**
 	 * Вставка массива значений в таблицу текущего объекта
-	 * 
+	 *
 	 * @example
 	 * $values = array(
 	 * 	0 => array(
@@ -1724,7 +1641,7 @@ class joosModel {
 	 * 		'counter' => 123456
 	 * 	),
 	 * );
-	 * 
+	 *
 	 * @param array $array_values
 	 * @return bool результат вставки массива
 	 */

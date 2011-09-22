@@ -23,11 +23,3 @@ $last = count($items) - 1;
     <?php echo $key == $last ? '' : ' / ' ?>
     <?php endforeach; ?>
 </div>
-<?php
-return;
-$page_header = $items[$last];
-if (joosController::$controller == 'content') {
-    $page_header = $items[1];
-    ?><h1><?php echo $page_header ?></h1><?php
-
-}

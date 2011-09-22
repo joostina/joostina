@@ -46,8 +46,7 @@ joosDocument::instance()->add_js_code('$(".contact_form").validate({errorLabelCo
                     <td>
                         <div class="type_file">
                             <input type="file" name="qqfile"
-                                   onchange="document.getElementById(&quot;fileName&quot;).value=this.value"
-                                   class="inputFile" size="45">
+                                   onchange="document.getElementById('fileName').value=this.value" class="inputFile" size="45">
 
                             <div class="fonTypeFile"></div>
                             <input type="text" name="fileName" id="fileName" readonly="readonly" class="inputFileVal">

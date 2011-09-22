@@ -105,13 +105,6 @@ class joosCache {
 					$ttl = time() + 2592000;
 				}
 				return $this->data_store->add($key, serialize($value), 0, $ttl);
-
-			case 'xcache':
-				if (xcache_isset($key)) {
-					return FALSE;
-				}
-				xcache_set($key, serialize($value), $ttl);
-				return TRUE;
 		}
 	}
 
@@ -128,10 +121,6 @@ class joosCache {
 
 			case 'memcache':
 				$this->data_store->flush();
-				return;
-
-			case 'xcache':
-				xcache_clear_cache(XC_TYPE_VAR, 0);
 				return;
 		}
 	}
@@ -153,9 +142,6 @@ class joosCache {
 				$this->data_store->delete($key);
 				return;
 
-			case 'xcache':
-				xcache_unset($key);
-				return;
 		}
 	}
 
@@ -187,12 +173,6 @@ class joosCache {
 				}
 				return unserialize($value);
 
-			case 'xcache':
-				$value = xcache_get($key);
-				if ($value === FALSE) {
-					return $default;
-				}
-				return unserialize($value);
 		}
 	}
 
@@ -245,9 +225,6 @@ class joosCache {
 				}
 				return;
 
-			case 'xcache':
-				xcache_set($key, serialize($value), $ttl);
-				return;
 		}
 	}
 

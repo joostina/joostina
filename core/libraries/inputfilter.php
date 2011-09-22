@@ -19,6 +19,9 @@ defined('_JOOS_CORE') or die();
  * */
 class joosInputFilter {
 
+	/**
+	 * @var joosInputFilter
+	 */
 	private static $instance;
 	protected $tagsArray;
 	protected $attrArray;

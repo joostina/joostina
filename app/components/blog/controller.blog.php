@@ -133,7 +133,7 @@ class actionsBlog extends joosController {
 
 		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
 		if (self::$error) {
-			return;
+			return false;
 		}
 
 		// устанавливаем заголосов страницы

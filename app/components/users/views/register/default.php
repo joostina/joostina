@@ -9,11 +9,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-load_jquery_plugins('jquery.validate');
-
-//_xdump($validator->get_js_validator('rules'));
-//die();
-
 $register_js_code = <<<EOD
 <script language="javascript">
 	$(document).ready(function() {

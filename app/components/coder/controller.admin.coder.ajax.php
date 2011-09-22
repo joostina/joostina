@@ -96,7 +96,8 @@ class actionsAjaxCoder {
 
 			// @todo переделать на joosFile
 			$_blank = '<html><body></body></html>';
-			$file = new Files;
+			// @todo переделать
+			$file = new joosFile;
 			$file->create($c_path);
 			$file->create($c_path . DS . 'index.html', $_blank);
 			$file->create($c_path . DS . 'views');

@@ -134,7 +134,7 @@ class actionsAdminCategories {
 
 		if ($obj->save($_POST) === false) {
 			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
+			return false;
 		}
 
 		//Сохранение дополинтельной информации о категории

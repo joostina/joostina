@@ -23,7 +23,7 @@ defined('_JOOS_CORE') or die();
  * @copyright Copyright &copy; 2009 Leng Sheng Hong
  * @license http://www.doophp.com/license
  *
- * @deprecated замениь на чуть более чем переписанный класс
+ * @todo замениь на чуть более чем переписанный класс
  * */
 class joosPager {
 
@@ -124,6 +124,10 @@ class joosPager {
 	 */
 	public $limit;
 	public $offset;
+	/**
+	 * @var string
+	 */
+	private $_output;
 
 	/**
 	 * Instanciate the Pager object

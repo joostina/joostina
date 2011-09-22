@@ -77,6 +77,7 @@ class joosFile {
 	 * Move/rename a file/folder
 	 * @param string $from Original path of the folder/file
 	 * @param string $to Destination path of the folder/file
+	 * @param int $chmod
 	 * @return bool Returns true if file/folder created
 	 */
 	public static function move($from, $to, $chmod = null) {

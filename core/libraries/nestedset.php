@@ -249,7 +249,7 @@ class joosNestedSet extends joosModel {
 		}
 
 		if (!$b = $this->_get_node($b_id)) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $iId . ')');
+			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $id . ')');
 			$this->_set_error($error);
 			return false;
 		}

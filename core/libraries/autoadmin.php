@@ -59,16 +59,12 @@ class joosAutoadmin {
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
-		//Установка тулбаров
-		//Если тулбары определены в компоненте - выводим их
-		//self::toolbar();
-
 		if (method_exists($class, $task)) {
 			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
-			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
 		} elseif (method_exists($class, 'index')) {
 			echo call_user_func_array($class . '::index', array($option, $id, $page, $task));
-			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
 		} else {
 			throw new joosException('Контроллер :controller, либо требуемая задача :task не найдены.', array(
 				':controller'=>$class,
@@ -426,7 +422,6 @@ class joosAutoadmin {
 	public static function get_component_title($name) {
 		$admin_model = 'admin' . ucfirst($name);
 
-		//joosLoader::admin_model($name);
 		$admin_model = new $admin_model;
 		$titles = $admin_model->get_tableinfo();
 		$component_title = isset($titles['header_main']) ? $titles['header_main'] : '';

@@ -19,21 +19,6 @@ defined('_JOOS_CORE') or die();
  * */
 class joosArray {
 
-	public static function array_to_ints(&$array, $default = null) {
-
-		if (is_array($array)) {
-			$array = array_map('intval', $array);
-		} else {
-			if (is_null($default)) {
-				$array = array();
-				return array();
-			} else {
-				$array = array((int) $default);
-				return array($default);
-			}
-		}
-	}
-
 	/**
 	 * ArrayTools::get_position()
 	 *
