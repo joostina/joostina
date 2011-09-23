@@ -87,10 +87,9 @@ class joosAutoadmin {
 
 		$task = joosRequest::param('task', 'index');
 		$option = joosRequest::param('option');
-		$class = 'actionsAjax' . ucfirst($option);
+		$class = 'actionsAjaxAdmin' . ucfirst($option);
 
 		JDEBUG ? joosDebug::add($class . '::' . $task) : null;
-
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array()) : null;
