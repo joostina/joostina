@@ -15,9 +15,14 @@ defined('_JOOS_CORE') or die();
 
 mb_internal_encoding('UTF-8');
 
-// разделитель каталогов
+/**
+ * Короткий синоним разделителя каталогов
+ */
 define('DS', DIRECTORY_SEPARATOR);
-// корень файлов
+
+/**
+ * Корень системы, на уровень выше текущего каталога
+ */
 define('JPATH_BASE', dirname(__DIR__));
 
 // Обработчик ошибок
@@ -132,7 +137,7 @@ class joosCore {
 
 		if (JDEBUG && !is_file($file)) {
 			throw new joosCoreException('Не найден требуемый файл :file для типа :name',
-					array(':file' => $file, ':name' => ($cat ? sprintf('%s ( %s )', $name, $type) : $name )));
+				array(':file' => $file, ':name' => ($cat ? sprintf('%s ( %s )', $name, $type) : $name )));
 		}
 
 		return $file;
@@ -183,7 +188,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-		
+
 	}
 
 	/**
@@ -328,7 +333,7 @@ class joosDocument {
 		}
 
 		/**
-		  @var $this self */
+		@var $this self */
 		return $this;
 	}
 
@@ -570,11 +575,12 @@ class joosController {
 	}
 
 	/**
-	 * Автоматическое определение и запуск метода действия для Аякс-азпросов
+	 * Автоматическое определение и запуск метода действия для Аякс-запросов
+	 * @static
 	 */
 	public static function ajax_run() {
 
-		$class = 'actions' . ucfirst(self::$controller);
+		$class = 'actionsAjax' . ucfirst(self::$controller);
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
 
@@ -597,36 +603,22 @@ class joosController {
 		}
 	}
 
-	public static function set_json_data(array $add_to_json) {
-		self::$jsondata['extradata'] += $add_to_json;
-	}
-
 	private static function views(array $params, $option, $task) {
 
 		//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
 		self::prepare_modules_for_current_page($params, $option, $task);
-
-		(isset($params['as_json']) && $params['as_json'] == true) ? self::as_json($params) : self::as_html($params, $option, $task);
+		self::as_html($params, $option, $task);
 	}
 
-	private static function as_html(array $params, $option, $task) {
+	private static function as_html(array $params, $controller, $method) {
 
 		$template = isset($params['template']) ? $params['template'] : 'default';
-		$views = isset($params['task']) ? $params['task'] : $task;
+		$views = isset($params['method']) ? $params['method'] : $method;
 
 		extract($params, EXTR_OVERWRITE);
-		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'views' . DS . $views . DS . $template . '.php';
-
-		unset($params, $option, $task);
+		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $views . DS . $template . '.php';
 
 		is_file($viewfile) ? require ($viewfile) : null;
-	}
-
-	private static function as_json(array $params) {
-		unset($params['as_json']);
-
-		echo json_encode($params);
-		exit();
 	}
 
 	/**
@@ -639,12 +631,14 @@ class joosController {
 	 * @return void
 	 */
 	private static function prepare_modules_for_current_page(array $params, $option, $task) {
-
 		joosModule::modules_by_page($option, $task, $params);
-
-		unset($params);
 	}
 
+	/**
+	 * Системный вызов 404 страницы
+	 *
+	 * @static
+	 */
 	public static function error404() {
 
 		joosRequest::send_headers_by_code(404);
@@ -723,5 +717,5 @@ function _xdump($var) {
 }
 
 class joosCoreException extends joosException {
-	
+
 }

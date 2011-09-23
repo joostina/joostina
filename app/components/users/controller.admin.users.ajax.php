@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsAjaxUsers{
+class actionsAjaxAdminUsers{
 
 	public static function statuschanger() {
 		return joosAutoadmin::autoajax();

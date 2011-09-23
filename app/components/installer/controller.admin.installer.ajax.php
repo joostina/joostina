@@ -15,9 +15,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosAutoadmin::dispatch();
-
-class actionsInstaller {
+class actionsAjaxAdminInstaller {
 
 	public static function index() {
 

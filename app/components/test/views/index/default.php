@@ -12,5 +12,5 @@ defined('_JOOS_CORE') or die();
 
 // это у нас вьюшка для components/test, конкртено для функции viewtest
 
-$vars = get_defined_vars();
-_xdump($vars);
+//$vars = get_defined_vars();
+//_xdump($vars);

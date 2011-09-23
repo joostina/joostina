@@ -34,34 +34,41 @@ class joosModule extends Modules {
 
 	/**
 	 * Загрузка ВСЕХ модулей для текущей страницы
+	 * @static
+	 * @param string $controller текущий контроллер
+	 * @param string $method метод текущего контроллера
+	 * @param array $object_data
 	 */
 	public static function modules_by_page($controller, $method, $object_data = array()) {
-		$modules_pages = new ModulesPages;
 
+		$modules_pages = new ModulesPages;
 		$modules = $modules_pages->get_list(
-						array(
-							'select' => "mp.*,m.*",
-							'join' => 'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )',
-							'where' => 'mp.controller = "all" OR mp.controller = "' . $controller . '"', 'order' => 'm.position, m.ordering')
+			array(
+				'select' => "mp.*,m.*",
+				'join' => 'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )',
+				'where' => sprintf("mp.controller = 'all' OR mp.controller ='%s'",$controller),
+				'order' => 'm.position, m.ordering')
 		);
 
-		$by_position = array();
-		$by_name = array();
-		$by_id = array();
+		if( count($modules)>0 ){
+			$by_position = array();
+			$by_name = array();
+			$by_id = array();
 
-		foreach ($modules as $module) {
-			if ($module->controller == 'all' || (!$module->method || ($module->method == $method))) {
-				$by_position[$module->position][$module->id] = $module;
-				$by_name[$module->module] = $module;
-				$by_id[$module->id] = $module;
+			foreach ($modules as $module) {
+				if ($module->controller == 'all' || (!$module->method || ($module->method == $method))) {
+					$by_position[$module->position][$module->id] = $module;
+					$by_name[$module->module] = $module;
+					$by_id[$module->id] = $module;
+				}
 			}
+
+			self::$data += $by_position;
+			self::$data += $by_name;
+			self::$data += $by_id;
+
+			self::$_object_data = $object_data;
 		}
-
-		self::$data += $by_position;
-		self::$data += $by_name;
-		self::$data += $by_id;
-
-		self::$_object_data = $object_data;
 	}
 
 	/**
@@ -126,7 +133,7 @@ class joosModule extends Modules {
 		// проверяем доступность основного файла модуля
 		if (!is_file($file)) {
 			throw new joosModulesException('Файл модуля :module_name не обнаружен в ожидаемом месте :module_location',
-					array(':module_name' => $name, ':module_location' => $file, ':error_code' => 404)
+				array(':module_name' => $name, ':module_location' => $file, ':error_code' => 404)
 			);
 		}
 
@@ -155,7 +162,7 @@ class joosModule extends Modules {
 		// проверяем доступность файла шаблона модуля и подключаем его
 		if ($params['modules_no_template'] == false && !is_file($params['template'])) {
 			throw new joosModulesException('Шаблон для модуля :module_name не обнаружен в ожидаемом месте :template_location',
-					array(':template_location' => $params['template'], ':module_name' => $name, ':module_location' => $file, ':error_code' => 404)
+				array(':template_location' => $params['template'], ':module_name' => $name, ':module_location' => $file, ':error_code' => 404)
 			);
 			// в шаблоне явно не указано что он может работать без внешнего шаблона
 		} elseif ($params['modules_no_template'] == false) {

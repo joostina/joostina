@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsBlog extends joosController {
+class actionsAjaxBlog extends joosController {
 
 	public static function index() {
 

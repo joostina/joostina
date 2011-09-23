@@ -18,9 +18,15 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsTest {
 
+	/**
+	 * Метод контроллера, запускаемый по умолчанию
+	 *
+	 * @static
+	 * @return array
+	 */
 	public static function index() {
 
-		joosCookie::delete('test');
+
 
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));

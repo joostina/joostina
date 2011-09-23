@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsAjaxCategories {
+class actionsAjaxAdminCategories {
 
 	private static $implode_model = true;
 

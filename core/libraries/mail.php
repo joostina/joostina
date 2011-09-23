@@ -22,6 +22,10 @@ class joosMail {
 	/**
 	 * Очень упрощённая функция базовой отправки сообщения на email
 	 *
+	 * @example
+	 * joosMail::simply('admin@examle.com','Hello!','From Russia!');
+	 *
+	 *
 	 * @param string $to email получателя
 	 * @param string $title заголовк сообщения
 	 * @param string $message текст сообщения
@@ -32,10 +36,12 @@ class joosMail {
 		$headers .= "Content-type: text/html; charset=utf-8\n";
 		$headers .= "X-Priority: 3\n";
 		$headers .= "X-MSMail-Priority: Normal\n";
-		$headers .= "X-Mailer: Joostina CMF mail\n";
-		$headers .= sprintf("From: Joostina::core <no-reply@%s>\n", JPATH_SITE);
+		$headers .= "X-Mailer: JoostinaCoreMail\n";
+		$headers .= sprintf("From: JoostinaCore <no-reply@jooo.local>\n", JPATH_SITE);
 
-		mail($to, $title, $title, $headers);
+		echo $headers;
+
+		echo mail($to, $title, $message, $headers) ? 'круто' : 'херова';
 	}
 
 }

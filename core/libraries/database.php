@@ -48,7 +48,7 @@ class joosDatabase {
 	 * Префикс таблиц активного соединения
 	 * @var string
 	 */
-	protected $_table_prefix;
+	protected $_table_prefix = 'jos_';
 
 	/**
 	 * Ресурс активного соединения с базой данных
@@ -82,18 +82,17 @@ class joosDatabase {
 
 	/**
 	 * Конструктор открывающий соединение с базой данных
+	 *
 	 * @param string $host - хост базы данных, обычно localhost
 	 * @param string $user - имя пользователя базы данных
 	 * @param string $pass - пароль соединения с базой данных
 	 * @param string $db - название базы данных
-	 * @param string $table_prefix - преффикс таблиц базы данных
 	 * @param boolean $debug - активность отладки рабюоты с базой данных
 	 * @param int $port - порт сервера MySQL
 	 * @param string $socket - сокет MySQL
 	 */
-	protected function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $table_prefix = '#__', $debug = 0, $port = null, $socket = null) {
+	protected function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $debug = 0, $port = null, $socket = null) {
 		$this->_debug = $debug;
-		$this->_table_prefix = $table_prefix;
 
 		// проверка доступности поддержки работы с базой данных в php
 		if (!function_exists('mysqli_connect')) {
@@ -142,7 +141,7 @@ class joosDatabase {
 
 		if (self::$instance === NULL) {
 			$db_config = joosConfig::get('db');
-			$database = new joosDatabase($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name'], $db_config['prefix'], $db_config['debug']);
+			$database = new self($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name'], $db_config['debug']);
 
 			if ($database->get_error_num()) {
 				$mosSystemError = $database->get_error_num();
@@ -227,6 +226,15 @@ class joosDatabase {
 	}
 
 	/**
+	 * Установка префикса таблиц базы данных
+	 *
+	 * @param string $prefix
+	 */
+	public function set_prefix( $prefix ) {
+		$this->_table_prefix = $prefix;
+	}
+
+	/**
 	 * Получение нулевого значения времени для использования по умолчанию в sql запросах
 	 * @return string строка определяющая нулевое значение времени для использования в базе
 	 */
@@ -243,7 +251,7 @@ class joosDatabase {
 	 * @return joosDatabase
 	 */
 	public function set_query($sql, $offset = 0, $limit = 0) {
-		$this->_sql = $this->replace_prefix($sql, $this->_table_prefix);
+		$this->_sql = $this->replace_prefix($sql);
 		$this->_limit = (int) $limit;
 		$this->_offset = (int) $offset;
 		return $this;
@@ -252,11 +260,10 @@ class joosDatabase {
 	/**
 	 * Замена преффикса таблиц базы данных
 	 * @param string $sql текст sql запроса для замены преффикса
-	 * @param string $prefix строка преффикса
 	 * @return string sql с заменённым преффиксом
 	 */
-	private function replace_prefix($sql, $prefix = '#__') {
-		return str_replace($prefix, $this->_table_prefix, $sql);
+	private function replace_prefix($sql) {
+		return str_replace('#__', $this->_table_prefix, $sql);
 	}
 
 	/**
@@ -749,7 +756,7 @@ class joosDatabaseUtils extends joosDatabase {
 	 * @return array массив таблиц текущей базы данных
 	 */
 	public function get_table_list($only_joostina = true) {
-		$only_joostina = $only_joostina ? " LIKE '" . $this->db()->_table_prefix . "%' " : '';
+		$only_joostina = $only_joostina ? " LIKE '" . $this->_db->_table_prefix . "%' " : '';
 		return $this->_db->set_query('SHOW TABLES ' . $only_joostina)->load_result_array();
 	}
 
