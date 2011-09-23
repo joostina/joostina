@@ -41,6 +41,7 @@ class joosCore {
 
 	/**
 	 * Флаг работы ядра в режиме FALSE - сайт, TRUE - панель управления
+
 	 * @var bool
 	 */
 	private static $is_admin = false;
