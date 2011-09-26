@@ -83,7 +83,7 @@ class joosAutoloader {
 
 	public static function autoload($class) {
 
-		$file = $class . '.php';
+		//$file = $class . '.php';
 
 		// первый шаг - ищем класс в жестко прописанных параметрах
 		if (isset(self::$_static_files[$class])) {
@@ -118,7 +118,7 @@ class joosAutoloader {
 		}
 
 
-		$file = '';
+		//$file = '';
 
 		// модели панели упралвения
 		if (strpos($class, 'admin', 0) === 0) {

@@ -26,7 +26,7 @@ class actionsAjaxAdminContent {
 		$image_id = joosRequest::request('image_id', 0);
 		$image_id = $image_id ? $image_id : false;
 
-		$counter = joosRequest::request('counter', 1);
+		//$counter = joosRequest::request('counter', 1);
 
 		//Загружаем оригинальное изображение (original.png)
 		$file = ValumsfileUploader::upload('original', 'content', $image_id, false);
@@ -60,7 +60,7 @@ class actionsAjaxAdminContent {
 	public static function add_pic() {
 
 		$id = joosRequest::request('id', 0);
-		$cat_id = joosRequest::request('category_id', 0);
+		//$cat_id = joosRequest::request('category_id', 0);
 		$counter = joosRequest::request('counter', 0);
 
 		$item = new Content();
@@ -77,9 +77,9 @@ class actionsAjaxAdminContent {
 
 		$cats = new Categories();
 
-		$id = joosRequest::request('id', 0);
+		//$id = joosRequest::request('id', 0);
 		$title = joosRequest::request('title', '');
-		$cat_name = joosRequest::request('cat_name', '');
+		//$cat_name = joosRequest::request('cat_name', '');
 		$cat_id = joosRequest::request('cat_id', 0);
 
 		if (!$title) {
@@ -104,7 +104,7 @@ class actionsAjaxAdminContent {
 
 			$_repeat = '';
 			//добавляем все ссылки категорий в массив
-			foreach ($path as $id => $_cat) {
+			foreach ($path as $_cat) {
 				$_slug = $_cat['slug'] ? $_cat['slug'] . '/' : joosText::str_to_url($_cat['name']) . '/';
 				$_slug = str_replace($_repeat, '', $_slug);
 				$segments[] = $_slug;

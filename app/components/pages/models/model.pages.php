@@ -20,6 +20,7 @@ class Pages extends joosModel {
 
 	public $id;
 	public $title;
+	public $title_page;
 	public $slug;
 	public $text;
 	public $created_at;
@@ -32,7 +33,7 @@ class Pages extends joosModel {
 	}
 
 	function check() {
-		//$this->filter(array('text'));
+		$this->filter(array('text'));
 		return true;
 	}
 

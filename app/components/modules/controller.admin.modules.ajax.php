@@ -27,8 +27,8 @@ class actionsAjaxAdminModules {
 	}
 
 	public static function get_positions() {
-		$positions = new TemplatePositions;
-		$obj = new Modules;
+		//$positions = new TemplatePositions;
+		//$obj = new Modules;
 	}
 
 	public static function save_position() {

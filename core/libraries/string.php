@@ -278,18 +278,16 @@ class joosString {
 	 * @return  boolean  FALSE if the substring was not found
 	 */
 	public static function stristr($str, $search) {
-		if ($search == '')
+		if ($search == ''){
 			return $str;
-
+		}
+		
 		$str_lower = self::strtolower($str);
 		$search_lower = self::strtolower($search);
 
-		preg_match('/^(.*?)' . preg_quote($search, '/') . '/s', $str_lower, $matches);
+		preg_match('/^(.*?)' . preg_quote($search_lower, '/') . '/s', $str_lower, $matches);
 
-		if (isset($matches[1]))
-			return substr($str, strlen($matches[1]));
-
-		return FALSE;
+		return isset($matches[1]) ? substr($str, strlen($matches[1])) : FALSE;
 	}
 
 	/**
@@ -777,7 +775,7 @@ class joosString {
 	/* проверка на юникод */
 	public static function is_utf8(&$data, $is_strict = true) {
 		if (is_array($data)) { // массив
-			foreach ($data as $k => &$v) {
+			foreach ($data as &$v) {
 				if (!self::is_utf8($v, $is_strict)) {
 					return false;
 				}

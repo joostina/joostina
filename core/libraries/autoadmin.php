@@ -419,6 +419,7 @@ class joosAutoadmin {
 	//Требуется в компонентах, которые выступают в качестве интерфейса
 	//например: компонент категорий, компонент настроек и т .п
 	public static function get_component_title($name) {
+
 		$admin_model = 'admin' . ucfirst($name);
 
 		$admin_model = new $admin_model;
@@ -480,7 +481,7 @@ class joosAutoadmin {
 // автоматическя обработка яксовых операций
 	public static function autoajax() {
 
-		$option = joosRequest::param('option');
+		//$option = joosRequest::param('option');
 
 		// выполняемая задача
 		$task = joosRequest::param('task');
@@ -491,7 +492,7 @@ class joosAutoadmin {
 		// название объекта запрашиваемого элемента
 		$obj_name = joosRequest::param('obj_name');
 		if (!$obj_name) {
-			return;
+			return false;
 		}
 		// пустой объект для складирования результата
 		$return_onj = new stdClass();
@@ -527,7 +528,7 @@ class joosAutoadmin {
 
 				case 'ordering':
 					$obj->load($obj_id);
-					$scope = joosRequest::post('scope');
+					//$scope = joosRequest::post('scope');
 					$new_ordering = joosRequest::post('val');
 
 					//$old_order = $obj->ordering;
@@ -559,11 +560,10 @@ class joosAutoadmin {
 					$min = min($old_order);
 
 					$mess = '';
-					$sql = '';
 					$i = $min > 1 ? $min : 1;
 					foreach ($new_order as $id) {
-						$query = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
-						$obj->get('_db')->set_query($query)->query();
+						$sql = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
+						$obj->get('_db')->set_query($sql)->query();
 						++$i;
 						$mess .= $query . "\n";
 					}
@@ -573,19 +573,19 @@ class joosAutoadmin {
 					break;
 
 				default:
-					return;
+					return false;
 					break;
 			}
 
 			echo json_encode($return_onj);
-			return;
+			return true;
 		}
 
 		$return_onj->image = 'error.png';
 		$return_onj->mess = 'error-class';
 
 		echo json_encode($return_onj);
-		return;
+		return false;
 	}
 
 	private static function prepare_extra(joosModel $obj, array $extra_data) {
@@ -610,7 +610,7 @@ class joosAutoadmin {
 						$hidden_elements[] = forms::hidden('search', $search_value);
 
 						if ($search_value !== false && joosString::trim($search_value) != '') {
-							foreach ($value as $field_name => $selected_value) {
+							foreach ($value as $selected_value) {
 								$wheres_search[] = sprintf('%s LIKE ( %s )', joosDatabase::instance()->name_quote($selected_value), joosDatabase::instance()->quote("%" . $search_value . "%"));
 							}
 						}

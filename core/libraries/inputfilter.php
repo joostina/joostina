@@ -104,7 +104,7 @@ class joosInputFilter {
 				$tagOpen_start = strpos($postTag, '<');
 				continue;
 			}
-			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
+			//$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
 			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
 			$tagLength = strlen($currentTag);
 			$tagLeft = $currentTag;

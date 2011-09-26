@@ -55,7 +55,7 @@ class actionsAjaxAdminCategories {
 
 		$cats = new Categories();
 
-		$cat_id = joosRequest::request('cat_id', 0);
+		//$cat_id = joosRequest::request('cat_id', 0);
 		$cat_name = joosRequest::request('cat_name', '');
 		$parent_id = joosRequest::request('parent_id', 0);
 
@@ -79,7 +79,7 @@ class actionsAjaxAdminCategories {
 			unset($path[1]);
 
 			$_repeat = '';
-			foreach ($path as $id => $_cat) {
+			foreach ($path as $_cat) {
 				$_slug = $_cat['slug'] ? $_cat['slug'] . '/' : joosText::str_to_url($_cat['name'] . '/');
 				$_slug = str_replace($_repeat, '', $_slug);
 				$segments[] = $_slug;

@@ -54,7 +54,7 @@ class actionsAdminCoder {
 
 		$rets[] = forms::open('#', array('id' => 'coder_form'));
 		$tables = joosDatabase::instance()->get_utils()->get_table_list();
-		foreach ($tables as $key => $value) {
+		foreach ($tables as $value) {
 			$el_id = 'table_' . $value;
 			$rets[] = forms::checkbox('codertable[]', $value, false, 'id="' . $el_id . '" ');
 			$rets[] = forms::label($el_id, $value);
@@ -84,7 +84,7 @@ class actionsAdminCoder {
 
 		$rets[] = forms::open('#', array('id' => 'faker_form'));
 		$tables = joosDatabase::instance()->get_utils()->get_table_list();
-		foreach ($tables as $key => $value) {
+		foreach ($tables as $value) {
 			$el_id = 'table_' . $value;
 			$rets[] = forms::radio('fakertable[]', $value, false, 'id="' . $el_id . '" ');
 			$rets[] = forms::label($el_id, $value);

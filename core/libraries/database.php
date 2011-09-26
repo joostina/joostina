@@ -96,14 +96,12 @@ class joosDatabase {
 
 		// проверка доступности поддержки работы с базой данных в php
 		if (!function_exists('mysqli_connect')) {
-			$mosSystemError = 1;
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
 
 		// попытка соединиться с сервером баз данных
 		if (!($this->_resource = @mysqli_connect($host, $user, $pass, $db, $port, $socket))) {
-			$mosSystemError = 2;
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
@@ -144,7 +142,6 @@ class joosDatabase {
 			$database = new self($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name'], $db_config['debug']);
 
 			if ($database->get_error_num()) {
-				$mosSystemError = $database->get_error_num();
 				include JPATH_BASE . DS . 'templates/system/offline.php';
 				exit();
 			}
@@ -399,7 +396,7 @@ class joosDatabase {
 
 	/**
 	 * Загружает результат запроса в принимаемы в качестве параметра объект
-	 * @param stdClass $object объект для загрузки результата
+	 * @param joosModel|stdClass $object объект для загрузки результата
 	 * @return bool результат сбора результата в значения полей принимаемого объекта
 	 */
 	public function load_object(& $object) {
@@ -407,7 +404,7 @@ class joosDatabase {
 			if (!($cur = $this->query())) {
 				return false;
 			}
-			if (($array = mysqli_fetch_assoc($cur))) {
+			if (($array = (array)mysqli_fetch_assoc($cur))) {
 				mysqli_free_result($cur);
 				$this->bind_array_to_object($array, $object, null, null, false);
 				return true;
@@ -855,7 +852,7 @@ class joosDatabaseUtils extends joosDatabase {
 				$first = false;
 			}
 			$buf .= '<tr>';
-			foreach ($row as $k => $v) {
+			foreach ($row as $v) {
 				$buf .= '<td bgcolor="#ffffff">' . $v . '</td>';
 			}
 			$buf .= '</tr>';
@@ -1506,7 +1503,7 @@ class joosModel {
 		$limit = isset($params['limit']) ? intval($params['limit']) : 0;
 		$join = isset($params['join']) ? intval($params['join']) : 'LEFT JOIN';
 
-		$sql = "SELECT $select FROM $table_values AS t_val $join $table_keys AS  t_key ON t_val.id=t_key.$key_children $where ";
+		$sql = "SELECT $select FROM $table_values AS t_val $join $table_keys AS  t_key ON t_val.id=t_key.$key_children $where $order";
 		return $this->_db->set_query($sql, $offset, $limit)->load_assoc_list('id');
 	}
 

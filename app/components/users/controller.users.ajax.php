@@ -44,7 +44,7 @@ class actionsAjaxUsers extends joosController {
 		if (!$user->check($validator)) {
 			$error_hash = $validator->GetErrors();
 			$errors = '';
-			foreach ($error_hash as $inpname => $inp_err) {
+			foreach ($error_hash as $inp_err) {
 				$errors .= '' . $inp_err . ' |  ';
 			}
 			echo json_encode(array('error' => 'Ошибки: ' . $errors));

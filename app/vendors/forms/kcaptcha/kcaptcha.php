@@ -131,7 +131,7 @@ class KCAPTCHA
             $img = imagecreatetruecolor($width, $height);
             imagealphablending($img, true);
             $white = imagecolorallocate($img, 255, 255, 255);
-            $black = imagecolorallocate($img, 0, 0, 0);
+            //$black = imagecolorallocate($img, 0, 0, 0);
 
             imagefilledrectangle($img, 0, 0, $width - 1, $height - 1, $white);
 

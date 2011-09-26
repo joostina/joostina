@@ -376,8 +376,8 @@ class joosNestedSet extends joosModel {
 			return false;
 		}
 
-		$b_lft = $b['lft'];
-		$b_rgt = $b['rgt'];
+		//$b_lft = $b['lft'];
+		//$b_rgt = $b['rgt'];
 
 		$nodeWidth = $a_rgt - $a_lft + 1;
 
@@ -438,8 +438,8 @@ class joosNestedSet extends joosModel {
 			return false;
 		}
 
-		$b_lft = $b['lft'];
-		$b_rgt = $b['rgt'];
+		//$b_lft = $b['lft'];
+		//$b_rgt = $b['rgt'];
 
 		$nodeWidth = $a_rgt - $a_lft + 1;
 

@@ -81,7 +81,7 @@ class joosDebug {
 
 		/* лог */
 		self::$text .= '<ul class="debug_log listreset">';
-		foreach (self::$_log as $key => $value) {
+		foreach (self::$_log as $value) {
 			self::$text .= '<li><small>LOG:</small> ' . $value . '</li>';
 		}
 		self::$text .= '</ul>';
@@ -144,6 +144,9 @@ class joosDebug {
 		$output = ob_get_clean();
 		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);
 
+		/**
+		 * @todo тут надо провреить, переменная судя по всему не используется в полном объёме
+		 */
 		$result = joosFilter::htmlspecialchars($output);
 
 		$result = <<<HTML

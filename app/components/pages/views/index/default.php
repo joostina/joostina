@@ -12,9 +12,3 @@ defined('_JOOS_CORE') or die();
 
 echo sprintf('<div class="page"><h1>%s</h1></div>', $page->title);
 echo sprintf('<div class="pc">%s</div>', $page->text);
-
-$tags = new Tags;
-echo $tags->show_tags($page);
-
-$comments = new Comments;
-echo '<div class="comments">' . $comments->load_comments_tree($page) . '</div>';

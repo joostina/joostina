@@ -69,11 +69,11 @@ class actionsContacts extends joosController {
 		foreach ($fields as $key => $label) {
 			$body .= $label . ': ' . joosRequest::post($key) . "\n";
 		}
-
+/*
 		if ($file_path) {
 			$body .= 'Прикреплённый файл: ' . $file_path;
 		}
-
+*/
 		// @todo переделать
 	    throw new joosException('Передалть!');
 		//$r = mosMail($from, $fromname, $recipient, $subject, $body);

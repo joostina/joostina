@@ -221,7 +221,6 @@ class adminModules extends Modules {
 
 		$pages_list = $pages_list ? $pages_list : array($pages);
 
-		$return = '';
 		$i = 0;
 
 		ob_start();
@@ -256,9 +255,7 @@ class adminModules extends Modules {
 				<?php $i++;
 			endforeach; ?>
 		</div>
-
 		<input type="hidden" name="fields_count" id="fields_count" value="<?php echo $i ?>"/>
-
 		<?php
 		return ob_get_clean();
 	}

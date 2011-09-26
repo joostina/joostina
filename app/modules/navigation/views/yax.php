@@ -14,12 +14,9 @@
 //Запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-?>
-<?php navigation_ul_li_recurse($menu_items, 1); ?><?php
+navigation_ul_li_recurse($menu_items, 1);
 
-
-function navigation_ul_li_recurse(array $items, $level = 1)
-{
+function navigation_ul_li_recurse(array $items, $level = 1){
     ?>
 <ul class="dropdown<?php echo $level > 1 ? $level : '' ?>">
     <?php foreach ($items as $item => $data) : ?>
@@ -39,5 +36,4 @@ function navigation_ul_li_recurse(array $items, $level = 1)
     <?php endforeach; ?>
 </ul>
 <?php
-
 }

@@ -101,7 +101,7 @@ class actionsAdminBlog {
 		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
-		$result = $obj_data->save($_POST);
+		$obj_data->save($_POST);
 
 		switch ($redirect) {
 			default:

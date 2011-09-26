@@ -212,8 +212,6 @@ class Categories extends joosNestedSet {
 
 		array_unshift($tree, array('id' => 1, 'level' => '0', 'name' => '----'));
 
-		$return = '';
-
 		ob_start();
 		?>
 		<select name="parent_id" id="category_id">
@@ -237,8 +235,6 @@ class Categories extends joosNestedSet {
 		} else {
 			$tree = $this->get_full_tree_simple();
 		}
-
-		$return = '';
 
 		ob_start();
 		?>
@@ -572,7 +568,7 @@ class CategoriesDetails extends joosModel {
 		$return .= '<input type="hidden" id="img_counter" name="img_counter" value="' . ($img_counter + 1) . '" />';
 
 		$i = 1;
-		foreach ($images as $_tmp) {
+		foreach ($images as $tmp) {
 
 			//Изображение
 			$image = isset($images['image_' . $i]) ? $images['image_' . $i] : array();

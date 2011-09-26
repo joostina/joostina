@@ -87,9 +87,15 @@ class Extrafields extends joosModel {
 		return $return;
 	}
 
+	/**
+	 * @static
+	 * @param $fields
+	 * @return array|bool
+	 *
+	 * @todo тут прямо сплошная магия
+	 */
 	public static function get_scheme($fields) {
 
-
 		if ($fields) {
 
 			$_rules = array();
@@ -115,49 +121,6 @@ class Extrafields extends joosModel {
 			return false;
 		}
 	}
-
-	public static function __get_scheme($item, $params) {
-
-		$ef = new self;
-		$ef->group = $params['group'];
-		$ef->subgroup = $subgroup = $params['subgroup'];
-		$ef->object = isset($item->$subgroup) ? $item->$subgroup : null;
-
-		$where = "`group` = '$ef->group'";
-		$where .= $ef->subgroup ? " AND subgroup = '$ef->subgroup'" : "";
-		$where .= $ef->object ? " AND object = $ef->object" : "";
-
-		$fields = $ef->get_list(array(
-					'select' => '*',
-					'where' => $where
-				));
-
-		if ($fields) {
-
-			$_rules = array();
-
-			foreach ($fields as $f) {
-				if ($f->rules) {
-
-					$_rules[$f->id] = array(
-						'name' => $f->label
-					);
-
-					ob_start();
-					eval($f->rules);
-					$add_ = ob_get_clean();
-
-					$_rules[$f->id] += $rules;
-				}
-			}
-
-
-			return $_rules;
-		} else {
-			return false;
-		}
-	}
-
 }
 
 /**

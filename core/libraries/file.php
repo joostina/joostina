@@ -261,8 +261,8 @@ class joosFile {
 	 * Преобразование имени файла к безопасному для файлвоой системы виду
 	 * Из строки удаляются все спецсимволы, кирилические символы транслитерируются
 	 *
-	 * @example  joosFile::make_safe_name('имя файла номер 1 - ( раз)');
-	 * @example  joosFile::make_safe_name(' eminem feat dr.dre i need a doctor.mp3 ');
+	 * @example  joosFile::get_safe_name('имя файла номер 1 - ( раз)');
+	 * @example  joosFile::get_safe_name(' eminem feat dr.dre i need a doctor.mp3 ');
 	 *
 	 * @param type $filename
 	 * @return type

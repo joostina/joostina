@@ -315,7 +315,7 @@ class __Files {
 			return false;
 
 		$fileInfo = array();
-		foreach ($name as $key => $val) {
+		foreach ($name as $val) {
 			if ($listOnly == self::LIST_FILE) {
 				if (is_dir($val))
 					continue;

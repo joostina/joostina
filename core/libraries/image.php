@@ -285,7 +285,7 @@ class Thumbnail {
 	 * @param  mixed   $input    Имя файла, изображение-строка или GD-resource
 	 * @param  array   $options  Массив настроек
 	 *
-	 * @return boolean TRUE или FALSE.
+	 * @return resource|boolean TRUE или FALSE.
 	 * @access public
 	 * @see    Thumbnail::output()
 	 */
@@ -302,14 +302,14 @@ class Thumbnail {
 
 		// Устанавливаем настройки по-умолчанию
 		static $defOptions = array(
-	'width' => 150,
-	'height' => 150,
-	'method' => THUMBNAIL_METHOD_SCALE_MAX,
-	'percent' => 0,
-	'halign' => THUMBNAIL_ALIGN_CENTER,
-	'valign' => THUMBNAIL_ALIGN_CENTER,
-	'check_size' => 0,
-	'resize' => 1
+			'width' => 150,
+			'height' => 150,
+			'method' => THUMBNAIL_METHOD_SCALE_MAX,
+			'percent' => 0,
+			'halign' => THUMBNAIL_ALIGN_CENTER,
+			'valign' => THUMBNAIL_ALIGN_CENTER,
+			'check_size' => 0,
+			'resize' => 1
 		);
 		foreach ($defOptions as $k => $v) {
 			if (!isset($options[$k])) {
@@ -439,7 +439,7 @@ class Thumbnail {
 	public static function create_thumbs($original, $path, $params, $ext = 'jpg', $quality = 80) {
 
 		//определим ориентацию изображения - портретная или альбомная
-		list($width, $height, $type, $attr) = getimagesize($original);
+		list($width, $height) = getimagesize($original);
 		if ($width > $height) {
 			$o = 'album'; //альбомная ориентация
 		} else if ($height > $width) {
@@ -489,7 +489,7 @@ class Thumbnail {
 				}
 			}
 
-			//если указана только высота
+				//если указана только высота
 			else if (isset($thumb_params['height']) && !isset($thumb_params['width'])) {
 
 				//если исходная высота меньше требуемой - не изменяем размеры
@@ -513,7 +513,7 @@ class Thumbnail {
 				}
 			}
 
-			//если указаны точные размеры
+				//если указаны точные размеры
 			else if (isset($thumb_params['width']) && isset($thumb_params['height'])) {
 
 				switch ($o) {

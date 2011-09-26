@@ -187,9 +187,9 @@ class Sitemap {
 
 		$counter = 0;
 		$map_num = 0;
-		$maps = array();
+		//$maps = array();
 		$elemets = array();
-		foreach ($this->xml_nodes as $space => $nodes) {
+		foreach ($this->xml_nodes as $nodes) {
 			foreach ($nodes as $node) {
 				if ($counter == $this->config['max_elemets_in_map']) {
 					++$map_num;

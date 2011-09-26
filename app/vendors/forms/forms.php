@@ -100,7 +100,7 @@ class forms {
 	public static function hidden($data, $value = '') {
 		if (!is_array($data)) {
 			$data = array
-				(
+			(
 				$data => $value
 			);
 		}
@@ -108,7 +108,7 @@ class forms {
 		$input = '';
 		foreach ($data as $name => $value) {
 			$attr = array
-				(
+			(
 				'type' => 'hidden',
 				'name' => $name,
 				'value' => $value
@@ -135,7 +135,7 @@ class forms {
 
 		// Type and value are required attributes
 		$data += array
-			(
+		(
 			'type' => 'text',
 			'value' => $value
 		);
@@ -475,7 +475,7 @@ class forms {
 		}
 
 		$order = array
-			(
+		(
 			'action',
 			'method',
 			'type',

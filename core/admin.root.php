@@ -248,12 +248,16 @@ class joosAdminPagenator {
 	}
 
 	function get_pages_links() {
-		$html = '';
-		$displayed_pages = 10;
+
 		$total_pages = ceil($this->total / $this->limit);
 		// скрываем навигатор по страницам если их меньше 2х.
-		if ($total_pages < 2)
-			return;
+		if ($total_pages < 2){
+			return '';
+		}
+
+		$html = '';
+		$displayed_pages = 10;
+
 		$this_page = ceil(($this->limitstart + 1) / $this->limit);
 		$start_loop = (floor(($this_page - 1) / $displayed_pages)) * $displayed_pages + 1;
 		if ($start_loop + $displayed_pages - 1 < $total_pages) {
@@ -282,7 +286,7 @@ class joosAdminPagenator {
 
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
-			$end_page = ($total_pages - 1) * $this->limit;
+			//$end_page = ($total_pages - 1) * $this->limit;
 			$html .= "\n<a href=\"#next\"  id=\"pagenav_next\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> " . __('Следующая') . "&nbsp;&rarr;</a>";
 		} else {
 			$html .= "\n<span id=\"pagenav_next\"  class=\"pagenav\">" . __('Следующая') . "&nbsp;&rarr;</span>";

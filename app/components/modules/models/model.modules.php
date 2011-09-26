@@ -87,7 +87,6 @@ class Modules extends joosModel {
 
 		$pages_list = $pages_list ? $pages_list : array($pages);
 
-		$return = '';
 		$i = 0;
 
 		ob_start();

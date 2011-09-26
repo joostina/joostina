@@ -78,8 +78,6 @@ class joosCore {
 
 		(JDEBUG && $name != 'debug') ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
 
-		$file = false;
-
 		switch ($type) {
 			case 'controller':
 				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
@@ -361,10 +359,7 @@ class joosDocument {
 	}
 
 	public static function javascript() {
-
-		$result = '';
-		$result .= self::js_files();
-		echo $result .= self::js_code();
+		return self::js_files() . self::js_code();
 	}
 
 	public static function js_files() {
@@ -412,11 +407,9 @@ class joosDocument {
 
 		for ($i = 0; $i < $n; $i++) {
 			if ($meta[$i][0] == 'keywords') {
-				$_meta_keys_index = $i;
 				$keywords = $meta[$i][1];
 			} else {
 				if ($meta[$i][0] == 'description') {
-					$_meta_desc_index = $i;
 					$description = $meta[$i][1];
 				}
 			}
@@ -532,7 +525,6 @@ class joosController {
 	public static $task;
 	public static $param;
 	public static $error = false;
-	private static $jsondata = array('extradata' => array());
 
 	public static function init() {
 		joosDocument::header();

@@ -92,7 +92,7 @@ class Users extends joosModel {
 		if ($validator && !$validator->ValidateForm()) {
 			$error_hash = $validator->GetErrors();
 			$this->_error = '';
-			foreach ($error_hash as $inpname => $inp_err) {
+			foreach ($error_hash as $inp_err) {
 				$this->_error .= $inp_err;
 			}
 			return false;
@@ -125,7 +125,7 @@ class Users extends joosModel {
 			$this->_error = '<strong>Ошибки при заполнении формы:</strong><ul>';
 
 			$error_hash = $validator->GetErrors();
-			foreach ($error_hash as $inpname => $inp_err) {
+			foreach ($error_hash as $inp_err) {
 				$this->_error .= '<li>' . $inp_err . '</li>';
 			}
 			$this->_error .= '</ul>';
@@ -212,7 +212,7 @@ class Users extends joosModel {
 
 	/**
 	 * Получение объекта текущего пользователя
-	 * @return User
+	 * @return Users
 	 */
 	public static function current() {
 		// TODO тут надо как-то унифицировать

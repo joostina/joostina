@@ -117,7 +117,7 @@ class FormValidator {
 	function create_report() {
 		$this->report = '<strong>Ошибки при заполнении формы:</strong><ul>';
 		$error_hash = $this->GetErrors();
-		foreach ($error_hash as $inpname => $inp_err) {
+		foreach ($error_hash as $inp_err) {
 			$this->report .= '<li>' . $inp_err . '</li>';
 		}
 		$this->report .= '</ul>';
@@ -131,7 +131,7 @@ class FormValidator {
 		$bret = true;
 
 		$error_string = "";
-		$error_to_display = "";
+		//$error_to_display = "";
 
 
 		if (strcmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
@@ -140,7 +140,7 @@ class FormValidator {
 			$form_variables = $_GET;
 		}
 
-		$vcount = count($this->validator_array);
+		//$vcount = count($this->validator_array);
 
 
 		foreach ($this->validator_array as $val_obj) {
@@ -161,8 +161,7 @@ class FormValidator {
 	}
 
 	function ValidateObject($validatorobj, $formvariables, &$error_string) {
-		$bret = true;
-
+		
 		$splitted = explode("=", $validatorobj->validator_string);
 		$command = $splitted[0];
 		$command_value = '';

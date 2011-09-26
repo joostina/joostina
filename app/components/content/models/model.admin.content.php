@@ -254,7 +254,7 @@ class adminContent extends Content {
 			//если какие-то изображения отмечены для использования в качестве изображений для родительской категории -
 			//запишем соответствующие данные в данные категории
 			$items_images = array();
-			foreach ($_images as $key => $img) {
+			foreach ($_images as $img) {
 				if (isset($img['for_category'])) {
 					$items_images[$img['id']] = $img['path'];
 				}
@@ -340,7 +340,7 @@ class adminContent extends Content {
 		$return .= '<input type="hidden" id="img_counter" name="img_counter" value="' . ($img_counter + 1) . '" />';
 
 		$i = 1;
-		foreach ($images as $_tmp) {
+		foreach ($images as $tmp) {
 
 			//Изображение
 			$image = isset($images['image_' . $i]) ? $images['image_' . $i] : array();
@@ -353,7 +353,7 @@ class adminContent extends Content {
 			$i++;
 		}
 
-		$return .= '</div><div class="b b-left b-33" style="padding:30px 0 0 0"><button type="button" id="add_pic">Ещё!</button></div></div>';
+		$return .= '</div><div class="b b-left b-33" style="padding:30px 0 0 0"><button type="button" id="add_pic">'.__('Еще!').'</button></div></div>';
 
 		Joosdocument::instance()->add_js_code($js_code);
 

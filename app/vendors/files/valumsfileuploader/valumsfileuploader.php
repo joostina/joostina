@@ -246,7 +246,6 @@ class ValumsfileUploader {
 			}
 
 			$file_upload = self::get_filefolder($rootdir, $filelocation, $fileid);
-			$file_pach = $file_upload['file'] . DS . $fileName;
 
 			is_dir($file_upload['filelocation']) ? null : mkdir($file_upload['filelocation'], 0755, true);
 
