@@ -89,7 +89,7 @@ class joosMetainfo extends joosModel {
 		return true;
 	}
 
-	public static function get_fieldinfo() {
+	public function get_fieldinfo() {
 		$scheme     = self::get_scheme();
 
 		$add_fields = array ( 'group'    => array ( 'name'                     => 'group' ,
