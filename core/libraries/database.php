@@ -1,20 +1,20 @@
 <?php
 
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
+defined( '_JOOS_CORE' ) or die();
 
 /**
  * joosDatabase - Библиотека работы с базой данных
  * Системная библиотека
  *
- * @version 1.0
- * @package Joostina.Libraries
+ * @version    1.0
+ * @package    Joostina.Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
- * @category Libraries
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @category   Libraries
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
@@ -22,60 +22,70 @@ class joosDatabase {
 
 	/**
 	 * Объект активного соединения с базой данных
+	 *
 	 * @var joosDatabase
 	 */
 	private static $instance;
 
 	/**
 	 * Переменныя хранения активной или готовящейся к выполнению SQL команды
+	 *
 	 * @var string
 	 */
 	protected $_sql;
 
 	/**
 	 * Код ошибки работы с базой данных
+	 *
 	 * @var int
 	 */
 	protected $_error_num = 0;
 
 	/**
 	 * Текст ошибки работы с базой данных
+	 *
 	 * @var string
 	 */
 	protected $_error_msg;
 
 	/**
 	 * Префикс таблиц активного соединения
+	 *
 	 * @var string
 	 */
 	protected $_table_prefix = 'jos_';
 
 	/**
 	 * Ресурс активного соединения с базой данных
+	 *
 	 * @var res
 	 */
 	protected $_resource;
 
 	/**
 	 * Результат последнего активного SQL запроса
+	 *
 	 * @var
 	 */
 	protected $_cursor;
 
 	/**
 	 * Параметр включения отладки работы с базой данных
+	 *
 	 * @var boolean
 	 */
 	protected $_debug;
 
 	/**
 	 * Лимит для активного запроса
+	 *
 	 * @var int
 	 */
 	protected $_limit;
 
 	/**
 	 * Смещение для активного запроса
+	 *
 	 * @var int
 	 */
 	protected $_offset;
@@ -83,38 +93,38 @@ class joosDatabase {
 	/**
 	 * Конструктор открывающий соединение с базой данных
 	 *
-	 * @param string $host - хост базы данных, обычно localhost
-	 * @param string $user - имя пользователя базы данных
-	 * @param string $pass - пароль соединения с базой данных
-	 * @param string $db - название базы данных
-	 * @param boolean $debug - активность отладки рабюоты с базой данных
-	 * @param int $port - порт сервера MySQL
-	 * @param string $socket - сокет MySQL
+	 * @param string  $host   - хост базы данных, обычно localhost
+	 * @param string  $user   - имя пользователя базы данных
+	 * @param string  $pass   - пароль соединения с базой данных
+	 * @param string  $db     - название базы данных
+	 * @param boolean $debug  - активность отладки рабюоты с базой данных
+	 * @param int     $port   - порт сервера MySQL
+	 * @param string  $socket - сокет MySQL
 	 */
-	protected function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $debug = 0, $port = null, $socket = null) {
+	protected function __construct( $host = 'localhost' , $user = 'root' , $pass = '' , $db = '' , $debug = 0 , $port = null , $socket = null ) {
 		$this->_debug = $debug;
 
 		// проверка доступности поддержки работы с базой данных в php
-		if (!function_exists('mysqli_connect')) {
+		if ( !function_exists( 'mysqli_connect' ) ) {
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
 
 		// попытка соединиться с сервером баз данных
-		if (!($this->_resource = @mysqli_connect($host, $user, $pass, $db, $port, $socket))) {
+		if ( !( $this->_resource = @mysqli_connect( $host , $user , $pass , $db , $port , $socket ) ) ) {
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
 
 		// при активации отладки выполнение дополнительных запросов профилирования
-		if ($this->_debug == 1) {
-			mysqli_query($this->_resource, 'set profiling=1');
-			mysqli_query($this->_resource, sprintf('set profiling_history_size=%s', joosConfig::get2('db', 'profiling_history_size', 100)));
+		if ( $this->_debug == 1 ) {
+			mysqli_query( $this->_resource , 'set profiling=1' );
+			mysqli_query( $this->_resource , sprintf( 'set profiling_history_size=%s' , joosConfig::get2( 'db' , 'profiling_history_size' , 100 ) ) );
 		}
 		;
 
 		// устанавливаем кодировку для корректного соединения с сервером базы данных
-		mysqli_set_charset($this->_resource, 'utf8');
+		mysqli_set_charset( $this->_resource , 'utf8' );
 	}
 
 	/**
@@ -122,9 +132,9 @@ class joosDatabase {
 	 * При уничтожении объекта происходит закрытие соединения с базой
 	 */
 	public function __destruct() {
-		if (is_resource($this->_resource)) {
+		if ( is_resource( $this->_resource ) ) {
 			// TODO это убрать при постоянных соединениях
-			mysqli_close($this->_resource);
+			mysqli_close( $this->_resource );
 		}
 	}
 
@@ -135,13 +145,13 @@ class joosDatabase {
 	public static function instance() {
 
 		// отметка получения инстенции базы данных
-		JDEBUG ? joosDebug::inc('joosDatabase::instance()') : null;
+		JDEBUG ? joosDebug::inc( 'joosDatabase::instance()' ) : null;
 
-		if (self::$instance === NULL) {
-			$db_config = joosConfig::get('db');
-			$database = new self($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name'], $db_config['debug']);
+		if ( self::$instance === NULL ) {
+			$db_config = joosConfig::get( 'db' );
+			$database  = new self( $db_config['host'] , $db_config['user'] , $db_config['password'] , $db_config['name'] , $db_config['debug'] );
 
-			if ($database->get_error_num()) {
+			if ( $database->get_error_num() ) {
 				include JPATH_BASE . DS . 'templates/system/offline.php';
 				exit();
 			}
@@ -160,9 +170,10 @@ class joosDatabase {
 
 	/**
 	 * Установка пааметра отладки базы данных
+	 *
 	 * @param boolean $debug флаг активности отладки
 	 */
-	public function debug($debug) {
+	public function debug( $debug ) {
 		$this->_debug = (bool) $debug;
 	}
 
@@ -179,37 +190,43 @@ class joosDatabase {
 	 * @return string
 	 */
 	public function get_error_msg() {
-		return str_replace(array("\n", "'"), array('\n', "\'"), $this->_error_msg);
+		return str_replace( array ( "\n" , "'" ) , array ( '\n' , "\'" ) , $this->_error_msg );
 	}
 
 	/**
 	 * Экранирование элементов
-	 * @param string $text - значение для экранирования
+	 *
+	 * @param string  $text  - значение для экранирования
 	 * @param boolean $extra - дополнительная обработка элемента
+	 *
 	 * @return string
 	 */
-	public function get_escaped($text, $extra = false) {
-		$string = mysqli_real_escape_string($this->_resource, $text);
-		return $extra ? addcslashes($string, '%_') : $string;
+	public function get_escaped( $text , $extra = false ) {
+		$string = mysqli_real_escape_string( $this->_resource , $text );
+		return $extra ? addcslashes( $string , '%_' ) : $string;
 	}
 
 	/**
 	 * Квотирование элемента
-	 * @param string $text - значение для квотирования
+	 *
+	 * @param string  $text    - значение для квотирования
 	 * @param boolean $escaped - параметр расширенного квотирования
+	 *
 	 * @return string обработанный результат
 	 */
-	public function quote($text, $escaped = true) {
-		return '\'' . ($escaped ? $this->get_escaped($text) : $text) . '\'';
+	public function quote( $text , $escaped = true ) {
+		return '\'' . ( $escaped ? $this->get_escaped( $text ) : $text ) . '\'';
 	}
 
 	/**
 	 * Квотирование элементов спецсиволами
 	 * Используется для обрамления названий таблиц и полей базы данных в SQL запросах
+	 *
 	 * @param string $s встрока для квотирования
+	 *
 	 * @return string обработанная строка
 	 */
-	public function name_quote($s) {
+	public function name_quote( $s ) {
 		return '`' . $s . '`';
 	}
 
@@ -242,25 +259,29 @@ class joosDatabase {
 	/**
 	 * Установка строки SQL запроса для дальнейшего выполнения
 	 * Первый и гравный метод для любой работы с базой данных
-	 * @param string $sql текст sql запроса для выполнения
-	 * @param int $offset значения смещения для результато ввыборки
-	 * @param int $limit ограничение н ачисло выбираемых объектов
+	 *
+	 * @param string $sql    текст sql запроса для выполнения
+	 * @param int    $offset значения смещения для результато ввыборки
+	 * @param int    $limit  ограничение н ачисло выбираемых объектов
+	 *
 	 * @return joosDatabase
 	 */
-	public function set_query($sql, $offset = 0, $limit = 0) {
-		$this->_sql = $this->replace_prefix($sql);
-		$this->_limit = (int) $limit;
+	public function set_query( $sql , $offset = 0 , $limit = 0 ) {
+		$this->_sql    = $this->replace_prefix( $sql );
+		$this->_limit  = (int) $limit;
 		$this->_offset = (int) $offset;
 		return $this;
 	}
 
 	/**
 	 * Замена преффикса таблиц базы данных
+	 *
 	 * @param string $sql текст sql запроса для замены преффикса
+	 *
 	 * @return string sql с заменённым преффиксом
 	 */
-	private function replace_prefix($sql) {
-		return str_replace('#__', $this->_table_prefix, $sql);
+	private function replace_prefix( $sql ) {
+		return str_replace( '#__' , $this->_table_prefix , $sql );
 	}
 
 	/**
@@ -268,7 +289,7 @@ class joosDatabase {
 	 * @return string строка sql запроса
 	 */
 	public function get_query() {
-		return sprintf('<pre code="sql">%s</pre>', htmlspecialchars($this->_sql, ENT_QUOTES, 'utf-8'));
+		return sprintf( '<pre code="sql">%s</pre>' , htmlspecialchars( $this->_sql , ENT_QUOTES , 'utf-8' ) );
 	}
 
 	/**
@@ -278,21 +299,21 @@ class joosDatabase {
 	 */
 	public function query() {
 
-		if ($this->_limit > 0 && $this->_offset == 0) {
+		if ( $this->_limit > 0 && $this->_offset == 0 ) {
 			$this->_sql .= "\nLIMIT $this->_limit";
-		} elseif ($this->_limit > 0 || $this->_offset > 0) {
+		} elseif ( $this->_limit > 0 || $this->_offset > 0 ) {
 			$this->_sql .= "\nLIMIT $this->_offset, $this->_limit";
 		}
 
 		$this->_error_num = 0;
 		$this->_error_msg = '';
-		$this->_cursor = mysqli_query($this->_resource, $this->_sql);
+		$this->_cursor    = mysqli_query( $this->_resource , $this->_sql );
 
-		if (!$this->_cursor) {
-			$this->_error_num = mysqli_errno($this->_resource);
-			$this->_error_msg = mysqli_error($this->_resource) . " SQL=$this->_sql";
-			if ($this->_debug) {
-				$this->get_utils()->show_db_error(mysqli_error($this->_resource), $this->_sql);
+		if ( !$this->_cursor ) {
+			$this->_error_num = mysqli_errno( $this->_resource );
+			$this->_error_msg = mysqli_error( $this->_resource ) . " SQL=$this->_sql";
+			if ( $this->_debug ) {
+				$this->get_utils()->show_db_error( mysqli_error( $this->_resource ) , $this->_sql );
 			}
 			return false;
 		}
@@ -305,16 +326,18 @@ class joosDatabase {
 	 * @return int число рядок результатов
 	 */
 	public function get_affected_rows() {
-		return mysqli_affected_rows($this->_resource);
+		return mysqli_affected_rows( $this->_resource );
 	}
 
 	/**
 	 * Возвращает количество рядов в результирующем наборе. Эта команда верна только для операторов SELECT.
+	 *
 	 * @param mysql cursor $cur ресурс результата выполнения запроса
+	 *
 	 * @return int количество рядов в результирующем наборе
 	 */
-	public function get_num_rows($cur = false) {
-		return mysqli_num_rows($cur ? $cur : $this->_cursor);
+	public function get_num_rows( $cur = false ) {
+		return mysqli_num_rows( $cur ? $cur : $this->_cursor );
 	}
 
 	/**
@@ -324,56 +347,60 @@ class joosDatabase {
 	public function load_result() {
 
 		// TODO, логично, но спорно
-		$this->_limit = 1;
+		$this->_limit  = 1;
 		$this->_offset = 0;
 
-		if (!($cur = $this->query())) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
 
-		$ret = ($row = mysqli_fetch_row($cur)) ? $row[0] : null;
+		$ret = ( $row = mysqli_fetch_row( $cur ) ) ? $row[0] : null;
 
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		return $ret;
 	}
 
 	/**
 	 * Возвращает результат запроса в виде массива. Массив содержит значения столбца под номером указанным в $numinarray
+	 *
 	 * @param int $numinarray номер столбца для отобрадения в результуриющем запросе. 0 - первый столбцев, 1 - второй столбец и т.д
+	 *
 	 * @return array массив результата
 	 */
-	public function load_result_array($numinarray = 0) {
-		if (!($cur = $this->query())) {
+	public function load_result_array( $numinarray = 0 ) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
-		$array = array();
-		while ($row = mysqli_fetch_row($cur)) {
+		$array       = array ();
+		while ( $row = mysqli_fetch_row( $cur ) ) {
 			$array[] = $row[$numinarray];
 		}
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 		return $array;
 	}
 
 	/**
 	 * Возвращаем массив результата запроса. Каждый результирующий столбец хранится как массив массива, начиная со позиции 0.
 	 * Может возвращать ассоциативный массив гд еключем выступает значение поля указанное в параметре $key
+	 *
 	 * @param string $key поле выступающее в качестве ключа для ассоциативного массива результата
+	 *
 	 * @return array ассоциативнй либо обычный массив массивов результата
 	 */
-	public function load_assoc_list($key = '') {
-		if (!($cur = $this->query())) {
+	public function load_assoc_list( $key = '' ) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
-		$array = array();
-		while ($row = mysqli_fetch_assoc($cur)) {
-			if ($key) {
+		$array       = array ();
+		while ( $row = mysqli_fetch_assoc( $cur ) ) {
+			if ( $key ) {
 				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;
 			}
 		}
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		return $array;
 	}
@@ -384,37 +411,39 @@ class joosDatabase {
 	 */
 	public function load_assoc_row() {
 
-		if (!($cur = $this->query())) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
-		$row = mysqli_fetch_assoc($cur);
+		$row = mysqli_fetch_assoc( $cur );
 
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		return $row;
 	}
 
 	/**
 	 * Загружает результат запроса в принимаемы в качестве параметра объект
+	 *
 	 * @param joosModel|stdClass $object объект для загрузки результата
+	 *
 	 * @return bool результат сбора результата в значения полей принимаемого объекта
 	 */
-	public function load_object(& $object) {
-		if ($object != null) {
-			if (!($cur = $this->query())) {
+	public function load_object( & $object ) {
+		if ( $object != null ) {
+			if ( !( $cur = $this->query() ) ) {
 				return false;
 			}
-			if (($array = (array)mysqli_fetch_assoc($cur))) {
-				mysqli_free_result($cur);
-				$this->bind_array_to_object($array, $object, null, null, false);
+			if ( ( $array = (array) mysqli_fetch_assoc( $cur ) ) ) {
+				mysqli_free_result( $cur );
+				$this->bind_array_to_object( $array , $object , null , null , false );
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			if (($cur = $this->query())) {
-				if (($object = mysqli_fetch_object($cur))) {
-					mysqli_free_result($cur);
+			if ( ( $cur = $this->query() ) ) {
+				if ( ( $object = mysqli_fetch_object( $cur ) ) ) {
+					mysqli_free_result( $cur );
 					return true;
 				} else {
 					$object = null;
@@ -429,24 +458,26 @@ class joosDatabase {
 	/**
 	 * Возвращает ассоциативный либо простой массив объектов результата запроса.
 	 * В качестве ключей массива результата может быть использовано значение поля указанного в $key
+	 *
 	 * @param string $key поле выступающее в качестве ключа для ассоциативного массива результата
+	 *
 	 * @return array ассоциативный или обычный массив результатов
 	 */
-	public function load_object_list($key = '') {
+	public function load_object_list( $key = '' ) {
 
-		if (!($cur = $this->query())) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
 
-		$array = array();
-		while ($row = mysqli_fetch_object($cur)) {
-			if ($key) {
+		$array       = array ();
+		while ( $row = mysqli_fetch_object( $cur ) ) {
+			if ( $key ) {
 				$array[$row->$key] = $row;
 			} else {
 				$array[] = $row;
 			}
 		}
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		return $array;
 	}
@@ -456,11 +487,11 @@ class joosDatabase {
 	 * @return array массив значение полей первого результата
 	 */
 	public function load_row() {
-		if (!($cur = $this->query())) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
-		$ret = ($row = mysqli_fetch_row($cur)) ? $row : null;
-		mysqli_free_result($cur);
+		$ret = ( $row = mysqli_fetch_row( $cur ) ) ? $row : null;
+		mysqli_free_result( $cur );
 
 		return $ret;
 	}
@@ -468,47 +499,51 @@ class joosDatabase {
 	/**
 	 * Возвращает ассоциативный массив результата запроса.
 	 * В качестве ключей массива результата может быть использовано номер поля указанного в $key
+	 *
 	 * @param int $key номер поля начиная с 0, значение которого необходимо использовать  вкачестве ключа для ассициативного массива результата
+	 *
 	 * @return array ассоциативный или обычный массив результатов
 	 */
-	public function load_row_list($key = null) {
+	public function load_row_list( $key = null ) {
 
-		if (!($cur = $this->query())) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
 
-		$array = array();
+		$array       = array ();
 
-		while ($row = mysqli_fetch_row($cur)) {
-			if (!is_null($key)) {
+		while ( $row = mysqli_fetch_row( $cur ) ) {
+			if ( !is_null( $key ) ) {
 				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;
 			}
 		}
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		return $array;
 	}
 
 	/**
 	 * Возвращает ассоциативный масив результата, ключами которого являются значения поля $key, а значениями - значения поля $value
-	 * @param string $key название поля для ключа результирующего массива
+	 *
+	 * @param string $key   название поля для ключа результирующего массива
 	 * @param string $value названи еполя для значения результирующего массива
+	 *
 	 * @return array ассоциативнй массив ключ=>значение результата
 	 */
-	public function load_row_array($key, $value) {
+	public function load_row_array( $key , $value ) {
 
-		if (!($cur = $this->query())) {
+		if ( !( $cur = $this->query() ) ) {
 			return null;
 		}
 
-		$array = array();
+		$array       = array ();
 
-		while ($row = mysqli_fetch_object($cur)) {
+		while ( $row = mysqli_fetch_object( $cur ) ) {
 			$array[$row->$key] = $row->$value;
 		}
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		return $array;
 	}
@@ -517,32 +552,34 @@ class joosDatabase {
 	 * Вставка записи.
 	 * Работает с объектами, свойства которых являются названиями поле в базе, а значения свойств - значениями полей
 	 * Работает ТОЛЬКО через joosDatabase::instance()->insert_object
-	 * @param string $table название таблицы, можно с преффиксом #__
-	 * @param stdClass $object объект с заполненными свойствами
-	 * @param string $keyName название ключевого автоинскриментного поля таблицы
+	 *
+	 * @param string   $table   название таблицы, можно с преффиксом #__
+	 * @param stdClass $object  объект с заполненными свойствами
+	 * @param string   $keyName название ключевого автоинскриментного поля таблицы
+	 *
 	 * @return int идентификатор вставленной записи, истину или ложь если операция провалилась
 	 */
-	public function insert_object($table, $object, $keyName = null) {
+	public function insert_object( $table , $object , $keyName = null ) {
 
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 
-		$fields = array();
-		$values = array();
-		foreach (get_object_vars($object) as $k => $v) {
-			if (is_array($v) or is_object($v) or $v === null) {
+		$fields = array ();
+		$values = array ();
+		foreach ( get_object_vars( $object ) as $k => $v ) {
+			if ( is_array( $v ) or is_object( $v ) or $v === null ) {
 				continue;
 			}
-			if ($k[0] == '_') { // внешние поля
+			if ( $k[0] == '_' ) { // внешние поля
 				continue;
 			}
 
-			$fields[] = $this->name_quote($k);
-			$values[] = $this->quote($v);
+			$fields[] = $this->name_quote( $k );
+			$values[] = $this->quote( $v );
 		}
 
-		$this->set_query(sprintf($fmtsql, implode(",", $fields), implode(",", $values)));
+		$this->set_query( sprintf( $fmtsql , implode( "," , $fields ) , implode( "," , $values ) ) );
 
-		if (!$this->query()) {
+		if ( !$this->query() ) {
 			return false;
 		}
 
@@ -550,44 +587,44 @@ class joosDatabase {
 		$id = $this->insert_id();
 		//$id = mysqli_insert_id($this->_resource);
 
-		if ($keyName && $id) {
+		if ( $keyName && $id ) {
 			$object->$keyName = $id;
 		}
 
-		return ($id > 0) ? $id : true;
+		return ( $id > 0 ) ? $id : true;
 	}
 
-	public function insert_array($table, $object, array $values_array) {
+	public function insert_array( $table , $object , array $values_array ) {
 
-		$ignore = isset($object->__ignore) ? ' IGNORE ' : '';
-		unset($object->__ignore);
+		$ignore = isset( $object->__ignore ) ? ' IGNORE ' : '';
+		unset( $object->__ignore );
 
 		$fmtsql = "INSERT $ignore INTO $table ( %s ) VALUES %s ";
 
-		$fields = array();
-		$n = 0;
-		foreach (get_object_vars($object) as $k => $v) {
+		$fields = array ();
+		$n      = 0;
+		foreach ( get_object_vars( $object ) as $k => $v ) {
 
-			if (is_array($v) or is_object($v)) {
+			if ( is_array( $v ) or is_object( $v ) ) {
 				continue;
 			}
 
-			if ($k[0] == '_') {
+			if ( $k[0] == '_' ) {
 				continue;
 			}
 
-			$fields[] = $this->name_quote($k);
-			foreach ($values_array as $key => $value) {
-				$values[$key][$n] = (isset($value[$k]) && $v == null ) ? $this->quote($value[$k]) : ( ($v != null) ? $this->quote($v) : 'NULL' );
+			$fields[] = $this->name_quote( $k );
+			foreach ( $values_array as $key => $value ) {
+				$values[$key][$n] = ( isset( $value[$k] ) && $v == null ) ? $this->quote( $value[$k] ) : ( ( $v != null ) ? $this->quote( $v ) : 'NULL' );
 				++$n;
 			}
 		}
 
-		array_walk($values, function(&$d) {
-				$d = ' (' . implode(",", $d) . ') ';
-			});
+		array_walk( $values , function( &$d ) {
+				$d = ' (' . implode( "," , $d ) . ') ';
+			} );
 
-		$this->set_query(sprintf($fmtsql, implode(",", $fields), implode(",", $values)));
+		$this->set_query( sprintf( $fmtsql , implode( "," , $fields ) , implode( "," , $values ) ) );
 
 		return $this->query() ? true : false;
 	}
@@ -595,48 +632,52 @@ class joosDatabase {
 	/**
 	 * Обновление записи.
 	 * Работает с объектами, свойства которых являются названиями поле в базе, а значения свойств - значениями полей
-	 * @param string $table название таблицы, можно с преффиксом #__
-	 * @param stdClass $object объект с заполненными свойствами
-	 * @param string $keyName название ключевого автоинскриментного поля таблицы
-	 * @param type $updateNulls флаг обновления неопределённых свойств
+	 *
+	 * @param string   $table       название таблицы, можно с преффиксом #__
+	 * @param stdClass $object      объект с заполненными свойствами
+	 * @param string   $keyName     название ключевого автоинскриментного поля таблицы
+	 * @param type     $updateNulls флаг обновления неопределённых свойств
+	 *
 	 * @return bool результат обновления данных записи
 	 */
-	public function update_object($table, $object, $keyName, $updateNulls = true) {
+	public function update_object( $table , $object , $keyName , $updateNulls = true ) {
 
 		$fmtsql = "UPDATE $table SET %s  WHERE %s";
-		$tmp = array();
-		$where = '';
-		foreach (get_object_vars($object) as $k => $v) {
-			if (is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
+		$tmp    = array ();
+		$where  = '';
+		foreach ( get_object_vars( $object ) as $k => $v ) {
+			if ( is_array( $v ) or is_object( $v ) or $k[0] == '_' ) { // internal or NA field
 				continue;
 			}
-			if ($k == $keyName) { // PK not to be updated
-				$where = $keyName . '=' . $this->quote($v);
+			if ( $k == $keyName ) { // PK not to be updated
+				$where = $keyName . '=' . $this->quote( $v );
 				continue;
 			}
-			if ($v === null && !$updateNulls) {
+			if ( $v === null && !$updateNulls ) {
 				continue;
 			}
-			if ($v == '') {
+			if ( $v == '' ) {
 				$val = "''";
 			} else {
-				$val = $this->quote($v);
+				$val = $this->quote( $v );
 			}
-			$tmp[] = $this->name_quote($k) . '=' . $val;
+			$tmp[] = $this->name_quote( $k ) . '=' . $val;
 		}
-		$this->set_query(sprintf($fmtsql, implode(",", $tmp), $where));
+		$this->set_query( sprintf( $fmtsql , implode( "," , $tmp ) , $where ) );
 
 		return (bool) $this->query();
 	}
 
 	/**
 	 * Возвращает текст ошибки работы базы данных
+	 *
 	 * @param bool $showSQL флаг отображения в возвращаемом тексте содержимого ошибочного SQL запроса
+	 *
 	 * @return string текст ошибки
 	 */
-	public function stderr($showSQL = false) {
-		JDEBUG ? joosDebug::add($this->_error_msg . "\n\t" . $this->_sql) : null;
-		return "Ошибка базы данных $this->_error_num <br /><font color=\"red\">$this->_error_msg</font>" . ($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
+	public function stderr( $showSQL = false ) {
+		JDEBUG ? joosDebug::add( $this->_error_msg . "\n\t" . $this->_sql ) : null;
+		return "Ошибка базы данных $this->_error_num <br /><font color=\"red\">$this->_error_msg</font>" . ( $showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '' );
 	}
 
 	/**
@@ -644,7 +685,7 @@ class joosDatabase {
 	 * @return int
 	 */
 	public function insert_id() {
-		return mysqli_insert_id($this->_resource);
+		return mysqli_insert_id( $this->_resource );
 	}
 
 	/**
@@ -652,32 +693,33 @@ class joosDatabase {
 	 * @return joosDatabaseUtils
 	 */
 	public function get_utils() {
-		return new joosDatabaseUtils($this);
+		return new joosDatabaseUtils( $this );
 	}
 
 	/**
 	 * Преобразование массива в объект
 	 *
-	 * @param array $array исходный массив ключ=>значение
-	 * @param object $obj объект, свойства которого будут заполнены значениями сообтветсвующих ключей массива
-	 * @param string $ignore свойства объекта которые следует игнорировать, через пробел ('id title slug')
-	 * @param string $prefix префикс полей массива. Например в объекте title, а в массивe blog_title
-	 * @param bool $checkSlashes флаг экранизации значений через addslashes
+	 * @param array  $array        исходный массив ключ=>значение
+	 * @param object $obj          объект, свойства которого будут заполнены значениями сообтветсвующих ключей массива
+	 * @param string $ignore       свойства объекта которые следует игнорировать, через пробел ('id title slug')
+	 * @param string $prefix       префикс полей массива. Например в объекте title, а в массивe blog_title
+	 * @param bool   $checkSlashes флаг экранизации значений через addslashes
+	 *
 	 * @return bool результат предразования
 	 */
-	public function bind_array_to_object(array $array, &$obj, $ignore = '', $prefix = null, $checkSlashes = false) {
+	public function bind_array_to_object( array $array , &$obj , $ignore = '' , $prefix = null , $checkSlashes = false ) {
 
 		$ignore = ' ' . $ignore . ' ';
-		foreach (get_object_vars($obj) as $k => $v) {
-			if (substr($k, 0, 1) != '_') { // закрытые свойства пропускаем
-				if (strpos($ignore, ' ' . $k . ' ') === false) {
-					if ($prefix) {
+		foreach ( get_object_vars( $obj ) as $k => $v ) {
+			if ( substr( $k , 0 , 1 ) != '_' ) { // закрытые свойства пропускаем
+				if ( strpos( $ignore , ' ' . $k . ' ' ) === false ) {
+					if ( $prefix ) {
 						$ak = $prefix . $k;
 					} else {
 						$ak = $k;
 					}
-					if (isset($array[$ak])) {
-						$obj->$k = $checkSlashes ? addslashes($array[$ak]) : $array[$ak];
+					if ( isset( $array[$ak] ) ) {
+						$obj->$k = $checkSlashes ? addslashes( $array[$ak] ) : $array[$ak];
 					}
 				}
 			}
@@ -693,9 +735,10 @@ class joosDatabase {
 	 * @example joosDatabase::model('Blog')->save( $_POST )
 	 *
 	 * @param string $model_name
+	 *
 	 * @return joosModel объект выбранной модели
 	 */
-	public static function models($model_name) {
+	public static function models( $model_name ) {
 		return new $model_name;
 	}
 
@@ -705,13 +748,13 @@ class joosDatabase {
  * joosDatabaseUtils - Библиотека утилитарных функций работы с базой данных
  * Системная библиотека
  *
- * @version 1.0
- * @package Joostina.Libraries
+ * @version    1.0
+ * @package    Joostina.Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
@@ -725,9 +768,10 @@ class joosDatabaseUtils extends joosDatabase {
 
 	/**
 	 * Объект работы с базой данных
+	 *
 	 * @param joosDatabase $db
 	 */
-	public function __construct(joosDatabase $db) {
+	public function __construct( joosDatabase $db ) {
 		$this->_db = $db;
 	}
 
@@ -744,30 +788,34 @@ class joosDatabaseUtils extends joosDatabase {
 	 * @return string строка версии сервера
 	 */
 	public function get_version() {
-		return mysqli_get_server_info($this->_db->_resource);
+		return mysqli_get_server_info( $this->_db->_resource );
 	}
 
 	/**
 	 * Возвращает список таблиц активной базы
+	 *
 	 * @param bool $only_joostina флаг позволяющий оставить в результирующем наборе только таблицы текущего сайта
+	 *
 	 * @return array массив таблиц текущей базы данных
 	 */
-	public function get_table_list($only_joostina = true) {
+	public function get_table_list( $only_joostina = true ) {
 		$only_joostina = $only_joostina ? " LIKE '" . $this->_db->_table_prefix . "%' " : '';
-		return $this->_db->set_query('SHOW TABLES ' . $only_joostina)->load_result_array();
+		return $this->_db->set_query( 'SHOW TABLES ' . $only_joostina )->load_result_array();
 	}
 
 	/**
 	 * Возвращает ассоциативный массив структур таблиц
+	 *
 	 * @param array $tables массив таблиц структуру которых необходимо получить
+	 *
 	 * @return array ассоциативный массив, ключами которогоявляются названия  таблиц, а значениями - самаструктура этихтаблиц
 	 */
-	public function get_table_create(array $tables) {
-		$result = array();
+	public function get_table_create( array $tables ) {
+		$result = array ();
 
-		foreach ($tables as $tblval) {
-			$rows = $this->_db->set_query('SHOW CREATE table ' . $this->_db->get_escaped($tblval))->load_row_list();
-			foreach ($rows as $row) {
+		foreach ( $tables as $tblval ) {
+			$rows = $this->_db->set_query( 'SHOW CREATE table ' . $this->_db->get_escaped( $tblval ) )->load_row_list();
+			foreach ( $rows as $row ) {
 				$result[$tblval] = $row[1];
 			}
 		}
@@ -777,14 +825,16 @@ class joosDatabaseUtils extends joosDatabase {
 
 	/**
 	 * Возвращает ассоциативный массив свойств столбцов таблицы
+	 *
 	 * @param string $tables название таблицы
+	 *
 	 * @return array ассоциативный массив, ключами которого являются названия полей, а значения - свойства полей
 	 */
-	public function get_table_fields($tables) {
-		$fields = $this->_db->set_query('SHOW FIELDS FROM ' . $tables)->load_object_list();
+	public function get_table_fields( $tables ) {
+		$fields = $this->_db->set_query( 'SHOW FIELDS FROM ' . $tables )->load_object_list();
 
-		$result = array();
-		foreach ($fields as $field) {
+		$result = array ();
+		foreach ( $fields as $field ) {
 			$result[$field->Field] = $field->Type;
 		}
 
@@ -794,30 +844,32 @@ class joosDatabaseUtils extends joosDatabase {
 	/**
 	 * Прямое выполнения множества SQL запросов за один раз.
 	 * Запросы должн ыбыть разделены знаком точки с запятой - ;
-	 * @param bool $abort_on_error флаг указывающий что при ошибки  водном из запросов дальнейшую работу необходимо прекратить
+	 *
+	 * @param bool $abort_on_error   флаг указывающий что при ошибки  водном из запросов дальнейшую работу необходимо прекратить
 	 * @param bool $transaction_safe флаг использования транзакций для выполнения запросов
+	 *
 	 * @return bool флаг выполнения работы, истина в случае успешного выполнения всех запросов,
 	 */
-	public function query_batch($abort_on_error = true, $transaction_safe = false) {
+	public function query_batch( $abort_on_error = true , $transaction_safe = false ) {
 		$this->_error_num = 0;
 		$this->_error_msg = '';
 
-		if ($transaction_safe) {
+		if ( $transaction_safe ) {
 			$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
 		}
 
-		$query_split = preg_split("/[;]+/", $this->_sql);
-		$error = 0;
+		$query_split = preg_split( "/[;]+/" , $this->_sql );
+		$error       = 0;
 
-		foreach ($query_split as $command_line) {
-			$command_line = trim($command_line);
-			if ($command_line != '') {
-				$this->_cursor = mysqli_query($this->_resource, $command_line);
-				if (!$this->_cursor) {
+		foreach ( $query_split as $command_line ) {
+			$command_line = trim( $command_line );
+			if ( $command_line != '' ) {
+				$this->_cursor = mysqli_query( $this->_resource , $command_line );
+				if ( !$this->_cursor ) {
 					$error = 1;
-					$this->_error_num .= mysqli_errno($this->_resource) . ' ';
-					$this->_error_msg .= mysqli_error($this->_resource) . " SQL=$command_line <br />";
-					if ($abort_on_error) {
+					$this->_error_num .= mysqli_errno( $this->_resource ) . ' ';
+					$this->_error_msg .= mysqli_error( $this->_resource ) . " SQL=$command_line <br />";
+					if ( $abort_on_error ) {
 						return $this->_cursor;
 					}
 				}
@@ -832,33 +884,33 @@ class joosDatabaseUtils extends joosDatabase {
 	 * @return string результирующий HTML код
 	 */
 	public function explain() {
-		$temp = $this->_sql;
+		$temp            = $this->_sql;
 		$this->_db->_sql = 'EXPLAIN ' . $this->_db->_sql;
 
-		if (!($cur = $this->_db->query())) {
+		if ( !( $cur = $this->_db->query() ) ) {
 			return null;
 		}
-		$first = true;
+		$first       = true;
 
-		$buf = '<table cellspacing="1" cellpadding="2" border="0" bgcolor="#000000" align="center">';
+		$buf         = '<table cellspacing="1" cellpadding="2" border="0" bgcolor="#000000" align="center">';
 		$buf .= $this->_db->get_query();
-		while ($row = mysqli_fetch_assoc($cur)) {
-			if ($first) {
+		while ( $row = mysqli_fetch_assoc( $cur ) ) {
+			if ( $first ) {
 				$buf .= '<tr>';
-				foreach ($row as $k => $v) {
+				foreach ( $row as $k => $v ) {
 					$buf .= '<th bgcolor="#ffffff">' . $k . '</th>';
 				}
 				$buf .= '</tr>';
 				$first = false;
 			}
 			$buf .= '<tr>';
-			foreach ($row as $v) {
+			foreach ( $row as $v ) {
 				$buf .= '<td bgcolor="#ffffff">' . $v . '</td>';
 			}
 			$buf .= '</tr>';
 		}
 		$buf .= '</table><br />';
-		mysqli_free_result($cur);
+		mysqli_free_result( $cur );
 
 		$this->_sql = $temp;
 
@@ -867,16 +919,17 @@ class joosDatabaseUtils extends joosDatabase {
 
 	/**
 	 * Выводит расширенно есообзения о ошибке выполнения запроса
+	 *
 	 * @param string $message текст сообщения - ошибки
-	 * @param string $sql sql код запрос вызвавшего ошибку
+	 * @param string $sql     sql код запрос вызвавшего ошибку
 	 */
-	public function show_db_error($message, $sql = null) {
+	public function show_db_error( $message , $sql = null ) {
 		echo '<div style="display:block;width:100%;"><b>DB::error:</b> ';
 		echo $message;
 		echo $sql ? '<pre>' . $sql . '</pre><b>UseFiles</b>::' : '';
-		if (function_exists('debug_backtrace')) {
-			foreach (debug_backtrace() as $back) {
-				if (isset($back['file'])) {
+		if ( function_exists( 'debug_backtrace' ) ) {
+			foreach ( debug_backtrace() as $back ) {
+				if ( isset( $back['file'] ) ) {
 					echo '<br />' . $back['file'] . ':' . $back['line'];
 				}
 			}
@@ -890,13 +943,13 @@ class joosDatabaseUtils extends joosDatabase {
  * joosModel - Библиотека ORM расширения для гибкой работы с информацией в юазе данных
  * Системная библиотека
  *
- * @version 1.0
- * @package Joostina.Libraries
+ * @version    1.0
+ * @package    Joostina.Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
@@ -904,6 +957,7 @@ class joosModel {
 
 	/**
 	 * Название таблицы, используемой текущей моделью
+	 *
 	 * @var string
 	 */
 	protected $_tbl;
@@ -911,18 +965,21 @@ class joosModel {
 	/**
 	 * Название поля первичного ключа таблицы, чаще всего ID
 	 * По данному полю производится идентификация объекта, и по правильному оно должно содержать уникальное значение
+	 *
 	 * @var string
 	 */
 	protected $_tbl_key;
 
 	/**
 	 * Текст ошибки работы с активной моделью
+	 *
 	 * @var string
 	 */
 	protected $_error;
 
 	/**
 	 * Объект базы данных
+	 *
 	 * @var joosDatabase
 	 */
 	protected $_db;
@@ -930,19 +987,21 @@ class joosModel {
 	/**
 	 * "Мягкое" удаление объектов БД
 	 * Если в модели переопределить это значение в TRUE - то запись перед удалением будет копироваться в общесистемную корзину
+	 *
 	 * @var bool
 	 */
 	protected $_soft_delete = FALSE;
 
 	/**
 	 * Инициализация модели
+	 *
 	 * @param string $table название используемой таблицы, можно с преффиксом, например #__news
-	 * @param string $key Название поля первичного ключа таблицы,
+	 * @param string $key   Название поля первичного ключа таблицы,
 	 */
-	public function __construct($table, $key) {
-		$this->_tbl = $table;
+	public function __construct( $table , $key ) {
+		$this->_tbl     = $table;
 		$this->_tbl_key = $key;
-		$this->_db = joosDatabase::instance();
+		$this->_db      = joosDatabase::instance();
 	}
 
 	/**
@@ -950,7 +1009,7 @@ class joosModel {
 	 * @return string
 	 */
 	public function classname() {
-		return get_class($this);
+		return get_class( $this );
 	}
 
 	/**
@@ -958,44 +1017,46 @@ class joosModel {
 	 * @return array
 	 */
 	public function get_extrainfo() {
-		return array();
+		return array ();
 	}
 
 	/**
 	 * Заглушка получения информации о полях
 	 * @return array
 	 */
-	protected function get_fieldinfo(){
-		return array();
+	protected function get_fieldinfo() {
+		return array ();
 	}
 
 	/**
 	 * Заглушка получения информации о таблице модели
 	 * @return array
 	 */
-	protected function get_tableinfo(){
-		return array();
+	protected function get_tableinfo() {
+		return array ();
 	}
 
 	/**
 	 * Заглушка получения информации о вкладках для оформления информации
 	 * @return array
 	 */
-	protected function get_tabsinfo(){
-		return array();
+	protected function get_tabsinfo() {
+		return array ();
 	}
 
 	/**
 	 * Магический метод восстановления объекта
 	 * Используется при прямом кэшировании модели
+	 *
 	 * @param array $values - массив значений востановленного объекта
+	 *
 	 * @return stdClass восстановленный объект модели
 	 */
-	public static function __set_state(array $values) {
+	public static function __set_state( array $values ) {
 		// формируем объект по сохранённым параметрам
-		$obj = new $values['__obj_name']($values['_tbl'], $values['_tbl_key']);
+		$obj = new $values['__obj_name']( $values['_tbl'] , $values['_tbl_key'] );
 		// заполняем сохранёнными параметрами настоящие поля модели
-		$obj->bind($values);
+		$obj->bind( $values );
 
 		return $obj;
 	}
@@ -1007,9 +1068,9 @@ class joosModel {
 	public function to_cache() {
 		$obj = clone $this;
 		// удаляем ненужную ссылку на ресурс базы данных и стек ошибок
-		unset($obj->_db, $obj->_error);
+		unset( $obj->_db , $obj->_error );
 		// сохраняем оригинальное название модели
-		$obj->__obj_name = get_class($obj);
+		$obj->__obj_name = get_class( $obj );
 
 		return $obj;
 	}
@@ -1030,10 +1091,10 @@ class joosModel {
 	public function get_public_properties() {
 		static $cache = null;
 
-		if (is_null($cache)) {
-			$cache = array();
-			foreach (get_class_vars(get_class($this)) as $key => $val) {
-				if (substr($key, 0, 1) != '_') {
+		if ( is_null( $cache ) ) {
+			$cache = array ();
+			foreach ( get_class_vars( get_class( $this ) ) as $key => $val ) {
+				if ( substr( $key , 0 , 1 ) != '_' ) {
 					$cache[] = $key;
 				}
 			}
@@ -1045,17 +1106,18 @@ class joosModel {
 	/**
 	 * Очищает значения публоичных свойств модели от HTML тэгов
 	 * Пример $this->filter( array('desc','extra') );
+	 *
 	 * @param array $ignoreList массив названий полей модели, которые НЕ требуется очистить от HTML кода
 	 */
-	public function filter(array $ignoreList = null) {
-		$ignore = is_array($ignoreList);
+	public function filter( array $ignoreList = null ) {
+		$ignore  = is_array( $ignoreList );
 
 		$iFilter = joosInputFilter::instance();
-		foreach ($this->get_public_properties() as $k) {
-			if ($ignore && in_array($k, $ignoreList)) {
+		foreach ( $this->get_public_properties() as $k ) {
+			if ( $ignore && in_array( $k , $ignoreList ) ) {
 				continue;
 			}
-			$this->$k = $iFilter->process($this->$k);
+			$this->$k = $iFilter->process( $this->$k );
 		}
 	}
 
@@ -1069,59 +1131,67 @@ class joosModel {
 
 	/**
 	 * Получение значения поля
+	 *
 	 * @param string $_property название поля
+	 *
 	 * @return string значение поля
 	 */
-	public function get($_property) {
-		return isset($this->$_property) ? $this->$_property : null;
+	public function get( $_property ) {
+		return isset( $this->$_property ) ? $this->$_property : null;
 	}
 
 	/**
 	 * Установка значения конкретного поля модели
+	 *
 	 * @param string $_property название модели
-	 * @param string $_value значение поля для установки
+	 * @param string $_value    значение поля для установки
 	 */
-	public function set($_property, $_value) {
+	public function set( $_property , $_value ) {
 		$this->$_property = $_value;
 	}
 
 	/**
 	 * Сброс значения полей активной модели
+	 *
 	 * @param string $value значение, устанавливаемое во все поля активной модели
 	 */
-	public function reset($value = null) {
+	public function reset( $value = null ) {
 		$keys = $this->get_public_properties();
-		foreach ($keys as $k) {
+		foreach ( $keys as $k ) {
 			$this->$k = $value;
 		}
 	}
 
 	/**
 	 * Заполнение значения полей модели значениями ассоциативного массива
-	 * @param array $array двумерный массив "название поля"=>"значение поля"
+	 *
+	 * @param array  $array  двумерный массив "название поля"=>"значение поля"
 	 * @param string $ignore название аттрибута для игнорирования
+	 *
 	 * @return boolean результат заполнения
 	 */
-	function bind(array $array, $ignore = '') {
-		return $this->_db->bind_array_to_object($array, $this, $ignore);
+	function bind( array $array , $ignore = '' ) {
+		return $this->_db->bind_array_to_object( $array , $this , $ignore );
 	}
 
 	/**
 	 * Загрузка данных в модель непосредственно из БД по значению ключевого поля
 	 * В случае успешного выполнения заполняет поля модели значениями из БД выбранными по ключевому полю
+	 *
 	 * @param mix $oid значение уникального ключевого поля, по которому необходимо делать выборку в БД
+	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
-	function load($oid) {
+	function load( $oid ) {
 
 		// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
 		$this->reset();
 
-		$query = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->quote($oid);
-		$result = $this->_db->set_query($query)->load_object($this);
+		$query       = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->quote( $oid );
+		$result      = $this->_db->set_query( $query )->load_object( $this );
 
 		$events_name = 'model.on_load.' . $this->classname();
-		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $result, $this) : null;
+		joosEvents::has_events( $events_name ) ? joosEvents::fire_events( $events_name , $result , $this ) : null;
 
 		return $result;
 	}
@@ -1129,41 +1199,45 @@ class joosModel {
 	/**
 	 * Загрузка данных в модель непосредственно из БД по значению произвольного поля
 	 * В случае успешного выполнения заполняет поля модели значениями первого результата из БД выбранными по указанному
+	 *
 	 * @param string $field название произвольного поля модели
 	 * @param string $value значение произвольного поля модели
+	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
-	function load_by_field($field, $value) {
+	function load_by_field( $field , $value ) {
 
 		$this->reset();
 
-		$query = 'SELECT * FROM ' . $this->_db->name_quote($this->_tbl) . ' WHERE ' . $this->_db->name_quote($field) . ' = ' . $this->_db->quote($value);
-		return $this->_db->set_query($query, 0, 1)->load_object($this);
+		$query = 'SELECT * FROM ' . $this->_db->name_quote( $this->_tbl ) . ' WHERE ' . $this->_db->name_quote( $field ) . ' = ' . $this->_db->quote( $value );
+		return $this->_db->set_query( $query , 0 , 1 )->load_object( $this );
 	}
 
 	/**
 	 * Сохранение свойств модели в БД
 	 * Производит непосредственно запись в БД значений заполненных полей модели. При этом сами свойства должны быть указаны ранее, методом bind, либо set, либо прямого присвоения $news->title='Новость 1'
+	 *
 	 * @param bool $updateNulls флаг обновления неопределённых свойств
-	 * @param bool $forcedIns флаг принудительной вставки. Необходимо в случаях, когда значение ключевого поля уже задано, но всё-равно необходимо создать новую запись (например, в компоненте категорий: category_id известно, но в таблице `categories_details` нужно создать запись с этим ключом )
+	 * @param bool $forcedIns   флаг принудительной вставки. Необходимо в случаях, когда значение ключевого поля уже задано, но всё-равно необходимо создать новую запись (например, в компоненте категорий: category_id известно, но в таблице `categories_details` нужно создать запись с этим ключом )
+	 *
 	 * @return boolean результат сохранения модели
 	 */
-	public function store($updateNulls = false, $forcedIns = false) {
+	public function store( $updateNulls = false , $forcedIns = false ) {
 		$k = $this->_tbl_key;
 
 		$this->before_store();
 
-		if ((isset($this->$k) && $this->$k != 0) && !$forcedIns) {
+		if ( ( isset( $this->$k ) && $this->$k != 0 ) && !$forcedIns ) {
 			$this->before_update();
-			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			$ret = $this->_db->update_object( $this->_tbl , $this , $this->_tbl_key , $updateNulls );
 			$this->after_update();
 		} else {
 			$this->before_insert();
-			$ret = $this->_db->insert_object($this->_tbl, $this, $this->_tbl_key);
+			$ret = $this->_db->insert_object( $this->_tbl , $this , $this->_tbl_key );
 			$this->after_insert();
 		}
 
-		if (!$ret) {
+		if ( !$ret ) {
 			$this->_error = $this->classname() . "::store ошибка выполнения" . $this->_db->get_error_msg();
 			return false;
 		} else {
@@ -1239,27 +1313,29 @@ class joosModel {
 	/**
 	 * Удаление записи в БД по значению ключевого поля
 	 * Производит непосредственное удаление записи из БД
+	 *
 	 * @param mixed $oid значение ключевого поля
+	 *
 	 * @return boolean результат удаления
 	 */
-	public function delete($oid) {
+	public function delete( $oid ) {
 		$k = $this->_tbl_key;
 
-		if ($oid) {
+		if ( $oid ) {
 			$this->$k = (int) $oid;
 		}
 
 		$this->before_delete();
 
 		// активируем "мягкое удаление", т.е. сохраняем копию в корзине
-		if ($this->_soft_delete) {
-			joosTrash::add($this);
+		if ( $this->_soft_delete ) {
+			joosTrash::add( $this );
 		}
 
-		$query = "DELETE FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->quote($this->$k);
-		$this->_db->set_query($query);
+		$query = "DELETE FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->quote( $this->$k );
+		$this->_db->set_query( $query );
 
-		if ($this->_db->query()) {
+		if ( $this->_db->query() ) {
 			$this->after_delete();
 			return true;
 		} else {
@@ -1271,39 +1347,41 @@ class joosModel {
 	/**
 	 * Удаление неограниченного числа записей в БД через указание массива значений ключевого, либо произвольного поля
 	 * Производит непосредственное удаление записей из БД принимая массив значений вида array(1,15,16,22)
-	 * @param array $oid массив значений ключевого
-	 * @param string $key название ключевого поля, по умолчанию - название ключевого поля текущей модели
+	 *
+	 * @param array  $oid   массив значений ключевого
+	 * @param string $key   название ключевого поля, по умолчанию - название ключевого поля текущей модели
 	 * @param string $table название таблицы, в которой необходимо произвести удаление, по умолчанию - таблица текущей модели
+	 *
 	 * @return boolean результат удаления записей
 	 */
-	public function delete_array(array $oid = array(), $key = false, $table = false) {
-		$key = $key ? $key : $this->_tbl_key;
+	public function delete_array( array $oid = array () , $key = false , $table = false ) {
+		$key   = $key ? $key : $this->_tbl_key;
 		$table = $table ? $table : $this->_tbl;
 
-		$table = $this->_db->name_quote($table);
+		$table = $this->_db->name_quote( $table );
 
 		// "мягкое" удаление объектов
-		if ($this->_soft_delete) {
+		if ( $this->_soft_delete ) {
 
 			$obj = clone $this;
-			foreach ($oid as $cur_id) {
-				$obj->load($cur_id);
-				joosTrash::add($obj);
+			foreach ( $oid as $cur_id ) {
+				$obj->load( $cur_id );
+				joosTrash::add( $obj );
 				$obj->reset();
 			}
-			unset($obj);
+			unset( $obj );
 		}
 
 		$obj = clone $this;
-		foreach ($oid as &$cur_id) {
+		foreach ( $oid as &$cur_id ) {
 			$obj->{$key} = $cur_id;
 			$obj->before_delete();
-			$cur_id = $this->_db->quote($cur_id);
+			$cur_id = $this->_db->quote( $cur_id );
 		}
 
-		$query = "DELETE FROM $table WHERE $key IN (" . implode(',', $oid) . ')';
+		$query = "DELETE FROM $table WHERE $key IN (" . implode( ',' , $oid ) . ')';
 
-		if ($this->_db->set_query($query)->query()) {
+		if ( $this->_db->set_query( $query )->query() ) {
 			return true;
 		} else {
 			$this->_error = $this->_db->get_error_msg();
@@ -1313,16 +1391,18 @@ class joosModel {
 
 	/**
 	 * Удаление элементов в БД через указание произвольных условий
+	 *
 	 * @param array $params массив параметров для формирования условий удаления
+	 *
 	 * @return boolean результат удаления
 	 */
-	public function delete_list(array $params = array()) {
+	public function delete_list( array $params = array () ) {
 
-		$where = isset($params['where']) ? 'WHERE ' . $params['where'] . "\n" : '';
+		$where = isset( $params['where'] ) ? 'WHERE ' . $params['where'] . "\n" : '';
 
-		$this->_db->set_query("DELETE FROM $this->_tbl " . $where);
+		$this->_db->set_query( "DELETE FROM $this->_tbl " . $where );
 
-		if ($this->_db->query()) {
+		if ( $this->_db->query() ) {
 			return true;
 		} else {
 			$this->_error = $this->_db->get_error_msg();
@@ -1332,24 +1412,26 @@ class joosModel {
 
 	/**
 	 * Копирование неограниченного числа записей в БД через указание массива значений ключевого, либо произвольного поля
-	 * @param array $oid массив значений ключевого
-	 * @param string $key название ключевого поля, по умолчанию - название ключевого поля текущей модели
+	 *
+	 * @param array  $oid   массив значений ключевого
+	 * @param string $key   название ключевого поля, по умолчанию - название ключевого поля текущей модели
 	 * @param string $table название таблицы, в которой необходимо произвести копирование, по умолчанию - таблица текущей модели
+	 *
 	 * @return boolean результат копирования записей
 	 */
-	public function copy_array(array $oid = array(), $key = false, $table = false) {
+	public function copy_array( array $oid = array () , $key = false , $table = false ) {
 
-		$key = $key ? $key : $this->_tbl_key;
+		$key   = $key ? $key : $this->_tbl_key;
 		$table = $table ? $table : $this->_tbl;
 
-		$table = $this->_db->name_quote($table);
+		$table = $this->_db->name_quote( $table );
 
-		$query = "SELECT * FROM $table WHERE $key IN (" . implode(',', $oid) . ')';
-		$rows = $this->_db->set_query($query)->load_object_list();
+		$query = "SELECT * FROM $table WHERE $key IN (" . implode( ',' , $oid ) . ')';
+		$rows  = $this->_db->set_query( $query )->load_object_list();
 
-		foreach ($rows as $row) {
+		foreach ( $rows as $row ) {
 			$row->$key = null;
-			$this->_db->insert_object($this->_tbl, $row, $this->_tbl_key);
+			$this->_db->insert_object( $this->_tbl , $row , $this->_tbl_key );
 		}
 
 		return true;
@@ -1357,18 +1439,20 @@ class joosModel {
 
 	/**
 	 * Сохранение свойств модели в БД
-	 * @param array $source массив свойств название поля=>значение поля для заполнения свойств модели ( см. self::bind )
+	 *
+	 * @param array  $source массив свойств название поля=>значение поля для заполнения свойств модели ( см. self::bind )
 	 * @param string $ignore название аттрибута для игнорирования
+	 *
 	 * @return boolean результат сохранения
 	 */
-	public function save(array $source, $ignore = '') {
-		if ($source && !$this->bind($source, $ignore)) {
+	public function save( array $source , $ignore = '' ) {
+		if ( $source && !$this->bind( $source , $ignore ) ) {
 			return false;
 		}
-		if (!$this->check()) {
+		if ( !$this->check() ) {
 			return false;
 		}
-		if (!$this->store()) {
+		if ( !$this->store() ) {
 			return false;
 		}
 
@@ -1378,24 +1462,26 @@ class joosModel {
 
 	/**
 	 * @todo прередалать на set_state
+	 *
 	 * @param array $cid
-	 * @param type $publish
+	 * @param type  $publish
+	 *
 	 * @return type
 	 */
-	function publish(array $cid = null, $publish = 1) {
+	function publish( array $cid = null , $publish = 1 ) {
 
-		joosCore::array_to_ints($cid, array());
+		joosCore::array_to_ints( $cid , array () );
 
-		if (count($cid) < 1) {
-			$this->_error = __('Ничего не было выбрано');
+		if ( count( $cid ) < 1 ) {
+			$this->_error = __( 'Ничего не было выбрано' );
 			return false;
 		}
 
-		$cids = $this->_tbl_key . '=' . implode(' OR ' . $this->_tbl_key . '=', $cid);
+		$cids  = $this->_tbl_key . '=' . implode( ' OR ' . $this->_tbl_key . '=' , $cid );
 
 		$query = "UPDATE $this->_tbl SET published = " . (int) $publish . " WHERE ($cids)";
 
-		if (!$this->_db->set_query($query)->query()) {
+		if ( !$this->_db->set_query( $query )->query() ) {
 			$this->_error = $this->_db->get_error_msg();
 			return false;
 		}
@@ -1407,26 +1493,31 @@ class joosModel {
 	/**
 	 * Булево изменение содержимого указанного столбца. Используется для смены статуса элемента
 	 * Меняет значение указанного поля на противопложное
+	 *
 	 * @param string $fieldname название свойства модели для изменения на противоположное
+	 *
 	 * @return boolean результат смены значения поля
 	 */
-	public function change_state($fieldname) {
+	public function change_state( $fieldname ) {
 		$key = $this->{$this->_tbl_key};
-		return $this->_db->set_query("UPDATE `$this->_tbl` SET `$fieldname` = !`$fieldname` WHERE $this->_tbl_key = $key", 0, 1)->query();
+		return $this->_db->set_query( "UPDATE `$this->_tbl` SET `$fieldname` = !`$fieldname` WHERE $this->_tbl_key = $key" , 0 , 1 )->query();
 	}
 
 	/**
 	 * Возвращает число записей в таблице БД активной модели
+	 *
 	 * @param string $where дополнительное условие для подсчета числа записей, например "WHERE state=1"
+	 *
 	 * @return int число записей
 	 */
-	public function count($where = '') {
+	public function count( $where = '' ) {
 		$sql = "SELECT count(*) FROM $this->_tbl " . $where;
-		return $this->_db->set_query($sql)->load_result();
+		return $this->_db->set_query( $sql )->load_result();
 	}
 
 	/**
 	 * Возвращает массив результатов выборки
+	 *
 	 * @param array $params массив параметров для уточнее области выборки результата
 	 *     <pre>
 	 *         select - список поле для выборки, по умолчанию * (все поля)
@@ -1438,29 +1529,31 @@ class joosModel {
 	 *         limit - лимит выборки для результата, по молчанию - 0, т.е. ВСЕ записи
 	 *         key - название ключевого поля, для использования в качестве ключа ассоциативного массива результатов. По умолчанию использует ключевое поле модели. key=>FALSE если необходимо сделать простой массив ( 0=>array(),1=>array() )
 	 *     <pre>
+	 *
 	 * @return array ассоциативный или обычный массив результатов
 	 */
-	public function get_list(array $params = array()) {
+	public function get_list( array $params = array () ) {
 
-		$select = isset($params['select']) ? $params['select'] . "\n" : '*';
-		$where = isset($params['where']) ? 'WHERE ' . $params['where'] . "\n" : '';
-		$join = isset($params['join']) ? $params['join'] . "\n" : '';
-		$group = isset($params['group']) ? 'GROUP BY ' . $params['group'] . "\n" : '';
-		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] . "\n" : '';
-		$offset = isset($params['offset']) ? $params['offset'] . "\n" : 0;
-		$limit = isset($params['limit']) ? $params['limit'] . "\n" : 0;
+		$select    = isset( $params['select'] ) ? $params['select'] . "\n" : '*';
+		$where     = isset( $params['where'] ) ? 'WHERE ' . $params['where'] . "\n" : '';
+		$join      = isset( $params['join'] ) ? $params['join'] . "\n" : '';
+		$group     = isset( $params['group'] ) ? 'GROUP BY ' . $params['group'] . "\n" : '';
+		$order     = isset( $params['order'] ) ? 'ORDER BY ' . $params['order'] . "\n" : '';
+		$offset    = isset( $params['offset'] ) ? $params['offset'] . "\n" : 0;
+		$limit     = isset( $params['limit'] ) ? $params['limit'] . "\n" : 0;
 
-		$tbl_key = isset($params['key']) ? $params['key'] : $this->_tbl_key;
+		$tbl_key   = isset( $params['key'] ) ? $params['key'] : $this->_tbl_key;
 
-		$pseudonim = isset($params['pseudonim']) ? ' AS ' . $params['pseudonim'] . ' ' : '';
+		$pseudonim = isset( $params['pseudonim'] ) ? ' AS ' . $params['pseudonim'] . ' ' : '';
 
-		return $this->_db->set_query("SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order, $offset, $limit)->load_object_list($tbl_key);
+		return $this->_db->set_query( "SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order , $offset , $limit )->load_object_list( $tbl_key );
 	}
 
 	/**
 	 * Возвращает ассоциативный двумерный массив возможных значений модели
+	 *
 	 * @param array $key_val - массив array( 'key'=>'название поля - ключа','value'=>'название поля - значения' ). По умолчанияю key=>id, value=>title
-	 * @param array $params массив параметров для уточнее области выборки результата
+	 * @param array $params  массив параметров для уточнее области выборки результата
 	 *     <pre>
 	 *         select - список поле для выборки, по умолчанию key,value (поля указанные в $key_val)
 	 *         where - условие WHERE для выборки
@@ -1469,24 +1562,25 @@ class joosModel {
 	 *         limit - лимит выборки для результата, по молчанию - 0, т.е. ВСЕ записи
 	 *         table - название таблицы, из которой необходимо сделать выборку. По умолчанию - таблица текущей модели
 	 *     <pre>
+	 *
 	 * @return array - ассоциативный массив результата
 	 */
-	public function get_selector(array $key_val = array(), array $params = array()) {
+	public function get_selector( array $key_val = array () , array $params = array () ) {
 
-		$key = isset($key_val['key']) ? $key_val['key'] : 'id';
-		$value = isset($key_val['value']) ? $key_val['value'] : 'title';
+		$key       = isset( $key_val['key'] ) ? $key_val['key'] : 'id';
+		$value     = isset( $key_val['value'] ) ? $key_val['value'] : 'title';
 
-		$select = isset($params['select']) ? $params['select'] : $key . ',' . $value;
-		$where = isset($params['where']) ? 'WHERE ' . $params['where'] : '';
-		$order = isset($params['order']) ? ' ORDER BY ' . $params['order'] : '';
-		$offset = isset($params['offset']) ? (int) $params['offset'] : 0;
-		$limit = isset($params['limit']) ? (int) $params['limit'] : 0;
-		$tablename = isset($params['table']) ? $params['table'] : $this->_tbl;
+		$select    = isset( $params['select'] ) ? $params['select'] : $key . ',' . $value;
+		$where     = isset( $params['where'] ) ? 'WHERE ' . $params['where'] : '';
+		$order     = isset( $params['order'] ) ? ' ORDER BY ' . $params['order'] : '';
+		$offset    = isset( $params['offset'] ) ? (int) $params['offset'] : 0;
+		$limit     = isset( $params['limit'] ) ? (int) $params['limit'] : 0;
+		$tablename = isset( $params['table'] ) ? $params['table'] : $this->_tbl;
 
-		$opts = $this->_db->set_query("SELECT $select FROM $tablename " . $where . $order, $offset, $limit)->load_assoc_list();
+		$opts      = $this->_db->set_query( "SELECT $select FROM $tablename " . $where . $order , $offset , $limit )->load_assoc_list();
 
-		$return = array();
-		foreach ($opts as $opt) {
+		$return    = array ();
+		foreach ( $opts as $opt ) {
 			$return[$opt[$key]] = $opt[$value];
 		}
 
@@ -1494,84 +1588,86 @@ class joosModel {
 	}
 
 // отношение один-ко-многим, список выбранных значений из многих
-	public function get_select_one_to_many($table_values, $table_keys, $key_parent, $key_children, array $params = array()) {
+	public function get_select_one_to_many( $table_values , $table_keys , $key_parent , $key_children , array $params = array () ) {
 
-		$select = isset($params['select']) ? $params['select'] : 't_val.*';
-		$where = isset($params['where']) ? 'WHERE ' . $params['where'] : "WHERE t_key.$key_parent = $this->{$this->_tbl_key} ";
-		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] : '';
-		$offset = isset($params['offset']) ? intval($params['offset']) : 0;
-		$limit = isset($params['limit']) ? intval($params['limit']) : 0;
-		$join = isset($params['join']) ? intval($params['join']) : 'LEFT JOIN';
+		$select = isset( $params['select'] ) ? $params['select'] : 't_val.*';
+		$where  = isset( $params['where'] ) ? 'WHERE ' . $params['where'] : "WHERE t_key.$key_parent = $this->{$this->_tbl_key} ";
+		$order  = isset( $params['order'] ) ? 'ORDER BY ' . $params['order'] : '';
+		$offset = isset( $params['offset'] ) ? intval( $params['offset'] ) : 0;
+		$limit  = isset( $params['limit'] ) ? intval( $params['limit'] ) : 0;
+		$join   = isset( $params['join'] ) ? intval( $params['join'] ) : 'LEFT JOIN';
 
-		$sql = "SELECT $select FROM $table_values AS t_val $join $table_keys AS  t_key ON t_val.id=t_key.$key_children $where $order";
-		return $this->_db->set_query($sql, $offset, $limit)->load_assoc_list('id');
+		$sql    = "SELECT $select FROM $table_values AS t_val $join $table_keys AS  t_key ON t_val.id=t_key.$key_children $where $order";
+		return $this->_db->set_query( $sql , $offset , $limit )->load_assoc_list( 'id' );
 	}
 
 // сохранение значение одного ко многим
-	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, $values) {
+	public function save_one_to_many( $name_table_keys , $key_name , $value_name , $key_value , $values ) {
 
 		//сначала чистим все предыдущие связи
-		$this->_db->set_query("DELETE FROM $name_table_keys WHERE $key_name=$key_value ")->query();
+		$this->_db->set_query( "DELETE FROM $name_table_keys WHERE $key_name=$key_value " )->query();
 
 		// фомируем массив сохраняемых значений
-		$vals = array();
-		foreach ($values as $value) {
+		$vals = array ();
+		foreach ( $values as $value ) {
 			$vals[] = " ($key_value, $value  ) ";
 		}
 
-		$values = implode(',', $vals);
+		$values = implode( ',' , $vals );
 
-		$sql = "INSERT IGNORE INTO $name_table_keys ( $key_name,$value_name ) VALUES $values";
-		return $this->_db->set_query($sql)->query();
+		$sql    = "INSERT IGNORE INTO $name_table_keys ( $key_name,$value_name ) VALUES $values";
+		return $this->_db->set_query( $sql )->query();
 	}
 
 // селектор выбора отношений один-ко-многим
-	public function get_one_to_many_selectors($name, $table_values, $table_keys, $key_parent, $key_children, array $selected_ids, array $params = array()) {
+	public function get_one_to_many_selectors( $name , $table_values , $table_keys , $key_parent , $key_children , array $selected_ids , array $params = array () ) {
 
-		$params['select'] = isset($params['select']) ? $params['select'] : 't_val.id, t_val.title';
+		$params['select']     = isset( $params['select'] ) ? $params['select'] : 't_val.id, t_val.title';
 
-		$params['wrap_start'] = isset($params['wrap_start']) ? $params['wrap_start'] : '';
-		$params['wrap_end'] = isset($params['wrap_end']) ? $params['wrap_end'] : '';
+		$params['wrap_start'] = isset( $params['wrap_start'] ) ? $params['wrap_start'] : '';
+		$params['wrap_end']   = isset( $params['wrap_end'] ) ? $params['wrap_end'] : '';
 
-		$childrens = $this->get_selector(array(), array('table' => $table_values));
+		$childrens            = $this->get_selector( array () , array ( 'table' => $table_values ) );
 
-		$rets = array();
-		foreach ($childrens as $key => $value) {
-			$el_id = $name . $key;
-			$checked = (bool) isset($selected_ids[$key]);
-			$rets[] = $params['wrap_start'] . forms::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
-			$rets[] = forms::label($el_id, $value) . $params['wrap_end'];
+		$rets                 = array ();
+		foreach ( $childrens as $key => $value ) {
+			$el_id   = $name . $key;
+			$checked = (bool) isset( $selected_ids[$key] );
+			$rets[]  = $params['wrap_start'] . forms::checkbox( $name . '[]' , $key , $checked , 'id="' . $el_id . '" ' );
+			$rets[]  = forms::label( $el_id , $value ) . $params['wrap_end'];
 		}
 
-		return implode("\n\t", $rets);
+		return implode( "\n\t" , $rets );
 	}
 
 	/**
 	 * Загрузка значение текущей модели через указание произвольных свойств модели
 	 *
 	 * @param array $params массив параметров для условий выборки
+	 *
 	 * @return boolean результат поиска и загрузки значений в свойства текущей модели
 	 */
-	public function find(array $params = array('select' => '*')) {
+	public function find( array $params = array ( 'select' => '*' ) ) {
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
-		$tmp = array();
-		foreach (get_object_vars($this) as $k => $v) {
+		$tmp    = array ();
+		foreach ( get_object_vars( $this ) as $k => $v ) {
 
-			if (is_array($v) or is_object($v) or $k[0] == '_' or empty($v)) {
+			if ( is_array( $v ) or is_object( $v ) or $k[0] == '_' or empty( $v ) ) {
 				continue;
 			}
-			if ($v == '') {
+			if ( $v == '' ) {
 				$val = "''";
 			} else {
-				$val = $this->_db->quote($v);
+				$val = $this->_db->quote( $v );
 			}
-			$tmp[] = $this->_db->name_quote($k) . '=' . $val;
+			$tmp[] = $this->_db->name_quote( $k ) . '=' . $val;
 		}
-		return $this->_db->set_query(sprintf($fmtsql, implode(' AND ', $tmp)))->load_object($this);
+		return $this->_db->set_query( sprintf( $fmtsql , implode( ' AND ' , $tmp ) ) )->load_object( $this );
 	}
 
 	/**
 	 * Поиск записей, удовлетворяющих указаным свойствам объекта
+	 *
 	 * @param array $params массив параметров для уточнения области поиска записей
 	 *     <pre>
 	 *         select - список поле для выборки, по умолчанию * (все поля)
@@ -1581,50 +1677,53 @@ class joosModel {
 	 *         limit - лимит выборки для результата, по молчанию - 0, т.е. ВСЕ записи
 	 *         key - название ключевого поля, для использования в качестве ключа ассоциативного массива результатов. По умолчанию использует ключевое поле модели. key=>FALSE если необходимо сделать простой массив ( 0=>array(),1=>array() )
 	 *     <pre>
+	 *
 	 * @return array ассоциативный массив результата поиска
 	 */
-	public function find_all(array $params = array()) {
-		$def_param = array('select' => '*');
+	public function find_all( array $params = array () ) {
+		$def_param = array ( 'select' => '*' );
 		$params += $def_param;
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
-		$fmtsql .= isset($params['order']) ? ' ORDER BY ' . $params['order'] : '';
+		$fmtsql .= isset( $params['order'] ) ? ' ORDER BY ' . $params['order'] : '';
 
-		$tmp = array();
+		$tmp = array ();
 
-		if (isset($params['where'])) {
+		if ( isset( $params['where'] ) ) {
 			$tmp[] = $params['where'];
 		}
 
-		foreach (get_object_vars($this) as $k => $v) {
+		foreach ( get_object_vars( $this ) as $k => $v ) {
 
-			if (is_array($v) or is_object($v) or $k[0] == '_' or empty($v)) {
+			if ( is_array( $v ) or is_object( $v ) or $k[0] == '_' or empty( $v ) ) {
 				continue;
 			}
-			if ($v == '') {
+			if ( $v == '' ) {
 				$val = "''";
 			} else {
-				$val = $this->_db->quote($v);
+				$val = $this->_db->quote( $v );
 			}
-			$tmp[] = $this->_db->name_quote($k) . '=' . $val;
+			$tmp[] = $this->_db->name_quote( $k ) . '=' . $val;
 		}
-		$tmp = count($tmp) > 0 ? $tmp : array('true');
+		$tmp     = count( $tmp ) > 0 ? $tmp : array ( 'true' );
 
-		$offset = isset($params['offset']) ? intval($params['offset']) : 0;
-		$limit = isset($params['limit']) ? intval($params['limit']) : 0;
+		$offset  = isset( $params['offset'] ) ? intval( $params['offset'] ) : 0;
+		$limit   = isset( $params['limit'] ) ? intval( $params['limit'] ) : 0;
 
-		$tbl_key = isset($params['key']) ? $params['key'] : $this->_tbl_key;
+		$tbl_key = isset( $params['key'] ) ? $params['key'] : $this->_tbl_key;
 
-		return $this->_db->set_query(sprintf($fmtsql, implode(' AND ', $tmp)), $offset, $limit)->load_object_list($tbl_key);
+		return $this->_db->set_query( sprintf( $fmtsql , implode( ' AND ' , $tmp ) ) , $offset , $limit )->load_object_list( $tbl_key );
 	}
 
 	/**
 	 * Возвращает максимальное значение по заданному полю
+	 *
 	 * @param string $name Имя поля
+	 *
 	 * @return integer максимальное значение
 	 */
-	function get_max_by_field($name) {
+	function get_max_by_field( $name ) {
 		$query = 'SELECT  ' . $name . ' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
-		return $this->_db->set_query($query)->load_result();
+		return $this->_db->set_query( $query )->load_result();
 	}
 
 	/**
@@ -1632,25 +1731,25 @@ class joosModel {
 	 *
 	 * @example
 	 * $values = array(
-	 * 	0 => array(
-	 * 		'counter' => 111,
-	 * 		'name' => 'первая запись',
-	 * 	),
-	 * 	1 => array(
-	 * 		'name' => ' вторая запись ',
-	 * 		'counter' => 2222
-	 * 	),
-	 * 	2 => array(
-	 * 		'name' => ' третья запись',
-	 * 		'counter' => 123456
-	 * 	),
+	 *	 0 => array(
+	 *		 'counter' => 111,
+	 *		 'name' => 'первая запись',
+	 *	 ),
+	 *	 1 => array(
+	 *		 'name' => ' вторая запись ',
+	 *		 'counter' => 2222
+	 *	 ),
+	 *	 2 => array(
+	 *		 'name' => ' третья запись',
+	 *		 'counter' => 123456
+	 *	 ),
 	 * );
 	 *
 	 * @param array $array_values
 	 * @return bool результат вставки массива
 	 */
-	public function insert_array(array $array_values) {
-		return $this->_db->insert_array($this->_tbl, $this, $array_values);
+	public function insert_array( array $array_values ) {
+		return $this->_db->insert_array( $this->_tbl , $this , $array_values );
 	}
 
 }

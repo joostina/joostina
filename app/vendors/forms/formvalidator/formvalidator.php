@@ -39,30 +39,30 @@ class ValidatorObj {
  * */
 class CustomValidator {
 
-	function DoValidate(&$formars, &$error_hash) {
+	function DoValidate( &$formars , &$error_hash ) {
 		return true;
 	}
 
 }
 
 /** Default error messages */
-define("E_VAL_REQUIRED_VALUE", "Не указано %s");
-define("E_VAL_MAXLEN_EXCEEDED", "Максимальная длина не должна превышать %s.");
-define("E_VAL_MINLEN_CHECK_FAILED", "Значение должно быть больше %d для %s");
-define("E_VAL_ALNUM_CHECK_FAILED", "Разрешено только буквы %s");
-define("E_VAL_ALNUM_S_CHECK_FAILED", "Рарешены только буквы и цифры %s");
-define("E_VAL_NUM_CHECK_FAILED", "Разрешены только цифры %s");
-define("E_VAL_ALPHA_CHECK_FAILED", "Разрешены только символы %s");
-define("E_VAL_ALPHA_S_CHECK_FAILED", "Разрешены только символы, да %s");
-define("E_VAL_EMAIL_CHECK_FAILED", "Адрес email в корне не верен");
-define("E_VAL_LESSTHAN_CHECK_FAILED", "Значение должно быть менее %f для %s");
-define("E_VAL_GREATERTHAN_CHECK_FAILED", "Значение должно быть больше чам %f для %s");
-define("E_VAL_REGEXP_CHECK_FAILED", "Тут что-то не так %s");
-define("E_VAL_DONTSEL_CHECK_FAILED", "Выбранный вариант не верен %s");
-define("E_VAL_SELMIN_CHECK_FAILED", "Выберите минимальный %d вариант для %s");
-define("E_VAL_SELONE_CHECK_FAILED", "Выберите вариант %s");
-define("E_VAL_EQELMNT_CHECK_FAILED", "Значение %s должно совпадать с %s");
-define("E_VAL_NEELMNT_CHECK_FAILED", "Значение %s не должно быть таким же как %s");
+define( "E_VAL_REQUIRED_VALUE" , "Не указано %s" );
+define( "E_VAL_MAXLEN_EXCEEDED" , "Максимальная длина не должна превышать %s." );
+define( "E_VAL_MINLEN_CHECK_FAILED" , "Значение должно быть больше %d для %s" );
+define( "E_VAL_ALNUM_CHECK_FAILED" , "Разрешено только буквы %s" );
+define( "E_VAL_ALNUM_S_CHECK_FAILED" , "Рарешены только буквы и цифры %s" );
+define( "E_VAL_NUM_CHECK_FAILED" , "Разрешены только цифры %s" );
+define( "E_VAL_ALPHA_CHECK_FAILED" , "Разрешены только символы %s" );
+define( "E_VAL_ALPHA_S_CHECK_FAILED" , "Разрешены только символы, да %s" );
+define( "E_VAL_EMAIL_CHECK_FAILED" , "Адрес email в корне не верен" );
+define( "E_VAL_LESSTHAN_CHECK_FAILED" , "Значение должно быть менее %f для %s" );
+define( "E_VAL_GREATERTHAN_CHECK_FAILED" , "Значение должно быть больше чам %f для %s" );
+define( "E_VAL_REGEXP_CHECK_FAILED" , "Тут что-то не так %s" );
+define( "E_VAL_DONTSEL_CHECK_FAILED" , "Выбранный вариант не верен %s" );
+define( "E_VAL_SELMIN_CHECK_FAILED" , "Выберите минимальный %d вариант для %s" );
+define( "E_VAL_SELONE_CHECK_FAILED" , "Выберите вариант %s" );
+define( "E_VAL_EQELMNT_CHECK_FAILED" , "Значение %s должно совпадать с %s" );
+define( "E_VAL_NEELMNT_CHECK_FAILED" , "Значение %s не должно быть таким же как %s" );
 
 /**
  * FormValidator: The main class that does all the form validations
@@ -75,37 +75,37 @@ class FormValidator {
 	var $js_validator;
 	var $report;
 
-	function get_js_validator($task) {
-		return json_encode($this->js_validator[$task]);
+	function get_js_validator( $task ) {
+		return json_encode( $this->js_validator[$task] );
 		//            return $v = $this->js_validator;
 		//            return json_encode($this->js_validator);
 	}
 
 	function FormValidator() {
-		$this->validator_array = array();
-		$this->error_hash = array();
-		$this->custom_validators = array();
+		$this->validator_array   = array ();
+		$this->error_hash        = array ();
+		$this->custom_validators = array ();
 	}
 
-	function AddCustomValidator(&$customv) {
-		array_push($this->custom_validators, $customv);
+	function AddCustomValidator( &$customv ) {
+		array_push( $this->custom_validators , $customv );
 	}
 
-	function addValidation($variable, $validator, $error) {
-		$validator_obj = new ValidatorObj();
-		$validator_obj->variable_name = $variable;
+	function addValidation( $variable , $validator , $error ) {
+		$validator_obj                   = new ValidatorObj();
+		$validator_obj->variable_name    = $variable;
 		$validator_obj->validator_string = $validator;
-		$validator_obj->error_string = $error;
-		array_push($this->validator_array, $validator_obj);
+		$validator_obj->error_string     = $error;
+		array_push( $this->validator_array , $validator_obj );
 
 		//Для JS-валидации
-		$splitted = explode("=", $validator);
-		$command = $splitted[0];
+		$splitted      = explode( "=" , $validator );
+		$command       = $splitted[0];
 		$command_value = '';
-		if (isset($splitted[1]) && strlen($splitted[1]) > 0) {
+		if ( isset( $splitted[1] ) && strlen( $splitted[1] ) > 0 ) {
 			$command_value = $splitted[1];
 		}
-		$this->ValidateCommandJS($command, $command_value, $error, $variable);
+		$this->ValidateCommandJS( $command , $command_value , $error , $variable );
 
 		return $this;
 	}
@@ -116,8 +116,8 @@ class FormValidator {
 
 	function create_report() {
 		$this->report = '<strong>Ошибки при заполнении формы:</strong><ul>';
-		$error_hash = $this->GetErrors();
-		foreach ($error_hash as $inp_err) {
+		$error_hash   = $this->GetErrors();
+		foreach ( $error_hash as $inp_err ) {
 			$this->report .= '<li>' . $inp_err . '</li>';
 		}
 		$this->report .= '</ul>';
@@ -128,13 +128,13 @@ class FormValidator {
 	}
 
 	function ValidateForm() {
-		$bret = true;
+		$bret         = true;
 
 		$error_string = "";
 		//$error_to_display = "";
 
 
-		if (strcmp($_SERVER['REQUEST_METHOD'], 'POST') == 0) {
+		if ( strcmp( $_SERVER['REQUEST_METHOD'] , 'POST' ) == 0 ) {
 			$form_variables = $_POST;
 		} else {
 			$form_variables = $_GET;
@@ -143,16 +143,16 @@ class FormValidator {
 		//$vcount = count($this->validator_array);
 
 
-		foreach ($this->validator_array as $val_obj) {
-			if (!$this->ValidateObject($val_obj, $form_variables, $error_string)) {
-				$bret = false;
+		foreach ( $this->validator_array as $val_obj ) {
+			if ( !$this->ValidateObject( $val_obj , $form_variables , $error_string ) ) {
+				$bret                                      = false;
 				$this->error_hash[$val_obj->variable_name] = $error_string;
 			}
 		}
 
-		if (true == $bret && count($this->custom_validators) > 0) {
-			foreach ($this->custom_validators as $custom_val) {
-				if (false == $custom_val->DoValidate($form_variables, $this->error_hash)) {
+		if ( true == $bret && count( $this->custom_validators ) > 0 ) {
+			foreach ( $this->custom_validators as $custom_val ) {
+				if ( false == $custom_val->DoValidate( $form_variables , $this->error_hash ) ) {
 					$bret = false;
 				}
 			}
@@ -160,29 +160,29 @@ class FormValidator {
 		return $bret;
 	}
 
-	function ValidateObject($validatorobj, $formvariables, &$error_string) {
-		
-		$splitted = explode("=", $validatorobj->validator_string);
-		$command = $splitted[0];
+	function ValidateObject( $validatorobj , $formvariables , &$error_string ) {
+
+		$splitted      = explode( "=" , $validatorobj->validator_string );
+		$command       = $splitted[0];
 		$command_value = '';
 
-		if (isset($splitted[1]) && strlen($splitted[1]) > 0) {
+		if ( isset( $splitted[1] ) && strlen( $splitted[1] ) > 0 ) {
 			$command_value = $splitted[1];
 		}
 
 		$default_error_message = "";
 
-		$input_value = "";
+		$input_value           = "";
 
-		if (isset($formvariables[$validatorobj->variable_name])) {
+		if ( isset( $formvariables[$validatorobj->variable_name] ) ) {
 			$input_value = $formvariables[$validatorobj->variable_name];
 		}
 
-		$bret = $this->ValidateCommand($command, $command_value, $input_value, $default_error_message, $validatorobj->variable_name, $formvariables);
+		$bret = $this->ValidateCommand( $command , $command_value , $input_value , $default_error_message , $validatorobj->variable_name , $formvariables );
 
 
-		if (false == $bret) {
-			if (isset($validatorobj->error_string) && strlen($validatorobj->error_string) > 0) {
+		if ( false == $bret ) {
+			if ( isset( $validatorobj->error_string ) && strlen( $validatorobj->error_string ) > 0 ) {
 				$error_string = $validatorobj->error_string;
 			} else {
 				$error_string = $default_error_message;
@@ -192,64 +192,64 @@ class FormValidator {
 		return $bret;
 	}
 
-	function validate_req($input_value, &$default_error_message, $variable_name) {
+	function validate_req( $input_value , &$default_error_message , $variable_name ) {
 		$bret = true;
-		if (!isset($input_value) || joosString::strlen($input_value) <= 0) {
-			$bret = false;
-			$default_error_message = sprintf(E_VAL_REQUIRED_VALUE, $variable_name);
+		if ( !isset( $input_value ) || joosString::strlen( $input_value ) <= 0 ) {
+			$bret                  = false;
+			$default_error_message = sprintf( E_VAL_REQUIRED_VALUE , $variable_name );
 		}
 		return $bret;
 	}
 
-	function validate_maxlen($input_value, $max_len, $variable_name, &$default_error_message) {
+	function validate_maxlen( $input_value , $max_len , $variable_name , &$default_error_message ) {
 		$bret = true;
-		if (isset($input_value)) {
-			$input_length = joosString::strlen($input_value);
-			if ($input_length > $max_len) {
-				$bret = false;
-				$default_error_message = sprintf(E_VAL_MAXLEN_EXCEEDED, $variable_name);
+		if ( isset( $input_value ) ) {
+			$input_length = joosString::strlen( $input_value );
+			if ( $input_length > $max_len ) {
+				$bret                  = false;
+				$default_error_message = sprintf( E_VAL_MAXLEN_EXCEEDED , $variable_name );
 			}
 		}
 		return $bret;
 	}
 
-	function validate_minlen($input_value, $min_len, $variable_name, &$default_error_message) {
+	function validate_minlen( $input_value , $min_len , $variable_name , &$default_error_message ) {
 		$bret = true;
-		if (isset($input_value)) {
-			$input_length = joosString::strlen($input_value);
-			if ($input_length < $min_len) {
-				$bret = false;
-				$default_error_message = sprintf(E_VAL_MINLEN_CHECK_FAILED, $min_len, $variable_name);
+		if ( isset( $input_value ) ) {
+			$input_length = joosString::strlen( $input_value );
+			if ( $input_length < $min_len ) {
+				$bret                  = false;
+				$default_error_message = sprintf( E_VAL_MINLEN_CHECK_FAILED , $min_len , $variable_name );
 			}
 		}
 		return $bret;
 	}
 
-	function test_datatype($input_value, $reg_exp) {
-		if (ereg($reg_exp, $input_value)) {
+	function test_datatype( $input_value , $reg_exp ) {
+		if ( ereg( $reg_exp , $input_value ) ) {
 			return false;
 		}
 		return true;
 	}
 
-	function validate_email($email) {
+	function validate_email( $email ) {
 		// вместо собственного велосипеда
-		return filter_var($email, FILTER_VALIDATE_EMAIL);
+		return filter_var( $email , FILTER_VALIDATE_EMAIL );
 	}
 
-	function validate_url($url) {
-		return is_string(filter_var($url, FILTER_VALIDATE_URL));
+	function validate_url( $url ) {
+		return is_string( filter_var( $url , FILTER_VALIDATE_URL ) );
 	}
 
-	function validate_for_numeric_input($input_value, &$validation_success) {
+	function validate_for_numeric_input( $input_value , &$validation_success ) {
 
-		$more_validations = true;
+		$more_validations   = true;
 		$validation_success = true;
-		if (joosString::strlen($input_value) > 0) {
+		if ( joosString::strlen( $input_value ) > 0 ) {
 
-			if (false == is_numeric($input_value)) {
+			if ( false == is_numeric( $input_value ) ) {
 				$validation_success = false;
-				$more_validations = false;
+				$more_validations   = false;
 			}
 		} else {
 			$more_validations = false;
@@ -257,352 +257,388 @@ class FormValidator {
 		return $more_validations;
 	}
 
-	function validate_lessthan($command_value, $input_value, $variable_name, &$default_error_message) {
+	function validate_lessthan( $command_value , $input_value , $variable_name , &$default_error_message ) {
 		$bret = true;
-		if (false == $this->validate_for_numeric_input($input_value, $bret)) {
+		if ( false == $this->validate_for_numeric_input( $input_value , $bret ) ) {
 			return $bret;
 		}
-		if ($bret) {
-			$lessthan = doubleval($command_value);
-			$float_inputval = doubleval($input_value);
-			if ($float_inputval >= $lessthan) {
-				$default_error_message = sprintf(E_VAL_LESSTHAN_CHECK_FAILED, $lessthan, $variable_name);
-				$bret = false;
+		if ( $bret ) {
+			$lessthan       = doubleval( $command_value );
+			$float_inputval = doubleval( $input_value );
+			if ( $float_inputval >= $lessthan ) {
+				$default_error_message = sprintf( E_VAL_LESSTHAN_CHECK_FAILED , $lessthan , $variable_name );
+				$bret                  = false;
 			}
 			//if
 		}
 		return $bret;
 	}
 
-	function validate_greaterthan($command_value, $input_value, $variable_name, &$default_error_message) {
+	function validate_greaterthan( $command_value , $input_value , $variable_name , &$default_error_message ) {
 		$bret = true;
-		if (false == $this->validate_for_numeric_input($input_value, $bret)) {
+		if ( false == $this->validate_for_numeric_input( $input_value , $bret ) ) {
 			return $bret;
 		}
-		if ($bret) {
-			$greaterthan = doubleval($command_value);
-			$float_inputval = doubleval($input_value);
-			if ($float_inputval <= $greaterthan) {
-				$default_error_message = sprintf(E_VAL_GREATERTHAN_CHECK_FAILED, $greaterthan, $variable_name);
-				$bret = false;
+		if ( $bret ) {
+			$greaterthan    = doubleval( $command_value );
+			$float_inputval = doubleval( $input_value );
+			if ( $float_inputval <= $greaterthan ) {
+				$default_error_message = sprintf( E_VAL_GREATERTHAN_CHECK_FAILED , $greaterthan , $variable_name );
+				$bret                  = false;
 			}
 			//if
 		}
 		return $bret;
 	}
 
-	function validate_select($input_value, $command_value, &$default_error_message, $variable_name) {
+	function validate_select( $input_value , $command_value , &$default_error_message , $variable_name ) {
 		$bret = false;
-		if (is_array($input_value)) {
-			foreach ($input_value as $value) {
-				if ($value == $command_value) {
+		if ( is_array( $input_value ) ) {
+			foreach ( $input_value as $value ) {
+				if ( $value == $command_value ) {
 					$bret = true;
 					break;
 				}
 			}
 		} else {
-			if ($command_value == $input_value) {
+			if ( $command_value == $input_value ) {
 				$bret = true;
 			}
 		}
-		if (false == $bret) {
-			$default_error_message = sprintf(E_VAL_SHOULD_SEL_CHECK_FAILED, $command_value, $variable_name);
+		if ( false == $bret ) {
+			$default_error_message = sprintf( E_VAL_SHOULD_SEL_CHECK_FAILED , $command_value , $variable_name );
 		}
 		return $bret;
 	}
 
-	function validate_dontselect($input_value, $command_value, &$default_error_message, $variable_name) {
+	function validate_dontselect( $input_value , $command_value , &$default_error_message , $variable_name ) {
 		$bret = true;
-		if (is_array($input_value)) {
-			foreach ($input_value as $value) {
-				if ($value == $command_value) {
-					$bret = false;
-					$default_error_message = sprintf(E_VAL_DONTSEL_CHECK_FAILED, $variable_name);
+		if ( is_array( $input_value ) ) {
+			foreach ( $input_value as $value ) {
+				if ( $value == $command_value ) {
+					$bret                  = false;
+					$default_error_message = sprintf( E_VAL_DONTSEL_CHECK_FAILED , $variable_name );
 					break;
 				}
 			}
 		} else {
-			if ($command_value == $input_value) {
-				$bret = false;
-				$default_error_message = sprintf(E_VAL_DONTSEL_CHECK_FAILED, $variable_name);
+			if ( $command_value == $input_value ) {
+				$bret                  = false;
+				$default_error_message = sprintf( E_VAL_DONTSEL_CHECK_FAILED , $variable_name );
 			}
 		}
 		return $bret;
 	}
 
-	function ValidateCommandJS($command, $command_value, $default_error_message, $variable_name) {
-		switch ($command) {
+	function ValidateCommandJS( $command , $command_value , $default_error_message , $variable_name ) {
+		switch ( $command ) {
 
-			case 'req': {
-					$this->js_validator['rules'][$variable_name]['required'] = true;
-					$this->js_validator['messages'][$variable_name]['required'] = $default_error_message;
-					break;
+			case 'req':
+				{
+				$this->js_validator['rules'][$variable_name]['required']    = true;
+				$this->js_validator['messages'][$variable_name]['required'] = $default_error_message;
+				break;
 				}
 
-			case 'maxlen': {
-					$max_len = intval($command_value);
-					$this->js_validator['rules'][$variable_name]['maxlength'] = $max_len;
-					$this->js_validator['messages'][$variable_name]['maxlength'] = $default_error_message;
-					break;
+			case 'maxlen':
+				{
+				$max_len                                                     = intval( $command_value );
+				$this->js_validator['rules'][$variable_name]['maxlength']    = $max_len;
+				$this->js_validator['messages'][$variable_name]['maxlength'] = $default_error_message;
+				break;
 				}
 
-			case 'minlen': {
-					$min_len = intval($command_value);
-					$this->js_validator['rules'][$variable_name]['minlength'] = $min_len;
-					$this->js_validator['messages'][$variable_name]['minlength'] = $default_error_message;
-					break;
+			case 'minlen':
+				{
+				$min_len                                                     = intval( $command_value );
+				$this->js_validator['rules'][$variable_name]['minlength']    = $min_len;
+				$this->js_validator['messages'][$variable_name]['minlength'] = $default_error_message;
+				break;
 				}
 
 
-			case 'alnum': {
-					break;
+			case 'alnum':
+				{
+				break;
 				}
 
-			case 'alnum_s': {
-					break;
+			case 'alnum_s':
+				{
+				break;
 				}
 
 			case 'num':
-			case 'numeric': {
-					$this->js_validator['rules'][$variable_name]['number'] = true;
-					$this->js_validator['messages'][$variable_name]['number'] = $default_error_message;
-					break;
+			case 'numeric':
+				{
+				$this->js_validator['rules'][$variable_name]['number']    = true;
+				$this->js_validator['messages'][$variable_name]['number'] = $default_error_message;
+				break;
 				}
 
-			case 'alpha': {
-					break;
+			case 'alpha':
+				{
+				break;
 				}
 
-			case 'alpha_s': {
-					break;
+			case 'alpha_s':
+				{
+				break;
 				}
 
-			case 'email': {
-					$this->js_validator['rules'][$variable_name]['email'] = true;
-					$this->js_validator['messages'][$variable_name]['email'] = E_VAL_EMAIL_CHECK_FAILED;
-					break;
+			case 'email':
+				{
+				$this->js_validator['rules'][$variable_name]['email']    = true;
+				$this->js_validator['messages'][$variable_name]['email'] = E_VAL_EMAIL_CHECK_FAILED;
+				break;
 				}
 
-			case 'url': {
-					$this->js_validator['rules'][$variable_name]['url'] = true;
-					$this->js_validator['messages'][$variable_name]['url'] = $default_error_message;
-					break;
+			case 'url':
+				{
+				$this->js_validator['rules'][$variable_name]['url']    = true;
+				$this->js_validator['messages'][$variable_name]['url'] = $default_error_message;
+				break;
 				}
 
 			case "lt":
-			case "lessthan": {
-					$this->js_validator['rules'][$variable_name]['max'] = $command_value;
-					$this->js_validator['messages'][$variable_name]['max'] = $default_error_message;
-					break;
+			case "lessthan":
+				{
+				$this->js_validator['rules'][$variable_name]['max']    = $command_value;
+				$this->js_validator['messages'][$variable_name]['max'] = $default_error_message;
+				break;
 				}
 
 			case "gt":
-			case "greaterthan": {
-					$this->js_validator['rules'][$variable_name]['min'] = $command_value;
-					$this->js_validator['messages'][$variable_name]['min'] = $default_error_message;
-					break;
+			case "greaterthan":
+				{
+				$this->js_validator['rules'][$variable_name]['min']    = $command_value;
+				$this->js_validator['messages'][$variable_name]['min'] = $default_error_message;
+				break;
 				}
 
-			case "remote": {
-					$this->js_validator['rules'][$variable_name]['remote'] = JPATH_SITE . $command_value;
-					$this->js_validator['messages'][$variable_name]['remote'] = $default_error_message;
-					break;
+			case "remote":
+				{
+				$this->js_validator['rules'][$variable_name]['remote']    = JPATH_SITE . $command_value;
+				$this->js_validator['messages'][$variable_name]['remote'] = $default_error_message;
+				break;
 				}
 
-			case "usernameRegex": {
-					$this->js_validator['rules'][$variable_name]['usernameRegex'] = $command_value;
-					$this->js_validator['messages'][$variable_name]['usernameRegex'] = $default_error_message;
-					break;
+			case "usernameRegex":
+				{
+				$this->js_validator['rules'][$variable_name]['usernameRegex']    = $command_value;
+				$this->js_validator['messages'][$variable_name]['usernameRegex'] = $default_error_message;
+				break;
 				}
 			case "dontselect":
 			case "dontselectchk":
-			case "dontselectradio": {
+			case "dontselectradio":
+				{
 
-					break;
+				break;
 				}
 			//case
 
 			case "shouldselchk":
-			case "selectradio": {
+			case "selectradio":
+				{
 
-					break;
+				break;
 				}
 			//case
-			case "selmin": {
-					break;
+			case "selmin":
+				{
+				break;
 				}
 			//case
-			case "selone": {
-					break;
+			case "selone":
+				{
+				break;
 				}
-			case "eqelmnt": {
-					break;
+			case "eqelmnt":
+				{
+				break;
 				}
-			case "neelmnt": {
-					break;
+			case "neelmnt":
+				{
+				break;
 				}
 		}
 		//switch
 	}
 
-	function ValidateCommand($command, $command_value, $input_value, &$default_error_message, $variable_name, $formvariables) {
+	function ValidateCommand( $command , $command_value , $input_value , &$default_error_message , $variable_name , $formvariables ) {
 		$bret = true;
-		switch ($command) {
-			case 'req': {
-					$bret = $this->validate_req($input_value, $default_error_message, $variable_name);
-					break;
+		switch ( $command ) {
+			case 'req':
+				{
+				$bret = $this->validate_req( $input_value , $default_error_message , $variable_name );
+				break;
 				}
 
-			case 'maxlen': {
-					$max_len = intval($command_value);
-					$bret = $this->validate_maxlen($input_value, $max_len, $variable_name, $default_error_message);
-					break;
+			case 'maxlen':
+				{
+				$max_len = intval( $command_value );
+				$bret    = $this->validate_maxlen( $input_value , $max_len , $variable_name , $default_error_message );
+				break;
 				}
 
-			case 'minlen': {
-					$min_len = intval($command_value);
+			case 'minlen':
+				{
+				$min_len = intval( $command_value );
 
 
-					$bret = $this->validate_minlen($input_value, $min_len, $variable_name, $default_error_message);
+				$bret    = $this->validate_minlen( $input_value , $min_len , $variable_name , $default_error_message );
 
-					break;
+				break;
 				}
 
-			case 'alnum': {
-					$bret = $this->test_datatype($input_value, "[^A-Za-z0-9]");
-					if (false == $bret) {
-						$default_error_message = sprintf(E_VAL_ALNUM_CHECK_FAILED, $variable_name);
-					}
-					break;
+			case 'alnum':
+				{
+				$bret = $this->test_datatype( $input_value , "[^A-Za-z0-9]" );
+				if ( false == $bret ) {
+					$default_error_message = sprintf( E_VAL_ALNUM_CHECK_FAILED , $variable_name );
+				}
+				break;
 				}
 
-			case 'alnum_s': {
-					$bret = $this->test_datatype($input_value, "[^A-Za-z0-9 ]");
-					if (false == $bret) {
-						$default_error_message = sprintf(E_VAL_ALNUM_S_CHECK_FAILED, $variable_name);
-					}
-					break;
+			case 'alnum_s':
+				{
+				$bret = $this->test_datatype( $input_value , "[^A-Za-z0-9 ]" );
+				if ( false == $bret ) {
+					$default_error_message = sprintf( E_VAL_ALNUM_S_CHECK_FAILED , $variable_name );
+				}
+				break;
 				}
 
 			case 'num':
-			case 'numeric': {
-					$bret = $this->test_datatype($input_value, "[^0-9]");
-					if (false == $bret) {
-						$default_error_message = sprintf(E_VAL_NUM_CHECK_FAILED, $variable_name);
-					}
-					break;
+			case 'numeric':
+				{
+				$bret = $this->test_datatype( $input_value , "[^0-9]" );
+				if ( false == $bret ) {
+					$default_error_message = sprintf( E_VAL_NUM_CHECK_FAILED , $variable_name );
+				}
+				break;
 				}
 
-			case 'alpha': {
-					$bret = $this->test_datatype($input_value, "[^A-Za-z]");
-					if (false == $bret) {
-						$default_error_message = sprintf(E_VAL_ALPHA_CHECK_FAILED, $variable_name);
-					}
-					break;
+			case 'alpha':
+				{
+				$bret = $this->test_datatype( $input_value , "[^A-Za-z]" );
+				if ( false == $bret ) {
+					$default_error_message = sprintf( E_VAL_ALPHA_CHECK_FAILED , $variable_name );
 				}
-			case 'alpha_s': {
-					$bret = $this->test_datatype($input_value, "[^A-Za-z ]");
-					if (false == $bret) {
-						$default_error_message = sprintf(E_VAL_ALPHA_S_CHECK_FAILED, $variable_name);
-					}
-					break;
+				break;
 				}
-			case 'email': {
-					if (isset($input_value) && strlen($input_value) > 0) {
-						$bret = $this->validate_email($input_value);
-						if (false == $bret) {
-							$default_error_message = E_VAL_EMAIL_CHECK_FAILED;
-						}
-					}
-					break;
+			case 'alpha_s':
+				{
+				$bret = $this->test_datatype( $input_value , "[^A-Za-z ]" );
+				if ( false == $bret ) {
+					$default_error_message = sprintf( E_VAL_ALPHA_S_CHECK_FAILED , $variable_name );
 				}
-			case 'url': {
-					if (isset($input_value) && strlen($input_value) > 0) {
-						$bret = $this->validate_url($input_value, $default_error_message);
+				break;
+				}
+			case 'email':
+				{
+				if ( isset( $input_value ) && strlen( $input_value ) > 0 ) {
+					$bret = $this->validate_email( $input_value );
+					if ( false == $bret ) {
+						$default_error_message = E_VAL_EMAIL_CHECK_FAILED;
 					}
-					break;
+				}
+				break;
+				}
+			case 'url':
+				{
+				if ( isset( $input_value ) && strlen( $input_value ) > 0 ) {
+					$bret = $this->validate_url( $input_value , $default_error_message );
+				}
+				break;
 				}
 			case "lt":
-			case "lessthan": {
-					$bret = $this->validate_lessthan($command_value, $input_value, $variable_name, $default_error_message);
-					break;
+			case "lessthan":
+				{
+				$bret = $this->validate_lessthan( $command_value , $input_value , $variable_name , $default_error_message );
+				break;
 				}
 			case "gt":
-			case "greaterthan": {
-					$bret = $this->validate_greaterthan($command_value, $input_value, $variable_name, $default_error_message);
-					break;
+			case "greaterthan":
+				{
+				$bret = $this->validate_greaterthan( $command_value , $input_value , $variable_name , $default_error_message );
+				break;
 				}
 
-			case "regexp": {
-					if (isset($input_value) && joosString::strlen($input_value) > 0) {
-						if (!preg_match("$command_value", $input_value)) {
-							$bret = false;
-							$default_error_message = sprintf(E_VAL_REGEXP_CHECK_FAILED, $variable_name);
-						}
+			case "regexp":
+				{
+				if ( isset( $input_value ) && joosString::strlen( $input_value ) > 0 ) {
+					if ( !preg_match( "$command_value" , $input_value ) ) {
+						$bret                  = false;
+						$default_error_message = sprintf( E_VAL_REGEXP_CHECK_FAILED , $variable_name );
 					}
-					break;
+				}
+				break;
 				}
 			case "dontselect":
 			case "dontselectchk":
-			case "dontselectradio": {
-					$bret = $this->validate_dontselect($input_value, $command_value, $default_error_message, $variable_name);
-					break;
+			case "dontselectradio":
+				{
+				$bret = $this->validate_dontselect( $input_value , $command_value , $default_error_message , $variable_name );
+				break;
 				}
 			//case
 
 			case "shouldselchk":
-			case "selectradio": {
-					$bret = $this->validate_select($input_value, $command_value, $default_error_message, $variable_name);
-					break;
+			case "selectradio":
+				{
+				$bret = $this->validate_select( $input_value , $command_value , $default_error_message , $variable_name );
+				break;
 				}
 			//case
-			case "selmin": {
-					$min_count = intval($command_value);
+			case "selmin":
+				{
+				$min_count = intval( $command_value );
 
-					if (isset($input_value)) {
-						if ($min_count > 1) {
-							$bret = (count($input_value) >= $min_count) ? true : false;
-						} else {
-							$bret = true;
-						}
+				if ( isset( $input_value ) ) {
+					if ( $min_count > 1 ) {
+						$bret = ( count( $input_value ) >= $min_count ) ? true : false;
 					} else {
-						$bret = false;
-						$default_error_message = sprintf(E_VAL_SELMIN_CHECK_FAILED, $min_count, $variable_name);
-					}
-					break;
-				}
-			//case
-			case "selone": {
-					if (false == isset($input_value) ||
-							strlen($input_value) <= 0) {
-						$bret = false;
-						$default_error_message = sprintf(E_VAL_SELONE_CHECK_FAILED, $variable_name);
-					}
-					break;
-				}
-			case "eqelmnt": {
-
-					if (isset($formvariables[$command_value]) &&
-							strcmp($input_value, $formvariables[$command_value]) == 0) {
 						$bret = true;
-					} else {
-						$bret = false;
-						$default_error_message = sprintf(E_VAL_EQELMNT_CHECK_FAILED, $variable_name, $command_value);
 					}
+				} else {
+					$bret                  = false;
+					$default_error_message = sprintf( E_VAL_SELMIN_CHECK_FAILED , $min_count , $variable_name );
+				}
+				break;
+				}
+			//case
+			case "selone":
+				{
+				if ( false == isset( $input_value ) || strlen( $input_value ) <= 0 ) {
+					$bret                  = false;
+					$default_error_message = sprintf( E_VAL_SELONE_CHECK_FAILED , $variable_name );
+				}
+				break;
+				}
+			case "eqelmnt":
+				{
+
+				if ( isset( $formvariables[$command_value] ) && strcmp( $input_value , $formvariables[$command_value] ) == 0 ) {
+					$bret = true;
+				} else {
+					$bret                  = false;
+					$default_error_message = sprintf( E_VAL_EQELMNT_CHECK_FAILED , $variable_name , $command_value );
+				}
 //                                                        $this->js_validator['rules'][$variable_name]['equalTo'] = '.' . $command_value;
 //                                                        $this->js_validator['messages'][$variable_name]['equalTo'] = $default_error_message;
 
-					break;
+				break;
 				}
-			case "neelmnt": {
-					if (isset($formvariables[$command_value]) &&
-							strcmp($input_value, $formvariables[$command_value]) != 0) {
-						$bret = true;
-					} else {
-						$bret = false;
-						$default_error_message = sprintf(E_VAL_NEELMNT_CHECK_FAILED, $variable_name, $command_value);
-					}
-					break;
+			case "neelmnt":
+				{
+				if ( isset( $formvariables[$command_value] ) && strcmp( $input_value , $formvariables[$command_value] ) != 0 ) {
+					$bret = true;
+				} else {
+					$bret                  = false;
+					$default_error_message = sprintf( E_VAL_NEELMNT_CHECK_FAILED , $variable_name , $command_value );
+				}
+				break;
 				}
 		}
 		//switch

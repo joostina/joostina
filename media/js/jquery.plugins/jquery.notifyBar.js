@@ -48,9 +48,9 @@ jQuery.notifyBar = function(settings) {
             notifyBarNS.html = bar.html();
         } else {
             bar = jQuery("<div></div>")
-                    .addClass("jquery-notify-bar")
-                    .addClass(notifyBarNS.cls)
-                    .attr("id", "__notifyBar");
+                .addClass("jquery-notify-bar")
+                .addClass(notifyBarNS.cls)
+                .attr("id", "__notifyBar");
         }
 
         bar.html(notifyBarNS.html).hide();

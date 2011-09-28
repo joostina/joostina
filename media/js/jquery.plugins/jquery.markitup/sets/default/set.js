@@ -10,10 +10,10 @@
 // Basic set. Feel free to add more tags
 // ----------------------------------------------------------------------------
 mySettings = {
-    onShiftEnter:      {keepDefault:false, replaceWith:'<br />\n'},
-    onCtrlEnter:      {keepDefault:false, openWith:'\n<p>', closeWith:'</p>'},
-    onTab:            {keepDefault:false, replaceWith:'    '},
-    markupSet:  [
+    onShiftEnter:{keepDefault:false, replaceWith:'<br />\n'},
+    onCtrlEnter:{keepDefault:false, openWith:'\n<p>', closeWith:'</p>'},
+    onTab:{keepDefault:false, replaceWith:'    '},
+    markupSet:[
         {name:'Bold', key:'B', openWith:'(!(<strong>|!|<b>)!)', closeWith:'(!(</strong>|!|</b>)!)' },
         {name:'Italic', key:'I', openWith:'(!(<em>|!|<i>)!)', closeWith:'(!(</em>|!|</i>)!)'  },
         {name:'Stroke through', key:'S', openWith:'<del>', closeWith:'</del>' },
@@ -28,6 +28,6 @@ mySettings = {
         {name:'Clean', className:'clean', replaceWith:function(markitup) {
             return markitup.selection.replace(/<(.*?)>/g, "")
         } },
-        {name:'Preview', className:'preview',  call:'preview'}
+        {name:'Preview', className:'preview', call:'preview'}
     ]
 }

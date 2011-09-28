@@ -52,7 +52,7 @@
         }
 
         if (typeof options == 'function') {
-            options = { success: options };
+            options = { success:options };
         }
 
         var url = $.trim(this.attr('action'));
@@ -63,9 +63,9 @@
         url = url || window.location.href || '';
 
         options = $.extend(true, {
-            url:  url,
-            type: this.attr('method') || 'GET',
-            iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
+            url:url,
+            type:this.attr('method') || 'GET',
+            iframeSrc:/^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
         }, options);
 
         // hook for manipulating the form data before it is extracted;
@@ -83,19 +83,19 @@
             return this;
         }
 
-        var n,v,a = this.formToArray(options.semantic);
+        var n, v, a = this.formToArray(options.semantic);
         if (options.data) {
             options.extraData = options.data;
             for (n in options.data) {
                 if (options.data[n] instanceof Array) {
                     for (var k in options.data[n]) {
-                        a.push({ name: n, value: options.data[n][k] });
+                        a.push({ name:n, value:options.data[n][k] });
                     }
                 }
                 else {
                     v = options.data[n];
                     v = $.isFunction(v) ? v() : v; // if value is fn, invoke it
-                    a.push({ name: n, value: v });
+                    a.push({ name:n, value:v });
                 }
             }
         }
@@ -202,28 +202,28 @@
                     window[fn] = undefined;
                     try {
                         delete window[fn];
-                    } catch(e) {
+                    } catch (e) {
                     }
                 }
             }
             var $io = $('<iframe id="' + id + '" name="' + id + '" src="' + s.iframeSrc + '" onload="window[\'_\'+this.id]()" />');
             var io = $io[0];
 
-            $io.css({ position: 'absolute', top: '-1000px', left: '-1000px' });
+            $io.css({ position:'absolute', top:'-1000px', left:'-1000px' });
 
             var xhr = { // mock object
-                aborted: 0,
-                responseText: null,
-                responseXML: null,
-                status: 0,
-                statusText: 'n/a',
-                getAllResponseHeaders: function() {
+                aborted:0,
+                responseText:null,
+                responseXML:null,
+                status:0,
+                statusText:'n/a',
+                getAllResponseHeaders:function() {
                 },
-                getResponseHeader: function() {
+                getResponseHeader:function() {
                 },
-                setRequestHeader: function() {
+                setRequestHeader:function() {
                 },
-                abort: function() {
+                abort:function() {
                     this.aborted = 1;
                     $io.attr('src', s.iframeSrc); // abort op in progress
                 }
@@ -231,7 +231,7 @@
 
             var g = s.global;
             // trigger ajax global events so that activity/block indicators work like normal
-            if (g && ! $.active++) {
+            if (g && !$.active++) {
                 $.event.trigger("ajaxStart");
             }
             if (g) {
@@ -280,10 +280,10 @@
                 }
 
                 // ie borks in some cases when setting encoding
-                if (! s.skipEncodingOverride) {
+                if (!s.skipEncodingOverride) {
                     $form.attr({
-                        encoding: 'multipart/form-data',
-                        enctype:  'multipart/form-data'
+                        encoding:'multipart/form-data',
+                        enctype:'multipart/form-data'
                     });
                 }
 
@@ -301,8 +301,8 @@
                     if (s.extraData) {
                         for (var n in s.extraData) {
                             extraInputs.push(
-                                    $('<input type="hidden" name="' + n + '" value="' + s.extraData[n] + '" />')
-                                            .appendTo(form)[0]);
+                                $('<input type="hidden" name="' + n + '" value="' + s.extraData[n] + '" />')
+                                    .appendTo(form)[0]);
                         }
                     }
 
@@ -367,7 +367,7 @@
                     xhr.responseText = doc.documentElement ? doc.documentElement.innerHTML : null;
                     xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
                     xhr.getResponseHeader = function(header) {
-                        var headers = {'content-type': s.dataType};
+                        var headers = {'content-type':s.dataType};
                         return headers[header];
                     };
 
@@ -395,7 +395,7 @@
                     }
                     data = $.httpData(xhr, s.dataType);
                 }
-                catch(e) {
+                catch (e) {
                     log('error caught:', e);
                     ok = false;
                     xhr.error = e;
@@ -412,7 +412,7 @@
                 if (g) {
                     $.event.trigger("ajaxComplete", [xhr, s]);
                 }
-                if (g && ! --$.active) {
+                if (g && !--$.active) {
                     $.event.trigger("ajaxStop");
                 }
                 if (s.complete) {
@@ -459,7 +459,7 @@
     $.fn.ajaxForm = function(options) {
         // in jQuery 1.3+ we can fix mistakes with the ready state
         if (this.length === 0) {
-            var o = { s: this.selector, c: this.context };
+            var o = { s:this.selector, c:this.context };
             if (!$.isReady && o.s) {
                 log('DOM not ready, queuing ajaxForm');
                 $(function() {
@@ -473,42 +473,42 @@
         }
 
         return this.ajaxFormUnbind().bind('submit.form-plugin',
-                function(e) {
-                    if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
-                        e.preventDefault();
-                        $(this).ajaxSubmit(options);
+            function(e) {
+                if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
+                    e.preventDefault();
+                    $(this).ajaxSubmit(options);
+                }
+            }).bind('click.form-plugin', function(e) {
+                var target = e.target;
+                var $el = $(target);
+                if (!($el.is(":submit,input:image"))) {
+                    // is this a child element of the submit el?  (ex: a span within a button)
+                    var t = $el.closest(':submit');
+                    if (t.length == 0) {
+                        return;
                     }
-                }).bind('click.form-plugin', function(e) {
-            var target = e.target;
-            var $el = $(target);
-            if (!($el.is(":submit,input:image"))) {
-                // is this a child element of the submit el?  (ex: a span within a button)
-                var t = $el.closest(':submit');
-                if (t.length == 0) {
-                    return;
+                    target = t[0];
                 }
-                target = t[0];
-            }
-            var form = this;
-            form.clk = target;
-            if (target.type == 'image') {
-                if (e.offsetX != undefined) {
-                    form.clk_x = e.offsetX;
-                    form.clk_y = e.offsetY;
-                } else if (typeof $.fn.offset == 'function') { // try to use dimensions plugin
-                    var offset = $el.offset();
-                    form.clk_x = e.pageX - offset.left;
-                    form.clk_y = e.pageY - offset.top;
-                } else {
-                    form.clk_x = e.pageX - target.offsetLeft;
-                    form.clk_y = e.pageY - target.offsetTop;
+                var form = this;
+                form.clk = target;
+                if (target.type == 'image') {
+                    if (e.offsetX != undefined) {
+                        form.clk_x = e.offsetX;
+                        form.clk_y = e.offsetY;
+                    } else if (typeof $.fn.offset == 'function') { // try to use dimensions plugin
+                        var offset = $el.offset();
+                        form.clk_x = e.pageX - offset.left;
+                        form.clk_y = e.pageY - offset.top;
+                    } else {
+                        form.clk_x = e.pageX - target.offsetLeft;
+                        form.clk_y = e.pageY - target.offsetTop;
+                    }
                 }
-            }
-            // clear form vars
-            setTimeout(function() {
-                form.clk = form.clk_x = form.clk_y = null;
-            }, 100);
-        });
+                // clear form vars
+                setTimeout(function() {
+                    form.clk = form.clk_x = form.clk_y = null;
+                }, 100);
+            });
     };
 
 // ajaxFormUnbind unbinds the event handlers that were bound by ajaxForm
@@ -539,8 +539,8 @@
             return a;
         }
 
-        var i,j,n,v,el,max,jmax;
-        for (i = 0,max = els.length; i < max; i++) {
+        var i, j, n, v, el, max, jmax;
+        for (i = 0, max = els.length; i < max; i++) {
             el = els[i];
             n = el.name;
             if (!n) {
@@ -550,20 +550,20 @@
             if (semantic && form.clk && el.type == "image") {
                 // handle image inputs on the fly when semantic == true
                 if (!el.disabled && form.clk == el) {
-                    a.push({name: n, value: $(el).val()});
-                    a.push({name: n + '.x', value: form.clk_x}, {name: n + '.y', value: form.clk_y});
+                    a.push({name:n, value:$(el).val()});
+                    a.push({name:n + '.x', value:form.clk_x}, {name:n + '.y', value:form.clk_y});
                 }
                 continue;
             }
 
             v = $.fieldValue(el, true);
             if (v && v.constructor == Array) {
-                for (j = 0,jmax = v.length; j < jmax; j++) {
-                    a.push({name: n, value: v[j]});
+                for (j = 0, jmax = v.length; j < jmax; j++) {
+                    a.push({name:n, value:v[j]});
                 }
             }
             else if (v !== null && typeof v != 'undefined') {
-                a.push({name: n, value: v});
+                a.push({name:n, value:v});
             }
         }
 
@@ -572,8 +572,8 @@
             var $input = $(form.clk), input = $input[0];
             n = input.name;
             if (n && !input.disabled && input.type == 'image') {
-                a.push({name: n, value: $input.val()});
-                a.push({name: n + '.x', value: form.clk_x}, {name: n + '.y', value: form.clk_y});
+                a.push({name:n, value:$input.val()});
+                a.push({name:n + '.x', value:form.clk_x}, {name:n + '.y', value:form.clk_y});
             }
         }
         return a;
@@ -601,12 +601,12 @@
             }
             var v = $.fieldValue(this, successful);
             if (v && v.constructor == Array) {
-                for (var i = 0,max = v.length; i < max; i++) {
-                    a.push({name: n, value: v[i]});
+                for (var i = 0, max = v.length; i < max; i++) {
+                    a.push({name:n, value:v[i]});
                 }
             }
             else if (v !== null && typeof v != 'undefined') {
-                a.push({name: this.name, value: v});
+                a.push({name:this.name, value:v});
             }
         });
         //hand off to jQuery.param for proper encoding
@@ -673,9 +673,9 @@
         }
 
         if (successful && (!n || el.disabled || t == 'reset' || t == 'button' ||
-                (t == 'checkbox' || t == 'radio') && !el.checked ||
-                (t == 'submit' || t == 'image') && el.form && el.form.clk != el ||
-                tag == 'select' && el.selectedIndex == -1)) {
+            (t == 'checkbox' || t == 'radio') && !el.checked ||
+            (t == 'submit' || t == 'image') && el.form && el.form.clk != el ||
+            tag == 'select' && el.selectedIndex == -1)) {
             return null;
         }
 

@@ -680,7 +680,7 @@ table th {
 
 td.td-state-joiadmin {
     text-align: center;
-	cursor: pointer;
+    cursor: pointer;
 }
 
 td {
@@ -743,18 +743,21 @@ td {
     border-radius: 6px; /* Opera 10.5, IE9, Saf5, Chrome */
     margin: 20px 20px 10px 20px;
 }
-    #admin_menu{
-        float: left;
-    }
-    .logout_link{
-        float: right;
-        color: #FFF;
-        font-size: 11px;
-    }
-        .logout_link:hover{
-            text-decoration: none;
-            color: #CCC
-        }
+
+#admin_menu {
+    float: left;
+}
+
+.logout_link {
+    float: right;
+    color: #FFF;
+    font-size: 11px;
+}
+
+.logout_link:hover {
+    text-decoration: none;
+    color: #CCC
+}
 
 #content {
     padding: 0 0 18px
@@ -798,16 +801,14 @@ td {
     background: #F9F9F9;
     margin: 0 -18px 10px -18px;
     border: 1px solid #CDCDCD;
- 
+
     overflow: hidden;
     /*padding: 10px 20px;*/
-	/* Ирин, предлагаю таки немного доработать шаблон убрав такие не очень приятные места, картинки в #57 тикете */
-	padding-top: 10px;
+    /* Ирин, предлагаю таки немного доработать шаблон убрав такие не очень приятные места, картинки в #57 тикете */
+    padding-top: 10px;
 
-	
-	
-	-webkit-border-radius:0 0  6px 6px;
-	border-radius:  0 0  6px 6px;
+    -webkit-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
     border: 1px solid #FFF;
     border-top: 1px solid #CCC;
 
@@ -1876,8 +1877,7 @@ textarea#note {
     }
 }
 
-
-#tabs_wrap{
+#tabs_wrap {
     overflow: hidden;
     background: #9C9C9C;
     margin: -10px 0 0 0;
@@ -1885,30 +1885,35 @@ textarea#note {
     border-top: 1px solid #F7F7F7;
 
 }
-    #tabs_list{
-        overflow: hidden;
-         list-style: none;
-        display: block;
-        padding: 5px 0 0 0;
-        margin: 0;
-    }
-        #tabs_list li{
-            list-style: none;
-            display: block;
-            float: left;
-            margin: 0 10px 0 0;
-            padding: 3px 8px 8px 8px;
-            font-size: 11px;
 
-        }
-        #tabs_list li.g-active{
-            background: #F9F9F9;
-        }
-            #tabs_list span{
-                text-decoration: none;
-                color: #FFF;
-                cursor: pointer;
-            }
-        #tabs_list li.g-active span{
-            color: #000;
-        }
+#tabs_list {
+    overflow: hidden;
+    list-style: none;
+    display: block;
+    padding: 5px 0 0 0;
+    margin: 0;
+}
+
+#tabs_list li {
+    list-style: none;
+    display: block;
+    float: left;
+    margin: 0 10px 0 0;
+    padding: 3px 8px 8px 8px;
+    font-size: 11px;
+
+}
+
+#tabs_list li.g-active {
+    background: #F9F9F9;
+}
+
+#tabs_list span {
+    text-decoration: none;
+    color: #FFF;
+    cursor: pointer;
+}
+
+#tabs_list li.g-active span {
+    color: #000;
+}

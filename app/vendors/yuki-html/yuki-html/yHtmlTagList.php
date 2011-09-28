@@ -13,21 +13,24 @@
 /**
  * yHtmlTagList
  *
- * @package yuki
+ * @package    yuki
  * @subpackage html
- * @author olamedia
- * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @author     olamedia
+ * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class yHtmlTagList{
-    public $childNodes = array();
-    public function hasChildNodes(){
-        return!!count($this->childNodes);
-    }
-    public function appendChild($child){
-        $this->childNodes[] = $child;
-        return $this;
-    }
-    public function __toString(){
-        return implode("\n", $this->childNodes);
-    }
+class yHtmlTagList {
+	public $childNodes = array ();
+
+	public function hasChildNodes() {
+		return !!count( $this->childNodes );
+	}
+
+	public function appendChild( $child ) {
+		$this->childNodes[] = $child;
+		return $this;
+	}
+
+	public function __toString() {
+		return implode( "\n" , $this->childNodes );
+	}
 }

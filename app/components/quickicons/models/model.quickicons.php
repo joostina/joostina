@@ -1,18 +1,18 @@
 <?php
 
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
+defined( '_JOOS_CORE' ) or die();
 
 /**
  * Quickicons - Модель компонента управления кнопками быстрого доступа панели управления
  * Модель панели управления
  *
- * @version 1.0
- * @package Joostina.Models
+ * @version    1.0
+ * @package    Joostina.Models
  * @subpackage Quickicons
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
@@ -56,7 +56,7 @@ class Quickicons extends joosModel {
 	 * @param object Database object
 	 */
 	function __construct() {
-		parent::__construct('#__quickicons', 'id');
+		parent::__construct( '#__quickicons' , 'id' );
 	}
 
 }

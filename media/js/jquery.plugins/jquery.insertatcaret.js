@@ -12,7 +12,7 @@
 ;
 (function($) {
 
-    $.fn.insertAtCaret = function (myValue) {
+    $.fn.insertAtCaret = function(myValue) {
 
         return this.each(function() {
 

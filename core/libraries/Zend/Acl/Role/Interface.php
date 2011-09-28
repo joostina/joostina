@@ -12,11 +12,11 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    Zend_Acl
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Interface.php 113 2011-02-21 23:09:12Z bost56 $
+ * @category      Zend
+ * @package       Zend_Acl
+ * @copyright     Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license       http://framework.zend.com/license/new-bsd     New BSD License
+ * @version       $Id: Interface.php 113 2011-02-21 23:09:12Z bost56 $
  */
 
 
@@ -26,12 +26,11 @@
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Zend_Acl_Role_Interface
-{
-    /**
-     * Returns the string identifier of the Role
-     *
-     * @return string
-     */
-    public function getRoleId();
+interface Zend_Acl_Role_Interface {
+	/**
+	 * Returns the string identifier of the Role
+	 *
+	 * @return string
+	 */
+	public function getRoleId();
 }

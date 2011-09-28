@@ -22,19 +22,19 @@
 (function($) {
     $.fn.tipTip = function(options) {
         var defaults = {
-            activation: "hover",
-            keepAlive: false,
-            maxWidth: "200px",
-            edgeOffset: 3,
-            defaultPosition: "bottom",
-            delay: 400,
-            fadeIn: 200,
-            fadeOut: 200,
-            attribute: "title",
-            content: false, // HTML or String to fill TipTIp with
-            enter: function() {
+            activation:"hover",
+            keepAlive:false,
+            maxWidth:"200px",
+            edgeOffset:3,
+            defaultPosition:"bottom",
+            delay:400,
+            fadeIn:200,
+            fadeOut:200,
+            attribute:"title",
+            content:false, // HTML or String to fill TipTIp with
+            enter:function() {
             },
-            exit: function() {
+            exit:function() {
             }
         };
         var opts = $.extend(defaults, options);
@@ -80,22 +80,22 @@
                     }
                 } else if (opts.activation == "focus") {
                     org_elem.focus(
-                            function() {
-                                active_tiptip();
-                            }).blur(function() {
-                        deactive_tiptip();
-                    });
+                        function() {
+                            active_tiptip();
+                        }).blur(function() {
+                            deactive_tiptip();
+                        });
                 } else if (opts.activation == "click") {
                     org_elem.click(
-                            function() {
-                                active_tiptip();
-                                return false;
-                            }).hover(function() {
-                    }, function() {
-                        if (!opts.keepAlive) {
-                            deactive_tiptip();
-                        }
-                    });
+                        function() {
+                            active_tiptip();
+                            return false;
+                        }).hover(function() {
+                        }, function() {
+                            if (!opts.keepAlive) {
+                                deactive_tiptip();
+                            }
+                        });
                     if (opts.keepAlive) {
                         tiptip_holder.hover(function() {
                         }, function() {
@@ -180,8 +180,8 @@
                     if (t_class == "_left_top" || t_class == "_left_bottom") {
                         marg_left = marg_left + 5;
                     }
-                    tiptip_arrow.css({"margin-left": arrow_left + "px", "margin-top": arrow_top + "px"});
-                    tiptip_holder.css({"margin-left": marg_left + "px", "margin-top": marg_top + "px"}).attr("class", "tip" + t_class);
+                    tiptip_arrow.css({"margin-left":arrow_left + "px", "margin-top":arrow_top + "px"});
+                    tiptip_holder.css({"margin-left":marg_left + "px", "margin-top":marg_top + "px"}).attr("class", "tip" + t_class);
 
                     if (timeout) {
                         clearTimeout(timeout);

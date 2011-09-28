@@ -49,10 +49,10 @@ function hasSupport() {
         return hasSupport.support;
     var ie55 = /msie 5\.[56789]/i.test(navigator.userAgent);
     hasSupport.support = ( typeof document.implementation != "undefined" &&
-            document.implementation.hasFeature("html", "1.0") || ie55 )
+        document.implementation.hasFeature("html", "1.0") || ie55 )
     if (ie55) {
         document._getElementsByTagName = document.getElementsByTagName;
-        document.getElementsByTagName = function (sTagName) {
+        document.getElementsByTagName = function(sTagName) {
             if (sTagName == "*")
                 return document.all; else
                 return document._getElementsByTagName(sTagName);
@@ -87,7 +87,7 @@ function WebFXTabPane(el, bUseCookie) {
     }
 }
 WebFXTabPane.prototype.classNameTag = "dynamic-tab-pane-control";
-WebFXTabPane.prototype.setSelectedIndex = function (n) {
+WebFXTabPane.prototype.setSelectedIndex = function(n) {
     if (this.selectedIndex != n) {
         if (this.selectedIndex != null && this.pages[ this.selectedIndex ] != null)
             this.pages[ this.selectedIndex ].hide();
@@ -97,10 +97,10 @@ WebFXTabPane.prototype.setSelectedIndex = function (n) {
             WebFXTabPane.setCookie("webfxtab_" + this.element.id, n);
     }
 };
-WebFXTabPane.prototype.getSelectedIndex = function () {
+WebFXTabPane.prototype.getSelectedIndex = function() {
     return this.selectedIndex;
 };
-WebFXTabPane.prototype.addTabPage = function (oElement) {
+WebFXTabPane.prototype.addTabPage = function(oElement) {
     if (!hasSupport()) return;
     if (oElement.tabPage == this)
         return oElement.tabPage;
@@ -113,7 +113,7 @@ WebFXTabPane.prototype.addTabPage = function (oElement) {
         tp.hide();
     return tp;
 };
-WebFXTabPane.prototype.dispose = function () {
+WebFXTabPane.prototype.dispose = function() {
     this.element.tabPane = null;
     this.element = null;
     this.tabRow = null;
@@ -123,7 +123,7 @@ WebFXTabPane.prototype.dispose = function () {
     }
     this.pages = null;
 };
-WebFXTabPane.setCookie = function (sName, sValue, nDays) {
+WebFXTabPane.setCookie = function(sName, sValue, nDays) {
     var expires = "";
     if (nDays) {
         var d = new Date();
@@ -132,12 +132,12 @@ WebFXTabPane.setCookie = function (sName, sValue, nDays) {
     }
     document.cookie = sName + "=" + sValue + expires + "; path=/";
 };
-WebFXTabPane.getCookie = function (sName) {
+WebFXTabPane.getCookie = function(sName) {
     var re = new RegExp("(\;|^)[^;]*(" + sName + ")\=([^;]*)(;|$)");
     var res = re.exec(document.cookie);
     return res != null ? res[3] : null;
 };
-WebFXTabPane.removeCookie = function (name) {
+WebFXTabPane.removeCookie = function(name) {
     setCookie(name, "", -1);
 };
 function WebFXTabPage(el, tabPane, nIndex) {
@@ -155,41 +155,41 @@ function WebFXTabPage(el, tabPane, nIndex) {
     var a = document.createElement("A");
     this.aElement = a;
     a.href = "#";
-    a.onclick = function () {
+    a.onclick = function() {
         return false;
     };
     while (this.tab.hasChildNodes())
         a.appendChild(this.tab.firstChild);
     this.tab.appendChild(a);
     var oThis = this;
-    this.tab.onclick = function () {
+    this.tab.onclick = function() {
         oThis.select();
     };
-    this.tab.onmouseover = function () {
+    this.tab.onmouseover = function() {
         WebFXTabPage.tabOver(oThis);
     };
-    this.tab.onmouseout = function () {
+    this.tab.onmouseout = function() {
         WebFXTabPage.tabOut(oThis);
     };
 }
-WebFXTabPage.prototype.show = function () {
+WebFXTabPage.prototype.show = function() {
     var el = this.tab;
     var s = el.className + " selected";
     s = s.replace(/ +/g, " ");
     el.className = s;
     this.element.style.display = "block";
 };
-WebFXTabPage.prototype.hide = function () {
+WebFXTabPage.prototype.hide = function() {
     var el = this.tab;
     var s = el.className;
     s = s.replace(/ selected/g, "");
     el.className = s;
     this.element.style.display = "none";
 };
-WebFXTabPage.prototype.select = function () {
+WebFXTabPage.prototype.select = function() {
     this.tabPane.setSelectedIndex(this.index);
 };
-WebFXTabPage.prototype.dispose = function () {
+WebFXTabPage.prototype.dispose = function() {
     this.aElement.onclick = null;
     this.aElement = null;
     this.element.tabPage = null;
@@ -200,13 +200,13 @@ WebFXTabPage.prototype.dispose = function () {
     this.tabPane = null;
     this.element = null;
 };
-WebFXTabPage.tabOver = function (tabpage) {
+WebFXTabPage.tabOver = function(tabpage) {
     var el = tabpage.tab;
     var s = el.className + " hover";
     s = s.replace(/ +/g, " ");
     el.className = s;
 };
-WebFXTabPage.tabOut = function (tabpage) {
+WebFXTabPage.tabOut = function(tabpage) {
     var el = tabpage.tab;
     var s = el.className;
     s = s.replace(/ hover/g, "");
@@ -226,7 +226,7 @@ function setupAllTabs() {
         if (cn == "") continue;
         if (tabPaneRe.test(cn) && !el.tabPane)
             new WebFXTabPane(el); else if (tabPageRe.test(cn) && !el.tabPage &&
-                tabPaneRe.test(el.parentNode.className)) {
+            tabPaneRe.test(el.parentNode.className)) {
             el.parentNode.tabPane.addTabPage(el);
         }
     }
@@ -258,7 +258,7 @@ if (typeof window.addEventListener != "undefined")
 else {
     if (window.onload != null) {
         var oldOnload = window.onload;
-        window.onload = function (e) {
+        window.onload = function(e) {
             oldOnload(e);
             setupAllTabs();
         };

@@ -1,60 +1,54 @@
 <?php
 
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
+defined( '_JOOS_CORE' ) or die();
 
 /**
  * adminCoder - Модель компонента управляемой генерации расширений системы
  * Модель панели управления
  *
- * @version 1.0
- * @package Joostina.Models
+ * @version    1.0
+ * @package    Joostina.Models
  * @subpackage Coder
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
 class adminCoder {
 
 	//Для вывода меню компонента
-	public static $_submenu = array(
-		'model' => array(
-			'title' => 'Генератор моделей',
-			'href' => 'index2.php?option=coder&task=model'
-		),
-		'module' => array(
-			'title' => 'Генератор модулей',
-			'href' => 'index2.php?option=coder&task=module'
-		)
-	);
+	public static $_submenu = array ( 'model'  => array ( 'title' => 'Генератор моделей' ,
+	                                                      'href'  => 'index2.php?option=coder&task=model' ) ,
+	                                  'module' => array ( 'title' => 'Генератор модулей' ,
+	                                                      'href'  => 'index2.php?option=coder&task=module' ) );
 
-	public static function get_model($table, $implode_models = false) {
+	public static function get_model( $table , $implode_models = false ) {
 
-		$table_fields = joosDatabase::instance()->get_utils()->get_table_fields($table);
-		$tableName = str_replace(array('#__', '#_', joosDatabase::instance()->get_prefix()), '', $table);
+		$table_fields = joosDatabase::instance()->get_utils()->get_table_fields( $table );
+		$tableName    = str_replace( array ( '#__' , '#_' , joosDatabase::instance()->get_prefix() ) , '' , $table );
 
-		$className = str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $tableName))));
+		$className    = str_replace( ' ' , '' , ucwords( strtolower( str_replace( '_' , ' ' , $tableName ) ) ) );
 
-		$return = array();
-		$return[] = $implode_models ? null : '<h2>Модель: ' . $className . '</h2>';
+		$return       = array ();
+		$return[]     = $implode_models ? null : '<h2>Модель: ' . $className . '</h2>';
 
-		$buffer = array();
-		$buffer[] = "\n/**";
-		$buffer[] = "\n * Class $className";
-		$buffer[] = "\n * @package Joostina.Components";
-		$buffer[] = "\n * @subpackage $className";
-		$buffer[] = "\n * @author JoostinaTeam";
-		$buffer[] = "\n * @copyright (C) 2007-2011 Joostina Team";
-		$buffer[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
-		$buffer[] = "\n * @version 1";
-		$buffer[] = "\n * @created " . _CURRENT_SERVER_TIME;
-		$buffer[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
+		$buffer       = array ();
+		$buffer[]     = "\n/**";
+		$buffer[]     = "\n * Class $className";
+		$buffer[]     = "\n * @package Joostina.Components";
+		$buffer[]     = "\n * @subpackage $className";
+		$buffer[]     = "\n * @author JoostinaTeam";
+		$buffer[]     = "\n * @copyright (C) 2007-2011 Joostina Team";
+		$buffer[]     = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
+		$buffer[]     = "\n * @version 1";
+		$buffer[]     = "\n * @created " . _CURRENT_SERVER_TIME;
+		$buffer[]     = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
 
-		$buffer[] = "\n */";
-		$buffer[] = "\nclass $className extends joosModel {";
-		foreach ($table_fields as $k => $v) {
+		$buffer[]     = "\n */";
+		$buffer[]     = "\nclass $className extends joosModel {";
+		foreach ( $table_fields as $k => $v ) {
 			$buffer[] = "\n	/**";
 			$buffer[] = "\n	 * @var $v";
 			//$field_type = preg_replace( '#[^A-Z]#i','', $v);
@@ -106,7 +100,7 @@ class adminCoder {
 
 		$buffer[] = "\n\n	public function get_fieldinfo() {\n";
 		$buffer[] = "		return array(";
-		foreach ($table_fields as $k => $v) {
+		foreach ( $table_fields as $k => $v ) {
 			$buffer[] = "\n			'$k' => array(";
 			$buffer[] = "\n				'name' => '$k',";
 			$buffer[] = "\n				'editable' => true,";
@@ -142,55 +136,37 @@ class adminCoder {
 
 		$buffer[] = "\n}\n";
 
-		$return[] = $implode_models ? implode('', $buffer) : forms::textarea(array('name' => $tableName, 'value' => implode('', $buffer), 'rows' => '5', 'class' => 'coder_model_area'));
+		$return[] = $implode_models ? implode( '' , $buffer ) : forms::textarea( array ( 'name'  => $tableName ,
+		                                                                                 'value' => implode( '' , $buffer ) ,
+		                                                                                 'rows'  => '5' ,
+		                                                                                 'class' => 'coder_model_area' ) );
 
-		return implode("\n", $return);
+		return implode( "\n" , $return );
 	}
 
 }
 
 class adminCoder_Faker {
 
-	public static $data_types = array(
-		'text' => array(
-			'name' => 'Текст',
-			'types' => array('text', 'tinytext', 'mediumtext', 'longtext', 'blob', 'tinyblob', 'mediumblob', 'longblob'),
-		),
-		'text_small' => array(
-			'name' => 'Заголовок',
-			'types' => array('varchar'),
-		),
-		'text_name' => array(
-			'name' => 'Имя',
-			'types' => array('varchar'),
-		),
-		'href' => array(
-			'name' => 'Ссылка',
-			'types' => array('varchar'),
-		),
-		'integer' => array(
-			'name' => 'Число',
-			'types' => array('tinyint', 'smallint', 'int'),
-		),
-		'integer_range' => array(
-			'name' => 'Числа из диапазона',
-			'types' => array('tinyint', 'smallint', 'int'),
-		),
-		'date' => array(
-			'name' => 'Дата',
-			'types' => array('date'),
-		),
-		'time' => array(
-			'name' => 'Время',
-			'types' => array('time'),
-		),
-		'date_time' => array(
-			'name' => 'Дата и время',
-			'types' => array('datetime'),
-		)
-	);
-	public static $types_mapping = array(
-			//DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET
+	public static $data_types = array ( 'text'          => array ( 'name'  => 'Текст' ,
+	                                                               'types' => array ( 'text' , 'tinytext' , 'mediumtext' , 'longtext' , 'blob' , 'tinyblob' , 'mediumblob' , 'longblob' ) , ) ,
+	                                    'text_small'    => array ( 'name'  => 'Заголовок' ,
+	                                                               'types' => array ( 'varchar' ) , ) ,
+	                                    'text_name'     => array ( 'name'  => 'Имя' ,
+	                                                               'types' => array ( 'varchar' ) , ) ,
+	                                    'href'          => array ( 'name'  => 'Ссылка' ,
+	                                                               'types' => array ( 'varchar' ) , ) ,
+	                                    'integer'       => array ( 'name'  => 'Число' ,
+	                                                               'types' => array ( 'tinyint' , 'smallint' , 'int' ) , ) ,
+	                                    'integer_range' => array ( 'name'  => 'Числа из диапазона' ,
+	                                                               'types' => array ( 'tinyint' , 'smallint' , 'int' ) , ) ,
+	                                    'date'          => array ( 'name'  => 'Дата' ,
+	                                                               'types' => array ( 'date' ) , ) ,
+	                                    'time'          => array ( 'name'  => 'Время' ,
+	                                                               'types' => array ( 'time' ) , ) ,
+	                                    'date_time'     => array ( 'name'  => 'Дата и время' ,
+	                                                               'types' => array ( 'datetime' ) , ) );
+	public static $types_mapping = array (//DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET
 	);
 
 }

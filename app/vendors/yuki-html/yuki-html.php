@@ -9,6 +9,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-foreach (array('yHtmlAttribute', 'yHtmlTag', 'yHtmlHelper', 'yHtmlTagList', 'yTextNode', 'yMetaTag', 'yHeadTag', 'yStyleTag') as $tag){
-    require_once dirname(__FILE__).'/yuki-html/'.$tag.'.php';
+foreach ( array ( 'yHtmlAttribute' , 'yHtmlTag' , 'yHtmlHelper' , 'yHtmlTagList' , 'yTextNode' , 'yMetaTag' , 'yHeadTag' , 'yStyleTag' ) as $tag ) {
+	require_once dirname( __FILE__ ) . '/yuki-html/' . $tag . '.php';
 }

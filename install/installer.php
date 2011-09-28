@@ -2,24 +2,24 @@
 
 require_once 'install.core.php';
 
-$task = joosRequest::param('task', false, $_POST);
-$form_params = joosRequest::param('form_params', false, $_POST);
+$task        = joosRequest::param( 'task' , false , $_POST );
+$form_params = joosRequest::param( 'form_params' , false , $_POST );
 
-parse_str($form_params);
+parse_str( $form_params );
 
-switch ($task) {
+switch ( $task ) {
 
 	case 'check_db':
 
-		$r = joosInstall::check_db($db_host, $db_user, $db_password, $db_name);
-		echo json_encode($r);
+		$r = joosInstall::check_db( $db_host , $db_user , $db_password , $db_name );
+		echo json_encode( $r );
 
 		break;
 
 	case 'install_db':
 
-		$r = joosInstall::install_db($db_host, $db_user, $db_password, $db_name);
-		echo json_encode($r);
+		$r = joosInstall::install_db( $db_host , $db_user , $db_password , $db_name );
+		echo json_encode( $r );
 
 		break;
 

@@ -6,19 +6,19 @@ $(document).ready(function() {
         var current_obj = $(this);
 
         $.ajax({
-            url: 'ajax.index.php?option=' + _option + '&task=statuschanger',
-            type: 'post',
+            url:'ajax.index.php?option=' + _option + '&task=statuschanger',
+            type:'post',
             data:{
-                obj_id:       $('img', this).attr('obj_id'),
-                obj_key:    $('img', this).attr('obj_key'),
-                obj_name: $('input[name=obj_name]').val()
+                obj_id:$('img', this).attr('obj_id'),
+                obj_key:$('img', this).attr('obj_key'),
+                obj_name:$('input[name=obj_name]').val()
             },
-            dataType: 'json',
-            success: function(data) {
-				if( data.code==500 ){
-					joosNotify(data.message,'error');
-					return;
-				}
+            dataType:'json',
+            success:function(data) {
+                if (data.code == 500) {
+                    joosNotify(data.message, 'error');
+                    return;
+                }
                 $('img', current_obj).attr('src', image_path + data.image);
                 $('img', current_obj).attr('alt', image_path + data.mess);
             }
@@ -28,8 +28,8 @@ $(document).ready(function() {
 
     //Сортировка
     $('.edit_ordering000').editable('ajax.index.php?option=' + _option + '&task=ordering', {
-        id   : 'elementid',
-        name : 'newvalue'
+        id:'elementid',
+        name:'newvalue'
     });
 
 
@@ -43,18 +43,18 @@ $(document).ready(function() {
         //var action = _obj.attr('href').split('#')[1];
         var scope = _obj.attr('rel');
         $.ajax({
-            url: 'ajax.index.php?option=' + _option + '&task=ordering',
-            type: 'post',
+            url:'ajax.index.php?option=' + _option + '&task=ordering',
+            type:'post',
             data:{
-                obj_id: _obj.attr('obj_id'),
-                obj_name: $('input[name=obj_name]').val(),
+                obj_id:_obj.attr('obj_id'),
+                obj_name:$('input[name=obj_name]').val(),
                 //action: action,
-                scope: scope,
-                val: value
+                scope:scope,
+                val:value
             },
-            dataType: 'json',
+            dataType:'json',
             // обрабатываем результат
-            success: function(data) {
+            success:function(data) {
                 //alert('111');
             }
         });
@@ -62,7 +62,7 @@ $(document).ready(function() {
 
 
     }, {
-        style  : "inherit"
+        style:"inherit"
 
     });
 
@@ -76,15 +76,15 @@ $(document).ready(function() {
         //var action = _obj.attr('href').split('#')[1];
         var scope = _obj.attr('rel');
         $.ajax({
-            url: 'ajax.index.php?option=modules&task=save_position',
-            type: 'post',
+            url:'ajax.index.php?option=modules&task=save_position',
+            type:'post',
             data:{
-                obj_id: _obj.attr('obj_id'),
-                val: value
+                obj_id:_obj.attr('obj_id'),
+                val:value
             },
-            dataType: 'json',
+            dataType:'json',
             // обрабатываем результат
-            success: function(data) {
+            success:function(data) {
                 //alert('111');
             }
         });
@@ -92,16 +92,16 @@ $(document).ready(function() {
 
 
     }, {
-        loadurl : 'ajax.index.php?option=modules&task=get_positions',
-        type   : 'select'
+        loadurl:'ajax.index.php?option=modules&task=get_positions',
+        type:'select'
 
 
     });
 
 
     $(".drag").tableDnD({
-        dragHandle: 'ordering',
-        onDrop: function(table, row) {
+        dragHandle:'ordering',
+        onDrop:function(table, row) {
             var rows = table.tBodies[0].rows;
             var debugStr = new Array();
 
@@ -117,15 +117,15 @@ $(document).ready(function() {
             console.log(debugStr);
 
             $.ajax({
-                url: 'ajax.index.php?option=' + _option + '&task=reorder',
-                type: 'post',
+                url:'ajax.index.php?option=' + _option + '&task=reorder',
+                type:'post',
                 data:{
-                    objs: debugStr,
-                    obj_name: $('input[name=obj_name]').val()
+                    objs:debugStr,
+                    obj_name:$('input[name=obj_name]').val()
                 },
-                dataType: 'json',
+                dataType:'json',
                 // обрабатываем результат
-                success: function(data) {
+                success:function(data) {
                     //console.log(data.mess);
 
                     //for(var i=0; i<ids.length; i++) {
@@ -194,15 +194,15 @@ $(document).ready(function() {
         var _obj = $(this);
 
         $.ajax({
-            url: 'ajax.index.php?option=categories&task=slug_generator',
-            type: 'post',
+            url:'ajax.index.php?option=categories&task=slug_generator',
+            type:'post',
             data:{
-                cat_id:        _obj.attr('obj_id'),
-                cat_name:    $('#name').val(),
-                parent_id:    $('#category_id').val(),
+                cat_id:_obj.attr('obj_id'),
+                cat_name:$('#name').val(),
+                parent_id:$('#category_id').val(),
             },
-            dataType: 'json',
-            success: function(data) {
+            dataType:'json',
+            success:function(data) {
                 if (data.error) {
                     alert(data.error);
                     return;
@@ -213,22 +213,22 @@ $(document).ready(function() {
     });
 
 
-	//табы-табы-табы
-	$('#tabs_list li:first').addClass('g-active');
-	$('#tabs_list li span').click(function(){
+    //табы-табы-табы
+    $('#tabs_list li:first').addClass('g-active');
+    $('#tabs_list li span').click(function() {
 
-		var _el = $(this);
-		var _target = _el.attr('rel');
+        var _el = $(this);
+        var _target = _el.attr('rel');
 
-		if(!_el.hasClass('g-active')){
-			$('.tab_area').hide();
-			$('#'+_target).show();
+        if (!_el.hasClass('g-active')) {
+            $('.tab_area').hide();
+            $('#' + _target).show();
 
-			$('#tabs_list li').removeClass('g-active');
-			_el.parent().addClass('g-active');
-		}
+            $('#tabs_list li').removeClass('g-active');
+            _el.parent().addClass('g-active');
+        }
 
 
-	})
+    })
 
 });

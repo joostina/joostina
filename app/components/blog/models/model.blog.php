@@ -1,18 +1,18 @@
 <?php
 
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
+defined( '_JOOS_CORE' ) or die();
 
 /**
  * Blog - Модель компонента блогов
  * Модель для работы сайта
  *
- * @version 1.0
- * @package Joostina.Models
+ * @version    1.0
+ * @package    Joostina.Models
  * @subpackage Blog
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
@@ -65,27 +65,28 @@ class Blog extends joosModel {
 
 	/**
 	 * Constructor
+	 *
 	 * @param object Database object
 	 */
 	function __construct() {
-		parent::__construct('#__blog', 'id');
+		parent::__construct( '#__blog' , 'id' );
 	}
 
 	public function check() {
-		$this->title = joosString::trim($this->title);
-		$this->fulltext = joosString::trim($this->fulltext);
+		$this->title    = joosString::trim( $this->title );
+		$this->fulltext = joosString::trim( $this->fulltext );
 
-		$validator = BlogValidations::add();
-		if (!$validator->ValidateForm()) {
+		$validator      = BlogValidations::add();
+		if ( !$validator->ValidateForm() ) {
 			$this->_error_blog['validator'] = $validator->GetErrors();
 			return false;
 		}
 
-		$this->filter(array('fulltext'));
+		$this->filter( array ( 'fulltext' ) );
 
 		//Для визуального реадктора
-		$jevix = new JJevix;
-		$this->fulltext = $jevix->Parser($this->fulltext);
+		$jevix          = new JJevix;
+		$this->fulltext = $jevix->Parser( $this->fulltext );
 
 		return true;
 	}
@@ -102,21 +103,21 @@ class Blog extends joosModel {
 	// преед сохранением записи блога
 	public function before_store() {
 
-		$this->slug = trim($this->slug) == '' ? joosText::str_to_url($this->title) . '--' . rand(1, 10000) : $this->slug;
+		$this->slug     = trim( $this->slug ) == '' ? joosText::str_to_url( $this->title ) . '--' . rand( 1 , 10000 ) : $this->slug;
 
-		$jevix = new JJevix;
-		$this->fulltext = $jevix->Parser($this->fulltext);
+		$jevix          = new JJevix;
+		$this->fulltext = $jevix->Parser( $this->fulltext );
 
 		// если запись принадлежит какой-либо программе то запишем эти данные в параметры
-		$category_data = explode(':', $this->category_id);
-		if (isset($category_data[1])) {
+		$category_data = explode( ':' , $this->category_id );
+		if ( isset( $category_data[1] ) ) {
 			// в параметры запишем номер связанной программы
-			$this->params += array('program_id' => $category_data[1]);
+			$this->params += array ( 'program_id' => $category_data[1] );
 			// а в поле категории впишем оригинальный номер категории
 			$this->category_id = $category_data[0];
 		}
 
-		$this->params = json_encode($this->params);
+		$this->params = json_encode( $this->params );
 		return true;
 	}
 
@@ -136,36 +137,41 @@ class Blog extends joosModel {
 
 	public static function get_blog_cats() {
 		$obj = new Blog_Category();
-		return $obj->get_selector(array('key' => 'id', 'value' => 'title'), array('select' => 'id, title', 'order' => 'title ASC'));
+		return $obj->get_selector( array ( 'key'   => 'id' ,
+		                                   'value' => 'title' ) , array ( 'select' => 'id, title' ,
+		                                                                  'order'  => 'title ASC' ) );
 	}
 
-	public static function get_image($blog_item, $size = false, $image_attr = array()) {
-		if (trim($blog_item->params) != '') {
-			$params = json_decode($blog_item->params);
-			if (isset($params->image_id) && $params->image_id != '') {
-				$location = joosFile::make_file_location($params->image_id);
-				$size = $size ? 'image_' . $size . '.png' : 'image.png';
+	public static function get_image( $blog_item , $size = false , $image_attr = array () ) {
+		if ( trim( $blog_item->params ) != '' ) {
+			$params = json_decode( $blog_item->params );
+			if ( isset( $params->image_id ) && $params->image_id != '' ) {
+				$location      = joosFile::make_file_location( $params->image_id );
+				$size          = $size ? 'image_' . $size . '.png' : 'image.png';
 				$file_location = JPATH_SITE . '/attachments/blogs/' . $location . '/' . $size;
-				$image_attr += array('src' => $file_location, 'title' => $blog_item->title, 'alt' => $blog_item->title);
-				return joosHtml::image($image_attr);
+				$image_attr += array ( 'src'   => $file_location ,
+				                       'title' => $blog_item->title ,
+				                       'alt'   => $blog_item->title );
+				return joosHtml::image( $image_attr );
 			}
 		}
 		return false;
 	}
 
-	public static function get_image_default($image_attr = array()) {
+	public static function get_image_default( $image_attr = array () ) {
 		$file_location = JPATH_SITE . '/media/images/noimg.jpg';
-		$image_attr += array('src' => $file_location, 'alt' => '');
-		return joosHtml::image($image_attr);
+		$image_attr += array ( 'src' => $file_location ,
+		                       'alt' => '' );
+		return joosHtml::image( $image_attr );
 	}
 
 }
 
 /**
  * Class Blog_Category
- * @package    Blog
+ * @package       Blog
  * @subpackage    joosModel
- * @created    2010-09-24 02:37:11
+ * @created       2010-09-24 02:37:11
  */
 class Blog_Category extends joosModel {
 
@@ -203,7 +209,7 @@ class Blog_Category extends joosModel {
 	 * @param object Database object
 	 */
 	function __construct() {
-		parent::__construct('#__blog_category', 'id');
+		parent::__construct( '#__blog_category' , 'id' );
 	}
 
 }
@@ -211,13 +217,9 @@ class Blog_Category extends joosModel {
 class BlogValidations {
 
 	public static function add() {
-		joosLoader::lib('formvalidator', 'forms');
+		joosLoader::lib( 'formvalidator' , 'forms' );
 		$validator = new FormValidator();
-		$validator
-				->addValidation("title", "req", "Введите заголовок")
-				->addValidation("title", "minlen=5", "Минимум  5 символа")
-				->addValidation("title", "maxlen=120", "Максимум 120 символов")
-				->addValidation("fulltext", "req", "Введите текст");
+		$validator->addValidation( "title" , "req" , "Введите заголовок" )->addValidation( "title" , "minlen=5" , "Минимум  5 символа" )->addValidation( "title" , "maxlen=120" , "Максимум 120 символов" )->addValidation( "fulltext" , "req" , "Введите текст" );
 		return $validator;
 	}
 

@@ -3,15 +3,15 @@ $('#add_pic').live('click', function() {
     var counter = Number($('#img_counter').val());
 
     $.ajax({
-        url: 'ajax.index.php?option=categories&task=add_pic',
-        type: 'post',
+        url:'ajax.index.php?option=categories&task=add_pic',
+        type:'post',
         data:{
-            id: $('input[name=id]').val(),
-            counter: counter,
-            obj_name: $('input[name=model]').val()
+            id:$('input[name=id]').val(),
+            counter:counter,
+            obj_name:$('input[name=model]').val()
         },
-        dataType: 'json',
-        success: function(data) {
+        dataType:'json',
+        success:function(data) {
             if (data.error) {
                 alert(data.error);
                 return;

@@ -13,14 +13,14 @@
 /**
  * yStyleTag
  *
- * @package yuki
+ * @package    yuki
  * @subpackage html
- * @author olamedia
- * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @author     olamedia
+ * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class yStyleTag extends yHtmlTag{
-    public function __construct($attr = array()){
-        parent::__construct('style', $attr);
-        $this['type'] = 'text/css';
-    }
+class yStyleTag extends yHtmlTag {
+	public function __construct( $attr = array () ) {
+		parent::__construct( 'style' , $attr );
+		$this['type'] = 'text/css';
+	}
 }

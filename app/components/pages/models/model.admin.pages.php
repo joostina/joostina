@@ -1,127 +1,91 @@
 <?php
 
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
+defined( '_JOOS_CORE' ) or die();
 
 /**
  * adminPages - Модель компонента независимыми страницами
  * Модель панели управления
  *
- * @version 1.0
- * @package Joostina.Models
+ * @version    1.0
+ * @package    Joostina.Models
  * @subpackage Pages
- * @author Joostina Team <info@joostina.ru>
- * @copyright (C) 2007-2011 Joostina Team
- * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2011 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
 class adminPages extends Pages {
 
 	public function get_fieldinfo() {
-		return array(
-			'id' => array(
-				'name' => 'ID',
-				'editable' => false,
-				'in_admintable' => false,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(
-					'width' => '20px',
-					'align' => 'center'
-				)
-			),
-			'title' => array(
-				'name' => 'Заголовок',
-				'editable' => true,
-				'sortable' => true,
-				'in_admintable' => true,
-				'html_edit_element' => 'edit',
-				'html_table_element' => 'editlink',
-			),
-			'state' => array(
-				'name' => 'Состояние',
-				'editable' => true,
-				'sortable' => true,
-				'in_admintable' => true,
-				'editlink' => true,
-				'html_edit_element' => 'checkbox',
-				'html_table_element' => 'state_box',
-				'html_edit_element_param' => array(
-					'text' => 'Опубликовано',
-				),
-				'html_table_element' => 'statuschanger',
-				'html_table_element_param' => array(
-					'align' => 'center',
-					'class' => 'td-state-joiadmin',
-					'width' => '80px',
-				)
-			),
-			'slug' => array(
-				'name' => 'Ссылка',
-				'editable' => true,
-				'sortable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'extra',
-				'html_edit_element_param' => array(
-					'call_from' => 'adminPages::get_slug',
-				),
-			),
-			'text' => array(
-				'name' => 'Описание',
-				'editable' => true,
-				'html_edit_element' => 'wysiwyg',
-				'html_edit_element_param' => array(),
-			),
+		return array ( 'id'       => array ( 'name'                     => 'ID' ,
+		                                     'editable'                 => false ,
+		                                     'in_admintable'            => false ,
+		                                     'html_table_element'       => 'value' ,
+		                                     'html_table_element_param' => array ( 'width' => '20px' ,
+		                                                                           'align' => 'center' ) ) ,
+		               'title'    => array ( 'name'               => 'Заголовок' ,
+		                                     'editable'           => true ,
+		                                     'sortable'           => true ,
+		                                     'in_admintable'      => true ,
+		                                     'html_edit_element'  => 'edit' ,
+		                                     'html_table_element' => 'editlink' , ) ,
+		               'state'    => array ( 'name'                     => 'Состояние' ,
+		                                     'editable'                 => true ,
+		                                     'sortable'                 => true ,
+		                                     'in_admintable'            => true ,
+		                                     'editlink'                 => true ,
+		                                     'html_edit_element'        => 'checkbox' ,
+		                                     'html_table_element'       => 'state_box' ,
+		                                     'html_edit_element_param'  => array ( 'text' => 'Опубликовано' , ) ,
+		                                     'html_table_element'       => 'statuschanger' ,
+		                                     'html_table_element_param' => array ( 'align' => 'center' ,
+		                                                                           'class' => 'td-state-joiadmin' ,
+		                                                                           'width' => '80px' , ) ) ,
+		               'slug'     => array ( 'name'                     => 'Ссылка' ,
+		                                     'editable'                 => true ,
+		                                     'sortable'                 => true ,
+		                                     'in_admintable'            => true ,
+		                                     'html_table_element'       => 'value' ,
+		                                     'html_table_element_param' => array () ,
+		                                     'html_edit_element'        => 'extra' ,
+		                                     'html_edit_element_param'  => array ( 'call_from' => 'adminPages::get_slug' , ) , ) ,
+		               'text'     => array ( 'name'                    => 'Описание' ,
+		                                     'editable'                => true ,
+		                                     'html_edit_element'       => 'wysiwyg' ,
+		                                     'html_edit_element_param' => array () , ) ,
 			//подключение функционала заполнения мета-информации
-			'metainfo' => array(
-				'name' => 'params',
-				'editable' => true,
-				'html_edit_element' => 'json',
-				'html_edit_element_param' => array(
-					'call_from' => 'joosMetainfo::get_scheme'
-				),
-			),
-		//подключение функционала парметров
-		/* 'params' => array(
-		  'name' => 'Параметры',
-		  'editable' => true,
-		  'html_edit_element' => 'params',
-		  'html_edit_element_param' => array(
-		  'call_from' => 'joosParams::get_scheme'
-		  ),
-		  ), */
-		);
+		               'metainfo' => array ( 'name'                    => 'params' ,
+		                                     'editable'                => true ,
+		                                     'html_edit_element'       => 'json' ,
+		                                     'html_edit_element_param' => array ( 'call_from' => 'joosMetainfo::get_scheme' ) , ) , //подключение функционала парметров
+			/* 'params' => array(
+			 'name' => 'Параметры',
+			 'editable' => true,
+			 'html_edit_element' => 'params',
+			 'html_edit_element_param' => array(
+			 'call_from' => 'joosParams::get_scheme'
+			 ),
+			 ), */ );
 	}
 
 	public function get_tableinfo() {
-		return array(
-			'header_main' => 'Страницы',
-			'header_list' => 'Все страницы',
-			'header_new' => 'Создание страницы',
-			'header_edit' => 'Редактирование страницы'
-		);
+		return array ( 'header_main' => 'Страницы' ,
+		               'header_list' => 'Все страницы' ,
+		               'header_new'  => 'Создание страницы' ,
+		               'header_edit' => 'Редактирование страницы' );
 	}
 
 	public function get_tabsinfo() {
-		return array(
-			'first' => array(
-				'title' => 'Основное',
-				'fields' => array(
-					'title', 'created_at', 'state', 'slug',
-					'text'
-				)
-			),
-			'second' => array(
-				'title' => 'Метаданные',
-				'fields' => array('metainfo')
-			)
-		);
+		return array ( 'first'  => array ( 'title'  => 'Основное' ,
+		                                   'fields' => array ( 'title' , 'created_at' , 'state' , 'slug' , 'text' ) ) ,
+		               'second' => array ( 'title'  => 'Метаданные' ,
+		                                   'fields' => array ( 'metainfo' ) ) );
 	}
 
-	public static function get_slug($item) {
-		return JPATH_SITE.'/
+	public static function get_slug( $item ) {
+		return JPATH_SITE . '/
 			<input type="text" style="width: 80%;" class="text_area" size="50%" value="' . $item->slug . '" name="slug" id="slug">
 			<span class="g-pseudolink" id="pages_slug_generator" obj_id="' . $item->id . '">Сформировать</span>
 		';

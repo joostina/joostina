@@ -13,16 +13,18 @@
 /**
  * yHeadTag
  *
- * @package yuki
+ * @package    yuki
  * @subpackage html
- * @author olamedia
- * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @author     olamedia
+ * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class yHeadTag extends yHtmlTag{
-    public function __construct($attr = array()){
-        parent::__construct('head', $attr);
-    }
-    public function addMeta($name, $content){
-        return $this->appendChild(yHtmlTag::create('meta', array('name'=>$name, 'content'=>$content)));
-    }
+class yHeadTag extends yHtmlTag {
+	public function __construct( $attr = array () ) {
+		parent::__construct( 'head' , $attr );
+	}
+
+	public function addMeta( $name , $content ) {
+		return $this->appendChild( yHtmlTag::create( 'meta' , array ( 'name'   => $name ,
+		                                                              'content'=> $content ) ) );
+	}
 }

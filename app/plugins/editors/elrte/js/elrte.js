@@ -143,34 +143,34 @@ function elDialogForm(o) {
     var self = this;
 
     var defaults = {
-        'class'   : 'el-dialogform',
-        submit    : function(e, d) {
+        'class':'el-dialogform',
+        submit:function(e, d) {
             window.console && window.console.log && window.console.log('submit called');
             d.close();
         },
-        form      : { action : window.location.href,    method : 'post'    },
-        ajaxForm  : null,
-        validate  : null,
-        spinner   : 'Loading',
-        tabs      : { active: 0 },
-        tabPrefix : 'el-df-tab-',
-        dialog    : {
-            title     : 'dialog',
-            autoOpen  : false,
-            modal     : true,
-            resizable : false,
-            buttons  : {
-                Cancel : function() {
+        form:{ action:window.location.href, method:'post'    },
+        ajaxForm:null,
+        validate:null,
+        spinner:'Loading',
+        tabs:{ active:0 },
+        tabPrefix:'el-df-tab-',
+        dialog:{
+            title:'dialog',
+            autoOpen:false,
+            modal:true,
+            resizable:false,
+            buttons:{
+                Cancel:function() {
                     self.close();
                 },
-                Ok     : function() {
+                Ok:function() {
                     self.form.trigger('submit');
                 }
             }
         }
     };
 
-    this.opts = jQuery.extend(true, defaults, o, {dialog : { autoOpen : false, close : function() {
+    this.opts = jQuery.extend(true, defaults, o, {dialog:{ autoOpen:false, close:function() {
         self.close();
     } }});
 
@@ -263,7 +263,7 @@ function elDialogForm(o) {
             this.ul = jQuery('<ul />').prependTo(this.form);
         }
         jQuery('<li />').append(jQuery('<a />').attr('href', '#' + id).html(title)).appendTo(this.ul);
-        this.tabs[id] = {tab : jQuery('<div />').attr('id', id).addClass('tab').appendTo(this.form), table : null};
+        this.tabs[id] = {tab:jQuery('<div />').attr('id', id).addClass('tab').appendTo(this.form), table:null};
         return this;
     }
 
@@ -459,77 +459,77 @@ function elDialogForm(o) {
             self.palette = $('<div />').addClass(opts.paletteClass + ' rounded-3');
             for (var i = 0; i < opts.colors.length; i++) {
                 $('<div />')
-                        .addClass('color')
-                        .css('background-color', opts.colors[i])
-                        .attr({title : opts.colors[i], unselectable : 'on'})
-                        .appendTo(self.palette)
-                        .mouseenter(function() {
-                    var v = $(this).attr('title');
-                    self.input.val(v);
-                    self.preview.css('background-color', v);
-                })
-                        .click(function(e) {
-                    e.stopPropagation();
-                    setColor($(this).attr('title'));
-                });
+                    .addClass('color')
+                    .css('background-color', opts.colors[i])
+                    .attr({title:opts.colors[i], unselectable:'on'})
+                    .appendTo(self.palette)
+                    .mouseenter(function() {
+                        var v = $(this).attr('title');
+                        self.input.val(v);
+                        self.preview.css('background-color', v);
+                    })
+                    .click(function(e) {
+                        e.stopPropagation();
+                        setColor($(this).attr('title'));
+                    });
             }
             ;
             self.input = $('<input type="text" />')
-                    .addClass('rounded-3')
-                    .attr('size', 8)
-                    .click(function(e) {
-                e.stopPropagation();
-                $(this).focus();
-            })
-                    .keydown(function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    return true;
-                }
-                var k = e.keyCode;
-                // on esc - close palette
-                if (k == 27) {
-                    return self.mouseleave();
-                }
-                // allow input only hex color value
-                if (k != 8 && k != 13 && k != 46 && k != 37 && k != 39 && (k < 48 || k > 57) && (k < 65 || k > 70)) {
-                    return false;
-                }
-                var c = $(this).val();
-                if (c.length == 7 || c.length == 0) {
-                    if (k == 13) {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        setColor(c);
-                        self.palette.slideUp();
+                .addClass('rounded-3')
+                .attr('size', 8)
+                .click(function(e) {
+                    e.stopPropagation();
+                    $(this).focus();
+                })
+                .keydown(function(e) {
+                    if (e.ctrlKey || e.metaKey) {
+                        return true;
                     }
-                    if (e.keyCode != 8 && e.keyCode != 46 && k != 37 && k != 39) {
+                    var k = e.keyCode;
+                    // on esc - close palette
+                    if (k == 27) {
+                        return self.mouseleave();
+                    }
+                    // allow input only hex color value
+                    if (k != 8 && k != 13 && k != 46 && k != 37 && k != 39 && (k < 48 || k > 57) && (k < 65 || k > 70)) {
                         return false;
                     }
-                }
-            })
-                    .keyup(function(e) {
-                var c = $(this).val();
-                c.length == 7 && /^#[0-9abcdef]{6}$/i.test(c) && self.val(c);
-            });
+                    var c = $(this).val();
+                    if (c.length == 7 || c.length == 0) {
+                        if (k == 13) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            setColor(c);
+                            self.palette.slideUp();
+                        }
+                        if (e.keyCode != 8 && e.keyCode != 46 && k != 37 && k != 39) {
+                            return false;
+                        }
+                    }
+                })
+                .keyup(function(e) {
+                    var c = $(this).val();
+                    c.length == 7 && /^#[0-9abcdef]{6}$/i.test(c) && self.val(c);
+                });
 
             self.preview = $('<div />')
-                    .addClass('preview rounded-3')
-                    .click(function(e) {
-                e.stopPropagation();
-                setColor(self.input.val());
-            });
+                .addClass('preview rounded-3')
+                .click(function(e) {
+                    e.stopPropagation();
+                    setColor(self.input.val());
+                });
 
             self.palette
-                    .append($('<div />').addClass('clearfix'))
-                    .append($('<div />').addClass('panel').append(self.input).append(self.preview));
+                .append($('<div />').addClass('clearfix'))
+                .append($('<div />').addClass('panel').append(self.input).append(self.preview));
 
             if (opts.palettePosition == 'outer') {
                 self.palette.hide()
-                        .appendTo(self.parents('body').eq(0))
-                        .mouseleave(function() {
-                    $(this).slideUp();
-                    self.val(self.val());
-                });
+                    .appendTo(self.parents('body').eq(0))
+                    .mouseleave(function() {
+                        $(this).slideUp();
+                        self.val(self.val());
+                    });
                 self.mouseleave(function(e) {
                     if (e.relatedTarget != self.palette.get(0)) {
                         self.palette.slideUp();
@@ -538,28 +538,28 @@ function elDialogForm(o) {
                 })
             } else {
                 self.append(self.palette.hide())
-                        .mouseleave(function(e) {
-                    self.palette.slideUp();
-                    self.val(self.val());
-                });
+                    .mouseleave(function(e) {
+                        self.palette.slideUp();
+                        self.val(self.val());
+                    });
             }
             self.val(self.val());
         }
 
         this.empty().addClass(opts['class'] + ' rounded-3')
-                .css({'position' : 'relative', 'background-color' : opts.color || ''})
-                .click(function(e) {
-            if (!self.hasClass('disabled')) {
-                !self.palette && init();
-                if (opts.palettePosition == 'outer' && self.palette.css('display') == 'none') {
-                    var o = $(this).offset();
-                    var w = self.palette.width();
-                    var l = self.parents('body').width() - o.left >= w ? o.left : o.left + $(this).outerWidth() - w;
-                    self.palette.css({left : l + 'px', top : o.top + $(this).height() + 1 + 'px'});
+            .css({'position':'relative', 'background-color':opts.color || ''})
+            .click(function(e) {
+                if (!self.hasClass('disabled')) {
+                    !self.palette && init();
+                    if (opts.palettePosition == 'outer' && self.palette.css('display') == 'none') {
+                        var o = $(this).offset();
+                        var w = self.palette.width();
+                        var l = self.parents('body').width() - o.left >= w ? o.left : o.left + $(this).outerWidth() - w;
+                        self.palette.css({left:l + 'px', top:o.top + $(this).height() + 1 + 'px'});
+                    }
+                    self.palette.slideToggle();
                 }
-                self.palette.slideToggle();
-            }
-        });
+            });
 
         this.val = function(v) {
             if (!v && v !== '') {
@@ -584,15 +584,15 @@ function elDialogForm(o) {
     }
 
     $.fn.elColorPicker.defaults = {
-        'class'         : 'el-colorpicker',
-        paletteClass    : 'el-palette',
-        palettePosition : 'inner',
-        name            : 'color',
-        color           : '',
-        update          : null,
-        change          : function(c) {
+        'class':'el-colorpicker',
+        paletteClass:'el-palette',
+        palettePosition:'inner',
+        name:'color',
+        color:'',
+        update:null,
+        change:function(c) {
         },
-        colors          : [
+        colors:[
             '#ffffff', '#cccccc', '#999999', '#666666', '#333333', '#000000',
             '#ffcccc', '#cc9999', '#996666', '#663333', '#330000',
             '#ff9999', '#cc6666', '#cc3333', '#993333', '#660000',
@@ -654,57 +654,57 @@ function elDialogForm(o) {
         var self = this.eq(0);
         var opts = $.extend({}, $.fn.elBorderSelect.defaults, o);
         var width = $('<input type="text" />')
-                .attr({'name' : opts.name + '[width]', size : 3}).css('text-align', 'right')
-                .change(function() {
-            $self.change();
-        });
+            .attr({'name':opts.name + '[width]', size:3}).css('text-align', 'right')
+            .change(function() {
+                $self.change();
+            });
 
         var color = $('<div />').css('position', 'relative')
-                .elColorPicker({
-                                   'class'         : 'el-colorpicker ui-icon ui-icon-pencil',
-                                   name            : opts.name + '[color]',
-                                   palettePosition : 'outer',
-                                   change          : function() {
-                                       $self.change();
-                                   }
-                               });
+            .elColorPicker({
+                'class':'el-colorpicker ui-icon ui-icon-pencil',
+                name:opts.name + '[color]',
+                palettePosition:'outer',
+                change:function() {
+                    $self.change();
+                }
+            });
 
 
         var style = $('<div />').elSelect({
-            tpl       : '<div style="border-bottom:4px %val #000;width:100%;margin:7px 0"> </div>',
-            tpls      : { '' : '%label'},
-            maxHeight : opts.styleHeight || null,
-            select    : function() {
+            tpl:'<div style="border-bottom:4px %val #000;width:100%;margin:7px 0"> </div>',
+            tpls:{ '':'%label'},
+            maxHeight:opts.styleHeight || null,
+            select:function() {
                 $self.change();
             },
-            src       : {
-                ''       : 'none',
-                solid    : 'solid',
-                dashed   : 'dashed',
-                dotted   : 'dotted',
-                'double' : 'double',
-                groove   : 'groove',
-                ridge    : 'ridge',
-                inset    : 'inset',
-                outset   : 'outset'
+            src:{
+                '':'none',
+                solid:'solid',
+                dashed:'dashed',
+                dotted:'dotted',
+                'double':'double',
+                groove:'groove',
+                ridge:'ridge',
+                inset:'inset',
+                outset:'outset'
             }
         });
 
         self.empty()
-                .addClass(opts['class'])
-                .attr('name', opts.name || '')
-                .append(
-                $('<table />').attr('cellspacing', 0).append(
-                        $('<tr />')
-                                .append($('<td />').append(width).append(' px'))
-                                .append($('<td />').append(style))
-                                .append($('<td />').append(color))
-                        )
-                );
+            .addClass(opts['class'])
+            .attr('name', opts.name || '')
+            .append(
+            $('<table />').attr('cellspacing', 0).append(
+                $('<tr />')
+                    .append($('<td />').append(width).append(' px'))
+                    .append($('<td />').append(style))
+                    .append($('<td />').append(color))
+            )
+        );
 
         function rgb2hex(str) {
             function hex(x) {
-                hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8","9", "a", "b", "c", "d", "e", "f"];
+                hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
                 return !x ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
             }
 
@@ -731,9 +731,12 @@ function elDialogForm(o) {
             }
             var base = parseInt($(document.body).css('font-size')) || 16;
             switch (unit) {
-                case 'em': return parseInt(num * base);
-                case 'pt': return parseInt(num * base / 12);
-                case '%' : return parseInt(num * base / 100);
+                case 'em':
+                    return parseInt(num * base);
+                case 'pt':
+                    return parseInt(num * base / 12);
+                case '%' :
+                    return parseInt(num * base / 100);
             }
             return num;
         }
@@ -745,7 +748,7 @@ function elDialogForm(o) {
         this.val = function(v) {
             if (!v && v !== '') {
                 var w = parseInt(width.val());
-                return {width : !isNaN(w) ? w + 'px' : '', style : style.val(), color : color.val()};
+                return {width:!isNaN(w) ? w + 'px' : '', style:style.val(), color:color.val()};
             } else {
                 var m, w, s, c, b = '';
                 if (v.nodeName || v.css) {
@@ -780,10 +783,10 @@ function elDialogForm(o) {
     }
 
     $.fn.elBorderSelect.defaults = {
-        name      : 'el-borderselect',
-        'class'   : 'el-borderselect',
-        value     : {},
-        change    : null
+        name:'el-borderselect',
+        'class':'el-borderselect',
+        value:{},
+        change:null
     }
 
 })(jQuery);
@@ -796,46 +799,46 @@ function elDialogForm(o) {
 
     $.fn.elPaddingInput = function(o) {
         var self = this;
-        var opts = $.extend({}, $.fn.elPaddingInput.defaults, {name : this.attr('name')}, o);
+        var opts = $.extend({}, $.fn.elPaddingInput.defaults, {name:this.attr('name')}, o);
         this.regexps = {
-            main   : new RegExp(opts.type == 'padding' ? 'padding\s*:\s*([^;"]+)' : 'margin\s*:\s*([^;"]+)', 'im'),
-            left   : new RegExp(opts.type == 'padding' ? 'padding-left\s*:\s*([^;"]+)' : 'margin-left\s*:\s*([^;"]+)', 'im'),
-            top    : new RegExp(opts.type == 'padding' ? 'padding-top\s*:\s*([^;"]+)' : 'margin-top\s*:\s*([^;"]+)', 'im'),
-            right  : new RegExp(opts.type == 'padding' ? 'padding-right\s*:\s*([^;"]+)' : 'margin-right\s*:\s*([^;"]+)', 'im'),
-            bottom : new RegExp(opts.type == 'padding' ? 'padding-bottom\s*:\s*([^;"]+)' : 'margin-bottom\s*:\s*([^;"]+)', 'im')
+            main:new RegExp(opts.type == 'padding' ? 'padding\s*:\s*([^;"]+)' : 'margin\s*:\s*([^;"]+)', 'im'),
+            left:new RegExp(opts.type == 'padding' ? 'padding-left\s*:\s*([^;"]+)' : 'margin-left\s*:\s*([^;"]+)', 'im'),
+            top:new RegExp(opts.type == 'padding' ? 'padding-top\s*:\s*([^;"]+)' : 'margin-top\s*:\s*([^;"]+)', 'im'),
+            right:new RegExp(opts.type == 'padding' ? 'padding-right\s*:\s*([^;"]+)' : 'margin-right\s*:\s*([^;"]+)', 'im'),
+            bottom:new RegExp(opts.type == 'padding' ? 'padding-bottom\s*:\s*([^;"]+)' : 'margin-bottom\s*:\s*([^;"]+)', 'im')
         };
 
         $.each(['left', 'top', 'right', 'bottom'], function() {
 
             self[this] = $('<input type="text" />')
-                    .attr('size', 3)
-                    .css('text-align', 'right')
-                    .css('border-' + this, '2px solid red')
-                    .bind('change', function() {
-                $(this).val(parseNum($(this).val()));
-                change();
-            })
-                    .attr('name', opts.name + '[' + this + ']');
+                .attr('size', 3)
+                .css('text-align', 'right')
+                .css('border-' + this, '2px solid red')
+                .bind('change', function() {
+                    $(this).val(parseNum($(this).val()));
+                    change();
+                })
+                .attr('name', opts.name + '[' + this + ']');
         });
         $.each(['uleft', 'utop', 'uright', 'ubottom'], function() {
             self[this] = $('<select />')
-                    .append('<option value="px">px</option>')
-                    .append('<option value="em">em</option>')
-                    .append('<option value="pt">pt</option>')
-                    .bind('change', function() {
-                change();
-            })
-                    .attr('name', opts.name + '[' + this + ']');
+                .append('<option value="px">px</option>')
+                .append('<option value="em">em</option>')
+                .append('<option value="pt">pt</option>')
+                .bind('change', function() {
+                    change();
+                })
+                .attr('name', opts.name + '[' + this + ']');
             if (opts.percents) {
                 self[this].append('<option value="%">%</option>');
             }
         });
 
         this.empty().addClass(opts['class'])
-                .append(this.left).append(this.uleft).append(' x ')
-                .append(this.top).append(this.utop).append(' x ')
-                .append(this.right).append(this.uright).append(' x ')
-                .append(this.bottom).append(this.ubottom);
+            .append(this.left).append(this.uleft).append(' x ')
+            .append(this.top).append(this.utop).append(' x ')
+            .append(this.right).append(this.uright).append(' x ')
+            .append(this.bottom).append(this.ubottom);
 
         this.val = function(v) {
             if (!v && v !== '') {
@@ -844,11 +847,11 @@ function elDialogForm(o) {
                 var r = parseNum(this.right.val());
                 var b = parseNum(this.bottom.val());
                 var ret = {
-                    left   : l == 'auto' || l == 0 ? l : (l !== '' ? l + this.uleft.val() : ''),
-                    top    : t == 'auto' || t == 0 ? t : (t !== '' ? t + this.utop.val() : ''),
-                    right  : r == 'auto' || r == 0 ? r : (r !== '' ? r + this.uright.val() : ''),
-                    bottom : b == 'auto' || b == 0 ? b : (b !== '' ? b + this.ubottom.val() : ''),
-                    css    : ''
+                    left:l == 'auto' || l == 0 ? l : (l !== '' ? l + this.uleft.val() : ''),
+                    top:t == 'auto' || t == 0 ? t : (t !== '' ? t + this.utop.val() : ''),
+                    right:r == 'auto' || r == 0 ? r : (r !== '' ? r + this.uright.val() : ''),
+                    bottom:b == 'auto' || b == 0 ? b : (b !== '' ? b + this.ubottom.val() : ''),
+                    css:''
                 };
                 if (ret.left !== '' && ret.right !== '' && ret.top !== '' && ret.bottom !== '') {
                     if (ret.left == ret.right && ret.top == ret.bottom) {
@@ -865,7 +868,7 @@ function elDialogForm(o) {
                     if (!v.css) {
                         v = $(v);
                     }
-                    var val = {left : '', top : '', right: '', bottom : ''};
+                    var val = {left:'', top:'', right:'', bottom:''};
                     var style = (v.attr('style') || '').toLowerCase();
 
                     if (style) {
@@ -923,12 +926,12 @@ function elDialogForm(o) {
     }
 
     $.fn.elPaddingInput.defaults = {
-        name     : 'el-paddinginput',
-        'class'  : 'el-paddinginput',
-        type     : 'padding',
-        value    : {},
-        percents : true,
-        change   : null
+        name:'el-paddinginput',
+        'class':'el-paddinginput',
+        type:'padding',
+        value:{},
+        percents:true,
+        change:null
     }
 
 })(jQuery);
@@ -971,7 +974,7 @@ function elDialogForm(o) {
         var self = this.eq(0);
         var opts = $.extend({}, $.fn.elSelect.defaults, o);
         var hidden = $('<input type="hidden" />').attr('name', opts.name);
-        var label = $('<label />').attr({unselectable : 'on'}).addClass('rounded-left-3');
+        var label = $('<label />').attr({unselectable:'on'}).addClass('rounded-left-3');
         var list = null;
         var ieWidth = null;
 
@@ -1019,36 +1022,36 @@ function elDialogForm(o) {
         // update label content
         function updateLabel(v) {
             var tpl = opts.labelTpl || opts.tpls[v] || opts.tpl;
-            label.html(tpl.replace(/%val/g, v).replace(/%label/, opts.src[v])).children().attr({unselectable : 'on'});
+            label.html(tpl.replace(/%val/g, v).replace(/%label/, opts.src[v])).children().attr({unselectable:'on'});
         }
 
         // init "select"
         self.empty()
-                .addClass(opts['class'] + ' rounded-3')
-                .attr({unselectable : 'on'})
-                .append(hidden)
-                .append(label)
-                .hover(
-                function() {
-                    $(this).addClass('hover')
-                },
-                function() {
-                    $(this).removeClass('hover')
-                }
-                )
-                .click(function(e) {
-            !list && init();
-            list.slideToggle();
-            // stupid ie inherit width from parent
-            if ($.browser.msie && !ieWidth) {
-                list.children().each(function() {
-                    ieWidth = Math.max(ieWidth, $(this).width());
-                });
-                if (ieWidth > list.width()) {
-                    list.width(ieWidth + 40);
-                }
+            .addClass(opts['class'] + ' rounded-3')
+            .attr({unselectable:'on'})
+            .append(hidden)
+            .append(label)
+            .hover(
+            function() {
+                $(this).addClass('hover')
+            },
+            function() {
+                $(this).removeClass('hover')
             }
-        });
+        )
+            .click(function(e) {
+                !list && init();
+                list.slideToggle();
+                // stupid ie inherit width from parent
+                if ($.browser.msie && !ieWidth) {
+                    list.children().each(function() {
+                        ieWidth = Math.max(ieWidth, $(this).width());
+                    });
+                    if (ieWidth > list.width()) {
+                        list.width(ieWidth + 40);
+                    }
+                }
+            });
 
         this.val(opts.value);
 
@@ -1056,35 +1059,35 @@ function elDialogForm(o) {
         function init() {
             // not ul because of ie is stupid with mouseleave in it :(
             list = $('<div />')
-                    .addClass(opts.listClass + ' rounded-3')
-                    .hide()
-                    .appendTo(self.mouseleave(function(e) {
+                .addClass(opts.listClass + ' rounded-3')
+                .hide()
+                .appendTo(self.mouseleave(function(e) {
                 list.slideUp();
             }));
 
             for (var v in opts.src) {
                 var tpl = opts.tpls[v] || opts.tpl;
                 $('<div />')
-                        .attr('name', v)
-                        .append($(tpl.replace(/%val/g, v).replace(/%label/g, opts.src[v])).attr({unselectable : 'on'}))
-                        .appendTo(list)
-                        .hover(
-                        function() {
-                            $(this).addClass('hover')
-                        },
-                        function() {
-                            $(this).removeClass('hover')
-                        }
-                        )
-                        .click(function(e) {
-                    e.stopPropagation();
-                    e.preventDefault();
+                    .attr('name', v)
+                    .append($(tpl.replace(/%val/g, v).replace(/%label/g, opts.src[v])).attr({unselectable:'on'}))
+                    .appendTo(list)
+                    .hover(
+                    function() {
+                        $(this).addClass('hover')
+                    },
+                    function() {
+                        $(this).removeClass('hover')
+                    }
+                )
+                    .click(function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
 
-                    var v = $(this).attr('name');
-                    $self.val(v);
-                    opts.select(v);
-                    list.slideUp();
-                });
+                        var v = $(this).attr('name');
+                        $self.val(v);
+                        opts.select(v);
+                        list.slideUp();
+                    });
             }
             ;
 
@@ -1105,18 +1108,18 @@ function elDialogForm(o) {
     }
 
     $.fn.elSelect.defaults = {
-        name      : 'el-select',
-        'class'   : 'el-select',
-        listClass : 'list',
-        labelTpl  : null,
-        tpl       : '<%val>%label</%val>',
-        tpls      : {},
-        value     : null,
-        src       : {},
-        select    : function(v) {
+        name:'el-select',
+        'class':'el-select',
+        listClass:'list',
+        labelTpl:null,
+        tpl:'<%val>%label</%val>',
+        tpls:{},
+        value:null,
+        src:{},
+        select:function(v) {
             window.console && window.console.log && window.console.log('selected: ' + v);
         },
-        maxHeight : 410
+        maxHeight:410
     }
 
 })(jQuery);
@@ -1150,7 +1153,7 @@ function elDialogForm(o) {
         this.target = $(target);
 
         this.lang = ('' + this.options.lang);
-        this._i18n = new eli18n({textdomain : 'rte', messages : { rte : this.i18Messages[this.lang] || {}} });
+        this._i18n = new eli18n({textdomain:'rte', messages:{ rte:this.i18Messages[this.lang] || {}} });
         this.rtl = !!(/^(ar|fa|he)$/.test(this.lang) && this.i18Messages[this.lang]);
 
         if (this.rtl) {
@@ -1192,7 +1195,7 @@ function elDialogForm(o) {
             var self = this;
             if (this.options.resizable && $.fn.resizable) {
                 if (r) {
-                    this.editor.resizable({handles : 'se', alsoResize : this.workzone, minWidth :300, minHeight : 200 }).bind('resize', self.updateHeight);
+                    this.editor.resizable({handles:'se', alsoResize:this.workzone, minWidth:300, minHeight:200 }).bind('resize', self.updateHeight);
                 } else {
                     this.editor.resizable('destroy').unbind('resize', self.updateHeight);
                 }
@@ -1220,30 +1223,30 @@ function elDialogForm(o) {
         /* add tabs */
         if (this.options.allowSource) {
             this.tabsbar.append('<div class="tab editor rounded-bottom-7 active">' + self.i18n('Editor') + '</div><div class="tab source rounded-bottom-7">' + self.i18n('Source') + '</div><div class="clearfix" style="clear:both"/>')
-                    .children('.tab').click(function(e) {
-                if (!$(this).hasClass('active')) {
-                    self.tabsbar.children('.tab').toggleClass('active');
-                    self.workzone.children().toggle();
+                .children('.tab').click(function(e) {
+                    if (!$(this).hasClass('active')) {
+                        self.tabsbar.children('.tab').toggleClass('active');
+                        self.workzone.children().toggle();
 
-                    if ($(this).hasClass('editor')) {
-                        self.updateEditor();
-                        self.window.focus();
-                        self.ui.update(true);
-                    } else {
-                        self.updateSource();
-                        self.source.focus();
-                        if ($.browser.msie) {
-                            // @todo
+                        if ($(this).hasClass('editor')) {
+                            self.updateEditor();
+                            self.window.focus();
+                            self.ui.update(true);
                         } else {
-                            self.source[0].setSelectionRange(0, 0);
+                            self.updateSource();
+                            self.source.focus();
+                            if ($.browser.msie) {
+                                // @todo
+                            } else {
+                                self.source[0].setSelectionRange(0, 0);
+                            }
+                            self.ui.disable();
+                            self.statusbar.empty();
+
                         }
-                        self.ui.disable();
-                        self.statusbar.empty();
-
                     }
-                }
 
-            });
+                });
         }
 
         this.window = this.iframe.contentWindow;
@@ -1256,8 +1259,7 @@ function elDialogForm(o) {
             html += '<link rel="stylesheet" type="text/css" href="' + this + '" />';
         });
         this.doc.open();
-        var s = this.filter.wysiwyg(content),
-                cl = this.rtl ? ' class="el-rte-rtl"' : '';
+        var s = this.filter.wysiwyg(content), cl = this.rtl ? ' class="el-rte-rtl"' : '';
         this.doc.write(self.options.doctype + html + '</head><body' + cl + '>' + (s) + '</body></html>');
         this.doc.close();
 
@@ -1268,7 +1270,7 @@ function elDialogForm(o) {
             try {
                 this.doc.designMode = "on";
             }
-            catch(e) {
+            catch (e) {
             }
             this.doc.execCommand('styleWithCSS', false, this.options.styleWithCSS);
         }
@@ -1308,8 +1310,7 @@ function elDialogForm(o) {
                     r.text = "\t" + r.text;
                     this.focus();
                 } else {
-                    var before = this.value.substr(0, this.selectionStart),
-                            after = this.value.substr(this.selectionEnd);
+                    var before = this.value.substr(0, this.selectionStart), after = this.value.substr(this.selectionEnd);
                     this.value = before + "\t" + after;
                     this.setSelectionRange(before.length + 1, before.length + 1);
                 }
@@ -1324,7 +1325,7 @@ function elDialogForm(o) {
                     var bm = self.selection.getBookmark();
                     self.selection.moveToBookmark(bm);
                     self.ui.update();
-                } catch(e) {
+                } catch (e) {
                 }
 
 
@@ -1341,75 +1342,74 @@ function elDialogForm(o) {
             self.lastKey = null;
             self.ui.update();
         })
-                .bind('keyup', function(e) {
-            if ((e.keyCode >= 8 && e.keyCode <= 13) || (e.keyCode >= 32 && e.keyCode <= 40) || e.keyCode == 46 || (e.keyCode >= 96 && e.keyCode <= 111)) {
-                self.ui.update();
-            }
-        })
-                .bind('keydown', function(e) {
-            if ((e.metaKey || e.ctrlKey) && e.keyCode == 65) {
-                self.ui.update();
-            } else if (e.keyCode == 13) {
-                var n = self.selection.getNode();
-                // self.log(n)
-                if (self.dom.selfOrParent(n, /^PRE$/)) {
-                    self.selection.insertNode(self.doc.createTextNode("\r\n"));
-                    return false;
-                } else if ($.browser.safari && e.shiftKey) {
-                    self.selection.insertNode(self.doc.createElement('br'))
-                    return false;
+            .bind('keyup', function(e) {
+                if ((e.keyCode >= 8 && e.keyCode <= 13) || (e.keyCode >= 32 && e.keyCode <= 40) || e.keyCode == 46 || (e.keyCode >= 96 && e.keyCode <= 111)) {
+                    self.ui.update();
                 }
-            }
-
-            if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == 61 || e.keyCode == 109 || (e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode == 188 || e.keyCode == 190 || e.keyCode == 191 || (e.keyCode >= 219 && e.keyCode <= 222)) {
-                if (!self.typing) {
-                    self.history.add(true);
-                }
-                self.typing = true;
-                self.lastKey = null;
-            } else if (e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 32 || e.keyCode == 13) {
-                if (e.keyCode != self.lastKey) {
-                    self.history.add(true);
-                }
-                self.lastKey = e.keyCode;
-                self.typing = false;
-            }
-        })
-                .bind('paste', function(e) {
-            if (!self.options.allowPaste) {
-                // paste denied 
-                e.stopPropagation();
-                e.preventDefault();
-            } else {
-                var n = $(self.dom.create('div'))[0],
-                        r = self.doc.createTextNode('_');
-                self.history.add(true);
-                self.typing = true;
-                self.lastKey = null;
-                n.appendChild(r);
-                self.selection.deleteContents().insertNode(n);
-                self.selection.select(r);
-                setTimeout(function() {
-                    if (n.parentNode) {
-                        // clean sandbox content
-                        $(n).html(self.filter.proccess('paste', $(n).html()));
-                        r = n.lastChild;
-                        self.dom.unwrap(n);
-                        if (r) {
-                            self.selection.select(r);
-                            self.selection.collapse(false);
-                        }
-                    } else {
-                        // smth wrong - clean all doc
-                        n.parentNode && n.parentNode.removeChild(n);
-                        self.val(self.filter.proccess('paste', self.filter.wysiwyg2wysiwyg($(self.doc.body).html())));
-                        self.selection.select(self.doc.body.firstChild);
-                        self.selection.collapse(true);
+            })
+            .bind('keydown', function(e) {
+                if ((e.metaKey || e.ctrlKey) && e.keyCode == 65) {
+                    self.ui.update();
+                } else if (e.keyCode == 13) {
+                    var n = self.selection.getNode();
+                    // self.log(n)
+                    if (self.dom.selfOrParent(n, /^PRE$/)) {
+                        self.selection.insertNode(self.doc.createTextNode("\r\n"));
+                        return false;
+                    } else if ($.browser.safari && e.shiftKey) {
+                        self.selection.insertNode(self.doc.createElement('br'))
+                        return false;
                     }
-                    $(self.doc.body).mouseup(); // to activate history buutons
-                }, 15);
-            }
-        });
+                }
+
+                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == 61 || e.keyCode == 109 || (e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode == 188 || e.keyCode == 190 || e.keyCode == 191 || (e.keyCode >= 219 && e.keyCode <= 222)) {
+                    if (!self.typing) {
+                        self.history.add(true);
+                    }
+                    self.typing = true;
+                    self.lastKey = null;
+                } else if (e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 32 || e.keyCode == 13) {
+                    if (e.keyCode != self.lastKey) {
+                        self.history.add(true);
+                    }
+                    self.lastKey = e.keyCode;
+                    self.typing = false;
+                }
+            })
+            .bind('paste', function(e) {
+                if (!self.options.allowPaste) {
+                    // paste denied
+                    e.stopPropagation();
+                    e.preventDefault();
+                } else {
+                    var n = $(self.dom.create('div'))[0], r = self.doc.createTextNode('_');
+                    self.history.add(true);
+                    self.typing = true;
+                    self.lastKey = null;
+                    n.appendChild(r);
+                    self.selection.deleteContents().insertNode(n);
+                    self.selection.select(r);
+                    setTimeout(function() {
+                        if (n.parentNode) {
+                            // clean sandbox content
+                            $(n).html(self.filter.proccess('paste', $(n).html()));
+                            r = n.lastChild;
+                            self.dom.unwrap(n);
+                            if (r) {
+                                self.selection.select(r);
+                                self.selection.collapse(false);
+                            }
+                        } else {
+                            // smth wrong - clean all doc
+                            n.parentNode && n.parentNode.removeChild(n);
+                            self.val(self.filter.proccess('paste', self.filter.wysiwyg2wysiwyg($(self.doc.body).html())));
+                            self.selection.select(self.doc.body.firstChild);
+                            self.selection.collapse(true);
+                        }
+                        $(self.doc.body).mouseup(); // to activate history buutons
+                    }, 15);
+                }
+            });
 
         if ($.browser.msie) {
             this.$doc.bind('keyup', function(e) {
@@ -1428,14 +1428,14 @@ function elDialogForm(o) {
 
         if ($.browser.safari) {
             this.$doc.bind('click',
-                    function(e) {
-                        $(self.doc.body).find('.elrte-webkit-hl').removeClass('elrte-webkit-hl');
-                        if (e.target.nodeName == 'IMG') {
-                            $(e.target).addClass('elrte-webkit-hl');
-                        }
-                    }).bind('keyup', function(e) {
-                $(self.doc.body).find('.elrte-webkit-hl').removeClass('elrte-webkit-hl');
-            })
+                function(e) {
+                    $(self.doc.body).find('.elrte-webkit-hl').removeClass('elrte-webkit-hl');
+                    if (e.target.nodeName == 'IMG') {
+                        $(e.target).addClass('elrte-webkit-hl');
+                    }
+                }).bind('keyup', function(e) {
+                    $(self.doc.body).find('.elrte-webkit-hl').removeClass('elrte-webkit-hl');
+                })
         }
 
         // this.resizable(true)
@@ -1582,12 +1582,12 @@ function elDialogForm(o) {
         this.rte = rte;
         var self = this;
         this.regExp = {
-            textNodes         : /^(A|ABBR|ACRONYM|ADDRESS|B|BDO|BIG|BLOCKQUOTE|CAPTION|CENTER|CITE|CODE|DD|DEL|DFN|DIV|DT|EM|FIELDSET|FONT|H[1-6]|I|INS|KBD|LABEL|LEGEND|LI|MARQUEE|NOBR|NOEMBED|P|PRE|Q|SAMP|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TD|TH|TT|VAR)$/,
-            textContainsNodes : /^(A|ABBR|ACRONYM|ADDRESS|B|BDO|BIG|BLOCKQUOTE|CAPTION|CENTER|CITE|CODE|DD|DEL|DFN|DIV|DL|DT|EM|FIELDSET|FONT|H[1-6]|I|INS|KBD|LABEL|LEGEND|LI|MARQUEE|NOBR|NOEMBED|OL|P|PRE|Q|SAMP|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TABLE|THEAD|TBODY|TFOOT|TD|TH|TR|TT|UL|VAR)$/,
-            block             : /^(APPLET|BLOCKQUOTE|BR|CAPTION|CENTER|COL|COLGROUP|DD|DIV|DL|DT|H[1-6]|EMBED|FIELDSET|LI|MARQUEE|NOBR|OBJECT|OL|P|PRE|TABLE|THEAD|TBODY|TFOOT|TD|TH|TR|UL)$/,
-            selectionBlock    : /^(APPLET|BLOCKQUOTE|BR|CAPTION|CENTER|COL|COLGROUP|DD|DIV|DL|DT|H[1-6]|EMBED|FIELDSET|LI|MARQUEE|NOBR|OBJECT|OL|P|PRE|TD|TH|TR|UL)$/,
-            header            : /^H[1-6]$/,
-            formElement       : /^(FORM|INPUT|HIDDEN|TEXTAREA|SELECT|BUTTON)$/
+            textNodes:/^(A|ABBR|ACRONYM|ADDRESS|B|BDO|BIG|BLOCKQUOTE|CAPTION|CENTER|CITE|CODE|DD|DEL|DFN|DIV|DT|EM|FIELDSET|FONT|H[1-6]|I|INS|KBD|LABEL|LEGEND|LI|MARQUEE|NOBR|NOEMBED|P|PRE|Q|SAMP|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TD|TH|TT|VAR)$/,
+            textContainsNodes:/^(A|ABBR|ACRONYM|ADDRESS|B|BDO|BIG|BLOCKQUOTE|CAPTION|CENTER|CITE|CODE|DD|DEL|DFN|DIV|DL|DT|EM|FIELDSET|FONT|H[1-6]|I|INS|KBD|LABEL|LEGEND|LI|MARQUEE|NOBR|NOEMBED|OL|P|PRE|Q|SAMP|SMALL|SPAN|STRIKE|STRONG|SUB|SUP|TABLE|THEAD|TBODY|TFOOT|TD|TH|TR|TT|UL|VAR)$/,
+            block:/^(APPLET|BLOCKQUOTE|BR|CAPTION|CENTER|COL|COLGROUP|DD|DIV|DL|DT|H[1-6]|EMBED|FIELDSET|LI|MARQUEE|NOBR|OBJECT|OL|P|PRE|TABLE|THEAD|TBODY|TFOOT|TD|TH|TR|UL)$/,
+            selectionBlock:/^(APPLET|BLOCKQUOTE|BR|CAPTION|CENTER|COL|COLGROUP|DD|DIV|DL|DT|H[1-6]|EMBED|FIELDSET|LI|MARQUEE|NOBR|OBJECT|OL|P|PRE|TD|TH|TR|UL)$/,
+            header:/^H[1-6]$/,
+            formElement:/^(FORM|INPUT|HIDDEN|TEXTAREA|SELECT|BUTTON)$/
         };
 
         /********************************************************/
@@ -1669,7 +1669,7 @@ function elDialogForm(o) {
                 return this.rte.doc.body;
             }
             var p1 = $(n1).parents(), p2 = $(n2).parents(), l = p2.length - 1, c = p2[l];
-            for (var i = p1.length - 1; i >= 0; i--,l--) {
+            for (var i = p1.length - 1; i >= 0; i--, l--) {
                 if (p1[i] == p2[l]) {
                     c = p1[i];
                 } else {
@@ -1693,8 +1693,8 @@ function elDialogForm(o) {
                 return this.regExp.textNodes.test(n.nodeName) ? $.trim($(n).text()).length == 0 : false;
             } else if (n.nodeType == 3) {
                 return /^(TABLE|THEAD|TFOOT|TBODY|TR|UL|OL|DL)$/.test(n.parentNode.nodeName)
-                        || n.nodeValue == ''
-                        || ($.trim(n.nodeValue).length == 0 && !(n.nextSibling && n.previousSibling && n.nextSibling.nodeType == 1 && n.previousSibling.nodeType == 1 && !this.regExp.block.test(n.nextSibling.nodeName) && !this.regExp.block.test(n.previousSibling.nodeName) ));
+                    || n.nodeValue == ''
+                    || ($.trim(n.nodeValue).length == 0 && !(n.nextSibling && n.previousSibling && n.nextSibling.nodeType == 1 && n.previousSibling.nodeType == 1 && !this.regExp.block.test(n.nextSibling.nodeName) && !this.regExp.block.test(n.previousSibling.nodeName) ));
             }
             return true;
         }
@@ -2206,7 +2206,7 @@ function elDialogForm(o) {
             n = this.selfOrParent(n, /^TD|TH$/);
             var tb = this.selfOrParent(n, /^TABLE$/);
             ret = [];
-            info = {offset : [], delta : []};
+            info = {offset:[], delta:[]};
             if (n && tb) {
                 fix && this.fixTable(tb);
                 var mx = this.tableMatrix(tb);
@@ -2253,7 +2253,7 @@ function elDialogForm(o) {
                     }
                 }
             }
-            return !ext ? ret : {column : ret, info : info};
+            return !ext ? ret : {column:ret, info:info};
         }
     }
 
@@ -2265,8 +2265,7 @@ function elDialogForm(o) {
      * @author Dmitry (dio) Levashov, dio@std42.ru
      */
     elRTE.prototype.filter = function(rte) {
-        var self = this,
-                n = $('<span/>').addClass('elrtetesturl').appendTo(document.body)[0];
+        var self = this, n = $('<span/>').addClass('elrtetesturl').appendTo(document.body)[0];
         // media replacement image base url
         this.url = (typeof(n.currentStyle ) != "undefined" ? n.currentStyle['backgroundImage'] : document.defaultView.getComputedStyle(n, null)['backgroundImage']).replace(/^url\((['"]?)([\s\S]+\/)[\s\S]+\1\)$/i, "$2");
         $(n).remove();
@@ -2320,12 +2319,12 @@ function elDialogForm(o) {
         // deny attributes for pasted html
         this.pasteDenyAttr = rte.options.pasteDenyAttr ? rte.utils.makeObject(rte.options.pasteDenyAttr) : null;
         // font sizes to convert size attr into css property
-        this.fontSize = ['medium', 'xx-small', 'small', 'medium','large','x-large','xx-large' ];
+        this.fontSize = ['medium', 'xx-small', 'small', 'medium', 'large', 'x-large', 'xx-large' ];
         // font families regexp to detect family by font name
         this.fontFamily = {
-            'sans-serif' : /^(arial|tahoma|verdana)$/i,
-            'serif'      : /^(times|times new roman)$/i,
-            'monospace'  : /^courier$/i
+            'sans-serif':/^(arial|tahoma|verdana)$/i,
+            'serif':/^(times|times new roman)$/i,
+            'monospace':/^courier$/i
         }
         // scripts storage
         this.scripts = {};
@@ -2405,10 +2404,7 @@ function elDialogForm(o) {
          * @return Object
          **/
         this.parseAttrs = function(s) {
-            var a = {},
-                    b = this.boolAttrs,
-                    m = s.match(this.attrRegExp),
-                    t, n, v;
+            var a = {}, b = this.boolAttrs, m = s.match(this.attrRegExp), t, n, v;
 
             m && $.each(m, function(i, s) {
                 t = s.split('=');
@@ -2565,23 +2561,23 @@ function elDialogForm(o) {
 
     // rules to replace tags
     elRTE.prototype.filter.prototype.replaceTags = {
-        b         : { tag : 'strong' },
-        big       : { tag : 'span', style : {'font-size' : 'large'} },
-        center    : { tag : 'div',  style : {'text-align' : 'center'} },
-        i         : { tag : 'em' },
-        font      : { tag : 'span' },
-        nobr      : { tag : 'span', style : {'white-space' : 'nowrap'} },
-        menu      : { tag : 'ul' },
-        plaintext : { tag : 'pre' },
-        s         : { tag : 'strike' },
-        small     : { tag : 'span', style : {'font-size' : 'small'}},
-        u         : { tag : 'span', style : {'text-decoration' : 'underline'} },
-        xmp       : { tag : 'pre' }
+        b:{ tag:'strong' },
+        big:{ tag:'span', style:{'font-size':'large'} },
+        center:{ tag:'div', style:{'text-align':'center'} },
+        i:{ tag:'em' },
+        font:{ tag:'span' },
+        nobr:{ tag:'span', style:{'white-space':'nowrap'} },
+        menu:{ tag:'ul' },
+        plaintext:{ tag:'pre' },
+        s:{ tag:'strike' },
+        small:{ tag:'span', style:{'font-size':'small'}},
+        u:{ tag:'span', style:{'text-decoration':'underline'} },
+        xmp:{ tag:'pre' }
     }
 
     // rules to replace attributes
     elRTE.prototype.filter.prototype.replaceAttrs = {
-        align : function(a, n) {
+        align:function(a, n) {
             switch (n) {
                 case 'img':
                     a.style[a.align.match(/(left|right)/) ? 'float' : 'vertical-align'] = a.align;
@@ -2600,32 +2596,32 @@ function elDialogForm(o) {
             }
             delete a.align;
         },
-        border : function(a) {
+        border:function(a) {
             !a.style['border-width'] && (a.style['border-width'] = (parseInt(a.border) || 1) + 'px');
             !a.style['border-style'] && (a.style['border-style'] = 'solid');
             delete a.border;
         },
-        bordercolor : function(a) {
+        bordercolor:function(a) {
             !a.style['border-color'] && (a.style['border-color'] = a.bordercolor);
             delete a.bordercolor;
         },
-        background : function(a) {
+        background:function(a) {
             !a.style['background-image'] && (a.style['background-image'] = 'url(' + a.background + ')');
             delete a.background;
         },
-        bgcolor : function(a) {
+        bgcolor:function(a) {
             !a.style['background-color'] && (a.style['background-color'] = a.bgcolor);
             delete a.bgcolor;
         },
-        clear : function(a) {
+        clear:function(a) {
             a.style.clear = a.clear == 'all' ? 'both' : a.clear;
             delete a.clear;
         },
-        color : function(a) {
+        color:function(a) {
             !a.style.color && (a.style.color = a.color);
             delete a.color;
         },
-        face : function(a) {
+        face:function(a) {
             var f = a.face.toLowerCase();
             $.each(this.fontFamily, function(n, r) {
                 if (f.match(r)) {
@@ -2634,7 +2630,7 @@ function elDialogForm(o) {
             });
             delete a.face;
         },
-        hspace : function(a, n) {
+        hspace:function(a, n) {
             if (n == 'img') {
                 var v = parseInt(a.hspace) || 0;
                 !a.style['margin-left'] && (a.style['margin-left'] = v + 'px');
@@ -2642,19 +2638,19 @@ function elDialogForm(o) {
                 delete a.hspace;
             }
         },
-        size : function(a, n) {
+        size:function(a, n) {
             if (n != 'input') {
                 a.style['font-size'] = this.fontSize[parseInt(a.size) || 0] || 'medium';
                 delete a.size;
             }
         },
-        valign : function(a) {
+        valign:function(a) {
             if (!a.style['vertical-align']) {
                 a.style['vertical-align'] = a.valign;
             }
             delete a.valign;
         },
-        vspace : function(a, n) {
+        vspace:function(a, n) {
             if (n == 'img') {
                 var v = parseInt(a.vspace) || 0;
                 !a.style['margin-top'] && (a.style['margin-top'] = v + 'px');
@@ -2672,7 +2668,7 @@ function elDialogForm(o) {
          * @param String  html code
          * @return String
          **/
-        allowedTags : function(html) {
+        allowedTags:function(html) {
             var a = this.allowTags;
 
             return a ? html.replace(this.tagRegExp, function(t, c, n) {
@@ -2685,7 +2681,7 @@ function elDialogForm(o) {
          * @param String  html code
          * @return String
          **/
-        deniedTags : function(html) {
+        deniedTags:function(html) {
             var d = this.denyTags;
 
             return d ? html.replace(this.tagRegExp, function(t, c, n) {
@@ -2699,76 +2695,69 @@ function elDialogForm(o) {
          * @param String  html code
          * @return String
          **/
-        clean : function(html) {
-            var self = this,
-                    rt = this.replaceTags,
-                    ra = this.replaceAttrs,
-                    da = this.denyAttr,
-                    n;
+        clean:function(html) {
+            var self = this, rt = this.replaceTags, ra = this.replaceAttrs, da = this.denyAttr, n;
 
 
             html = html.replace(/<!DOCTYPE([\s\S]*)>/gi, '')
-                    .replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, "<p><strong>$1</strong></p>")
-                    .replace(/<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s&nbsp;]*)<\/span>/gi, "$1")
+                .replace(/<p [^>]*class="?MsoHeading"?[^>]*>(.*?)<\/p>/gi, "<p><strong>$1</strong></p>")
+                .replace(/<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s&nbsp;]*)<\/span>/gi, "$1")
                 //.replace(/(<p[^>]*>\s*<\/p>|<p[^>]*\/>)/gi, '<br>')
-                    .replace(/(<\/p>)(?:\s*<br\s*\/?>\s*|\s*&nbsp;\s*)+\s*(<p[^>]*>)/gi, function(t, b, e) {
-                return b + "\n" + e;
-            })
-                    .replace(this.tagRegExp, function(t, c, n, a) {
-                n = n.toLowerCase();
+                .replace(/(<\/p>)(?:\s*<br\s*\/?>\s*|\s*&nbsp;\s*)+\s*(<p[^>]*>)/gi, function(t, b, e) {
+                    return b + "\n" + e;
+                })
+                .replace(this.tagRegExp, function(t, c, n, a) {
+                    n = n.toLowerCase();
 
-                if (c) {
-                    return '</' + (rt[n] ? rt[n].tag : n) + '>';
-                }
-
-                // create attributes hash and clean it
-                a = self.cleanAttrs(self.parseAttrs(a || ''), n);
-
-                if (rt[n]) {
-                    rt[n].style && $.extend(a.style, rt[n].style);
-                    n = rt[n].tag;
-                }
-
-                da && $.each(a, function(na) {
-                    if (da[na]) {
-                        delete a[na];
+                    if (c) {
+                        return '</' + (rt[n] ? rt[n].tag : n) + '>';
                     }
+
+                    // create attributes hash and clean it
+                    a = self.cleanAttrs(self.parseAttrs(a || ''), n);
+
+                    if (rt[n]) {
+                        rt[n].style && $.extend(a.style, rt[n].style);
+                        n = rt[n].tag;
+                    }
+
+                    da && $.each(a, function(na) {
+                        if (da[na]) {
+                            delete a[na];
+                        }
+                    });
+                    a = self.serializeAttrs(a);
+                    return '<' + n + (a ? ' ' : '') + a + '>';
                 });
-                a = self.serializeAttrs(a);
-                return '<' + n + (a ? ' ' : '') + a + '>';
-            });
 
 
             n = $('<div>' + html + '</div>');
 
             // remove empty spans and merge nested spans
             n.find('span:not([id]):not([class])').each(
-                    function() {
-                        var t = $(this);
+                function() {
+                    var t = $(this);
 
-                        if (!t.attr('style')) {
-                            $.trim(t.html()).length ? self.rte.dom.unwrap(this) : t.remove();
-                            // t.children().length ? self.rte.dom.unwrap(this) : t.remove();
-                        }
-                    }).end().find('span span:only-child').each(function() {
-                var t = $(this),
-                        p = t.parent().eq(0),
-                        tid = t.attr('id'),
-                        pid = p.attr('id'), id, s, c;
+                    if (!t.attr('style')) {
+                        $.trim(t.html()).length ? self.rte.dom.unwrap(this) : t.remove();
+                        // t.children().length ? self.rte.dom.unwrap(this) : t.remove();
+                    }
+                }).end().find('span span:only-child').each(function() {
+                    var t = $(this), p = t.parent().eq(0), tid = t.attr('id'), pid = p.attr('id'), id, s, c;
 
-                if (self.rte.dom.is(this, 'onlyChild') && (!tid || !pid)) {
-                    c = $.trim(p.attr('class') + ' ' + t.attr('class'))
-                    c && p.attr('class', c);
-                    s = self.rte.utils.serializeStyle($.extend(self.rte.utils.parseStyle($(this).attr('style') || ''), self.rte.utils.parseStyle($(p).attr('style') || '')));
-                    s && p.attr('style', s);
-                    id = tid || pid;
-                    id && p.attr('id', id);
-                    this.firstChild ? $(this.firstChild).unwrap() : t.remove();
-                }
-            })
-                    .end().find('a[name]').each(function() {
-                $(this).addClass('elrte-protected elrte-anchor');
-            });
+                    if (self.rte.dom.is(this, 'onlyChild') && (!tid || !pid)) {
+                        c = $.trim(p.attr('class') + ' ' + t.attr('class'))
+                        c && p.attr('class', c);
+                        s = self.rte.utils.serializeStyle($.extend(self.rte.utils.parseStyle($(this).attr('style') || ''), self.rte.utils.parseStyle($(p).attr('style') || '')));
+                        s && p.attr('style', s);
+                        id = tid || pid;
+                        id && p.attr('id', id);
+                        this.firstChild ? $(this.firstChild).unwrap() : t.remove();
+                    }
+                })
+                .end().find('a[name]').each(function() {
+                    $(this).addClass('elrte-protected elrte-anchor');
+                });
 
             return n.html()
         },
@@ -2779,21 +2768,21 @@ function elDialogForm(o) {
          * @param String  html code
          * @return String
          **/
-        cleanPaste : function(html) {
+        cleanPaste:function(html) {
             var self = this, d = this.pasteDenyAttr;
 
             html = html
-                    .replace(this.scriptRegExp, '')
-                    .replace(this.styleRegExp, '')
-                    .replace(this.linkRegExp, '')
-                    .replace(this.cdataRegExp, '')
-                    .replace(/\<\!--[\s\S]*?--\>/g, '');
+                .replace(this.scriptRegExp, '')
+                .replace(this.styleRegExp, '')
+                .replace(this.linkRegExp, '')
+                .replace(this.cdataRegExp, '')
+                .replace(/\<\!--[\s\S]*?--\>/g, '');
 
             if (this.rte.options.pasteOnlyText) {
                 html = html.replace(this.tagRegExp,
-                        function(t, c, n) {
-                            return /br/i.test(n) || (c && /h[1-6]|p|ol|ul|li|div|blockquote|tr/i) ? '<br>' : '';
-                        }).replace(/(&nbsp;|<br[^>]*>)+\s*$/gi, '');
+                    function(t, c, n) {
+                        return /br/i.test(n) || (c && /h[1-6]|p|ol|ul|li|div|blockquote|tr/i) ? '<br>' : '';
+                    }).replace(/(&nbsp;|<br[^>]*>)+\s*$/gi, '');
             } else if (d) {
                 html = html.replace(this.openTagRegExp, function(t, n, a) {
                     a = self.parseAttrs(a);
@@ -2815,7 +2804,7 @@ function elDialogForm(o) {
          * @param String  html code
          * @return String
          **/
-        replace : function(html) {
+        replace:function(html) {
             var self = this, r = this.rte.options.replace || [], n;
 
             // custom replaces if set
@@ -2835,13 +2824,7 @@ function elDialogForm(o) {
              * @return String
              **/
             function img(o, t) {
-                var s = src(),
-                        c = s && self.videoHostRegExp.test(s) ? s.replace(self.videoHostRegExp, "$2") : t.replace(/^\w+\/(.+)/, "$1"),
-                        w = parseInt((o.obj ? o.obj.width || o.obj.style.width : 0) || (o.embed ? o.embed.width || o.embed.style.width : 0)) || 150,
-                        h = parseInt((o.obj ? o.obj.height || o.obj.style.height : 0) || (o.embed ? o.embed.height || o.embed.style.height : 0)) || 100,
-                        id = 'media' + Math.random().toString().substring(2),
-                        style = '',
-                        l;
+                var s = src(), c = s && self.videoHostRegExp.test(s) ? s.replace(self.videoHostRegExp, "$2") : t.replace(/^\w+\/(.+)/, "$1"), w = parseInt((o.obj ? o.obj.width || o.obj.style.width : 0) || (o.embed ? o.embed.width || o.embed.style.width : 0)) || 150, h = parseInt((o.obj ? o.obj.height || o.obj.style.height : 0) || (o.embed ? o.embed.height || o.embed.style.height : 0)) || 100, id = 'media' + Math.random().toString().substring(2), style = '', l;
 
                 // find media src
                 function src() {
@@ -2866,88 +2849,85 @@ function elDialogForm(o) {
             }
 
             html = html
-                    .replace(this.styleRegExp, "<!-- ELRTE_COMMENT$1 -->")
-                    .replace(this.linkRegExp, "<!-- ELRTE_COMMENT$1-->")
-                    .replace(this.cdataRegExp, "<!--[CDATA[$1]]-->")
-                    .replace(this.scriptRegExp, function(t, a, s) {
-                var id;
-                if (self.denyTags.script) {
-                    return '';
-                }
-                id = 'script' + Math.random().toString().substring(2);
-                a = self.parseAttrs(a);
-                !a.type && (a.type = 'text/javascript');
-                self.scripts[id] = '<script ' + self.serializeAttrs(a) + ">" + s + "</script>";
-                return '<!-- ELRTE_SCRIPT:' + (id) + ' -->';
-            })
-                    .replace(this.yMapsRegExp, function(t, a) {
-                a = self.parseAttrs(a);
-                a['class']['elrte-yandex-maps'] = 'elrte-yandex-maps';
-                a['class']['elrte-protected'] = 'elrte-protected';
-                return '<div ' + self.serializeAttrs(a) + '>';
-            })
-                    .replace(this.gMapsRegExp, function(t, a) {
-                var id = 'gmaps' + Math.random().toString().substring(2), w, h;
-                a = self.parseAttrs(a);
-                w = parseInt(a.width || a.style.width || 100);
-                h = parseInt(a.height || a.style.height || 100);
-                self.scripts[id] = t;
-                return '<img src="' + self.url + 'pixel.gif" class="elrte-google-maps elrte-protected" id="' + id + '" style="width:' + w + 'px;height:' + h + 'px">';
-            })
-                    .replace(this.objRegExp, function(t, a, c) {
-                var m = c.match(self.embRegExp),
-                        o = { obj : self.parseAttrs(a), embed : m && m.length ? self.parseAttrs(m[0].substring(7)) : null, params : [] },
-                        i = self.rte.utils.mediaInfo(o.embed ? o.embed.type || '' : '', o.obj.classid || '');
+                .replace(this.styleRegExp, "<!-- ELRTE_COMMENT$1 -->")
+                .replace(this.linkRegExp, "<!-- ELRTE_COMMENT$1-->")
+                .replace(this.cdataRegExp, "<!--[CDATA[$1]]-->")
+                .replace(this.scriptRegExp, function(t, a, s) {
+                    var id;
+                    if (self.denyTags.script) {
+                        return '';
+                    }
+                    id = 'script' + Math.random().toString().substring(2);
+                    a = self.parseAttrs(a);
+                    !a.type && (a.type = 'text/javascript');
+                    self.scripts[id] = '<script ' + self.serializeAttrs(a) + ">" + s + "</script>";
+                    return '<!-- ELRTE_SCRIPT:' + (id) + ' -->';
+                })
+                .replace(this.yMapsRegExp, function(t, a) {
+                    a = self.parseAttrs(a);
+                    a['class']['elrte-yandex-maps'] = 'elrte-yandex-maps';
+                    a['class']['elrte-protected'] = 'elrte-protected';
+                    return '<div ' + self.serializeAttrs(a) + '>';
+                })
+                .replace(this.gMapsRegExp, function(t, a) {
+                    var id = 'gmaps' + Math.random().toString().substring(2), w, h;
+                    a = self.parseAttrs(a);
+                    w = parseInt(a.width || a.style.width || 100);
+                    h = parseInt(a.height || a.style.height || 100);
+                    self.scripts[id] = t;
+                    return '<img src="' + self.url + 'pixel.gif" class="elrte-google-maps elrte-protected" id="' + id + '" style="width:' + w + 'px;height:' + h + 'px">';
+                })
+                .replace(this.objRegExp, function(t, a, c) {
+                    var m = c.match(self.embRegExp), o = { obj:self.parseAttrs(a), embed:m && m.length ? self.parseAttrs(m[0].substring(7)) : null, params:[] }, i = self.rte.utils.mediaInfo(o.embed ? o.embed.type || '' : '', o.obj.classid || '');
 
-                if (i) {
-                    if ((m = c.match(self.paramRegExp))) {
-                        $.each(m, function(i, p) {
-                            o.params.push(self.parseAttrs(p.substring(6)));
-                        });
+                    if (i) {
+                        if ((m = c.match(self.paramRegExp))) {
+                            $.each(m, function(i, p) {
+                                o.params.push(self.parseAttrs(p.substring(6)));
+                            });
+                        }
+                        !o.obj.classid && (o.obj.classid = i.classid[0]);
+                        !o.obj.codebase && (o.obj.codebase = i.codebase);
+                        o.embed && !o.embed.type && (o.embed.type = i.type);
+                        // ie bug with empty attrs
+                        o.obj.width == '1' && delete o.obj.width;
+                        o.obj.height == '1' && delete o.obj.height;
+                        if (o.embed) {
+                            o.embed.width == '1' && delete o.embed.width;
+                            o.embed.height == '1' && delete o.embed.height;
+                        }
+                        return img(o, i.type);
                     }
-                    !o.obj.classid && (o.obj.classid = i.classid[0]);
-                    !o.obj.codebase && (o.obj.codebase = i.codebase);
-                    o.embed && !o.embed.type && (o.embed.type = i.type);
+                    return t;
+                })
+                .replace(this.embRegExp, function(t, n, a) {
+                    var a = self.parseAttrs(a), i = self.rte.utils.mediaInfo(a.type || '');
                     // ie bug with empty attrs
-                    o.obj.width == '1' && delete o.obj.width;
-                    o.obj.height == '1' && delete o.obj.height;
-                    if (o.embed) {
-                        o.embed.width == '1' && delete o.embed.width;
-                        o.embed.height == '1' && delete o.embed.height;
-                    }
-                    return img(o, i.type);
-                }
-                return t;
-            })
-                    .replace(this.embRegExp, function(t, n, a) {
-                var a = self.parseAttrs(a),
-                        i = self.rte.utils.mediaInfo(a.type || '');
-                // ie bug with empty attrs
-                a.width == '1' && delete a.width;
-                a.height == '1' && delete a.height;
-                return i ? img({ embed : a }, i.type) : t;
-            })
-                    .replace(this.iframeRegExp, function(t, a) {
-                var a = self.parseAttrs(a);
-                var w = a.style.width || (parseInt(a.width) > 1 ? parseInt(a.width) + 'px' : '100px');
-                var h = a.style.height || (parseInt(a.height) > 1 ? parseInt(a.height) + 'px' : '100px');
-                var id = 'iframe' + Math.random().toString().substring(2);
-                self.scripts[id] = t;
-                var img = '<img id="' + id + '" src="' + self.url + 'pixel.gif" class="elrte-protected elrte-iframe" style="width:' + w + '; height:' + h + '">';
-                return img;
-            })
-                    .replace(this.vimeoRegExp, function(t, n, a) {
-                a = self.parseAttrs(a);
-                delete a.frameborder;
-                a.width == '1' && delete a.width;
-                a.height == '1' && delete a.height;
-                a.type = 'application/x-shockwave-flash';
-                return img({ embed : a }, 'application/x-shockwave-flash');
-            })
-                    .replace(/<\/(embed|param)>/gi, '')
-                    .replace(this.pbRegExp, function() {
-                return '<img src="' + self.url + 'pixel.gif" class="elrte-protected elrte-pagebreak">';
-            });
+                    a.width == '1' && delete a.width;
+                    a.height == '1' && delete a.height;
+                    return i ? img({ embed:a }, i.type) : t;
+                })
+                .replace(this.iframeRegExp, function(t, a) {
+                    var a = self.parseAttrs(a);
+                    var w = a.style.width || (parseInt(a.width) > 1 ? parseInt(a.width) + 'px' : '100px');
+                    var h = a.style.height || (parseInt(a.height) > 1 ? parseInt(a.height) + 'px' : '100px');
+                    var id = 'iframe' + Math.random().toString().substring(2);
+                    self.scripts[id] = t;
+                    var img = '<img id="' + id + '" src="' + self.url + 'pixel.gif" class="elrte-protected elrte-iframe" style="width:' + w + '; height:' + h + '">';
+                    return img;
+                })
+                .replace(this.vimeoRegExp, function(t, n, a) {
+                    a = self.parseAttrs(a);
+                    delete a.frameborder;
+                    a.width == '1' && delete a.width;
+                    a.height == '1' && delete a.height;
+                    a.type = 'application/x-shockwave-flash';
+                    return img({ embed:a }, 'application/x-shockwave-flash');
+                })
+                .replace(/<\/(embed|param)>/gi, '')
+                .replace(this.pbRegExp, function() {
+                    return '<img src="' + self.url + 'pixel.gif" class="elrte-protected elrte-pagebreak">';
+                });
 
 
             n = $('<div>' + html + '</div>');
@@ -2983,9 +2963,7 @@ function elDialogForm(o) {
 
             if (!this.rte.options.allowTextNodes) {
                 // wrap inline nodes with p
-                var dom = this.rte.dom,
-                        nodes = [],
-                        w = [];
+                var dom = this.rte.dom, nodes = [], w = [];
 
                 if ($.browser.msie) {
                     for (var i = 0; i < n[0].childNodes.length; i++) {
@@ -3024,7 +3002,7 @@ function elDialogForm(o) {
          * @param String  html code
          * @return String
          **/
-        restore : function(html) {
+        restore:function(html) {
             var self = this, r = this.rte.options.restore || [];
 
             // custom restore if set
@@ -3037,53 +3015,53 @@ function elDialogForm(o) {
             }
 
             html = html
-                    .replace(/\<\!--\[CDATA\[([\s\S]*?)\]\]--\>/gi, "<![CDATA[$1]]>")
-                    .replace(/\<\!--\s*ELRTE_SCRIPT\:\s*(script\d+)\s*--\>/gi, function(t, n) {
-                if (self.scripts[n]) {
-                    t = self.scripts[n];
-                    delete self.scripts[n];
-                }
-                return t || '';
-            })
-                    .replace(/\<\!-- ELRTE_COMMENT([\s\S]*?) --\>/gi, "$1")
-                    .replace(this.serviceClassRegExp, function(t, n, a, e) {
-
-                var a = self.parseAttrs(a), j, o = '';
-                // alert(t)
-                if (a['class']['elrte-google-maps']) {
-                    var t = '';
-                    if (self.scripts[a.id]) {
-                        t = self.scripts[a.id];
-                        delete self.scripts[a.id]
+                .replace(/\<\!--\[CDATA\[([\s\S]*?)\]\]--\>/gi, "<![CDATA[$1]]>")
+                .replace(/\<\!--\s*ELRTE_SCRIPT\:\s*(script\d+)\s*--\>/gi, function(t, n) {
+                    if (self.scripts[n]) {
+                        t = self.scripts[n];
+                        delete self.scripts[n];
                     }
-                    return t;
-                } else if (a['class']['elrte-iframe']) {
-                    return self.scripts[a.id] || '';
-                } else if (a['class']['elrtebm']) {
-                    return '';
-                } else if (a['class']['elrte-media']) {
-                    // alert(a.rel)
-                    // return ''
-                    // j = a.rel ? JSON.parse(self.rte.utils.decode(a.rel)) : {};
-                    j = self.scripts[a.rel] || {};
-                    j.params && $.each(j.params, function(i, p) {
-                        o += '<param ' + self.serializeAttrs(p) + ">\n";
+                    return t || '';
+                })
+                .replace(/\<\!-- ELRTE_COMMENT([\s\S]*?) --\>/gi, "$1")
+                .replace(this.serviceClassRegExp, function(t, n, a, e) {
+
+                    var a = self.parseAttrs(a), j, o = '';
+                    // alert(t)
+                    if (a['class']['elrte-google-maps']) {
+                        var t = '';
+                        if (self.scripts[a.id]) {
+                            t = self.scripts[a.id];
+                            delete self.scripts[a.id]
+                        }
+                        return t;
+                    } else if (a['class']['elrte-iframe']) {
+                        return self.scripts[a.id] || '';
+                    } else if (a['class']['elrtebm']) {
+                        return '';
+                    } else if (a['class']['elrte-media']) {
+                        // alert(a.rel)
+                        // return ''
+                        // j = a.rel ? JSON.parse(self.rte.utils.decode(a.rel)) : {};
+                        j = self.scripts[a.rel] || {};
+                        j.params && $.each(j.params, function(i, p) {
+                            o += '<param ' + self.serializeAttrs(p) + ">\n";
+                        });
+                        j.embed && (o += '<embed ' + self.serializeAttrs(j.embed) + ">");
+                        j.obj && (o = '<object ' + self.serializeAttrs(j.obj) + ">\n" + o + "\n</object>\n");
+                        return o || t;
+                    } else if (a['class']['elrte-pagebreak']) {
+                        return '<!-- pagebreak -->';
+                    }
+                    $.each(a['class'], function(n) {
+                        if (/^elrte-\w+/i.test(n)) {
+                            delete(a['class'][n]);
+                        }
+                        // /^elrte\w+/i.test(n) && delete(a['class'][n]);
                     });
-                    j.embed && (o += '<embed ' + self.serializeAttrs(j.embed) + ">");
-                    j.obj && (o = '<object ' + self.serializeAttrs(j.obj) + ">\n" + o + "\n</object>\n");
-                    return o || t;
-                } else if (a['class']['elrte-pagebreak']) {
-                    return '<!-- pagebreak -->';
-                }
-                $.each(a['class'], function(n) {
-                    if (/^elrte-\w+/i.test(n)) {
-                        delete(a['class'][n]);
-                    }
-                    // /^elrte\w+/i.test(n) && delete(a['class'][n]); 
-                });
-                return '<' + n + ' ' + self.serializeAttrs(a) + '>' + (e || '');
+                    return '<' + n + ' ' + self.serializeAttrs(a) + '>' + (e || '');
 
-            });
+                });
 
             return html;
         },
@@ -3093,7 +3071,7 @@ function elDialogForm(o) {
          * @param String  html code
          * return String
          **/
-        compactStyles : function(html) {
+        compactStyles:function(html) {
             var self = this;
 
             return html.replace(this.tagRegExp, function(t, c, n, a) {
@@ -3107,7 +3085,7 @@ function elDialogForm(o) {
          * @param String  html code
          * return String
          **/
-        xhtmlTags : function(html) {
+        xhtmlTags:function(html) {
             return this.xhtml ? html.replace(/<(img|hr|br|embed|param|link)([^>]*\/*)>/gi, "<$1$2 />") : html;
         }
     }
@@ -3123,11 +3101,11 @@ function elDialogForm(o) {
      * deniedTags is in the end of chain to protect google maps iframe from removed
      **/
     elRTE.prototype.filter.prototype.chains = {
-        wysiwyg         : ['clean','allowedTags', 'replace', 'deniedTags', 'compactStyles'],
-        source          : ['clean','allowedTags', 'restore', 'compactStyles', 'xhtmlTags'],
-        paste           : ['clean','allowedTags', 'cleanPaste', 'replace', 'deniedTags', 'compactStyles'],
-        wysiwyg2wysiwyg : ['clean','allowedTags', 'restore', 'replace', 'deniedTags', 'compactStyles'],
-        source2source   : ['clean','allowedTags', 'replace', 'deniedTags', 'restore', 'compactStyles', 'xhtmlTags']
+        wysiwyg:['clean', 'allowedTags', 'replace', 'deniedTags', 'compactStyles'],
+        source:['clean', 'allowedTags', 'restore', 'compactStyles', 'xhtmlTags'],
+        paste:['clean', 'allowedTags', 'cleanPaste', 'replace', 'deniedTags', 'compactStyles'],
+        wysiwyg2wysiwyg:['clean', 'allowedTags', 'restore', 'replace', 'deniedTags', 'compactStyles'],
+        source2source:['clean', 'allowedTags', 'replace', 'deniedTags', 'restore', 'compactStyles', 'xhtmlTags']
     }
 
 
@@ -3153,8 +3131,7 @@ function elDialogForm(o) {
         this.back = function() {
 
             if (this._prev.length) {
-                var b = this.rte.selection.getBookmark(),
-                        data = this._prev.pop();
+                var b = this.rte.selection.getBookmark(), data = this._prev.pop();
                 this._next.push([$(this.rte.doc.body).html(), b]);
 
                 $(this.rte.doc.body).html(data[0]);
@@ -3164,8 +3141,7 @@ function elDialogForm(o) {
 
         this.fwd = function() {
             if (this._next.length) {
-                var b = this.rte.selection.getBookmark(),
-                        data = this._next.pop();
+                var b = this.rte.selection.getBookmark(), data = this._next.pop();
                 this._prev.push([$(this.rte.doc.body).html(), b]);
 
                 $(this.rte.doc.body).html(data[0]);
@@ -3208,145 +3184,145 @@ function elDialogForm(o) {
  */
 (function($) {
     elRTE.prototype.options = {
-        doctype         : '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">',
-        cssClass        : 'el-rte',
-        cssfiles        : [],
-        height          : null,
-        resizable       : true,
-        lang            : 'en',
-        toolbar         : 'normal',
-        absoluteURLs    : true,
-        allowSource     : true,
-        stripWhiteSpace : true,
-        styleWithCSS    : false,
-        fmAllow         : true,
-        fmOpen          : null,
+        doctype:'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">',
+        cssClass:'el-rte',
+        cssfiles:[],
+        height:null,
+        resizable:true,
+        lang:'en',
+        toolbar:'normal',
+        absoluteURLs:true,
+        allowSource:true,
+        stripWhiteSpace:true,
+        styleWithCSS:false,
+        fmAllow:true,
+        fmOpen:null,
         /* if set all other tag will be removed */
-        allowTags : [],
+        allowTags:[],
         /* if set this tags will be removed */
-        denyTags : ['applet', 'base', 'basefont', 'bgsound', 'blink', 'body', 'col', 'colgroup', 'isindex', 'frameset', 'html', 'head', 'meta', 'marquee', 'noframes', 'noembed', 'o:p', 'title', 'xml'],
-        denyAttr : [],
+        denyTags:['applet', 'base', 'basefont', 'bgsound', 'blink', 'body', 'col', 'colgroup', 'isindex', 'frameset', 'html', 'head', 'meta', 'marquee', 'noframes', 'noembed', 'o:p', 'title', 'xml'],
+        denyAttr:[],
         /* on paste event this attributes will removed from pasted html */
-        pasteDenyAttr : ['id', 'name', 'class', 'style', 'language', 'onclick', 'ondblclick', 'onhover', 'onkeup', 'onkeydown', 'onkeypress'],
+        pasteDenyAttr:['id', 'name', 'class', 'style', 'language', 'onclick', 'ondblclick', 'onhover', 'onkeup', 'onkeydown', 'onkeypress'],
         /* If false - all text nodes will be wrapped by paragraph tag */
-        allowTextNodes : true,
+        allowTextNodes:true,
         /* allow browser specific styles like -moz|-webkit|-o */
-        allowBrowsersSpecStyles : false,
+        allowBrowsersSpecStyles:false,
         /* allow paste content into editor */
-        allowPaste : true,
+        allowPaste:true,
         /* if true - only text will be pasted (not in ie) */
-        pasteOnlyText : false,
+        pasteOnlyText:false,
         /* user replacement rules */
-        replace : [],
+        replace:[],
         /* user restore rules */
-        restore : [],
-        pagebreak : '<div style="page-break-after: always;"></div>', //'<!-- pagebreak -->',
-        buttons         : {
-            'save'                : 'Save',
-            'copy'                : 'Copy',
-            'cut'                 : 'Cut',
-            'css'                 : 'Css style and class',
-            'paste'               : 'Paste',
-            'pastetext'           : 'Paste only text',
-            'pasteformattext'     : 'Paste formatted text',
-            'removeformat'        : 'Clean format',
-            'undo'                : 'Undo last action',
-            'redo'                : 'Redo previous action',
-            'bold'                : 'Bold',
-            'italic'              : 'Italic',
-            'underline'           : 'Underline',
-            'strikethrough'       : 'Strikethrough',
-            'superscript'         : 'Superscript',
-            'subscript'           : 'Subscript',
-            'justifyleft'         : 'Align left',
-            'justifyright'        : 'Ailgn right',
-            'justifycenter'       : 'Align center',
-            'justifyfull'         : 'Align full',
-            'indent'              : 'Indent',
-            'outdent'             : 'Outdent',
-            'rtl' : 'Right to left',
-            'ltr' : 'Left to right',
-            'forecolor'           : 'Font color',
-            'hilitecolor'         : 'Background color',
-            'formatblock'         : 'Format',
-            'fontsize'            : 'Font size',
-            'fontname'            : 'Font',
-            'insertorderedlist'   : 'Ordered list',
-            'insertunorderedlist' : 'Unordered list',
-            'horizontalrule'      : 'Horizontal rule',
-            'blockquote'          : 'Blockquote',
-            'div'                 : 'Block element (DIV)',
-            'link'                : 'Link',
-            'unlink'              : 'Delete link',
-            'anchor'              : 'Bookmark',
-            'image'               : 'Image',
-            'pagebreak'           : 'Page break',
-            'smiley'              : 'Smiley',
-            'flash'               : 'Flash',
-            'table'               : 'Table',
-            'tablerm'             : 'Delete table',
-            'tableprops'          : 'Table properties',
-            'tbcellprops'         : 'Table cell properties',
-            'tbrowbefore'         : 'Insert row before',
-            'tbrowafter'          : 'Insert row after',
-            'tbrowrm'             : 'Delete row',
-            'tbcolbefore'         : 'Insert column before',
-            'tbcolafter'          : 'Insert column after',
-            'tbcolrm'             : 'Delete column',
-            'tbcellsmerge'        : 'Merge table cells',
-            'tbcellsplit'         : 'Split table cell',
-            'docstructure'        : 'Toggle display document structure',
-            'elfinder'            : 'Open file manager',
-            'fullscreen'          : 'Toggle full screen mode',
-            'nbsp'                : 'Non breakable space',
-            'stopfloat'           : 'Stop element floating',
-            'about'               : 'About this software'
+        restore:[],
+        pagebreak:'<div style="page-break-after: always;"></div>', //'<!-- pagebreak -->',
+        buttons:{
+            'save':'Save',
+            'copy':'Copy',
+            'cut':'Cut',
+            'css':'Css style and class',
+            'paste':'Paste',
+            'pastetext':'Paste only text',
+            'pasteformattext':'Paste formatted text',
+            'removeformat':'Clean format',
+            'undo':'Undo last action',
+            'redo':'Redo previous action',
+            'bold':'Bold',
+            'italic':'Italic',
+            'underline':'Underline',
+            'strikethrough':'Strikethrough',
+            'superscript':'Superscript',
+            'subscript':'Subscript',
+            'justifyleft':'Align left',
+            'justifyright':'Ailgn right',
+            'justifycenter':'Align center',
+            'justifyfull':'Align full',
+            'indent':'Indent',
+            'outdent':'Outdent',
+            'rtl':'Right to left',
+            'ltr':'Left to right',
+            'forecolor':'Font color',
+            'hilitecolor':'Background color',
+            'formatblock':'Format',
+            'fontsize':'Font size',
+            'fontname':'Font',
+            'insertorderedlist':'Ordered list',
+            'insertunorderedlist':'Unordered list',
+            'horizontalrule':'Horizontal rule',
+            'blockquote':'Blockquote',
+            'div':'Block element (DIV)',
+            'link':'Link',
+            'unlink':'Delete link',
+            'anchor':'Bookmark',
+            'image':'Image',
+            'pagebreak':'Page break',
+            'smiley':'Smiley',
+            'flash':'Flash',
+            'table':'Table',
+            'tablerm':'Delete table',
+            'tableprops':'Table properties',
+            'tbcellprops':'Table cell properties',
+            'tbrowbefore':'Insert row before',
+            'tbrowafter':'Insert row after',
+            'tbrowrm':'Delete row',
+            'tbcolbefore':'Insert column before',
+            'tbcolafter':'Insert column after',
+            'tbcolrm':'Delete column',
+            'tbcellsmerge':'Merge table cells',
+            'tbcellsplit':'Split table cell',
+            'docstructure':'Toggle display document structure',
+            'elfinder':'Open file manager',
+            'fullscreen':'Toggle full screen mode',
+            'nbsp':'Non breakable space',
+            'stopfloat':'Stop element floating',
+            'about':'About this software'
         },
-        panels      : {
-            save       : ['save'],
-            copypaste  : ['copy', 'cut', 'paste', 'pastetext', 'pasteformattext', 'removeformat', 'docstructure'],
-            undoredo   : ['undo', 'redo'],
-            style      : ['bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript'],
-            colors     : ['forecolor', 'hilitecolor'],
-            alignment  : ['justifyleft', 'justifycenter', 'justifyright', 'justifyfull'],
-            indent     : ['outdent', 'indent'],
-            format     : ['formatblock', 'fontsize', 'fontname'],
-            lists      : ['insertorderedlist', 'insertunorderedlist'],
-            elements   : ['horizontalrule', 'blockquote', 'div', 'stopfloat', 'css', 'nbsp', 'smiley', 'pagebreak'],
-            direction  : ['ltr', 'rtl'],
-            links      : ['link', 'unlink', 'anchor'],
-            images     : ['image'],
-            media      : ['image', 'flash'],
-            tables     : ['table', 'tableprops', 'tablerm',  'tbrowbefore', 'tbrowafter', 'tbrowrm', 'tbcolbefore', 'tbcolafter', 'tbcolrm', 'tbcellprops', 'tbcellsmerge', 'tbcellsplit'],
-            elfinder   : ['elfinder'],
-            fullscreen : ['fullscreen', 'about']
+        panels:{
+            save:['save'],
+            copypaste:['copy', 'cut', 'paste', 'pastetext', 'pasteformattext', 'removeformat', 'docstructure'],
+            undoredo:['undo', 'redo'],
+            style:['bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript'],
+            colors:['forecolor', 'hilitecolor'],
+            alignment:['justifyleft', 'justifycenter', 'justifyright', 'justifyfull'],
+            indent:['outdent', 'indent'],
+            format:['formatblock', 'fontsize', 'fontname'],
+            lists:['insertorderedlist', 'insertunorderedlist'],
+            elements:['horizontalrule', 'blockquote', 'div', 'stopfloat', 'css', 'nbsp', 'smiley', 'pagebreak'],
+            direction:['ltr', 'rtl'],
+            links:['link', 'unlink', 'anchor'],
+            images:['image'],
+            media:['image', 'flash'],
+            tables:['table', 'tableprops', 'tablerm', 'tbrowbefore', 'tbrowafter', 'tbrowrm', 'tbcolbefore', 'tbcolafter', 'tbcolrm', 'tbcellprops', 'tbcellsmerge', 'tbcellsplit'],
+            elfinder:['elfinder'],
+            fullscreen:['fullscreen', 'about']
         },
-        toolbars    : {
-            tiny     : ['style'],
-            compact  : ['save', 'undoredo', 'style', 'alignment', 'lists', 'links', 'fullscreen'],
-            normal   : ['save', 'copypaste', 'undoredo', 'style', 'alignment', 'colors', 'indent', 'lists', 'links', 'elements', 'images', 'fullscreen'],
-            complete : ['save', 'copypaste', 'undoredo', 'style', 'alignment', 'colors', 'format', 'indent', 'lists', 'links', 'elements', 'media', 'fullscreen'],
-            maxi     : ['save', 'copypaste', 'undoredo', 'elfinder', 'style', 'alignment', 'direction', 'colors', 'format', 'indent', 'lists', 'links', 'elements', 'media', 'tables', 'fullscreen'],
-            eldorado : ['save', 'copypaste', 'elfinder', 'undoredo', 'style', 'alignment', 'colors', 'format', 'indent', 'lists', 'links', 'elements', 'media', 'tables', 'fullscreen']
+        toolbars:{
+            tiny:['style'],
+            compact:['save', 'undoredo', 'style', 'alignment', 'lists', 'links', 'fullscreen'],
+            normal:['save', 'copypaste', 'undoredo', 'style', 'alignment', 'colors', 'indent', 'lists', 'links', 'elements', 'images', 'fullscreen'],
+            complete:['save', 'copypaste', 'undoredo', 'style', 'alignment', 'colors', 'format', 'indent', 'lists', 'links', 'elements', 'media', 'fullscreen'],
+            maxi:['save', 'copypaste', 'undoredo', 'elfinder', 'style', 'alignment', 'direction', 'colors', 'format', 'indent', 'lists', 'links', 'elements', 'media', 'tables', 'fullscreen'],
+            eldorado:['save', 'copypaste', 'elfinder', 'undoredo', 'style', 'alignment', 'colors', 'format', 'indent', 'lists', 'links', 'elements', 'media', 'tables', 'fullscreen']
 
         },
-        panelNames : {
-            save      : 'Save',
-            copypaste : 'Copy/Pase',
-            undoredo  : 'Undo/Redo',
-            style     : 'Text styles',
-            colors    : 'Colors',
-            alignment : 'Alignment',
-            indent    : 'Indent/Outdent',
-            format    : 'Text format',
-            lists     : 'Lists',
-            elements  : 'Misc elements',
-            direction : 'Script direction',
-            links     : 'Links',
-            images    : 'Images',
-            media     : 'Media',
-            tables    : 'Tables',
-            elfinder  : 'File manager (elFinder)'
+        panelNames:{
+            save:'Save',
+            copypaste:'Copy/Pase',
+            undoredo:'Undo/Redo',
+            style:'Text styles',
+            colors:'Colors',
+            alignment:'Alignment',
+            indent:'Indent/Outdent',
+            format:'Text format',
+            lists:'Lists',
+            elements:'Misc elements',
+            direction:'Script direction',
+            links:'Links',
+            images:'Images',
+            media:'Media',
+            tables:'Tables',
+            elfinder:'File manager (elFinder)'
         }
     };
 })(jQuery);
@@ -3365,30 +3341,30 @@ function elDialogForm(o) {
         var start, end, node, bm;
 
         $(this.rte.doc)
-                .keyup(function(e) {
-            if (e.ctrlKey || e.metaKey || (e.keyCode >= 8 && e.keyCode <= 13) || (e.keyCode >= 32 && e.keyCode <= 40) || e.keyCode == 46 || (e.keyCode >= 96 && e.keyCode <= 111)) {
-                self.cleanCache();
-            }
-        })
-                .mousedown(function(e) {
-            // self.rte.log(e)
-            if (e.target.nodeName == 'HTML') {
-                start = self.rte.doc.body;
-            } else {
-                start = e.target;
-            }
-            end = node = null;
-        })
-                .mouseup(
-                function(e) {
-                    if (e.target.nodeName == 'HTML') {
-                        end = self.rte.doc.body;
-                    } else {
-                        end = e.target;
-                    }
+            .keyup(function(e) {
+                if (e.ctrlKey || e.metaKey || (e.keyCode >= 8 && e.keyCode <= 13) || (e.keyCode >= 32 && e.keyCode <= 40) || e.keyCode == 46 || (e.keyCode >= 96 && e.keyCode <= 111)) {
+                    self.cleanCache();
+                }
+            })
+            .mousedown(function(e) {
+                // self.rte.log(e)
+                if (e.target.nodeName == 'HTML') {
+                    start = self.rte.doc.body;
+                } else {
+                    start = e.target;
+                }
+                end = node = null;
+            })
+            .mouseup(
+            function(e) {
+                if (e.target.nodeName == 'HTML') {
+                    end = self.rte.doc.body;
+                } else {
                     end = e.target;
-                    node = null;
-                }).click();
+                }
+                end = e.target;
+                node = null;
+            }).click();
 
         /**
          * возвращает selection
@@ -3431,8 +3407,7 @@ function elDialogForm(o) {
          * @return  void
          **/
         this.collapse = function(st) {
-            var s = selection(),
-                    r = this.getRangeAt();
+            var s = selection(), r = this.getRangeAt();
             r.collapse(st ? true : false);
             if (!$.browser.msie) {
                 s.removeAllRanges();
@@ -3462,14 +3437,14 @@ function elDialogForm(o) {
             var r = s.rangeCount > 0 ? s.getRangeAt(0) : this.rte.doc.createRange();
             r.getStart = function() {
                 return this.startContainer.nodeType == 1
-                        ? this.startContainer.childNodes[Math.min(this.startOffset, this.startContainer.childNodes.length - 1)]
-                        : this.startContainer;
+                    ? this.startContainer.childNodes[Math.min(this.startOffset, this.startContainer.childNodes.length - 1)]
+                    : this.startContainer;
             }
 
             r.getEnd = function() {
                 return this.endContainer.nodeType == 1
-                        ? this.endContainer.childNodes[ Math.min(this.startOffset == this.endOffset ? this.endOffset : this.endOffset - 1, this.endContainer.childNodes.length - 1)]
-                        : this.endContainer;
+                    ? this.endContainer.childNodes[ Math.min(this.startOffset == this.endOffset ? this.endOffset : this.endOffset - 1, this.endContainer.childNodes.length - 1)]
+                    : this.endContainer;
             }
             r.isCollapsed = function() {
                 return this.collapsed;
@@ -3492,7 +3467,7 @@ function elDialogForm(o) {
             if ($.browser.msie) {
                 try {
                     r = this.rte.window.document.selection.createRange();
-                } catch(e) {
+                } catch (e) {
                     r = this.rte.doc.body.createTextRange();
                 }
                 $(n).html(r.htmlText);
@@ -3516,9 +3491,7 @@ function elDialogForm(o) {
             e = e || s;
 
             if (this.rte.browser.msie) {
-                var r = this.rte.doc.body.createTextRange(),
-                        r1 = r.duplicate(),
-                        r2 = r.duplicate();
+                var r = this.rte.doc.body.createTextRange(), r1 = r.duplicate(), r2 = r.duplicate();
 
                 r1.moveToElementText(s);
                 r2.moveToElementText(e);
@@ -3527,8 +3500,7 @@ function elDialogForm(o) {
                 r.select();
             } else {
 
-                var sel = selection(),
-                        r = this.getRangeAt();
+                var sel = selection(), r = this.getRangeAt();
                 r.setStartBefore(s);
                 r.setEndAfter(e);
                 sel.removeAllRanges();
@@ -3632,15 +3604,13 @@ function elDialogForm(o) {
 
         this.getBookmark = function() {
             this.rte.window.focus();
-            var r, r1, r2, _s, _e,
-                    s = this.rte.dom.createBookmark(),
-                    e = this.rte.dom.createBookmark();
+            var r, r1, r2, _s, _e, s = this.rte.dom.createBookmark(), e = this.rte.dom.createBookmark();
 
 
             if ($.browser.msie) {
                 try {
                     r = this.rte.window.document.selection.createRange();
-                } catch(e) {
+                } catch (e) {
                     r = this.rte.doc.body.createTextRange();
                 }
 
@@ -3686,9 +3656,7 @@ function elDialogForm(o) {
             this.rte.window.focus();
 
             if (b && b.length == 2) {
-                var s = this.rte.doc.getElementById(b[0]),
-                        e = this.rte.doc.getElementById(b[1]),
-                        sel, r;
+                var s = this.rte.doc.getElementById(b[0]), e = this.rte.doc.getElementById(b[1]), sel, r;
                 if (s && e) {
                     this.select(s, e);
                     if (this.rte.dom.next(s) == e) {
@@ -3711,8 +3679,7 @@ function elDialogForm(o) {
         this.removeBookmark = function(b) {
             this.rte.window.focus();
             if (b.length == 2) {
-                var s = this.rte.doc.getElementById(b[0]),
-                        e = this.rte.doc.getElementById(b[1]);
+                var s = this.rte.doc.getElementById(b[0]), e = this.rte.doc.getElementById(b[1]);
                 if (s && e) {
                     s.parentNode.removeChild(s);
                     e.parentNode.removeChild(e);
@@ -3778,11 +3745,11 @@ function elDialogForm(o) {
          **/
         this.selected = function(o) {
             var opts = {
-                collapsed : false,  // вернуть выделение, даже если оно схлопнуто
-                blocks    : false,  // блочное выделение
-                filter    : false,  // фильтр результатов
-                wrap      : 'text', // что оборачиваем
-                tag       : 'span'  // во что оборачиваем
+                collapsed:false, // вернуть выделение, даже если оно схлопнуто
+                blocks:false, // блочное выделение
+                filter:false, // фильтр результатов
+                wrap:'text', // что оборачиваем
+                tag:'span'  // во что оборачиваем
             }
             opts = $.extend({}, opts, o);
 
@@ -3926,7 +3893,7 @@ function elDialogForm(o) {
          * @return  Array
          **/
         this.selectedRaw = function(collapsed, blocks) {
-            var res = {so : null, eo : null, nodes : []};
+            var res = {so:null, eo:null, nodes:[]};
             var r = this.getRangeAt(true);
             var ca = r.commonAncestorContainer;
             var s, e;  // start & end nodes
@@ -4143,10 +4110,7 @@ function elDialogForm(o) {
     elRTE.prototype.ui = function(rte) {
         this.rte = rte;
         this._buttons = [];
-        var self = this,
-                tb = this.rte.options.toolbars[rte.options.toolbar && rte.options.toolbars[rte.options.toolbar] ? rte.options.toolbar : 'normal'],
-                tbl = tb.length,
-                p, pname, pl, n, c, b, i;
+        var self = this, tb = this.rte.options.toolbars[rte.options.toolbar && rte.options.toolbars[rte.options.toolbar] ? rte.options.toolbar : 'normal'], tbl = tb.length, p, pname, pl, n, c, b, i;
 
         // add prototype to all buttons
         for (i in this.buttons) {
@@ -4188,11 +4152,7 @@ function elDialogForm(o) {
      **/
     elRTE.prototype.ui.prototype.update = function(cleanCache) {
         cleanCache && this.rte.selection.cleanCache();
-        var n = this.rte.selection.getNode(),
-                p = this.rte.dom.parents(n, '*'),
-                rtl = this.rte.rtl,
-                sep = rtl ? ' &laquo; ' : ' &raquo; ',
-                path = '', name, i;
+        var n = this.rte.selection.getNode(), p = this.rte.dom.parents(n, '*'), rtl = this.rte.rtl, sep = rtl ? ' &laquo; ' : ' &raquo; ', path = '', name, i;
 
         function _name(n) {
             var name = n.nodeName.toLowerCase();
@@ -4240,29 +4200,29 @@ function elDialogForm(o) {
          * @param  elRTE  rte   объект-редактор
          * @param  String name  название кнопки (команда исполняемая document.execCommand())
          **/
-        button : function(rte, name) {
+        button:function(rte, name) {
             var self = this;
             this.rte = rte;
             this.active = false;
             this.name = name;
             this.val = null;
             this.domElem = $('<li style="-moz-user-select:-moz-none" class="' + name + ' rounded-3" name="' + name + '" title="' + this.rte.i18n(this.rte.options.buttons[name] || name) + '" unselectable="on" />')
-                    .hover(
-                    function() {
-                        $(this).addClass('hover');
-                    },
-                    function() {
-                        $(this).removeClass('hover');
-                    }
-                    )
-                    .click(function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    self.command();
+                .hover(
+                function() {
+                    $(this).addClass('hover');
+                },
+                function() {
+                    $(this).removeClass('hover');
                 }
-                self.rte.window.focus();
-            });
+            )
+                .click(function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        self.command();
+                    }
+                    self.rte.window.focus();
+                });
         }
     }
 
@@ -4275,7 +4235,7 @@ function elDialogForm(o) {
         this.rte.history.add();
         try {
             this.rte.doc.execCommand(this.name, false, this.val);
-        } catch(e) {
+        } catch (e) {
             return this.rte.log('commands failed: ' + this.name);
         }
 
@@ -4328,7 +4288,7 @@ function elDialogForm(o) {
         /**
          * entities map
          **/
-        this.entities = {'&' : '&amp;', '"' : '&quot;', '<' : '&lt;', '>' : '&gt;'};
+        this.entities = {'&':'&amp;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
         /**
          * entities regexp
          **/
@@ -4338,29 +4298,29 @@ function elDialogForm(o) {
          **/
         this.media = [
             {
-                type     : 'application/x-shockwave-flash',
-                classid  : ['clsid:d27cdb6e-ae6d-11cf-96b8-444553540000'],
-                codebase : 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
+                type:'application/x-shockwave-flash',
+                classid:['clsid:d27cdb6e-ae6d-11cf-96b8-444553540000'],
+                codebase:'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
             },
             {
-                type     : 'application/x-director',
-                classid  : ['clsid:166b1bca-3f9c-11cf-8075-444553540000'],
-                codebase : 'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0'
+                type:'application/x-director',
+                classid:['clsid:166b1bca-3f9c-11cf-8075-444553540000'],
+                codebase:'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0'
             },
             {
-                type     : 'application/x-mplayer2',
-                classid  : ['clsid:6bf52a52-394a-11d3-b153-00c04f79faa6', 'clsid:22d6f312-b0f6-11d0-94ab-0080c74c7e95', 'clsid:05589fa1-c356-11ce-bf01-00aa0055595a'],
-                codebase : 'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701'
+                type:'application/x-mplayer2',
+                classid:['clsid:6bf52a52-394a-11d3-b153-00c04f79faa6', 'clsid:22d6f312-b0f6-11d0-94ab-0080c74c7e95', 'clsid:05589fa1-c356-11ce-bf01-00aa0055595a'],
+                codebase:'http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701'
             },
             {
-                type     : 'video/quicktime',
-                classid  : ['clsid:02bf25d5-8c17-4b23-bc80-d3488abddc6b'],
-                codebase : 'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0'
+                type:'video/quicktime',
+                classid:['clsid:02bf25d5-8c17-4b23-bc80-d3488abddc6b'],
+                codebase:'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0'
             },
             {
-                type     : 'audio/x-pn-realaudio-plugin',
-                classid  : ['clsid:cfcdaa03-8be4-11cf-b84b-0020afbbccfa'],
-                codebase : 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
+                type:'audio/x-pn-realaudio-plugin',
+                classid:['clsid:cfcdaa03-8be4-11cf-b84b-0020afbbccfa'],
+                codebase:'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
             }
         ];
 
@@ -4370,23 +4330,23 @@ function elDialogForm(o) {
         this.colorsRegExp = /aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow|rgb\s*\([^\)]+\)/i;
         // web safe colors
         this.colors = {
-            aqua    : '#00ffff',
-            black   : '#000000',
-            blue    : '#0000ff',
-            fuchsia : '#ff00ff',
-            gray    : '#808080',
-            green   : '#008000',
-            lime    : '#00ff00',
-            maroon  : '#800000',
-            navy    : '#000080',
-            olive   : '#808000',
-            orange  : '#ffa500',
-            purple  : '#800080',
-            red     : '#ff0000',
-            silver  : '#c0c0c0',
-            teal    : '#008080',
-            white   : '#fffffff',
-            yellow  : '#ffff00'
+            aqua:'#00ffff',
+            black:'#000000',
+            blue:'#0000ff',
+            fuchsia:'#ff00ff',
+            gray:'#808080',
+            green:'#008000',
+            lime:'#00ff00',
+            maroon:'#800000',
+            navy:'#000080',
+            olive:'#808000',
+            orange:'#ffa500',
+            purple:'#800080',
+            red:'#ff0000',
+            silver:'#c0c0c0',
+            teal:'#008080',
+            white:'#fffffff',
+            yellow:'#ffff00'
         }
 
         var self = this;
@@ -4411,9 +4371,12 @@ function elDialogForm(o) {
             }
             var base = parseInt($(document.body).css('font-size')) || 16;
             switch (unit) {
-                case 'em': return parseInt(num * base);
-                case 'pt': return parseInt(num * base / 12);
-                case '%' : return parseInt(num * base / 100);
+                case 'em':
+                    return parseInt(num * base);
+                case 'pt':
+                    return parseInt(num * base / 12);
+                case '%' :
+                    return parseInt(num * base / 100);
             }
             return num;
         }
@@ -4460,7 +4423,7 @@ function elDialogForm(o) {
         this.parseURL = function(url) {
             var u = url.match(this.reg);
             var ret = {};
-            $.each(["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"], function(i) {
+            $.each(["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"], function(i) {
                 ret[this] = u[i];
             });
             if (!ret.host.match(/[a-z0-9]/i)) {
@@ -4730,7 +4693,7 @@ function elDialogForm(o) {
         this.range = function() {
             try {
                 this.r = this.rte.window.document.selection.createRange();
-            } catch(e) {
+            } catch (e) {
                 this.r = this.rte.doc.body.createTextRange();
             }
             return this.r;
@@ -4773,7 +4736,7 @@ function elDialogForm(o) {
                 r.collapse(start);
                 var p = r.parentElement();
                 if (!p || p.nodeName == 'HTML') {
-                    return {parent : self.rte.doc.body, ndx : ndx, offset : offset};
+                    return {parent:self.rte.doc.body, ndx:ndx, offset:offset};
                 }
 
                 r.pasteHTML(marker);
@@ -4798,7 +4761,7 @@ function elDialogForm(o) {
                 ;
                 r.moveStart('character', -1);
                 r.text = '';
-                return {parent : p, ndx : Math.min(ndx, p.childNodes.length - 1), offset : offset};
+                return {parent:p, ndx:Math.min(ndx, p.childNodes.length - 1), offset:offset};
             }
 
             this.range();
@@ -4988,11 +4951,11 @@ function elDialogForm(o) {
             var so = this.startOffset;
             var eo = this.endOffset;
             var s = this.startContainer.nodeType == 1
-                    ? this.startContainer.childNodes[Math.min(so, this.startContainer.childNodes.length - 1)]
-                    : this.startContainer;
+                ? this.startContainer.childNodes[Math.min(so, this.startContainer.childNodes.length - 1)]
+                : this.startContainer;
             var e = this.endContainer.nodeType == 1
-                    ? this.endContainer.childNodes[Math.min(so == eo ? eo : eo - 1, this.endContainer.childNodes.length - 1)]
-                    : this.endContainer;
+                ? this.endContainer.childNodes[Math.min(so == eo ? eo : eo - 1, this.endContainer.childNodes.length - 1)]
+                : this.endContainer;
 
             if (this.collapsed) {
                 if (s.nodeType == 3) {
@@ -5021,7 +4984,7 @@ function elDialogForm(o) {
 
             try {
                 this.r.select();
-            } catch(e) {
+            } catch (e) {
 
             }
             if (r) {
@@ -5049,15 +5012,15 @@ function elDialogForm(o) {
             var opts, d, txt;
 
             opts = {
-                rtl : rte.rtl,
-                submit : function(e, d) {
+                rtl:rte.rtl,
+                submit:function(e, d) {
                     d.close();
                 },
-                dialog : {
-                    width : 560,
-                    title : this.rte.i18n('About this software'),
-                    buttons     : {
-                        Ok : function() {
+                dialog:{
+                    width:560,
+                    title:this.rte.i18n('About this software'),
+                    buttons:{
+                        Ok:function() {
                             $(this).dialog('destroy');
                         }
                     }
@@ -5065,26 +5028,26 @@ function elDialogForm(o) {
             }
 
             txt = '<div class="elrte-logo"></div><h3>' + this.rte.i18n('About elRTE') + '</h3><br clear="all"/>'
-                    + '<div class="elrte-ver">' + this.rte.i18n('Version') + ': ' + this.rte.version + ' (' + this.rte.build + ')</div>'
-                    + '<div class="elrte-ver">jQuery: ' + $('<div/>').jquery + '</div>'
-                    + '<div class="elrte-ver">jQueryUI: ' + $.ui.version + '</div>'
-                    + '<div class="elrte-ver">' + this.rte.i18n('Licence') + ': BSD Licence</div>'
-                    + '<p>'
-                    + this.rte.i18n('elRTE is an open-source JavaScript based WYSIWYG HTML-editor.') + '<br/>'
-                    + this.rte.i18n('Main goal of the editor - simplify work with text and formating (HTML) on sites, blogs, forums and other online services.') + '<br/>'
-                    + this.rte.i18n('You can use it in any commercial or non-commercial projects.')
-                    + '</p>'
-                    + '<h4>' + this.rte.i18n('Authors') + '</h4>'
-                    + '<table class="elrte-authors">'
-                    + '<tr><td>Dmitry (dio) Levashov &lt;dio@std42.ru&gt;</td><td>' + this.rte.i18n('Chief developer') + '</td></tr>'
-                    + '<tr><td>Troex Nevelin &lt;troex@fury.scancode.ru&gt;</td><td>' + this.rte.i18n('Developer, tech support') + '</td></tr>'
-                    + '<tr><td>Valentin Razumnyh &lt;content@std42.ru&gt;</td><td>' + this.rte.i18n('Interface designer') + '</td></tr>'
-                    + '<tr><td>Tawfek Daghistani &lt;tawfekov@gmail.com&gt;</td><td>' + this.rte.i18n('RTL support') + '</td></tr>'
-                    + (this.rte.options.lang != 'en' ? '<tr><td>' + this.rte.i18n('_translator') + '</td><td>' + this.rte.i18n('_translation') + '</td></tr>' : '')
-                    + '</table>'
-                    + '<div class="elrte-copy">Copyright &copy; 2009-2011, <a href="http://www.std42.ru">Studio 42 LTD</a></div>'
-                    + '<div class="elrte-copy">' + this.rte.i18n('For more information about this software visit the') + ' <a href="http://elrte.org">' + this.rte.i18n('elRTE website') + '.</a></div>'
-                    + '<div class="elrte-copy">Twitter: <a href="http://twitter.com/elrte_elfinder">elrte_elfinder</a></div>';
+                + '<div class="elrte-ver">' + this.rte.i18n('Version') + ': ' + this.rte.version + ' (' + this.rte.build + ')</div>'
+                + '<div class="elrte-ver">jQuery: ' + $('<div/>').jquery + '</div>'
+                + '<div class="elrte-ver">jQueryUI: ' + $.ui.version + '</div>'
+                + '<div class="elrte-ver">' + this.rte.i18n('Licence') + ': BSD Licence</div>'
+                + '<p>'
+                + this.rte.i18n('elRTE is an open-source JavaScript based WYSIWYG HTML-editor.') + '<br/>'
+                + this.rte.i18n('Main goal of the editor - simplify work with text and formating (HTML) on sites, blogs, forums and other online services.') + '<br/>'
+                + this.rte.i18n('You can use it in any commercial or non-commercial projects.')
+                + '</p>'
+                + '<h4>' + this.rte.i18n('Authors') + '</h4>'
+                + '<table class="elrte-authors">'
+                + '<tr><td>Dmitry (dio) Levashov &lt;dio@std42.ru&gt;</td><td>' + this.rte.i18n('Chief developer') + '</td></tr>'
+                + '<tr><td>Troex Nevelin &lt;troex@fury.scancode.ru&gt;</td><td>' + this.rte.i18n('Developer, tech support') + '</td></tr>'
+                + '<tr><td>Valentin Razumnyh &lt;content@std42.ru&gt;</td><td>' + this.rte.i18n('Interface designer') + '</td></tr>'
+                + '<tr><td>Tawfek Daghistani &lt;tawfekov@gmail.com&gt;</td><td>' + this.rte.i18n('RTL support') + '</td></tr>'
+                + (this.rte.options.lang != 'en' ? '<tr><td>' + this.rte.i18n('_translator') + '</td><td>' + this.rte.i18n('_translation') + '</td></tr>' : '')
+                + '</table>'
+                + '<div class="elrte-copy">Copyright &copy; 2009-2011, <a href="http://www.std42.ru">Studio 42 LTD</a></div>'
+                + '<div class="elrte-copy">' + this.rte.i18n('For more information about this software visit the') + ' <a href="http://elrte.org">' + this.rte.i18n('elRTE website') + '.</a></div>'
+                + '<div class="elrte-copy">Twitter: <a href="http://twitter.com/elrte_elfinder">elrte_elfinder</a></div>';
 
             d = new elDialogForm(opts);
             d.append(txt);
@@ -5114,15 +5077,15 @@ function elDialogForm(o) {
 
         this.command = function() {
             var opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     d.close();
                     self.set();
                 },
-                dialog : {
-                    title : this.rte.i18n('Bookmark')
+                dialog:{
+                    title:this.rte.i18n('Bookmark')
                 }
             }
 
@@ -5188,7 +5151,7 @@ function elDialogForm(o) {
             if (this.rte.selection.collapsed() && (n = this.rte.dom.selfOrParent(this.rte.selection.getNode(), /^BLOCKQUOTE$/))) {
                 $(n).replaceWith($(n).html());
             } else {
-                nodes = this.rte.selection.selected({wrap : 'all', tag : 'blockquote'});
+                nodes = this.rte.selection.selected({wrap:'all', tag:'blockquote'});
                 nodes.length && this.rte.selection.select(nodes[0], nodes[nodes.length - 1]);
             }
             this.rte.ui.update(true);
@@ -5234,9 +5197,9 @@ function elDialogForm(o) {
                         s = ' Ctl + V';
                     }
                     var opts = {
-                        dialog : {
-                            title   : this.rte.i18n('Warning'),
-                            buttons : { Ok : function() {
+                        dialog:{
+                            title:this.rte.i18n('Warning'),
+                            buttons:{ Ok:function() {
                                 $(this).dialog('close');
                             } }
                         }
@@ -5270,17 +5233,17 @@ function elDialogForm(o) {
             if (n) {
                 var opts = {
 
-                    submit : function(e, d) {
+                    submit:function(e, d) {
                         e.stopPropagation();
                         e.preventDefault();
                         d.close();
                         self.set();
                     },
-                    dialog : {
-                        title : this.rte.i18n('Style'),
-                        width : 450,
-                        resizable : true,
-                        modal : true
+                    dialog:{
+                        title:this.rte.i18n('Style'),
+                        width:450,
+                        resizable:true,
+                        modal:true
                     }
                 }
                 this.cssStyle.val($(n).attr('style'));
@@ -5436,7 +5399,7 @@ function elDialogForm(o) {
                     $(n).replaceWith($(n).html());
                 }
             } else {
-                nodes = this.rte.selection.selected({wrap : 'all', tag : 'div'});
+                nodes = this.rte.selection.selected({wrap:'all', tag:'div'});
                 nodes.length && this.rte.selection.select(nodes[0], nodes[nodes.length - 1]);
             }
             this.rte.ui.update(true);
@@ -5518,34 +5481,34 @@ function elDialogForm(o) {
         this.swf = null;
         this.placeholder = null;
         this.src = {
-            url    : $('<input type="text" name="url" />').css('width', '99%'),
-            type   : $('<select name="type"/>')
-                    .append('<option value="application/x-shockwave-flash">Flash</option>')
-                    .append('<option value="video/quicktime">Quicktime movie</option>')
-                    .append('<option value="application/x-mplayer2">Windows media</option>'),
-            width  : $('<input type="text" />').attr('size', 5).css('text-align', 'right'),
-            height : $('<input type="text" />').attr('size', 5).css('text-align', 'right'),
-            wmode  : $('<select />')
-                    .append($('<option />').val('').text(this.rte.i18n('Not set', 'dialogs')))
-                    .append($('<option />').val('transparent').text(this.rte.i18n('Transparent'))),
-            align  : $('<select />')
-                    .append($('<option />').val('').text(this.rte.i18n('Not set', 'dialogs')))
-                    .append($('<option />').val('left').text(this.rte.i18n('Left')))
-                    .append($('<option />').val('right').text(this.rte.i18n('Right')))
-                    .append($('<option />').val('top').text(this.rte.i18n('Top')))
-                    .append($('<option />').val('text-top').text(this.rte.i18n('joosText top')))
-                    .append($('<option />').val('middle').text(this.rte.i18n('middle')))
-                    .append($('<option />').val('baseline').text(this.rte.i18n('Baseline')))
-                    .append($('<option />').val('bottom').text(this.rte.i18n('Bottom')))
-                    .append($('<option />').val('text-bottom').text(this.rte.i18n('joosText bottom'))),
-            margin : $('<div />')
+            url:$('<input type="text" name="url" />').css('width', '99%'),
+            type:$('<select name="type"/>')
+                .append('<option value="application/x-shockwave-flash">Flash</option>')
+                .append('<option value="video/quicktime">Quicktime movie</option>')
+                .append('<option value="application/x-mplayer2">Windows media</option>'),
+            width:$('<input type="text" />').attr('size', 5).css('text-align', 'right'),
+            height:$('<input type="text" />').attr('size', 5).css('text-align', 'right'),
+            wmode:$('<select />')
+                .append($('<option />').val('').text(this.rte.i18n('Not set', 'dialogs')))
+                .append($('<option />').val('transparent').text(this.rte.i18n('Transparent'))),
+            align:$('<select />')
+                .append($('<option />').val('').text(this.rte.i18n('Not set', 'dialogs')))
+                .append($('<option />').val('left').text(this.rte.i18n('Left')))
+                .append($('<option />').val('right').text(this.rte.i18n('Right')))
+                .append($('<option />').val('top').text(this.rte.i18n('Top')))
+                .append($('<option />').val('text-top').text(this.rte.i18n('joosText top')))
+                .append($('<option />').val('middle').text(this.rte.i18n('middle')))
+                .append($('<option />').val('baseline').text(this.rte.i18n('Baseline')))
+                .append($('<option />').val('bottom').text(this.rte.i18n('Bottom')))
+                .append($('<option />').val('text-bottom').text(this.rte.i18n('joosText bottom'))),
+            margin:$('<div />')
         }
 
         this.command = function() {
 
             var n = this.rte.selection.getEnd(), opts, url = '', w = '', h = '', f, a, d, mid, o, wm;
             this.rte.selection.saveIERange();
-            this.src.margin.elPaddingInput({ type : 'margin' });
+            this.src.margin.elPaddingInput({ type:'margin' });
             this.placeholder = null;
             this.swf = null;
             if ($(n).hasClass('elrte-media') && (mid = $(n).attr('rel')) && this.rte.filter.scripts[mid]) {
@@ -5602,39 +5565,39 @@ function elDialogForm(o) {
 
 
             var opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.set();
                     d.close();
                 },
-                dialog : {
-                    width    : 580,
-                    position : 'top',
-                    title    : this.rte.i18n('Flash')
+                dialog:{
+                    width:580,
+                    position:'top',
+                    title:this.rte.i18n('Flash')
                 }
             }
             var d = new elDialogForm(opts);
 
             if (this.rte.options.fmAllow && this.rte.options.fmOpen) {
                 var src = $('<span />').append(this.src.url.css('width', '85%'))
-                        .append(
-                        $('<span />').addClass('ui-state-default ui-corner-all')
-                                .css({'float' : 'right', 'margin-right' : '3px'})
-                                .attr('title', self.rte.i18n('Open file manger'))
-                                .append($('<span />').addClass('ui-icon ui-icon-folder-open'))
-                                .click(function() {
+                    .append(
+                    $('<span />').addClass('ui-state-default ui-corner-all')
+                        .css({'float':'right', 'margin-right':'3px'})
+                        .attr('title', self.rte.i18n('Open file manger'))
+                        .append($('<span />').addClass('ui-icon ui-icon-folder-open'))
+                        .click(function() {
                             self.rte.options.fmOpen(function(url) {
                                 self.src.url.val(url).change();
                             });
                         })
-                                .hover(function() {
+                        .hover(function() {
                             $(this).addClass('ui-state-hover')
                         }, function() {
                             $(this).removeClass('ui-state-hover')
                         })
-                        );
+                );
             } else {
                 var src = this.src.url;
             }
@@ -5707,8 +5670,8 @@ function elDialogForm(o) {
                 var v = $(this).val(), f = v == 'left' || v == 'right';
                 if (self.swf) {
                     self.swf.css({
-                        'float' : f ? v : '',
-                        'vertical-align' : f ? '' : v
+                        'float':f ? v : '',
+                        'vertical-align':f ? '' : v
                     });
                 } else {
                     $(this).val('');
@@ -5730,37 +5693,30 @@ function elDialogForm(o) {
             });
 
             this.src.url.change(
-                    function() {
-                        var url = self.rte.utils.absoluteURL($(this).val()), i, swf;
-                        if (url) {
-                            i = self.rte.utils.mediaInfo(self.src.type.val());
-                            if (!i) {
-                                i = self.rte.util.mediaInfo('application/x-shockwave-flash');
-                            }
-                            swf = '<object classid="' + i.classid + '" codebase="' + i.codebase + '"><param name="src" value="' + url + '" /><embed quality="high" src="' + url + '" type="' + i.type + '"></object>';
-                            self.preview.children('object').remove().end().prepend(swf);
-                            self.swf = self.preview.children('object').eq(0);
-                        } else if (self.swf) {
-                            self.swf.remove();
-                            self.swf = null;
+                function() {
+                    var url = self.rte.utils.absoluteURL($(this).val()), i, swf;
+                    if (url) {
+                        i = self.rte.utils.mediaInfo(self.src.type.val());
+                        if (!i) {
+                            i = self.rte.util.mediaInfo('application/x-shockwave-flash');
                         }
-                        self.src.width.trigger('change');
-                        self.src.height.trigger('change');
-                        self.src.align.trigger('change');
+                        swf = '<object classid="' + i.classid + '" codebase="' + i.codebase + '"><param name="src" value="' + url + '" /><embed quality="high" src="' + url + '" type="' + i.type + '"></object>';
+                        self.preview.children('object').remove().end().prepend(swf);
+                        self.swf = self.preview.children('object').eq(0);
+                    } else if (self.swf) {
+                        self.swf.remove();
+                        self.swf = null;
+                    }
+                    self.src.width.trigger('change');
+                    self.src.height.trigger('change');
+                    self.src.align.trigger('change');
 
-                    }).trigger('change');
+                }).trigger('change');
         };
 
         this.set = function() {
             self.swf = null
-            var url = this.rte.utils.absoluteURL(this.src.url.val()),
-                    w = parseInt(this.src.width.val()) || '',
-                    h = parseInt(this.src.height.val()) || '',
-                    wm = this.src.wmode.val(),
-                    a = this.src.align.val(),
-                    f = a == 'left' || a == 'right' ? a : '',
-                    mid = this.placeholder ? this.placeholder.attr('rel') : '', o, _o, c,
-                    m = this.src.margin.val(), margin;
+            var url = this.rte.utils.absoluteURL(this.src.url.val()), w = parseInt(this.src.width.val()) || '', h = parseInt(this.src.height.val()) || '', wm = this.src.wmode.val(), a = this.src.align.val(), f = a == 'left' || a == 'right' ? a : '', mid = this.placeholder ? this.placeholder.attr('rel') : '', o, _o, c, m = this.src.margin.val(), margin;
 
 
             if (!url) {
@@ -5776,20 +5732,20 @@ function elDialogForm(o) {
                 c = this.rte.filter.videoHostRegExp.test(url) ? url.replace(this.rte.filter.videoHostRegExp, "$2") : i.type.replace(/^\w+\/(.+)/, "$1");
 
                 o = {
-                    obj : {
-                        classid : i.classid[0],
-                        codebase : i.codebase,
-                        style : {}
+                    obj:{
+                        classid:i.classid[0],
+                        codebase:i.codebase,
+                        style:{}
                     },
-                    params :[
-                        { name : 'src', value : url }
+                    params:[
+                        { name:'src', value:url }
                     ],
-                    embed :{
-                        src : url,
-                        type : i.type,
-                        quality : 'high',
-                        wmode : wm,
-                        style : {}
+                    embed:{
+                        src:url,
+                        type:i.type,
+                        quality:'high',
+                        wmode:wm,
+                        style:{}
                     }
                 };
 
@@ -5808,13 +5764,13 @@ function elDialogForm(o) {
                 }
 
                 if (m.css) {
-                    margin = { margin : m.css };
+                    margin = { margin:m.css };
                 } else {
                     margin = {
-                        'margin-top' : m.top,
-                        'margin-right' : m.right,
-                        'margin-bottom' : m.bottom,
-                        'margin-left' : m.left
+                        'margin-top':m.top,
+                        'margin-right':m.right,
+                        'margin-bottom':m.bottom,
+                        'margin-left':m.left
                     };
                 }
 
@@ -5877,27 +5833,27 @@ function elDialogForm(o) {
         this.constructor.prototype.constructor.call(this, rte, name);
         var self = this;
         var opts = {
-            tpl      : '<span style="font-family:%val">%label</span>',
-            select   : function(v) {
+            tpl:'<span style="font-family:%val">%label</span>',
+            select:function(v) {
                 self.set(v);
             },
-            src      : {
-                ''                                              : this.rte.i18n('Font'),
-                'andale mono,sans-serif'                        : 'Andale Mono',
-                'arial,helvetica,sans-serif'                    : 'Arial',
-                'arial black,gadget,sans-serif'                 : 'Arial Black',
-                'book antiqua,palatino,sans-serif'              : 'Book Antiqua',
-                'comic sans ms,cursive'                         : 'Comic Sans MS',
-                'courier new,courier,monospace'                 : 'Courier New',
-                'georgia,palatino,serif'                        : 'Georgia',
-                'helvetica,sans-serif'                          : 'Helvetica',
-                'impact,sans-serif'                             : 'Impact',
-                'lucida console,monaco,monospace'               : 'Lucida console',
-                'lucida sans unicode,lucida grande,sans-serif'  : 'Lucida grande',
-                'tahoma,sans-serif'                             : 'Tahoma',
-                'times new roman,times,serif'                   : 'Times New Roman',
-                'trebuchet ms,lucida grande,verdana,sans-serif' : 'Trebuchet MS',
-                'verdana,geneva,sans-serif'                     : 'Verdana'
+            src:{
+                '':this.rte.i18n('Font'),
+                'andale mono,sans-serif':'Andale Mono',
+                'arial,helvetica,sans-serif':'Arial',
+                'arial black,gadget,sans-serif':'Arial Black',
+                'book antiqua,palatino,sans-serif':'Book Antiqua',
+                'comic sans ms,cursive':'Comic Sans MS',
+                'courier new,courier,monospace':'Courier New',
+                'georgia,palatino,serif':'Georgia',
+                'helvetica,sans-serif':'Helvetica',
+                'impact,sans-serif':'Impact',
+                'lucida console,monaco,monospace':'Lucida console',
+                'lucida sans unicode,lucida grande,sans-serif':'Lucida grande',
+                'tahoma,sans-serif':'Tahoma',
+                'times new roman,times,serif':'Times New Roman',
+                'trebuchet ms,lucida grande,verdana,sans-serif':'Trebuchet MS',
+                'verdana,geneva,sans-serif':'Verdana'
             }
         }
 
@@ -5908,7 +5864,7 @@ function elDialogForm(o) {
 
         this.set = function(size) {
             this.rte.history.add();
-            var nodes = this.rte.selection.selected({filter : 'textContainsNodes'});
+            var nodes = this.rte.selection.selected({filter:'textContainsNodes'});
             $.each(nodes, function() {
                 $this = /^(THEAD|TFOOT|TBODY|COL|COLGROUP|TR)$/.test(this.nodeName) ? $(this).find('td,th') : $(this);
                 $(this).css('font-family', size).find('[style]').css('font-family', '');
@@ -5943,20 +5899,20 @@ function elDialogForm(o) {
         this.constructor.prototype.constructor.call(this, rte, name);
         var self = this;
         var opts = {
-            labelTpl : '%label',
-            tpl      : '<span style="font-size:%val;line-height:1.2em">%label</span>',
-            select   : function(v) {
+            labelTpl:'%label',
+            tpl:'<span style="font-size:%val;line-height:1.2em">%label</span>',
+            select:function(v) {
                 self.set(v);
             },
-            src      : {
-                ''         : this.rte.i18n('Font size'),
-                'xx-small' : this.rte.i18n('Small (8pt)'),
-                'x-small'  : this.rte.i18n('Small (10px)'),
-                'small'    : this.rte.i18n('Small (12pt)'),
-                'medium'   : this.rte.i18n('Normal (14pt)'),
-                'large'    : this.rte.i18n('Large (18pt)'),
-                'x-large'  : this.rte.i18n('Large (24pt)'),
-                'xx-large' : this.rte.i18n('Large (36pt)')
+            src:{
+                '':this.rte.i18n('Font size'),
+                'xx-small':this.rte.i18n('Small (8pt)'),
+                'x-small':this.rte.i18n('Small (10px)'),
+                'small':this.rte.i18n('Small (12pt)'),
+                'medium':this.rte.i18n('Normal (14pt)'),
+                'large':this.rte.i18n('Large (18pt)'),
+                'x-large':this.rte.i18n('Large (24pt)'),
+                'xx-large':this.rte.i18n('Large (36pt)')
             }
         }
 
@@ -5967,7 +5923,7 @@ function elDialogForm(o) {
 
         this.set = function(size) {
             this.rte.history.add();
-            var nodes = this.rte.selection.selected({filter : 'textContainsNodes'});
+            var nodes = this.rte.selection.selected({filter:'textContainsNodes'});
             $.each(nodes, function() {
                 $this = /^(THEAD|TFOOT|TBODY|COL|COLGROUP|TR)$/.test(this.nodeName) ? $(this).find('td,th') : $(this);
                 $this.css('font-size', size).find("[style]").css('font-size', '');
@@ -5997,12 +5953,12 @@ function elDialogForm(o) {
         var self = this;
         this.constructor.prototype.constructor.call(this, rte, name);
         var opts = {
-            'class' : '',
-            color   : this.defaultColor,
-            update  : function(c) {
+            'class':'',
+            color:this.defaultColor,
+            update:function(c) {
                 self.indicator.css('background-color', c);
             },
-            change  : function(c) {
+            change:function(c) {
                 self.set(c)
             }
         }
@@ -6017,8 +5973,7 @@ function elDialogForm(o) {
         this.set = function(c) {
             if (!this.rte.selection.collapsed()) {
                 this.rte.history.add();
-                var nodes = this.rte.selection.selected({collapse : false, wrap : 'text'}),
-                        css = this.name == 'forecolor' ? 'color' : 'background-color';
+                var nodes = this.rte.selection.selected({collapse:false, wrap:'text'}), css = this.name == 'forecolor' ? 'color' : 'background-color';
                 $.each(nodes, function() {
                     if (/^(THEAD|TBODY|TFOOT|TR)$/.test(this.nodeName)) {
                         $(this).find('td,th').each(function() {
@@ -6056,32 +6011,32 @@ function elDialogForm(o) {
         this.constructor.prototype.constructor.call(this, rte, name);
 
         var cmd = this.rte.browser.msie
-                ? function(v) {
-                    self.val = v;
-                    self.constructor.prototype.command.call(self);
-                }
-                : function(v) {
-                    self.ieCommand(v);
-                }
+            ? function(v) {
+            self.val = v;
+            self.constructor.prototype.command.call(self);
+        }
+            : function(v) {
+            self.ieCommand(v);
+        }
         var self = this;
         var opts = {
-            labelTpl : '%label',
-            tpls     : {'' : '%label'},
-            select   : function(v) {
+            labelTpl:'%label',
+            tpls:{'':'%label'},
+            select:function(v) {
                 self.formatBlock(v);
             },
-            src      : {
-                'span'    : this.rte.i18n('Format'),
-                'h1'      : this.rte.i18n('Heading 1'),
-                'h2'      : this.rte.i18n('Heading 2'),
-                'h3'      : this.rte.i18n('Heading 3'),
-                'h4'      : this.rte.i18n('Heading 4'),
-                'h5'      : this.rte.i18n('Heading 5'),
-                'h6'      : this.rte.i18n('Heading 6'),
-                'p'       : this.rte.i18n('Paragraph'),
-                'address' : this.rte.i18n('Address'),
-                'pre'     : this.rte.i18n('Preformatted'),
-                'div'     : this.rte.i18n('Normal (DIV)')
+            src:{
+                'span':this.rte.i18n('Format'),
+                'h1':this.rte.i18n('Heading 1'),
+                'h2':this.rte.i18n('Heading 2'),
+                'h3':this.rte.i18n('Heading 3'),
+                'h4':this.rte.i18n('Heading 4'),
+                'h5':this.rte.i18n('Heading 5'),
+                'h6':this.rte.i18n('Heading 6'),
+                'p':this.rte.i18n('Paragraph'),
+                'address':this.rte.i18n('Address'),
+                'pre':this.rte.i18n('Preformatted'),
+                'div':this.rte.i18n('Normal (DIV)')
             }
         }
 
@@ -6114,20 +6069,16 @@ function elDialogForm(o) {
 
             this.rte.history.add();
 
-            var tag = v.toUpperCase(),
-                    i, n, $n,
-                    c = this.rte.selection.collapsed(),
-                    bm = this.rte.selection.getBookmark(),
-                    nodes = this.rte.selection.selected({
-                        collapsed : true,
-                        blocks    : true,
-                        filter    : 'textContainsNodes',
-                        wrap      : 'inline',
-                        tag       : 'span'
-                    })
+            var tag = v.toUpperCase(), i, n, $n, c = this.rte.selection.collapsed(), bm = this.rte.selection.getBookmark(), nodes = this.rte.selection.selected({
+                collapsed:true,
+                blocks:true,
+                filter:'textContainsNodes',
+                wrap:'inline',
+                tag:'span'
+            })
             l = nodes.length,
-                    s = $(nodes[0]).prev(),
-                    e = $(nodes[nodes.length - 1]).next();
+                s = $(nodes[0]).prev(),
+                e = $(nodes[nodes.length - 1]).next();
 
             while (l--) {
                 n = nodes[l];
@@ -6195,18 +6146,9 @@ function elDialogForm(o) {
         }
 
         this.command = function() {
-            var w = $(window),
-                    e = this.editor,
-                    p = e.parents().filter(function(i, n) {
-                        return  !/^(html|body)$/i.test(n.nodeName) && $(n).css('position') == 'relative';
-                    }),
-                    wz = this.wz,
-                    c = this._class,
-                    f = e.hasClass(c),
-                    rte = this.rte,
-                    s = this.rte.selection,
-                    m = $.browser.mozilla,
-                    b, h;
+            var w = $(window), e = this.editor, p = e.parents().filter(function(i, n) {
+                return  !/^(html|body)$/i.test(n.nodeName) && $(n).css('position') == 'relative';
+            }), wz = this.wz, c = this._class, f = e.hasClass(c), rte = this.rte, s = this.rte.selection, m = $.browser.mozilla, b, h;
 
             function save() {
                 if (m) {
@@ -6262,24 +6204,24 @@ function elDialogForm(o) {
         this.constructor.prototype.constructor.call(this, rte, name);
         var self = this;
         this.src = {
-            width   : $('<input type="text" />').attr({'name' : 'width', 'size' : 4}).css('text-align', 'right'),
-            wunit   : $('<select />').attr('name', 'wunit')
-                    .append($('<option />').val('%').text('%'))
-                    .append($('<option />').val('px').text('px'))
-                    .val('%'),
-            height  : $('<input type="text" />').attr({'name' : 'height', 'size' : 4}).css('text-align', 'right'),
-            bg      : $('<div />'),
-            border  : $('<div />'),
-            'class' : $('<input type="text" />').css('width', '100%'),
-            style   : $('<input type="text" />').css('width', '100%')
+            width:$('<input type="text" />').attr({'name':'width', 'size':4}).css('text-align', 'right'),
+            wunit:$('<select />').attr('name', 'wunit')
+                .append($('<option />').val('%').text('%'))
+                .append($('<option />').val('px').text('px'))
+                .val('%'),
+            height:$('<input type="text" />').attr({'name':'height', 'size':4}).css('text-align', 'right'),
+            bg:$('<div />'),
+            border:$('<div />'),
+            'class':$('<input type="text" />').css('width', '100%'),
+            style:$('<input type="text" />').css('width', '100%')
         }
 
         this.command = function() {
-            this.src.bg.elColorPicker({palettePosition : 'outer', 'class' : 'el-colorpicker ui-icon ui-icon-pencil'});
+            this.src.bg.elColorPicker({palettePosition:'outer', 'class':'el-colorpicker ui-icon ui-icon-pencil'});
 
             var n = this.rte.selection.getEnd();
-            this.hr = n.nodeName == 'HR' ? $(n) : $(rte.doc.createElement('hr')).css({width : '100%', height : '1px'});
-            this.src.border.elBorderSelect({styleHeight : 73, value : this.hr});
+            this.hr = n.nodeName == 'HR' ? $(n) : $(rte.doc.createElement('hr')).css({width:'100%', height:'1px'});
+            this.src.border.elBorderSelect({styleHeight:73, value:this.hr});
 
             var _w = this.hr.css('width') || this.hr.attr('width');
             this.src.width.val(parseInt(_w) || 100);
@@ -6292,26 +6234,26 @@ function elDialogForm(o) {
             this.src.style.val(this.rte.dom.attr(this.hr, 'style'));
 
             var opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.set();
                     d.close();
                 },
-                dialog : {
-                    title : this.rte.i18n('Horizontal rule')
+                dialog:{
+                    title:this.rte.i18n('Horizontal rule')
                 }
             }
 
             var d = new elDialogForm(opts);
-            d.append([this.rte.i18n('Width'),          $('<span />').append(this.src.width).append(this.src.wunit) ], null, true)
-                    .append([this.rte.i18n('Height'),      $('<span />').append(this.src.height).append(' px')], null, true)
-                    .append([this.rte.i18n('Border'),      this.src.border], null, true)
-                    .append([this.rte.i18n('Background'),  this.src.bg], null, true)
-                    .append([this.rte.i18n('Css class'),   this.src['class']], null, true)
-                    .append([this.rte.i18n('Css style'),   this.src.style], null, true)
-                    .open();
+            d.append([this.rte.i18n('Width'), $('<span />').append(this.src.width).append(this.src.wunit) ], null, true)
+                .append([this.rte.i18n('Height'), $('<span />').append(this.src.height).append(' px')], null, true)
+                .append([this.rte.i18n('Border'), this.src.border], null, true)
+                .append([this.rte.i18n('Background'), this.src.bg], null, true)
+                .append([this.rte.i18n('Css class'), this.src['class']], null, true)
+                .append([this.rte.i18n('Css style'), this.src.style], null, true)
+                .open();
         }
 
         this.update = function() {
@@ -6327,24 +6269,24 @@ function elDialogForm(o) {
             this.rte.history.add();
             !this.hr.parentNode && this.rte.selection.insertNode(this.hr.get(0));
             var attr = {
-                noshade : true,
-                style   : this.src.style.val()
+                noshade:true,
+                style:this.src.style.val()
             }
             var b = this.src.border.val();
             var css = {
-                width  : (parseInt(this.src.width.val()) || 100) + this.src.wunit.val(),
-                height : parseInt(this.src.height.val()) || 1,
-                'background-color' : this.src.bg.val(),
-                border : b.width && b.style ? b.width + ' ' + b.style + ' ' + b.color : ''
+                width:(parseInt(this.src.width.val()) || 100) + this.src.wunit.val(),
+                height:parseInt(this.src.height.val()) || 1,
+                'background-color':this.src.bg.val(),
+                border:b.width && b.style ? b.width + ' ' + b.style + ' ' + b.color : ''
             }
 
             this.hr.removeAttr('class')
-                    .removeAttr('style')
-                    .removeAttr('width')
-                    .removeAttr('height')
-                    .removeAttr('align')
-                    .attr(attr)
-                    .css(css);
+                .removeAttr('style')
+                .removeAttr('width')
+                .removeAttr('height')
+                .removeAttr('align')
+                .attr(attr)
+                .css(css);
 
             if (this.src['class'].val()) {
                 this.hr.attr('class', this.src['class'].val());
@@ -6371,54 +6313,54 @@ function elDialogForm(o) {
         this.init = function() {
 
             this.labels = {
-                main   : 'Properies',
-                link   : 'Link',
-                adv    : 'Advanced',
-                events : 'Events',
-                id       : 'ID',
-                'class'  : 'Css class',
-                style    : 'Css style',
-                longdesc : 'Detail description URL',
-                href    : 'URL',
-                target  : 'Open in',
-                title   : 'Title'
+                main:'Properies',
+                link:'Link',
+                adv:'Advanced',
+                events:'Events',
+                id:'ID',
+                'class':'Css class',
+                style:'Css style',
+                longdesc:'Detail description URL',
+                href:'URL',
+                target:'Open in',
+                title:'Title'
             }
 
             this.src = {
-                main : {
-                    src    : $('<input type="text" />').css('width', '100%'),
-                    title  : $('<input type="text" />').css('width', '100%'),
-                    alt    : $('<input type="text" />').css('width', '100%'),
-                    width  : $('<input type="text" />').attr('size', 5).css('text-align', 'right'),
-                    height : $('<input type="text" />').attr('size', 5).css('text-align', 'right'),
-                    margin : $('<div />'),
-                    align  : $('<select />').css('width', '100%')
-                            .append($('<option />').val('').text(this.rte.i18n('Not set', 'dialogs')))
-                            .append($('<option />').val('left').text(this.rte.i18n('Left')))
-                            .append($('<option />').val('right').text(this.rte.i18n('Right')))
-                            .append($('<option />').val('top').text(this.rte.i18n('Top')))
-                            .append($('<option />').val('text-top').text(this.rte.i18n('joosText top')))
-                            .append($('<option />').val('middle').text(this.rte.i18n('middle')))
-                            .append($('<option />').val('baseline').text(this.rte.i18n('Baseline')))
-                            .append($('<option />').val('bottom').text(this.rte.i18n('Bottom')))
-                            .append($('<option />').val('text-bottom').text(this.rte.i18n('joosText bottom'))),
-                    border : $('<div />')
+                main:{
+                    src:$('<input type="text" />').css('width', '100%'),
+                    title:$('<input type="text" />').css('width', '100%'),
+                    alt:$('<input type="text" />').css('width', '100%'),
+                    width:$('<input type="text" />').attr('size', 5).css('text-align', 'right'),
+                    height:$('<input type="text" />').attr('size', 5).css('text-align', 'right'),
+                    margin:$('<div />'),
+                    align:$('<select />').css('width', '100%')
+                        .append($('<option />').val('').text(this.rte.i18n('Not set', 'dialogs')))
+                        .append($('<option />').val('left').text(this.rte.i18n('Left')))
+                        .append($('<option />').val('right').text(this.rte.i18n('Right')))
+                        .append($('<option />').val('top').text(this.rte.i18n('Top')))
+                        .append($('<option />').val('text-top').text(this.rte.i18n('joosText top')))
+                        .append($('<option />').val('middle').text(this.rte.i18n('middle')))
+                        .append($('<option />').val('baseline').text(this.rte.i18n('Baseline')))
+                        .append($('<option />').val('bottom').text(this.rte.i18n('Bottom')))
+                        .append($('<option />').val('text-bottom').text(this.rte.i18n('joosText bottom'))),
+                    border:$('<div />')
                 },
 
-                adv : {
-                    id       : $('<input type="text" />').css('width', '100%'),
-                    'class'  : $('<input type="text" />').css('width', '100%'),
-                    style    : $('<input type="text" />').css('width', '100%'),
-                    longdesc : $('<input type="text" />').css('width', '100%')
+                adv:{
+                    id:$('<input type="text" />').css('width', '100%'),
+                    'class':$('<input type="text" />').css('width', '100%'),
+                    style:$('<input type="text" />').css('width', '100%'),
+                    longdesc:$('<input type="text" />').css('width', '100%')
                 },
-                events : {}
+                events:{}
             }
 
             $.each(
-                    ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
-                    function() {
-                        self.src.events[this] = $('<input type="text" />').css('width', '100%');
-                    });
+                ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
+                function() {
+                    self.src.events[this] = $('<input type="text" />').css('width', '100%');
+                });
 
             $.each(self.src, function() {
                 for (var n in this) {
@@ -6431,16 +6373,15 @@ function elDialogForm(o) {
         this.command = function() {
             !this.src && this.init();
             this.rte.selection.saveIERange();
-            this.src.main.border.elBorderSelect({ change : function() {
+            this.src.main.border.elBorderSelect({ change:function() {
                 self.updateImg();
-            }, name : 'border' });
-            this.src.main.margin.elPaddingInput({ type : 'margin' });
+            }, name:'border' });
+            this.src.main.margin.elPaddingInput({ type:'margin' });
 
             this.cleanValues();
             this.src.main.src.val('');
 
-            var n = this.rte.selection.getEnd(),
-                    $n = $(n);
+            var n = this.rte.selection.getEnd(), $n = $(n);
             this.preview = null;
             this.prevImg = null;
             this.link = null;
@@ -6452,51 +6393,51 @@ function elDialogForm(o) {
             }
 
             var opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.set();
                     d.close();
                 },
-                dialog : {
-                    width    : 570,
-                    position : 'top',
-                    title    : this.rte.i18n('Image')
+                dialog:{
+                    width:570,
+                    position:'top',
+                    title:this.rte.i18n('Image')
                 }
             }
             var d = new elDialogForm(opts);
 
             if (this.rte.options.fmAllow && this.rte.options.fmOpen) {
                 var src = $('<span />').append(this.src.main.src.css('width', '88%'))
-                        .append(
-                        $('<span />').addClass('ui-state-default ui-corner-all')
-                                .css({'float' : 'right', 'margin-right' : '3px'})
-                                .attr('title', self.rte.i18n('Open file manger'))
-                                .append($('<span />').addClass('ui-icon ui-icon-folder-open'))
-                                .click(function() {
+                    .append(
+                    $('<span />').addClass('ui-state-default ui-corner-all')
+                        .css({'float':'right', 'margin-right':'3px'})
+                        .attr('title', self.rte.i18n('Open file manger'))
+                        .append($('<span />').addClass('ui-icon ui-icon-folder-open'))
+                        .click(function() {
                             self.rte.options.fmOpen(function(url) {
                                 self.src.main.src.val(url).change()
                             });
                         })
-                                .hover(function() {
+                        .hover(function() {
                             $(this).addClass('ui-state-hover')
                         }, function() {
                             $(this).removeClass('ui-state-hover')
                         })
-                        );
+                );
             } else {
                 var src = this.src.main.src;
             }
 
             d.tab('main', this.rte.i18n('Properies'))
-                    .append([this.rte.i18n('Image URL'), src], 'main', true)
-                    .append([this.rte.i18n('Title'),     this.src.main.title], 'main', true)
-                    .append([this.rte.i18n('Alt text'),  this.src.main.alt], 'main', true)
-                    .append([this.rte.i18n('Size'), $('<span />').append(this.src.main.width).append(' x ').append(this.src.main.height).append(' px')], 'main', true)
-                    .append([this.rte.i18n('Alignment'), this.src.main.align], 'main', true)
-                    .append([this.rte.i18n('Margins'),   this.src.main.margin], 'main', true)
-                    .append([this.rte.i18n('Border'),    this.src.main.border], 'main', true)
+                .append([this.rte.i18n('Image URL'), src], 'main', true)
+                .append([this.rte.i18n('Title'), this.src.main.title], 'main', true)
+                .append([this.rte.i18n('Alt text'), this.src.main.alt], 'main', true)
+                .append([this.rte.i18n('Size'), $('<span />').append(this.src.main.width).append(' x ').append(this.src.main.height).append(' px')], 'main', true)
+                .append([this.rte.i18n('Alignment'), this.src.main.align], 'main', true)
+                .append([this.rte.i18n('Margins'), this.src.main.margin], 'main', true)
+                .append([this.rte.i18n('Border'), this.src.main.border], 'main', true)
 
             for (var tab in this.src) {
                 if (tab != 'main') {
@@ -6531,18 +6472,18 @@ function elDialogForm(o) {
             frame.contentWindow.document.close();
             this.frame = frame.contentWindow.document
             this.preview = $(frame.contentWindow.document.body)
-                    .text('Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin');
+                .text('Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin');
 
             if (this.img.attr('src')) {
 
                 this.prevImg = $(this.frame.createElement('img'))
-                        .attr('src', this.rte.utils.absoluteURL(this.img.attr('src')))
+                    .attr('src', this.rte.utils.absoluteURL(this.img.attr('src')))
 
                 this.prevImg.attr('width', this.img.attr('width'))
-                        .attr('height', this.img.attr('height'))
-                        .attr('title', this.img.attr('title') || '')
-                        .attr('alt', this.img.attr('alt') || '')
-                        .attr('style', this.img.attr('style') || '')
+                    .attr('height', this.img.attr('height'))
+                    .attr('title', this.img.attr('title') || '')
+                    .attr('alt', this.img.attr('alt') || '')
+                    .attr('style', this.img.attr('style') || '')
                 for (var n in this.src.adv) {
                     var a = this.img.attr(n);
                     if (a) {
@@ -6626,11 +6567,11 @@ function elDialogForm(o) {
          **/
         this.updateImg = function() {
             this.prevImg.attr({
-                style  : $.trim(this.src.adv.style.val()),
-                title  : $.trim(this.src.main.title.val()),
-                alt    : $.trim(this.src.main.alt.val()),
-                width  : parseInt(this.src.main.width.val()),
-                height : parseInt(this.src.main.height.val())
+                style:$.trim(this.src.adv.style.val()),
+                title:$.trim(this.src.main.title.val()),
+                alt:$.trim(this.src.main.alt.val()),
+                width:parseInt(this.src.main.width.val()),
+                height:parseInt(this.src.main.height.val())
             });
 
             var a = this.src.main.align.val();
@@ -6684,10 +6625,10 @@ function elDialogForm(o) {
                 if (src) {  // new image
 
                     this.prevImg = $(this.frame.createElement('img'))
-                            .attr('src', this.rte.utils.absoluteURL(src))
-                            .bind('load', function() {
-                        self.updateValues();
-                    })
+                        .attr('src', this.rte.utils.absoluteURL(src))
+                        .bind('load', function() {
+                            self.updateValues();
+                        })
                     this.preview.prepend(this.prevImg);
                     self.updateValues();
                 }
@@ -6728,12 +6669,12 @@ function elDialogForm(o) {
                 }
 
                 this.img.attr({
-                    src    : this.rte.utils.absoluteURL($.trim(this.src.main.src.val())),
-                    style  : $.trim(this.rte.dom.attr(this.prevImg.get(0), 'style')),
-                    title  : $.trim(this.src.main.title.val()),
-                    alt    : $.trim(this.src.main.alt.val()),
-                    width  : parseInt(this.src.main.width.val()),
-                    height : parseInt(this.src.main.height.val())
+                    src:this.rte.utils.absoluteURL($.trim(this.src.main.src.val())),
+                    style:$.trim(this.rte.dom.attr(this.prevImg.get(0), 'style')),
+                    title:$.trim(this.src.main.title.val()),
+                    alt:$.trim(this.src.main.alt.val()),
+                    width:parseInt(this.src.main.width.val()),
+                    height:parseInt(this.src.main.height.val())
                 });
 
                 for (var _n in this.src.adv) {
@@ -6765,8 +6706,7 @@ function elDialogForm(o) {
 
         this.update = function() {
             this.domElem.removeClass('disabled');
-            var n = this.rte.selection.getEnd(),
-                    $n = $(n);
+            var n = this.rte.selection.getEnd(), $n = $(n);
             if (n.nodeName == 'IMG' && !$n.hasClass('elrte-protected')) {
                 this.domElem.addClass('active');
             } else {
@@ -6795,7 +6735,7 @@ function elDialogForm(o) {
 
         this.command = function() {
             this.rte.history.add();
-            var nodes = this.rte.selection.selected({collapsed : true, blocks : true, wrap : 'inline', tag : 'p'});
+            var nodes = this.rte.selection.selected({collapsed:true, blocks:true, wrap:'inline', tag:'p'});
 
             function indent(n) {
                 var css = /(IMG|HR|TABLE|EMBED|OBJECT)/.test(n.nodeName) ? 'margin-left' : 'padding-left';
@@ -6811,7 +6751,7 @@ function elDialogForm(o) {
                 } else if (/^LI$/.test(nodes[i].nodeName)) {
                     var n = $(nodes[i]);
                     $(this.rte.dom.create(nodes[i].parentNode.nodeName))
-                            .append($(this.rte.dom.create('li')).html(n.html() || '')).appendTo(n.html('&nbsp;'));
+                        .append($(this.rte.dom.create('li')).html(n.html() || '')).appendTo(n.html('&nbsp;'));
                 } else {
                     indent(nodes[i]);
                 }
@@ -6842,8 +6782,7 @@ function elDialogForm(o) {
         this.align = this.name == 'justifyfull' ? 'justify' : this.name.replace('justify', '');
 
         this.command = function() {
-            var s = this.rte.selection.selected({collapsed:true, blocks : true, tag : 'div'}),
-                    l = s.length;
+            var s = this.rte.selection.selected({collapsed:true, blocks:true, tag:'div'}), l = s.length;
             l && this.rte.history.add();
             while (l--) {
                 this.rte.dom.filter(s[l], 'textNodes') && $(s[l]).css('text-align', this.align);
@@ -6852,8 +6791,7 @@ function elDialogForm(o) {
         }
 
         this.update = function() {
-            var s = this.rte.selection.getNode(),
-                    n = s.nodeName == 'BODY' ? s : this.rte.dom.selfOrParent(s, 'textNodes') || (s.parentNode && s.parentNode.nodeName == 'BODY' ? s.parentNode : null);
+            var s = this.rte.selection.getNode(), n = s.nodeName == 'BODY' ? s : this.rte.dom.selfOrParent(s, 'textNodes') || (s.parentNode && s.parentNode.nodeName == 'BODY' ? s.parentNode : null);
             if (n) {
                 this.domElem.removeClass('disabled').toggleClass('active', $(n).css('text-align') == this.align);
             } else {
@@ -6887,72 +6825,72 @@ function elDialogForm(o) {
 
         function init() {
             self.labels = {
-                id        : 'ID',
-                'class'   : 'Css class',
-                style     : 'Css style',
-                dir       : 'Script direction',
-                lang      : 'Language',
-                charset   : 'Charset',
-                type      : 'Target MIME type',
-                rel       : 'Relationship page to target (rel)',
-                rev       : 'Relationship target to page (rev)',
-                tabindex  : 'Tab index',
-                accesskey : 'Access key'
+                id:'ID',
+                'class':'Css class',
+                style:'Css style',
+                dir:'Script direction',
+                lang:'Language',
+                charset:'Charset',
+                type:'Target MIME type',
+                rel:'Relationship page to target (rel)',
+                rev:'Relationship target to page (rev)',
+                tabindex:'Tab index',
+                accesskey:'Access key'
             }
             self.src = {
-                main : {
-                    href   : $('<input type="text" />'),
-                    title  : $('<input type="text" />'),
-                    anchor : $('<select />').attr('name', 'anchor'),
-                    target : $('<select />')
-                            .append($('<option />').text(self.rte.i18n('In this window')).val(''))
-                            .append($('<option />').text(self.rte.i18n('In new window (_blank)')).val('_blank'))
+                main:{
+                    href:$('<input type="text" />'),
+                    title:$('<input type="text" />'),
+                    anchor:$('<select />').attr('name', 'anchor'),
+                    target:$('<select />')
+                        .append($('<option />').text(self.rte.i18n('In this window')).val(''))
+                        .append($('<option />').text(self.rte.i18n('In new window (_blank)')).val('_blank'))
                     // 	.append($('<option />').text(self.rte.i18n('In new parent window (_parent)')).val('_parent'))
                     // 	.append($('<option />').text(self.rte.i18n('In top frame (_top)')).val('_top'))
                 },
 
-                popup : {
-                    use        : $('<input type="checkbox />"'),
-                    url        : $('<input type="text" />').val('http://'),
-                    name       : $('<input type="text" />'),
-                    width      : $('<input type="text" />').attr({size : 6, title : self.rte.i18n('Width')}).css('text-align', 'right'),
-                    height     : $('<input type="text" />').attr({size : 6, title : self.rte.i18n('Height')}).css('text-align', 'right'),
-                    left       : $('<input type="text" />').attr({size : 6, title : self.rte.i18n('Left')}).css('text-align', 'right'),
-                    top        : $('<input type="text" />').attr({size : 6, title : self.rte.i18n('Top')}).css('text-align', 'right'),
-                    location   : $('<input type="checkbox" />'),
-                    menubar    : $('<input type="checkbox" />'),
-                    toolbar    : $('<input type="checkbox" />'),
-                    scrollbars : $('<input type="checkbox" />'),
-                    status     : $('<input type="checkbox" />'),
-                    resizable  : $('<input type="checkbox" />'),
-                    dependent  : $('<input type="checkbox" />'),
-                    retfalse   : $('<input type="checkbox" />').attr('checked', true)
+                popup:{
+                    use:$('<input type="checkbox />"'),
+                    url:$('<input type="text" />').val('http://'),
+                    name:$('<input type="text" />'),
+                    width:$('<input type="text" />').attr({size:6, title:self.rte.i18n('Width')}).css('text-align', 'right'),
+                    height:$('<input type="text" />').attr({size:6, title:self.rte.i18n('Height')}).css('text-align', 'right'),
+                    left:$('<input type="text" />').attr({size:6, title:self.rte.i18n('Left')}).css('text-align', 'right'),
+                    top:$('<input type="text" />').attr({size:6, title:self.rte.i18n('Top')}).css('text-align', 'right'),
+                    location:$('<input type="checkbox" />'),
+                    menubar:$('<input type="checkbox" />'),
+                    toolbar:$('<input type="checkbox" />'),
+                    scrollbars:$('<input type="checkbox" />'),
+                    status:$('<input type="checkbox" />'),
+                    resizable:$('<input type="checkbox" />'),
+                    dependent:$('<input type="checkbox" />'),
+                    retfalse:$('<input type="checkbox" />').attr('checked', true)
                 },
 
-                adv : {
-                    id        : $('<input type="text" />'),
-                    'class'   : $('<input type="text" />'),
-                    style     : $('<input type="text" />'),
-                    dir       : $('<select />')
-                            .append($('<option />').text(self.rte.i18n('Not set')).val(''))
-                            .append($('<option />').text(self.rte.i18n('Left to right')).val('ltr'))
-                            .append($('<option />').text(self.rte.i18n('Right to left')).val('rtl')),
-                    lang      : $('<input type="text" />'),
-                    charset   : $('<input type="text" />'),
-                    type      : $('<input type="text" />'),
-                    rel       : $('<input type="text" />'),
-                    rev       : $('<input type="text" />'),
-                    tabindex  : $('<input type="text" />'),
-                    accesskey : $('<input type="text" />')
+                adv:{
+                    id:$('<input type="text" />'),
+                    'class':$('<input type="text" />'),
+                    style:$('<input type="text" />'),
+                    dir:$('<select />')
+                        .append($('<option />').text(self.rte.i18n('Not set')).val(''))
+                        .append($('<option />').text(self.rte.i18n('Left to right')).val('ltr'))
+                        .append($('<option />').text(self.rte.i18n('Right to left')).val('rtl')),
+                    lang:$('<input type="text" />'),
+                    charset:$('<input type="text" />'),
+                    type:$('<input type="text" />'),
+                    rel:$('<input type="text" />'),
+                    rev:$('<input type="text" />'),
+                    tabindex:$('<input type="text" />'),
+                    accesskey:$('<input type="text" />')
                 },
-                events : {}
+                events:{}
             }
 
             $.each(
-                    ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
-                    function() {
-                        self.src.events[this] = $('<input type="text" />');
-                    });
+                ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
+                function() {
+                    self.src.events[this] = $('<input type="text" />');
+                });
 
             $.each(self.src, function() {
                 for (var n in this) {
@@ -6967,8 +6905,7 @@ function elDialogForm(o) {
         }
 
         this.command = function() {
-            var n = this.rte.selection.getNode(),
-                    sel, i, v, opts, l, r, link, href, s;
+            var n = this.rte.selection.getNode(), sel, i, v, opts, l, r, link, href, s;
 
             !this.src && init();
             // this.rte.selection.saveIERange();
@@ -6982,7 +6919,7 @@ function elDialogForm(o) {
             this.link = this.rte.dom.selfOrParentLink(n);
 
             if (!this.link) {
-                sel = $.browser.msie ? this.rte.selection.selected() : this.rte.selection.selected({wrap : false});
+                sel = $.browser.msie ? this.rte.selection.selected() : this.rte.selection.selected({wrap:false});
                 if (sel.length) {
                     for (i = 0; i < sel.length; i++) {
                         if (isLink(sel[i])) {
@@ -7008,62 +6945,62 @@ function elDialogForm(o) {
             });
             if (this.src.main.anchor.children().length) {
                 this.src.main.anchor.prepend($('<option />').val('').text(this.rte.i18n('Select bookmark')))
-                        .change(function() {
-                    var v = $(this).val();
-                    if (v) {
-                        self.src.main.href.val('#' + v);
-                    }
-                });
+                    .change(function() {
+                        var v = $(this).val();
+                        if (v) {
+                            self.src.main.href.val('#' + v);
+                        }
+                    });
             }
 
             opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.set();
                     d.close();
                 },
-                tabs : { show : function(e, ui) {
+                tabs:{ show:function(e, ui) {
                     if (ui.index == 3) {
                         self.updateOnclick();
                     }
                 } },
-                close : function() {
+                close:function() {
                     self.rte.browser.msie && self.rte.selection.restoreIERange();
                 },
-                dialog : {
-                    width : 'auto',
-                    width : 430,
-                    title : this.rte.i18n('Link')
+                dialog:{
+                    width:'auto',
+                    width:430,
+                    title:this.rte.i18n('Link')
 
                 }
             }
             d = new elDialogForm(opts);
 
             l = $('<div />')
-                    .append($('<label />').append(this.src.popup.location).append(this.rte.i18n('Location bar')))
-                    .append($('<label />').append(this.src.popup.menubar).append(this.rte.i18n('Menu bar')))
-                    .append($('<label />').append(this.src.popup.toolbar).append(this.rte.i18n('Toolbar')))
-                    .append($('<label />').append(this.src.popup.scrollbars).append(this.rte.i18n('Scrollbars')));
+                .append($('<label />').append(this.src.popup.location).append(this.rte.i18n('Location bar')))
+                .append($('<label />').append(this.src.popup.menubar).append(this.rte.i18n('Menu bar')))
+                .append($('<label />').append(this.src.popup.toolbar).append(this.rte.i18n('Toolbar')))
+                .append($('<label />').append(this.src.popup.scrollbars).append(this.rte.i18n('Scrollbars')));
             r = $('<div />')
-                    .append($('<label />').append(this.src.popup.status).append(this.rte.i18n('Status bar')))
-                    .append($('<label />').append(this.src.popup.resizable).append(this.rte.i18n('Resizable')))
-                    .append($('<label />').append(this.src.popup.dependent).append(this.rte.i18n('Depedent')))
-                    .append($('<label />').append(this.src.popup.retfalse).append(this.rte.i18n('Add return false')));
+                .append($('<label />').append(this.src.popup.status).append(this.rte.i18n('Status bar')))
+                .append($('<label />').append(this.src.popup.resizable).append(this.rte.i18n('Resizable')))
+                .append($('<label />').append(this.src.popup.dependent).append(this.rte.i18n('Depedent')))
+                .append($('<label />').append(this.src.popup.retfalse).append(this.rte.i18n('Add return false')));
 
             d.tab('main', this.rte.i18n('Properies'))
-                    .tab('popup', this.rte.i18n('Popup'))
-                    .tab('adv', this.rte.i18n('Advanced'))
-                    .tab('events', this.rte.i18n('Events'))
-                    .append($('<label />').append(this.src.popup.use).append(this.rte.i18n('Open link in popup window')), 'popup')
-                    .separator('popup')
-                    .append([this.rte.i18n('URL'),  this.src.popup.url], 'popup', true)
-                    .append([this.rte.i18n('Window name'), this.src.popup.name], 'popup', true)
-                    .append([this.rte.i18n('Window size'), $('<span />').append(this.src.popup.width).append(' x ').append(this.src.popup.height).append(' px')], 'popup', true)
-                    .append([this.rte.i18n('Window position'), $('<span />').append(this.src.popup.left).append(' x ').append(this.src.popup.top).append(' px')], 'popup', true)
-                    .separator('popup')
-                    .append([l, r], 'popup', true);
+                .tab('popup', this.rte.i18n('Popup'))
+                .tab('adv', this.rte.i18n('Advanced'))
+                .tab('events', this.rte.i18n('Events'))
+                .append($('<label />').append(this.src.popup.use).append(this.rte.i18n('Open link in popup window')), 'popup')
+                .separator('popup')
+                .append([this.rte.i18n('URL'), this.src.popup.url], 'popup', true)
+                .append([this.rte.i18n('Window name'), this.src.popup.name], 'popup', true)
+                .append([this.rte.i18n('Window size'), $('<span />').append(this.src.popup.width).append(' x ').append(this.src.popup.height).append(' px')], 'popup', true)
+                .append([this.rte.i18n('Window position'), $('<span />').append(this.src.popup.left).append(' x ').append(this.src.popup.top).append(' px')], 'popup', true)
+                .separator('popup')
+                .append([l, r], 'popup', true);
 
             link = this.link.get(0);
             href = this.rte.dom.attr(link, 'href');
@@ -7073,22 +7010,22 @@ function elDialogForm(o) {
 
             if (this.rte.options.fmAllow && this.rte.options.fmOpen) {
                 var s = $('<span />').append(this.src.main.href.css('width', '87%'))
-                        .append(
-                        $('<span />').addClass('ui-state-default ui-corner-all')
-                                .css({'float' : 'right', 'margin-right' : '3px'})
-                                .attr('title', self.rte.i18n('Open file manger'))
-                                .append($('<span />').addClass('ui-icon ui-icon-folder-open'))
-                                .click(function() {
+                    .append(
+                    $('<span />').addClass('ui-state-default ui-corner-all')
+                        .css({'float':'right', 'margin-right':'3px'})
+                        .attr('title', self.rte.i18n('Open file manger'))
+                        .append($('<span />').addClass('ui-icon ui-icon-folder-open'))
+                        .click(function() {
                             self.rte.options.fmOpen(function(url) {
                                 self.src.main.href.val(url).change();
                             });
                         })
-                                .hover(function() {
+                        .hover(function() {
                             $(this).addClass('ui-state-hover')
                         }, function() {
                             $(this).removeClass('ui-state-hover')
                         })
-                        );
+                );
                 d.append([this.rte.i18n('Link URL'), s], 'main', true);
             } else {
                 d.append([this.rte.i18n('Link URL'), this.src.main.href], 'main', true);
@@ -7210,7 +7147,7 @@ function elDialogForm(o) {
 
         }
 
-        this.updateOnclick = function () {
+        this.updateOnclick = function() {
             var url = this.src.popup.url.val();
             if (this.src.popup.use.attr('checked') && url) {
                 var params = '';
@@ -7384,12 +7321,12 @@ function elDialogForm(o) {
 
         this.find = function(n) {
             function checkNode(n) {
-                var ret = {type : '', val : 0};
+                var ret = {type:'', val:0};
                 var s;
                 if ((s = self.rte.dom.attr(n, 'style'))) {
                     ret.type = s.indexOf('padding-left') != -1
-                            ? 'padding-left'
-                            : (s.indexOf('margin-left') != -1 ? 'margin-left' : '');
+                        ? 'padding-left'
+                        : (s.indexOf('margin-left') != -1 ? 'margin-left' : '');
                     ret.val = ret.type ? parseInt($(n).css(ret.type)) || 0 : 0;
                 }
                 return ret;
@@ -7463,24 +7400,22 @@ function elDialogForm(o) {
 
         this.command = function() {
             this.rte.selection.saveIERange();
-            var self = this,
-                    opts = {
-                        submit : function(e, d) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            self.paste();
-                            d.close();
-                        },
-                        dialog : {
-                            width : 500,
-                            title : this.rte.i18n('Paste formatted text')
-                        }
-                    },
-                    d = new elDialogForm(opts);
+            var self = this, opts = {
+                submit:function(e, d) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    self.paste();
+                    d.close();
+                },
+                dialog:{
+                    width:500,
+                    title:this.rte.i18n('Paste formatted text')
+                }
+            }, d = new elDialogForm(opts);
             d.append(this.iframe).open();
             this.doc = this.iframe.get(0).contentWindow.document;
             html = this.rte.options.doctype
-                    + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
             html += '</head><body> <br /> </body></html>';
 
             this.doc.open();
@@ -7491,7 +7426,7 @@ function elDialogForm(o) {
                 try {
                     this.doc.designMode = "on";
                 }
-                catch(e) {
+                catch (e) {
                 }
             } else {
                 this.doc.body.contentEditable = true;
@@ -7536,15 +7471,15 @@ function elDialogForm(o) {
         this.command = function() {
             this.rte.browser.msie && this.rte.selection.saveIERange();
             var opts = {
-                submit : function(e, d) {
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.paste();
                     d.close();
                 },
-                dialog : {
-                    width : 500,
-                    title : this.rte.i18n('Paste only text')
+                dialog:{
+                    width:500,
+                    title:this.rte.i18n('Paste only text')
                 }
             }
             var d = new elDialogForm(opts);
@@ -7606,17 +7541,17 @@ function elDialogForm(o) {
         this.img = null;
         this.url = this.rte.filter.url + 'smileys/';
         this.smileys = {
-            'smile' : 'smile.png',
-            'happy' : 'happy.png',
-            'tongue' : 'tongue.png',
-            'surprised' : 'surprised.png',
-            'waii' : 'waii.png',
-            'wink' : 'wink.png',
-            'evilgrin' : 'evilgrin.png',
-            'grin' : 'grin.png',
+            'smile':'smile.png',
+            'happy':'happy.png',
+            'tongue':'tongue.png',
+            'surprised':'surprised.png',
+            'waii':'waii.png',
+            'wink':'wink.png',
+            'evilgrin':'evilgrin.png',
+            'grin':'grin.png',
 
 
-            'unhappy' : 'unhappy.png'
+            'unhappy':'unhappy.png'
         };
         this.width = 120;
 
@@ -7626,11 +7561,11 @@ function elDialogForm(o) {
             this.rte.browser.msie && this.rte.selection.saveIERange();
 
             opts = {
-                dialog : {
-                    height  : 120,
-                    width   : this.width,
-                    title   : this.rte.i18n('Smiley'),
-                    buttons : {}
+                dialog:{
+                    height:120,
+                    width:this.width,
+                    title:this.rte.i18n('Smiley'),
+                    buttons:{}
                 }
             }
             d = new elDialogForm(opts);
@@ -7652,9 +7587,9 @@ function elDialogForm(o) {
             if (this.smileys[s]) {
                 this.img = $(this.rte.doc.createElement('img'));
                 this.img.attr({
-                    src    : this.url + this.smileys[s],
-                    title  : s,
-                    alt    : s
+                    src:this.url + this.smileys[s],
+                    title:s,
+                    alt:s
                 });
                 this.rte.selection.insertNode(this.img.get(0));
                 this.rte.ui.update();
@@ -7732,66 +7667,66 @@ function elDialogForm(o) {
 
         function init() {
             self.labels = {
-                main      : 'Properies',
-                adv       : 'Advanced',
-                events    : 'Events',
-                id        : 'ID',
-                'class'   : 'Css class',
-                style     : 'Css style',
-                dir       : 'Script direction',
-                summary   : 'Summary',
-                lang      : 'Language',
-                href      : 'URL'
+                main:'Properies',
+                adv:'Advanced',
+                events:'Events',
+                id:'ID',
+                'class':'Css class',
+                style:'Css style',
+                dir:'Script direction',
+                summary:'Summary',
+                lang:'Language',
+                href:'URL'
             }
 
             self.src = {
-                main : {
-                    caption : $('<input type="text" />'),
-                    rows    : $('<input type="text" />').attr('size', 5).val(2),
-                    cols    : $('<input type="text" />').attr('size', 5).val(2),
-                    width   : $('<input type="text" />').attr('size', 5),
-                    wunit   : $('<select />')
-                            .append($('<option />').val('%').text('%'))
-                            .append($('<option />').val('px').text('px')),
-                    height  : $('<input type="text" />').attr('size', 5),
-                    hunit   : $('<select />')
-                            .append($('<option />').val('%').text('%'))
-                            .append($('<option />').val('px').text('px')),
-                    align   : $('<select />')
-                            .append($('<option />').val('').text(self.rte.i18n('Not set')))
-                            .append($('<option />').val('left').text(self.rte.i18n('Left')))
-                            .append($('<option />').val('center').text(self.rte.i18n('Center')))
-                            .append($('<option />').val('right').text(self.rte.i18n('Right'))),
-                    spacing : $('<input type="text" />').attr('size', 5),
-                    padding : $('<input type="text" />').attr('size', 5),
-                    border  : $('<div />'),
+                main:{
+                    caption:$('<input type="text" />'),
+                    rows:$('<input type="text" />').attr('size', 5).val(2),
+                    cols:$('<input type="text" />').attr('size', 5).val(2),
+                    width:$('<input type="text" />').attr('size', 5),
+                    wunit:$('<select />')
+                        .append($('<option />').val('%').text('%'))
+                        .append($('<option />').val('px').text('px')),
+                    height:$('<input type="text" />').attr('size', 5),
+                    hunit:$('<select />')
+                        .append($('<option />').val('%').text('%'))
+                        .append($('<option />').val('px').text('px')),
+                    align:$('<select />')
+                        .append($('<option />').val('').text(self.rte.i18n('Not set')))
+                        .append($('<option />').val('left').text(self.rte.i18n('Left')))
+                        .append($('<option />').val('center').text(self.rte.i18n('Center')))
+                        .append($('<option />').val('right').text(self.rte.i18n('Right'))),
+                    spacing:$('<input type="text" />').attr('size', 5),
+                    padding:$('<input type="text" />').attr('size', 5),
+                    border:$('<div />'),
                     // frame   : $('<select />')
                     // 			.append($('<option />').val('void').text(self.rte.i18n('No')))
                     // 			.append($('<option />').val('border').text(self.rte.i18n('Yes'))),
-                    rules   : $('<select />')
-                            .append($('<option />').val('none').text(self.rte.i18n('No')))
-                            .append($('<option />').val('all').text(self.rte.i18n('Cells')))
-                            .append($('<option />').val('groups').text(self.rte.i18n('Groups')))
-                            .append($('<option />').val('rows').text(self.rte.i18n('Rows')))
-                            .append($('<option />').val('cols').text(self.rte.i18n('Columns'))),
-                    margin  : $('<div />'),
-                    bg      : $('<div />'),
-                    bgimg   : $('<input type="text" />').css('width', '90%')
+                    rules:$('<select />')
+                        .append($('<option />').val('none').text(self.rte.i18n('No')))
+                        .append($('<option />').val('all').text(self.rte.i18n('Cells')))
+                        .append($('<option />').val('groups').text(self.rte.i18n('Groups')))
+                        .append($('<option />').val('rows').text(self.rte.i18n('Rows')))
+                        .append($('<option />').val('cols').text(self.rte.i18n('Columns'))),
+                    margin:$('<div />'),
+                    bg:$('<div />'),
+                    bgimg:$('<input type="text" />').css('width', '90%')
                 },
 
-                adv : {
-                    id        : $('<input type="text" />'),
-                    summary   : $('<input type="text" />'),
-                    'class'   : $('<input type="text" />'),
-                    style     : $('<input type="text" />'),
-                    dir       : $('<select />')
-                            .append($('<option />').text(self.rte.i18n('Not set')).val(''))
-                            .append($('<option />').text(self.rte.i18n('Left to right')).val('ltr'))
-                            .append($('<option />').text(self.rte.i18n('Right to left')).val('rtl')),
-                    lang      : $('<input type="text" />')
+                adv:{
+                    id:$('<input type="text" />'),
+                    summary:$('<input type="text" />'),
+                    'class':$('<input type="text" />'),
+                    style:$('<input type="text" />'),
+                    dir:$('<select />')
+                        .append($('<option />').text(self.rte.i18n('Not set')).val(''))
+                        .append($('<option />').text(self.rte.i18n('Left to right')).val('ltr'))
+                        .append($('<option />').text(self.rte.i18n('Right to left')).val('rtl')),
+                    lang:$('<input type="text" />')
                 },
 
-                events : {}
+                events:{}
             }
 
             $.each(self.src, function() {
@@ -7799,7 +7734,7 @@ function elDialogForm(o) {
                     this[n].attr('name', n);
                     var t = this[n].get(0).nodeName;
                     if (t == 'INPUT' && n != 'bgimg') {
-                        this[n].css(this[n].attr('size') ? {'text-align' : 'right'} : {width : '100%'});
+                        this[n].css(this[n].attr('size') ? {'text-align':'right'} : {width:'100%'});
                     } else if (t == 'SELECT' && n != 'wunit' && n != 'hunit') {
                         this[n].css('width', '100%');
                     }
@@ -7807,19 +7742,19 @@ function elDialogForm(o) {
             });
 
             $.each(
-                    ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
-                    function() {
-                        self.src.events[this] = $('<input type="text" />').attr('name', this).css('width', '100%');
-                    });
+                ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
+                function() {
+                    self.src.events[this] = $('<input type="text" />').attr('name', this).css('width', '100%');
+                });
 
             self.src.main.align.change(function() {
                 var v = $(this).val();
                 if (v == 'center') {
-                    self.src.main.margin.val({left : 'auto', right : 'auto'});
+                    self.src.main.margin.val({left:'auto', right:'auto'});
                 } else {
                     var m = self.src.main.margin.val();
                     if (m.left == 'auto' && m.right == 'auto') {
-                        self.src.main.margin.val({left : '', right : ''});
+                        self.src.main.margin.val({left:'', right:''});
                     }
                 }
             });
@@ -7841,9 +7776,9 @@ function elDialogForm(o) {
             }
 
             !this.src && init();
-            this.src.main.border.elBorderSelect({styleHeight : 117});
-            this.src.main.bg.elColorPicker({palettePosition : 'outer', 'class' : 'el-colorpicker ui-icon ui-icon-pencil'});
-            this.src.main.margin.elPaddingInput({ type : 'margin', value : this.table});
+            this.src.main.border.elBorderSelect({styleHeight:117});
+            this.src.main.bg.elColorPicker({palettePosition:'outer', 'class':'el-colorpicker ui-icon ui-icon-pencil'});
+            this.src.main.margin.elPaddingInput({ type:'margin', value:this.table});
 
             if (this.table.parents().length) {
                 this.src.main.rows.val('').attr('disabled', true);
@@ -7882,16 +7817,16 @@ function elDialogForm(o) {
             this.src.main.bgimg.val(bgimg != 'none' ? bgimg : '');
 
             var opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.set();
                     d.close();
                 },
-                dialog : {
-                    width : 530,
-                    title : this.rte.i18n('Table')
+                dialog:{
+                    width:530,
+                    title:this.rte.i18n('Table')
                 }
             }
             var d = new elDialogForm(opts);
@@ -7900,25 +7835,25 @@ function elDialogForm(o) {
                 d.tab(tab, this.rte.i18n(this.labels[tab]));
                 if (tab == 'main') {
                     var t1 = $('<table />')
-                            .append($('<tr />').append('<td>' + this.rte.i18n('Rows') + '</td>').append($('<td />').append(this.src.main.rows)))
-                            .append($('<tr />').append('<td>' + this.rte.i18n('Columns') + '</td>').append($('<td />').append(this.src.main.cols)));
+                        .append($('<tr />').append('<td>' + this.rte.i18n('Rows') + '</td>').append($('<td />').append(this.src.main.rows)))
+                        .append($('<tr />').append('<td>' + this.rte.i18n('Columns') + '</td>').append($('<td />').append(this.src.main.cols)));
                     var t2 = $('<table />')
-                            .append($('<tr />').append('<td>' + this.rte.i18n('Width') + '</td>').append($('<td />').append(this.src.main.width).append(this.src.main.wunit)))
-                            .append($('<tr />').append('<td>' + this.rte.i18n('Height') + '</td>').append($('<td />').append(this.src.main.height).append(this.src.main.hunit)));
+                        .append($('<tr />').append('<td>' + this.rte.i18n('Width') + '</td>').append($('<td />').append(this.src.main.width).append(this.src.main.wunit)))
+                        .append($('<tr />').append('<td>' + this.rte.i18n('Height') + '</td>').append($('<td />').append(this.src.main.height).append(this.src.main.hunit)));
                     var t3 = $('<table />')
-                            .append($('<tr />').append('<td>' + this.rte.i18n('Spacing') + '</td>').append($('<td />').append(this.src.main.spacing.val(this.table.attr('cellspacing') || ''))))
-                            .append($('<tr />').append('<td>' + this.rte.i18n('Padding') + '</td>').append($('<td />').append(this.src.main.padding.val(this.table.attr('cellpadding') || ''))));
+                        .append($('<tr />').append('<td>' + this.rte.i18n('Spacing') + '</td>').append($('<td />').append(this.src.main.spacing.val(this.table.attr('cellspacing') || ''))))
+                        .append($('<tr />').append('<td>' + this.rte.i18n('Padding') + '</td>').append($('<td />').append(this.src.main.padding.val(this.table.attr('cellpadding') || ''))));
 
                     d.append([this.rte.i18n('Caption'), this.src.main.caption.val(this.table.find('caption').eq(0).text() || '')], 'main', true)
-                            .separator('main')
-                            .append([t1, t2, t3], 'main', true)
-                            .separator('main')
-                            .append([this.rte.i18n('Border'),        this.src.main.border], 'main', true)
+                        .separator('main')
+                        .append([t1, t2, t3], 'main', true)
+                        .separator('main')
+                        .append([this.rte.i18n('Border'), this.src.main.border], 'main', true)
                         //.append([this.rte.i18n('Frame'),       this.src.main.frame], 'main', true)
-                            .append([this.rte.i18n('Inner borders'), this.src.main.rules], 'main', true)
-                            .append([this.rte.i18n('Alignment'),     this.src.main.align], 'main', true)
-                            .append([this.rte.i18n('Margins'),       this.src.main.margin], 'main', true)
-                            .append([this.rte.i18n('Background'),    $('<span />').append($('<span />').css({'float' : 'left', 'margin-right' : '3px'}).append(this.src.main.bg)).append(this.src.main.bgimg)], 'main', true)
+                        .append([this.rte.i18n('Inner borders'), this.src.main.rules], 'main', true)
+                        .append([this.rte.i18n('Alignment'), this.src.main.align], 'main', true)
+                        .append([this.rte.i18n('Margins'), this.src.main.margin], 'main', true)
+                        .append([this.rte.i18n('Background'), $('<span />').append($('<span />').css({'float':'left', 'margin-right':'3px'}).append(this.src.main.bg)).append(this.src.main.bgimg)], 'main', true)
                 } else {
                     for (var name in this.src[tab]) {
                         var v = this.rte.dom.attr(this.table, name);
@@ -7966,17 +7901,17 @@ function elDialogForm(o) {
                 // this.rte.selection.insertNode(this.table.get(0), true);
             } else {
                 this.table
-                        .removeAttr('width')
-                        .removeAttr('height')
-                        .removeAttr('border')
-                        .removeAttr('align')
-                        .removeAttr('bordercolor')
-                        .removeAttr('bgcolor')
-                        .removeAttr('cellspacing')
-                        .removeAttr('cellpadding')
-                        .removeAttr('frame')
-                        .removeAttr('rules')
-                        .removeAttr('style');
+                    .removeAttr('width')
+                    .removeAttr('height')
+                    .removeAttr('border')
+                    .removeAttr('align')
+                    .removeAttr('bordercolor')
+                    .removeAttr('bgcolor')
+                    .removeAttr('cellspacing')
+                    .removeAttr('cellpadding')
+                    .removeAttr('frame')
+                    .removeAttr('rules')
+                    .removeAttr('style');
             }
 
             var cap = $.trim(this.src.main.caption.val());
@@ -8017,27 +7952,22 @@ function elDialogForm(o) {
             }
 
             var
-                    w = parseInt(this.src.main.width.val()) || '',
-                    h = parseInt(this.src.main.height.val()) || '',
-                    i = $.trim(this.src.main.bgimg.val()),
-                    b = this.src.main.border.val(),
-                    m = this.src.main.margin.val(),
-                    f = this.src.main.align.val();
+                w = parseInt(this.src.main.width.val()) || '', h = parseInt(this.src.main.height.val()) || '', i = $.trim(this.src.main.bgimg.val()), b = this.src.main.border.val(), m = this.src.main.margin.val(), f = this.src.main.align.val();
             this.table.css({
-                width              : w ? w + this.src.main.wunit.val() : '',
-                height             : h ? h + this.src.main.hunit.val() : '',
-                border             : $.trim(b.width + ' ' + b.style + ' ' + b.color),
-                'background-color' : this.src.main.bg.val(),
-                'background-image' : i ? 'url(' + i + ')' : ''
+                width:w ? w + this.src.main.wunit.val() : '',
+                height:h ? h + this.src.main.hunit.val() : '',
+                border:$.trim(b.width + ' ' + b.style + ' ' + b.color),
+                'background-color':this.src.main.bg.val(),
+                'background-image':i ? 'url(' + i + ')' : ''
             });
             if (m.css) {
                 this.table.css('margin', m.css);
             } else {
                 this.table.css({
-                    'margin-top'    : m.top,
-                    'margin-right'  : m.right,
-                    'margin-bottom' : m.bottom,
-                    'margin-left'   : m.left
+                    'margin-top':m.top,
+                    'margin-right':m.right,
+                    'margin-bottom':m.bottom,
+                    'margin-left':m.left
                 });
             }
             if ((f == 'left' || f == 'right') && this.table.css('margin-left') != 'auto' && this.table.css('margin-right') != 'auto') {
@@ -8116,58 +8046,58 @@ function elDialogForm(o) {
 
         function init() {
             self.labels = {
-                main    : 'Properies',
-                adv     : 'Advanced',
-                events  : 'Events',
-                id      : 'ID',
-                'class' : 'Css class',
-                style   : 'Css style',
-                dir     : 'Script direction',
-                lang    : 'Language'
+                main:'Properies',
+                adv:'Advanced',
+                events:'Events',
+                id:'ID',
+                'class':'Css class',
+                style:'Css style',
+                dir:'Script direction',
+                lang:'Language'
             }
 
             self.src = {
-                main : {
-                    type    : $('<select />').css('width', '100%')
-                            .append($('<option />').val('td').text(self.rte.i18n('Data')))
-                            .append($('<option />').val('th').text(self.rte.i18n('Header'))),
-                    width   : $('<input type="text" />').attr('size', 4),
-                    wunit   : $('<select />')
-                            .append($('<option />').val('%').text('%'))
-                            .append($('<option />').val('px').text('px')),
-                    height  : $('<input type="text" />').attr('size', 4),
-                    hunit   : $('<select />')
-                            .append($('<option />').val('%').text('%'))
-                            .append($('<option />').val('px').text('px')),
-                    align   : $('<select />').css('width', '100%')
-                            .append($('<option />').val('').text(self.rte.i18n('Not set')))
-                            .append($('<option />').val('left').text(self.rte.i18n('Left')))
-                            .append($('<option />').val('center').text(self.rte.i18n('Center')))
-                            .append($('<option />').val('right').text(self.rte.i18n('Right')))
-                            .append($('<option />').val('justify').text(self.rte.i18n('Justify'))),
-                    border  : $('<div />'),
-                    padding  : $('<div />'),
-                    bg      : $('<div />'),
-                    bgimg   : $('<input type="text" />').css('width', '90%'),
-                    apply   : $('<select />').css('width', '100%')
-                            .append($('<option />').val('').text(self.rte.i18n('Current cell')))
-                            .append($('<option />').val('row').text(self.rte.i18n('All cells in row')))
-                            .append($('<option />').val('column').text(self.rte.i18n('All cells in column')))
-                            .append($('<option />').val('table').text(self.rte.i18n('All cells in table')))
+                main:{
+                    type:$('<select />').css('width', '100%')
+                        .append($('<option />').val('td').text(self.rte.i18n('Data')))
+                        .append($('<option />').val('th').text(self.rte.i18n('Header'))),
+                    width:$('<input type="text" />').attr('size', 4),
+                    wunit:$('<select />')
+                        .append($('<option />').val('%').text('%'))
+                        .append($('<option />').val('px').text('px')),
+                    height:$('<input type="text" />').attr('size', 4),
+                    hunit:$('<select />')
+                        .append($('<option />').val('%').text('%'))
+                        .append($('<option />').val('px').text('px')),
+                    align:$('<select />').css('width', '100%')
+                        .append($('<option />').val('').text(self.rte.i18n('Not set')))
+                        .append($('<option />').val('left').text(self.rte.i18n('Left')))
+                        .append($('<option />').val('center').text(self.rte.i18n('Center')))
+                        .append($('<option />').val('right').text(self.rte.i18n('Right')))
+                        .append($('<option />').val('justify').text(self.rte.i18n('Justify'))),
+                    border:$('<div />'),
+                    padding:$('<div />'),
+                    bg:$('<div />'),
+                    bgimg:$('<input type="text" />').css('width', '90%'),
+                    apply:$('<select />').css('width', '100%')
+                        .append($('<option />').val('').text(self.rte.i18n('Current cell')))
+                        .append($('<option />').val('row').text(self.rte.i18n('All cells in row')))
+                        .append($('<option />').val('column').text(self.rte.i18n('All cells in column')))
+                        .append($('<option />').val('table').text(self.rte.i18n('All cells in table')))
                 },
 
-                adv : {
-                    id        : $('<input type="text" />'),
-                    'class'   : $('<input type="text" />'),
-                    style     : $('<input type="text" />'),
-                    dir       : $('<select />').css('width', '100%')
-                            .append($('<option />').text(self.rte.i18n('Not set')).val(''))
-                            .append($('<option />').text(self.rte.i18n('Left to right')).val('ltr'))
-                            .append($('<option />').text(self.rte.i18n('Right to left')).val('rtl')),
-                    lang      : $('<input type="text" />')
+                adv:{
+                    id:$('<input type="text" />'),
+                    'class':$('<input type="text" />'),
+                    style:$('<input type="text" />'),
+                    dir:$('<select />').css('width', '100%')
+                        .append($('<option />').text(self.rte.i18n('Not set')).val(''))
+                        .append($('<option />').text(self.rte.i18n('Left to right')).val('ltr'))
+                        .append($('<option />').text(self.rte.i18n('Right to left')).val('rtl')),
+                    lang:$('<input type="text" />')
                 },
 
-                events : {}
+                events:{}
             }
 
             $.each(self.src, function() {
@@ -8180,10 +8110,10 @@ function elDialogForm(o) {
             });
 
             $.each(
-                    ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
-                    function() {
-                        self.src.events[this] = $('<input type="text" />').attr('name', this).css('width', '100%');
-                    });
+                ['onblur', 'onfocus', 'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmouseout', 'onmouseleave', 'onkeydown', 'onkeypress', 'onkeyup'],
+                function() {
+                    self.src.events[this] = $('<input type="text" />').attr('name', this).css('width', '100%');
+                });
 
         }
 
@@ -8195,9 +8125,9 @@ function elDialogForm(o) {
             }
             this.src.main.type.val(this.cell.nodeName.toLowerCase());
             this.cell = $(this.cell);
-            this.src.main.border.elBorderSelect({styleHeight : 117, value : this.cell});
-            this.src.main.bg.elColorPicker({palettePosition : 'outer', 'class' : 'el-colorpicker ui-icon ui-icon-pencil'});
-            this.src.main.padding.elPaddingInput({ value : this.cell});
+            this.src.main.border.elBorderSelect({styleHeight:117, value:this.cell});
+            this.src.main.bg.elColorPicker({palettePosition:'outer', 'class':'el-colorpicker ui-icon ui-icon-pencil'});
+            this.src.main.padding.elPaddingInput({ value:this.cell});
 
             var w = this.cell.css('width') || this.cell.attr('width');
             this.src.main.width.val(parseInt(w) || '');
@@ -8214,16 +8144,16 @@ function elDialogForm(o) {
             this.src.main.apply.val('');
 
             var opts = {
-                rtl : this.rte.rtl,
-                submit : function(e, d) {
+                rtl:this.rte.rtl,
+                submit:function(e, d) {
                     e.stopPropagation();
                     e.preventDefault();
                     self.set();
                     d.close();
                 },
-                dialog : {
-                    width : 520,
-                    title : this.rte.i18n('Table cell properties')
+                dialog:{
+                    width:520,
+                    title:this.rte.i18n('Table cell properties')
                 }
             }
             var d = new elDialogForm(opts);
@@ -8231,14 +8161,14 @@ function elDialogForm(o) {
                 d.tab(tab, this.rte.i18n(this.labels[tab]));
 
                 if (tab == 'main') {
-                    d.append([this.rte.i18n('Width'),              $('<span />').append(this.src.main.width).append(this.src.main.wunit)], 'main', true)
-                            .append([this.rte.i18n('Height'),          $('<span />').append(this.src.main.height).append(this.src.main.hunit)], 'main', true)
-                            .append([this.rte.i18n('Table cell type'), this.src.main.type], 'main', true)
-                            .append([this.rte.i18n('Border'),          this.src.main.border], 'main', true)
-                            .append([this.rte.i18n('Alignment'),       this.src.main.align], 'main', true)
-                            .append([this.rte.i18n('Paddings'),        this.src.main.padding], 'main', true)
-                            .append([this.rte.i18n('Background'),      $('<span />').append($('<span />').css({'float' : 'left', 'margin-right' : '3px'}).append(this.src.main.bg)).append(this.src.main.bgimg)], 'main', true)
-                            .append([this.rte.i18n('Apply to'),        this.src.main.apply], 'main', true);
+                    d.append([this.rte.i18n('Width'), $('<span />').append(this.src.main.width).append(this.src.main.wunit)], 'main', true)
+                        .append([this.rte.i18n('Height'), $('<span />').append(this.src.main.height).append(this.src.main.hunit)], 'main', true)
+                        .append([this.rte.i18n('Table cell type'), this.src.main.type], 'main', true)
+                        .append([this.rte.i18n('Border'), this.src.main.border], 'main', true)
+                        .append([this.rte.i18n('Alignment'), this.src.main.align], 'main', true)
+                        .append([this.rte.i18n('Paddings'), this.src.main.padding], 'main', true)
+                        .append([this.rte.i18n('Background'), $('<span />').append($('<span />').css({'float':'left', 'margin-right':'3px'}).append(this.src.main.bg)).append(this.src.main.bgimg)], 'main', true)
+                        .append([this.rte.i18n('Apply to'), this.src.main.apply], 'main', true);
                 } else {
                     for (var name in this.src[tab]) {
                         var v = this.cell.attr(name) || '';
@@ -8254,8 +8184,7 @@ function elDialogForm(o) {
 
         this.set = function() {
             // $(t).remove();
-            var target = this.cell,
-                    apply = this.src.main.apply.val();
+            var target = this.cell, apply = this.src.main.apply.val();
             switch (this.src.main.apply.val()) {
                 case 'row':
                     target = this.cell.parent('tr').children('td,th');
@@ -8284,11 +8213,11 @@ function elDialogForm(o) {
             }
 
             target.removeAttr('width')
-                    .removeAttr('height')
-                    .removeAttr('border')
-                    .removeAttr('align')
-                    .removeAttr('bordercolor')
-                    .removeAttr('bgcolor');
+                .removeAttr('height')
+                .removeAttr('border')
+                .removeAttr('align')
+                .removeAttr('bordercolor')
+                .removeAttr('bgcolor');
 
             var t = this.src.main.type.val();
             var w = parseInt(this.src.main.width.val()) || '';
@@ -8296,12 +8225,12 @@ function elDialogForm(o) {
             var i = $.trim(this.src.main.bgimg.val());
             var b = this.src.main.border.val();
             var css = {
-                'width'            : w ? w + this.src.main.wunit.val() : '',
-                'height'           : h ? h + this.src.main.hunit.val() : '',
-                'background-color' : this.src.main.bg.val(),
-                'background-image' : i ? 'url(' + i + ')' : '',
-                'border'           : $.trim(b.width + ' ' + b.style + ' ' + b.color),
-                'text-align'       : this.src.main.align.val() || ''
+                'width':w ? w + this.src.main.wunit.val() : '',
+                'height':h ? h + this.src.main.hunit.val() : '',
+                'background-color':this.src.main.bg.val(),
+                'background-image':i ? 'url(' + i + ')' : '',
+                'border':$.trim(b.width + ' ' + b.style + ' ' + b.color),
+                'text-align':this.src.main.align.val() || ''
             };
             var p = this.src.main.padding.val();
             if (p.css) {
@@ -8407,71 +8336,71 @@ function elDialogForm(o) {
                 var html = '';
                 this.rte.history.add();
                 var rows = $($(cells[0]).parents('table').eq(0).find('tr').get().slice(ro, ro + rl))
-                        .each(function(i) {
-                    var _l = html.length;
-                    var accept = false;
-                    $(this).children('td,th').each(function() {
-                        var $this = $(this);
-                        var inBegin = $.inArray(this, colBegin.column);
-                        var inEnd = $.inArray(this, colEnd.column);
+                    .each(function(i) {
+                        var _l = html.length;
+                        var accept = false;
+                        $(this).children('td,th').each(function() {
+                            var $this = $(this);
+                            var inBegin = $.inArray(this, colBegin.column);
+                            var inEnd = $.inArray(this, colEnd.column);
 
-                        if (inBegin != -1 || inEnd != -1) {
-                            accept = inBegin != -1 && inEnd == -1;
-                            var len = parseInt($this.attr('colspan') || 1)
-                            if (i == 0) {
-                                length += len;
-                            }
+                            if (inBegin != -1 || inEnd != -1) {
+                                accept = inBegin != -1 && inEnd == -1;
+                                var len = parseInt($this.attr('colspan') || 1)
+                                if (i == 0) {
+                                    length += len;
+                                }
 
-                            if (inBegin != -1 && i > 0) {
-                                var delta = colBegin.info.delta[inBegin];
-                                if (delta > 0) {
-                                    if ($this.css('text-align') == 'left') {
-                                        var cell = $this.clone(true);
-                                        $this.html('&nbsp;');
-                                    } else {
-                                        var cell = $this.clone().html('&nbsp;');
-                                    }
-                                    cell.removeAttr('colspan').removeAttr('id').insertBefore(this);
-                                    if (delta > 1) {
-                                        cell.attr('colspan', delta);
+                                if (inBegin != -1 && i > 0) {
+                                    var delta = colBegin.info.delta[inBegin];
+                                    if (delta > 0) {
+                                        if ($this.css('text-align') == 'left') {
+                                            var cell = $this.clone(true);
+                                            $this.html('&nbsp;');
+                                        } else {
+                                            var cell = $this.clone().html('&nbsp;');
+                                        }
+                                        cell.removeAttr('colspan').removeAttr('id').insertBefore(this);
+                                        if (delta > 1) {
+                                            cell.attr('colspan', delta);
+                                        }
                                     }
                                 }
-                            }
 
-                            if (inEnd != -1) {
-                                var delta = colEnd.info.delta[inEnd];
-                                if (len - delta > 1) {
-                                    var cp = len - delta - 1;
-                                    if ($this.css('text-align') == 'right') {
-                                        var cell = $this.clone(true);
-                                        $this.html('&nbsp;');
-                                    } else {
-                                        var cell = $this.clone().html('&nbsp;');
-                                    }
-                                    cell.removeAttr('colspan').removeAttr('id').insertAfter(this);
-                                    if (cp > 1) {
-                                        cell.attr('colspan', cp);
+                                if (inEnd != -1) {
+                                    var delta = colEnd.info.delta[inEnd];
+                                    if (len - delta > 1) {
+                                        var cp = len - delta - 1;
+                                        if ($this.css('text-align') == 'right') {
+                                            var cell = $this.clone(true);
+                                            $this.html('&nbsp;');
+                                        } else {
+                                            var cell = $this.clone().html('&nbsp;');
+                                        }
+                                        cell.removeAttr('colspan').removeAttr('id').insertAfter(this);
+                                        if (cp > 1) {
+                                            cell.attr('colspan', cp);
+                                        }
                                     }
                                 }
-                            }
-                            if (!target) {
-                                target = $this;
-                            } else {
+                                if (!target) {
+                                    target = $this;
+                                } else {
+                                    html += $this.html();
+                                    $this.remove();
+                                }
+                            } else if (accept) {
+                                if (i == 0) {
+                                    length += parseInt($this.attr('colspan') || 1);
+                                }
                                 html += $this.html();
                                 $this.remove();
-                            }
-                        } else if (accept) {
-                            if (i == 0) {
-                                length += parseInt($this.attr('colspan') || 1);
-                            }
-                            html += $this.html();
-                            $this.remove();
 
 
-                        }
-                    })
-                    html += _l != html.length ? '<br />' : '';
-                });
+                            }
+                        })
+                        html += _l != html.length ? '<br />' : '';
+                    });
 
                 target.removeAttr('colspan').removeAttr('rowspan').html(target.html() + html)
                 if (length > 1) {
@@ -8763,11 +8692,7 @@ elRTE.prototype.ui.prototype.buttons.tbrowafter = elRTE.prototype.ui.prototype.b
         var self = this;
         this.command = function() {
 
-            var n = this.rte.selection.getNode(),
-                    c = this.rte.dom.selfOrParent(n, /^(TD|TH)$/),
-                    r = this.rte.dom.selfOrParent(c, /^TR$/),
-                    tb = this.rte.dom.selfOrParent(c, /^TABLE$/),
-                    mx = this.rte.dom.tableMatrix(tb);
+            var n = this.rte.selection.getNode(), c = this.rte.dom.selfOrParent(n, /^(TD|TH)$/), r = this.rte.dom.selfOrParent(c, /^TR$/), tb = this.rte.dom.selfOrParent(c, /^TABLE$/), mx = this.rte.dom.tableMatrix(tb);
 
             if (c && r && mx.length) {
                 this.rte.history.add();
@@ -8903,8 +8828,7 @@ elRTE.prototype.ui.prototype.buttons.tbrowafter = elRTE.prototype.ui.prototype.b
 
         this.command = function() {
 
-            var n = this.rte.selection.getNode(),
-                    l = this.rte.dom.selfOrParentLink(n);
+            var n = this.rte.selection.getNode(), l = this.rte.dom.selfOrParentLink(n);
 
             function isLink(n) {
                 return n.nodeName == 'A' && n.href;
@@ -8912,7 +8836,7 @@ elRTE.prototype.ui.prototype.buttons.tbrowafter = elRTE.prototype.ui.prototype.b
 
             if (!l) {
 
-                var sel = $.browser.msie ? this.rte.selection.selected() : this.rte.selection.selected({wrap : false});
+                var sel = $.browser.msie ? this.rte.selection.selected() : this.rte.selection.selected({wrap:false});
                 if (sel.length) {
                     for (var i = 0; i < sel.length; i++) {
                         if (isLink(sel[i])) {
