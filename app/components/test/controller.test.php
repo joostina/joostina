@@ -26,6 +26,9 @@ class actionsTest {
 	 */
 	public static function index() {
 
+		$file = JPATH_BASE.'/159.zip';
+
+		joosFile::delete($file);
 
 		return array ( 'asd' => crc32( 'Alanis Morissette - Crazy' ) );
 	}

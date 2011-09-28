@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * adminFaq - Модель компонента установки и обновления расширений
+ * Installer - Модель компонента установки и обновления расширений
  * Модель панели управления
  *
  * @version    1.0
@@ -58,7 +58,7 @@ class Installer {
 				$result['success'] = false;
 			}
 		} else {
-			$result['message'] = 'Такой модуль уже есть';
+			$result['message'] = __('Такой модуль уже есть');
 			$result['success'] = false;
 		}
 

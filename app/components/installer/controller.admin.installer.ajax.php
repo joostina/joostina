@@ -17,10 +17,12 @@ defined( '_JOOS_CORE' ) or die();
 
 class actionsAjaxAdminInstaller {
 
-	public static function index() {
-
-	}
-
+	/**
+	 * Загрузка архива расширения
+	 *
+	 * @static
+	 *
+	 */
 	public static function upload() {
 
 		joosLoader::lib( 'valumsfileuploader' , 'files' );
@@ -32,18 +34,13 @@ class actionsAjaxAdminInstaller {
 		if ( $file['basename'] ) {
 			$zip = $file['basename'];
 
-			require_once ( JPATH_BASE . '/includes/libraries/joostina/archive/pclzip.lib.php' );
-			require_once ( JPATH_BASE . '/includes/libraries/joostina/archive/pclerror.lib.php' );
-
-			$zipfile = new PclZip( $zip );
-
-			$ret     = $zipfile->extract( PCLZIP_OPT_PATH , $file['dir'] );
+			$ret     = joosArhive::extract( $zip, $file['dir'] );
 			if ( $ret == 0 ) {
-				$result['message'] = "Ошибка распаковки архива: " . $zipfile->errorName( true );
+				$result['message'] = __("Ошибка распаковки архива");
 				$result['success'] = false;
 			}
 
-			unlink( $zip );
+			joosFile::delete($zip);
 
 			foreach ( glob( $file['dir'] . DS . "*.params.php" ) as $filename ) {
 
@@ -53,12 +50,12 @@ class actionsAjaxAdminInstaller {
 					$installer = new Installer( $extension_install , $file['dir'] );
 					$result    = $installer->run();
 				} else {
-					$result['message'] = 'Нет установочной информации';
+					$result['message'] = __('Нет установочной информации');
 					$result['success'] = false;
 				}
 			}
 		} else {
-			$result['message'] = 'Не удалось загрузить архив';
+			$result['message'] = __('Не удалось загрузить архив');
 			$result['success'] = false;
 		}
 

@@ -27,9 +27,9 @@ class joosFile {
 	 * @example joosFile::convert_size(123);
 	 * @example joosFile::convert_size(123456);
 	 *
-	 * @param string|num $num исходные строка или число для форматирования
-	 *
-	 * @return string форматированная строка размера
+	 * @static
+	 * @param string $num исходные строка или число для форматирования
+	 * @return string|num
 	 */
 	public static function convert_size( $num ) {
 
@@ -51,55 +51,18 @@ class joosFile {
 	 * Удаление файла
 	 *
 	 * @example joosFile::delete( JPATH_BASE . DS. '_to_delete.php' );
-	 * @example joosFile::delete( array( JPATH_BASE . DS. '_to_delete.php', JPATH_BASE . DS. '_to_delete_2.php', );
 	 *
-	 * @param string|array $filename полный путь к файлу, либо массив полный путей к удаляемым файлам
+	 * @param string $filename полный путь к файлу, либо массив полный путей к удаляемым файлам
 	 *
 	 * @return bool результат удаления
 	 */
 	public static function delete( $filename ) {
 
-		if ( is_array( $filename ) ) {
-			foreach ( $filename as $file ) {
-				self::delete( $file );
-			}
+		if ( !joosFile::exists( $filename ) ) {
+			throw new joosException( 'Файл :file не существует', array(':file'=>$filename) );
 		}
 
-		// TODo тут надо разобраться с ошибками и исключениями
-		try {
-			unlink( (string) $filename );
-		} catch ( joosFileLibrariesException $exc ) {
-			echo $exc->getTraceAsString();
-		}
-
-		return true;
-	}
-
-	/**
-	 * Move/rename a file/folder
-	 *
-	 * @param string $from Original path of the folder/file
-	 * @param string $to   Destination path of the folder/file
-	 * @param int    $chmod
-	 *
-	 * @return bool Returns true if file/folder created
-	 */
-	public static function move( $from , $to , $chmod = null ) {
-		if ( strpos( $to , '/' ) !== false || strpos( $to , '\\' ) !== false ) {
-			$path = str_replace( '\\' , '/' , $to );
-			$path = explode( '/' , $path );
-			array_splice( $path , sizeof( $path ) - 1 );
-
-			$path = implode( '/' , $path );
-			if ( $path[strlen( $path ) - 1] != '/' ) {
-				$path .= '/';
-			}
-			if ( !file_exists( $path ) ) {
-				mkdir( $path , $chmod , true );
-			}
-		}
-
-		return rename( $from , $to );
+		return unlink( (string) $filename );
 	}
 
 	/**
@@ -119,8 +82,8 @@ class joosFile {
 	 * Получение MIME типа файла
 	 *
 	 * @example  joosFile::mime_content_type( __FILE__ );
-	 * @example  joosFile::mime_content_type( JPATH_BASE .DS. 'media' . DS . 'favicon.ico' );
-	 * @example  joosFile::mime_content_type(JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');
+	 * @example  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'favicon.ico' );
+	 * @example  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');
 	 *
 	 * @param type $filename
 	 *
@@ -193,7 +156,8 @@ class joosFile {
 			'ppt'  => 'application/vnd.ms-powerpoint' ,
 			// open office
 			'odt'  => 'application/vnd.oasis.opendocument.text' ,
-			'ods'  => 'application/vnd.oasis.opendocument.spreadsheet' , );
+			'ods'  => 'application/vnd.oasis.opendocument.spreadsheet'
+		);
 
 		$file_info  = pathinfo( $filename );
 		$ext        = $file_info['extension'];
@@ -249,7 +213,7 @@ class joosFile {
 	public static function file_info( $filename ) {
 
 		if ( !joosFile::exists( $filename ) ) {
-			throw new joosException( 'Файл не существует' );
+			throw new joosException( 'Файл :file не существует', array(':file'=>$filename) );
 		}
 
 		$f         = pathinfo( $filename );

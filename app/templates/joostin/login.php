@@ -10,7 +10,9 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-joosDocument::instance()->add_css( JPATH_SITE . '/app/templates/joostin/media/css/admin_login.css' )->add_js_file( JPATH_SITE . '/media/js/jquery.js' , array ( 'first' => true ) ) // jquery всегда первое!
+joosDocument::instance()
+	->add_css( JPATH_SITE . '/app/templates/joostin/media/css/admin_login.css' )
+	->add_js_file( JPATH_SITE . '/media/js/jquery.js' , array ( 'first' => true ) ) // jquery всегда первое!
 	->add_js_file( JPATH_SITE . '/media/js/administrator.login.js' );
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -24,7 +26,7 @@ joosDocument::instance()->add_css( JPATH_SITE . '/app/templates/joostin/media/cs
 <body>
 <?php joosModuleAdmin::load_by_name( 'flashmessage' ) ?>
 <div class="login">
-	<form action="<?php echo JPATH_SITE_ADMIN ?>/index.php" method="post" name="loginForm" id="loginForm">
+	<form action="<?php echo JPATH_SITE .'/'. JPATH_SITE_ADMIN ?>/index.php" method="post" name="loginForm" id="loginForm">
 		<div class="form-block">
 
 			<div class="f">
