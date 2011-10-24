@@ -33,5 +33,11 @@ class actionsTest {
 		return array ( 'asd' => crc32( 'Alanis Morissette - Crazy' ) );
 	}
 
-
+	/**
+	 * Тестирование загрузчика
+	 */
+	public static function upload(){
+		return array();
+	}
+	
 }
