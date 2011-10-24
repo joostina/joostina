@@ -22,6 +22,10 @@ class joosUpload {
 		/* ... */
 	                                'scripts' => array ( 'php' , 'js' , 'bat' ) );
 
+	public static function upload_form(){
+
+	}
+
 	public static function upload() {
 
 	}
