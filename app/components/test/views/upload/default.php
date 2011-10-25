@@ -10,8 +10,8 @@
 defined('_JOOS_CORE') or die();
 
 joosDocument::instance()
-		->add_css(sprintf('%s/app/vendors/upload/media/css/fileuploader.css', JPATH_SITE))
-		->add_js_file(sprintf('%s/app/vendors/upload/media/js/fileuploader.js', JPATH_SITE));
+		->add_css(sprintf('%s/app/vendors/upload/upload/media/css/fileuploader.css', JPATH_SITE))
+		->add_js_file(sprintf('%s/app/vendors/upload/upload/media/js/fileuploader.js', JPATH_SITE));
 
 echo time();
 ?>
