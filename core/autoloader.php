@@ -92,14 +92,17 @@ class joosAutoloader {
 		}
 
 		if ( !is_file( $file ) ) {
+			joosRequest::send_headers_by_code(404);
 			throw new AutoloaderFileNotFoundException( sprintf( __( 'Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s' ) , $file , $class ) );
 		}
 
 		require_once $file;
 
 		if ( !class_exists( $class , false ) ) {
+			joosRequest::send_headers_by_code(404);
 			throw new AutoloaderClassNotFoundException( sprintf( __( 'Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s' ) , $class , $file ) );
 		}
+
 		!self::$_debug ? : joosDebug::add( sprintf( __( 'Автозагрузка класса %s из файла %s' ) , $class , $file ) );
 
 		unset( $file );

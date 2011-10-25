@@ -10,4 +10,5 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-echo time();
+joosDocument::instance()
+		->add_js_file( sprintf( '%s/app/vendors/upload/media/fileuploader.js', JPATH_SITE ) );
