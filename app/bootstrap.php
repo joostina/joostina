@@ -103,6 +103,7 @@ define( 'JFILE_WRITE_MODE' , 0666 );
 define( 'JDIR_READ_MODE' , 0755 );
 define( 'JDIR_WRITE_MODE' , 0777 );
 
+DEFINE( 'J_USE_MODULES' , false );
 
 require 'events.php';
 

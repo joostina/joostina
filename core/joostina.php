@@ -601,7 +601,7 @@ class joosController {
 	private static function views( array $params , $option , $task ) {
 
 		//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
-		self::prepare_modules_for_current_page( $params , $option , $task );
+		J_USE_MODULES ? self::prepare_modules_for_current_page( $params , $option , $task ) : null;
 		self::as_html( $params , $option , $task );
 	}
 
