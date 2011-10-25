@@ -16,7 +16,7 @@ require_once ( __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'j
 require_once ( JPATH_BASE . DS . 'core' . DS . 'front.root.php' );
 
 // инициализация контроллера
-joosController::init();
+//joosController::init();
 
 // заполняем некоторые полезные переменные
 joosController::$controller = joosRequest::param( 'option' );

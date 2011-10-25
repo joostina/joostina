@@ -576,7 +576,7 @@ class joosController {
 	public static function ajax_run() {
 
 		$class = 'actionsAjax' . ucfirst( self::$controller );
-
+		
 		JDEBUG ? joosDebug::add( $class . '::' . self::$task ) : null;
 
 		if ( method_exists( $class , self::$task ) ) {
@@ -592,7 +592,7 @@ class joosController {
 			return self::ajax_error404();
 		}
 		if ( is_array( $results ) ) {
-			self::views( $results , self::$controller , self::$task );
+			echo json_encode($results);
 		} elseif ( is_string( $results ) ) {
 			echo $results;
 		}
