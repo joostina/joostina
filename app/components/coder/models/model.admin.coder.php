@@ -53,7 +53,7 @@ class adminCoder {
 		$buffer[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
 
 		$buffer[] = "\n */";
-		$buffer[] = "\nclass $className extends joosModel {";
+		$buffer[] = "\nclass model$className extends joosModel {";
 		foreach ($table_fields as $k => $v) {
 			$buffer[] = "\n	/**";
 			$buffer[] = "\n	 * @field $v";
@@ -107,7 +107,7 @@ class adminCoder {
 
 		$buffer[] = "\n}\n";
 
-		$buffer[] = "\nclass admin$className extends $className {";
+		$buffer[] = "\nclass modelAdmin$className extends model$className {";
 
 
 		$buffer[] = "\n\n	public function get_fieldinfo() {\n";
