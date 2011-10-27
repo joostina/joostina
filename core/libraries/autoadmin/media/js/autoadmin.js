@@ -25,7 +25,7 @@ $(document).ready(function() {
         });
     });
 
-
+/*
     //Сортировка
     $('.edit_ordering000').editable('ajax.index.php?option=' + _option + '&task=ordering', {
         id:'elementid',

@@ -1,6 +1,6 @@
 <?php
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * joosAutoadmin - Библиотека автоматической генерации интерфейсов панели управлениями
@@ -16,11 +16,11 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-define( 'DISPATCHED' , true );
+define('DISPATCHED', true);
 
 class joosAutoadmin {
 
-	private static $js_onformsubmit = array ();
+	private static $js_onformsubmit = array();
 	public static $model;
 	private static $data;
 	public static $submenu;
@@ -35,70 +35,88 @@ class joosAutoadmin {
 	 */
 	public static function dispatch() {
 
-		$id           = joosRequest::int( 'id' , 0 );
-		$page         = joosRequest::int( 'page' , false , $_GET );
+		$id = joosRequest::int('id', 0);
+		$page = joosRequest::int('page', false, $_GET);
 
-		$page         = $page ? $page : 0;
-		$id           = $id ? $id : $page;
+		$page = $page ? $page : 0;
+		$id = $id ? $id : $page;
 
-		$task         = joosRequest::param( 'task' , 'index' );
-		$option       = joosRequest::param( 'option' );
-		$class        = 'actionsAdmin' . ucfirst( $option );
+		$task = joosRequest::param('task', 'index');
+		$option = joosRequest::param('option');
+		$class = 'actionsAdmin' . ucfirst($option);
 
-		self::$class  = $class;
+		self::$class = $class;
 		self::$option = $option;
-		self::$task   = $task;
+		self::$task = $task;
 
 		// подключаем js код библиотеки
-		joosDocument::instance()->add_js_file( JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js' );
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/core/libraries/autoadmin/media/js/autoadmin.js');
 
 
-		!JDEBUG ? : joosDebug::add( 'joosAutoadmin::dispatch() - ' . $class . '::' . $task );
+		!JDEBUG ? : joosDebug::add('joosAutoadmin::dispatch() - ' . $class . '::' . $task);
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
-		method_exists( $class , 'action_before' ) ? call_user_func_array( $class . '::action_before' , array ( self::$task ) ) : null;
+		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
-		if ( method_exists( $class , $task ) ) {
-			echo call_user_func_array( $class . '::' . $task , array ( $option , $id , $page , $task ) );
-			method_exists( $class , 'action_after' ) ? call_user_func_array( $class . '::action_after' , array ( self::$task ) ) : null;
-		} elseif ( method_exists( $class , 'index' ) ) {
-			echo call_user_func_array( $class . '::index' , array ( $option , $id , $page , $task ) );
-			method_exists( $class , 'action_after' ) ? call_user_func_array( $class . '::action_after' , array ( self::$task ) ) : null;
+		if (method_exists($class, $task)) {
+			$results = call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
+		} elseif (method_exists($class, 'index')) {
+			$results = call_user_func_array($class . '::index', array($option, $id, $page, $task));
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
 		} else {
-			throw new joosException( 'Контроллер :controller, либо требуемая задача :task не найдены.' , array ( ':controller'=> $class ,
-			                                                                                                     ':task'      => $task ) );
+			throw new joosException('Контроллер :controller, либо требуемая задача :task не найдены.', array(':controller' => $class,
+				':task' => $task));
+		}
+
+		if (is_array($results)) {
+			self::views($results, self::$option, self::$task);
+		} elseif (is_string($results)) {
+			echo $results;
 		}
 
 		// если контроллер содержит метод вызываемый после окончания работы основного контроллера, то он тоже вызовется
-		method_exists( $class , 'action_after' ) ? call_user_func_array( $class . '::action_after' , array () ) : null;
+		method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array()) : null;
+	}
+
+	private static function views(array $params, $controller, $method) {
+
+		$template = isset($params['template']) ? $params['template'] : 'default';
+		$views = isset($params['method']) ? $params['method'] : $method;
+
+		extract($params, EXTR_OVERWRITE);
+		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'admin_views' . DS . $views . DS . $template . '.php';
+
+		is_file($viewfile) ? require ( $viewfile ) : null;
 	}
 
 	// автодиспатчер для Ajax - обработчиков
 	public static function dispatch_ajax() {
 
-		$id     = joosRequest::int( 'id' , 0 );
-		$page   = joosRequest::int( 'page' , false , $_GET );
+		$id = joosRequest::int('id', 0);
+		$page = joosRequest::int('page', false, $_GET);
 
-		$page   = $page ? $page : 0;
-		$id     = $id ? $id : $page;
+		$page = $page ? $page : 0;
+		$id = $id ? $id : $page;
 
-		$task   = joosRequest::param( 'task' , 'index' );
-		$option = joosRequest::param( 'option' );
-		$class  = 'actionsAjaxAdmin' . ucfirst( $option );
+		$task = joosRequest::param('task', 'index');
+		$option = joosRequest::param('option');
+		$class = 'actionsAjaxAdmin' . ucfirst($option);
 
-		JDEBUG ? joosDebug::add( $class . '::' . $task ) : null;
+		JDEBUG ? joosDebug::add($class . '::' . $task) : null;
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
-		method_exists( $class , 'action_before' ) ? call_user_func_array( $class . '::action_before' , array () ) : null;
+		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array()) : null;
 
-		if ( method_exists( $class , $task ) ) {
-			echo call_user_func_array( $class . '::' . $task , array ( $option , $id , $page , $task ) );
+		if (method_exists($class, $task)) {
+			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
 		} else {
-			echo call_user_func_array( $class . '::index' , array ( $option , $id , $page , $task ) );
+			echo call_user_func_array($class . '::index', array($option, $id, $page, $task));
 		}
 
 		// контроллер может содержать метод вызываемый после окончания работы основного контроллера, но тоже вызовется
-		method_exists( $class , 'action_after' ) ? call_user_func_array( $class . '::action_after' , array () ) : null;
+		method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array()) : null;
 	}
 
 	/**
@@ -112,35 +130,35 @@ class joosAutoadmin {
 	 * @param array  $fields_list
 	 * @param string $group_by Используется для указания границ сортировки (для сортировки в пределах определенного значения. Например, в модулях, сортировка происходит в границах позиции модуля (за пределы группы нельзя перетащить строку в процессе сортировки))
 	 */
-	public static function listing( joosModel $obj , array $obj_list , joosAdminPagenator $pagenav , array $fields_list , $group_by = '' ) {
+	public static function listing(joosModel $obj, array $obj_list, joosAdminPagenator $pagenav, array $fields_list, $group_by = '') {
 
 		// получаем название текущего компонента
-		$option = joosRequest::param( 'option' );
+		$option = joosRequest::param('option');
 
 		// путь к текущим графическим элементам
-		echo joosHtml::js_code( 'image_path ="' . joosConfig::get( 'admin_icons_path' ) . '"; _option="' . $option . '";' );
+		echo joosHtml::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
 
-		$fields_info  = $obj->get_fieldinfo();
+		$fields_info = $obj->get_fieldinfo();
 
-		$header       = $obj->get_tableinfo();
+		$header = $obj->get_tableinfo();
 
-		$header_extra = self::get_extrainfo( $obj );
-		$header_extra = self::prepare_extra( $obj , $header_extra );
+		$header_extra = self::get_extrainfo($obj);
+		$header_extra = self::prepare_extra($obj, $header_extra);
 
 		//Вывод заголовка
-		echo self::header( ( isset( $header['header_main'] ) ? $header['header_main'] : '' ) , $header['header_list'] , $header_extra['for_header'] , 'listing' );
+		echo self::header(( isset($header['header_main']) ? $header['header_main'] : ''), $header['header_list'], $header_extra['for_header'], 'listing');
 
 		//Вывод основного содержимого - таблицы с записями
 		echo '<form action="index2.php" method="post" name="adminForm" id="adminForm">';
-		echo '<table class="adminlist' . ( in_array( 'ordering' , $fields_list ) ? ' drag' : '' ) . '" id="adminlist"><thead><tr>';
+		echo '<table class="adminlist' . ( in_array('ordering', $fields_list) ? ' drag' : '' ) . '" id="adminlist"><thead><tr>';
 		echo '<th width="20px"><input type="checkbox" onclick="checkAll();" value="" name="toggle"></th>';
 
-		$fields_to_table = array ();
-		foreach ( $fields_list as $field ) {
-			if ( isset( $fields_info[$field]['in_admintable'] ) && $fields_info[$field]['in_admintable'] == TRUE ) {
-				$sortable = ( isset( $fields_info[$field]['sortable'] ) && $fields_info[$field]['sortable'] == true ) ? ' class="column_sortable"' : '';
-				$width    = isset( $fields_info[$field]['html_table_element_param']['width'] ) ? ' width="' . $fields_info[$field]['html_table_element_param']['width'] . '"' : '';
-				$class    = isset( $fields_info[$field]['html_table_element_param']['class'] ) ? ' class="' . $fields_info[$field]['html_table_element_param']['class'] . '"' : '';
+		$fields_to_table = array();
+		foreach ($fields_list as $field) {
+			if (isset($fields_info[$field]['in_admintable']) && $fields_info[$field]['in_admintable'] == TRUE) {
+				$sortable = ( isset($fields_info[$field]['sortable']) && $fields_info[$field]['sortable'] == true ) ? ' class="column_sortable"' : '';
+				$width = isset($fields_info[$field]['html_table_element_param']['width']) ? ' width="' . $fields_info[$field]['html_table_element_param']['width'] . '"' : '';
+				$class = isset($fields_info[$field]['html_table_element_param']['class']) ? ' class="' . $fields_info[$field]['html_table_element_param']['class'] . '"' : '';
 
 				echo '<th ' . $sortable . $width . $class . '>' . $fields_info[$field]['name'] . '</th>';
 				$fields_to_table[] = $field;
@@ -149,19 +167,19 @@ class joosAutoadmin {
 
 		echo '</thead></tr>';
 
-		$n = count( $fields_to_table );
+		$n = count($fields_to_table);
 		$k = 1;
 		$i = 0;
-		foreach ( $obj_list as $values ) {
-			$dop_class   = $group_by ? $group_by . '-' . $values->$group_by : '';
+		foreach ($obj_list as $values) {
+			$dop_class = $group_by ? $group_by . '-' . $values->$group_by : '';
 
 			echo "\n\t" . '<tr class="row-' . $k . '" ' . ( $group_by ? 'obj_ordering="' . $values->ordering . '"' : '' ) . ' obj_id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">' . "\n\t";
-			echo "\t" . '<td align="center">' . joosHtml::idBox( $i , $values->{$obj->get_key_field()} ) . '</td>' . "\n";
-			for ( $index = 0; $index < $n; $index++ ) {
-				$current_value = isset( $values->$fields_to_table[$index] ) ? $values->$fields_to_table[$index] : null;
-				$data          = joosAutoadmin::get_listing_html_element( $obj , $fields_info[$fields_to_table[$index]] , $fields_to_table[$index] , $current_value , $values , $option );
-				$class         = isset( $fields_info[$fields_to_table[$index]]['html_table_element_param']['class'] ) ? ' class="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['class'] . '"' : '';
-				$align         = isset( $fields_info[$fields_to_table[$index]]['html_table_element_param']['align'] ) ? ' align="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['align'] . '" ' : '';
+			echo "\t" . '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
+			for ($index = 0; $index < $n; $index++) {
+				$current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
+				$data = joosAutoadmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
+				$class = isset($fields_info[$fields_to_table[$index]]['html_table_element_param']['class']) ? ' class="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['class'] . '"' : '';
+				$align = isset($fields_info[$fields_to_table[$index]]['html_table_element_param']['align']) ? ' align="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['align'] . '" ' : '';
 
 				echo "\t\t" . '<td ' . $align . $class . '>' . $data . '</td>' . "\n";
 			}
@@ -176,37 +194,37 @@ class joosAutoadmin {
 		echo self::footer();
 
 		echo $header_extra['hidden_ellements'];
-		echo forms::hidden( 'option' , $option );
-		echo forms::hidden( 'model' , self::$model );
-		echo forms::hidden( 'task' , '' );
-		echo forms::hidden( 'boxchecked' , '' );
-		echo forms::hidden( 'obj_name' , get_class( $obj ) );
-		echo forms::hidden( joosCSRF::get_code() , 1 );
+		echo forms::hidden('option', $option);
+		echo forms::hidden('model', self::$model);
+		echo forms::hidden('task', '');
+		echo forms::hidden('boxchecked', '');
+		echo forms::hidden('obj_name', get_class($obj));
+		echo forms::hidden(joosCSRF::get_code(), 1);
 		echo forms::close();
 	}
 
-	public static function get_listing_html_element( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
+	public static function get_listing_html_element(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 
 		$class_file = JPATH_BASE . '/app/plugins/autoadmin/list.' . $element_param['html_table_element'] . '.php';
-		$class_name = 'autoadminList' . self::get_plugin_name( $element_param['html_table_element'] );
+		$class_name = 'autoadminList' . self::get_plugin_name($element_param['html_table_element']);
 
-		if ( !is_file( $class_file ) ) {
-			throw new joosAutoadminFilePluginNotFoundException( sprintf( __( 'Файл плагина joosAutoadmin %s  для вывода элемента %s не найден' ) , $class_file , $class_name ) );
+		if (!is_file($class_file)) {
+			throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name));
 		}
 
 		require_once $class_file;
 
-		if ( !class_exists( $class_name ) ) {
-			throw new joosAutoadminClassPlugionNotFoundException( sprintf( __( 'Класс для обработки %s средствами joosAutoadmin в файле %s не найден' ) , $class_file , $class_name ) );
+		if (!class_exists($class_name)) {
+			throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
 		}
 
 		// ограничение на длину текста
-		$text_limit = isset( $element_param['html_table_element_param']['text_limit'] ) ? $element_param['html_table_element_param']['text_limit'] : false;
-		if ( $text_limit ) {
-			$value = joosText::character_limiter( $value , $text_limit );
+		$text_limit = isset($element_param['html_table_element_param']['text_limit']) ? $element_param['html_table_element_param']['text_limit'] : false;
+		if ($text_limit) {
+			$value = joosText::character_limiter($value, $text_limit);
 		}
 
-		return call_user_func_array( $class_name . '::render' , array ( $obj , $element_param , $key , $value , $values , $option ) );
+		return call_user_func_array($class_name . '::render', array($obj, $element_param, $key, $value, $values, $option));
 	}
 
 	/**
@@ -218,81 +236,80 @@ class joosAutoadmin {
 	 * @param object $obj_data
 	 * @param array  $params
 	 */
-	public static function edit( joosModel $obj , $obj_data , $params = null ) {
+	public static function edit(joosModel $obj, $obj_data, $params = null) {
 
-		self::$model = get_class( $obj );
+		self::$model = get_class($obj);
 
 		//Библиотека работы с табами
-		$tabs   = new htmlTabs();
+		$tabs = new htmlTabs();
 
-		$option = joosRequest::param( 'option' );
+		$option = joosRequest::param('option');
 
 		//Настраиваем параметры HTML-разметки формы
-		if ( !$params ) {
-			$params = array ( 'wrap_begin'     => '<table class="adminform joiadmin">' ,
-			                  'wrap_end'       => '</table>' ,
-			                  'label_begin'    => '<tr><td width="150" align="right" valign="top">' ,
-			                  'label_end'      => '</td>' ,
-			                  'el_begin'       => '<td>' ,
-			                  'el_end'         => '</td></tr>' ,
-			                  'tab_wrap_begin' => '<tr><td>' ,
-			                  'tab_wrap_end'   => '</td></tr>' , );
+		if (!$params) {
+			$params = array('wrap_begin' => '<table class="adminform joiadmin">',
+				'wrap_end' => '</table>',
+				'label_begin' => '<tr><td width="150" align="right" valign="top">',
+				'label_end' => '</td>',
+				'el_begin' => '<td>',
+				'el_end' => '</td></tr>',
+				'tab_wrap_begin' => '<tr><td>',
+				'tab_wrap_end' => '</td></tr>',);
 		}
 
 		//Вывод заголовка страницы с формой
 		$header = $obj->get_tableinfo(); //Получаем данные
-		$component_title = isset( $header['header_main'] ) ? $header['header_main'] : '';
-		$header_text     = $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'];
+		$component_title = isset($header['header_main']) ? $header['header_main'] : '';
+		$header_text = $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'];
 
 		//Выводим заголовок
 
-		echo self::header( $component_title , $header_text , array () , 'edit' );
+		echo self::header($component_title, $header_text, array(), 'edit');
 
 		// начинаем отлавливать поступаемый JS код
 		self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
 
 		//открываем форму
-		echo forms::open( 'index2.php' , array ( 'name' => 'adminForm' ,
-		                                         'id'   => 'adminForm' ) );
+		echo forms::open('index2.php', array('name' => 'adminForm',
+			'id' => 'adminForm'));
 
 		//Массив сформированных элементов для вывода
-		$_elements = array ();
+		$_elements = array();
 		//Получаем данные о элементах формы
 		$fields_info = $obj->get_fieldinfo();
-		foreach ( $fields_info as $key => $field ) {
-			if ( isset( $field['editable'] ) && $field['editable'] == true ):
-				$v               = isset( $obj_data->$key ) ? $obj_data->$key : '';
-				$_elements[$key] = self::get_edit_html_element( $field , $key , $v , $obj_data , $params , $tabs );
+		foreach ($fields_info as $key => $field) {
+			if (isset($field['editable']) && $field['editable'] == true):
+				$v = isset($obj_data->$key) ? $obj_data->$key : '';
+				$_elements[$key] = self::get_edit_html_element($field, $key, $v, $obj_data, $params, $tabs);
 			endif;
 		}
 
 		//Если заданы табы
 		$_tabs_areas = '';
-		$_tabs_array = array ();
-		$_tabs_new   = is_callable( array ( $obj , 'get_tabsinfo' ) ) ? $obj->get_tabsinfo() : null;
-		if ( $_tabs_new ) {
+		$_tabs_array = array();
+		$_tabs_new = is_callable(array($obj, 'get_tabsinfo')) ? $obj->get_tabsinfo() : null;
+		if ($_tabs_new) {
 			$_tabs_areas .= '<div id="tabs_wrap"><ul id="tabs_list">';
-			foreach ( $_tabs_new as $_tab_key => $_tab_fields ) {
+			foreach ($_tabs_new as $_tab_key => $_tab_fields) {
 				$_tabs_areas .= '<li><span rel="tab_' . $_tab_key . '">' . $_tab_fields['title'] . '</span></li>';
-				foreach ( $_tab_fields['fields'] as $f ) {
-					if ( isset( $_elements[$f] ) ) {
-						$_tabs_array[$_tab_key]['title']      = __( $_tab_fields['title'] );
+				foreach ($_tab_fields['fields'] as $f) {
+					if (isset($_elements[$f])) {
+						$_tabs_array[$_tab_key]['title'] = __($_tab_fields['title']);
 						$_tabs_array[$_tab_key]['elements'][] = $_elements[$f];
 					}
-
 				}
 			}
 			$_tabs_areas .= '</ul></div>';
 
 			$i = 1;
-			foreach ( $_tabs_array as $tab_area_key => $tab_fields ) {
+			foreach ($_tabs_array as $tab_area_key => $tab_fields) {
 				$_tabs_areas .= '<div ' . ( $i == 1 ? '' : 'style="display: none" ' ) . ' class="tab_area tab_area_' . $i . '" id="tab_' . $tab_area_key . '">';
 
 				//Начало общего контейнера
 				$_tabs_areas .= $params['wrap_begin'];
 
 				//Вывод элементов
-				$_tabs_areas .= implode( '' , $tab_fields['elements'] );
+				$_tabs_areas .= implode('', $tab_fields['elements']);
 
 				//Конец общего контейнера
 				$_tabs_areas .= $params['wrap_end'];
@@ -305,27 +322,23 @@ class joosAutoadmin {
 			//_xdump($_tabs_array);
 
 			echo $_tabs_areas;
-		}
-
-		else {
+		} else {
 			//Начало общего контейнера
 			echo $params['wrap_begin'];
 
 			//Вывод элементов
-			echo implode( '' , $_elements );
+			echo implode('', $_elements);
 
 			//Конец общего контейнера
 			echo $params['wrap_end'];
 		}
 
 		//Выводим скрытые поля формы
-		echo forms::hidden( $obj->get_key_field() , $obj_data->{$obj->get_key_field()} ) . "\t"; // id объекта
-		echo forms::hidden( 'option' , $option ) . "\t";
-		echo forms::hidden( 'model' , self::$model ) . "\t";
-		echo forms::hidden( 'task' , 'save' ) . "\t";
-		echo forms::hidden( joosCSRF::get_code() , 1 ); // элемент защиты от XSS
-
-
+		echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
+		echo forms::hidden('option', $option) . "\t";
+		echo forms::hidden('model', self::$model) . "\t";
+		echo forms::hidden('task', 'save') . "\t";
+		echo forms::hidden(joosCSRF::get_code(), 1); // элемент защиты от XSS
 		//Закрываем форму
 		echo forms::close();
 
@@ -334,40 +347,40 @@ class joosAutoadmin {
 		self::$js_onformsubmit[] = 'submitform( pressbutton );';
 		self::$js_onformsubmit[] = '};</script>';
 
-		echo "\n" . implode( "\n" , self::$js_onformsubmit ) . "\n";
+		echo "\n" . implode("\n", self::$js_onformsubmit) . "\n";
 		echo self::footer();
 	}
 
 // получение типа элемента для формы редактирования
-	public static function get_edit_html_element( $element_param , $key , $value , $obj_data , $params , $tabs ) {
+	public static function get_edit_html_element($element_param, $key, $value, $obj_data, $params, $tabs) {
 
 		$class_file = JPATH_BASE . '/app/plugins/autoadmin/edit.' . $element_param['html_edit_element'] . '.php';
-		$class_name = 'autoadminEdit' . self::get_plugin_name( $element_param['html_edit_element'] );
+		$class_name = 'autoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
 
-		if ( !is_file( $class_file ) ) {
-			throw new joosAutoadminFilePluginNotFoundException( sprintf( __( 'Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден' ) , $class_file , $class_name ) );
+		if (!is_file($class_file)) {
+			throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
 		}
 
 		require_once $class_file;
 
-		if ( !class_exists( $class_name ) ) {
-			throw new joosAutoadminClassPlugionNotFoundException( sprintf( __( 'Класс для обработки %s средствами joosAutoadmin в файле %s не найден' ) , $class_file , $class_name ) );
+		if (!class_exists($class_name)) {
+			throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
 		}
 
-		return call_user_func_array( $class_name . '::render' , array ( $element_param , $key , $value , $obj_data , $params , $tabs ) );
+		return call_user_func_array($class_name . '::render', array($element_param, $key, $value, $obj_data, $params, $tabs));
 	}
 
-	public static function add_js_onformsubmit( $js_raw_code ) {
+	public static function add_js_onformsubmit($js_raw_code) {
 		self::$js_onformsubmit[] = $js_raw_code;
 	}
 
 // упрощенная система получения пагинатора
-	public static function pagenav( $total , $com_name = '' ) {
+	public static function pagenav($total, $com_name = '') {
 
-		$limit      = (int) joosSession::get_user_state_from_request( "{$com_name}_viewlistlimit" , 'limit' , joosConfig::get2( 'admin' , 'list_limit' , 25 ) );
-		$limitstart = (int) joosSession::get_user_state_from_request( "{$com_name}_limitstart" . self::$model , 'limitstart' , 0 );
+		$limit = (int) joosSession::get_user_state_from_request("{$com_name}_viewlistlimit", 'limit', joosConfig::get2('admin', 'list_limit', 25));
+		$limitstart = (int) joosSession::get_user_state_from_request("{$com_name}_limitstart" . self::$model, 'limitstart', 0);
 
-		return new joosAdminPagenator( $total , $limitstart , $limit );
+		return new joosAdminPagenator($total, $limitstart, $limit);
 	}
 
 	/**
@@ -382,32 +395,32 @@ class joosAutoadmin {
 	 *
 	 * @return HTML-представление заголовка: название текущей страницы, субменю, системное сообщение, фильтры, тулбар (кнопки управления)
 	 */
-	public static function header( $component_title = '' , $header = '' , array $extra = array () , $task = '' ) {
+	public static function header($component_title = '', $header = '', array $extra = array(), $task = '') {
 
-		$class           = self::$class;
+		$class = self::$class;
 
-		$component_title = ( isset( self::$component_title ) ? self::$component_title . ':' : ( $component_title ? $component_title . ':' : '' ) );
+		$component_title = ( isset(self::$component_title) ? self::$component_title . ':' : ( $component_title ? $component_title . ':' : '' ) );
 
-		$return          = '';
+		$return = '';
 
 		//Заголовок страницы + тулбар
-		if ( isset( $class::$submenu ) ) {
+		if (isset($class::$submenu)) {
 			$return = '<div class="page_title"><h1 class="title"><span>' . $component_title . '</span></h1>';
 			$return .= joosAutoadmin::submenu() . '</div>';
 		}
 
-		$return .= '<div class="page_subtitle"><h2>' . $header . '</h2>' . self::toolbar( $task ) . '</div>';
+		$return .= '<div class="page_subtitle"><h2>' . $header . '</h2>' . self::toolbar($task) . '</div>';
 
 		//Вывод системного соощения
 		ob_start();
-		joosModuleAdmin::load_by_name( 'flashmessage' );
+		joosModuleAdmin::load_by_name('flashmessage');
 		$return .= ob_get_clean();
 
 		$return .= '<div id="component_form">';
 
 
 		//Поиск, фильтры и т.п.
-		$return .= adminHtml::controller_header( false , 'config' , $extra );
+		$return .= adminHtml::controller_header(false, 'config', $extra);
 
 		return $return;
 	}
@@ -415,22 +428,22 @@ class joosAutoadmin {
 	//Определение заголовка компонента по его названию
 	//Требуется в компонентах, которые выступают в качестве интерфейса
 	//например: компонент категорий, компонент настроек и т .п
-	public static function get_component_title( $name ) {
+	public static function get_component_title($name) {
 
-		$admin_model     = 'admin' . ucfirst( $name );
+		$admin_model = 'admin' . ucfirst($name);
 
-		$admin_model     = new $admin_model;
-		$titles          = $admin_model->get_tableinfo();
-		$component_title = isset( $titles['header_main'] ) ? $titles['header_main'] : '';
+		$admin_model = new $admin_model;
+		$titles = $admin_model->get_tableinfo();
+		$component_title = isset($titles['header_main']) ? $titles['header_main'] : '';
 		return $component_title;
 	}
 
-	public static function toolbar( $task = '' ) {
+	public static function toolbar($task = '') {
 
 		$class = self::$class;
-		if ( isset( $class::$toolbars ) && isset( $class::$toolbars[self::$task] ) ) {
+		if (isset($class::$toolbars) && isset($class::$toolbars[self::$task])) {
 			return $class::$toolbars[self::$task];
-		} else if ( $task ) {
+		} else if ($task) {
 			return JoiAdminToolbar::$task();
 		}
 		return false;
@@ -440,14 +453,14 @@ class joosAutoadmin {
 
 		$class = self::$class;
 
-		if ( isset( $class::$submenu ) ) {
+		if (isset($class::$submenu)) {
 
-			$return = array ();
-			foreach ( $class::$submenu as $href ) {
-				$return[] = '<li>' . ( $href['active'] == false ? sprintf( '<a href="%s">%s</a>' , $href['href'] , $href['name'] ) : '<span>' . $href['name'] . '</span>' ) . '</li>';
+			$return = array();
+			foreach ($class::$submenu as $href) {
+				$return[] = '<li>' . ( $href['active'] == false ? sprintf('<a href="%s">%s</a>', $href['href'], $href['name']) : '<span>' . $href['name'] . '</span>' ) . '</li>';
 			}
 
-			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode( '' , $return ) . '</ul></div>';
+			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode('', $return) . '</ul></div>';
 		}
 	}
 
@@ -458,18 +471,17 @@ class joosAutoadmin {
 	 *
 	 * @return array меню компонента или false
 	 */
-	public static function get_component_submenu( $component ) {
+	public static function get_component_submenu($component) {
 
-		$controller = 'actionsAdmin' . ucfirst( $component );
-		joosLoader::admin_controller( $component );
+		$controller = 'actionsAdmin' . ucfirst($component);
+		joosLoader::admin_controller($component);
 
-		if ( isset( $controller::$submenu ) ) {
+		if (isset($controller::$submenu)) {
 			return $controller::$submenu;
 		}
 
 		return false;
 	}
-
 
 	public static function footer() {
 		return '</div>';
@@ -479,48 +491,47 @@ class joosAutoadmin {
 	public static function autoajax() {
 
 		//$option = joosRequest::param('option');
-
 		// выполняемая задача
-		$task = joosRequest::param( 'task' );
+		$task = joosRequest::param('task');
 		// идентификатор запрашиваемого элемента
-		$obj_id = joosRequest::int( 'obj_id' , 0 , $_POST );
+		$obj_id = joosRequest::int('obj_id', 0, $_POST);
 		// ключ-название запрашиваемого элемента
-		$obj_key = joosRequest::post( 'obj_key' );
+		$obj_key = joosRequest::post('obj_key');
 		// название объекта запрашиваемого элемента
-		$obj_name = joosRequest::param( 'obj_name' );
-		if ( !$obj_name ) {
+		$obj_name = joosRequest::param('obj_name');
+		if (!$obj_name) {
 			return false;
 		}
 		// пустой объект для складирования результата
 		$return_onj = new stdClass();
 
-		if ( class_exists( $obj_name ) ) {
+		if (class_exists($obj_name)) {
 			// создаём объект класса
 			$obj = new $obj_name;
 
-			switch ( $task ) {
+			switch ($task) {
 				case 'statuschanger':
-					$obj->load( $obj_id );
+					$obj->load($obj_id);
 					// меняем состояние объекта на противоположное
-					$obj->change_state( $obj_key );
+					$obj->change_state($obj_key);
 
 					// получаем настройки полей
-					$fields_info           = $obj->get_fieldinfo();
+					$fields_info = $obj->get_fieldinfo();
 
-					$fields_info[$obj_key] = array_merge_recursive( $fields_info[$obj_key] , array ( 'html_table_element_param' => array ( 'statuses' => array ( 0 => __( 'Скрыто' ) ,
-					                                                                                                                                             1 => __( 'Опубликовано' ) ) ,
-					                                                                                                                       'images'   => array ( 0 => 'publish_x.png' ,
-					                                                                                                                                             1 => 'publish_g.png' , ) ) ) );
+					$fields_info[$obj_key] = array_merge_recursive($fields_info[$obj_key], array('html_table_element_param' => array('statuses' => array(0 => __('Скрыто'),
+								1 => __('Опубликовано')),
+							'images' => array(0 => 'publish_x.png',
+								1 => 'publish_g.png',))));
 
 					// формируем ответ из противоположных элементов текущему состоянию
-					$return_onj->image = isset( $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] ) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';
-					$return_onj->mess  = isset( $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key] ) ? $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key] : 'ERROR';
+					$return_onj->image = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';
+					$return_onj->mess = isset($fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key] : 'ERROR';
 					break;
 
 				case 'ordering':
-					$obj->load( $obj_id );
+					$obj->load($obj_id);
 					//$scope = joosRequest::post('scope');
-					$new_ordering = joosRequest::post( 'val' );
+					$new_ordering = joosRequest::post('val');
 
 					//$old_order = $obj->ordering;
 					//$where = '1=1';
@@ -537,29 +548,29 @@ class joosAutoadmin {
 
 				case 'reorder':
 
-					$objs             = joosRequest::post( 'objs' );
-					$return_onj->mess = implode( '; ' , $objs );
+					$objs = joosRequest::post('objs');
+					$return_onj->mess = implode('; ', $objs);
 
-					$old_order        = array ();
-					$new_order        = array ();
-					foreach ( $objs as $_obj ) {
-						$val         = explode( ':' , $_obj );
+					$old_order = array();
+					$new_order = array();
+					foreach ($objs as $_obj) {
+						$val = explode(':', $_obj);
 						$old_order[] = $val[1];
 						$new_order[] = $val[0];
 					}
 
-					$min  = min( $old_order );
+					$min = min($old_order);
 
 					$mess = '';
-					$i    = $min > 1 ? $min : 1;
-					foreach ( $new_order as $id ) {
-						$sql = 'UPDATE ' . $obj->get( '_tbl' ) . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
-						$obj->get( '_db' )->set_query( $sql )->query();
+					$i = $min > 1 ? $min : 1;
+					foreach ($new_order as $id) {
+						$sql = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
+						$obj->get('_db')->set_query($sql)->query();
 						++$i;
 						$mess .= $query . "\n";
 					}
 					$return_onj->mess = $mess;
-					$return_onj->min  = $min;
+					$return_onj->min = $min;
 
 					break;
 
@@ -568,93 +579,93 @@ class joosAutoadmin {
 					break;
 			}
 
-			echo json_encode( $return_onj );
+			echo json_encode($return_onj);
 			return true;
 		}
 
 		$return_onj->image = 'error.png';
-		$return_onj->mess  = 'error-class';
+		$return_onj->mess = 'error-class';
 
-		echo json_encode( $return_onj );
+		echo json_encode($return_onj);
 		return false;
 	}
 
-	private static function prepare_extra( joosModel $obj , array $extra_data ) {
+	private static function prepare_extra(joosModel $obj, array $extra_data) {
 
-		if ( self::$data === NULL ) {
+		if (self::$data === NULL) {
 
-			$results         = array ();
-			$hidden_elements = array ();
-			$wheres_filter   = array ( 'true' );
-			$wheres_search   = array ();
+			$results = array();
+			$hidden_elements = array();
+			$wheres_filter = array('true');
+			$wheres_search = array();
 
-			foreach ( $extra_data as $key => $value ) {
-				switch ( $key ) {
+			foreach ($extra_data as $key => $value) {
+				switch ($key) {
 
 
 					case 'search':
-						$results[]         = forms::label( array ( 'for' => 'search_elements' ) , 'Поиск' );
+						$results[] = forms::label(array('for' => 'search_elements'), 'Поиск');
 
-						$search_value      = joosSession::get_user_state_from_request( "search-" . $obj->classname() , 'search' , false );
+						$search_value = joosSession::get_user_state_from_request("search-" . $obj->classname(), 'search', false);
 
-						$results[]         = forms::input( array ( 'name' => 'search_elements' ,
-						                                           'id'   => 'search_elements' ) , $search_value );
-						$hidden_elements[] = forms::hidden( 'search' , $search_value );
+						$results[] = forms::input(array('name' => 'search_elements',
+									'id' => 'search_elements'), $search_value);
+						$hidden_elements[] = forms::hidden('search', $search_value);
 
-						if ( $search_value !== false && joosString::trim( $search_value ) != '' ) {
-							foreach ( $value as $selected_value ) {
-								$wheres_search[] = sprintf( '%s LIKE ( %s )' , joosDatabase::instance()->name_quote( $selected_value ) , joosDatabase::instance()->quote( "%" . $search_value . "%" ) );
+						if ($search_value !== false && joosString::trim($search_value) != '') {
+							foreach ($value as $selected_value) {
+								$wheres_search[] = sprintf('%s LIKE ( %s )', joosDatabase::instance()->name_quote($selected_value), joosDatabase::instance()->quote("%" . $search_value . "%"));
 							}
 						}
 						break;
 
 					case 'filter':
 
-						foreach ( $value as $params_key => $params_value ) {
+						foreach ($value as $params_key => $params_value) {
 
-							$field_name       = $params_key;
-							$field_title      = $value[$field_name]['name'];
+							$field_name = $params_key;
+							$field_title = $value[$field_name]['name'];
 
-							$results[]        = forms::label( array ( 'for' => 'filter_' . $field_name ) , $field_title );
-							$datas_for_select = array ( -1 => 'Всё сразу' );
-							$datas_for_select += ( isset( $value[$field_name]['call_from'] ) && is_callable( $value[$field_name]['call_from'] ) ) ? call_user_func( $value[$field_name]['call_from'] , $obj , $params_key ) : array ();
+							$results[] = forms::label(array('for' => 'filter_' . $field_name), $field_title);
+							$datas_for_select = array(-1 => 'Всё сразу');
+							$datas_for_select += ( isset($value[$field_name]['call_from']) && is_callable($value[$field_name]['call_from']) ) ? call_user_func($value[$field_name]['call_from'], $obj, $params_key) : array();
 
-							$selected_value    = joosSession::get_user_state_from_request( "filter-" . '-' . $field_name . '-' . $obj->classname() , $field_name , -1 );
-							$selected_value    = $selected_value === '0' ? "0" : $selected_value;
+							$selected_value = joosSession::get_user_state_from_request("filter-" . '-' . $field_name . '-' . $obj->classname(), $field_name, -1);
+							$selected_value = $selected_value === '0' ? "0" : $selected_value;
 
-							$results[]         = forms::dropdown( array ( 'name'     => 'filter_' . $field_name ,
-							                                              'obj_name' => $field_name ,
-							                                              'class'    => 'filter_elements' ,
-							                                              'options'  => $datas_for_select ,
-							                                              'selected' => $selected_value ) );
+							$results[] = forms::dropdown(array('name' => 'filter_' . $field_name,
+										'obj_name' => $field_name,
+										'class' => 'filter_elements',
+										'options' => $datas_for_select,
+										'selected' => $selected_value));
 
-							$hidden_elements[] = forms::hidden( $field_name , $selected_value );
-							if ( ( $selected_value && $selected_value != -1 ) OR $selected_value === '0' ) {
-								$wheres_filter[] = sprintf( '%s=%s' , joosDatabase::instance()->name_quote( $field_name ) , joosDatabase::instance()->quote( $selected_value ) );
+							$hidden_elements[] = forms::hidden($field_name, $selected_value);
+							if (( $selected_value && $selected_value != -1 ) OR $selected_value === '0') {
+								$wheres_filter[] = sprintf('%s=%s', joosDatabase::instance()->name_quote($field_name), joosDatabase::instance()->quote($selected_value));
 							}
 						}
 						break;
 
 					case 'extrafilter':
-						$datas_for_select = array ( -1 => 'Всё сразу' );
-						foreach ( $value as $params_key => $params_value ) {
+						$datas_for_select = array(-1 => 'Всё сразу');
+						foreach ($value as $params_key => $params_value) {
 
 							$field_name = $params_key;
 
-							$datas_for_select += array ( $params_key => $value[$field_name]['name'] );
+							$datas_for_select += array($params_key => $value[$field_name]['name']);
 						}
 
-						$selected_value    = joosSession::get_user_state_from_request( "extrafilter-" . $obj->classname() , 'filter_extrafilter' , -1 );
+						$selected_value = joosSession::get_user_state_from_request("extrafilter-" . $obj->classname(), 'filter_extrafilter', -1);
 
-						$results[]         = forms::label( array ( 'for' => 'filter_extrafilter' ) , 'Фильтр' );
-						$results[]         = forms::dropdown( array ( 'name'     => 'filter_extrafilter_selector' ,
-						                                              'class'    => 'extrafilter_elements' ,
-						                                              'options'  => $datas_for_select ,
-						                                              'selected' => $selected_value ) );
-						$hidden_elements[] = forms::hidden( 'filter_extrafilter' , $selected_value );
+						$results[] = forms::label(array('for' => 'filter_extrafilter'), 'Фильтр');
+						$results[] = forms::dropdown(array('name' => 'filter_extrafilter_selector',
+									'class' => 'extrafilter_elements',
+									'options' => $datas_for_select,
+									'selected' => $selected_value));
+						$hidden_elements[] = forms::hidden('filter_extrafilter', $selected_value);
 
 						//self::$data_overload = ( $selected_value && isset($value[$selected_value]['call_from']) && is_callable($value[$selected_value]['call_from']) ) ? call_user_func($value[$selected_value]['call_from'], $obj) : array();
-						self::$data_overload = ( $selected_value && isset( $value[$selected_value]['call_from'] ) && is_callable( $value[$selected_value]['call_from'] ) ) ? $value[$selected_value]['call_from'] : array ();
+						self::$data_overload = ( $selected_value && isset($value[$selected_value]['call_from']) && is_callable($value[$selected_value]['call_from']) ) ? $value[$selected_value]['call_from'] : array();
 						break;
 
 					default:
@@ -662,72 +673,76 @@ class joosAutoadmin {
 				}
 			}
 
-			$wheres = array ( implode( ' AND ' , $wheres_filter ) , );
+			$wheres = array(implode(' AND ', $wheres_filter),);
 
-			if ( count( $wheres_search ) > 0 ) {
-				$wheres[] = ' (' . implode( ' OR ' , $wheres_search ) . ' )';
+			if (count($wheres_search) > 0) {
+				$wheres[] = ' (' . implode(' OR ', $wheres_search) . ' )';
 			}
 
-			self::$data = array ( 'for_header'       => $results ,
-			                      'hidden_ellements' => implode( "\n" , $hidden_elements ) ,
-			                      'wheres'           => implode( ' AND ' , $wheres ) ,
-			                      'data_overload'    => self::$data_overload , );
+			self::$data = array('for_header' => $results,
+				'hidden_ellements' => implode("\n", $hidden_elements),
+				'wheres' => implode(' AND ', $wheres),
+				'data_overload' => self::$data_overload,);
 		}
 
 		return self::$data;
 	}
 
-	private static function get_extrainfo( joosModel $obj ) {
+	private static function get_extrainfo(joosModel $obj) {
 
-		$fields_info  = $obj->get_fieldinfo();
+		$fields_info = $obj->get_fieldinfo();
 		$header_extra = $obj->get_extrainfo();
 
-		if ( isset( $fields_info['state'] ) ) {
-			$header_extra['filter'] = isset( $header_extra['filter'] ) ? $header_extra['filter'] : array ();
-			$header_extra['filter'] += array ( 'state' => array ( 'name'      => 'Состояние' ,
-			                                                      'call_from' => 'joosAutoadmin::get_state_selector' ) , );
+		if (isset($fields_info['state'])) {
+			$header_extra['filter'] = isset($header_extra['filter']) ? $header_extra['filter'] : array();
+			$header_extra['filter'] += array('state' => array('name' => 'Состояние',
+					'call_from' => 'joosAutoadmin::get_state_selector'),);
 		}
 		return $header_extra;
 	}
 
-	public static function get_count( joosModel $obj ) {
+	public static function get_count(joosModel $obj) {
 
-		$header_extra = self::get_extrainfo( $obj );
-		$header_extra = self::prepare_extra( $obj , $header_extra );
+		$header_extra = self::get_extrainfo($obj);
+		$header_extra = self::prepare_extra($obj, $header_extra);
 
-		$params       = array ( 'where'      => $header_extra['wheres'] ,
-		                        'only_count' => true );
+		$params = array('where' => $header_extra['wheres'],
+			'only_count' => true);
 
-		return self::$data_overload ? call_user_func( self::$data_overload , $params ) : $obj->count( 'WHERE ' . $header_extra['wheres'] );
+		return self::$data_overload ? call_user_func(self::$data_overload, $params) : $obj->count('WHERE ' . $header_extra['wheres']);
 	}
 
-	public static function get_list( joosModel $obj , $params ) {
+	public static function get_list(joosModel $obj, $params) {
 
-		$header_extra = self::get_extrainfo( $obj );
-		$header_extra = self::prepare_extra( $obj , $header_extra );
+		$header_extra = self::get_extrainfo($obj);
+		$header_extra = self::prepare_extra($obj, $header_extra);
 
-		$params += array ( 'where' => $header_extra['wheres'] );
-
-		return self::$data_overload ? call_user_func( self::$data_overload , $params ) : $obj->get_list( $params );
-	}
-
-	public static function get_state_selector( joosModel $obj , $params_key ) {
-		return array ( 0 => 'Не активно' ,
-		               1 => 'Активно' , );
-	}
-
-	static private function camelizeCallback( $match ) {
-		return strtoupper( $match[1] );
-	}
-
-	private static function get_plugin_name( $string ) {
-
-		if ( strpos( $string , '_' ) === FALSE ) {
-			$string = ucfirst( $string );
+		if (isset($params['where'])) {
+			$params['where'] = $header_extra['wheres'] . ' AND ' . $params['where'];
 		} else {
-			$string[0] = strtolower( $string[0] );
-			$string    = ucfirst( $string );
-			$string    = preg_replace_callback( '#_([a-z0-9])#i' , array ( 'self' , 'camelizeCallback' ) , $string );
+			$params['where'] = $header_extra['wheres'];
+		}
+
+		return self::$data_overload ? call_user_func(self::$data_overload, $params) : $obj->get_list($params);
+	}
+
+	public static function get_state_selector(joosModel $obj, $params_key) {
+		return array(0 => 'Не активно',
+			1 => 'Активно',);
+	}
+
+	static private function camelizeCallback($match) {
+		return strtoupper($match[1]);
+	}
+
+	private static function get_plugin_name($string) {
+
+		if (strpos($string, '_') === FALSE) {
+			$string = ucfirst($string);
+		} else {
+			$string[0] = strtolower($string[0]);
+			$string = ucfirst($string);
+			$string = preg_replace_callback('#_([a-z0-9])#i', array('self', 'camelizeCallback'), $string);
 		}
 
 		return $string;
@@ -738,29 +753,29 @@ class joosAutoadmin {
 class adminHTML {
 
 	// шапка компонентов
-	public static function controller_header( $title , $class = 'config' , array $extra = array () ) {
-		$extra = count( $extra ) > 0 ? self::prepare_header_extra( $extra ) : '';
-		$title = $title != false ? sprintf( '<th class="%s">%s</th>' , $class , $title ) : '';
-		return sprintf( '<table class="adminheading"><tbody><tr>%s%s</tr></tbody></table>' , $title , $extra );
+	public static function controller_header($title, $class = 'config', array $extra = array()) {
+		$extra = count($extra) > 0 ? self::prepare_header_extra($extra) : '';
+		$title = $title != false ? sprintf('<th class="%s">%s</th>', $class, $title) : '';
+		return sprintf('<table class="adminheading"><tbody><tr>%s%s</tr></tbody></table>', $title, $extra);
 	}
 
-	private static function prepare_header_extra( array $elemets_array ) {
-		return '<td align="right">' . implode( "\n" , $elemets_array ) . '</td>';
+	private static function prepare_header_extra(array $elemets_array) {
+		return '<td align="right">' . implode("\n", $elemets_array) . '</td>';
 	}
 
 }
 
 class JoiAdminToolbar {
 
-	private static $add_button = array ();
+	private static $add_button = array();
 
 	public static function listing() {
 		ob_start();
 
 		mosMenuBar::startTable();
-		mosMenuBar::addNew( 'create' );
+		mosMenuBar::addNew('create');
 		mosMenuBar::deleteList();
-		echo implode( '' , self::$add_button );
+		echo implode('', self::$add_button);
 		mosMenuBar::endTable();
 
 		$return = ob_get_clean();
@@ -773,10 +788,10 @@ class JoiAdminToolbar {
 
 		mosMenuBar::startTable();
 		mosMenuBar::save();
-		mosMenuBar::custom( 'save_and_new' , '-save-and-new' , '' , __( 'Сохранить и добавить' ) , false );
+		mosMenuBar::custom('save_and_new', '-save-and-new', '', __('Сохранить и добавить'), false);
 		mosMenuBar::apply();
-		echo implode( '' , self::$add_button );
-		joosRequest::int( 'id' , false ) ? mosMenuBar::cancel( 'cancel' , __( 'Закрыть' ) ) : mosMenuBar::cancel();
+		echo implode('', self::$add_button);
+		joosRequest::int('id', false) ? mosMenuBar::cancel('cancel', __('Закрыть')) : mosMenuBar::cancel();
 		mosMenuBar::endTable();
 
 		$return = ob_get_clean();
@@ -784,7 +799,7 @@ class JoiAdminToolbar {
 		return $return;
 	}
 
-	public static function add_button( $button ) {
+	public static function add_button($button) {
 		self::$add_button[] = $button;
 	}
 
@@ -796,100 +811,100 @@ class mosMenuBar {
 		?><div id="toolbar"><ul class="listreset"><?php
 	}
 
-	public static function ext( $alt = _BUTTON , $href = '' , $class = '' , $extra = '' ) {
+	public static function ext($alt = _BUTTON, $href = '', $class = '', $extra = '') {
 		?><li><a class="tb-ext<?php echo $class; ?>"
-		         href="<?php echo $href; ?>" <?php echo $extra; ?>><span><?php echo $alt; ?></span></a></li><?php
+					   href="<?php echo $href; ?>" <?php echo $extra; ?>><span><?php echo $alt; ?></span></a></li><?php
 	}
 
-	public static function custom( $task = '' , $icon = '' , $iconOver = '' , $alt = '' , $listSelect = true ) {
-		if ( $listSelect ) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . __( 'Необходимо выбрать хоть один элемент' ) . "');}else{submitbutton('$task')}";
+	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true) {
+		if ($listSelect) {
+			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . __('Необходимо выбрать хоть один элемент') . "');}else{submitbutton('$task')}";
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
 		?><li><a class="tb-custom<?php echo $icon; ?>"
-		         href="<?php echo $href; ?>"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
-
-	public static function addNew( $task = 'new' , $alt = 'Создать' ) {
-		?><li><a class="tb-add-new"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
-
-	public static function copy( $task = 'copy' , $alt = 'Копировать' ) {
-		?><li><a class="tb-add-new"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
-
-	public static function publish( $task = 'publish' , $alt = 'Показать' ) {
-		?><li><a class="tb-publish"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
-
-	public static function publishList( $task = 'publish' , $alt = 'Показать' ) {
-		?><li><a class="tb-publish-list"
-		         href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __( 'Выберите элементы для публикации' ) ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
-	}
-
-	public static function unpublish( $task = 'unpublish' , $alt = 'Скрыть' ) {
-		?><li><a class="tb-unpublish"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-	}
-
-	public static function unpublishList( $task = 'unpublish' , $alt = 'Скрыть' ) {
-		?><li><a class="tb-unpublish-list"
-		         href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __( 'Выберите элементы для скрытия' ) ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
-	}
-
-	public static function editList( $task = 'edit' , $alt = 'Редактировать' ) {
-		?><li><a class="tb-edit-list"
-		         href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __( 'Выберите элемент для редактирования' ) ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
-
-	public static function deleteList( $msg = '' , $task = 'remove' , $alt = 'Удалить' ) {
-		?><li><a class="tb-delete-list"
-		         href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __( 'Выберите элементы для удаления' ) ?>'); } else if (confirm('<?php echo __( 'Уверены в необходимости удаления объектов?' ) ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
-
-	public static function trash( $task = 'remove' , $alt = 'Переместить в корзину' , $check = true ) {
-		if ( $check ) {
-			$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . __( 'Выберите элементы для перемещения в корзину' ) . "'); } else { submitbutton('$task');}";
-		} else {
-			$js = "javascript:submitbutton('$task');";
+					   href="<?php echo $href; ?>"><span><?php echo __($alt); ?></span></a></li><?php
 		}
-		?><li><a class="tb-trash" href="<?php echo $js; ?>"><span><?php echo __( $alt ) ?></span></a></li><?php
-	}
 
-	public static function apply( $task = 'apply' , $alt = 'Применить' ) {
+		public static function addNew($task = 'new', $alt = 'Создать') {
+		?><li><a class="tb-add-new"
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		}
+
+		public static function copy($task = 'copy', $alt = 'Копировать') {
+		?><li><a class="tb-add-new"
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		}
+
+		public static function publish($task = 'publish', $alt = 'Показать') {
+		?><li><a class="tb-publish"
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		}
+
+		public static function publishList($task = 'publish', $alt = 'Показать') {
+		?><li><a class="tb-publish-list"
+					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для публикации') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
+		}
+
+		public static function unpublish($task = 'unpublish', $alt = 'Скрыть') {
+		?><li><a class="tb-unpublish"
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
+		}
+
+		public static function unpublishList($task = 'unpublish', $alt = 'Скрыть') {
+		?><li><a class="tb-unpublish-list"
+					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для скрытия') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
+		}
+
+		public static function editList($task = 'edit', $alt = 'Редактировать') {
+		?><li><a class="tb-edit-list"
+					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элемент для редактирования') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo __($alt); ?></span></a></li><?php
+		}
+
+		public static function deleteList($msg = '', $task = 'remove', $alt = 'Удалить') {
+		?><li><a class="tb-delete-list"
+					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для удаления') ?>'); } else if (confirm('<?php echo __('Уверены в необходимости удаления объектов?') ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __($alt); ?></span></a></li><?php
+		}
+
+		public static function trash($task = 'remove', $alt = 'Переместить в корзину', $check = true) {
+			if ($check) {
+				$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . __('Выберите элементы для перемещения в корзину') . "'); } else { submitbutton('$task');}";
+			} else {
+				$js = "javascript:submitbutton('$task');";
+			}
+		?><li><a class="tb-trash" href="<?php echo $js; ?>"><span><?php echo __($alt) ?></span></a></li><?php
+		}
+
+		public static function apply($task = 'apply', $alt = 'Применить') {
 		?><li><a class="tb-apply"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __( $alt ); ?></span></a></li><?php
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 	}
 
-	public static function save( $task = 'save' , $alt = 'Сохранить' ) {
+	public static function save($task = 'save', $alt = 'Сохранить') {
 		?><li><a class="tb-save"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		}
 
-	public static function savenew() {
+		public static function savenew() {
 		?><li><a class="tb-save-new"
-		         href="javascript:submitbutton('savenew');"><span><?php echo __( 'Сохранить' ) ?></span></a></li><?php
-	}
+					   href="javascript:submitbutton('savenew');"><span><?php echo __('Сохранить') ?></span></a></li><?php
+		}
 
-	public static function saveedit() {
+		public static function saveedit() {
 		?><li><a class="tb-save-edit"
-		         href="javascript:submitbutton('saveedit');"><span><?php echo __( 'Сохранить' ) ?></span></a></li><?php
-	}
+					   href="javascript:submitbutton('saveedit');"><span><?php echo __('Сохранить') ?></span></a></li><?php
+		}
 
-	public static function cancel( $task = 'cancel' , $alt = 'Закрыть' ) {
+		public static function cancel($task = 'cancel', $alt = 'Закрыть') {
 		?><li><a class="tb-cancel"
-		         href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
+					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		}
 
-	public static function back( $alt = _MENU_BACK , $href = 'javascript:window.history.back();' ) {
-		?><li><a class="tb-back" href="<?php echo $href; ?>"><span><?php echo __( $alt ); ?></span></a></li><?php
-	}
+		public static function back($alt = _MENU_BACK, $href = 'javascript:window.history.back();') {
+		?><li><a class="tb-back" href="<?php echo $href; ?>"><span><?php echo __($alt); ?></span></a></li><?php
+		}
 
-	public static function divider() {
+		public static function divider() {
 		?><li>&nbsp;|&nbsp;</li><?php
 	}
 
@@ -900,9 +915,9 @@ class mosMenuBar {
 }
 
 class joosAutoadminFilePluginNotFoundException extends joosException {
-
+	
 }
 
 class joosAutoadminClassPlugionNotFoundException extends joosException {
-
+	
 }
