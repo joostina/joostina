@@ -11,11 +11,18 @@ class joosUpload {
 	 * 		string new_extension - переименовать расширение файла
 	 * 
 	 */
-	public static function easy_upload($element_name, $upload_location, array $params = array()) {
+	public static function easy_upload($element_name, $upload_location, array $params = array(),$only_check = false) {
 
 		$file_name = joosFilter::filename($_FILES[$element_name]['name']);
 
-		$success  = move_uploaded_file($_FILES[$element_name]['tmp_name'], $upload_location . DS . $file_name);
+		if (!$only_check) {
+                    
+                    $success  = move_uploaded_file($_FILES[$element_name]['tmp_name'], $upload_location . DS . $file_name);
+                }
+                else {
+                    
+                    $success = true;
+                }
 
 		$file_live_location = str_replace( JPATH_BASE , '', $upload_location);
 		$file_live_location = str_replace("\\", DS, $file_live_location);
@@ -84,7 +91,7 @@ class qqFileUploader {
 		}
 	}
 
-	private function toBytes($str) {
+	public static function toBytes($str) {
 		$val = trim($str);
 		$last = strtolower($str[strlen($str) - 1]);
 		switch ($last) {
@@ -98,7 +105,7 @@ class qqFileUploader {
 	/**
 	 * Returns array('success'=>true) or array('error'=>'error message')
 	 */
-	function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $new_file_name = false) {
+	function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $new_file_name = false, $only_check = false) {
 		if (!is_writable($uploadDirectory)) {
 			return array('error' => "Server error. Upload directory isn't writable.");
 		}
@@ -126,6 +133,9 @@ class qqFileUploader {
 			return array('error' => 'File has an invalid extension, it should be one of ' . $these . '.');
 		}
 
+                //если только проверка входных данных - уходим отсюда
+                if ($only_check) return array('success' => true);
+                
 		if (!$replaceOldFile) {
 			/// don't overwrite previous files that were uploaded
 			while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
