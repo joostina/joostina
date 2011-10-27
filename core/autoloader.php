@@ -61,8 +61,6 @@ class joosAutoloader {
 		'joosVersion' => 'core/libraries/version.php',
 		// системные модели
 		//'User' => 'app/components/users/models/model.users.php',
-		'Categories' => 'app/components/categories/models/model.categories.php',
-		'CategoriesDetails' => 'app/components/categories/models/model.categories.php',
 		// Это старьё, надо переписать либо удалить
 		'htmlTabs' => 'core/libraries/html.php',
 		'forms' => 'app/vendors/forms/forms.php',
@@ -73,6 +71,10 @@ class joosAutoloader {
 	private static $_debug = true;
 
 	public static function init() {
+		$app_autoload_files = require_once JPATH_BASE . '/app/autoload.php';
+
+		self::$_static_files = array_merge($app_autoload_files, self::$_static_files);
+
 		spl_autoload_register(array(new self, 'autoload'));
 	}
 
@@ -82,7 +84,6 @@ class joosAutoloader {
 
 	public static function autoload($class) {
 
-		//$file = $class . '.php';
 		// первый шаг - ищем класс в жестко прописанных параметрах
 		if (isset(self::$_static_files[$class])) {
 			$file = JPATH_BASE . DS . self::$_static_files[$class];
@@ -101,19 +102,13 @@ class joosAutoloader {
 			joosRequest::send_headers_by_code(404);
 			throw new AutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
+		
 		!self::$_debug ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
 
 		unset($file);
 	}
 
 	private static function get_class_dinamic_path($class) {
-
-		// если в названии класса есть _ - то это подласс в общем файле класса модели
-		if (strpos($class, '_') > 0) {
-			$class_names = explode('_', $class);
-			$class = $class_names[0];
-		}
-
 
 		//$file = '';
 		// модели панели управления

@@ -14,7 +14,7 @@ DEFINEd( '_JOOS_CORE' ) or die();
 DEFINE( 'JLANG' , 'russian' );
 
 // регистрация автолоадера
-spl_autoload_register( array ( new joosAutoloader , 'autoload' ) );
+joosAutoloader::init();
 
 // сначала инициализация базовой конфигурации
 joosConfig::init();
