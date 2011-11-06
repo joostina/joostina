@@ -46,6 +46,11 @@ class joosDebug {
 
 	}
 
+	public static function log( $str, array $params = array() ){
+		self::$_log[] = strtr($str, $params);
+	}
+
+
 	public static function add( $text , $top = 0 ) {
 		$top ? array_unshift( self::$_log , $text ) : self::$_log[] = $text;
 	}
@@ -129,7 +134,7 @@ class joosDebug {
 	 */
 	public static function dump() {
 
-		joosRequest::send_headers_by_code( 307 );
+		joosRequest::send_headers_by_code( 500 );
 
 		// обозначение места вызова функции отладки
 		$trace        = debug_backtrace();

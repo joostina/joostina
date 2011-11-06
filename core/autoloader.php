@@ -61,6 +61,8 @@ class joosAutoloader {
 		'joosVersion' => 'core/libraries/version.php',
 		// системные модели
 		//'User' => 'app/components/users/models/model.users.php',
+		//'Categories' => 'app/components/categories/models/model.categories.php',
+		//'CategoriesDetails' => 'app/components/categories/models/model.categories.php',
 		// Это старьё, надо переписать либо удалить
 		'htmlTabs' => 'core/libraries/html.php',
 		'forms' => 'app/vendors/forms/forms.php',

@@ -59,6 +59,18 @@ class joosAutoadmin {
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
+		$events_name = sprintf('controller.*');
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, $task) : null;
+
+
+		$events_name = sprintf('controller.%s.*', $class);
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $task) : null;
+
+
+		$events_name = sprintf('controller.%s.%s', $class, $task);
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
+
+
 		if (method_exists($class, $task)) {
 			$results = call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
 			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
@@ -108,6 +120,17 @@ class joosAutoadmin {
 
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array()) : null;
+
+		$events_name = sprintf('ajax.controller.*');
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, $task) : null;
+
+
+		$events_name = sprintf('ajax.controller.%s.*', $class);
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $task) : null;
+
+
+		$events_name = sprintf('ajax.controller.%s.%s', $class, $task);
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
 		if (method_exists($class, $task)) {
 			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));

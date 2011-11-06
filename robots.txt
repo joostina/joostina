@@ -1,5 +1,6 @@
 User-agent: *
-Disallow: /admin/
+Disallow: /
+min/
 Disallow: /app/
 Disallow: /cache/
 Disallow: /core/
