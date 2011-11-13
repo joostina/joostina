@@ -1,13 +1,13 @@
 <?php
 
-return array('live_site' => 'http://www.joostinagit.local',
+return array('live_site' => 'http://www.joostina.local',
 	'404_page' => false,
 	'template' => 'joostina',
 	'template_admin' => 'joostin',
 	'admin_icons_path' => '../media/images/admin/',
 	'db' => array(//'host' => 'p:localhost', - для постоянного соединения
 		'host' => 'localhost',
-		'name' => 'joostinagit',
+		'name' => 'joostina',
 		'prefix' => 'jos_',
 		'user' => 'root',
 		'password' => '',

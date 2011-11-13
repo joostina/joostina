@@ -33,7 +33,7 @@ class joosMail {
 	public static function simply( $to , $title , $message ) {
 
 		$headers = "MIME-Version: 1.0\n";
-		$headers .= "Content-type: text/html; charset=utf-8\n";
+		$headers .= "modelContent-type: text/html; charset=utf-8\n";
 		$headers .= "X-Priority: 3\n";
 		$headers .= "X-MSMail-Priority: Normal\n";
 		$headers .= "X-Mailer: JoostinaCoreMail\n";

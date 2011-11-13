@@ -4,19 +4,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Sitemap - Модель карты сайта
+ * midelSitemap - Модель карты сайта
  * Модель для работы сайта
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Sitemap
+ * @subpackage midelSitemap
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class Sitemap {
+class midelSitemap {
 
 	/**
 	 * @var $spaces array
@@ -52,7 +52,7 @@ class Sitemap {
 		'max_elemets_in_map' => 50000 , );
 
 	/**
-	 * Sitemap::__construct()
+	 * midelSitemap::__construct()
 	 */
 	public function __construct() {
 
@@ -108,7 +108,7 @@ class Sitemap {
 	}
 
 	/**
-	 * Sitemap::add_mapblock()
+	 * midelSitemap::add_mapblock()
 	 * Добавление блока в карту сайта
 	 *
 	 * @param $block  array  Массив, описывающий текущий mapblock
@@ -167,9 +167,9 @@ class Sitemap {
 	}
 
 	/**
-	 * Sitemap::xml_output()
+	 * midelSitemap::xml_output()
 	 *
-	 * Генерация XML-файла карты сайта в формате протокола Sitemap
+	 * Генерация XML-файла карты сайта в формате протокола midelSitemap
 	 *
 	 * <?xml version="1.0" encoding="UTF-8"?>
 	 * <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

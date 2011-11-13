@@ -100,7 +100,7 @@ class __Files {
 	 * If the folder does not exist creates it (recursively)
 	 *
 	 * @param string $path          Path to folder/file to be created
-	 * @param mixed  $content       Content to be written to the file
+	 * @param mixed  $content       modelContent to be written to the file
 	 * @param string $writeFileMode Mode to write the file
 	 *
 	 * @return bool Returns true if file/folder created

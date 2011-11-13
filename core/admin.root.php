@@ -105,7 +105,7 @@ class joosCoreAdmin extends joosCore {
 			joosRoute::redirect( JPATH_SITE . '/' . JADMIN_BASE . '/' );
 		}
 
-		$my            = new Users();
+		$my            = new modelUsers();
 		$my->id        = joosRequest::int( 'session_user_id' , 0 , $_SESSION );
 		$my->username  = joosRequest::session( 'session_username' );
 		$my->groupname = joosRequest::session( 'session_groupname' );

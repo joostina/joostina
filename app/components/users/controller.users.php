@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Users - Компонент управления пользователями
+ * modelUsers - Компонент управления пользователями
  * Контроллер сайта
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Users
+ * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -27,7 +27,7 @@ class actionsUsers extends joosController {
 
 		$page        = isset( self::$param['page'] ) ? self::$param['page'] : 0;
 
-		$users       = new Users;
+		$users       = new modelUsers;
 		$users_count = $users->count( 'WHERE state=1' );
 
 		joosDocument::instance()->set_page_title( 'Список пользователей' )->add_meta_tag( 'description' , 'Список пользователей сайта' );
@@ -42,10 +42,10 @@ class actionsUsers extends joosController {
 
 		$username = self::$param['username'];
 
-		$user     = new Users;
+		$user     = new modelUsers;
 		$user->load_by_field( 'username' , $username );
 
-		$user->id ? null : joosRoute::redirect( JPATH_SITE , 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (' );
+		$user->id ? null : joosRoute::redirect( JPATH_SITE , 'Пользователь не найден' );
 
 		joosDocument::instance()->set_page_title( $user->username );
 
@@ -59,7 +59,7 @@ class actionsUsers extends joosController {
 
 		$username = self::$param['username'];
 
-		$user     = new Users;
+		$user     = new modelUsers;
 		$user->load_by_field( 'username' , $username );
 
 		if ( joosCore::user()->id != $user->id ) {
@@ -70,45 +70,33 @@ class actionsUsers extends joosController {
 
 		if ( $_POST ) {
 
-			$user = new Users;
+			$user = new modelUsers;
 			$user->load( $_POST['id'] );
-			$user->id ? null : joosRoute::redirect( JPATH_SITE , 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (' );
+			$user->id ? null : joosRoute::redirect( JPATH_SITE , 'Пользователь не найден' );
 
 			//смена пароля
 			$old_password = joosRequest::post( 'password_old' );
 			$new_password = joosRequest::post( 'password_new' );
 
 			if ( $old_password && $new_password ) {
-				if ( Users::check_password( $old_password , $user->password ) ) {
-					$_POST['password'] = Users::prepare_password( $new_password );
+				if ( modelUsers::check_password( $old_password , $user->password ) ) {
+					$_POST['password'] = modelUsers::prepare_password( $new_password );
 				} else {
 					joosRoute::redirect( joosRoute::href( 'user_view' , array ( 'id'       => $user->id ,
-					                                                            'username' => $user->username ) ) , 'Неправильно введён пароль от аккаунта' );
+					                                                            'username' => $user->username ) ) , 'Неправильно введён пароль' );
 				}
 			}
 
 			$user->save( $_POST );
 
-			$user_extra          = new UsersExtra;
-			$user_extra->user_id = $user->id;
-
-			$_POST['contacts']   = json_encode( joosRequest::post( 'contacts' ) );
-			$_POST['about']      = json_encode( joosRequest::post( 'about' ) );
-			$_POST['interests']  = json_encode( joosRequest::post( 'interests' ) );
-
-			$user_extra->save( $_POST );
-
 			joosRoute::redirect( joosRoute::href( 'user_view' , array ( 'id'       => $user->id ,
 			                                                            'username' => $user->username ) ) , 'Данные успешно сохранены' );
 
 			return array ( 'user'      => $user ,
-			               'user_e'    => $user_extra ,
-			               'validator' => $validator );
+			               'validator' => $validator
+			);
 		} else {
-			$user->id ? null : joosRoute::redirect( JPATH_SITE , 'Такого пользователя у нас совсем нет. Ну, то есть, вообще (' );
-
-			$user_extra = new UsersExtra;
-			$user_extra->load( $user->id );
+			$user->id ? null : joosRoute::redirect( JPATH_SITE , 'Пользователь не найден' );
 
 			joosDocument::instance()->set_page_title( $username );
 
@@ -117,8 +105,8 @@ class actionsUsers extends joosController {
 			joosHtml::make_safe( $user );
 
 			return array ( 'user'      => $user ,
-			               'user_e'    => $user_extra ,
-			               'validator' => $validator );
+			               'validator' => $validator
+			);
 		}
 	}
 
@@ -126,22 +114,23 @@ class actionsUsers extends joosController {
 	 * Авторизация пользователя
 	 */
 	public static function login() {
-		//joosSpoof::check_code(null, 1);
+
+		joosCSRF::check_code(null, 1);
 
 		$username = joosRequest::post( 'username' );
 		$password = joosRequest::post( 'password' );
 
-		Users::login( $username , $password );
+		modelUsers::login( $username , $password );
 	}
 
 	/**
-	 * Разлогинивани епользователя
+	 * Разлогинивание епользователя
 	 */
 	public static function logout() {
 
 		joosCSRF::check_code( 1 );
 
-		Users::logout();
+		modelUsers::logout();
 
 		$return = joosRequest::param( 'return' );
 		if ( $return && !( strpos( $return , 'registration' ) || strpos( $return , 'login' ) ) ) {
@@ -164,8 +153,9 @@ class actionsUsers extends joosController {
 		if ( $_POST ) {
 			self::save_register( $validator );
 		} else {
-			return array ( 'user'      => new Users ,
-			               'validator' => $validator );
+			return array ( 'user'      => new modelUsers ,
+			               'validator' => $validator
+			);
 		}
 	}
 
@@ -175,7 +165,7 @@ class actionsUsers extends joosController {
 		parse_str( $param[1] , $datas );
 
 		if ( isset( $datas['username'] ) && joosString::trim( $datas['username'] ) != '' ) {
-			$user           = new Users;
+			$user           = new modelUsers;
 			$user->username = $datas['username'];
 			$ret            = $user->find() ? 0 : 1;
 
@@ -187,7 +177,7 @@ class actionsUsers extends joosController {
 		}
 
 		if ( isset( $datas['email'] ) && joosString::trim( $datas['email'] ) != '' ) {
-			$user        = new Users;
+			$user        = new modelUsers;
 			$user->email = $datas['email'];
 			echo $user->find() ? 'false' : 'true';
 			exit();
@@ -196,11 +186,11 @@ class actionsUsers extends joosController {
 
 	private static function save_register( $validator ) {
 
-		$user = new Users;
+		$user = new modelUsers;
 		$user->bind( $_POST );
 
 		if ( $user->check( $validator ) && $user->save( $_POST ) ) {
-			Users::login( $user->username , $_POST['password'] );
+			modelUsers::login( $user->username , $_POST['password'] );
 		} else {
 			joosRoute::redirect( JPATH_SITE );
 			//userHtml::register($user, $validator);

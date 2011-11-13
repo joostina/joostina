@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Users - Компонент управления пользователями
+ * modelUsers - Компонент управления пользователями
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Users
+ * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -18,8 +18,8 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class actionsAdminUsers {
 
-	private static $headers_data = array ( 'adminUsers'        => array ( 'Пользователи' , array ( 'id' , 'username' , 'gid' , 'lastvisitDate' , 'state' ) ) ,
-	                                       'adminUsers_Groups' => array ( 'Группы пользователей' , array ( 'group_title' , 'title' , 'parent_id' ) ) );
+	private static $headers_data = array ( 'modelAdminUsers'        => array ( 'Пользователи' , array ( 'id' , 'username' , 'gid' , 'lastvisitDate' , 'state' ) ) ,
+	                                       'modelAdminUsersGroups' => array ( 'Группы пользователей' , array ( 'group_title' , 'title' , 'parent_id' ) ) );
 	/**
 	 * Подменю
 	 */
@@ -27,14 +27,14 @@ class actionsAdminUsers {
 	                                                          'href'   => 'index2.php?option=users' ,
 	                                                          'active' => false ) ,
 	                                 'usersgroups' => array ( 'name'   => 'Группы пользователей' ,
-	                                                          'href'   => 'index2.php?option=users&model=adminUsers_Groups' ,
+	                                                          'href'   => 'index2.php?option=users&model=modelAdminUsersGroups' ,
 	                                                          'active' => false ) );
 	/**
 	 * Название обрабатываемой модели
 	 *
 	 * @var joosModel модель
 	 */
-	public static $model = 'adminUsers';
+	public static $model = 'modelAdminUsers';
 
 	public static function index( $option ) {
 		$current_model                = joosRequest::request( 'model' , self::$model );

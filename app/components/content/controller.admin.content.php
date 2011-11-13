@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Content   - Компонент управления контентом
+ * modelContent   - Компонент управления контентом
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Content
+ * @subpackage modelContent
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -68,7 +68,7 @@ class actionsAdminContent {
 		//Если сработал фильтр по категориям
 		$catid = joosRequest::request( 'category_id' , 0 );
 		if ( $catid > 0 ) {
-			$category = new Categories( 'content' );
+			$category = new modelCategories( 'content' );
 			$category->load( $catid );
 			$ids   = implode( ', ' , array_keys( $category->get_branch( $category->lft , $category->rgt , $catid , true ) ) );
 

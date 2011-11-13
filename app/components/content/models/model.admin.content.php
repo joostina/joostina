@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminContent extends Content {
+class adminContent extends modelContent {
 
 	public function get_fieldinfo() {
 		return array ( 'id'                        => array ( 'name'                     => 'id' ,
@@ -93,7 +93,7 @@ class adminContent extends Content {
 		               'extra_fields'              => array ( 'name'                    => 'Дополнительные данные' ,
 		                                                      'editable'                => true ,
 		                                                      'html_edit_element'       => 'extra_fields' ,
-		                                                      'html_edit_element_param' => array ( 'call_from'   => 'Content::get_extrafields' ,
+		                                                      'html_edit_element_param' => array ( 'call_from'   => 'modelContent::get_extrafields' ,
 		                                                                                           'call_params' => array ( 'group'    => 'content' ,
 		                                                                                                                    'subgroup' => 'category' ) ) , ) ,
 		               'content_pictures_uploader' => array ( 'name'                    => 'Изображение' ,
@@ -226,12 +226,12 @@ class adminContent extends Content {
 
 	public static function get_cats_selector( $item ) {
 
-		$cats = new Categories( 'content' );
+		$cats = new modelCategories( 'content' );
 		return $cats->get_cats_selector_for_items( $item );
 	}
 
 	public static function get_categories_filter( $item ) {
-		$cats  = new Categories( 'content' );
+		$cats  = new modelCategories( 'content' );
 
 		$types = array ();
 		foreach ( $cats->get_full_tree_simple() as $catid => $cat ) {
@@ -314,10 +314,10 @@ class adminContent extends Content {
 		$id = 'contentimage_' . $i;
 		if ( $image_id ) {
 			$item->image_path = $image_path;
-			$return .= Content::get_image( $item , 'thumb' , array ( 'width' => '150' ,
+			$return .= modelContent::get_image( $item , 'thumb' , array ( 'width' => '150' ,
 			                                                         'id'    => $id ) );
 		} else {
-			$return .= Content::get_image_default( array ( 'width' => '150' ,
+			$return .= modelContent::get_image_default( array ( 'width' => '150' ,
 			                                               'id'    => $id ) );
 		}
 

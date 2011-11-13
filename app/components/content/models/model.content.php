@@ -4,19 +4,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Content - Модель контента
+ * modelContent - Модель контента
  * Модель для работы сайта
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Content
+ * @subpackage modelContent
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class Content extends joosModel {
+class modelContent extends joosModel {
 
 	/**
 	 * @var int(11)
@@ -112,7 +112,7 @@ class Content extends joosModel {
 		//$category_id = $item->id ? $item->category_id : $parent_cat;
 		$category_id = 3;
 
-		$fields      = Categories::get_extrafields_by_category( $category_id , 'content' );
+		$fields      = self::get_extrafields_by_category( $category_id , 'content' );
 
 		if ( !$fields ) {
 			return false;

@@ -22,7 +22,7 @@ defined( '_JOOS_CORE' ) or die(); ?>
 	<?php $item->image_path = $item->image;?>
 	<!--<a id="model_color" rel="colors_img" class="__lightbox" href="<?php echo JPATH_SITE_IMAGES . '/' . $item->image . '/big.jpg' ?>">
 				</a>-->
-	<?php echo Content::get_image( $item , 'medium' ) ?>
+	<?php echo modelContent::get_image( $item , 'medium' ) ?>
 
 	<?php if ( $ef ): ?>
 	<?php foreach ( $ef['rules'] as $f_id => $f ): ?>
@@ -43,7 +43,7 @@ defined( '_JOOS_CORE' ) or die(); ?>
 		$active                    = $_item->id == $item->id ? 'class="active"' : '';
 		?>
 		<div class="min_block">
-			<?php echo Content::get_image( $_item , 'thumb' , array ( 'width' => 102 ) ) ?>
+			<?php echo modelContent::get_image( $_item , 'thumb' , array ( 'width' => 102 ) ) ?>
 			<div class="min_bg">
 
 				<a href="<?php echo joosRoute::href( 'content_view' , array ( 'slug' => $_item->slug ) )?>" <?php echo $active?>>

@@ -3,19 +3,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Categories - Модель категорий
+ * modelCategories - Модель категорий
  * Модель панели управления
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Categories
+ * @subpackage modelCategories
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class Categories extends joosNestedSet {
+class modelCategories extends joosNestedSet {
 
 	/**
 	 * @var mediumint(8) unsigned
@@ -84,7 +84,7 @@ class Categories extends joosNestedSet {
 		                                                  'editable'                => true ,
 		                                                  'in_admintable'           => false ,
 		                                                  'html_edit_element'       => 'extra' ,
-		                                                  'html_edit_element_param' => array ( 'call_from' => 'Categories::get_cats_selector' , ) ) ,
+		                                                  'html_edit_element_param' => array ( 'call_from' => 'modelCategories::get_cats_selector' , ) ) ,
 		               'name'                  => array ( 'name'                     => 'Название' ,
 		                                                  'editable'                 => true ,
 		                                                  'in_admintable'            => true ,
@@ -320,7 +320,7 @@ class Categories extends joosNestedSet {
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Categories
+ * @subpackage modelCategories
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -381,7 +381,7 @@ class CategoriesDetails extends joosModel {
 
 	public function before_insert() {
 		$this->created_at = _CURRENT_SERVER_TIME;
-		$this->user_id    = Users::current()->id;
+		$this->user_id    = modelUsers::current()->id;
 		return true;
 	}
 

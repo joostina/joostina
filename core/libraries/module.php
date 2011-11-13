@@ -11,7 +11,7 @@ defined( '_JOOS_CORE' ) or die();
  * @package    Joostina.Libraries
  * @subpackage Libraries
  * @category   Libraries
- * @category   Modules
+ * @category   modelModules
  * @category   joosModule
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
@@ -19,7 +19,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosModule extends Modules {
+class joosModule extends modelModules {
 
 	private static $data = array ();
 	private static $_object_data = array ();
@@ -42,7 +42,7 @@ class joosModule extends Modules {
 	 */
 	public static function modules_by_page( $controller , $method , $object_data = array () ) {
 
-		$modules_pages = new ModulesPages;
+		$modules_pages = new modelModulesPages;
 		$modules       = $modules_pages->get_list( array ( 'select' => "mp.*,m.*" ,
 		                                                   'join'   => 'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )' ,
 		                                                   'where'  => sprintf( "mp.controller = 'all' OR mp.controller ='%s'" , $controller ) ,

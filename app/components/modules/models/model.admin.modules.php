@@ -8,14 +8,14 @@ defined( '_JOOS_CORE' ) or die();
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Modules
+ * @subpackage modelModules
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminModules extends Modules {
+class adminModules extends modelModules {
 
 	public function get_fieldinfo() {
 		return array ( 'id'             => array ( 'name'               => 'id' ,
@@ -28,7 +28,7 @@ class adminModules extends Modules {
 		                                           'html_table_element'       => 'value' ,
 		                                           'html_table_element_param' => array ( 'width' => '150px' , ) ,
 		                                           'html_edit_element'        => 'extra' ,
-		                                           'html_edit_element_param'  => array ( 'call_from' => 'Modules::get_module_filename' , ) , ) ,
+		                                           'html_edit_element_param'  => array ( 'call_from' => 'modelModules::get_module_filename' , ) , ) ,
 		               'client_id'      => array ( 'name'                     => 'Тип' ,
 		                                           'editable'                 => true ,
 		                                           'in_admintable'            => true ,
@@ -79,14 +79,14 @@ class adminModules extends Modules {
 		                                           'html_table_element'       => 'value' ,
 		                                           'html_table_element_param' => array () ,
 		                                           'html_edit_element'        => 'extra' ,
-		                                           'html_edit_element_param'  => array ( 'call_from' => 'Modules::get_modules_positions' , ) , ) ,
+		                                           'html_edit_element_param'  => array ( 'call_from' => 'modelModules::get_modules_positions' , ) , ) ,
 		               'params'         => array ( 'name'                     => 'Параметры' ,
 		                                           'editable'                 => true ,
 		                                           'in_admintable'            => true ,
 		                                           'html_table_element'       => 'value' ,
 		                                           'html_table_element_param' => array () ,
 		                                           'html_edit_element'        => 'json' ,
-		                                           'html_edit_element_param'  => array ( 'call_from' => 'Modules::parce_params' ) , ) ,
+		                                           'html_edit_element_param'  => array ( 'call_from' => 'modelModules::parce_params' ) , ) ,
 		               'content'        => array ( 'name'                     => 'Содержимое (HTML)' ,
 		                                           'editable'                 => true ,
 		                                           'in_admintable'            => true ,
@@ -100,11 +100,11 @@ class adminModules extends Modules {
 		                                           'html_table_element'       => 'value' ,
 		                                           'html_table_element_param' => array () ,
 		                                           'html_edit_element'        => 'extra' ,
-		                                           'html_edit_element_param'  => array ( 'call_from' => 'Modules::get_modules_pages' , ) , ) ,
+		                                           'html_edit_element_param'  => array ( 'call_from' => 'modelModules::get_modules_pages' , ) , ) ,
 		               '%access'        => array ( 'name'                    => 'Права доступа' ,
 		                                           'editable'                => true ,
 		                                           'html_edit_element'       => 'access' ,
-		                                           'html_edit_element_param' => array ( 'call_from' => 'Modules::get_access_init' ) , ) , );
+		                                           'html_edit_element_param' => array ( 'call_from' => 'modelModules::get_access_init' ) , ) , );
 	}
 
 	public function get_tableinfo() {
@@ -155,7 +155,7 @@ class adminModules extends Modules {
 
 	public static function get_modules_pages( $item ) {
 
-		$pages      = new ModulesPages;
+		$pages      = new modelModulesPages;
 
 		$pages_list = null;
 		if ( $item->id ) {

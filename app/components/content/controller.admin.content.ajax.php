@@ -35,7 +35,7 @@ class actionsAjaxAdminContent {
 		$img = dirname( $file['basename'] );
 
 		//Настройки ресайза изображений
-		$params_from_cat = json_decode( Categories::get_params_by_category( joosRequest::request( 'category_id' , 0 ) , 'content' ) , true );
+		$params_from_cat = json_decode( modelCategories::get_params_by_category( joosRequest::request( 'category_id' , 0 ) , 'content' ) , true );
 
 		$thumbs_params   = array ();
 
@@ -66,7 +66,7 @@ class actionsAjaxAdminContent {
 		//$cat_id = joosRequest::request('category_id', 0);
 		$counter = joosRequest::request( 'counter' , 0 );
 
-		$item    = new Content();
+		$item    = new modelContent();
 		$item->load( $id );
 
 		$content = adminContent::get_uploader( $item , array () , $counter );
@@ -80,7 +80,7 @@ class actionsAjaxAdminContent {
 
 	public static function slug_generator() {
 
-		$cats = new Categories();
+		$cats = new modelCategories();
 
 		//$id = joosRequest::request('id', 0);
 		$title = joosRequest::request( 'title' , '' );

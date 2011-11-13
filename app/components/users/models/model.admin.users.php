@@ -4,19 +4,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * adminUsers - Модель компонента управления пользователями
+ * modelAdminUsers - Модель компонента управления пользователями
  * Модель панели управления
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Users
+ * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminUsers extends Users {
+class modelAdminUsers extends modelUsers {
 
 	public function get_fieldinfo() {
 		return array ( 'id'            => array ( 'name'                     => 'ID' ,
@@ -66,16 +66,16 @@ class adminUsers extends Users {
 		                                          'editable'                => true ,
 		                                          'in_admintable'           => true ,
 		                                          'html_edit_element'       => 'extra' ,
-		                                          'html_edit_element_param' => array ( 'call_from' => 'adminUsers::get_password_field' ) ,
+		                                          'html_edit_element_param' => array ( 'call_from' => 'modelAdminUsers::get_password_field' ) ,
 		                                          'html_table_element'      => 'value' , ) ,
 		               'gid'           => array ( 'name'                     => 'Группа' ,
 		                                          'editable'                 => true ,
 		                                          'sortable'                 => true ,
 		                                          'in_admintable'            => true ,
 		                                          'html_edit_element'        => 'option' ,
-		                                          'html_edit_element_param'  => array ( 'call_from' => 'Users::get_usergroup_title' ) ,
+		                                          'html_edit_element_param'  => array ( 'call_from' => 'modelUsers::get_usergroup_title' ) ,
 		                                          'html_table_element'       => 'one_from_array' ,
-		                                          'html_table_element_param' => array ( 'call_from' => 'Users::get_usergroup_title' ) , ) ,
+		                                          'html_table_element_param' => array ( 'call_from' => 'modelUsers::get_usergroup_title' ) , ) ,
 		               'registerDate'  => array ( 'name'               => 'Дата регистрации' ,
 		                                          'editable'           => true ,
 		                                          'in_admintable'      => true ,
@@ -105,7 +105,7 @@ class adminUsers extends Users {
 	public function get_extrainfo() {
 		return array ( 'search' => array ( 'username' , 'realname' , 'email' ) ,
 		               'filter' => array ( 'gid' => array ( 'name'      => 'Группа' ,
-		                                                    'call_from' => 'Users::get_usergroup_title' ) ) );
+		                                                    'call_from' => 'modelUsers::get_usergroup_title' ) ) );
 	}
 
 	public static function get_password_field( $user ) {
@@ -119,12 +119,12 @@ class adminUsers extends Users {
 }
 
 /**
- * Class UsersGroups
- * @package       UsersGroups
+ * Class modelUsersGroups
+ * @package       modelUsersGroups
  * @subpackage    Joostina CMS
  * @created       2010-10-20 16:48:08
  */
-class adminUsers_Groups extends UsersGroups {
+class modelAdminUsersGroups extends modelUsersGroups {
 
 	public function check() {
 		$this->filter();
@@ -144,9 +144,9 @@ class adminUsers_Groups extends UsersGroups {
 		                                        'editable'                 => true ,
 		                                        'in_admintable'            => false ,
 		                                        'html_table_element'       => 'one_from_array' ,
-		                                        'html_table_element_param' => array ( 'call_from' => 'adminUsers_Groups::get_parent_usergroup' ) ,
+		                                        'html_table_element_param' => array ( 'call_from' => 'modelAdminUsersGroups::get_parent_usergroup' ) ,
 		                                        'html_edit_element'        => 'extra' ,
-		                                        'html_edit_element_param'  => array ( 'call_from' => 'adminUsers_Groups::get_parent_usergroup_selector' ) , ) ,
+		                                        'html_edit_element_param'  => array ( 'call_from' => 'modelAdminUsersGroups::get_parent_usergroup_selector' ) , ) ,
 		               'title'       => array ( 'name'                     => 'Заголовок группы' ,
 		                                        'editable'                 => true ,
 		                                        'in_admintable'            => true ,
@@ -170,7 +170,7 @@ class adminUsers_Groups extends UsersGroups {
 	}
 
 	public static function get_parent_usergroup_selector( $obj ) {
-		$groups         = new UsersGroups();
+		$groups         = new modelUsersGroups();
 		$group_selector = $groups->get_selector( array ( 'key'   => 'id' ,
 		                                                 'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ) );
 		unset( $group_selector[$obj->id] );
@@ -180,7 +180,7 @@ class adminUsers_Groups extends UsersGroups {
 	}
 
 	public static function get_parent_usergroup() {
-		$groups = new UsersGroups();
+		$groups = new modelUsersGroups();
 		return $groups->get_selector( array ( 'key'   => 'id' ,
 		                                      'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ) );
 	}

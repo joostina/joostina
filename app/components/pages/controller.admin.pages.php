@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Pages - Компонент управления независимыми страницами
+ * modelPages - Компонент управления независимыми страницами
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Pages
+ * @subpackage modelPages
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -23,7 +23,7 @@ class actionsAdminPages {
 	 *
 	 * @var joosModel модель
 	 */
-	public static $model = 'adminPages';
+	public static $model = 'modelAdminPages';
 	/**
 	 * Подменю
 	 */

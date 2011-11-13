@@ -1254,7 +1254,7 @@ function elDialogForm(o) {
         this.$doc = $(this.doc);
 
         /* put content into iframe */
-        html = '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+        html = '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="modelContent-Type" content="text/html; charset=UTF-8" />';
         $.each(self.options.cssfiles, function() {
             html += '<link rel="stylesheet" type="text/css" href="' + this + '" />';
         });
@@ -5620,7 +5620,7 @@ function elDialogForm(o) {
             d.append(fs, 'main');
             var frame = document.createElement('iframe');
             $(frame).attr('src', '#').addClass('el-rte-preview').appendTo(fs);
-            html = this.rte.options.doctype + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body style="padding:0;margin:0;font-size:9px"> Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin</body></html>';
+            html = this.rte.options.doctype + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="modelContent-Type" content="text/html; charset=UTF-8" /></head><body style="padding:0;margin:0;font-size:9px"> Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin</body></html>';
             frame.contentWindow.document.open();
             frame.contentWindow.document.write(html);
             frame.contentWindow.document.close();
@@ -6466,7 +6466,7 @@ function elDialogForm(o) {
             var frame = document.createElement('iframe');
             $(frame).attr('src', '#').addClass('el-rte-preview').appendTo(fs);
 
-            html = this.rte.options.doctype + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body style="padding:0;margin:0;font-size:9px"> </body></html>';
+            html = this.rte.options.doctype + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="modelContent-Type" content="text/html; charset=UTF-8" /></head><body style="padding:0;margin:0;font-size:9px"> </body></html>';
             frame.contentWindow.document.open();
             frame.contentWindow.document.write(html);
             frame.contentWindow.document.close();
@@ -7415,7 +7415,7 @@ function elDialogForm(o) {
             d.append(this.iframe).open();
             this.doc = this.iframe.get(0).contentWindow.document;
             html = this.rte.options.doctype
-                + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+                + '<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="modelContent-Type" content="text/html; charset=UTF-8" />';
             html += '</head><body> <br /> </body></html>';
 
             this.doc.open();

@@ -1,11 +1,11 @@
 <?php
 /**
- * Content - компонент управления контентом
+ * modelContent - компонент управления контентом
  * View::дерево категорий
  *
  * @version    1.0
  * @package    ComponentsAdmin
- * @subpackage Content
+ * @subpackage modelContent
  * @author     JoostinaTeam
  * @copyright  (C) 2008-2010 Joostina Team
  * @license    see license.txt

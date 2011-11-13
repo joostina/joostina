@@ -4,19 +4,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * adminQuickicons - Модель компонента управления кнопками быстрого доступа панели управления
+ * modelAdminQuickicons - Модель компонента управления кнопками быстрого доступа панели управления
  * Модель панели управления
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Quickicons
+ * @subpackage modelQuickicons
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminQuickicons extends Quickicons {
+class modelAdminQuickicons extends modelQuickicons {
 
 	public function check() {
 		$this->filter();
@@ -54,7 +54,7 @@ class adminQuickicons extends Quickicons {
 		                                                 'html_table_element'       => 'value' ,
 		                                                 'html_table_element_param' => array () ,
 		                                                 'html_edit_element'        => 'extra' ,
-		                                                 'html_edit_element_param'  => array ( 'call_from' => 'adminQuickicons::get_href_helper' ) , ) ,
+		                                                 'html_edit_element_param'  => array ( 'call_from' => 'modelAdminQuickicons::get_href_helper' ) , ) ,
 		               'ordering'             => array ( 'name'                     => 'Порядок' ,
 		                                                 'editable'                 => true ,
 		                                                 'in_admintable'            => false ,
@@ -76,16 +76,16 @@ class adminQuickicons extends Quickicons {
 		                                                 'editable'                 => true ,
 		                                                 'in_admintable'            => true ,
 		                                                 'html_edit_element'        => 'option' ,
-		                                                 'html_edit_element_param'  => array ( 'call_from' => 'adminQuickicons::get_usergroup' ) ,
+		                                                 'html_edit_element_param'  => array ( 'call_from' => 'modelAdminQuickicons::get_usergroup' ) ,
 		                                                 'html_table_element'       => 'one_from_array' ,
-		                                                 'html_table_element_param' => array ( 'call_from' => 'adminQuickicons::get_usergroup' ) , ) ,
+		                                                 'html_table_element_param' => array ( 'call_from' => 'modelAdminQuickicons::get_usergroup' ) , ) ,
 		               'icon'                 => array ( 'name'                     => 'Красивый значек' ,
 		                                                 'editable'                 => true ,
 		                                                 'in_admintable'            => true ,
 		                                                 'html_table_element'       => 'value' ,
 		                                                 'html_table_element_param' => array () ,
 		                                                 'html_edit_element'        => 'extra' ,
-		                                                 'html_edit_element_param'  => array ( 'call_from' => 'adminQuickicons::get_icon_list' ) , ) , );
+		                                                 'html_edit_element_param'  => array ( 'call_from' => 'modelAdminQuickicons::get_icon_list' ) , ) , );
 	}
 
 	public function get_tableinfo() {
@@ -102,13 +102,13 @@ class adminQuickicons extends Quickicons {
 	}
 
 	public static function get_usergroup( $gid = false ) {
-		$groop = new UsersGroups;
+		$groop = new modelUsersGroups;
 		return $groop->get_selector( array ( 'key'   => 'id' ,
 		                                     'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ) );
 	}
 
 	public static function get_usergroup_title() {
-		$games = new UsersGroups();
+		$games = new modelUsersGroups();
 		return $games->get_selector( array ( 'key'   => 'id' ,
 		                                     'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ,
 		                                                                          'where'  => 'id!=1' ) );

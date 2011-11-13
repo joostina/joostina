@@ -58,7 +58,7 @@ class actionsAjaxAdminCategories {
 
 	public static function slug_generator() {
 
-		$cats = new Categories();
+		$cats = new modelCategories();
 
 		//$cat_id = joosRequest::request('cat_id', 0);
 		$cat_name  = joosRequest::request( 'cat_name' , '' );

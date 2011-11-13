@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Pages - Компонент управления независимыми страницами
+ * modelPages - Компонент управления независимыми страницами
  * Контроллер сайта
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Pages
+ * @subpackage modelPages
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -20,7 +20,7 @@ class actionsPages extends joosController {
 
 	public static function index() {
 
-		$page = new Pages();
+		$page = new modelPages();
 		$page->load( 1 );
 
 		joosDocument::instance()->set_page_title( $page->title_page ? $page->title_page : $page->title )->add_meta_tag( 'description' , $page->meta_description )->add_meta_tag( 'keywords' , $page->meta_keywords )->seo_tag( 'yandex-vf1' , md5( time() ) ) // формируем тэг для поисковой машины Yandex.ru ( пример )
@@ -37,7 +37,7 @@ class actionsPages extends joosController {
 
 		$slug       = self::$param['page_name'];
 
-		$page       = new Pages;
+		$page       = new modelPages;
 		$page->slug = $slug;
 		$page->find() ? null : self::error404();
 

@@ -104,7 +104,7 @@ if($attachments && isset($attachments['images'])){
 		?>
 		<div class="text_block_01">
 			<a href="<?php echo joosRoute::href( 'content_view' , array ( 'slug' => $item->slug ) )?>">
-				<?php echo Content::get_image( $item ) ?>
+				<?php echo modelContent::get_image( $item ) ?>
 			</a>
 
 			<div class="block_name">

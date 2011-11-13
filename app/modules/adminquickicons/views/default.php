@@ -6,7 +6,7 @@ defined( '_JOOS_CORE' ) or die();
 <div class="quickicons">
 	<?php foreach ( $items as $button ): ?>
 	<?php $alt     = $button->alt_text ? $button->alt_text : $button->title;
-	$icon_web_root = JPATH_SITE . adminQuickicons::get_ico_pach(); ?>
+	$icon_web_root = JPATH_SITE . modelAdminQuickicons::get_ico_pach(); ?>
 	<span>
 			<a href="<?php echo $button->href; ?>">
 				<img class="quickicon" src="<?php echo $icon_web_root . $button->icon ?>" alt="<?php echo $alt ?>"/>

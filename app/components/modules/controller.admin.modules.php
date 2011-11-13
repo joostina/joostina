@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Modules - Компонент управления модулями
+ * modelModules - Компонент управления модулями
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Modules
+ * @subpackage modelModules
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -105,7 +105,7 @@ class actionsAdminModules {
 
 
 		//Привязка модуля к страницам сайта
-		$pages = new ModulesPages;
+		$pages = new modelModulesPages;
 		if ( $_POST['pages'] ) {
 			$_pages = $_POST['pages'];
 

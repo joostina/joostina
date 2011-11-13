@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Quickicons - Компонент управления кнопками быстрого доступа панели управления
+ * modelQuickicons - Компонент управления кнопками быстрого доступа панели управления
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Quickicons
+ * @subpackage modelQuickicons
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -23,7 +23,7 @@ class actionsAdminQuickicons {
 	 *
 	 * @var joosModel модель
 	 */
-	public static $model = 'adminQuickicons';
+	public static $model = 'modelAdminQuickicons';
 
 	/**
 	 * Список объектов

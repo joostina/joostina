@@ -51,12 +51,12 @@ class joosCore {
 	 * Получение инстанции текущего авторизованного пользователя
 	 * Функция поддерживает работу и на фронте и в панели управления сайта
 	 *
-	 * @example joosCore::user() => Объект пользователя Users
+	 * @example joosCore::user() => Объект пользователя modelUsers
 	 *
-	 * @return Users
+	 * @return modelUsers
 	 */
 	public static function user() {
-		return self::$is_admin ? joosCoreAdmin::user() : Users::instance();
+		return self::$is_admin ? joosCoreAdmin::user() : modelUsers::instance();
 	}
 
 	public static function admin() {
@@ -458,7 +458,7 @@ class joosDocument {
 				header('Cache-Control: no-cache, must-revalidate');
 			}
 			header('X-Powered-By: Joostina CMS');
-			header('Content-type: text/html; charset=UTF-8');
+			header('modelContent-type: text/html; charset=UTF-8');
 		}
 	}
 

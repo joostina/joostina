@@ -28,13 +28,13 @@ defined( '_JOOS_CORE' ) or die();
 class joosPager {
 
 	/**
-	 * CSS class name for the Pages links
+	 * CSS class name for the modelPages links
 	 *
 	 * @var string
 	 */
 	public $pagesCss = 'paginate';
 	/**
-	 * CSS class name for the Pages DropDown menu
+	 * CSS class name for the modelPages DropDown menu
 	 *
 	 * @var string
 	 */

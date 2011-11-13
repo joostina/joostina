@@ -30,7 +30,7 @@ defined( '_JOOS_CORE' ) or die();
 			<?php if ( $item->image ): ?>
 			<div class="product_img">
 				<a class="lightbox"
-				   href="<?php echo JPATH_SITE_IMAGES . '/' . $item->image . '/medium.png' ?>"><?php echo Content::get_image( $item ) ?></a>
+				   href="<?php echo JPATH_SITE_IMAGES . '/' . $item->image . '/medium.png' ?>"><?php echo modelContent::get_image( $item ) ?></a>
 			</div>
 			<?php endif;?>
 

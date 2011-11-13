@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Pages - компонент независимых страниц
+ * modelPages - компонент независимых страниц
  * Информация и параметры компонента
  *
  * @version    1.0
  * @package    Components
- * @subpackage Pages
+ * @subpackage modelPages
  * @author     JoostinaTeam <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php

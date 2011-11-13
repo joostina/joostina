@@ -6,7 +6,7 @@
  *
  * @version    1.0
  * @package    Joostina CMS
- * @subpackage Modules
+ * @subpackage modelModules
  * @author     JoostinaTeam
  * @copyright  (C) 2008-2010 Joostina Team
  * @license    see license.txt
@@ -25,7 +25,7 @@ class categoriesHelper {
 
 		$level = $params['level'] ? $params['level'] : 1;
 
-		$cats  = new Categories;
+		$cats  = new modelCategories;
 
 		return $cats->get_list( array ( 'select' => "c.id, c.name, c.slug, cd.desc_short, cd.image" ,
 		                                'where'  => 'c.state=1 AND c.group = "' . $group . '" AND c.level = ' . $level ,

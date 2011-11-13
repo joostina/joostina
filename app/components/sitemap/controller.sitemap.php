@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Sitemap - Компонент генерации карты сайта
+ * midelSitemap - Компонент генерации карты сайта
  * Контроллер сайта
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Sitemap
+ * @subpackage midelSitemap
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -28,7 +28,7 @@ class actionsSitemap {
 
 	public static function index() {
 
-		$map = Sitemap::get_map();
+		$map = midelSitemap::get_map();
 
 		return array ( 'map' => $map );
 	}

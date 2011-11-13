@@ -3,19 +3,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Modules - Модель модулей
+ * modelModules - Модель модулей
  * Модель для работы сайта
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Modules
+ * @subpackage modelModules
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class Modules extends joosModel {
+class modelModules extends joosModel {
 
 	/**
 	 * @var int(11)
@@ -79,7 +79,7 @@ class Modules extends joosModel {
 
 	public static function get_modules_pages( $item ) {
 
-		$pages      = new ModulesPages;
+		$pages      = new modelModulesPages;
 
 		$pages_list = null;
 		if ( $item->id ) {
@@ -154,12 +154,12 @@ class Modules extends joosModel {
 }
 
 /**
- * Class ModulesPages
- * @package       ModulesPages
+ * Class modelModulesPages
+ * @package       modelModulesPages
  * @subpackage    Joostina CMS
  * @created       2010-12-12 14:52:47
  */
-class ModulesPages extends joosModel {
+class modelModulesPages extends joosModel {
 
 	/**
 	 * @var int(11)

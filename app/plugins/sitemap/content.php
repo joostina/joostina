@@ -40,7 +40,7 @@ class contentMap {
 
 	public static function lists( $params = array () ) {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 		$cats     = $cats->get_list( array ( 'where' => '`group` = "content" AND state = 1' ,
 		                                     'key'   => 'id' ,
 		                                     'order' => 'lft ASC' ) );
@@ -49,7 +49,7 @@ class contentMap {
 
 
 		if ( $params['xml'] ) {
-			$items         = new Content;
+			$items         = new modelContent;
 			$items         = $items->get_list( array ( 'where' => 'state = 1 AND category_id IN (' . implode( ', ' , $cats_ids ) . ')' ) );
 
 			$items_by_cats = array ();

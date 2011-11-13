@@ -4,19 +4,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Users - Модель пользователей
+ * modelUsers - Модель пользователей
  * Модель для работы сайта
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Users
+ * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class Users extends joosModel {
+class modelUsers extends joosModel {
 
 	public $id;
 	public $username;
@@ -67,14 +67,14 @@ class Users extends joosModel {
 	}
 
 	public static function get_usergroup( $null = false , $gid = false ) {
-		$groups = new UsersGroups();
+		$groups = new modelUsersGroups();
 		$group  = $groups->get_selector( array ( 'key'   => 'id' ,
 		                                         'value' => 'title' ) , array ( 'select' => 'id, title' ) );
 		return $gid ? $group[$gid] : $group;
 	}
 
 	public static function get_usergroup_title() {
-		$groups = new UsersGroups();
+		$groups = new modelUsersGroups();
 		return $groups->get_selector( array ( 'key'   => 'id' ,
 		                                      'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ) );
 	}
@@ -82,7 +82,7 @@ class Users extends joosModel {
 	// добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
 	public function after_insert() {
 
-		$extra          = new UsersExtra;
+		$extra          = new modelUsersExtra;
 		$extra->user_id = $this->id;
 		joosDatabase::instance()->insert_object( '#__users_extra' , $extra );
 	}
@@ -153,7 +153,7 @@ class Users extends joosModel {
 	}
 
 	/**
-	 * Users::check_password()
+	 * modelUsers::check_password()
 	 * Проверка введенного пароля на соответствие паролю в БД
 	 *
 	 * @param str $input_password
@@ -176,7 +176,7 @@ class Users extends joosModel {
 	}
 
 	/**
-	 * Users::prepare_password()
+	 * modelUsers::prepare_password()
 	 * Подготовка пароля для записи в БД
 	 *
 	 * @param str $password
@@ -216,7 +216,7 @@ class Users extends joosModel {
 
 	/**
 	 * Получение объекта текущего пользователя
-	 * @return Users
+	 * @return modelUsers
 	 */
 	public static function current() {
 		// TODO тут надо как-то унифицировать
@@ -254,13 +254,13 @@ class Users extends joosModel {
 
 	/**
 	 * Получение расширенной информации о пользователе
-	 * @return UsersExtra
+	 * @return modelUsersExtra
 	 */
 	public function extra() {
 
 		if ( !isset( $this->extra ) || $this->extra === NULL ) {
 
-			$extra = new UsersExtra;
+			$extra = new modelUsersExtra;
 			$extra->load( $this->id );
 
 			$this->extra = $extra;
@@ -292,7 +292,7 @@ class Users extends joosModel {
 			$return = JPATH_SITE;
 		}
 
-		$user           = new Users;
+		$user           = new modelUsers;
 		$user->username = $username;
 		$user->find();
 
@@ -409,19 +409,19 @@ class Users extends joosModel {
 }
 
 /**
- * UsersExtra - Модель расширенной информации о пользователях
+ * modelUsersExtra - Модель расширенной информации о пользователях
  * Модель для работы сайта
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Users
+ * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class UsersExtra extends joosModel {
+class modelUsersExtra extends joosModel {
 
 	/**
 	 * @var int(11)
@@ -483,19 +483,19 @@ class UsersExtra extends joosModel {
 }
 
 /**
- * UsersGroups - Модель пользовательских групп
+ * modelUsersGroups - Модель пользовательских групп
  * Модель для работы сайта
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Users
+ * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class UsersGroups extends joosModel {
+class modelUsersGroups extends joosModel {
 
 	/**
 	 * @var int(10) unsigned

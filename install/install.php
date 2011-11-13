@@ -1,6 +1,6 @@
 <?php
 
-header( 'Content-Type: text/html; charset=utf-8' );
+header( 'modelContent-Type: text/html; charset=utf-8' );
 header( 'Cache-Control: s-maxage=0, max-age=0, must-revalidate' );
 header( 'Expires: Mon, 23 Jan 1978 10:00:00 GMT' );
 

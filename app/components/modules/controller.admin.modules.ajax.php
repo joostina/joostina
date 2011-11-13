@@ -28,12 +28,12 @@ class actionsAjaxAdminModules {
 
 	public static function get_positions() {
 		//$positions = new TemplatePositions;
-		//$obj = new Modules;
+		//$obj = new modelModules;
 	}
 
 	public static function save_position() {
 		$obj_id = joosRequest::int( 'obj_id' , 0 , $_POST );
-		$obj    = new Modules;
+		$obj    = new modelModules;
 		$obj->load( $obj_id );
 
 		$obj->position = joosRequest::post( 'val' );

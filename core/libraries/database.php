@@ -733,7 +733,7 @@ class joosDatabase {
 	/**
 	 * Быстрое статическое создание модели и доступ к её медотам и свойствам
 	 *
-	 * @example joosDatabase::models('Users')->count()
+	 * @example joosDatabase::models('modelUsers')->count()
 	 * @example joosDatabase::model('Blog')->get_list( array('where'=>'sate=1') )
 	 * @example joosDatabase::model('Blog')->save( $_POST )
 	 *

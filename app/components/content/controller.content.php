@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Content - Компонент управления контентом
+ * modelContent - Компонент управления контентом
  * Контроллер сайта
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Content
+ * @subpackage modelContent
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -28,7 +28,7 @@ class actionsContent extends joosController {
 
 	public static function index() {
 
-		$cats = new Categories( 'content' );
+		$cats = new modelCategories( 'content' );
 		$cats = $cats->get_list( array ( 'where' => 'level=1' ) );
 
 
@@ -61,7 +61,7 @@ class actionsContent extends joosController {
 
 	private static function _category( $slug ) {
 
-		$category = new Categories( 'content' );
+		$category = new modelCategories( 'content' );
 
 		//TODO: ужыыыыысссс
 		$pos = strpos( $slug , '/page/' );
@@ -127,7 +127,7 @@ class actionsContent extends joosController {
 
 			//Выбираем записи
 			if ( $category->level == 4 ) {
-				$content = new Content;
+				$content = new modelContent;
 				$items   = $content->get_list( array ( 'where' => 'category_id = ' . $category->id ,
 				                                       'order' => $sort ) );
 
@@ -140,7 +140,7 @@ class actionsContent extends joosController {
 			}
 		}
 
-		Categories::set_breadcrumbs( $category , $path );
+		modelCategories::set_breadcrumbs( $category , $path );
 
 		//Метаинформация страницы
 		joosMetainfo::set_meta( 'category' , 'item' , $category->id , array ( 'title' => $category->name ) );
@@ -160,11 +160,11 @@ class actionsContent extends joosController {
 		$slug = self::$param['slug'];
 
 		// формируем и загружаем просматриваемую запись
-		$item       = new Content;
+		$item       = new modelContent;
 		$item->slug = $slug;
 		$item->find() ? null : self::error404();
 
-		$category = new Categories( 'content' );
+		$category = new modelCategories( 'content' );
 		$category->load( $item->category_id );
 
 		$category_details = new CategoriesDetails;
@@ -175,14 +175,14 @@ class actionsContent extends joosController {
 			$path = $category->get_path_from_root( $category->id , true );
 		}
 
-		Categories::set_breadcrumbs( $category , $path , true );
+		modelCategories::set_breadcrumbs( $category , $path , true );
 
 		//материалы из той же категории
 
 		$other_items = $item->get_list( array ( 'where' => 'state = 1 AND category_id = ' . $item->category_id ) );
 		//$other_items = ArrayTools::get_next_prev($other_items, $item->id, 2, 1, true);
 		//Дополнительные поля
-		$ef = Content::get_extrafields( $item );
+		$ef = modelContent::get_extrafields( $item );
 
 		joosBreadcrumbs::instance()->add( $item->title );
 

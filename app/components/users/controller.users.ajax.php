@@ -19,7 +19,7 @@ class actionsAjaxUsers extends joosController {
 		$username = joosRequest::post( 'username' );
 		$password = joosRequest::post( 'password' );
 
-		$response = json_decode( Users::login( $username , $password , array ( 'return' => 1 ) ) , true );
+		$response = json_decode( modelUsers::login( $username , $password , array ( 'return' => 1 ) ) , true );
 
 		if ( isset( $response['error'] ) ) {
 			echo json_encode( array ( 'error' => $response['error'] ) );
@@ -30,7 +30,7 @@ class actionsAjaxUsers extends joosController {
 
 	public static function logout() {
 		joosCSRF::check_code( 1 );
-		Users::logout();
+		modelUsers::logout();
 		echo json_encode( array ( 'success' => 'всё пучком' ) );
 	}
 
@@ -38,7 +38,7 @@ class actionsAjaxUsers extends joosController {
 
 		$validator = UserValidations::registration();
 
-		$user      = new Users;
+		$user      = new modelUsers;
 		$user->bind( $_POST );
 
 		if ( !$user->check( $validator ) ) {
@@ -53,7 +53,7 @@ class actionsAjaxUsers extends joosController {
 
 		if ( $user->save( $_POST ) ) {
 			$password = joosRequest::post( 'password' );
-			$response = json_decode( Users::login( $user->username , $password , array ( 'return' => 1 ) ) , true );
+			$response = json_decode( modelUsers::login( $user->username , $password , array ( 'return' => 1 ) ) , true );
 			if ( isset( $response['error'] ) ) {
 				echo json_encode( array ( 'error' => $response['error'] ) );
 				return false;

@@ -1227,12 +1227,12 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
 		} else if($.support.fileReading && xhr.sendAsBinary) {
 			// firefox < 4                                 
 			var boundary = "xxxxxxxxx";
-			xhr.setRequestHeader("Content-Type", "multipart/form-data, boundary="+boundary);
+			xhr.setRequestHeader("modelContent-Type", "multipart/form-data, boundary="+boundary);
 			xhr.setRequestHeader("Cache-Control", "no-cache");						
 			var body = "--" + boundary + "\r\n";
 			filename = unescape(encodeURIComponent(filename));
-			body += "Content-Disposition: form-data; name='"+ fiel_element_name+"'; filename='" + filename + "'\r\n";
-			body += "Content-Type: application/octet-stream\r\n\r\n";
+			body += "modelContent-Disposition: form-data; name='"+ fiel_element_name+"'; filename='" + filename + "'\r\n";
+			body += "modelContent-Type: application/octet-stream\r\n\r\n";
 			body += (file.getAsBinary ? file.getAsBinary() : file.readAsBinary()) + "\r\n";
 			body += "--" + boundary + "--";			
 			xhr.sendAsBinary(body);

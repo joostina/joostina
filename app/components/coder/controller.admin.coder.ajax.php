@@ -25,7 +25,7 @@ class actionsAjaxAdminCoder {
 
 		$ret    = array ();
 		foreach ( $tables as $table ) {
-			$ret[] = adminCoder::get_model( $table , self::$implode_model );
+			$ret[] = modelAdminCoder::get_model( $table , self::$implode_model );
 		}
 
 		return self::$implode_model ? forms::textarea( array ( 'name'  => 'all_models' ,
@@ -37,7 +37,7 @@ class actionsAjaxAdminCoder {
 	public static function table_select() {
 		$table      = joosRequest::post( 'table' );
 
-		$types      = adminCoder_Faker::$data_types;
+		$types      = modelAdminCoder_Faker::$data_types;
 		$type_names = array ();
 
 		array_walk( $types , function( $v , $k ) use ( &$type_names ) {

@@ -487,12 +487,12 @@ class Library extends \lithium\console\Command {
 				'auth' => 'Basic', 'username' => $this->username, 'password' => $this->password
 			));
 			$boundary = md5(date('r', time()));
-			$headers = array("Content-Type: multipart/form-data; boundary={$boundary}");
+			$headers = array("modelContent-Type: multipart/form-data; boundary={$boundary}");
 			$name = basename($file);
 			$data = join("\r\n", array(
 				"--{$boundary}",
-				"Content-Disposition: form-data; name=\"phar\"; filename=\"{$name}\"",
-				"Content-Type: application/phar", "",
+				"modelContent-Disposition: form-data; name=\"phar\"; filename=\"{$name}\"",
+				"modelContent-Type: application/phar", "",
 				base64_encode(file_get_contents($file)),
 				"--{$boundary}--"
 			));

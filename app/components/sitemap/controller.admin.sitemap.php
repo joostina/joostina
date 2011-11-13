@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Sitemap - Компонент генерации карты сайта
+ * midelSitemap - Компонент генерации карты сайта
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Sitemap
+ * @subpackage midelSitemap
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -23,7 +23,7 @@ class actionsAdminSitemap {
 	 *
 	 * @var joosModel модель
 	 */
-	public static $model = 'adminSitemap';
+	public static $model = 'modelAdminSitemap';
 	/**
 	 * Подменю
 	 */
@@ -46,7 +46,7 @@ class actionsAdminSitemap {
 
 		require_once ( JPATH_BASE . DS . 'includes' . DS . 'route.php' );
 
-		$map = Sitemap::get_map( true );
+		$map = midelSitemap::get_map( true );
 		$map->xml_output();
 
 		joosRoute::redirect( 'index2.php' , 'Карта сайта обновлена' );

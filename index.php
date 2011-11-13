@@ -47,7 +47,7 @@ echo $html_body                  = joosDocument::$data['html_body'];
 
   if (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&	stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) == '"' . $hash . '"') {
   joosRequest::send_headers_by_code(304);
-  header('Content-Length: 0');
+  header('modelContent-Length: 0');
   header('X-Powered-By: 304');
   die();
   } else {

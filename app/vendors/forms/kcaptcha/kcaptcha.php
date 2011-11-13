@@ -258,13 +258,13 @@ class KCAPTCHA {
 		header( 'Pragma: no-cache' );
 
 		if ( function_exists( "imagejpeg" ) ) {
-			header( "Content-Type: image/jpeg" );
+			header( "modelContent-Type: image/jpeg" );
 			imagejpeg( $img2 , null , $jpeg_quality );
 		} else if ( function_exists( "imagegif" ) ) {
-			header( "Content-Type: image/gif" );
+			header( "modelContent-Type: image/gif" );
 			imagegif( $img2 );
 		} else if ( function_exists( "imagepng" ) ) {
-			header( "Content-Type: image/x-png" );
+			header( "modelContent-Type: image/x-png" );
 			imagepng( $img2 );
 		}
 	}

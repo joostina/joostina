@@ -62,7 +62,7 @@ class joosTrash extends joosModel {
 		$trash->obj_table  = $obj->_tbl;
 		$trash->title      = isset( $obj->title ) ? $obj->title : $obj->$_tbl_key;
 		$trash->data       = json_encode( $obj );
-		$trash->user_id    = Users::instance()->id;
+		$trash->user_id    = modelUsers::instance()->id;
 		$trash->deleted_at = _CURRENT_SERVER_TIME;
 
 		return (bool) $trash->store();

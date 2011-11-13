@@ -4,12 +4,12 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Categories - Компонент управления категориями
+ * modelCategories - Компонент управления категориями
  * Контроллер панели управления
  *
  * @version    1.0
  * @package    Joostina.Components.Controllers
- * @subpackage Categories
+ * @subpackage modelCategories
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -23,7 +23,7 @@ class actionsAdminCategories {
 	 *
 	 * @var joosModel модель
 	 */
-	public static $model = 'Categories';
+	public static $model = 'modelCategories';
 	/**
 	 * Массив с пунктами подменю
 	 *
@@ -73,7 +73,7 @@ class actionsAdminCategories {
 
 		echo joosAutoadmin::header( self::$component_title , 'Категории' , array () , 'listing' );
 
-		$cats       = new Categories;
+		$cats       = new modelCategories;
 		$rootExists = $cats->check_root_node();
 
 		$tree       = $cats->get_full_tree_extended();
@@ -211,7 +211,7 @@ class actionsAdminCategories {
 
 	public static function root_add() {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 		$action   = $cats->insert_root_node( joosRequest::post( 'name' ) );
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
@@ -220,7 +220,7 @@ class actionsAdminCategories {
 
 	public static function node_add() {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 		$action   = $cats->insertChildNode( joosRequest::post( 'name' ) , joosRequest::post( 'id' ) );
 
 		$redirect = 'index2.php?option=categories' . $cats->get_link_suff();
@@ -229,7 +229,7 @@ class actionsAdminCategories {
 
 	public static function node_del() {
 
-		$cats = new Categories;
+		$cats = new modelCategories;
 
 		if ( joosRequest::request( 'del_childs' , 'no' ) == 'yes' ) {
 			$action = $cats->delete_branch( joosRequest::request( 'id' ) );
@@ -243,7 +243,7 @@ class actionsAdminCategories {
 
 	public static function node_move_up() {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 
 		$action   = $cats->move_up( joosRequest::get( 'id' ) );
 
@@ -254,7 +254,7 @@ class actionsAdminCategories {
 
 	public static function node_move_down() {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 
 		$action   = $cats->move_down( joosRequest::get( 'id' ) );
 
@@ -264,7 +264,7 @@ class actionsAdminCategories {
 
 	public static function node_move_lft() {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 
 		$action   = $cats->move_lft( joosRequest::get( 'id' ) );
 
@@ -275,7 +275,7 @@ class actionsAdminCategories {
 
 	public static function node_move_rgt() {
 
-		$cats     = new Categories;
+		$cats     = new modelCategories;
 
 		$action   = $cats->move_rgt( joosRequest::get( 'id' ) );
 

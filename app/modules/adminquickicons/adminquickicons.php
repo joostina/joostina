@@ -8,7 +8,7 @@ defined( '_JOOS_CORE' ) or die();
  * Модуль панели управления
  *
  * @version   1.0
- * @package   Joostina.Modules
+ * @package   Joostina.modelModules
  * @author    Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2011 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
@@ -17,7 +17,7 @@ defined( '_JOOS_CORE' ) or die();
  * */
 //Подклчение вспомагательной библиотеки
 //Получение перечня значков
-$items = joosDatabase::models( 'adminQuickicons' )->get_list( array ( 'where' => 'state = 1' ) );
+$items = joosDatabase::models( 'modelAdminQuickicons' )->get_list( array ( 'where' => 'state = 1' ) );
 
 //Подключение шаблона вывода
 joosModuleAdmin::render( 'adminquickicons' , array ( 'items' => $items ) );

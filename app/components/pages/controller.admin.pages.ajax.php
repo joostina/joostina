@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Pages - компонент независимых страниц
+ * modelPages - компонент независимых страниц
  * Аякс-контроллер
  *
  * @version    1.0
  * @package    Components
- * @subpackage Pages
+ * @subpackage modelPages
  * @author     JoostinaTeam
  * @copyright  (C) 2008-2010 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php

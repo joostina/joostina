@@ -4,19 +4,19 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * adminPages - Модель компонента независимыми страницами
+ * modelAdminPages - Модель компонента независимыми страницами
  * Модель панели управления
  *
  * @version    1.0
  * @package    Joostina.Models
- * @subpackage Pages
+ * @subpackage modelPages
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2011 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminPages extends Pages {
+class modelAdminPages extends modelPages {
 
 	public function get_fieldinfo() {
 		return array ( 'id'       => array ( 'name'                     => 'ID' ,
@@ -50,7 +50,7 @@ class adminPages extends Pages {
 		                                     'html_table_element'       => 'value' ,
 		                                     'html_table_element_param' => array () ,
 		                                     'html_edit_element'        => 'extra' ,
-		                                     'html_edit_element_param'  => array ( 'call_from' => 'adminPages::get_slug' , ) , ) ,
+		                                     'html_edit_element_param'  => array ( 'call_from' => 'modelAdminPages::get_slug' , ) , ) ,
 		               'text'     => array ( 'name'                    => 'Описание' ,
 		                                     'editable'                => true ,
 		                                     'html_edit_element'       => 'wysiwyg' ,

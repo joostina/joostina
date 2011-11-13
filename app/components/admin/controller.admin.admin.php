@@ -19,12 +19,7 @@ defined( '_JOOS_CORE' ) or die();
 class actionsAdminAdmin {
 
 	public static function index() {
-		$path = JPATH_BASE . '/app/templates/' . JTEMPLATE_ADMIN . '/html/cpanel.php';
-		if ( file_exists( $path ) ) {
-			require $path;
-		} else {
-			joosModuleAdmin::load_by_name( 'cpanel' );
-		}
+		require_once JPATH_BASE . '/app/templates/' . JTEMPLATE_ADMIN . '/html/cpanel.php';
 	}
 
 }

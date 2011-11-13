@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * adminCoder - Модель компонента управляемой генерации расширений системы
+ * modelAdminCoder - Модель компонента управляемой генерации расширений системы
  * Модель панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminCoder {
+class modelAdminCoder {
 
 	//Для вывода меню компонента
 	public static $_submenu = array(
@@ -223,7 +223,7 @@ class adminCoder {
 
 }
 
-class adminCoder_Faker {
+class modelAdminCoder_Faker {
 
 	public static $data_types = array('text' => array('name' => 'Текст',
 			'types' => array('text', 'tinytext', 'mediumtext', 'longtext', 'blob', 'tinyblob', 'mediumblob', 'longblob'),),
