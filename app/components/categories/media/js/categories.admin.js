@@ -30,7 +30,7 @@ $('#add_pic').live('click', function() {
 
 $('.content_delete_image').live('click', function() {
     var _obj = $(this);
-    var img_id = _obj.attr('rel');
+    var img_id = _obj.prop('rel');
 
     $('#' + img_id + '_id').remove();
     $('#' + img_id + '_path').remove();

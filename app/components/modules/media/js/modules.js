@@ -9,7 +9,7 @@ $(document).ready(function() {
         var _count = $('#fields_count').val();
 
         //Номер набора полей, выступающего доннором
-        var _curr_number = for_copy.attr('title');
+        var _curr_number = for_copy.prop('title');
         //Порядковый номер, который нужно будет присвоить клону
         var _new_number = Number(_count);
 
@@ -17,10 +17,10 @@ $(document).ready(function() {
         var new_fieldset = for_copy.clone();
 
         //корректируем
-        new_fieldset.attr("title", _new_number);
-        new_fieldset.find('input[name="pages[' + _curr_number + '][controller]"]').attr('name', 'pages[' + _new_number + '][controller]').attr('value', '');
-        new_fieldset.find('input[name="pages[' + _curr_number + '][method]"]').attr('name', 'pages[' + _new_number + '][method]').attr('value', '');
-        new_fieldset.find('input[name="pages[' + _curr_number + '][rule]"]').attr('name', 'pages[' + _new_number + '][rule]').attr('value', '');
+        new_fieldset.prop("title", _new_number);
+        new_fieldset.find('input[name="pages[' + _curr_number + '][controller]"]').prop('name', 'pages[' + _new_number + '][controller]').prop('value', '');
+        new_fieldset.find('input[name="pages[' + _curr_number + '][method]"]').prop('name', 'pages[' + _new_number + '][method]').prop('value', '');
+        new_fieldset.find('input[name="pages[' + _curr_number + '][rule]"]').prop('name', 'pages[' + _new_number + '][rule]').prop('value', '');
 
         //Выводим
         $('#modules_pages').append(new_fieldset);

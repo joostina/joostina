@@ -7,20 +7,20 @@ $(document).ready(function() {
 	$('.adminlist .td-state').live('click', function() {
 		// объект по которому производится клик
 		var current_obj = $(this);
-		var option = $('img', this).attr('obj_option') ? $('img', this).attr('obj_option') : _option;
+		var option = $('img', this).prop('obj_option') ? $('img', this).prop('obj_option') : _option;
 		$.ajax({
 			url:'ajax.index.php?option=' + option,
 			type:'post',
 			data:{
-				obj_id:$('img', this).attr('obj_id'),
-				task:$('img', this).attr('obj_task')
+				obj_id:$('img', this).prop('obj_id'),
+				task:$('img', this).prop('obj_task')
 			},
 			dataType:'json',
 			// обрабатываем результат
 			success:function(data) {
-				$('img', current_obj).attr('src', image_path + data.image);
-				$('img', current_obj).attr('alt', data.mess);
-				$('img', current_obj).attr('title', data.mess);
+				$('img', current_obj).prop('src', image_path + data.image);
+				$('img', current_obj).prop('alt', data.mess);
+				$('img', current_obj).prop('title', data.mess);
 			}
 		});
 	});
@@ -104,7 +104,7 @@ function checkAll() {
 		allCheckboxes.removeAttr('checked');
 		idbox_checked = false;
 	} else {
-		allCheckboxes.attr('checked', 'checked');
+		allCheckboxes.prop('checked', true);
 		idbox_checked = true;
 	}
 

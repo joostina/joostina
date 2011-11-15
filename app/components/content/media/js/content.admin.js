@@ -7,7 +7,7 @@ $('#content_slug_generator').live('click', function() {
         url:'ajax.index.php?option=content&task=slug_generator',
         type:'post',
         data:{
-            id:_obj.attr('obj_id'),
+            id:_obj.prop('obj_id'),
             obj_name:$('input[name=model]').val(),
             title:$('#title').val(),
             cat_name:$('#name').val(),
@@ -57,7 +57,7 @@ $('#add_pic').live('click', function() {
 
 $('.content_delete_image').live('click', function() {
     var _obj = $(this);
-    var img_id = _obj.attr('rel');
+    var img_id = _obj.prop('rel');
 
     $('#' + img_id + '_id').remove();
     $('#' + img_id + '_path').remove();

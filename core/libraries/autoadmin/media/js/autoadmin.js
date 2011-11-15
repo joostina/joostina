@@ -9,8 +9,8 @@ $(document).ready(function() {
             url:'ajax.index.php?option=' + _option + '&task=statuschanger',
             type:'post',
             data:{
-                obj_id:$('img', this).attr('obj_id'),
-                obj_key:$('img', this).attr('obj_key'),
+                obj_id:$('img', this).prop('obj_id'),
+                obj_key:$('img', this).prop('obj_key'),
                 obj_name:$('input[name=obj_name]').val()
             },
             dataType:'json',
@@ -19,8 +19,8 @@ $(document).ready(function() {
                     joosNotify(data.message, 'error');
                     return;
                 }
-                $('img', current_obj).attr('src', image_path + data.image);
-                $('img', current_obj).attr('alt', image_path + data.mess);
+                $('img', current_obj).prop('src', image_path + data.image);
+                $('img', current_obj).prop('alt', image_path + data.mess);
             }
         });
     });
@@ -40,13 +40,13 @@ $(document).ready(function() {
         console.log(settings);
 
         var _obj = $(this);
-        //var action = _obj.attr('href').split('#')[1];
-        var scope = _obj.attr('rel');
+        //var action = _obj.prop('href').split('#')[1];
+        var scope = _obj.prop('rel');
         $.ajax({
             url:'ajax.index.php?option=' + _option + '&task=ordering',
             type:'post',
             data:{
-                obj_id:_obj.attr('obj_id'),
+                obj_id:_obj.prop('obj_id'),
                 obj_name:$('input[name=obj_name]').val(),
                 //action: action,
                 scope:scope,
@@ -73,13 +73,13 @@ $(document).ready(function() {
         console.log(settings);
 
         var _obj = $(this);
-        //var action = _obj.attr('href').split('#')[1];
-        var scope = _obj.attr('rel');
+        //var action = _obj.prop('href').split('#')[1];
+        var scope = _obj.prop('rel');
         $.ajax({
             url:'ajax.index.php?option=modules&task=save_position',
             type:'post',
             data:{
-                obj_id:_obj.attr('obj_id'),
+                obj_id:_obj.prop('obj_id'),
                 val:value
             },
             dataType:'json',
@@ -108,9 +108,9 @@ $(document).ready(function() {
             var ids = new Array();
 
             for (var i = 0; i < rows.length; i++) {
-                if ($(rows[i]).attr('rel') == $(row).attr('rel')) {
-                    debugStr.push($(rows[i]).attr('obj_id') + ":" + $(rows[i]).attr('obj_ordering') + ":" + i);
-                    ids.push($(rows[i]).attr('obj_id'));
+                if ($(rows[i]).prop('rel') == $(row).prop('rel')) {
+                    debugStr.push($(rows[i]).prop('obj_id') + ":" + $(rows[i]).prop('obj_ordering') + ":" + i);
+                    ids.push($(rows[i]).prop('obj_id'));
                 }
             }
 
@@ -145,13 +145,13 @@ $(document).ready(function() {
 
     /*	$('.order_this').live('click', function(){
      var _obj = $(this);
-     var action = _obj.attr('href').split('#')[1];
-     var scope = _obj.attr('rel');
+     var action = _obj.prop('href').split('#')[1];
+     var scope = _obj.prop('rel');
      $.ajax({
      url: 'ajax.index.php?option='+_option+'&task=ordering',
      type: 'post',
      data:{
-     obj_id: _obj.attr('obj_id'),
+     obj_id: _obj.prop('obj_id'),
      obj_name: $('input[name=obj_name]').val(),
      action: action,
      scope: scope
@@ -168,7 +168,7 @@ $(document).ready(function() {
 
     $('.filter_elements').live('change', function() {
         var $current = $(this);
-        $('input[name=' + $current.attr('obj_name') + ']').val($current.val());
+        $('input[name=' + $current.prop('obj_name') + ']').val($current.val());
         $('#adminForm').submit();
         return false;
     });
@@ -197,7 +197,7 @@ $(document).ready(function() {
             url:'ajax.index.php?option=categories&task=slug_generator',
             type:'post',
             data:{
-                cat_id:_obj.attr('obj_id'),
+                cat_id:_obj.prop('obj_id'),
                 cat_name:$('#name').val(),
                 parent_id:$('#category_id').val(),
             },
@@ -218,7 +218,7 @@ $(document).ready(function() {
     $('#tabs_list li span').click(function() {
 
         var _el = $(this);
-        var _target = _el.attr('rel');
+        var _target = _el.prop('rel');
 
         if (!_el.hasClass('g-active')) {
             $('.tab_area').hide();

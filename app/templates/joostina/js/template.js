@@ -8,10 +8,10 @@ $(function() {
 
     $('.switcher').click(function() {
         var _el_switcher = $(this);
-        var rel = _el_switcher.attr('rel');
+        var rel = _el_switcher.prop('rel');
         var txt = _el_switcher.text();
         var _block_switcher = $('.switcher-block');
-        _el_switcher.attr('rel', txt);
+        _el_switcher.prop('rel', txt);
         _el_switcher.text(rel);
         _el_switcher.toggleClass('g-active');
         _block_switcher.slideToggle('fast');
@@ -20,7 +20,7 @@ $(function() {
 
     // -------------------------------------------------------------------------Показываем/скрываем форму логина-регистрации
     $('.m-auto_enter span').live('click', function() {
-        var _rel = $(this).attr('rel');
+        var _rel = $(this).prop('rel');
         $('.m-auto_formwrap').removeClass('g-active');
         $('#' + _rel).toggleClass('g-active');
     })

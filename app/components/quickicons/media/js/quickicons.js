@@ -3,14 +3,14 @@ $(document).ready(function() {
     // выбор значка для кнопки
     $('div#quickicons_icons img').live('click', function() {
         var $img = $(this);
-        $('#new_quickicons_icon').attr('src', $img.attr('src'));
-        $('#quickicons_icon_value').val($img.attr('alt'));
+        $('#new_quickicons_icon').prop('src', $img.prop('src'));
+        $('#quickicons_icon_value').val($img.prop('alt'));
     });
     /* PRO
      $('div#quickicons_icons img').live('hover', function(){
      var $img = $(this);
-     $('#new_quickicons_icon').attr('src',$img.attr('src'));
-     $('#quickicons_icon_value').val( $img.attr('alt') );
+     $('#new_quickicons_icon').prop('src',$img.prop('src'));
+     $('#quickicons_icon_value').val( $img.prop('alt') );
      });
      */
 
