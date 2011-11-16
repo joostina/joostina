@@ -7,30 +7,101 @@ defined('_JOOS_CORE') or die();
  * modelUsers - Модель пользователей
  * Модель для работы сайта
  *
- * @version    1.0
- * @package    Joostina.Models
- * @subpackage modelUsers
- * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2011 Joostina Team
- * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * @package Joostina.Core.Components
+ * @subpackage Users
+ * @subpackage Core
+ * @author JoostinaTeam
+ * @copyright (C) 2007-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version 1
+ * @created 2011-11-16 22:03:25
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
- *
- * */
+ * 
+ */
 class modelUsers extends joosModel {
 
+	/**
+	 * @field int(11) unsigned
+	 * @type int
+	 */
 	public $id;
+
+	/**
+	 * @field varchar(50)
+	 * @type string
+	 */
 	public $user_name;
+
+	/**
+	 * @field varchar(100)
+	 * @type string
+	 */
 	public $user_name_canonikal;
+
+	/**
+	 * @field varchar(100)
+	 * @type string
+	 */
 	public $real_name;
+
+	/**
+	 * @field varchar(100)
+	 * @type string
+	 */
 	public $email;
+
+	/**
+	 * @field varchar(200)
+	 * @type string
+	 */
 	public $openid;
+
+	/**
+	 * @field varchar(100)
+	 * @type string
+	 */
 	public $password;
+
+	/**
+	 * @field tinyint(1) unsigned
+	 * @type int
+	 */
 	public $state;
+
+	/**
+	 * @field tinyint(3) unsigned
+	 * @type int
+	 */
 	public $group_id;
+
+	/**
+	 * @field varchar(25)
+	 * @type string
+	 */
 	public $group_name;
+
+	/**
+	 * @field datetime
+	 * @type datetime
+	 */
 	public $register_date;
+
+	/**
+	 * @field datetime
+	 * @type datetime
+	 */
 	public $lastvisit_date;
+
+	/**
+	 * @field varchar(100)
+	 * @type string
+	 */
 	public $activation;
+
+	/**
+	 * @field tinyint(2) unsigned
+	 * @type int
+	 */
 	public $bad_auth_count;
 	private static $user_instance;
 
@@ -38,12 +109,19 @@ class modelUsers extends joosModel {
 		parent::__construct('#__users', 'id');
 	}
 
-	// получение инстанции ТЕКУЩЕГО АВТОРИЗОВАННОГО пользователя
+	/**
+	 * Получение инстанции ТЕКУЩЕГО АВТОРИЗОВАННОГО пользователя
+	 * 
+	 * @return modelUsers
+	 */
 	public static function instance() {
+
 		if (self::$user_instance === NULL) {
+
 			$sessionCookieName = joosSession::sessionCookieName();
 			$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
-			$session = new joldSession;
+
+			$session = new modelUsersSession;
 			if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::sessionCookieValue($sessioncookie))) {
 				if ($session->user_id > 0) {
 					$user = new self;
@@ -56,9 +134,14 @@ class modelUsers extends joosModel {
 				self::$user_instance = new self;
 			}
 		}
+
 		return self::$user_instance;
 	}
 
+	/**
+	 * Получение объекта неавторизованного пользователя - гостя
+	 * @return stdClass 
+	 */
 	private static function get_guest() {
 		$guest = new stdClass();
 		$guest->id = 0;
@@ -66,17 +149,22 @@ class modelUsers extends joosModel {
 		return $guest;
 	}
 
-	public static function get_usergroup($null = false, $group_id = false) {
+	
+	public static function get_users_group($group_id = false) {
+
 		$groups = new modelUsersGroups();
-		$group = $groups->get_selector(array('key' => 'id',
-			'value' => 'title'), array('select' => 'id, title'));
+		$group = $groups->get_selector(
+				array('key' => 'id', 'value' => 'title'), array('select' => 'id, title')
+		);
+
 		return $group_id ? $group[$group_id] : $group;
 	}
 
-	public static function get_usergroup_title() {
+	public static function get_users_group_title() {
 		$groups = new modelUsersGroups();
-		return $groups->get_selector(array('key' => 'id',
-					'value' => 'group_title'), array('select' => 'id, group_title'));
+		return $groups->get_selector(
+						array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title')
+		);
 	}
 
 	// добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
@@ -84,7 +172,9 @@ class modelUsers extends joosModel {
 
 		$extra = new modelUsersExtra;
 		$extra->user_id = $this->id;
-		joosDatabase::instance()->insert_object('#__users_extra', $extra);
+		$extra->store();
+
+		return true;
 	}
 
 	public function check($validator = null) {
@@ -149,7 +239,7 @@ class modelUsers extends joosModel {
 			//$new_pas = self::prepare_password($this->password);
 			//$this->password = ($new_pas==$db_password) ? $db_password : $new_pas;
 		}
-		$this->group_name = self::get_usergroup(false, $this->group_id);
+		$this->group_name = self::get_users_group($this->group_id);
 	}
 
 	/**
@@ -324,7 +414,7 @@ class modelUsers extends joosModel {
 		}
 
 		// пароль проверили, теперь можно заводить сессиию и ставить куки авторизации
-		$session = new joldSession;
+		$session = new modelUsersSession;
 		$session->time = time();
 		$session->guest = 0;
 		$session->user_name = $user->user_name;
@@ -385,7 +475,7 @@ class modelUsers extends joosModel {
 		// в базе хранится еще рах хешированное значение куки, повторим его что бы получить нужное
 		$sessionValueCheck = joosSession::sessionCookieValue($sessioncookie);
 		// объект сессий
-		$session = new joldSession;
+		$session = new modelUsersSession;
 		// проверяем что кука есть, длина в норме и по ней есть запись в базе
 		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load($sessionValueCheck)) {
 			echo 'всё пучкоме';
@@ -399,7 +489,7 @@ class modelUsers extends joosModel {
 	public static function is_loged() {
 		$sessionCookieName = joosSession::sessionCookieName();
 		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
-		$session = new joldSession;
+		$session = new modelUsersSession;
 		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::sessionCookieValue($sessioncookie))) {
 			return true;
 		}
@@ -533,7 +623,7 @@ class modelUsersGroups extends joosModel {
 
 }
 
-class joldSession extends joosModel {
+class modelUsersSession extends joosModel {
 
 	public $session_id = null;
 	public $time = null;

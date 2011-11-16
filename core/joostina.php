@@ -587,17 +587,17 @@ class joosController {
 			// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
 			method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
-			$results = call_user_func($class . '::' . self::$task);
+			$result = call_user_func($class . '::' . self::$task);
 
-			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
+			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $result)) : null;
 		} else {
 			//  в контроллере нет запрашиваемого метода
 			return self::ajax_error404();
 		}
-		if (is_array($results)) {
-			echo json_encode($results);
-		} elseif (is_string($results)) {
-			echo $results;
+		if (is_array($result)) {
+			echo json_encode($result);
+		} elseif (is_string($result)) {
+			echo $result;
 		}
 	}
 

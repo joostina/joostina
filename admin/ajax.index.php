@@ -8,12 +8,12 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // Установка флага родительского файла
-define( '_JOOS_CORE' , 1 );
+define('_JOOS_CORE', 1);
 
 // корень файлов панели управления
-define( 'JPATH_BASE_ADMIN' , __DIR__ );
+define('JPATH_BASE_ADMIN', __DIR__);
 
-require_once ( dirname( JPATH_BASE_ADMIN ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php' );
+require_once ( dirname(JPATH_BASE_ADMIN) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php' );
 require_once ( JPATH_BASE . DS . 'app' . DS . 'bootstrap.php' );
 require_once ( JPATH_BASE . DS . 'core' . DS . 'admin.root.php' );
 
@@ -30,19 +30,19 @@ joosAcl::init_admipanel();
 
 $my = joosCore::user();
 
-if ( joosAcl::isDeny( 'adminpanel' ) ) {
-	echo json_encode( array ( 'code'    => 500 ,
-	                          'message' => 'Ошибка прав доступа' ) );
+if (joosAcl::isDeny('adminpanel')) {
+	echo json_encode(array('code' => 500,
+		'message' => 'Ошибка прав доступа'));
 	die();
 }
 
-if ( !$my->id ) {
-	echo json_encode( array ( 'code'    => 500 ,
-	                          'message' => 'Ошибка авторизации' ) );
+if (!$my->id) {
+	echo json_encode(array('code' => 500,
+		'message' => 'Ошибка авторизации'));
 	die();
 }
 
-$option = joosRequest::param( 'option' );
+$option = joosRequest::param('option');
 
 ob_start();
 
@@ -50,12 +50,12 @@ ob_start();
 $file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'controller.admin.' . $option . '.ajax.php';
 
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
-if ( file_exists( $file_com ) ) {
+if (file_exists($file_com)) {
 	include_once ( $file_com );
 	joosAutoadmin::dispatch_ajax();
 } else {
-	echo json_encode( array ( 'code'    => 500 ,
-	                          'message' => sprintf( 'Файл контроллера для %s не найден' , $file_com ) ) );
+	echo json_encode(array('code' => 500,
+		'message' => sprintf('Файл контроллера для %s не найден', $file_com)));
 	die();
 }
 

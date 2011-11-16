@@ -133,13 +133,19 @@ class joosAutoadmin {
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
 		if (method_exists($class, $task)) {
-			echo call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
+			$result = call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
 		} else {
-			echo call_user_func_array($class . '::index', array($option, $id, $page, $task));
+			$result = call_user_func_array($class . '::index', array($option, $id, $page, $task));
 		}
 
 		// контроллер может содержать метод вызываемый после окончания работы основного контроллера, но тоже вызовется
-		method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array()) : null;
+		method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array($task, $result)) : null;
+
+		if (is_array($result)) {
+			echo json_encode($result);
+		} elseif (is_string($result)) {
+			echo $result;
+		}
 	}
 
 	/**

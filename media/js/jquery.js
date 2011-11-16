@@ -1772,7 +1772,7 @@ jQuery.extend({
 			thisCache[ jQuery.camelCase( name ) ] = data;
 		}
 
-		// modelUsers should not attempt to inspect the internal events object using jQuery.data,
+		// Users should not attempt to inspect the internal events object using jQuery.data,
 		// it is undocumented and subject to change. But does anyone listen? No.
 		if ( isEvents && !thisCache[ name ] ) {
 			return privateCache.events;
@@ -7571,7 +7571,7 @@ jQuery.extend({
 
 		// Set the correct header, if data is being sent
 		if ( s.data && s.hasContent && s.contentType !== false || options.contentType ) {
-			jqXHR.setRequestHeader( "modelContent-Type", s.contentType );
+			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
 
 		// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
