@@ -700,7 +700,7 @@ class joosController {
 /**
  * Заглушка для локализации интерфейса
  *
- * @example __('К нам пришёл :username', array(':username'=>'Дед мороз') );
+ * @example __('К нам пришёл :user_name', array(':user_name'=>'Дед мороз') );
  *
  * @param string $string
  * @param array  $args

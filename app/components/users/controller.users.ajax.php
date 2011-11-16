@@ -16,10 +16,10 @@ class actionsAjaxUsers extends joosController {
 
 		//joosSpoof::check_code(null, 1);
 
-		$username = joosRequest::post( 'username' );
+		$user_name = joosRequest::post( 'user_name' );
 		$password = joosRequest::post( 'password' );
 
-		$response = json_decode( modelUsers::login( $username , $password , array ( 'return' => 1 ) ) , true );
+		$response = json_decode( modelUsers::login( $user_name , $password , array ( 'return' => 1 ) ) , true );
 
 		if ( isset( $response['error'] ) ) {
 			echo json_encode( array ( 'error' => $response['error'] ) );
@@ -53,7 +53,7 @@ class actionsAjaxUsers extends joosController {
 
 		if ( $user->save( $_POST ) ) {
 			$password = joosRequest::post( 'password' );
-			$response = json_decode( modelUsers::login( $user->username , $password , array ( 'return' => 1 ) ) , true );
+			$response = json_decode( modelUsers::login( $user->user_name , $password , array ( 'return' => 1 ) ) , true );
 			if ( isset( $response['error'] ) ) {
 				echo json_encode( array ( 'error' => $response['error'] ) );
 				return false;

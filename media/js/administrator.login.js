@@ -1,3 +1,3 @@
 $(document).ready(function() {
-    $('#username').focus();
+    $('#user_name').focus();
 });

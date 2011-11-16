@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * modelUsers - Модель пользователей
@@ -19,35 +19,35 @@ defined( '_JOOS_CORE' ) or die();
 class modelUsers extends joosModel {
 
 	public $id;
-	public $username;
-	public $username_canonikal;
-	public $realname;
+	public $user_name;
+	public $user_name_canonikal;
+	public $real_name;
 	public $email;
 	public $openid;
 	public $password;
 	public $state;
-	public $gid;
-	public $groupname;
-	public $registerDate;
-	public $lastvisitDate;
+	public $group_id;
+	public $group_name;
+	public $register_date;
+	public $lastvisit_date;
 	public $activation;
 	public $bad_auth_count;
 	private static $user_instance;
 
 	function __construct() {
-		parent::__construct( '#__users' , 'id' );
+		parent::__construct('#__users', 'id');
 	}
 
 	// получение инстанции ТЕКУЩЕГО АВТОРИЗОВАННОГО пользователя
 	public static function instance() {
-		if ( self::$user_instance === NULL ) {
+		if (self::$user_instance === NULL) {
 			$sessionCookieName = joosSession::sessionCookieName();
-			$sessioncookie     = (string) joosRequest::cookies( $sessionCookieName );
-			$session           = new joldSession;
-			if ( $sessioncookie && strlen( $sessioncookie ) == 32 && $sessioncookie != '-' && $session->load( joosSession::sessionCookieValue( $sessioncookie ) ) ) {
-				if ( $session->userid > 0 ) {
+			$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
+			$session = new joldSession;
+			if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::sessionCookieValue($sessioncookie))) {
+				if ($session->user_id > 0) {
 					$user = new self;
-					$user->load( $session->userid );
+					$user->load($session->user_id);
 					self::$user_instance = $user;
 				} else {
 					self::$user_instance = self::get_guest();
@@ -60,41 +60,41 @@ class modelUsers extends joosModel {
 	}
 
 	private static function get_guest() {
-		$guest           = new stdClass();
-		$guest->id       = 0;
-		$guest->username = _GUEST_USER;
+		$guest = new stdClass();
+		$guest->id = 0;
+		$guest->user_name = _GUEST_USER;
 		return $guest;
 	}
 
-	public static function get_usergroup( $null = false , $gid = false ) {
+	public static function get_usergroup($null = false, $group_id = false) {
 		$groups = new modelUsersGroups();
-		$group  = $groups->get_selector( array ( 'key'   => 'id' ,
-		                                         'value' => 'title' ) , array ( 'select' => 'id, title' ) );
-		return $gid ? $group[$gid] : $group;
+		$group = $groups->get_selector(array('key' => 'id',
+			'value' => 'title'), array('select' => 'id, title'));
+		return $group_id ? $group[$group_id] : $group;
 	}
 
 	public static function get_usergroup_title() {
 		$groups = new modelUsersGroups();
-		return $groups->get_selector( array ( 'key'   => 'id' ,
-		                                      'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ) );
+		return $groups->get_selector(array('key' => 'id',
+					'value' => 'group_title'), array('select' => 'id, group_title'));
 	}
 
 	// добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
 	public function after_insert() {
 
-		$extra          = new modelUsersExtra;
+		$extra = new modelUsersExtra;
 		$extra->user_id = $this->id;
-		joosDatabase::instance()->insert_object( '#__users_extra' , $extra );
+		joosDatabase::instance()->insert_object('#__users_extra', $extra);
 	}
 
-	public function check( $validator = null ) {
+	public function check($validator = null) {
 
 		$this->filter();
 
-		if ( $validator && !$validator->ValidateForm() ) {
-			$error_hash   = $validator->GetErrors();
+		if ($validator && !$validator->ValidateForm()) {
+			$error_hash = $validator->GetErrors();
 			$this->_error = '';
-			foreach ( $error_hash as $inp_err ) {
+			foreach ($error_hash as $inp_err) {
 				$this->_error .= $inp_err;
 			}
 			return false;
@@ -102,32 +102,32 @@ class modelUsers extends joosModel {
 
 		$this->_db = joosDatabase::instance();
 
-		$query     = "SELECT id FROM #__users WHERE username = " . $this->_db->quote( $this->username ) . " AND id != " . (int) $this->id;
-		$xid       = $this->_db->set_query( $query )->load_result();
-		if ( $xid && $xid != $this->id ) {
-			$this->_error = addslashes( _REGWARN_INUSE );
+		$query = "SELECT id FROM #__users WHERE user_name = " . $this->_db->quote($this->user_name) . " AND id != " . (int) $this->id;
+		$xid = $this->_db->set_query($query)->load_result();
+		if ($xid && $xid != $this->id) {
+			$this->_error = addslashes(_REGWARN_INUSE);
 			return false;
 		}
 
-		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->quote( $this->email ) . " AND id != " . (int) $this->id;
-		$xid   = $this->_db->set_query( $query )->load_result();
-		if ( $xid && $xid != $this->id ) {
+		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->quote($this->email) . " AND id != " . (int) $this->id;
+		$xid = $this->_db->set_query($query)->load_result();
+		if ($xid && $xid != $this->id) {
 			$this->_error = _REGWARN_EMAIL_INUSE;
 			return false;
 		}
 
 		// формируем дополнителньое каноничное имя
-		$this->username_canonikal = UserHelper::get_canonikal( $this->username );
+		$this->user_name_canonikal = UserHelper::get_canonikal($this->user_name);
 		return true;
 	}
 
-	function check_edit( $validator ) {
+	function check_edit($validator) {
 
-		if ( !$validator->ValidateForm() ) {
+		if (!$validator->ValidateForm()) {
 			$this->_error = '<strong>Ошибки при заполнении формы:</strong><ul>';
 
-			$error_hash   = $validator->GetErrors();
-			foreach ( $error_hash as $inp_err ) {
+			$error_hash = $validator->GetErrors();
+			foreach ($error_hash as $inp_err) {
 				$this->_error .= '<li>' . $inp_err . '</li>';
 			}
 			$this->_error .= '</ul>';
@@ -137,19 +137,19 @@ class modelUsers extends joosModel {
 	}
 
 	function before_store() {
-		if ( !$this->id ) {
-			$this->password     = self::prepare_password( $this->password );
-			$this->registerDate = _CURRENT_SERVER_TIME;
+		if (!$this->id) {
+			$this->password = self::prepare_password($this->password);
+			$this->register_date = _CURRENT_SERVER_TIME;
 		} else {
-			if ( ( $new_password = joosRequest::post( 'new_password' , false ) ) ) {
-				$this->password = self::prepare_password( $new_password );
+			if (( $new_password = joosRequest::post('new_password', false))) {
+				$this->password = self::prepare_password($new_password);
 			}
 			//$query = "SELECT password FROM #__users WHERE id = " . $this->id;
 			//$db_password = $this->_db->setQuery($query)->loadResult();
 			//$new_pas = self::prepare_password($this->password);
 			//$this->password = ($new_pas==$db_password) ? $db_password : $new_pas;
 		}
-		$this->groupname = self::get_usergroup( false , $this->gid );
+		$this->group_name = self::get_usergroup(false, $this->group_id);
 	}
 
 	/**
@@ -161,14 +161,14 @@ class modelUsers extends joosModel {
 	 *
 	 * @return bool
 	 */
-	public static function check_password( $input_password , $real_password ) {
+	public static function check_password($input_password, $real_password) {
 		// из хешированного значения пароля хранящегося в базе извлекаем соль
-		list( $hash , $salt ) = explode( ':' , $real_password );
+		list( $hash, $salt ) = explode(':', $real_password);
 		// формируем хеш из введённого пользователм пароля и соли из базе
-		$cryptpass = md5( $input_password . $salt );
+		$cryptpass = md5($input_password . $salt);
 
 		// сравниваем хешированный пароль из базы и хеш от введённго пароля
-		if ( $hash != $cryptpass ) {
+		if ($hash != $cryptpass) {
 			return false;
 		}
 
@@ -183,15 +183,15 @@ class modelUsers extends joosModel {
 	 *
 	 * @return str
 	 */
-	public static function prepare_password( $password ) {
-		$salt  = self::mosMakePassword( 16 );
-		$crypt = md5( $password . $salt );
+	public static function prepare_password($password) {
+		$salt = self::mosMakePassword(16);
+		$crypt = md5($password . $salt);
 		return $crypt . ':' . $salt;
 	}
 
-	function get_gender( $user , $params = null ) {
+	function get_gender($user, $params = null) {
 
-		switch ( $user->user_extra->gender ) {
+		switch ($user->user_extra->gender) {
 			case 'female':
 				$gender = _USERS_FEMALE_S;
 				break;
@@ -206,7 +206,7 @@ class modelUsers extends joosModel {
 				break;
 		}
 
-		if ( $params->get( 'gender' ) == 1 || !$params ) {
+		if ($params->get('gender') == 1 || !$params) {
 			return $gender;
 		} else {
 			$gender = '<img alt="" title="' . $gender . '" src="' . JPATH_SITE . '/images/system/' . $user->extra->gender . '.png" />';
@@ -227,28 +227,28 @@ class modelUsers extends joosModel {
 	 *
 	 * @deprecated заменить на актуальный код
 	 */
-	public static function avatar( $id , $size = false ) {
+	public static function avatar($id, $size = false) {
 
-		$size      = $size ? '_' . $size : false;
+		$size = $size ? '_' . $size : false;
 
-		$file      = joosFile::make_file_location( (int) $id );
+		$file = joosFile::make_file_location((int) $id);
 
 
 		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar' . $size . '.png';
-		return is_file( $base_file ) ? JPATH_SITE . '/attachments/avatars/' . $file . '/avatar' . $size . '.png' : JPATH_SITE . '/media/images/noavatar/avatar' . $size . '.png';
+		return is_file($base_file) ? JPATH_SITE . '/attachments/avatars/' . $file . '/avatar' . $size . '.png' : JPATH_SITE . '/media/images/noavatar/avatar' . $size . '.png';
 	}
 
-	public static function avatar_check( $id ) {
+	public static function avatar_check($id) {
 
-		$file      = joosFile::make_file_location( $id );
+		$file = joosFile::make_file_location($id);
 		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar.png';
-		return is_file( $base_file ) ? 1 : 0;
+		return is_file($base_file) ? 1 : 0;
 	}
 
-	public function crypt_pass( $pass ) {
+	public function crypt_pass($pass) {
 
-		$salt  = self::mosMakePassword( 16 );
-		$crypt = md5( $pass . $salt );
+		$salt = self::mosMakePassword(16);
+		$crypt = md5($pass . $salt);
 		return $crypt . ':' . $salt;
 	}
 
@@ -258,10 +258,10 @@ class modelUsers extends joosModel {
 	 */
 	public function extra() {
 
-		if ( !isset( $this->extra ) || $this->extra === NULL ) {
+		if (!isset($this->extra) || $this->extra === NULL) {
 
 			$extra = new modelUsersExtra;
-			$extra->load( $this->id );
+			$extra->load($this->id);
 
 			$this->extra = $extra;
 		}
@@ -269,93 +269,93 @@ class modelUsers extends joosModel {
 		return $this->extra;
 	}
 
-	private static function mosMakePassword( $length = 8 ) {
-		$salt     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static function mosMakePassword($length = 8) {
+		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$makepass = '';
-		mt_srand( 10000000 * (double) microtime() );
-		for ( $i  = 0; $i < $length; $i++ ) {
-			$makepass .= $salt[mt_rand( 0 , 61 )];
+		mt_srand(10000000 * (double) microtime());
+		for ($i = 0; $i < $length; $i++) {
+			$makepass .= $salt[mt_rand(0, 61)];
 		}
 		return $makepass;
 	}
 
-	public static function login( $username , $password = false , array $params = array () ) {
+	public static function login($user_name, $password = false, array $params = array()) {
 
-		$params += array ( 'redirect' => true );
+		$params += array('redirect' => true);
 
-		$return = (string) joosRequest::param( 'return' );
-		if ( $return && !( strpos( $return , 'com_registration' ) || strpos( $return , 'com_login' ) ) ) {
+		$return = (string) joosRequest::param('return');
+		if ($return && !( strpos($return, 'com_registration') || strpos($return, 'com_login') )) {
 			//$return = $return;
-		} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+		} elseif (isset($_SERVER['HTTP_REFERER'])) {
 			$return = $_SERVER['HTTP_REFERER'];
 		} else {
 			$return = JPATH_SITE;
 		}
 
-		$user           = new modelUsers;
-		$user->username = $username;
+		$user = new modelUsers;
+		$user->user_name = $user_name;
 		$user->find();
 
 		// если акаунт заблокирован
-		if ( !$user->id ) {
-			if ( isset( $params['return'] ) ) {
-				return json_encode( array ( 'error' => 'Такого пользователя нет' ) );
+		if (!$user->id) {
+			if (isset($params['return'])) {
+				return json_encode(array('error' => 'Такого пользователя нет'));
 			} else {
-				joosRoute::redirect( $return , 'Такого пользователя нет' );
+				joosRoute::redirect($return, 'Такого пользователя нет');
 			}
 		}
 
 		// если акаунт заблокирован
-		if ( $user->state == 0 ) {
-			if ( isset( $params['return'] ) ) {
-				return json_encode( array ( 'error' => _LOGIN_BLOCKED ) );
+		if ($user->state == 0) {
+			if (isset($params['return'])) {
+				return json_encode(array('error' => _LOGIN_BLOCKED));
 			} else {
-				joosRoute::redirect( $return , _LOGIN_BLOCKED );
+				joosRoute::redirect($return, _LOGIN_BLOCKED);
 			}
 		}
 
 		//Проверям пароль
-		if ( !self::check_password( $password , $user->password ) ) {
-			if ( isset( $params['return'] ) ) {
-				return json_encode( array ( 'error' => _LOGIN_INCORRECT ) );
+		if (!self::check_password($password, $user->password)) {
+			if (isset($params['return'])) {
+				return json_encode(array('error' => _LOGIN_INCORRECT));
 			} else {
-				joosRoute::redirect( $return , _LOGIN_INCORRECT );
+				joosRoute::redirect($return, _LOGIN_INCORRECT);
 			}
 		}
 
 		// пароль проверили, теперь можно заводить сессиию и ставить куки авторизации
-		$session            = new joldSession;
-		$session->time      = time();
-		$session->guest     = 0;
-		$session->username  = $user->username;
-		$session->userid    = $user->id;
-		$session->groupname = $user->groupname;
-		$session->gid       = $user->gid;
-		$session->is_admin  = 0;
+		$session = new joldSession;
+		$session->time = time();
+		$session->guest = 0;
+		$session->user_name = $user->user_name;
+		$session->user_id = $user->id;
+		$session->group_name = $user->group_name;
+		$session->group_id = $user->group_id;
+		$session->is_admin = 0;
 		// сгенерием уникальный ID, захеширем его через sessionCookieValue и запишем в базу
 		$session->generateId();
 		// записываем в базу данные о авторизованном пользователе и его сессии
-		if ( !$session->insert() ) {
-			die( $session->get_error() );
+		if (!$session->insert()) {
+			die($session->get_error());
 		}
 
 		// формируем и устанавливаем пользователю куку что он автоизован
 		$sessionCookieName = joosSession::sessionCookieName();
 		// в значении куки - НЕ хешированное session_id из базы
-		setcookie( $sessionCookieName , $session->getCookie() , false , '/' , JCOOKIE_PACH );
+		setcookie($sessionCookieName, $session->getCookie(), false, '/', JCOOKIE_PACH);
 
 		// очищаем базу от всех прежних сессий вновь авторизовавшегося пользователя
-		$query = "DELETE FROM #__session WHERE  is_admin=0 AND session_id != " . $session->_db->quote( $session->session_id ) . " AND userid = " . (int) $user->id;
-		joosDatabase::instance()->set_query( $query )->query();
+		$query = "DELETE FROM #__users_session WHERE  is_admin=0 AND session_id != " . $session->_db->quote($session->session_id) . " AND user_id = " . (int) $user->id;
+		joosDatabase::instance()->set_query($query)->query();
 
 		// обновляем дату последнего визита авторизованного пользователя
-		$user->lastvisitDate = _CURRENT_SERVER_TIME;
+		$user->lastvisit_date = _CURRENT_SERVER_TIME;
 		$user->store();
 
-		if ( isset( $params['return'] ) ) {
-			return json_encode( array ( 'user' => $user ) );
+		if (isset($params['return'])) {
+			return json_encode(array('user' => $user));
 		} else {
-			joosRoute::redirect( $return );
+			joosRoute::redirect($return);
 		}
 	}
 
@@ -363,16 +363,16 @@ class modelUsers extends joosModel {
 		// получаем название куки ктоторая должна быть у пользователя
 		$sessionCookieName = joosSession::sessionCookieName();
 		// из куки пробуем получить ХЕШ - значение
-		$sessioncookie = (string) joosRequest::cookies( $sessionCookieName );
+		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
 
 		// в базе хранится еще рах хешированное значение куки, повторим его что бы получить нужное
-		$sessionValueCheck = joosSession::sessionCookieValue( $sessioncookie );
+		$sessionValueCheck = joosSession::sessionCookieValue($sessioncookie);
 
-		$lifetime          = time() - 86400;
-		setcookie( $sessionCookieName , ' ' , $lifetime , '/' , JCOOKIE_PACH );
+		$lifetime = time() - 86400;
+		setcookie($sessionCookieName, ' ', $lifetime, '/', JCOOKIE_PACH);
 
-		$query = "DELETE FROM #__session WHERE session_id = " . joosDatabase::instance()->quote( $sessionValueCheck );
-		return joosDatabase::instance()->set_query( $query )->query();
+		$query = "DELETE FROM #__users_session WHERE session_id = " . joosDatabase::instance()->quote($sessionValueCheck);
+		return joosDatabase::instance()->set_query($query)->query();
 	}
 
 	// проверка что пользователь уже авторизован
@@ -380,14 +380,14 @@ class modelUsers extends joosModel {
 		// получаем название куки ктоторая должна быть у пользователя
 		$sessionCookieName = joosSession::sessionCookieName();
 		// из куки пробуем получить ХЕШ - значение
-		$sessioncookie = (string) joosRequest::cookies( $sessionCookieName );
+		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
 
 		// в базе хранится еще рах хешированное значение куки, повторим его что бы получить нужное
-		$sessionValueCheck = joosSession::sessionCookieValue( $sessioncookie );
+		$sessionValueCheck = joosSession::sessionCookieValue($sessioncookie);
 		// объект сессий
 		$session = new joldSession;
 		// проверяем что кука есть, длина в норме и по ней есть запись в базе
-		if ( $sessioncookie && strlen( $sessioncookie ) == 32 && $sessioncookie != '-' && $session->load( $sessionValueCheck ) ) {
+		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load($sessionValueCheck)) {
 			echo 'всё пучкоме';
 			// всё нормально - обновляем время действия сессии в базе
 			$session->time = time();
@@ -398,9 +398,9 @@ class modelUsers extends joosModel {
 	// быстрая проверка авторизации пользователя
 	public static function is_loged() {
 		$sessionCookieName = joosSession::sessionCookieName();
-		$sessioncookie     = (string) joosRequest::cookies( $sessionCookieName );
-		$session           = new joldSession;
-		if ( $sessioncookie && strlen( $sessioncookie ) == 32 && $sessioncookie != '-' && $session->load( joosSession::sessionCookieValue( $sessioncookie ) ) ) {
+		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
+		$session = new joldSession;
+		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::sessionCookieValue($sessioncookie))) {
 			return true;
 		}
 		return false;
@@ -427,57 +427,63 @@ class modelUsersExtra extends joosModel {
 	 * @var int(11)
 	 */
 	public $user_id;
+
 	/**
 	 * @var varchar(10)
 	 */
 	public $gender;
+
 	/**
 	 * @var tinytext (json)
 	 */
 	public $about;
+
 	/**
 	 * @var varchar(255)
 	 */
 	public $location;
+
 	/**
 	 * @var text (json)
 	 */
 	public $contacts;
+
 	/**
 	 * @var date
 	 */
-	public $birthdate;
+	public $birth_date;
+
 	/**
 	 * @var text (json)
 	 */
 	public $interests;
 
 	public function __construct() {
-		parent::__construct( '#__users_extra' , 'user_id' );
+		parent::__construct('#__users_extra', 'user_id');
 	}
 
 	public function check() {
-		$this->filter( array ( 'about' ) );
+		$this->filter(array('about'));
 		return true;
 	}
 
 	public function before_store() {
-
+		
 	}
 
 	public static function get_contacts_types() {
-		return array ( 'icq'       => 'ICQ' ,
-		               'jabber'    => 'Jabber' ,
-		               'google'    => 'GoogleTalk' ,
-		               'msn'       => 'MSN (Live!)' ,
-		               'skype'     => 'Skype' ,
-		               'twitter'   => 'Twitter' ,
-		               'vkontakte' => 'Вконтакте' ,
-		               'site'      => 'Сайт' );
+		return array('icq' => 'ICQ',
+			'jabber' => 'Jabber',
+			'google' => 'GoogleTalk',
+			'msn' => 'MSN (Live!)',
+			'skype' => 'Skype',
+			'twitter' => 'Twitter',
+			'vkontakte' => 'Вконтакте',
+			'site' => 'Сайт');
 	}
 
 	public static function get_interests() {
-		return array ( 'Создание сайтов' , 'Программирование' , 'Дизайн' , 'Вёрстка' , 'Интерфейсы' , 'Оптимизация' );
+		return array('Создание сайтов', 'Программирование', 'Дизайн', 'Вёрстка', 'Интерфейсы', 'Оптимизация');
 	}
 
 }
@@ -501,14 +507,17 @@ class modelUsersGroups extends joosModel {
 	 * @var int(10) unsigned
 	 */
 	public $id;
+
 	/**
 	 * @var int(10) unsigned
 	 */
 	public $parent_id;
+
 	/**
 	 * @var varchar(100)
 	 */
 	public $title;
+
 	/**
 	 * @var varchar(255)
 	 */
@@ -517,8 +526,9 @@ class modelUsersGroups extends joosModel {
 	/*
 	 * Constructor
 	 */
+
 	function __construct() {
-		parent::__construct( '#__users_groups' , 'id' );
+		parent::__construct('#__users_groups', 'id');
 	}
 
 }
@@ -527,31 +537,31 @@ class joldSession extends joosModel {
 
 	public $session_id = null;
 	public $time = null;
-	public $userid = null;
-	public $groupname = null;
-	public $username = null;
-	public $gid = null;
+	public $user_id = null;
+	public $group_name = null;
+	public $user_name = null;
+	public $group_id = null;
 	public $guest = null;
 	public $_session_cookie = null;
 
 	function __construct() {
-		parent::__construct( '#__session' , 'session_id' );
+		parent::__construct('#__users_session', 'session_id');
 	}
 
 	function insert() {
-		$ret = $this->_db->insert_object( $this->_tbl , $this );
-		if ( !$ret ) {
-			$this->_error = strtolower( get_class( $this ) ) . "::store failed <br />" . $this->_db->stderr();
+		$ret = $this->_db->insert_object($this->_tbl, $this);
+		if (!$ret) {
+			$this->_error = strtolower(get_class($this)) . "::store failed <br />" . $this->_db->stderr();
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	function update( $updateNulls = false ) {
-		$ret = $this->_db->update_object( $this->_tbl , $this , 'session_id' , $updateNulls );
-		if ( !$ret ) {
-			$this->_error = strtolower( get_class( $this ) ) . "::update error <br />" . $this->_db->stderr();
+	function update($updateNulls = false) {
+		$ret = $this->_db->update_object($this->_tbl, $this, 'session_id', $updateNulls);
+		if (!$ret) {
+			$this->_error = strtolower(get_class($this)) . "::update error <br />" . $this->_db->stderr();
 			return false;
 		} else {
 			return true;
@@ -560,40 +570,40 @@ class joldSession extends joosModel {
 
 	function generateId() {
 		$failsafe = 20;
-		$randnum  = 0;
-		while ( $failsafe-- ) {
-			$randnum        = md5( uniqid( microtime() , 1 ) );
-			$new_session_id = joosSession::sessionCookieValue( $randnum );
-			if ( $randnum != '' ) {
-				$query = "SELECT $this->_tbl_key FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->quote( $new_session_id );
-				$this->_db->set_query( $query );
-				if ( !$result = $this->_db->query() ) {
-					die( $this->_db->stderr( true ) );
+		$randnum = 0;
+		while ($failsafe--) {
+			$randnum = md5(uniqid(microtime(), 1));
+			$new_session_id = joosSession::sessionCookieValue($randnum);
+			if ($randnum != '') {
+				$query = "SELECT $this->_tbl_key FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->quote($new_session_id);
+				$this->_db->set_query($query);
+				if (!$result = $this->_db->query()) {
+					die($this->_db->stderr(true));
 				}
-				if ( $this->_db->get_num_rows( $result ) == 0 ) {
+				if ($this->_db->get_num_rows($result) == 0) {
 					break;
 				}
 			}
 		}
 		$this->_session_cookie = $randnum;
-		$this->session_id      = $new_session_id;
+		$this->session_id = $new_session_id;
 	}
 
 	function getCookie() {
 		return $this->_session_cookie;
 	}
 
-	function purge( $inc = 1800 , $and = '' , $lifetime = '' ) {
+	function purge($inc = 1800, $and = '', $lifetime = '') {
 
-		if ( $inc == 'core' ) {
+		if ($inc == 'core') {
 			$past_logged = time() - $lifetime;
-			$query       = "DELETE FROM $this->_tbl WHERE time < '" . (int) $past_logged . "'";
+			$query = "DELETE FROM $this->_tbl WHERE time < '" . (int) $past_logged . "'";
 		} else {
 			// kept for backward compatability
-			$past  = time() - $inc;
+			$past = time() - $inc;
 			$query = "DELETE FROM $this->_tbl WHERE ( time < '" . (int) $past . "' )" . $and;
 		}
-		return $this->_db->set_query( $query )->query();
+		return $this->_db->set_query($query)->query();
 	}
 
 }
@@ -601,23 +611,23 @@ class joldSession extends joosModel {
 class UserValidations {
 
 	public static function registration() {
-		joosLoader::lib( 'formvalidator' , 'forms' );
+		joosLoader::lib('formvalidator', 'forms');
 		$validator = new FormValidator();
-		$validator->addValidation( "username" , "req" , "Введите логин" )->addValidation( "username" , "minlen=2" , "Минимум  2 символа" )->addValidation( "username" , "maxlen=15" , "Максимум 15 символов" )->addValidation( "username" , "remote=/register/check/user" , "Логин уже занят или запрещён" )//->addValidation("username", "usernameRegex=^[A-Za-z0-9-_]", "В логине запрещенные символы")
-		//->addValidation('username', 'usernameRegex=true', 'рас рас')
-			->addValidation( "email" , "email" , "Введён неправильный email" )->addValidation( "email" , "req" , "Не введён email-адрес" )->addValidation( "email" , "remote=/register/check/email" , "Такой email уже используется" )->addValidation( "password" , "req" , "Введите пароль" )->addValidation( "password" , "minlen=3" , "Минимум для пароль - 3 символа" )->addValidation( "password" , "maxlen=15" , "Максимум для пароля - 15 символов" );
+		$validator->addValidation("user_name", "req", "Введите логин")->addValidation("user_name", "minlen=2", "Минимум  2 символа")->addValidation("user_name", "maxlen=15", "Максимум 15 символов")->addValidation("user_name", "remote=/register/check/user", "Логин уже занят или запрещён")//->addValidation("user_name", "user_nameRegex=^[A-Za-z0-9-_]", "В логине запрещенные символы")
+				//->addValidation('user_name', 'user_nameRegex=true', 'рас рас')
+				->addValidation("email", "email", "Введён неправильный email")->addValidation("email", "req", "Не введён email-адрес")->addValidation("email", "remote=/register/check/email", "Такой email уже используется")->addValidation("password", "req", "Введите пароль")->addValidation("password", "minlen=3", "Минимум для пароль - 3 символа")->addValidation("password", "maxlen=15", "Максимум для пароля - 15 символов");
 
 		return $validator;
 	}
 
 	public static function login() {
-
+		
 	}
 
 	public static function edit() {
-		joosLoader::lib( 'formvalidator' , 'forms' );
+		joosLoader::lib('formvalidator', 'forms');
 		$validator = new FormValidator();
-		$validator->addValidation( "email" , "email" , "Введён невалидный email" )->addValidation( "email" , "req" , "Не введён email-адрес" )->addValidation( "password_old" , "minlen=3" , "Минимум для пароль - 3 символа" )->addValidation( "password_old" , "maxlen=15" , "Максимум для пароля - 15 символов" )->addValidation( "password_new" , "minlen=3" , "Минимум для пароль - 3 символа" )->addValidation( "password_new" , "maxlen=15" , "Максимум для пароля - 15 символов" );
+		$validator->addValidation("email", "email", "Введён невалидный email")->addValidation("email", "req", "Не введён email-адрес")->addValidation("password_old", "minlen=3", "Минимум для пароль - 3 символа")->addValidation("password_old", "maxlen=15", "Максимум для пароля - 15 символов")->addValidation("password_new", "minlen=3", "Минимум для пароль - 3 символа")->addValidation("password_new", "maxlen=15", "Максимум для пароля - 15 символов");
 
 		return $validator;
 	}
@@ -626,25 +636,25 @@ class UserValidations {
 
 class UserHelper {
 
-	public static function get_canonikal( $username ) {
+	public static function get_canonikal($user_name) {
 		// приводим к единому нижнему регистру
-		$text = joosString:: strtolower( $username );
+		$text = joosString:: strtolower($user_name);
 
 		// убираем спецсимволы
-		$to_del = array ( '~' , '@' , '#' , '$' , '%' , '^' , '&amp;' , '*' , '(' , ')' , '-' , '_' , '+' , '=' , '|' , '?' , ',' , '.' , '/' , ';' , ':' , '"' , "'" , '№' , ' ' );
-		$text   = str_replace( $to_del , '' , $text );
+		$to_del = array('~', '@', '#', '$', '%', '^', '&amp;', '*', '(', ')', '-', '_', '+', '=', '|', '?', ',', '.', '/', ';', ':', '"', "'", '№', ' ');
+		$text = str_replace($to_del, '', $text);
 
 		// приводим одинаковое начертание к единому тексту
-		$a    = array ( 'о' , 'o' , 'l' , 'L' , '|' , '!' , 'i' , 'х' , 's' , 'а' , 'р' , 'с' , 'в' , 'к' , 'е' , 'й' , 'ё' , 'ш' , 'з' , 'ъ' , 'у' , 'т' , 'м' , 'н' );
-		$b    = array ( '0' , '0' , '1' , '1' , '1' , '1' , '1' , 'x' , '$' , 'a' , 'p' , 'c' , 'b' , 'k' , 'e' , 'и' , 'е' , 'щ' , '3' , 'ь' , 'y' , 't' , 'm' , 'h' );
-		$text = str_replace( $a , $b , $text );
+		$a = array('о', 'o', 'l', 'L', '|', '!', 'i', 'х', 's', 'а', 'р', 'с', 'в', 'к', 'е', 'й', 'ё', 'ш', 'з', 'ъ', 'у', 'т', 'м', 'н');
+		$b = array('0', '0', '1', '1', '1', '1', '1', 'x', '$', 'a', 'p', 'c', 'b', 'k', 'e', 'и', 'е', 'щ', '3', 'ь', 'y', 't', 'm', 'h');
+		$text = str_replace($a, $b, $text);
 
 		// убираем дуУубли символов
-		$return  = $o = '';
-		$_l      = joosString::strlen( $text );
-		for ( $i = 0; $i < $_l; $i++ ) {
-			$c = joosString::substr( $text , $i , 1 );
-			if ( $c != $o ) {
+		$return = $o = '';
+		$_l = joosString::strlen($text);
+		for ($i = 0; $i < $_l; $i++) {
+			$c = joosString::substr($text, $i, 1);
+			if ($c != $o) {
 				$return .= $c;
 				$o = $c;
 			}

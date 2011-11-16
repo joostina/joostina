@@ -26,13 +26,13 @@ class modelAdminUsers extends modelUsers {
 		                                          'html_table_element'       => 'value' ,
 		                                          'html_table_element_param' => array ( 'width' => '20px' ,
 		                                                                                'align' => 'center' ) ) ,
-		               'username'      => array ( 'name'               => 'Логин' ,
+		               'user_name'      => array ( 'name'               => 'Логин' ,
 		                                          'editable'           => true ,
 		                                          'sortable'           => true ,
 		                                          'in_admintable'      => true ,
 		                                          'html_edit_element'  => 'edit' ,
 		                                          'html_table_element' => 'editlink' , ) ,
-		               'realname'      => array ( 'name'               => 'Настоящее имя' ,
+		               'real_name'      => array ( 'name'               => 'Настоящее имя' ,
 		                                          'editable'           => true ,
 		                                          'sortable'           => true ,
 		                                          'in_admintable'      => true ,
@@ -68,7 +68,7 @@ class modelAdminUsers extends modelUsers {
 		                                          'html_edit_element'       => 'extra' ,
 		                                          'html_edit_element_param' => array ( 'call_from' => 'modelAdminUsers::get_password_field' ) ,
 		                                          'html_table_element'      => 'value' , ) ,
-		               'gid'           => array ( 'name'                     => 'Группа' ,
+		               'group_id'           => array ( 'name'                     => 'Группа' ,
 		                                          'editable'                 => true ,
 		                                          'sortable'                 => true ,
 		                                          'in_admintable'            => true ,
@@ -76,12 +76,12 @@ class modelAdminUsers extends modelUsers {
 		                                          'html_edit_element_param'  => array ( 'call_from' => 'modelUsers::get_usergroup_title' ) ,
 		                                          'html_table_element'       => 'one_from_array' ,
 		                                          'html_table_element_param' => array ( 'call_from' => 'modelUsers::get_usergroup_title' ) , ) ,
-		               'registerDate'  => array ( 'name'               => 'Дата регистрации' ,
+		               'register_date'  => array ( 'name'               => 'Дата регистрации' ,
 		                                          'editable'           => true ,
 		                                          'in_admintable'      => true ,
 		                                          'html_edit_element'  => 'edit' ,
 		                                          'html_table_element' => 'value' , ) ,
-		               'lastvisitDate' => array ( 'name'                     => 'Последнее посещение' ,
+		               'lastvisit_date' => array ( 'name'                     => 'Последнее посещение' ,
 		                                          'editable'                 => true ,
 		                                          'sortable'                 => true ,
 		                                          'in_admintable'            => true ,
@@ -103,8 +103,8 @@ class modelAdminUsers extends modelUsers {
 	}
 
 	public function get_extrainfo() {
-		return array ( 'search' => array ( 'username' , 'realname' , 'email' ) ,
-		               'filter' => array ( 'gid' => array ( 'name'      => 'Группа' ,
+		return array ( 'search' => array ( 'user_name' , 'real_name' , 'email' ) ,
+		               'filter' => array ( 'group_id' => array ( 'name'      => 'Группа' ,
 		                                                    'call_from' => 'modelUsers::get_usergroup_title' ) ) );
 	}
 

@@ -87,7 +87,7 @@ DEFINE( '_CURRENT_SERVER_TIME' , date( 'Y-m-d H:i:s' , time() ) );
 
 
 // ГЛАВНОЕ регулярное выражение для проверки логина-имени пользователя
-DEFINE( '_USERNAME_REGEX' , '/^[a-zA-Z0-9_-]{3,25}$/iu' );
+DEFINE( '_USER_NAME_REGEX' , '/^[a-zA-Z0-9_-]{3,25}$/iu' );
 
 // секретная фраза для хеширования
 DEFINE( 'JSECRET_CODE' , 'i-love-joostina' );

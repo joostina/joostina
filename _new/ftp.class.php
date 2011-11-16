@@ -49,7 +49,7 @@ class PL_FTP
  	function connect()
  	{
  		$this->host = plGetConfig("ftp", "host");
- 		$this->user = plGetConfig("ftp", "username");
+ 		$this->user = plGetConfig("ftp", "user_name");
  		$this->password = plGetConfig("ftp", "password");
   		$this->directConnect();
  	}

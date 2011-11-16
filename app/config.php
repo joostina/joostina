@@ -1,6 +1,6 @@
 <?php
 
-return array('live_site' => 'http://www.joostina.local',
+return array('live_site' => 'http://www.joostinagit.local',
 	'404_page' => false,
 	'template' => 'joostina',
 	'template_admin' => 'joostin',

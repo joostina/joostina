@@ -20,7 +20,7 @@ defined( '_JOOS_CORE' ) or die();
 			<div class="m-auto_greeting">
 				Привет, <a
 				href="<?php echo joosRoute::href( 'user_view' , array ( 'id'       => $user->id ,
-				                                                        'username' => $user->username ) ) ?>"><?php echo $user->username; ?></a>
+				                                                        'user_name' => $user->user_name ) ) ?>"><?php echo $user->user_name; ?></a>
 			</div>
 			<input type="submit" name="submit" id="logout_button" class="button" value="Выйти"/>
 		</div>

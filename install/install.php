@@ -182,7 +182,7 @@ function __( $s ) {
 	<table>
 		<tr class="passed">
 			<th>Логин администратора</th>
-			<td><input name="admin_username" value=""/></td>
+			<td><input name="admin_user_name" value=""/></td>
 		</tr>
 		<tr class="passed">
 			<th>Пароль администратора</th>

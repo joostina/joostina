@@ -32,7 +32,7 @@ joosDocument::instance()
 			<div class="f">
 				<label>Логин</label>
 						<span class="i-wrap">
-							<input name="username" id="username" type="text" class="inputbox" size="39"/>
+							<input name="user_name" id="user_name" type="text" class="inputbox" size="39"/>
 						</span>
 			</div>
 

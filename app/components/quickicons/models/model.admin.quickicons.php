@@ -72,7 +72,7 @@ class modelAdminQuickicons extends modelQuickicons {
 		                                                 'html_table_element'       => 'statuschanger' ,
 		                                                 'html_table_element_param' => array ( 'align' => 'center' ,
 		                                                                                       'class' => 'td-state-joiadmin' , ) ) ,
-		               'gid'                  => array ( 'name'                     => 'Показывать для групп не ниже' ,
+		               'group_id'                  => array ( 'name'                     => 'Показывать для групп не ниже' ,
 		                                                 'editable'                 => true ,
 		                                                 'in_admintable'            => true ,
 		                                                 'html_edit_element'        => 'option' ,
@@ -101,7 +101,7 @@ class modelAdminQuickicons extends modelQuickicons {
 		return '/media/images/icons/32x32/candy/';
 	}
 
-	public static function get_usergroup( $gid = false ) {
+	public static function get_usergroup( $group_id = false ) {
 		$groop = new modelUsersGroups;
 		return $groop->get_selector( array ( 'key'   => 'id' ,
 		                                     'value' => 'group_title' ) , array ( 'select' => 'id, group_title' ) );

@@ -36,8 +36,8 @@ class joosAcl {
 
 			if ( !$isAdmin ) {
 				global $my;
-				$groupname = strtolower( $my->groupname );
-				$m         = '_acl_' . $groupname;
+				$group_name = strtolower( $my->group_name );
+				$m         = '_acl_' . $group_name;
 				call_user_func_array( 'joosAcl::' . $m , array () );
 			}
 			self::$instance = new self;
@@ -56,8 +56,8 @@ class joosAcl {
 
 		$user      = joosCore::user();
 
-		$groupname = strtolower( $user->groupname );
-		return self::$acl->isAllowed( $groupname , $obj , $task );
+		$group_name = strtolower( $user->group_name );
+		return self::$acl->isAllowed( $group_name , $obj , $task );
 	}
 
 	public static function isDeny( $obj , $task = null ) {

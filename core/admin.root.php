@@ -87,13 +87,13 @@ class joosCoreAdmin extends joosCore {
 
 			// обновление записи последнего посещения панели управления в базе данных
 			if ( isset( $_SESSION['session_user_id'] ) && $_SESSION['session_user_id'] != '' ) {
-				$query = "UPDATE #__users SET lastvisitDate = " . $database->quote( _CURRENT_SERVER_TIME ) . " WHERE id = " . (int) $_SESSION['session_user_id'];
+				$query = "UPDATE #__users SET lastvisit_date = " . $database->quote( _CURRENT_SERVER_TIME ) . " WHERE id = " . (int) $_SESSION['session_user_id'];
 				$database->set_query( $query )->query();
 			}
 
 			// delete db session record corresponding to currently logged in user
 			if ( isset( $_SESSION['session_id'] ) && $_SESSION['session_id'] != '' ) {
-				$query = "DELETE FROM #__session WHERE session_id = " . $database->quote( $_SESSION['session_id'] );
+				$query = "DELETE FROM #__users_session WHERE session_id = " . $database->quote( $_SESSION['session_id'] );
 				$database->set_query( $query )->query();
 			}
 
@@ -107,9 +107,9 @@ class joosCoreAdmin extends joosCore {
 
 		$my            = new modelUsers();
 		$my->id        = joosRequest::int( 'session_user_id' , 0 , $_SESSION );
-		$my->username  = joosRequest::session( 'session_username' );
-		$my->groupname = joosRequest::session( 'session_groupname' );
-		$my->gid       = joosRequest::int( 'session_gid' , 0 , $_SESSION );
+		$my->user_name  = joosRequest::session( 'session_user_name' );
+		$my->group_name = joosRequest::session( 'session_group_name' );
+		$my->group_id       = joosRequest::int( 'session_group_id' , 0 , $_SESSION );
 
 		$session_id    = joosRequest::session( 'session_id' );
 		$logintime     = joosRequest::session( 'session_logintime' );
@@ -119,7 +119,7 @@ class joosCoreAdmin extends joosCore {
 		}
 
 		// check to see if session id corresponds with correct format
-		if ( $session_id == md5( $my->id . $my->username . $my->groupname . $logintime ) ) {
+		if ( $session_id == md5( $my->id . $my->user_name . $my->group_name . $logintime ) ) {
 
 			$task = joosRequest::param( 'task' );
 			if ( $task != 'save' && $task != 'apply' ) {
@@ -130,18 +130,18 @@ class joosCoreAdmin extends joosCore {
 
 				// purge expired admin sessions only
 				$past  = time() - $session_life_admin;
-				$query = "DELETE FROM #__session WHERE time < '" . (int) $past . "' AND guest = 1 AND gid = 0 AND userid <> 0";
+				$query = "DELETE FROM #__users_session WHERE time < '" . (int) $past . "' AND guest = 1 AND group_id = 0 AND user_id <> 0";
 				$database->set_query( $query )->query();
 
 				// update session timestamp
-				$query = "UPDATE #__session SET time = " . $database->quote( time() ) . " WHERE session_id = " . $database->quote( $session_id );
+				$query = "UPDATE #__users_session SET time = " . $database->quote( time() ) . " WHERE session_id = " . $database->quote( $session_id );
 				$database->set_query( $query )->query();
 
 				// set garbage cleaning timeout
 				self::set_session_garbage_clean( $session_life_admin );
 
 				// check against db record of session
-				$query = "SELECT COUNT( session_id ) FROM #__session WHERE session_id = " . $database->quote( $session_id ) . " AND username = " . $database->quote( $my->username ) . " AND userid = " . intval( $my->id );
+				$query = "SELECT COUNT( session_id ) FROM #__users_session WHERE session_id = " . $database->quote( $session_id ) . " AND user_name = " . $database->quote( $my->user_name ) . " AND user_id = " . intval( $my->id );
 				$count = $database->set_query( $query )->load_result();
 
 				// если в таблице нет информации о текущей сессии - она устарела

@@ -422,10 +422,10 @@ class FormValidator {
 				break;
 				}
 
-			case "usernameRegex":
+			case "user_nameRegex":
 				{
-				$this->js_validator['rules'][$variable_name]['usernameRegex']    = $command_value;
-				$this->js_validator['messages'][$variable_name]['usernameRegex'] = $default_error_message;
+				$this->js_validator['rules'][$variable_name]['user_nameRegex']    = $command_value;
+				$this->js_validator['messages'][$variable_name]['user_nameRegex'] = $default_error_message;
 				break;
 				}
 			case "dontselect":

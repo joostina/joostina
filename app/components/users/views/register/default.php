@@ -52,8 +52,8 @@ joosDocument::$data['footer'][] = $register_js_code;
 
 		<div class="errors"><?php echo $user->get_error(); ?></div>
 		<dl class="form_registration">
-			<dt><label for="username">Имя пользователя:</label></dt>
-			<dd><input type="text" name="username" id="username" size="40" value="<?php echo $user->username ?>"
+			<dt><label for="user_name">Имя пользователя:</label></dt>
+			<dd><input type="text" name="user_name" id="user_name" size="40" value="<?php echo $user->user_name ?>"
 			           class="inputbox" maxlength="10"/></dd>
 
 			<dt><label for="email"><?php echo _REGISTER_EMAIL; ?></label></dt>

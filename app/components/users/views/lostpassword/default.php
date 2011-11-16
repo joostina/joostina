@@ -30,8 +30,8 @@ defined( '_JOOS_CORE' ) or die();
 
 	<form action="<?php throw new joosException( 'Переделать!' ) ?>" method="post">
 		<dl class="form_lostpassword">
-			<dt><label for="username_f">Введите имя пользователя</label></dt>
-			<dd><input type="text" name="username" id="username_f" size="40" value="" class="inputbox" maxlength="20"/>
+			<dt><label for="user_name_f">Введите имя пользователя</label></dt>
+			<dd><input type="text" name="user_name" id="user_name_f" size="40" value="" class="inputbox" maxlength="20"/>
 			</dd>
 			<dt><label for="email_f">или email</label></dt>
 			<dd><input type="text" name="email" id="email_f" size="40" value="" class="inputbox" maxlength="20"/></dd>

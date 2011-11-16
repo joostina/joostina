@@ -49,18 +49,18 @@ joosDocument::instance()->add_js_code( $js_code );
 
 <div id="user_edit_form" class="b-relative">
 
-	<form action="/user/<?php echo $user->username ?>/edit" method="post" class="usereditform">
+	<form action="/user/<?php echo $user->user_name ?>/edit" method="post" class="usereditform">
 
 		<div class="f-block">
 			<div class="f f-50 f-50_1">
 				<label for="">Настоящее имя</label>
-				<input type="text" name="realname" value="<?php echo $user->realname ?>" class="input-100"/>
+				<input type="text" name="real_name" value="<?php echo $user->real_name ?>" class="input-100"/>
 			</div>
 
 			<div class="f f-50 f-50_2">
 				<div class="f f-50 f-50_1">
 					<label class="lbl_block" for="">День рождения</label>
-					<input type="date" name="birthdate" value="<?php echo $user_e->birthdate ?>" id="date"/>
+					<input type="date" name="birth_date" value="<?php echo $user_e->birth_date ?>" id="date"/>
 				</div>
 				<div class="f f-50 f-50_2">
 					<label class="lbl_block" for="">Пол</label>
@@ -86,7 +86,7 @@ joosDocument::instance()->add_js_code( $js_code );
 			</div>
 		</div>
 
-		<?php if ( $user->gid == 9 ): ?>
+		<?php if ( $user->group_id == 9 ): ?>
 		<div class="f-block">
 			<div class="f">
 				<label class="lbl_block" for="">Анкета</label>
@@ -176,7 +176,7 @@ joosDocument::instance()->add_js_code( $js_code );
 				<button type="submit">Сохранить</button>
 				<a class="button"
 				   href="<?php echo joosRoute::href( 'user_view' , array ( 'id'       => $user->id ,
-				                                                           'username' => $user->username ) ) ?>">Отмена</a>
+				                                                           'user_name' => $user->user_name ) ) ?>">Отмена</a>
 			</div>
 		</div>
 

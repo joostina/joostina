@@ -22,13 +22,13 @@ joosCoreAdmin::start();
 
 $my            = new stdClass;
 $my->id        = (int) joosRequest::session( 'session_user_id' );
-$my->username  = joosRequest::session( 'session_username' );
-$my->groupname = joosRequest::session( 'session_groupname' );
-$my->gid       = (int) joosRequest::session( 'session_gid' );
+$my->user_name  = joosRequest::session( 'session_user_name' );
+$my->group_name = joosRequest::session( 'session_group_name' );
+$my->group_id       = (int) joosRequest::session( 'session_group_id' );
 $session_id    = joosRequest::session( 'session_id' );
 $logintime     = joosRequest::session( 'session_logintime' );
 
-if ( $session_id == md5( $my->id . $my->username . $my->groupname . $logintime ) ) {
+if ( $session_id == md5( $my->id . $my->user_name . $my->group_name . $logintime ) ) {
 	joosRoute::redirect( 'index2.php' );
 	die();
 }
@@ -37,7 +37,7 @@ if ( joosRequest::is_post() ) {
 
 	joosCSRF::check_code( 'admin_login' );
 
-	$username = joosRequest::post( 'username' );
+	$user_name = joosRequest::post( 'user_name' );
 	$password = joosRequest::post( 'password' );
 
 	if ( $password == null ) {
@@ -48,7 +48,7 @@ if ( joosRequest::is_post() ) {
 	$database = joosDatabase::instance();
 
 	$my       = null;
-	$query    = 'SELECT * FROM #__users WHERE username =' . $database->quote( $username ) . ' AND state = 1';
+	$query    = 'SELECT * FROM #__users WHERE user_name =' . $database->quote( $user_name ) . ' AND state = 1';
 	$database->set_query( $query )->load_object( $my );
 
 	if ( isset( $my->id ) ) {
@@ -62,7 +62,7 @@ if ( joosRequest::is_post() ) {
 		$bad_auth = $my->bad_auth_count;
 
 
-		if ( strcmp( $hash , $cryptpass ) || !joosAcl::acl()->isAllowed( strtolower( $my->groupname ) , 'adminpanel' ) ) {
+		if ( strcmp( $hash , $cryptpass ) || !joosAcl::acl()->isAllowed( strtolower( $my->group_name ) , 'adminpanel' ) ) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
 			$database->set_query( $query )->query();
@@ -81,7 +81,7 @@ if ( joosRequest::is_post() ) {
 
 		// construct Session ID
 		$logintime  = time();
-		$session_id = md5( $my->id . $my->username . $my->groupname . $logintime );
+		$session_id = md5( $my->id . $my->user_name . $my->group_name . $logintime );
 
 		// чистим старые сессии
 		session_destroy();
@@ -94,17 +94,17 @@ if ( joosRequest::is_post() ) {
 		session_start();
 
 		// add Session ID entry to DB
-		$query = "INSERT INTO #__session SET time = " . $database->quote( $logintime ) . ", session_id = " . $database->quote( $session_id ) . ", userid = " . (int) $my->id . ", groupname = " . $database->quote( $my->groupname ) . ", username = " . $database->quote( $my->username ) . ", gid=" . (int) $my->gid . ", guest=0, is_admin=1";
+		$query = "INSERT INTO #__users_session SET time = " . $database->quote( $logintime ) . ", session_id = " . $database->quote( $session_id ) . ", user_id = " . (int) $my->id . ", group_name = " . $database->quote( $my->group_name ) . ", user_name = " . $database->quote( $my->user_name ) . ", group_id=" . (int) $my->group_id . ", guest=0, is_admin=1";
 		$database->set_query( $query )->query();
 
-		$query = "DELETE FROM #__session WHERE  is_admin=1 AND session_id != " . $database->quote( $session_id ) . " AND userid = " . (int) $my->id;
+		$query = "DELETE FROM #__users_session WHERE  is_admin=1 AND session_id != " . $database->quote( $session_id ) . " AND user_id = " . (int) $my->id;
 		joosDatabase::instance()->set_query( $query )->query();
 
 		$_SESSION['session_id']             = $session_id;
 		$_SESSION['session_user_id']        = $my->id;
-		$_SESSION['session_username']       = $my->username;
-		$_SESSION['session_gid']            = $my->gid;
-		$_SESSION['session_groupname']      = $my->groupname;
+		$_SESSION['session_user_name']       = $my->user_name;
+		$_SESSION['session_group_id']            = $my->group_id;
+		$_SESSION['session_group_name']      = $my->group_name;
 		$_SESSION['session_logintime']      = $logintime;
 		$_SESSION['session_bad_auth_count'] = $my->bad_auth_count;
 		$_SESSION['session_userstate']      = array ();

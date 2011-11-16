@@ -23,7 +23,7 @@ function navigation_ul_li_recurse( array $items , $level = 1 ) {
 <ul class="dropdown<?php echo $level > 1 ? $level : '' ?>">
 	<?php foreach ( $items as $item => $data ) : ?>
 	<?php $_has_children = ( isset( $data['children'] ) && is_array( $data['children'] ) ) ? 1 : 0 ?>
-	<?php $_access_allow = ( isset( $data['access'] ) && !in_array( joosCore::user()->gid , $data['access'] ) ) ? 0 : 1 ?>
+	<?php $_access_allow = ( isset( $data['access'] ) && !in_array( joosCore::user()->group_id , $data['access'] ) ) ? 0 : 1 ?>
 
 	<?php if ( $_access_allow ): ?>
 		<li>

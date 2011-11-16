@@ -32,9 +32,9 @@ var validator = $('#m-auto_reg').validate({
 		label.html('&nbsp;').addClass('checked');
 	}
 });
-$.validator.addMethod("usernameRegex",function(value,element){
+$.validator.addMethod("user_nameRegex",function(value,element){
 	return this.optional(element) || /^[a-zA-Z0-9._-]{3,16}$/i.test(value);
-},"Username are 3-15 characters");
+},"user_name are 3-15 characters");
 EOD;
 joosDocument::instance()->add_js_code( $register_js_code );
 
@@ -53,8 +53,8 @@ joosDocument::instance()->add_js_code( $register_js_code );
 
 		<form id="m-auto_login" action="<?php echo joosRoute::href( 'login' ) ?>" method="post">
 			<dl>
-				<dt><label for="username_login">Логин:</label></dt>
-				<dd><input type="text" name="username" id="username_login" size="32" maxlength="20"/></dd>
+				<dt><label for="user_name_login">Логин:</label></dt>
+				<dd><input type="text" name="user_name" id="user_name_login" size="32" maxlength="20"/></dd>
 			</dl>
 			<dl>
 				<dt><label for="password_login">Пароль:</label></dt>
@@ -88,8 +88,8 @@ joosDocument::instance()->add_js_code( $register_js_code );
 				</dd>
 			</dl>
 			<dl>
-				<dt><label for="username_reg">Логин:</label></dt>
-				<dd><input type="text" name="username" id="username_reg" size="32" maxlength="20"/></dd>
+				<dt><label for="user_name_reg">Логин:</label></dt>
+				<dd><input type="text" name="user_name" id="user_name_reg" size="32" maxlength="20"/></dd>
 			</dl>
 			<dl>
 				<dt><label for="password_reg">Пароль:</label></dt>

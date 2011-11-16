@@ -8,12 +8,12 @@ defined( '_JOOS_CORE' ) or die();
 navigation_ul_li_recurse( $menu_items , $level = 1 );
 
 function navigation_ul_li_recurse( array $items , $level = 1 ) {
-	$gid = joosCore::user()->gid;
+	$group_id = joosCore::user()->group_id;
 	?>
 <ul class="dropdown<?php echo $level > 1 ? $level : '' ?>">
 	<?php foreach ( $items as $item => $data ) : ?>
 	<?php $_has_children = ( isset( $data['children'] ) && is_array( $data['children'] ) ) ? 1 : 0 ?>
-	<?php $_access_allow = ( isset( $data['access'] ) && !isset( $data['access'][$gid] ) ) ? 0 : 1 ?>
+	<?php $_access_allow = ( isset( $data['access'] ) && !isset( $data['access'][$group_id] ) ) ? 0 : 1 ?>
 
 	<?php if ( $_access_allow ): ?>
 		<li<?php echo ( isset( $data['type'] ) && $data['type'] == 'sep' ) ? ' class="sep"' : '' ?>>

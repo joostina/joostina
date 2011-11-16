@@ -49,7 +49,7 @@ class modelQuickicons extends joosModel {
 	/**
 	 * @var int(3)
 	 */
-	public $gid;
+	public $group_id;
 
 	/*
 	 * Constructor

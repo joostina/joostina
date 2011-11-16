@@ -40,7 +40,7 @@ class actionsAdminQuickicons {
 		$obj_list  = $obj->get_list( $param );
 
 		// массив названий элементов для отображения в таблице списка
-		$fields_list = array ( 'id' , 'title' , 'gid' , 'state' );
+		$fields_list = array ( 'id' , 'title' , 'group_id' , 'state' );
 		// передаём информацию о объекте и настройки полей в формирование представления
 		joosAutoadmin::listing( $obj , $obj_list , $pagenav , $fields_list );
 	}

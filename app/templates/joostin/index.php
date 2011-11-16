@@ -37,7 +37,7 @@ joosDocument::$config['seotag'] = FALSE;
 
 			<div id="header">
 				<a href="index2.php?option=logout"
-				   class="logout_link"><?PHP echo sprintf(__('Выйти %s'), joosCore::user()->username) ?></a>
+				   class="logout_link"><?PHP echo sprintf(__('Выйти %s'), joosCore::user()->user_name) ?></a>
 
 				<div id="admin_menu"><?php joosModuleAdmin::load_by_name('adminmenu'); ?></div>
 			</div>

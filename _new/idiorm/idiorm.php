@@ -58,7 +58,7 @@
             'id_column' => 'id',
             'id_column_overrides' => array(),
             'error_mode' => PDO::ERRMODE_EXCEPTION,
-            'username' => null,
+            'user_name' => null,
             'password' => null,
             'driver_options' => null,
             'identifier_quote_character' => null, // if this is null, will be autodetected
@@ -180,10 +180,10 @@
         protected static function _setup_db() {
             if (!is_object(self::$_db)) {
                 $connection_string = self::$_config['connection_string'];
-                $username = self::$_config['username'];
+                $user_name = self::$_config['user_name'];
                 $password = self::$_config['password'];
                 $driver_options = self::$_config['driver_options'];
-                $db = new PDO($connection_string, $username, $password, $driver_options);
+                $db = new PDO($connection_string, $user_name, $password, $driver_options);
                 $db->setAttribute(PDO::ATTR_ERRMODE, self::$_config['error_mode']);
                 self::set_db($db);
             }
