@@ -14,7 +14,7 @@ class actionsAjaxAdminModules {
 
 	private static $implode_model = true;
 
-	public static function statuschanger() {
+	public static function status_change() {
 		joosAutoadmin::autoajax();
 	}
 

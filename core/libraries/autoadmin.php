@@ -202,7 +202,7 @@ class joosAutoadmin {
 		foreach ($obj_list as $values) {
 			$dop_class = $group_by ? $group_by . '-' . $values->$group_by : '';
 
-			echo "\n\t" . '<tr class="row-' . $k . '" ' . ( $group_by ? 'obj_ordering="' . $values->ordering . '"' : '' ) . ' obj_id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">' . "\n\t";
+			echo "\n\t" . '<tr class="row-' . $k . '" ' . ( $group_by ? ' data-obj-ordering="' . $values->ordering . '"' : '' ) . ' data-obj-id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">' . "\n\t";
 			echo "\t" . '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
 			for ($index = 0; $index < $n; $index++) {
 				$current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
@@ -244,6 +244,8 @@ class joosAutoadmin {
 		require_once $class_file;
 
 		if (!class_exists($class_name)) {
+			echo $class_name;
+			die();
 			throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
 		}
 
@@ -539,7 +541,7 @@ class joosAutoadmin {
 			$obj = new $obj_name;
 
 			switch ($task) {
-				case 'statuschanger':
+				case 'status_change':
 					$obj->load($obj_id);
 					// меняем состояние объекта на противоположное
 					$obj->change_state($obj_key);
@@ -547,10 +549,17 @@ class joosAutoadmin {
 					// получаем настройки полей
 					$fields_info = $obj->get_fieldinfo();
 
-					$fields_info[$obj_key] = array_merge_recursive($fields_info[$obj_key], array('html_table_element_param' => array('statuses' => array(0 => __('Скрыто'),
-								1 => __('Опубликовано')),
-							'images' => array(0 => 'publish_x.png',
-								1 => 'publish_g.png',))));
+					$fields_info[$obj_key] = array_merge_recursive(
+							$fields_info[$obj_key], array(
+						'html_table_element_param' => array(
+							'statuses' => array(
+								0 => __('Скрыто'),
+								1 => __('Опубликовано')
+							),
+							'images' => array(
+								0 => 'publish_x.png',
+								1 => 'publish_g.png',)
+							)));
 
 					// формируем ответ из противоположных элементов текущему состоянию
 					$return_onj->image = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';

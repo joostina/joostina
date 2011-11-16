@@ -55,7 +55,7 @@ class adminContent extends modelContent {
 		                                                      'html_edit_element'        => 'checkbox' ,
 		                                                      'html_table_element'       => 'state_box' ,
 		                                                      'html_edit_element_param'  => array ( 'text' => 'Опубликовано' , ) ,
-		                                                      'html_table_element'       => 'statuschanger' ,
+		                                                      'html_table_element'       => 'status_change' ,
 		                                                      'html_table_element_param' => array ( 'align' => 'center' ,
 		                                                                                            'class' => 'td-state-joiadmin' ,
 		                                                                                            'width' => '20px' , ) ) ,

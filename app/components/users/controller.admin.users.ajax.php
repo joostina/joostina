@@ -8,11 +8,11 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 class actionsAjaxAdminUsers {
 
-	public static function statuschanger() {
+	public static function status_change() {
 		return joosAutoadmin::autoajax();
 	}
 

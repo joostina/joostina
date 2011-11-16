@@ -18,7 +18,7 @@ class actionsAjaxAdminCategories {
 
 	}
 
-	public static function statuschanger() {
+	public static function status_change() {
 		joosAutoadmin::autoajax();
 	}
 

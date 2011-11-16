@@ -6,11 +6,11 @@ $(document).ready(function() {
         var current_obj = $(this);
 
         $.ajax({
-            url:'ajax.index.php?option=' + _option + '&task=statuschanger',
+            url:'ajax.index.php?option=' + _option + '&task=status_change',
             type:'post',
             data:{
-                obj_id:$('img', this).prop('obj_id'),
-                obj_key:$('img', this).prop('obj_key'),
+                obj_id:$('img', this).data('obj-id'),
+                obj_key:$('img', this).data('obj-key'),
                 obj_name:$('input[name=obj_name]').val()
             },
             dataType:'json',

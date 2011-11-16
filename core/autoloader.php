@@ -217,8 +217,8 @@ class AutoloaderFileNotFoundException extends joosException {
 		$backtrace_error = debug_backtrace();
 
 		if( isset($backtrace_error[1]) ){
-			$params[':error_file'] = $backtrace_error[3]['file'];
-			$params[':error_line'] = $backtrace_error[3]['line'];
+			//$params[':error_file'] = $backtrace_error[3]['file'];
+			//$params[':error_line'] = $backtrace_error[3]['line'];
 		}
 
 		parent::__construct( $message , $params );
