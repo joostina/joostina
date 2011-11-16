@@ -458,7 +458,7 @@ class joosDocument {
 				header('Cache-Control: no-cache, must-revalidate');
 			}
 			header('X-Powered-By: Joostina CMS');
-			header('modelContent-type: text/html; charset=UTF-8');
+			header('Content-type: text/html; charset=UTF-8');
 		}
 	}
 
