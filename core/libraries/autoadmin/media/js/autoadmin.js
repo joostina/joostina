@@ -1,31 +1,31 @@
 $(document).ready(function() {
 
-    // клики на ячуйки и значки смены статуса
-    $('.adminlist .td-state-joiadmin').live('click', function() {
-        // объект по которому производится клик
-        var current_obj = $(this);
+	// клики на ячуйки и значки смены статуса
+	$('.adminlist .td-state-joiadmin').live('click', function() {
+		// объект по которому производится клик
+		var current_obj = $(this);
 
-        $.ajax({
-            url:'ajax.index.php?option=' + _option + '&task=status_change',
-            type:'post',
-            data:{
-                obj_id:$('img', this).data('obj-id'),
-                obj_key:$('img', this).data('obj-key'),
-                obj_name:$('input[name=obj_name]').val()
-            },
-            dataType:'json',
-            success:function(data) {
-                if (data.code == 500) {
-                    joosNotify(data.message, 'error');
-                    return;
-                }
-                $('img', current_obj).prop('src', image_path + data.image);
-                $('img', current_obj).prop('alt', image_path + data.mess);
-            }
-        });
-    });
+		$.ajax({
+			url:'ajax.index.php?option=' + _option + '&task=status_change',
+			type:'post',
+			data:{
+				obj_id:$('img', this).data('obj-id'),
+				obj_key:$('img', this).data('obj-key'),
+				obj_name:$('input[name=obj_name]').val()
+			},
+			dataType:'json',
+			success:function(data) {
+				if (data.code == 500) {
+					joosNotify(data.message, 'error');
+					return;
+				}
+				$('img', current_obj).prop('src', image_path + data.image);
+				$('img', current_obj).prop('alt', image_path + data.mess);
+			}
+		});
+	});
 
-/*
+	/*
     //Сортировка
     $('.edit_ordering000').editable('ajax.index.php?option=' + _option + '&task=ordering', {
         id:'elementid',
@@ -165,70 +165,70 @@ $(document).ready(function() {
      return false;
      });	*/
 
+	$('.filter_elements').live('change', function() {
+		var $current = $(this);
+		console.log($current.data('obj-name'));
+		$('input[name=' + $current.data('obj-name') + ']').val($current.val());
+		$('#adminForm').submit();
+		return false;
+	});
 
-    $('.filter_elements').live('change', function() {
-        var $current = $(this);
-        $('input[name=' + $current.prop('obj_name') + ']').val($current.val());
-        $('#adminForm').submit();
-        return false;
-    });
+	$('#search_elements').keyup(function(event) {
+		if (event.keyCode == '13') {
+			var $current = $(this);
+			$('input[name=search]').val($current.val());
+			$('#adminForm').submit();
+		}
+		return false;
+	});
 
-    $('#search_elements').keyup(function(event) {
-        if (event.keyCode == '13') {
-            var $current = $(this);
-            $('input[name=search]').val($current.val());
-            $('#adminForm').submit();
-        }
-        return false;
-    });
+	$('#search_elements').dblclick(function() {
+		$('input[name=search]').val('');
+		$('#adminForm').submit();
+	});
 
-    $('#search_elements').dblclick(function() {
-        $('input[name=search]').val('');
-        $('#adminForm').submit();
-    });
+	//Генератор ссылки для категории
+	$('#category_slug_generator').live('click', function() {
 
-    //Генератор ссылки для категории
-    $('#category_slug_generator').live('click', function() {
+		// объект по которому производится клик
+		var _obj = $(this);
 
-        // объект по которому производится клик
-        var _obj = $(this);
-
-        $.ajax({
-            url:'ajax.index.php?option=categories&task=slug_generator',
-            type:'post',
-            data:{
-                cat_id:_obj.prop('obj_id'),
-                cat_name:$('#name').val(),
-                parent_id:$('#category_id').val(),
-            },
-            dataType:'json',
-            success:function(data) {
-                if (data.error) {
-                    alert(data.error);
-                    return;
-                }
-                $('#slug').val(data.slug);
-            }
-        });
-    });
-
-
-    //табы-табы-табы
-    $('#tabs_list li:first').addClass('g-active');
-    $('#tabs_list li span').click(function() {
-
-        var _el = $(this);
-        var _target = _el.prop('rel');
-
-        if (!_el.hasClass('g-active')) {
-            $('.tab_area').hide();
-            $('#' + _target).show();
-
-            $('#tabs_list li').removeClass('g-active');
-            _el.parent().addClass('g-active');
-        }
+		$.ajax({
+			url:'ajax.index.php?option=categories&task=slug_generator',
+			type:'post',
+			data:{
+				cat_id:_obj.prop('obj_id'),
+				cat_name:$('#name').val(),
+				parent_id:$('#category_id').val(),
+			},
+			dataType:'json',
+			success:function(data) {
+				if (data.error) {
+					alert(data.error);
+					return;
+				}
+				$('#slug').val(data.slug);
+			}
+		});
+	});
 
 
-    })
+	//табы-табы-табы
+	$('#tabs_list li:first').addClass('g-active');
+	$('#tabs_list li span').click(function() {
+
+		var _el = $(this);
+		var _target = _el.prop('rel');
+
+		if (!_el.hasClass('g-active')) {
+			$('.tab_area').hide();
+			$('#' + _target).show();
+
+			$('#tabs_list li').removeClass('g-active');
+			_el.parent().addClass('g-active');
+		}
+
+
+	})
 
 });

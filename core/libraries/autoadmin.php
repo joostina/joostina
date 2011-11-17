@@ -664,18 +664,27 @@ class joosAutoadmin {
 							$field_name = $params_key;
 							$field_title = $value[$field_name]['name'];
 
-							$results[] = forms::label(array('for' => 'filter_' . $field_name), $field_title);
-							$datas_for_select = array(-1 => 'Всё сразу');
+							$results[] = forms::label(array(
+										'for' => 'filter_' . $field_name
+											), $field_title);
+
+							$datas_for_select = array(
+								-1 => __('Всё сразу')
+							);
 							$datas_for_select += ( isset($value[$field_name]['call_from']) && is_callable($value[$field_name]['call_from']) ) ? call_user_func($value[$field_name]['call_from'], $obj, $params_key) : array();
 
-							$selected_value = joosSession::get_user_state_from_request("filter-" . '-' . $field_name . '-' . $obj->classname(), $field_name, -1);
-							$selected_value = $selected_value === '0' ? "0" : $selected_value;
+							$selected_value = joosSession::get_user_state_from_request('filter-' . '-' . $field_name . '-' . $obj->classname(), $field_name, -1);
+							$selected_value = $selected_value === '0' ? '0' : $selected_value;
 
-							$results[] = forms::dropdown(array('name' => 'filter_' . $field_name,
-										'obj_name' => $field_name,
-										'class' => 'filter_elements',
-										'options' => $datas_for_select,
-										'selected' => $selected_value));
+							$results[] = forms::dropdown(
+											array(
+												'name' => 'filter_' . $field_name,
+												'data-obj-name' => $field_name,
+												'class' => 'filter_elements',
+												'options' => $datas_for_select,
+												'selected' => $selected_value
+											)
+							);
 
 							$hidden_elements[] = forms::hidden($field_name, $selected_value);
 							if (( $selected_value && $selected_value != -1 ) OR $selected_value === '0') {
