@@ -149,68 +149,29 @@ class modelUsers extends joosModel {
 		return $guest;
 	}
 
-
-	// добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
-	public function after_insert() {
-
-		$extra = new modelUsersExtra;
-		$extra->user_id = $this->id;
-		$extra->store();
-
-		return true;
-	}
-
-	public function check($validator = null) {
+	public function check() {
 
 		$this->filter();
-
-		if ($validator && !$validator->ValidateForm()) {
-			$error_hash = $validator->GetErrors();
-			$this->_error = '';
-			foreach ($error_hash as $inp_err) {
-				$this->_error .= $inp_err;
-			}
-			return false;
-		}
-
-		$this->_db = joosDatabase::instance();
 
 		$query = "SELECT id FROM #__users WHERE user_name = " . $this->_db->quote($this->user_name) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
 		if ($xid && $xid != $this->id) {
-			$this->_error = addslashes(_REGWARN_INUSE);
+			$this->_error = __('Логин уже зарегистрирован');
 			return false;
 		}
 
 		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->quote($this->email) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
 		if ($xid && $xid != $this->id) {
-			$this->_error = _REGWARN_EMAIL_INUSE;
+			$this->_error = __('Email уже зарегистрирован');
 			return false;
 		}
 
-		// формируем дополнителньое каноничное имя
-		$this->user_name_canonikal = UserHelper::get_canonikal($this->user_name);
-		return true;
-	}
-
-	function check_edit($validator) {
-
-		if (!$validator->ValidateForm()) {
-			$this->_error = '<strong>Ошибки при заполнении формы:</strong><ul>';
-
-			$error_hash = $validator->GetErrors();
-			foreach ($error_hash as $inp_err) {
-				$this->_error .= '<li>' . $inp_err . '</li>';
-			}
-			$this->_error .= '</ul>';
-			return false;
-		}
 		return true;
 	}
 
 	function before_store() {
-		
+
 		if (!$this->id) {
 			$this->password = self::prepare_password($this->password);
 			$this->register_date = _CURRENT_SERVER_TIME;
@@ -219,12 +180,31 @@ class modelUsers extends joosModel {
 				$this->password = self::prepare_password($new_password);
 			}
 		}
-		
-		// поулчаем название группы пользователя
+
+		// получаем название группы пользователя
 		$groups = new modelUsersGroups();
-		$groups->load( $this->group_id );
-		
+		$groups->load($this->group_id);
+
+		// название группы пользователя
 		$this->group_name = $groups->title;
+
+		// формируем дополнительно каноничное имя
+		$this->user_name_canonikal = joosText::to_canonikal($this->user_name);
+	}
+
+	/**
+	 * После создания нового пользователя
+	 * 
+	 * @return bool результат работы
+	 */
+	protected function after_insert() {
+
+		// Добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
+		$extra = new modelUsersExtra;
+		$extra->user_id = $this->id;
+		$this->_db->insert_object('#__users_extra', $extra);
+
+		return true;
 	}
 
 	/**
@@ -259,34 +239,11 @@ class modelUsers extends joosModel {
 	 * @return str
 	 */
 	public static function prepare_password($password) {
-		$salt = self::mosMakePassword(16);
+
+		$salt = joosRandomizer::hash(16);
 		$crypt = md5($password . $salt);
+
 		return $crypt . ':' . $salt;
-	}
-
-	function get_gender($user, $params = null) {
-
-		switch ($user->user_extra->gender) {
-			case 'female':
-				$gender = _USERS_FEMALE_S;
-				break;
-
-			case 'male':
-				$gender = _USERS_MALE_S;
-				break;
-
-			case 'no_gender':
-			default:
-				$gender = _GENDER_NONE;
-				break;
-		}
-
-		if ($params->get('gender') == 1 || !$params) {
-			return $gender;
-		} else {
-			$gender = '<img alt="" title="' . $gender . '" src="' . JPATH_SITE . '/images/system/' . $user->extra->gender . '.png" />';
-		}
-		return $gender;
 	}
 
 	/**
@@ -296,53 +253,6 @@ class modelUsers extends joosModel {
 	public static function current() {
 		// TODO тут надо как-то унифицировать
 		return joosCore::is_admin() ? joosCoreAdmin::user() : self::instance();
-	}
-
-	/**
-	 *
-	 * @deprecated заменить на актуальный код
-	 */
-	public static function avatar($id, $size = false) {
-
-		$size = $size ? '_' . $size : false;
-
-		$file = joosFile::make_file_location((int) $id);
-
-
-		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar' . $size . '.png';
-		return is_file($base_file) ? JPATH_SITE . '/attachments/avatars/' . $file . '/avatar' . $size . '.png' : JPATH_SITE . '/media/images/noavatar/avatar' . $size . '.png';
-	}
-
-	public static function avatar_check($id) {
-
-		$file = joosFile::make_file_location($id);
-		$base_file = JPATH_BASE . DS . 'attachments' . DS . 'avatars' . DS . $file . DS . 'avatar.png';
-		return is_file($base_file) ? 1 : 0;
-	}
-
-	public function crypt_pass($pass) {
-		
-		$salt = joosRandomizer::hash(16);
-		$crypt = md5($pass . $salt);
-		
-		return $crypt . ':' . $salt;
-	}
-
-	/**
-	 * Получение расширенной информации о пользователе
-	 * @return modelUsersExtra
-	 */
-	public function extra() {
-
-		if (!isset($this->extra) || $this->extra === NULL) {
-
-			$extra = new modelUsersExtra;
-			$extra->load($this->id);
-
-			$this->extra = $extra;
-		}
-
-		return $this->extra;
 	}
 
 	public static function login($user_name, $password = false, array $params = array()) {
@@ -533,25 +443,6 @@ class modelUsersExtra extends joosModel {
 		return true;
 	}
 
-	public function before_store() {
-		
-	}
-
-	public static function get_contacts_types() {
-		return array('icq' => 'ICQ',
-			'jabber' => 'Jabber',
-			'google' => 'GoogleTalk',
-			'msn' => 'MSN (Live!)',
-			'skype' => 'Skype',
-			'twitter' => 'Twitter',
-			'vkontakte' => 'Вконтакте',
-			'site' => 'Сайт');
-	}
-
-	public static function get_interests() {
-		return array('Создание сайтов', 'Программирование', 'Дизайн', 'Вёрстка', 'Интерфейсы', 'Оптимизация');
-	}
-
 }
 
 /**
@@ -670,63 +561,6 @@ class modelUsersSession extends joosModel {
 			$query = "DELETE FROM $this->_tbl WHERE ( time < '" . (int) $past . "' )" . $and;
 		}
 		return $this->_db->set_query($query)->query();
-	}
-
-}
-
-class UserValidations {
-
-	public static function registration() {
-		joosLoader::lib('formvalidator', 'forms');
-		$validator = new FormValidator();
-		$validator->addValidation("user_name", "req", "Введите логин")->addValidation("user_name", "minlen=2", "Минимум  2 символа")->addValidation("user_name", "maxlen=15", "Максимум 15 символов")->addValidation("user_name", "remote=/register/check/user", "Логин уже занят или запрещён")//->addValidation("user_name", "user_nameRegex=^[A-Za-z0-9-_]", "В логине запрещенные символы")
-				//->addValidation('user_name', 'user_nameRegex=true', 'рас рас')
-				->addValidation("email", "email", "Введён неправильный email")->addValidation("email", "req", "Не введён email-адрес")->addValidation("email", "remote=/register/check/email", "Такой email уже используется")->addValidation("password", "req", "Введите пароль")->addValidation("password", "minlen=3", "Минимум для пароль - 3 символа")->addValidation("password", "maxlen=15", "Максимум для пароля - 15 символов");
-
-		return $validator;
-	}
-
-	public static function login() {
-		
-	}
-
-	public static function edit() {
-		joosLoader::lib('formvalidator', 'forms');
-		$validator = new FormValidator();
-		$validator->addValidation("email", "email", "Введён невалидный email")->addValidation("email", "req", "Не введён email-адрес")->addValidation("password_old", "minlen=3", "Минимум для пароль - 3 символа")->addValidation("password_old", "maxlen=15", "Максимум для пароля - 15 символов")->addValidation("password_new", "minlen=3", "Минимум для пароль - 3 символа")->addValidation("password_new", "maxlen=15", "Максимум для пароля - 15 символов");
-
-		return $validator;
-	}
-
-}
-
-class UserHelper {
-
-	public static function get_canonikal($user_name) {
-		// приводим к единому нижнему регистру
-		$text = joosString:: strtolower($user_name);
-
-		// убираем спецсимволы
-		$to_del = array('~', '@', '#', '$', '%', '^', '&amp;', '*', '(', ')', '-', '_', '+', '=', '|', '?', ',', '.', '/', ';', ':', '"', "'", '№', ' ');
-		$text = str_replace($to_del, '', $text);
-
-		// приводим одинаковое начертание к единому тексту
-		$a = array('о', 'o', 'l', 'L', '|', '!', 'i', 'х', 's', 'а', 'р', 'с', 'в', 'к', 'е', 'й', 'ё', 'ш', 'з', 'ъ', 'у', 'т', 'м', 'н');
-		$b = array('0', '0', '1', '1', '1', '1', '1', 'x', '$', 'a', 'p', 'c', 'b', 'k', 'e', 'и', 'е', 'щ', '3', 'ь', 'y', 't', 'm', 'h');
-		$text = str_replace($a, $b, $text);
-
-		// убираем дуУубли символов
-		$return = $o = '';
-		$_l = joosString::strlen($text);
-		for ($i = 0; $i < $_l; $i++) {
-			$c = joosString::substr($text, $i, 1);
-			if ($c != $o) {
-				$return .= $c;
-				$o = $c;
-			}
-		}
-		$new[] = $return;
-		return $return;
 	}
 
 }

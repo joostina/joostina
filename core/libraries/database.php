@@ -1260,56 +1260,56 @@ class joosModel {
 	/**
 	 * Метод, выполняемый до обновления значений модели
 	 */
-	public function before_update() {
+	protected function before_update() {
 		return true;
 	}
 
 	/**
 	 * Метод, выполняемый после обновления значений модели
 	 */
-	public function after_update() {
+	protected function after_update() {
 		return true;
 	}
 
 	/**
 	 * Метод выполняемый до добавления значений модели
 	 */
-	public function before_insert() {
+	protected function before_insert() {
 		return true;
 	}
 
 	/**
 	 * Метод выполняемый после вставки значений модели
 	 */
-	public function after_insert() {
+	protected function after_insert() {
 		return true;
 	}
 
 	/**
 	 * Метод выполняемый до сохранения значений модели ( вставка / обновление )
 	 */
-	public function before_store() {
+	protected function before_store() {
 		return true;
 	}
 
 	/**
 	 * Метод выполняемый после полного сохранения данных модели ( вставка / обновление )
 	 */
-	public function after_store() {
+	protected function after_store() {
 		return true;
 	}
 
 	/**
 	 * Метод выполняемый до удаления конкретной записи модели
 	 */
-	public function before_delete() {
+	protected function before_delete() {
 		return true;
 	}
 
 	/**
 	 * Метод выполняемый после удаления конкретной записи модели
 	 */
-	public function after_delete() {
+	protected function after_delete() {
 		return true;
 	}
 

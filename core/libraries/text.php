@@ -547,7 +547,7 @@ class joosText {
 	 *
 	 * @return type
 	 */
-	public static function text_canonikal( $text ) {
+	public static function to_canonikal( $text ) {
 		// приводим к единому нижнему регистру
 		$text = joosString:: strtolower( $text );
 
