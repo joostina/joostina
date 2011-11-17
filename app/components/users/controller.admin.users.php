@@ -18,18 +18,29 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsAdminUsers {
 
-	private static $headers_data = array('modelAdminUsers' => array('Пользователи', array('id', 'user_name', 'group_id', 'lastvisit_date', 'state')),
-		'modelAdminUsersGroups' => array('Группы пользователей', array('group_title', 'title', 'parent_id')));
+	private static $headers_data = array(
+		'modelAdminUsers' => array(
+			'Пользователи', array('id', 'user_name', 'group_id', 'lastvisit_date', 'state')
+		),
+		'modelAdminUsersGroups' => array(
+			'Группы пользователей', array('group_title', 'title', 'parent_id'))
+	);
 
 	/**
 	 * Подменю
 	 */
-	public static $submenu = array('users' => array('name' => 'Пользователи',
+	public static $submenu = array(
+		'users' => array(
+			'name' => 'Пользователи',
 			'href' => 'index2.php?option=users',
-			'active' => false),
-		'usersgroups' => array('name' => 'Группы пользователей',
+			'active' => false
+		),
+		'usersgroups' => array(
+			'name' => 'Группы пользователей',
 			'href' => 'index2.php?option=users&model=modelAdminUsersGroups',
-			'active' => false));
+			'active' => false
+		)
+	);
 
 	/**
 	 * Название обрабатываемой модели

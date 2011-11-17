@@ -149,23 +149,6 @@ class modelUsers extends joosModel {
 		return $guest;
 	}
 
-	
-	public static function get_users_group($group_id = false) {
-
-		$groups = new modelUsersGroups();
-		$group = $groups->get_selector(
-				array('key' => 'id', 'value' => 'title'), array('select' => 'id, title')
-		);
-
-		return $group_id ? $group[$group_id] : $group;
-	}
-
-	public static function get_users_group_title() {
-		$groups = new modelUsersGroups();
-		return $groups->get_selector(
-						array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title')
-		);
-	}
 
 	// добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
 	public function after_insert() {
@@ -227,6 +210,7 @@ class modelUsers extends joosModel {
 	}
 
 	function before_store() {
+		
 		if (!$this->id) {
 			$this->password = self::prepare_password($this->password);
 			$this->register_date = _CURRENT_SERVER_TIME;
@@ -234,12 +218,13 @@ class modelUsers extends joosModel {
 			if (( $new_password = joosRequest::post('new_password', false))) {
 				$this->password = self::prepare_password($new_password);
 			}
-			//$query = "SELECT password FROM #__users WHERE id = " . $this->id;
-			//$db_password = $this->_db->setQuery($query)->loadResult();
-			//$new_pas = self::prepare_password($this->password);
-			//$this->password = ($new_pas==$db_password) ? $db_password : $new_pas;
 		}
-		$this->group_name = self::get_users_group($this->group_id);
+		
+		// поулчаем название группы пользователя
+		$groups = new modelUsersGroups();
+		$groups->load( $this->group_id );
+		
+		$this->group_name = $groups->title;
 	}
 
 	/**
@@ -336,9 +321,10 @@ class modelUsers extends joosModel {
 	}
 
 	public function crypt_pass($pass) {
-
-		$salt = self::mosMakePassword(16);
+		
+		$salt = joosRandomizer::hash(16);
 		$crypt = md5($pass . $salt);
+		
 		return $crypt . ':' . $salt;
 	}
 
@@ -357,16 +343,6 @@ class modelUsers extends joosModel {
 		}
 
 		return $this->extra;
-	}
-
-	private static function mosMakePassword($length = 8) {
-		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$makepass = '';
-		mt_srand(10000000 * (double) microtime());
-		for ($i = 0; $i < $length; $i++) {
-			$makepass .= $salt[mt_rand(0, 61)];
-		}
-		return $makepass;
 	}
 
 	public static function login($user_name, $password = false, array $params = array()) {
