@@ -32,14 +32,20 @@ return array('live_site' => 'http://www.joostinagit.local',
 		// время жизни сессии администратора
 		'life_admin' => 1800, // 3 часа
 	),
-	'locale' => array('offset' => 5,),
+	'locale' => array(
+		'offset' => 5,
+	),
 	'admin' => array(// число объектов по умолчанию на страницах списков
 		'list_limit' => 25,),
-	'mail' => array('from' => 'admin@joostina.ru',
+	'mail' => array(
+		'from' => 'admin@joostina.ru',
+		// адрес, от чьего имени отправляются письма
+		'system_email' => 'mail@joostina.ru',
 		'name' => 'Joostina CMS',
 		'type' => 'sendmail', // smtp || sendmail,
 		'smtp_auth' => '',
 		'smtp_user' => '',
 		'smtp_pass' => '',
 		'smtp_host' => '', // Порт для smtp указывается через двоеточие localhost:443
-	));
+	)
+);

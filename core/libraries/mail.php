@@ -37,11 +37,9 @@ class joosMail {
 		$headers .= "X-Priority: 3\n";
 		$headers .= "X-MSMail-Priority: Normal\n";
 		$headers .= "X-Mailer: JoostinaCoreMail\n";
-		$headers .= sprintf( "From: JoostinaCore <no-reply@jooo.local>\n" , JPATH_SITE );
+		$headers .= sprintf( "From: JoostinaCore <%s>\n", joosConfig::get2('system_email', 'mail') );
 
-		echo $headers;
-
-		echo mail( $to , $title , $message , $headers ) ? 'круто' : 'херова';
+		return (bool) mail( $to , $title , $message , $headers );
 	}
 
 }

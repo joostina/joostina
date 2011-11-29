@@ -39,5 +39,15 @@ class actionsTest {
 	public static function upload(){
 		return array();
 	}
-	
+
+	/**
+	 * Примеры работы с базой данных
+	 */
+	public static function db(){
+
+		echo joosDatabase::models('Users')->count();
+		
+
+	}
+
 }

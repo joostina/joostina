@@ -165,7 +165,7 @@ class joosDatabase {
 	 */
 // TODO исправить, метод CLONE используется при кешированиии и сериалзации модели
 	public function __clone() {
-		
+
 	}
 
 	/**
@@ -1231,10 +1231,22 @@ class joosModel {
 		$this->before_store();
 
 		if (( isset($this->$k) && $this->$k != 0 ) && !$forcedIns) {
+
+			// дата последней модификации объекта
+			if (property_exists($this, 'modified_at')) {
+				$this->modified_at = _CURRENT_SERVER_TIME;
+			}
+
 			$this->before_update();
 			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			$this->after_update();
 		} else {
+
+			// дата создания объекта
+			if (property_exists($this, 'created_at')) {
+				$this->created_at = _CURRENT_SERVER_TIME;
+			}
+
 			$this->before_insert();
 			$ret = $this->_db->insert_object($this->_tbl, $this, $this->_tbl_key);
 			$this->after_insert();
@@ -1759,5 +1771,5 @@ class joosModel {
 }
 
 class joosDatabaseException extends joosException {
-	
+
 }

@@ -85,7 +85,20 @@ return array(//'default' => array('href' => '', 'action' => 'mainpage', 'task' =
 	'pages' => array('href' => 'pages',
 		'defaults' => array('controller' => 'pages',
 			'action' => 'index')),
-	'pages_view' => array('href' => '<page_name>',
-		'params_rules' => array('page_name' => '[a-z0-9\_\-\.]+'),
-		'defaults' => array('controller' => 'pages',
-			'action' => 'view')),);
+	'pages_view' => array(
+		'href' => '<page_name>',
+		'params_rules' => array(
+			'page_name' => '[a-z0-9\_\-\.]+'),
+		'defaults' => array(
+			'controller' => 'pages',
+			'action' => 'view'
+		)
+	),
+	'test_db' => array(
+		'href' => 'test/db',
+		'defaults' => array(
+			'controller' => 'test',
+			'action' => 'db'
+		)
+	),
+);

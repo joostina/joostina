@@ -21,6 +21,10 @@ $(document).ready(function() {
 				}
 				$('img', current_obj).prop('src', image_path + data.image);
 				$('img', current_obj).prop('alt', image_path + data.mess);
+			},
+			error: function(){
+				joosNotify('Ошибка выполнения Ajax запроса', 'error');
+				return;
 			}
 		});
 	});

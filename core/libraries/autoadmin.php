@@ -225,6 +225,7 @@ class joosAutoadmin {
 		echo $header_extra['hidden_ellements'];
 		echo forms::hidden('option', $option);
 		echo forms::hidden('model', self::$model);
+		echo forms::hidden('menu', self::$submenu);
 		echo forms::hidden('task', '');
 		echo forms::hidden('boxchecked', '');
 		echo forms::hidden('obj_name', get_class($obj));
@@ -368,6 +369,7 @@ class joosAutoadmin {
 		echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
 		echo forms::hidden('option', $option) . "\t";
 		echo forms::hidden('model', self::$model) . "\t";
+		echo forms::hidden('menu', self::$submenu);
 		echo forms::hidden('task', 'save') . "\t";
 		echo forms::hidden(joosCSRF::get_code(), 1); // элемент защиты от XSS
 		//Закрываем форму
@@ -962,9 +964,9 @@ class mosMenuBar {
 }
 
 class joosAutoadminFilePluginNotFoundException extends joosException {
-	
+
 }
 
 class joosAutoadminClassPlugionNotFoundException extends joosException {
-	
+
 }
