@@ -82,7 +82,7 @@ class joosAutoloader {
 	}
 
 	private function __clone() {
-		
+
 	}
 
 	public static function autoload($class) {
@@ -119,6 +119,19 @@ class joosAutoloader {
 			$name = strtolower($name);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
 
+			// аякс-контроллеры панели управления
+		} elseif (strpos($class, 'actionsAjaxAdmin', 0) === 0) {
+			$name = str_replace('actionsAjaxAdmin', '', $class);
+			$name = strtolower($name);
+			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.ajax.php';
+
+			// аякс-контроллеры фронта
+		} elseif (strpos($class, 'actionsAjax', 0) === 0) {
+			$name = str_replace('actionsAjax', '', $class);
+			$name = strtolower($name);
+			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
+
+
 			// контроллеры фронта
 		} elseif (strpos($class, 'actions', 0) === 0) {
 			$name = str_replace('actions', '', $class);
@@ -142,18 +155,6 @@ class joosAutoloader {
 			$name = str_replace('model', '', $class);
 			$name = strtolower($name);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
-
-			// аякс-контроллеры панели управления
-		} elseif (strpos($class, 'actionsAjaxAdmin', 0) === 0) {
-			$name = str_replace('actionsAjaxAdmin', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.ajax.php';
-
-			// аякс-контроллеры фронта
-		} elseif (strpos($class, 'actionsAjax', 0) === 0) {
-			$name = str_replace('actionsAjax', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
 
 			// хелперы модулей
 		} elseif (strpos($class, 'modulesHelper', 0) === 0) {
@@ -230,12 +231,12 @@ class AutoloaderFileNotFoundException extends joosException {
  * Обработка исключений отсутсвия нужных классов в найденных файлах автозагрузчика
  */
 class AutoloaderClassNotFoundException extends joosException {
-	
+
 }
 
 /**
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
 class AutoloaderOnStartFileNotFoundException extends joosException {
-	
+
 }
