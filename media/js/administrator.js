@@ -41,13 +41,18 @@ $(document).ready(function() {
 		$('a#pagenav_prev').length ? $('#pagenav_prev').trigger('click') : null;
 	});
 
-	$(document).ajaxSuccess(function(evt, request, settings){
-		
+	$(document).ajaxComplete(function(evt, request, settings){
+
 		if (request.status== 500) {
 			joosNotify(request.message, 'error-500');
 			return;
 		}
-		
+
+		if (request.status==404 ) {
+			joosNotify(request.message, 'error-404');
+			return;
+		}
+
 		var data = jQuery.parseJSON( request.responseText );
 
 		if( data !== null && data.success !== undefined){
