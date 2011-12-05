@@ -95,14 +95,14 @@ class joosAutoloader {
 		}
 
 		if (!is_file($file)) {
-			joosRequest::send_headers_by_code(404);
+			joosRequest::send_headers_by_code(500);
 			throw new AutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));
 		}
 
 		require_once $file;
 
 		if (!class_exists($class, false)) {
-			joosRequest::send_headers_by_code(404);
+			joosRequest::send_headers_by_code(500);
 			throw new AutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
 		!self::$_debug ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
@@ -130,7 +130,6 @@ class joosAutoloader {
 			$name = str_replace('actionsAjax', '', $class);
 			$name = strtolower($name);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
-
 
 			// контроллеры фронта
 		} elseif (strpos($class, 'actions', 0) === 0) {
@@ -168,19 +167,6 @@ class joosAutoloader {
 		}
 
 		return $file;
-	}
-
-	/**
-	 * Преобразование названия вложенной модели
-	 * Требуется для определения файла содержащего множественный модели единого контроллера
-	 * @example UserGroops => User_Groops
-	 *
-	 * @param type $string
-	 *
-	 * @return string
-	 */
-	private static function underscore($string) {
-		return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string));
 	}
 
 	/**

@@ -564,7 +564,10 @@ class joosDatabase {
 	 */
 	public function insert_object($table, $object, $keyName = null) {
 
-		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
+		$ignore = isset($object->__ignore) ? ' IGNORE ' : '';
+		unset($object->__ignore);
+
+		$fmtsql = "INSERT $ignore INTO $table ( %s ) VALUES ( %s ) ";
 
 		$fields = array();
 		$values = array();
@@ -1232,7 +1235,7 @@ class joosModel {
 
 		if (( isset($this->$k) && $this->$k != 0 ) && !$forcedIns) {
 
-			// дата последней модификации объекта
+			// дата последней модификации
 			if (property_exists($this, 'modified_at')) {
 				$this->modified_at = _CURRENT_SERVER_TIME;
 			}
