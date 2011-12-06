@@ -55,10 +55,6 @@ class actionsAdminAcls {
 		self::$fields_list = isset(self::$submenu[$menu]['fields']) ? self::$submenu[$menu]['fields'] : array('title');
 
 		joosAutoadmin::$model = self::$model;
-
-
-		joosDocument::instance()
-				->add_js_file(JPATH_SITE . '/app/components/acls/media/js/acls.js');
 	}
 
 	/**
@@ -168,9 +164,9 @@ class actionsAdminAcls {
 
 		return array(
 			'groups' => $groups,
-			'acl_groups' => $acl_groups,
-			'acl_list' => $acl_list,
-			'acls' => $acls
+			'acl_groups'=>$acl_groups,
+			'acl_list'=>$acl_list,
+			'acls'=>$acls
 		);
 	}
 

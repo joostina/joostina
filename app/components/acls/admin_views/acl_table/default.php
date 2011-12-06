@@ -22,7 +22,7 @@ defined('_JOOS_CORE') or die();
 		<tr>
 			<td><?php echo $group->title ?></td>
 			<?php foreach ($acls as $value): ?>
-				<td><input name="field_null[0]" id="field_0_7" type="checkbox" value="NULL"></td>
+			<td class="acl_state"><input name="field_null[0]" id="field_0_7" type="checkbox" value="NULL"></td>
 				<?php endforeach; ?>
 		</tr>
 	<?php endforeach ?>

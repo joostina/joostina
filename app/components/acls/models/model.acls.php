@@ -266,3 +266,22 @@ class modelAclUsersGroups extends joosModel {
 	}
 
 }
+
+/**
+ * Упрощённая заглушка для проверки прав
+ */
+class Acl {
+
+	public static function check_access($full_operations_name) {
+		//if(Yii::app()->user->checkAccess('deletePost'))
+	}
+
+	public static function is_allow($full_operations_name) {
+
+	}
+
+	public static function is_deny($full_operations_name) {
+
+	}
+
+}
