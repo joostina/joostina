@@ -3,175 +3,42 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsAdminAcls {
-
-	/**
-	 * Название обрабатываемой модели
-	 *
-	 * @var joosModel модель
-	 */
-	public static $model = 'modelAdminAclGroups';
-	public static $submenu = array(
-		'groups' => array(
-			'name' => 'Группы',
-			'href' => 'index2.php?option=acls&menu=groups',
-			'model' => 'modelAdminAclGroups',
-			'fields' => array('title'),
-			'active' => false
-		),
-		'acls' => array(
-			'name' => 'Права',
-			'href' => 'index2.php?option=acls&menu=acls',
-			'model' => 'modelAdminAclList',
-			'fields' => array('title'),
-			'active' => false
-		),
-		'acl_table' => array(
-			'name' => 'Рапределение прав',
-			'href' => 'index2.php?option=acls&menu=acl_table&task=acl_table',
-			'model' => false,
-			'active' => false
-		),
-	);
-	private static $fields_list;
+class actionsAjaxAdminAcls extends joosController {
 
 	public static function action_before() {
-
 		joosLoader::model('acls');
 		joosLoader::admin_model('acls');
+	}
 
-		$menu = joosRequest::request('menu', false);
+	/**
+	 * Смена статуса доступа группы к действию
+	 *
+	 * @return array
+	 */
+	public static function change() {
 
-		if ($menu && isset(self::$submenu[$menu])) {
+		$state = joosRequest::int('state');
 
-			$active = self::$submenu[$menu];
+		$group_id = joosRequest::int('group_id');
+		$task_id = joosRequest::int('task_id');
 
-			self::$submenu[$menu]['active'] = true;
-			self::$model = $active['model'];
+		$access = new modelAclAccess;
 
-			joosAutoadmin::$submenu = $menu;
+		$access->group_id = $group_id;
+		$access->task_id = $task_id;
+
+		$access->find();
+		if ($access->id) {
+			$access->delete( $access->id );
+		} else {
+			$access->store();
 		}
 
-		self::$fields_list = isset(self::$submenu[$menu]['fields']) ? self::$submenu[$menu]['fields'] : array('title');
-
-		joosAutoadmin::$model = self::$model;
-	}
-
-	/**
-	 * Список объектов
-	 */
-	public static function index($option) {
-		$obj = new self::$model;
-		$obj_count = joosAutoadmin::get_count($obj);
-
-		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
-
-		$param = array(
-			'offset' => $pagenav->limitstart,
-			'limit' => $pagenav->limit,
-			'order' => 'id DESC'
-		);
-		$obj_list = joosAutoadmin::get_list($obj, $param);
-
-		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoadmin::listing($obj, $obj_list, $pagenav, self::$fields_list);
-	}
-
-	/**
-	 * Редактирование
-	 */
-	public static function create($option) {
-		self::edit($option, 0);
-	}
-
-	/**
-	 * Редактирование объекта
-	 * @param integer $id - номер редактируемого объекта
-	 */
-	public static function edit($option, $id) {
-		$obj_data = new self::$model;
-		$id > 0 ? $obj_data->load($id) : null;
-
-		joosAutoadmin::edit($obj_data, $obj_data);
-	}
-
-	/**
-	 * Сохранение отредактированного или созданного объекта
-	 */
-	public static function save($option, $id, $page, $task, $redirect = 0) {
-
-		joosCSRF::check_code();
-
-		$obj_data = new self::$model;
-		$result = $obj_data->save($_POST);
-
-		switch ($redirect) {
-			default:
-			case 0: // просто сохранение
-				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
-				break;
-
-			case 1: // применить
-				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
-				break;
-
-			case 2: // сохранить и добавить новое
-				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create', 'Всё ок, создаём новое');
-				break;
-		}
-	}
-
-	public static function apply($option) {
-		return self::save($option, null, null, null, 1);
-	}
-
-	public static function save_and_new($option) {
-		return self::save($option, null, null, null, 2);
-	}
-
-	/**
-	 * Удаление одного или группы объектов
-	 */
-	public static function remove($option) {
-		joosCSRF::check_code();
-
-		// идентификаторы удаляемых объектов
-		$cid = (array) joosRequest::array_param('cid');
-
-		$obj_data = new self::$model;
-		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
-	}
-
-	public static function acl_table() {
-
-		$group_obj = new modelAclGroups;
-		$groups = $group_obj->find_all();
-
-		$acl_list_obj = new modelAclList;
-		$acls = $acl_list_obj->find_all();
-
-		$acl_list = array();
-		foreach ($acls as $acl) {
-			$acl_list[$acl->acl_group][sprintf('%s::%s', $acl->acl_group, $acl->acl_name)] = $acl;
-		}
-
-		$acl_groups = array_keys($acl_list);
-		sort($acl_groups);
-
-		sort($acls);
-
-		//_xdump($acls);
 
 		return array(
-			'groups' => $groups,
-			'acl_groups'=>$acl_groups,
-			'acl_list'=>$acl_list,
-			'acls'=>$acls
+			'success' => true,
+			'body' => 555
 		);
-	}
-
-	public static function acl_list_update() {
-
 	}
 
 }

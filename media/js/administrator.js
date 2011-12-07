@@ -43,17 +43,17 @@ $(document).ready(function() {
 
 	$(document).ajaxComplete(function(evt, request, settings){
 
+		var data = jQuery.parseJSON( request.responseText );
+
 		if (request.status== 500) {
-			joosNotify(request.message, 'error-500');
+			joosNotify(data.message, 'error-500');
 			return;
 		}
 
 		if (request.status==404 ) {
-			joosNotify(request.message, 'error-404');
+			joosNotify(data.message, 'error-404');
 			return;
 		}
-
-		var data = jQuery.parseJSON( request.responseText );
 
 		if( data !== null && data.success !== undefined){
 

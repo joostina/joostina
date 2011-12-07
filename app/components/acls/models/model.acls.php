@@ -285,3 +285,91 @@ class Acl {
 	}
 
 }
+
+
+/**
+ * Class AclAccess
+ * @package Joostina.Components
+ * @subpackage AclAccess
+ * @author JoostinaTeam
+ * @copyright (C) 2007-2011 Joostina Team
+ * @license MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version 1
+ * @created 2011-12-07 14:23:55
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ */
+class modelAclAccess extends joosModel {
+	/**
+	 * @field int(11) unsigned
+	 * @type int
+	 */
+	public $id;
+	/**
+	 * @field int(11) unsigned
+	 * @type int
+	 */
+	public $group_id;
+	/**
+	 * @field int(11) unsigned
+	 * @type int
+	 */
+	public $task_id;
+	/**
+	 * @field datetime
+	 * @type datetime
+	 */
+	public $created_at;
+	/**
+	 * @field datetime
+	 * @type datetime
+	 */
+	public $modified_at;
+
+	/*
+	 * Constructor
+	 */
+	function __construct(){
+		parent::__construct( '#__acl_access', 'id' );
+	}
+
+	public function check() {
+		$this->filter();
+		return true;
+	}
+
+
+	public function before_insert() {
+		return true;
+	}
+
+
+	public function after_insert() {
+		return true;
+	}
+
+
+	public function before_update() {
+		return true;
+	}
+
+
+	public function after_update() {
+		return true;
+	}
+
+
+	public function before_store() {
+		return true;
+	}
+
+
+	public function after_store() {
+		return true;
+	}
+
+
+	public function before_delete() {
+		return true;
+	}
+
+}

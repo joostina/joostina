@@ -222,3 +222,73 @@ class modelAdminAclUsersGroups extends modelAclUsersGroups {
 	}
 
 }
+
+class modelAdminAclAccess extends modelAclAccess {
+
+	public function get_fieldinfo() {
+		return array(
+			'id' => array(
+				'name' => 'id',
+				'editable' => true,
+				'in_admintable' => true,
+				'html_table_element' => 'value',
+				'html_table_element_param' => array(),
+				'html_edit_element' => 'edit',
+				'html_edit_element_param' => array(),
+			),
+			'group_id' => array(
+				'name' => 'group_id',
+				'editable' => true,
+				'in_admintable' => true,
+				'html_table_element' => 'value',
+				'html_table_element_param' => array(),
+				'html_edit_element' => 'edit',
+				'html_edit_element_param' => array(),
+			),
+			'task_id' => array(
+				'name' => 'task_id',
+				'editable' => true,
+				'in_admintable' => true,
+				'html_table_element' => 'value',
+				'html_table_element_param' => array(),
+				'html_edit_element' => 'edit',
+				'html_edit_element_param' => array(),
+			),
+			'created_at' => array(
+				'name' => 'created_at',
+				'editable' => true,
+				'in_admintable' => true,
+				'html_table_element' => 'value',
+				'html_table_element_param' => array(),
+				'html_edit_element' => 'edit',
+				'html_edit_element_param' => array(),
+			),
+			'modified_at' => array(
+				'name' => 'modified_at',
+				'editable' => true,
+				'in_admintable' => true,
+				'html_table_element' => 'value',
+				'html_table_element_param' => array(),
+				'html_edit_element' => 'edit',
+				'html_edit_element_param' => array(),
+			),
+		);
+	}
+
+	public function get_tableinfo() {
+		return array(
+			'header_list' => 'AclAccess',
+			'header_new' => 'Создание AclAccess',
+			'header_edit' => 'Редактирование AclAccess'
+		);
+	}
+
+	public function get_extrainfo() {
+		return array(
+			'search' => array(),
+			'filter' => array(),
+			'extrafilter' => array()
+		);
+	}
+
+}

@@ -1,10 +1,8 @@
 <?php
-/**
- * Профиль пользователя - редактирование
- */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 ?>
+<div id="change_result"></div>
 <table>
 	<tr>
 		<th>&nbsp;</th>
@@ -22,7 +20,7 @@ defined('_JOOS_CORE') or die();
 		<tr>
 			<td><?php echo $group->title ?></td>
 			<?php foreach ($acls as $value): ?>
-			<td class="acl_state"><input name="field_null[0]" id="field_0_7" type="checkbox" value="NULL"></td>
+				<td class="acl_state"><input name="acl[]" data-group-id="<?php echo $group->id ?>" type="checkbox" value="<?php echo $value->id ?>"></td>
 				<?php endforeach; ?>
 		</tr>
 	<?php endforeach ?>
