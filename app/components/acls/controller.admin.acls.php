@@ -160,11 +160,9 @@ class actionsAdminAcls {
 		}
 
 		$acl_groups = array_keys($acl_list);
+
 		sort($acl_groups);
-
 		sort($acls);
-
-		//_xdump($acls);
 
 		return array(
 			'groups' => $groups,
@@ -174,8 +172,18 @@ class actionsAdminAcls {
 		);
 	}
 
-	public static function acl_list_update() {
+	public static function acl_list(){
+		$sql  = 'SELECT ag.name, al.acl_name FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (1,3)';
+		$r = joosDatabase::instance()->set_query($sql)->load_assoc_list();
 
+		$d = array();
+		foreach ($r as $value) {
+			$d[$value['name']][$value['acl_name']] = true;
+		}
+
+//		$v  = $d['admins'] + $d['moders'];
+
+		_xdump($d);
 	}
 
 }
