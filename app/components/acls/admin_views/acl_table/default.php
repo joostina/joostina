@@ -19,8 +19,8 @@ defined('_JOOS_CORE') or die();
 	<?php foreach ($groups as $group) : ?>
 		<tr>
 			<td><?php echo $group->title ?></td>
-			<?php foreach ($acls as $value): ?>
-				<td class="acl_state"><input name="acl[]" data-group-id="<?php echo $group->id ?>" type="checkbox" value="<?php echo $value->id ?>"></td>
+			<?php foreach ($acls as $acl_value): ?>
+				<td class="acl_state"><input name="acl[]" data-group-id="<?php echo $group->id ?>" type="checkbox" value="<?php echo $acl_value->id ?>" <?php echo (isset($acl_rules[$group->id][$acl_value->id])) ? 'checked="true"' : '' ?>></td>
 				<?php endforeach; ?>
 		</tr>
 	<?php endforeach ?>

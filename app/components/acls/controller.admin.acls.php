@@ -164,16 +164,28 @@ class actionsAdminAcls {
 		sort($acl_groups);
 		sort($acls);
 
+		$sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id )';
+		$acl_rules_array = joosDatabase::instance()->set_query($sql)->load_assoc_list();
+
+		$acl_rules = array();
+		foreach ($acl_rules_array as $value) {
+			$acl_rules[$value['group_id']][$value['list_id']] = true;
+		}
+
+
+		//_xdump($acl_rules);
+
 		return array(
 			'groups' => $groups,
 			'acl_groups' => $acl_groups,
 			'acl_list' => $acl_list,
-			'acls' => $acls
+			'acls' => $acls,
+			'acl_rules' => $acl_rules
 		);
 	}
 
-	public static function acl_list(){
-		$sql  = 'SELECT ag.name, al.acl_name FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (1,3)';
+	public static function acl_list() {
+		$sql = 'SELECT ag.name, al.acl_name FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (1,3)';
 		$r = joosDatabase::instance()->set_query($sql)->load_assoc_list();
 
 		$d = array();
