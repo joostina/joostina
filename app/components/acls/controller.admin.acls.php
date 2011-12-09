@@ -172,9 +172,6 @@ class actionsAdminAcls {
 			$acl_rules[$value['group_id']][$value['list_id']] = true;
 		}
 
-
-		//_xdump($acl_rules);
-
 		return array(
 			'groups' => $groups,
 			'acl_groups' => $acl_groups,

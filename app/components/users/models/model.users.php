@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * @version 1
  * @created 2011-11-16 22:03:25
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
- * 
+ *
  */
 class modelUsers extends joosModel {
 
@@ -111,7 +111,7 @@ class modelUsers extends joosModel {
 
 	/**
 	 * Получение инстанции ТЕКУЩЕГО АВТОРИЗОВАННОГО пользователя
-	 * 
+	 *
 	 * @return modelUsers
 	 */
 	public static function instance() {
@@ -140,7 +140,7 @@ class modelUsers extends joosModel {
 
 	/**
 	 * Получение объекта неавторизованного пользователя - гостя
-	 * @return stdClass 
+	 * @return stdClass
 	 */
 	private static function get_guest() {
 		$guest = new stdClass();
@@ -190,11 +190,14 @@ class modelUsers extends joosModel {
 
 		// формируем дополнительно каноничное имя
 		$this->user_name_canonikal = joosText::to_canonikal($this->user_name);
+
+		// сохраняем группы пользователя
+		$this->save_one_to_many('#__acl_users_groups', 'user_id', 'group_id', $this->id, joosRequest::array_param('user_groups'));
 	}
 
 	/**
 	 * После создания нового пользователя
-	 * 
+	 *
 	 * @return bool результат работы
 	 */
 	protected function after_insert() {

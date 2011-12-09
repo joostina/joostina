@@ -1638,13 +1638,10 @@ class joosModel {
 		return $this->_db->set_query($sql)->query();
 	}
 
-// селектор выбора отношений один-ко-многим
-	public function get_one_to_many_selectors($name, $table_values, $table_keys, $key_parent, $key_children, array $selected_ids, array $params = array()) {
+	// селектор выбора отношений один-ко-многим
+	public function get_one_to_many_selectors($name, $table_values, $table_keys, $key_parent, $key_children, array $selected_ids = array(), array $params = array()) {
 
 		$params['select'] = isset($params['select']) ? $params['select'] : 't_val.id, t_val.title';
-
-		$params['wrap_start'] = isset($params['wrap_start']) ? $params['wrap_start'] : '';
-		$params['wrap_end'] = isset($params['wrap_end']) ? $params['wrap_end'] : '';
 
 		$childrens = $this->get_selector(array(), array('table' => $table_values));
 
@@ -1652,8 +1649,8 @@ class joosModel {
 		foreach ($childrens as $key => $value) {
 			$el_id = $name . $key;
 			$checked = (bool) isset($selected_ids[$key]);
-			$rets[] = $params['wrap_start'] . forms::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
-			$rets[] = forms::label($el_id, $value) . $params['wrap_end'];
+			$rets[] = forms::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
+			$rets[] = forms::label($el_id, $value);
 		}
 
 		return implode("\n\t", $rets);

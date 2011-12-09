@@ -87,7 +87,7 @@ class modelAdminUsers extends modelUsers {
 				'html_edit_element_param' => array(
 					'call_from' => function ($user) {
 						$name = $user->id ? 'new_password' : 'password';
-						return forms::input(array( 'name'=>$name ,'value'=>'', 'class'=>'text_area') );
+						return forms::input(array('name' => $name, 'value' => '', 'class' => 'text_area'));
 					}
 				),
 				'html_table_element' => 'value',
@@ -104,6 +104,16 @@ class modelAdminUsers extends modelUsers {
 				'html_table_element' => 'one_from_array',
 				'html_table_element_param' => array(
 					'call_from' => 'modelAdminUsers::get_users_group_title'
+				),
+			),
+			'group_multi' => array(
+				'name' => 'Состоит в группах',
+				'editable' => true,
+				'sortable' => true,
+				'in_admintable' => false,
+				'html_edit_element' => 'extra',
+				'html_edit_element_param' => array(
+					'call_from' => 'modelAdminUsers::get_users_group_multi'
 				),
 			),
 			'register_date' => array(
@@ -168,6 +178,18 @@ class modelAdminUsers extends modelUsers {
 		return $groups->get_selector(
 						array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title')
 		);
+	}
+
+	public static function get_users_group_multi($current_obj) {
+
+		joosLoader::model('acls');
+
+		$g = new modelAclUsersGroups;
+		$active_groups = $g->get_selector(
+				array('key' => 'group_id', 'value' => 'group_id'), array('where' => 'user_id=' . $current_obj->id)
+		);
+
+		return $current_obj->get_one_to_many_selectors('user_groups', '#__acl_groups', '#__acl_users_groups', 'user_id', 'group_id', $active_groups);
 	}
 
 }
