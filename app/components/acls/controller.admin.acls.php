@@ -195,4 +195,49 @@ class actionsAdminAcls {
 		_xdump($d);
 	}
 
+	public static function get_actions() {
+
+		$location = JPATH_BASE . '/app/components/';
+
+		$Directory = new RecursiveDirectoryIterator($location);
+		$Iterator = new RecursiveIteratorIterator($Directory);
+		$Regex = new RegexIterator($Iterator, '/^.+controller.+/i', RecursiveRegexIterator::GET_MATCH);
+
+		joosLoader::lib('Reflect', 'Reflect');
+
+		$options = array(
+			'properties' => array(
+				'class' => array(
+					'methods'
+				),
+			)
+		);
+		$reflect = new PHP_Reflect($options);
+
+		$classes = array();
+		foreach ($Regex as $path) {
+			$source = $path[0];
+			$reflect->scan($source);
+			$cl = $reflect->getClasses();
+			foreach ($cl['\\'] as $k => $cc) {
+				foreach ($cc['methods'] as $km => $m) {
+					$classes[$k.$km] = array(
+						'title' => sprintf('%s::%s', $k, $km),
+						'acl_group' => $k,
+						'acl_name' => $km,
+						'created_at' => _CURRENT_SERVER_TIME
+					);
+				}
+			}
+		}
+
+		//_xdump($classes);
+
+		$acls_list = new modelAclList;
+		$acls_list->insert_array($classes);
+
+		echo sprintf('Вставлено %s правил', count($classes));
+	}
+
 }
+
