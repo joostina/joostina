@@ -24,8 +24,24 @@ class joosSession {
 
 	private static function start() {
 		if (!isset($_SESSION)) {
+			$session_name = self::get_session_name();
+
+			session_name($session_name);
 			session_start();
 		}
+	}
+
+	/**
+	 * Получение уникального названия сессии для пользователя
+	 *
+	 * @return string
+	 */
+	public static function get_session_name() {
+
+		$user_ip = joosRequest::user_ip();
+		$user_browser = joosRequest::server('HTTP_USER_AGENT');
+
+		return joosCSRF::hash($user_ip . $user_browser);
 	}
 
 	public static function get($key, $default = null) {

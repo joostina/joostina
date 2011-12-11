@@ -184,7 +184,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-		
+
 	}
 
 	/**
@@ -611,10 +611,10 @@ class joosController {
 	private static function as_html(array $params, $controller, $method) {
 
 		$template = isset($params['template']) ? $params['template'] : 'default';
-		$views = isset($params['method']) ? $params['method'] : $method;
+		$view = isset($params['view']) ? $params['view'] : $method;
 
 		extract($params, EXTR_OVERWRITE);
-		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $views . DS . $template . '.php';
+		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $view . DS . $template . '.php';
 
 		is_file($viewfile) ? require ( $viewfile ) : null;
 	}
@@ -720,5 +720,5 @@ function _xdump($var) {
 }
 
 class joosCoreException extends joosException {
-	
+
 }

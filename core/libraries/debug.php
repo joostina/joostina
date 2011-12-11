@@ -138,7 +138,7 @@ class joosDebug {
 
 		// обозначение места вызова функции отладки
 		$trace        = debug_backtrace();
-		$file_content = self::get_file_context( $trace[0]['file'] , $trace[0]['line'] );
+		$file_content = self::get_file_context( $trace[1]['file'] , $trace[1]['line'] );
 
 		if ( ob_get_level() ) {
 			ob_end_clean();
@@ -153,6 +153,7 @@ class joosDebug {
 		 * @todo тут надо провреить, переменная судя по всему не используется в полном объёме
 		 */
 		$result = joosFilter::htmlspecialchars( $output );
+		$file_content = joosFilter::htmlspecialchars($file_content);
 
 		$result = <<<HTML
   <style>
