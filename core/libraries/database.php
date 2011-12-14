@@ -1534,6 +1534,19 @@ class joosModel {
 	}
 
 	/**
+	 * Возвращает сумму по определенному полю
+	 *
+	 * @param string $field поле, по которому считаем
+	 * @param string $where дополнительное условие
+	 *
+	 * @return int число записей
+	 */
+	public function sum($field, $where = '') {
+		$sql = "SELECT sum($field) FROM $this->_tbl " . $where;
+		return $this->_db->set_query($sql)->load_result();
+	}
+
+	/**
 	 * Возвращает массив результатов выборки
 	 *
 	 * @param array $params массив параметров для уточнее области выборки результата
