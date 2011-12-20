@@ -163,7 +163,7 @@ class joosAutoloader {
 
 			// модели фронта
 		} else {
-			throw new AutoloaderFileNotFoundException('Правило загрузки для класса :class_name не обнаружене', array(':class_name' => $class));
+			throw new AutoloaderFileNotFoundException('Правило загрузки для класса :class_name не обнаружено', array(':class_name' => $class));
 		}
 
 		return $file;

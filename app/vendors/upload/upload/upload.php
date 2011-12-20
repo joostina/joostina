@@ -9,28 +9,28 @@ class joosUpload {
 	 * @param array $params массив расширенных парамтеров загрузки
 	 * 		string new_name - переименовать файл
 	 * 		string new_extension - переименовать расширение файла
-	 * 
+	 *
 	 */
-	public static function easy_upload($element_name, $upload_location, array $params = array(),$only_check = false) {
+	public static function easy_upload($element_name, $upload_location, array $params = array(), $only_check = false) {
 
 		$file_name = joosFilter::filename($_FILES[$element_name]['name']);
 
-		if (!$only_check) {
-                    
-                    $success  = move_uploaded_file($_FILES[$element_name]['tmp_name'], $upload_location . DS . $file_name);
-                }
-                else {
-                    
-                    $success = true;
-                }
+		$file_base_location = $upload_location . DS . $file_name;
 
-		$file_live_location = str_replace( JPATH_BASE , '', $upload_location);
+		if (!$only_check) {
+			$success = move_uploaded_file($_FILES[$element_name]['tmp_name'], $file_base_location );
+		} else {
+			$success = true;
+		}
+
+		$file_live_location = str_replace(JPATH_BASE, '', $upload_location);
 		$file_live_location = str_replace("\\", DS, $file_live_location);
-		
+
 		return array(
 			'location' => $file_live_location,
+			'base_location' => $file_base_location,
 			'name' => $file_name,
-			'file'=>$file_live_location.'/'.$file_name,
+			'file' => $file_live_location . '/' . $file_name,
 			'success' => $success
 		);
 	}
@@ -135,7 +135,7 @@ class qqFileUploader {
 
                 //если только проверка входных данных - уходим отсюда
                 if ($only_check) return array('success' => true);
-                
+
 		if (!$replaceOldFile) {
 			/// don't overwrite previous files that were uploaded
 			while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
