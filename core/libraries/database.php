@@ -317,8 +317,6 @@ class joosDatabase {
 						':error_message' => mysqli_error($this->_resource),
 						':sql' => $this->_sql)
 			);
-
-			return false;
 		}
 
 		return $this->_cursor;
@@ -999,6 +997,13 @@ class joosModel {
 	protected $_soft_delete = FALSE;
 
 	/**
+	 * Название текущего класса модели
+	 *
+	 * @var string
+	 */
+	protected $__obj_name;
+
+	/**
 	 * Инициализация модели
 	 *
 	 * @param string $table название используемой таблицы, можно с преффиксом, например #__news
@@ -1184,7 +1189,7 @@ class joosModel {
 	 * Загрузка данных в модель непосредственно из БД по значению ключевого поля
 	 * В случае успешного выполнения заполняет поля модели значениями из БД выбранными по ключевому полю
 	 *
-	 * @param mix $oid значение уникального ключевого поля, по которому необходимо делать выборку в БД
+	 * @param integer $oid значение уникального ключевого поля, по которому необходимо делать выборку в БД
 	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
@@ -1634,7 +1639,7 @@ class joosModel {
 	}
 
 // сохранение значение одного ко многим
-	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, $values) {
+	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, array $values) {
 
 		//сначала чистим все предыдущие связи
 		$this->_db->set_query("DELETE FROM $name_table_keys WHERE $key_name=$key_value ")->query();

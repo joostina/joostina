@@ -132,7 +132,6 @@ class joosParams extends joosModel {
 
 		$model = 'params' . ucfirst( $item->group );
 
-
 		if ( is_file( $file ) ) {
 			require_once( $file );
 			return $model::get_params_scheme( 'default' );

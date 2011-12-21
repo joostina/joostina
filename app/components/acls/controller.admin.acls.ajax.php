@@ -17,8 +17,6 @@ class actionsAjaxAdminAcls extends joosController {
 	 */
 	public static function change() {
 
-		$state = joosRequest::int('state');
-
 		$group_id = joosRequest::int('group_id');
 		$task_id = joosRequest::int('task_id');
 

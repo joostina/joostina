@@ -229,40 +229,6 @@ class Kohana_Route {
 	}
 
 	/**
-	 * Saves or loads the route cache. If your routes will remain the same for
-	 * a long period of time, use this to reload the routes from the cache
-	 * rather than redefining them on every page load.
-	 *
-	 *     if ( ! Route::cache())
-	 *     {
-	 *         // Set routes here
-	 *         Route::cache(TRUE);
-	 *     }
-	 *
-	 * @param   boolean   cache the current routes
-	 *
-	 * @return  void      when saving routes
-	 * @return  boolean   when loading routes
-	 * @uses    Kohana::cache
-	 */
-	public static function cache( $save = FALSE ) {
-		if ( $save === TRUE ) {
-			// Cache all defined routes
-			Kohana::cache( 'Route::cache()' , Route::$_routes );
-		} else {
-			if ( $routes = Kohana::cache( 'Route::cache()' ) ) {
-				Route::$_routes      = $routes;
-
-				// Routes were cached
-				return Route::$cache = TRUE;
-			} else {
-				// Routes were not cached
-				return Route::$cache = FALSE;
-			}
-		}
-	}
-
-	/**
 	 * Create a URL from a route name. This is a shortcut for:
 	 *
 	 *     echo URL::site(Route::get($name)->uri($params), $protocol);

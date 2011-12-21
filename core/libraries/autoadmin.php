@@ -239,15 +239,17 @@ class joosAutoadmin {
 		$class_name = 'autoadminList' . self::get_plugin_name($element_param['html_table_element']);
 
 		if (!is_file($class_file)) {
-			throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name));
+			throw new joosAutoadminFilePluginNotFoundException(
+				sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name)
+			);
 		}
 
 		require_once $class_file;
 
 		if (!class_exists($class_name)) {
-			echo $class_name;
-			die();
-			throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
+			throw new joosAutoadminClassPlugionNotFoundException(
+				sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name)
+			);
 		}
 
 		// ограничение на длину текста
@@ -463,6 +465,9 @@ class joosAutoadmin {
 	//например: компонент категорий, компонент настроек и т .п
 	public static function get_component_title($name) {
 
+		/*
+		 * @type joosModel
+		 */
 		$admin_model = 'admin' . ucfirst($name);
 
 		$admin_model = new $admin_model;
@@ -775,9 +780,11 @@ class joosAutoadmin {
 		return self::$data_overload ? call_user_func(self::$data_overload, $params) : $obj->get_list($params);
 	}
 
-	public static function get_state_selector(joosModel $obj, $params_key) {
-		return array(0 => 'Не активно',
-			1 => 'Активно',);
+	public static function get_state_selector() {
+		return array(
+			0 => 'Не активно',
+			1 => 'Активно'
+		);
 	}
 
 	static private function camelizeCallback($match) {

@@ -158,7 +158,7 @@ class ValumsfileUploader {
 	public static function upload($newnameforfile = false, $rootdir = false, $fileid = false, $show_result = true, $allowedExtensions = array(), $sizeLimit = false) {
 		joosLoader::lib('files', 'joostina');
 
-		$fn_get = mosGetParam($_GET, 'qqfile', false);
+		$fn_get = joosRequest::get('qqfile', false);
 		$fileName = $fn_get ? $fn_get : $_FILES['qqfile']['name'];
 
 		$fileData = File::ext($fileName);

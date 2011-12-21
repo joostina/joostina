@@ -251,6 +251,8 @@ class Thumbnail {
 				user_error( 'Headers have already been sent. Could not display image.' , E_USER_NOTICE );
 				return false;
 			}
+		}else{
+			$content_type = 'ERROR';
 		}
 
 

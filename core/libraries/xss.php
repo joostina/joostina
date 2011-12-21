@@ -97,7 +97,7 @@ function cleanXSS() {
 			unset( $in[$k][$oldkey] );
 			$in[$k][$key] = $val;
 			continue;
-			$in[] =& $in[$k][$key];
+			//$in[] =& $in[$k][$key];
 		}
 	}
 	unset( $in );

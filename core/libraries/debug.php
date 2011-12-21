@@ -172,9 +172,9 @@ class joosDebug {
 <div id="Context" style="display: block;">Место вызова:<pre>{$file_content}</pre></div>
 <div id="Context" style="display: block;">Полученные параметры:<pre>{$result}</pre></div>
 HTML;
-		echo $result .= "</div>";
+		$result .= "</div>";
 
-
+		echo $result;
 		die();
 	}
 

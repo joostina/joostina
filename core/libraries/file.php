@@ -85,7 +85,7 @@ class joosFile {
 	 * @example  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'favicon.ico' );
 	 * @example  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');
 	 *
-	 * @param type $filename
+	 * @param string $filename
 	 *
 	 * @return string
 	 */
