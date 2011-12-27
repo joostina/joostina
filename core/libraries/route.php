@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * joosSession - Библиотека работы с сессиями
@@ -18,24 +18,23 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosRoute {
+class joosRoute extends Route {
 
 	private static $instance;
 	private static $current_url;
 
 	public static function instance() {
-		if ( self::$instance === NULL ) {
+		if (self::$instance === NULL) {
 
 			$routes = require( JPATH_BASE . DS . 'app' . DS . 'routes.php' );
 
-			foreach ( $routes as $route_name => $route ) {
-				//$map->connect($route_name, $route['href'], $route['action'], $route['task']);
-				Route::set( $route_name , $route['href'] , ( isset( $route['params_rules'] ) ? $route['params_rules'] : null ) )->defaults( $route['defaults'] );
+			foreach ($routes as $route_name => $route) {
+				self::set($route_name, $route['href'], ( isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);
 			}
 
 			//$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
-			$uri               = $_SERVER['REQUEST_URI'] = trim( $_SERVER['REQUEST_URI'] , '/' );
-			self::$current_url = urldecode( $uri );
+			$uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
+			self::$current_url = urldecode($uri);
 		}
 		return self::$instance;
 	}
@@ -44,55 +43,76 @@ class joosRoute {
 
 		self::instance();
 
-		$routes = Kohana_Route::all();
+		$routes = self::all();
 		$params = NULL;
 
-		foreach ( $routes as $name => $route ) {
+		foreach ($routes as $name => $route) {
 			// We found something suitable
-			if ( ( $params = $route->matches( self::$current_url ) ) ) {
+			if (( $params = $route->matches(self::$current_url))) {
 				joosController::$activroute = $name;
 				joosController::$controller = $params['controller'];
-				joosController::$task       = $params['action'];
-				joosController::$param      = $params;
+				joosController::$task = $params['action'];
+				joosController::$param = $params;
 				return;
 			}
 		}
 
-		joosController::$activroute = 'default';
-		joosController::$controller = $params['controller'];
-		joosController::$task       = $params['action'];
-		joosController::$param      = $params;
+		// если включена отладка - скажем что именно не так
+		if (JDEBUG) {
+			throw new joosException('Не найдено правило роутинга для ссылки :location', array(':location' => self::$current_url));
+		} else {
+			// отладка не включена - просто перекинем на 404 страницу с понятным текстом
+			joosPages::page404('Такая ссылка на сайте невозможна');
+		}
 	}
 
-	public static function href( $route_name , array $params = array () ) {
-		return Route::url( $route_name , $params );
+	/**
+	 * Формирование ссылки
+	 * 
+	 * @param string $route_name название правила роутинга
+	 * @param array $params массив параметров для формирования ссылки
+	 * @return string
+	 */
+	public static function href($route_name, array $params = array()) {
+		return JPATH_SITE . '/' . self::get($route_name)->uri($params);
 	}
 
+	/**
+	 * Получение текущий ссылки ( в адресной сроке браузера )
+	 * 
+	 * @return string
+	 */
 	public static function current_url() {
 		return self::$current_url;
 	}
 
-	public static function redirect( $url , $msg = '' , $type = 'success' ) {
+	/**
+	 * Систменый автоматический редирект
+	 * 
+	 * @param string $url ссылка, на которую надо перейти
+	 * @param string $msg текст сообщения, отображаемый после перехода
+	 * @param string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
+	 */
+	public static function redirect($url, $msg = '', $type = 'success') {
 
 		$iFilter = joosInputFilter::instance();
-		$url     = $iFilter->process( $url );
+		$url = $iFilter->process($url);
 
-		empty( $msg ) ? null : joosFlashMessage::add( $iFilter->process( $msg ) );
+		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg));
 
-		$url = preg_split( "/[\r\n]/" , $url );
+		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		if ( $iFilter->badAttributeValue( array ( 'href' , $url ) ) ) {
+		if ($iFilter->badAttributeValue(array('href', $url))) {
 			$url = JPATH_SITE;
 		}
 
-
-		if ( headers_sent() ) {
+		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
 			!ob_get_level() ? : ob_end_clean();
-			joosRequest::send_headers_by_code( 301 );
-			header( "Location: " . $url );
+			joosRequest::send_headers_by_code(301);
+			header("Location: " . $url);
 		}
 
 		exit();
@@ -101,40 +121,17 @@ class joosRoute {
 }
 
 /**
- * Routes are used to determine the controller and action for a requested URI.
- * Every route generates a regular expression which is used to match a URI
- * and a route. Routes may also contain keys which can be used to set the
- * controller, action, and parameters.
- *
- * Each <key> will be translated to a regular expression using a default
- * regular expression pattern. You can override the default pattern by providing
- * a pattern for the key:
- *
- *     // This route will only match when <id> is a digit
- *     Route::set('user', 'user/<action>/<id>', array('id' => '\d+'));
- *
- *     // This route will match when <path> is anything
- *     Route::set('file', '<path>', array('path' => '.*'));
- *
- * It is also possible to create optional segments by using parentheses in
- * the URI definition:
- *
- *     // This is the standard default route, and no keys are required
- *     Route::set('default', '(<controller>(/<action>(/<id>)))');
- *
- *     // This route only requires the <file> key
- *     Route::set('file', '(<path>/)<file>(.<format>)', array('path' => '.*', 'format' => '\w+'));
- *
- * Routes also provide a way to generate URIs (called "reverse routing"), which
- * makes them an extremely powerful and flexible way to generate internal links.
- *
+ * Базовый класс роутинга
+ * 
  * @package    Kohana
  * @category   Base
  * @author     Kohana Team
  * @copyright  (c) 2008-2011 Kohana Team
  * @license    http://kohanaframework.org/license
+ * 
+ * Базируется на оригинальной работе Kohana Team
  */
-class Kohana_Route {
+class Route {
 	// Defines the pattern of a <segment>
 	const REGEX_KEY = '<([a-zA-Z0-9_]++)>';
 
@@ -150,28 +147,27 @@ class Kohana_Route {
 	 * @example  'http://'
 	 */
 	public static $default_protocol = 'http://';
-	/**
-	 * @var  array   list of valid localhost entries
-	 */
-	public static $localhosts = array ( FALSE , '' , 'local' , 'localhost' );
+
 	/**
 	 * @var  string  default action for all routes
 	 */
 	public static $default_action = 'index';
+
 	/**
 	 * @var  bool Indicates whether routes are cached
 	 */
 	public static $cache = FALSE;
+
 	/**
 	 * @var  array
 	 */
-	protected static $_routes = array ();
+	protected static $_routes = array();
 
 	/**
 	 * Stores a named route and returns it. The "action" will always be set to
 	 * "index" if it is not defined.
 	 *
-	 *     Route::set('default', '(<controller>(/<action>(/<id>)))')
+	 *     self::set('default', '(<controller>(/<action>(/<id>)))')
 	 *         ->defaults(array(
 	 *             'controller' => 'welcome',
 	 *         ));
@@ -182,81 +178,44 @@ class Kohana_Route {
 	 *
 	 * @return  Route
 	 */
-	public static function set( $name , $uri_callback = NULL , $regex = NULL ) {
-		return Route::$_routes[$name] = new Route( $uri_callback , $regex );
+	protected static function set($name, $uri_callback = NULL, $regex = NULL) {
+		return self::$_routes[$name] = new self($uri_callback, $regex);
 	}
 
 	/**
 	 * Retrieves a named route.
 	 *
-	 *     $route = Route::get('default');
+	 *     $route = self::get('default');
 	 *
 	 * @param   string  route name
 	 *
 	 * @return  Route
-	 * @throws  Kohana_Exception
+	 * @throws  joosException
 	 */
-	public static function get( $name ) {
-		if ( !isset( Route::$_routes[$name] ) ) {
-			throw new Kohana_Exception( 'The requested route does not exist: :route' , array ( ':route' => $name ) );
+	protected static function get($name) {
+		if (!isset(self::$_routes[$name])) {
+			throw new joosException('Не найдено правило роутинга: :route', array(':route' => $name));
 		}
 
-		return Route::$_routes[$name];
+		return self::$_routes[$name];
 	}
 
 	/**
 	 * Retrieves all named routes.
 	 *
-	 *     $routes = Route::all();
+	 *     $routes = self::all();
 	 *
 	 * @return  array  routes by name
 	 */
-	public static function all() {
-		return Route::$_routes;
-	}
-
-	/**
-	 * Get the name of a route.
-	 *
-	 *     $name = Route::name($route)
-	 *
-	 * @param   object  Route instance
-	 *
-	 * @return  string
-	 */
-	public static function name( Route $route ) {
-		return array_search( $route , Route::$_routes );
-	}
-
-	/**
-	 * Create a URL from a route name. This is a shortcut for:
-	 *
-	 *     echo URL::site(Route::get($name)->uri($params), $protocol);
-	 *
-	 * @param   string   route name
-	 * @param   array    URI parameters
-	 * @param   mixed    protocol string or boolean, adds protocol and domain
-	 *
-	 * @return  string
-	 * @since   3.0.7
-	 * @uses    URL::site
-	 */
-	public static function url( $name , array $params = NULL , $protocol = NULL ) {
-		$route = Route::get( $name );
-
-		// Create a URI with the route and convert it to a URL
-		if ( $route->is_external() ) {
-			return Route::get( $name )->uri( $params );
-		} else {
-			return URL::site( Route::get( $name )->uri( $params ) , $protocol );
-		}
+	protected static function all() {
+		return self::$_routes;
 	}
 
 	/**
 	 * Returns the compiled regular expression for the route. This translates
 	 * keys and optional groups to a proper PCRE regular expression.
 	 *
-	 *     $compiled = Route::compile(
+	 *     $compiled = self::compile(
 	 *        '<controller>(/<action>(/<id>))',
 	 *         array(
 	 *           'controller' => '[a-z]+',
@@ -265,57 +224,58 @@ class Kohana_Route {
 	 *     );
 	 *
 	 * @return  string
-	 * @uses    Route::REGEX_ESCAPE
-	 * @uses    Route::REGEX_SEGMENT
+	 * @uses    self::REGEX_ESCAPE
+	 * @uses    self::REGEX_SEGMENT
 	 */
-	public static function compile( $uri , array $regex = NULL ) {
-		if ( !is_string( $uri ) ) {
+	private static function compile($uri, array $regex = NULL) {
+		if (!is_string($uri)) {
 			return;
 		}
 
 		// The URI should be considered literal except for keys and optional parts
 		// Escape everything preg_quote would escape except for : ( ) < >
-		$expression = preg_replace( '#' . Route::REGEX_ESCAPE . '#' , '\\\\$0' , $uri );
+		$expression = preg_replace('#' . self::REGEX_ESCAPE . '#', '\\\\$0', $uri);
 
-		if ( strpos( $expression , '(' ) !== FALSE ) {
+		if (strpos($expression, '(') !== FALSE) {
 			// Make optional parts of the URI non-capturing and optional
-			$expression = str_replace( array ( '(' , ')' ) , array ( '(?:' , ')?' ) , $expression );
+			$expression = str_replace(array('(', ')'), array('(?:', ')?'), $expression);
 		}
 
 		// Insert default regex for keys
-		$expression = str_replace( array ( '<' , '>' ) , array ( '(?P<' , '>' . Route::REGEX_SEGMENT . ')' ) , $expression );
+		$expression = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $expression);
 
-		if ( $regex ) {
-			$search = $replace = array ();
-			foreach ( $regex as $key => $value ) {
-				$search[]  = "<$key>" . Route::REGEX_SEGMENT;
+		if ($regex) {
+			$search = $replace = array();
+			foreach ($regex as $key => $value) {
+				$search[] = "<$key>" . self::REGEX_SEGMENT;
 				$replace[] = "<$key>$value";
 			}
 
 			// Replace the default regex with the user-specified regex
-			$expression = str_replace( $search , $replace , $expression );
+			$expression = str_replace($search, $replace, $expression);
 		}
 
 		return '#^' . $expression . '$#uD';
 	}
 
 	/**
-	 * @var  callback     The callback method for routes
-	 */
-	protected $_callback;
-	/**
 	 * @var  string  route URI
 	 */
 	protected $_uri = '';
+
 	/**
 	 * @var  array
 	 */
-	protected $_regex = array ();
+	protected $_regex = array();
+
 	/**
 	 * @var  array
 	 */
-	protected $_defaults = array ( 'action' => 'index' ,
-	                               'host'   => FALSE );
+	protected $_defaults = array(
+		'action' => 'index',
+		'host' => FALSE
+	);
+
 	/**
 	 * @var  string
 	 */
@@ -323,56 +283,33 @@ class Kohana_Route {
 
 	/**
 	 * Creates a new route. Sets the URI and regular expressions for keys.
-	 * Routes should always be created with [Route::set] or they will not
+	 * Routes should always be created with [self::set] or they will not
 	 * be properly stored.
 	 *
-	 *     $route = new Route($uri, $regex);
-	 *
-	 * The $uri parameter can either be a string for basic regex matching or it
-	 * can be a valid callback or anonymous function (php 5.3+). If you use a
-	 * callback or anonymous function, your method should return an array
-	 * containing the proper keys for the route. If you want the route to be
-	 * "reversable", you need pass the route string as the third parameter.
-	 *
-	 *     $route = new Route(function($uri)
-	 *     {
-	 *	     if (list($controller, $action, $param) = explode('/', $uri) AND $controller == 'foo' AND $action == 'bar')
-	 *	     {
-	 *		     return array(
-	 *			     'controller' => 'foobar',
-	 *			     'action' => $action,
-	 *			     'id' => $param,
-	 *		     );
-	 *	     },
-	 *	     'foo/bar/<id>'
-	 *     });
-	 *
-	 * @param   mixed    route URI pattern or lambda/callback function
+	 *    $route = new Route($uri, $regex);
+	 * 
+	 * @param   mixed    route URI pattern 
 	 * @param   array    key patterns
 	 *
 	 * @return  void
-	 * @uses    Route::_compile
+	 * @uses    self::_compile
 	 */
-	public function __construct( $uri = NULL , $regex = NULL ) {
-		if ( $uri === NULL ) {
-			// Assume the route is from cache
+	public function __construct($uri = NULL, $regex = NULL) {
+		if ($uri === NULL) {
+			// заморочка с кешем
 			return;
 		}
 
-		if ( !is_string( $uri ) AND is_callable( $uri ) ) {
-			$this->_callback = $uri;
-			$this->_uri      = $regex;
-			$regex           = NULL;
-		} elseif ( !empty( $uri ) ) {
+		if (!empty($uri)) {
 			$this->_uri = $uri;
 		}
 
-		if ( !empty( $regex ) ) {
+		if (!empty($regex)) {
 			$this->_regex = $regex;
 		}
 
 		// Store the compiled regex locally
-		$this->_route_regex = Route::compile( $uri , $regex );
+		$this->_route_regex = self::compile($uri, $regex);
 	}
 
 	/**
@@ -388,7 +325,7 @@ class Kohana_Route {
 	 *
 	 * @return  $this
 	 */
-	public function defaults( array $defaults = NULL ) {
+	protected function defaults(array $defaults = NULL) {
 		$this->_defaults = $defaults;
 
 		return $this;
@@ -414,49 +351,32 @@ class Kohana_Route {
 	 * @return  array   on success
 	 * @return  FALSE   on failure
 	 */
-	public function matches( $uri ) {
-		if ( $this->_callback ) {
-			$closure = $this->_callback;
-			$params  = call_user_func( $closure , $uri );
+	protected function matches($uri) {
 
-			if ( !is_array( $params ) ) {
-				return FALSE;
-			}
-		} else {
-			if ( !preg_match( $this->_route_regex , $uri , $matches ) ) {
-				return FALSE;
-			}
-
-			$params = array ();
-			foreach ( $matches as $key => $value ) {
-				if ( is_int( $key ) ) {
-					// Skip all unnamed keys
-					continue;
-				}
-
-				// Set the value for all matched keys
-				$params[$key] = $value;
-			}
+		if (!preg_match($this->_route_regex, $uri, $matches)) {
+			return FALSE;
 		}
 
-		foreach ( $this->_defaults as $key => $value ) {
-			if ( !isset( $params[$key] ) OR $params[$key] === '' ) {
+		$params = array();
+		foreach ($matches as $key => $value) {
+			if (is_int($key)) {
+				// Skip all unnamed keys
+				continue;
+			}
+
+			// Set the value for all matched keys
+			$params[$key] = $value;
+		}
+
+
+		foreach ($this->_defaults as $key => $value) {
+			if (!isset($params[$key]) OR $params[$key] === '') {
 				// Set default values for any key that was not matched
 				$params[$key] = $value;
 			}
 		}
 
 		return $params;
-	}
-
-	/**
-	 * Returns whether this route is an external route
-	 * to a remote controller.
-	 *
-	 * @return  boolean
-	 */
-	public function is_external() {
-		return !in_array( Arr::get( $this->_defaults , 'host' , FALSE ) , Route::$localhosts );
 	}
 
 	/**
@@ -472,131 +392,42 @@ class Kohana_Route {
 	 * @param   array   URI parameters
 	 *
 	 * @return  string
-	 * @throws  Kohana_Exception
-	 * @uses    Route::REGEX_Key
+	 * @throws  joosException
+	 * @uses    self::REGEX_Key
 	 */
-	public function uri( array $params = NULL ) {
+	protected function uri(array $params = NULL) {
 		// Start with the routed URI
 		$uri = $this->_uri;
 
-		if ( strpos( $uri , '<' ) === FALSE AND strpos( $uri , '(' ) === FALSE ) {
-			// This is a static route, no need to replace anything
-
-			if ( !$this->is_external() ) {
-				return $uri;
-			}
-
-			// If the localhost setting does not have a protocol
-			if ( strpos( $this->_defaults['host'] , '://' ) === FALSE ) {
-				// Use the default defined protocol
-				$params['host'] = Route::$default_protocol . $this->_defaults['host'];
-			} else {
-				// Use the supplied host with protocol
-				$params['host'] = $this->_defaults['host'];
-			}
-
-			// Compile the final uri and return it
-			return rtrim( $params['host'] , '/' ) . '/' . $uri;
+		// если в ссылке нет динамических параметров - сразу её возвратим
+		if (strpos($uri, '<') === FALSE AND strpos($uri, '(') === FALSE) {
+			return $uri;
 		}
 
-		while ( preg_match( '#\([^()]++\)#' , $uri , $match ) ) {
-			// Search for the matched value
-			$search = $match[0];
-
-			// Remove the parenthesis from the match as the replace
-			$replace = substr( $match[0] , 1 , -1 );
-
-			while ( preg_match( '#' . Route::REGEX_KEY . '#' , $replace , $match ) ) {
-				list( $key , $param ) = $match;
-
-				if ( isset( $params[$param] ) ) {
-					// Replace the key with the parameter value
-					$replace = str_replace( $key , $params[$param] , $replace );
-				} else {
-					// This group has missing parameters
-					$replace = '';
-					break;
-				}
-			}
-
-			// Replace the group in the URI
-			$uri = str_replace( $search , $replace , $uri );
-		}
-
-		while ( preg_match( '#' . Route::REGEX_KEY . '#' , $uri , $match ) ) {
-			list( $key , $param ) = $match;
-
-			if ( !isset( $params[$param] ) ) {
+		while (preg_match('#' . self::REGEX_KEY . '#', $uri, $match)) {
+			list( $key, $param ) = $match;
+			if (!isset($params[$param])) {
 				// Look for a default
-				if ( isset( $this->_defaults[$param] ) ) {
+				if (isset($this->_defaults[$param])) {
 					$params[$param] = $this->_defaults[$param];
 				} else {
-					// Ungrouped parameters are required
-					throw new Kohana_Exception( 'Требуемый параметр :param не найден в полученных данных для условия :uri' , array ( ':param' => $param ,
-					                                                                                                                 ':uri'   => joosFilter::htmlspecialchars( $this->_uri ) , ) );
+					// отсутствуют требуемые параметры
+					throw new joosException('Требуемый параметр :param не найден в полученных данных для условия :uri',
+							array(
+								':param' => $param,
+								':uri' => joosFilter::htmlspecialchars($this->_uri)
+							)
+					);
 				}
 			}
 
-			$uri = str_replace( $key , $params[$param] , $uri );
+			$uri = str_replace($key, $params[$param], $uri);
 		}
 
-		// Trim all extra slashes from the URI
-		$uri = preg_replace( '#//+#' , '/' , rtrim( $uri , '/' ) );
-
-		if ( $this->is_external() ) {
-			// Need to add the host to the URI
-			$host = $this->_defaults['host'];
-
-			if ( strpos( $host , '://' ) === FALSE ) {
-				// Use the default defined protocol
-				$host = Route::$default_protocol . $host;
-			}
-
-			// Clean up the host and prepend it to the URI
-			$uri = rtrim( $host , '/' ) . '/' . $uri;
-		}
+		// чистка от лишних и дублирующихся /
+		$uri = preg_replace('#//+#', '/', rtrim($uri, '/'));
 
 		return $uri;
-	}
-
-}
-
-/**
- * @deprecated
- * @todo используется в роутинге, переписать, удалить
- */
-class Arr {
-
-	public static function get( $array , $key , $default = NULL ) {
-		return isset( $array[$key] ) ? $array[$key] : $default;
-	}
-
-}
-
-/**
- * @deprecated
- * @todo используется в роутинге, переписать, удалить
- */
-class Url {
-
-	public static function site( $uri = '' , $protocol = NULL ) {
-		return JPATH_SITE . '/' . $uri;
-	}
-
-}
-
-/**
- * @deprecated
- * @todo используется в роутинге, переписать, удалить
- */
-class Route extends Kohana_Route {
-
-}
-
-class Kohana_Exception extends joosException {
-
-	public function __construct( $message , array $variables = NULL , $code = 0 ) {
-		parent::__construct( strtr( $message , $variables ) );
 	}
 
 }
