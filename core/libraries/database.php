@@ -1242,7 +1242,7 @@ class joosModel {
 
 			// дата последней модификации
 			if (property_exists($this, 'modified_at')) {
-				$this->modified_at = _CURRENT_SERVER_TIME;
+				$this->modified_at = JCURRENT_SERVER_TIME;
 			}
 
 			$this->before_update();
@@ -1252,7 +1252,7 @@ class joosModel {
 
 			// дата создания объекта
 			if (property_exists($this, 'created_at')) {
-				$this->created_at = _CURRENT_SERVER_TIME;
+				$this->created_at = JCURRENT_SERVER_TIME;
 			}
 
 			$this->before_insert();

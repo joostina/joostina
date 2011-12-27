@@ -7,7 +7,6 @@
  * @author    JoostinaTeam
  * @copyright (C) 2007-2011 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
- * @version   SVN: $Id: joostina.php 238 2011-03-13 13:24:57Z LeeHarvey $
  * Иинформация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
 // запрет прямого доступа
@@ -184,7 +183,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-
+		
 	}
 
 	/**
@@ -539,6 +538,10 @@ class joosController {
 	 */
 	public static function run() {
 
+		self::init();
+		
+		ob_start();
+
 		$class = 'actions' . ucfirst(self::$controller);
 
 		JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
@@ -566,6 +569,10 @@ class joosController {
 			} elseif (is_string($results)) {
 				echo $results;
 			}
+			
+			// главное содержимое - стек вывода компонента - mainbody
+			joosDocument::set_body(ob_get_clean());
+			
 		} else {
 			//  в контроллере нет запрашиваемого метода
 			return self::error404();
@@ -604,7 +611,7 @@ class joosController {
 	private static function views(array $params, $option, $task) {
 
 		//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
-		J_USE_MODULES ? self::prepare_modules_for_current_page($params, $option, $task) : null;
+		JUSE_MODULES ? self::prepare_modules_for_current_page($params, $option, $task) : null;
 		self::as_html($params, $option, $task);
 	}
 
@@ -720,5 +727,5 @@ function _xdump($var) {
 }
 
 class joosCoreException extends joosException {
-
+	
 }

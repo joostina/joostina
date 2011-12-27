@@ -49,7 +49,7 @@ class modelAdminCoder {
 		$buffer[] = "\n * @copyright (C) 2007-2011 Joostina Team";
 		$buffer[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
 		$buffer[] = "\n * @version 1";
-		$buffer[] = "\n * @created " . _CURRENT_SERVER_TIME;
+		$buffer[] = "\n * @created " . JCURRENT_SERVER_TIME;
 		$buffer[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
 
 		$buffer[] = "\n */";

@@ -174,7 +174,7 @@ class modelUsers extends joosModel {
 
 		if (!$this->id) {
 			$this->password = self::prepare_password($this->password);
-			$this->register_date = _CURRENT_SERVER_TIME;
+			$this->register_date = JCURRENT_SERVER_TIME;
 		} else {
 			if (( $new_password = joosRequest::post('new_password', false))) {
 				$this->password = self::prepare_password($new_password);
@@ -328,7 +328,7 @@ class modelUsers extends joosModel {
 		joosDatabase::instance()->set_query($query)->query();
 
 		// обновляем дату последнего визита авторизованного пользователя
-		$user->lastvisit_date = _CURRENT_SERVER_TIME;
+		$user->lastvisit_date = JCURRENT_SERVER_TIME;
 		$user->store();
 
 		if (isset($params['return'])) {

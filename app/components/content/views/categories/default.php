@@ -14,7 +14,7 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-$ico = JPATH_SITE . '/' . JADMIN_BASE . '/components/content/media/ico/' ?>
+$ico = JPATH_SITE_ADMIN . '/components/content/media/ico/' ?>
 
 
 <?php if ( !$rootExists ): ?>

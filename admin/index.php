@@ -41,7 +41,7 @@ if (joosRequest::is_post()) {
 
 	$user_name = joosRequest::post('user_name');
 	$password = joosRequest::post('password');
-
+	
 	if ($password == null) {
 		joosRoute::redirect(JPATH_SITE_ADMIN . '/', __('Необходимо ввести пароль'));
 		exit();
@@ -63,7 +63,6 @@ if (joosRequest::is_post()) {
 		// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
 		$bad_auth = $my->bad_auth_count;
 
-
 		if (strcmp($hash, $cryptpass) || !joosAcl::acl()->isAllowed(strtolower($my->group_name), 'adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
@@ -74,10 +73,10 @@ if (joosRequest::is_post()) {
 				$query = 'UPDATE #__users SET state = 0 WHERE id = ' . (int) $my->id;
 				$database->set_query($query)->query();
 
-				joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', 'Ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
+				joosRoute::redirect(JPATH_SITE_ADMIN, 'Ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
 			}
 
-			joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', 'Неправильный логин или пароль');
+			joosRoute::redirect(JPATH_SITE_ADMIN, 'Неправильный логин или пароль');
 			exit();
 		}
 
@@ -114,17 +113,17 @@ if (joosRequest::is_post()) {
 		session_write_close();
 
 		$expired = JPATH_SITE_ADMIN . '/index2.php';
-
+				
 		// скидываем счетчик неудачных авторзаций в админке
 		$query = 'UPDATE #__users SET bad_auth_count = 0 WHERE id = ' . $my->id;
 		$database->set_query($query)->query();
-
+		
 		/** cannot using joosRoute::redirect as this stuffs up the cookie in IIS */
 		// redirects page to admin homepage by default or expired page
 		echo "<script>document.location.href='$expired';</script>\n";
 		exit();
 	} else {
-		joosRoute::redirect(JPATH_SITE_ADMIN . '/index.php', 'Такой пользователь не существует или ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
+		joosRoute::redirect(JPATH_SITE_ADMIN, 'Такой пользователь не существует или ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
 		exit();
 	}
 } else {

@@ -169,7 +169,7 @@ class actionsUsers extends joosController {
 			$user->user_name = $datas['user_name'];
 			$ret            = $user->find() ? 0 : 1;
 
-			$ret            = preg_match( _USER_NAME_REGEX , $datas['user_name'] ) ? $ret : false;
+			$ret            = preg_match( JUSER_NAME_REGEX , $datas['user_name'] ) ? $ret : false;
 
 
 			echo $ret ? 'true' : 'false';

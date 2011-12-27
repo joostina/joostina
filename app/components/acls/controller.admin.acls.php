@@ -225,7 +225,7 @@ class actionsAdminAcls {
 						'title' => sprintf('%s::%s', $k, $km),
 						'acl_group' => $k,
 						'acl_name' => $km,
-						'created_at' => _CURRENT_SERVER_TIME
+						'created_at' => JCURRENT_SERVER_TIME
 					);
 				}
 			}

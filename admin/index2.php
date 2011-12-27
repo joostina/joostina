@@ -45,11 +45,10 @@ if (is_file($file_controller)) {
 	require_once ( $file_controller );
 	joosAutoadmin::dispatch();
 } else {
-	throw new joosException(sprintf(__('Не найден предполагаемый файл контроллера %s'), $file_controller));
+	throw new joosException('Не найден предполагаемый файл контроллера :controller', array(':controller' => $file_controller));
 }
 
 joosDocument::set_body(ob_get_clean());
-
 
 ob_start();
 // начало вывода html
@@ -58,7 +57,7 @@ $template_file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE_ADM
 if (file_exists($template_file)) {
 	require_once $template_file;
 } else {
-	throw new joosException(sprintf(__('Файл index.php шаблона %s не найден'), JTEMPLATE_ADMIN));
+	throw new joosException('Файл index.php шаблона :template_name не найден', array(':template_name' => JTEMPLATE_ADMIN));
 }
 
 // подсчет времени генерации страницы

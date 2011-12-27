@@ -7,7 +7,6 @@
  * @author    JoostinaTeam
  * @copyright (C) 2007-2011 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
- * @version   SVN: $Id: joostina.php 238 2011-03-13 13:24:57Z LeeHarvey $
  * Иинформация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
 // запрет прямого доступа
