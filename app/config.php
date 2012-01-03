@@ -2,9 +2,9 @@
 
 return array(
 	'live_site' => 'http://www.joostina.local',
-	'debug'=>true,
+	'debug' => false,
 	'404_page' => false,
-	'template' => 'joostina',
+	'template' => 'oiblog',
 	'template_admin' => 'joostin',
 	'admin_icons_path' => '../media/images/admin/',
 	'db' => array(//'host' => 'p:localhost', - для постоянного соединения
@@ -16,19 +16,26 @@ return array(
 		'port' => '',
 		'debug' => true,
 		'profiling_history_size' => 150),
-	'cache' => array('enable' => false,
+	'cache' => array(
+		'enable' => false,
 		'handler' => 'file', // 'apc', 'file', 'memcache', 'xcache'
 		'admin_menu_cache' => false,
 		'cachepath' => JPATH_BASE . '/cache/cache.php', // TODO нехорошо
 		'memcache_host' => '127.0.0.1',
-		'memcache_port' => 11211),
-	'ajax' => array('fullajax' => false, // сайт полностью на Ajax
+		'memcache_port' => 11211)
+	,
+	'ajax' => array(
+		'fullajax' => false, // сайт полностью на Ajax
 		'component_dom' => 'component', // название элемента в DOM-дереве для вывода оснвоного содержимого компонента при Аякс - запросах
 	),
-	'secure' => array('secret_code' => 'joostina-cool-cms'),
-	'info' => array('title' => 'Joostina CMS!',
+	'secure' => array(
+		'secret_code' => 'joostina-cool-cms'
+	),
+	'info' => array(
+		'title' => 'Joostina CMS!',
 		'description' => 'Joostina CMS - система управления интересными сайтами',
-		'keywords' => 'joostina, php, mysql, cms',),
+		'keywords' => 'joostina, php, mysql, cms'
+	),
 	'session' => array(// тип сессииб 3 - самый безопасный
 		'type' => 3,
 		// время жизни сессии администратора

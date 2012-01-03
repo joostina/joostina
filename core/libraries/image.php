@@ -246,7 +246,7 @@ class Thumbnail {
 		if ( empty( $output ) ) {
 			$content_type = image_type_to_mime_type( $type );
 			if ( !headers_sent() ) {
-				header( 'modelContent-Type: ' . $content_type );
+				header( 'Content-Type: ' . $content_type );
 			} else {
 				user_error( 'Headers have already been sent. Could not display image.' , E_USER_NOTICE );
 				return false;

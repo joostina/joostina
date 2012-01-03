@@ -16,8 +16,6 @@ joosAutoloader::init();
 // сначала инициализация базовой конфигурации
 joosConfig::init();
 
-// название шаблона сайта
-DEFINE('JTEMPLATE', joosConfig::get('template'));
 // название шаблона панели управления
 DEFINE('JTEMPLATE_ADMIN', joosConfig::get('template_admin'));
 
@@ -26,6 +24,12 @@ DEFINE('JAPP_DIR', 'app');
 
 // http адрес сайта
 DEFINE('JPATH_SITE', joosConfig::get('live_site'));
+
+// название шаблона сайта
+DEFINE('JTEMPLATE', joosConfig::get('template'));
+
+// http корень текущего шаблона сайта
+DEFINE('JTEMPLATE_LIVE', sprintf('%s/app/templates/%s/', JPATH_SITE, JTEMPLATE));
 
 // http корень для изображений
 DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
@@ -95,7 +99,6 @@ DEFINE('JADMIN_SESSION_NAME', md5(JPATH_BASE . md5(JSECRET_CODE) . joosRequest::
 
 // формат для функций вывода времени на сайте
 DEFINE('JDATE_FORMAT', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime
-
 // права доступа на создаваемые файлы и каталоги
 DEFINE('JFILE_READ_MODE', 0644);
 DEFINE('JFILE_WRITE_MODE', 0666);

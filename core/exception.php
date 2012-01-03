@@ -89,7 +89,12 @@ class joosException extends Exception {
 
 	public function create() {
 
-		header('modelContent-type: text/html; charset=UTF-8');
+		if (headers_sent()) {
+			//ob_clean();
+					!ob_get_level() ? : ob_end_clean();
+		} else {
+			header('Content-type: text/html; charset=UTF-8');
+		}
 
 		$message = nl2br($this->getMessage());
 		$result = <<<HTML

@@ -14,7 +14,7 @@ return array(
 	'default' => array(
 		'href' => '',
 		'defaults' => array(
-			'controller' => 'mainpage',
+			'controller' => 'pages',
 			'action' => 'index'
 		)
 	),
@@ -49,7 +49,7 @@ return array(
 	'user_view' => array(
 		'href' => 'user/view-<id>/<user_name>',
 		'params_rules' => array(
-			'id' => '\d+',
+			'id' => ':digit',
 			'user_name' => '\w+'
 		),
 		'defaults' => array(
@@ -57,12 +57,18 @@ return array(
 			'action' => 'view'
 		)
 	),
-	'test' => array('href' => 'test',
-		'defaults' => array('controller' => 'test',
-			'action' => 'index')),
-	'test-upload' => array('href' => 'upload',
-		'defaults' => array('controller' => 'test',
-			'action' => 'upload')),
+	'test' => array(
+		'href' => 'test',
+		'defaults' => array(
+			'controller' => 'test',
+			'action' => 'index')
+	),
+	'test-upload' => array(
+		'href' => 'upload',
+		'defaults' => array(
+			'controller' => 'test',
+			'action' => 'upload')
+	),
 	// сборник тестиования системных функций
 	'unittest' => array(
 		'href' => 'unittest',
@@ -82,7 +88,7 @@ return array(
 	'blog_view' => array(
 		'href' => 'blogs/<cat_slug>/<id>',
 		'params_rules' => array(
-			'id' => '\d+',
+			'id' => ':digit',
 			'cat_slug' => '[a-z]+'
 		),
 		'defaults' => array(
@@ -93,7 +99,8 @@ return array(
 	'blog_edit' => array(
 		'href' => 'blogs/edit/<id>',
 		'params_rules' => array(
-			'id' => '\d+'),
+			'id' => ':digit'
+		),
 		'defaults' => array(
 			'controller' => 'blog',
 			'action' => 'view'
@@ -111,7 +118,8 @@ return array(
 	'blog_pages' => array(
 		'href' => 'blogs/page/<page>',
 		'params_rules' => array(
-			'page' => '\d+'),
+			'page' => ':digit'
+			),
 		'defaults' => array(
 			'controller' => 'blog',
 			'action' => 'index'
@@ -139,6 +147,16 @@ return array(
 		'defaults' => array(
 			'controller' => 'test',
 			'action' => 'db'
+		)
+	),
+	'test_m' => array(
+		'href' => 'user/<user_name>',
+		'params_rules' => array(
+			'user_name' => ':any'
+		),
+		'defaults' => array(
+			'controller' => 'users',
+			'action' => 'view'
 		)
 	),
 );

@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * Test  - Компонент для тестирования нового функционала
@@ -28,26 +28,26 @@ class actionsTest {
 
 		echo joosRoute::href('test_db');
 		echo '<br />';
-		echo joosRoute::href('blog_cat', array('cat_slug'=>'boston') );
+		echo joosRoute::href('blog_cat', array('cat_slug' => 'boston'));
 
-		return array ( 'asd' => crc32( 'Alanis Morissette - Crazy' ) );
+		return array('asd' => crc32('Alanis Morissette - Crazy'));
 	}
 
 	/**
 	 * Тестирование загрузчика
 	 */
-	public static function upload(){
+	public static function upload() {
 		return array();
 	}
 
 	/**
 	 * Примеры работы с базой данных
 	 */
-	public static function db(){
+	public static function db() {
 
-		echo joosDatabase::models('Users')->count();
-		
+		$user_1 = joosDatabase::instance()->set_query('select * from #__users where id=1')->load_result();
 
+		_xdump($user_1);
 	}
 
 }

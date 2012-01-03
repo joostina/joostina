@@ -183,7 +183,7 @@ class joosDocument {
 	public static $cache_header_time = false;
 
 	private function __construct() {
-		
+
 	}
 
 	/**
@@ -569,10 +569,10 @@ class joosController {
 			} elseif (is_string($results)) {
 				echo $results;
 			}
-			
+
 			// главное содержимое - стек вывода компонента - mainbody
 			joosDocument::set_body(ob_get_clean());
-			
+
 		} else {
 			//  в контроллере нет запрашиваемого метода
 			return self::error404();
@@ -727,5 +727,5 @@ function _xdump($var) {
 }
 
 class joosCoreException extends joosException {
-	
+
 }

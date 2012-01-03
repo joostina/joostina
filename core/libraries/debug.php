@@ -47,7 +47,8 @@ class joosDebug {
 	}
 
 	public static function log($str, array $params = array()) {
-		self::$_log[] = strtr($str, $params);
+		$value = strtr($str, $params);
+		self::$_log[] = joosFilter::htmlspecialchars($value);
 	}
 
 	public static function add($text, $top = 0) {

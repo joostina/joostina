@@ -68,7 +68,7 @@ class joosRoute extends Route {
 
 	/**
 	 * Формирование ссылки
-	 * 
+	 *
 	 * @param string $route_name название правила роутинга
 	 * @param array $params массив параметров для формирования ссылки
 	 * @return string
@@ -79,7 +79,7 @@ class joosRoute extends Route {
 
 	/**
 	 * Получение текущий ссылки ( в адресной сроке браузера )
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function current_url() {
@@ -88,7 +88,7 @@ class joosRoute extends Route {
 
 	/**
 	 * Систменый автоматический редирект
-	 * 
+	 *
 	 * @param string $url ссылка, на которую надо перейти
 	 * @param string $msg текст сообщения, отображаемый после перехода
 	 * @param string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
@@ -122,13 +122,13 @@ class joosRoute extends Route {
 
 /**
  * Базовый класс роутинга
- * 
+ *
  * @package    Kohana
  * @category   Base
  * @author     Kohana Team
  * @copyright  (c) 2008-2011 Kohana Team
  * @license    http://kohanaframework.org/license
- * 
+ *
  * Базируется на оригинальной работе Kohana Team
  */
 class Route {
@@ -179,6 +179,7 @@ class Route {
 	 * @return  Route
 	 */
 	protected static function set($name, $uri_callback = NULL, $regex = NULL) {
+
 		return self::$_routes[$name] = new self($uri_callback, $regex);
 	}
 
@@ -193,6 +194,7 @@ class Route {
 	 * @throws  joosException
 	 */
 	protected static function get($name) {
+
 		if (!isset(self::$_routes[$name])) {
 			throw new joosException('Не найдено правило роутинга: :route', array(':route' => $name));
 		}
@@ -244,9 +246,22 @@ class Route {
 		// Insert default regex for keys
 		$expression = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $expression);
 
+		// правила краткой записи регулярок роутинга
+		$rules = array(
+			':any' => '.+?',
+			':maybe' => '.*?',
+			':digit' => '[\d]+',
+			':alpha' => '[a-zA-Z]+',
+			':rus_alpha' => '[a-zA-Zа-яА-ЯёЁ]+',
+			':word' => '[\w-_]+',
+		);
+
 		if ($regex) {
 			$search = $replace = array();
 			foreach ($regex as $key => $value) {
+
+				$value = strtr($value, $rules);
+
 				$search[] = "<$key>" . self::REGEX_SEGMENT;
 				$replace[] = "<$key>$value";
 			}
@@ -287,8 +302,8 @@ class Route {
 	 * be properly stored.
 	 *
 	 *    $route = new Route($uri, $regex);
-	 * 
-	 * @param   mixed    route URI pattern 
+	 *
+	 * @param   mixed    route URI pattern
 	 * @param   array    key patterns
 	 *
 	 * @return  void
