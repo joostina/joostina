@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * joosFolder - Библиотека работы с каталогами файловой системы
@@ -26,9 +26,14 @@ class joosFolder {
 	 *
 	 * @return bool наличие указанного каталога
 	 */
-	public static function is_exists( $location ) {
+	public static function exists($location) {
+		$location = (string) $location;
 
-		return (bool) 1;
+		if (file_exists($location) && is_dir($location)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -38,8 +43,8 @@ class joosFolder {
 	 *
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
-	public static function is_writable( $location ) {
-
+	public static function is_writable($location) {
+		return (bool) (self::exists && is_writable($location));
 	}
 
 	/**
@@ -50,9 +55,9 @@ class joosFolder {
 	 *
 	 * @return bool результат создания каталога
 	 */
-	public static function create( $location , $chmod = 0755 ) {
+	public static function create($location, $chmod = 0755) {
 
-		return (bool) 1;
+		return (!self::exists($location)) ? mkdir((string) $location, $chmod, true) : true;
 	}
 
 	/**
@@ -62,7 +67,7 @@ class joosFolder {
 	 *
 	 * @return bool результат полного удаления каталога и вложенных файлов и каталогов
 	 */
-	public static function delete( $location ) {
+	public static function delete($location) {
 
 		return (bool) 1;
 	}
@@ -74,7 +79,7 @@ class joosFolder {
 	 *
 	 * @return bool результат очистка каталога
 	 */
-	public static function clear( $location ) {
+	public static function clear($location) {
 		/*
 		  $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($location),
 		  RecursiveIteratorIterator::CHILD_FIRST);
@@ -104,7 +109,7 @@ class joosFolder {
 	 *
 	 * @return bool результат переименования каталога
 	 */
-	public static function rename( $location_from , $location_to , $chmod = false ) {
+	public static function rename($location_from, $location_to, $chmod = false) {
 
 		return (bool) 1;
 	}
@@ -119,7 +124,7 @@ class joosFolder {
 	 *
 	 * @return bool результат капорования каталога
 	 */
-	public static function copy( $location_from , $location_to , $chmod = false ) {
+	public static function copy($location_from, $location_to, $chmod = false) {
 
 		return (bool) 1;
 	}
@@ -133,7 +138,7 @@ class joosFolder {
 	 *
 	 * @return bool результат смены прав доступа
 	 */
-	public static function set_chmod( $location , $chmod , $recursive = false ) {
+	public static function set_chmod($location, $chmod, $recursive = false) {
 
 		return (bool) 1;
 	}
@@ -145,7 +150,7 @@ class joosFolder {
 	 *
 	 * @return int размер каталога в байтах
 	 */
-	public static function get_size( $location ) {
+	public static function get_size($location) {
 
 		return (int) 1;
 	}
@@ -158,9 +163,9 @@ class joosFolder {
 	 *
 	 * @return array массив вложенных файлов и каталогов
 	 */
-	public static function get_file_list( $location , array $params = array () ) {
+	public static function get_file_list($location, array $params = array()) {
 
-		return array ();
+		return array();
 	}
 
 	/**
@@ -171,9 +176,9 @@ class joosFolder {
 	 *
 	 * @return string безопасное имя для каталога
 	 */
-	public static function get_safe_name( $location ) {
-		$location = str_replace( '.' , '-' , $location );
-		return joosFile::make_safe_name( $location );
+	public static function get_safe_name($location) {
+		$location = str_replace('.', '-', $location);
+		return joosFile::make_safe_name($location);
 	}
 
 }

@@ -18,8 +18,6 @@ defined('_JOOS_CORE') or die();
  *
  * */
 class joosFile {
-	const LIST_FILE = 'file';
-	const LIST_FOLDER = 'folder';
 
 	/**
 	 * Логическое представление размера файлов, памяти и прочив байтовых данных
@@ -59,7 +57,7 @@ class joosFile {
 	public static function delete($filename) {
 
 		if (!joosFile::exists($filename)) {
-			throw new joosException('Файл :file не существует', array(':file' => $filename));
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
 		}
 
 		return unlink((string) $filename);
@@ -183,21 +181,21 @@ class joosFile {
 	 * @param integer $id - номер файла в БД
 	 *
 	 * @return string - путь к файлу в структуре подкаталогов
-	 * 
+	 *
 	 * @todo задокументировать новые параметры
 	 */
 	public static function make_file_location($id, $split_by = 3, $capacity = 9) {
 
 		if (!is_integer($id)) {
-			throw new joosException('Параметр $id должен иметь цельночисленное значение');
+			throw new joosFileLibrariesException('Параметр $id должен иметь цельночисленное значение');
 		}
 
 		if (!is_integer($split_by)) {
-			throw new joosException('Параметр $split_by должен иметь цельночисленное значение');
+			throw new joosFileLibrariesException('Параметр $split_by должен иметь цельночисленное значение');
 		}
 
 		if (!is_integer($capacity)) {
-			throw new joosException('Параметр $capacity должен иметь цельночисленное значение');
+			throw new joosFileLibrariesException('Параметр $capacity должен иметь цельночисленное значение');
 		}
 
 		$p = sprintf('%0' . $capacity . 'd', $id);
@@ -223,7 +221,7 @@ class joosFile {
 	public static function file_info($filename) {
 
 		if (!joosFile::exists($filename)) {
-			throw new joosException('Файл :file не существует', array(':file' => $filename));
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
 		}
 
 		$f = pathinfo($filename);
@@ -261,11 +259,92 @@ class joosFile {
 		return trim($filename, '-');
 	}
 
+	/**
+	 * Получение даты последнего изменения файла
+	 *
+	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @return bool
+	 * @throws joosFileLibrariesException
+	 */
+	public static function get_modified_date($filename) {
+
+		if (!joosFile::exists($filename)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		}
+
+		return filemtime($filename);
+	}
+
+	/**
+	 * Получение размера файла ( в байта )
+	 *
+	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @return type
+	 * @throws joosFileLibrariesException
+	 */
+	public static function size($filename) {
+
+		if (!joosFile::exists($filename)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		}
+
+		return filesize($filename);
+	}
+
+	/**
+	 * Получение типа файла
+	 *
+	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @return type
+	 * @throws joosFileLibrariesException
+	 */
+	public static function type($filename) {
+
+		if (!joosFile::exists($filename)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		}
+
+		return filetype($filename);
+	}
+
+	/**
+	 * Записи данных в файл
+	 *
+	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $data данные для записи в файл
+	 * @return type
+	 * @throws joosFileLibrariesException
+	 */
+	public static function put($filename, $data) {
+
+		if (!joosFile::exists($filename)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		}
+
+		return file_put_contents($filename, $data, LOCK_EX);
+	}
+
+	/**
+	 * Получение содержимого файла
+	 *
+	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @return type
+	 * @throws joosFileLibrariesException
+	 */
+	public static function get($filename) {
+
+		if (!joosFile::exists($filename)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		}
+
+		return file_get_contents($filename);
+	}
+
 }
 
 /**
  * Обработчик ошибок для библиотеки joosFile
  */
 class joosFileLibrariesException extends joosException {
-	
+
 }
