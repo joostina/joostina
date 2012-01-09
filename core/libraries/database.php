@@ -1660,8 +1660,9 @@ class joosModel {
 	public function get_one_to_many_selectors($name, $table_values, $table_keys, $key_parent, $key_children, array $selected_ids = array(), array $params = array()) {
 
 		$params['select'] = isset($params['select']) ? $params['select'] : 't_val.id, t_val.title';
+		$params['select_children'] = isset($params['select_children']) ? $params['select_children'] : array();
 
-		$childrens = $this->get_selector(array(), array('table' => $table_values));
+		$childrens = $this->get_selector($params['select_children'], array('table' => $table_values));
 
 		$rets = array();
 		foreach ($childrens as $key => $value) {
