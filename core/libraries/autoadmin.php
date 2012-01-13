@@ -163,6 +163,7 @@ class joosAutoadmin {
 
 		// получаем название текущего компонента
 		$option = joosRequest::param('option');
+		$task = joosRequest::param('task');
 
 		// путь к текущим графическим элементам
 		echo joosHtml::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
@@ -226,7 +227,7 @@ class joosAutoadmin {
 		echo forms::hidden('option', $option);
 		echo forms::hidden('model', self::$model);
 		echo forms::hidden('menu', self::$submenu);
-		echo forms::hidden('task', '');
+		echo forms::hidden('task', $task);
 		echo forms::hidden('boxchecked', '');
 		echo forms::hidden('obj_name', get_class($obj));
 		echo forms::hidden(joosCSRF::get_code(), 1);
