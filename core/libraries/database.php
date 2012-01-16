@@ -1241,7 +1241,7 @@ class joosModel {
 		if (( isset($this->$k) && $this->$k != 0 ) && !$forcedIns) {
 
 			// дата последней модификации
-			if (property_exists($this, 'modified_at')) {
+			if (property_exists($this, 'modified_at') && $this->modified_at==null ) {
 				$this->modified_at = JCURRENT_SERVER_TIME;
 			}
 
@@ -1251,7 +1251,7 @@ class joosModel {
 		} else {
 
 			// дата создания объекта
-			if (property_exists($this, 'created_at')) {
+			if (property_exists($this, 'created_at') && $this->created_at==null ) {
 				$this->created_at = JCURRENT_SERVER_TIME;
 			}
 
