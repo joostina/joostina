@@ -139,7 +139,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
 
 				<div class="b-copyrights">
 					<a href="mailto:info@joostina.ru" id="email_us">Написать письмо</a>
-					Joostina CMS &copy; 2007-2011
+					Joostina CMS &copy; 2007-2012
 				</div>
 			</div>
 		</div>

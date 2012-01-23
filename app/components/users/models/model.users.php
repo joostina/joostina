@@ -11,7 +11,7 @@ defined('_JOOS_CORE') or die();
  * @subpackage Users
  * @subpackage Core
  * @author JoostinaTeam
- * @copyright (C) 2007-2011 Joostina Team
+ * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 1
  * @created 2011-11-16 22:03:25
@@ -395,7 +395,7 @@ class modelUsers extends joosModel {
  * @package    Joostina.Models
  * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2011 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
@@ -456,7 +456,7 @@ class modelUsersExtra extends joosModel {
  * @package    Joostina.Models
  * @subpackage modelUsers
  * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2011 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *

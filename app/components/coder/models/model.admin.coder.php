@@ -11,7 +11,7 @@ defined('_JOOS_CORE') or die();
  * @package    Joostina.Models
  * @subpackage Coder
  * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2011 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
@@ -46,7 +46,7 @@ class modelAdminCoder {
 		$buffer[] = "\n * @package Joostina.Components";
 		$buffer[] = "\n * @subpackage $className";
 		$buffer[] = "\n * @author JoostinaTeam";
-		$buffer[] = "\n * @copyright (C) 2007-2011 Joostina Team";
+		$buffer[] = "\n * @copyright (C) 2007-2012 Joostina Team";
 		$buffer[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
 		$buffer[] = "\n * @version 1";
 		$buffer[] = "\n * @created " . JCURRENT_SERVER_TIME;

@@ -51,7 +51,7 @@ joosDocument::$config['seotag'] = FALSE;
 
 		<div id="footer">
 			<div class="copyrights">
-				<p><a href="http://www.joostina.ru" target="_blank">Joostina CMS</a> &copy; 2007-2011</p>
+				<p><a href="http://www.joostina.ru" target="_blank">Joostina CMS</a> &copy; 2007-2012</p>
 
 				<p>ver. 2.0 a2 (<?php echo joosVersion::$BUILD ?>)</p>
 			</div>

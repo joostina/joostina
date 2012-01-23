@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * @package Joostina.Components
  * @subpackage AclGroups
  * @author JoostinaTeam
- * @copyright (C) 2007-2011 Joostina Team
+ * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 1
  * @created 2011-12-05 12:38:49
@@ -94,7 +94,7 @@ class modelAclGroups extends joosModel {
  * @package Joostina.Components
  * @subpackage AclList
  * @author JoostinaTeam
- * @copyright (C) 2007-2011 Joostina Team
+ * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 1
  * @created 2011-12-05 12:38:49
@@ -186,7 +186,7 @@ class modelAclList extends joosModel {
  * @package Joostina.Components
  * @subpackage AclUsersGroups
  * @author JoostinaTeam
- * @copyright (C) 2007-2011 Joostina Team
+ * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 1
  * @created 2011-12-05 12:38:49
@@ -292,7 +292,7 @@ class Acl {
  * @package Joostina.Components
  * @subpackage AclAccess
  * @author JoostinaTeam
- * @copyright (C) 2007-2011 Joostina Team
+ * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 1
  * @created 2011-12-07 14:23:55

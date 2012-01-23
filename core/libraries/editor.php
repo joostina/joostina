@@ -13,7 +13,7 @@ defined( '_JOOS_CORE' ) or die();
  * @subpackage joosEditor
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2011 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
@@ -89,38 +89,4 @@ class joosEditor {
 	 * @param string $field_name название поля редактора
 	 * @param array  $params     массив дополнительных параметров получения содержимого
 	 *
-	 * @return mixed js код получения содержмиого, либо js код и комплект необходимого HTML кода
-	 */
-	public static function get_content( $field_name , array $params = array () ) {
-		$editor_class = self::$editor . 'Editor';
-		return call_user_func_array( "$editor_class::get_content" , array ( $field_name , $params ) );
-	}
-
-	/**
-	 * Установка полного содержимого редактора через JS.
-	 * Необходимо для полнойенной работы Ajax функций
-	 *
-	 * @param string $field_name название поля на котором инициализирован редактор
-	 * @param string $content    текст, устанавливаемый в редактор
-	 *
-	 * @return mixed js код получения содержмиого, либо js код и комплект необходимого HTML кода
-	 */
-	public static function set_content( $field_name , $content ) {
-		$editor_class = self::$editor . 'Editor';
-		return call_user_func_array( "$editor_class::set_content" , array ( $field_name , $content ) );
-	}
-
-	/**
-	 * Установка содержимого редактора в определённое место (выделеноое или под курсором)
-	 *
-	 * @param string $field_name название поля на котором инициализирован редактор
-	 * @param string $content    текст, устанавливаемый в редактор
-	 *
-	 * @return mixed js код получения содержмиого, либо js код и комплект необходимого HTML кода
-	 */
-	public static function insert_content( $field_name , $content ) {
-		$editor_class = self::$editor . 'Editor';
-		return call_user_func_array( "$editor_class::set_content" , array ( $field_name , $content ) );
-	}
-
-}
+	 * @return mixed js код получения содержмиого, либо js код и ко
