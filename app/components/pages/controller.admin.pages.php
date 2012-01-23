@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * modelPages - Компонент управления независимыми страницами
@@ -24,29 +24,27 @@ class actionsAdminPages {
 	 * @var joosModel модель
 	 */
 	public static $model = 'modelAdminPages';
+
 	/**
 	 * Подменю
 	 */
-	public static $submenu = array ( 'pages'    => array ( 'name'   => 'Все страницы' ,
-	                                                       'href'   => 'index2.php?option=pages' ,
-	                                                       'active' => false ) ,
-		/* 'params' => array(
-		  'name' => 'Настройки',
-		  'href' => 'index2.php?option=params&group=pages',
-		  'active' => false
-		  ), */
-		                             'metainfo' => array ( 'name'   => 'Метаданные по-умолчанию' ,
-		                                                   'href'   => 'index2.php?option=metainfo&group=pages' ,
-		                                                   'active' => false ) , );
+	public static $submenu = array(
+		'pages' => array(
+			'name' => 'Все страницы',
+			'href' => 'index2.php?option=pages',
+			'active' => false
+		),
+	);
+
 	/**
 	 * Тулбары
 	 */
-	public static $toolbars = array ();
+	public static $toolbars = array();
 
 	public static function action_before() {
 
-		joosDocument::instance()->add_js_file( JPATH_SITE . '/app/components/pages/media/js/pages.admin.js' );
-
+		joosDocument::instance()
+				->add_js_file(JPATH_SITE . '/app/components/pages/media/js/pages.admin.js');
 	}
 
 	/**
@@ -54,31 +52,31 @@ class actionsAdminPages {
 	 *
 	 * @param string $option
 	 */
-	public static function index( $option ) {
+	public static function index($option) {
 
 		//установка подменю
 		self::$submenu['pages']['active'] = true;
 
-		$obj                              = new self::$model;
+		$obj = new self::$model;
 
 		//количество записей
-		$obj_count = joosAutoadmin::get_count( $obj );
+		$obj_count = joosAutoadmin::get_count($obj);
 
 		//инициализируем постраничную навигацию
-		$pagenav = joosAutoadmin::pagenav( $obj_count , $option );
+		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
 		//параметры запроса на получение списка записей
-		$param = array ( 'offset' => $pagenav->limitstart ,
-		                 'limit'  => $pagenav->limit ,
-		                 'order'  => 'id DESC' );
+		$param = array('offset' => $pagenav->limitstart,
+			'limit' => $pagenav->limit,
+			'order' => 'id DESC');
 
 		//получаем массив объектов
-		$obj_list = joosAutoadmin::get_list( $obj , $param );
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
 		// массив названий элементов для отображения в таблице списка
-		$fields_list = array ( 'id' , 'title' , 'slug' , 'state' );
+		$fields_list = array('id', 'title', 'slug', 'state');
 		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoadmin::listing( $obj , $obj_list , $pagenav , $fields_list );
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
 	}
 
 	/**
@@ -86,8 +84,8 @@ class actionsAdminPages {
 	 *
 	 * @param string $option
 	 */
-	public static function create( $option ) {
-		self::edit( $option , 0 );
+	public static function create($option) {
+		self::edit($option, 0);
 	}
 
 	/**
@@ -96,20 +94,14 @@ class actionsAdminPages {
 	 * @param string  $option
 	 * @param integer $id - номер редактируемого объекта
 	 */
-	public static function edit( $option , $id ) {
+	public static function edit($option, $id) {
 
 		$obj_data = new self::$model;
 
-		$id > 0 ? $obj_data->load( $id ) : null;
-
-		//Параметры
-		$obj_data->params = joosParams::get_params( 'pages' , 'item' , $obj_data->id );
-
-		//Мета-информация
-		$obj_data->metainfo = joosMetainfo::get_meta( 'pages' , 'item' , $obj_data->id );
+		$id > 0 ? $obj_data->load($id) : null;
 
 		// передаём данные в формирование представления
-		joosAutoadmin::edit( $obj_data , $obj_data );
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
 	/**
@@ -118,42 +110,38 @@ class actionsAdminPages {
 	 * @param string  $option
 	 * @param integer $redirect
 	 */
-	private static function save_this( $option , $redirect = 0 ) {
+	private static function save_this($option, $redirect = 0) {
 
 		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 
 		//сохраняем основные данные
-		$result = $obj_data->save( $_POST );
+		$result = $obj_data->save($_POST);
 
 		//Сохранение параметров
-		if ( isset( $_POST['params'] ) ) {
+		if (isset($_POST['params'])) {
 			$params = new joosParams;
-			$params->save_params( $_POST['params'] , 'pages' , 'item' , $obj_data->id );
+			$params->save_params($_POST['params'], 'pages', 'item', $obj_data->id);
 		}
 
-
-		//Сохранение мета-информации
-		joosMetainfo::add_meta( $_POST['metainfo'] , 'pages' , 'item' , $obj_data->id );
-
-		if ( $result == false ) {
+		if ($result == false) {
 			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
 			return;
 		}
 
-		switch ( $redirect ) {
+		switch ($redirect) {
 			default:
 			case 0: // просто сохранение
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model , 'Всё ок!' );
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id , 'Всё ок, редактируем дальше' );
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
 				break;
 
 			case 2: // сохранить и добавить новое
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' , 'Всё ок, создаём новое' );
+				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create', 'Всё ок, создаём новое');
 				break;
 		}
 	}
@@ -164,8 +152,8 @@ class actionsAdminPages {
 	 *
 	 * @param string $option
 	 */
-	public static function save( $option ) {
-		self::save_this( $option );
+	public static function save($option) {
+		self::save_this($option);
 	}
 
 	/**
@@ -173,8 +161,8 @@ class actionsAdminPages {
 	 *
 	 * @param string $option
 	 */
-	public static function apply( $option ) {
-		return self::save_this( $option , 1 );
+	public static function apply($option) {
+		return self::save_this($option, 1);
 	}
 
 	/**
@@ -182,8 +170,8 @@ class actionsAdminPages {
 	 *
 	 * @param mixed $option
 	 */
-	public static function save_and_new( $option ) {
-		return self::save_this( $option , 2 );
+	public static function save_and_new($option) {
+		return self::save_this($option, 2);
 	}
 
 	/**
@@ -193,18 +181,18 @@ class actionsAdminPages {
 	 *
 	 * @return
 	 */
-	public static function remove( $option ) {
+	public static function remove($option) {
 		joosCSRF::check_code();
 
 		//идентификаторы удаляемых объектов
-		$cid      = (array) joosRequest::array_param( 'cid' );
+		$cid = (array) joosRequest::array_param('cid');
 
 		$obj_data = new self::$model;
 
-		if ( $obj_data->delete_array( $cid , 'id' ) ) {
-			joosRoute::redirect( 'index2.php?option=' . $option , 'Удалено успешно!' );
+		if ($obj_data->delete_array($cid, 'id')) {
+			joosRoute::redirect('index2.php?option=' . $option, 'Удалено успешно!');
 		} else {
-			joosRoute::redirect( 'index2.php?option=' . $option , 'Ошибка удаления' );
+			joosRoute::redirect('index2.php?option=' . $option, 'Ошибка удаления');
 		}
 	}
 

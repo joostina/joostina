@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * modelPages - Модель независимымых страниц
@@ -18,22 +18,64 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class modelPages extends joosModel {
 
+	/**
+	 * @field int(11) unsigned
+	 * @type int
+	 */
 	public $id;
+
+	/**
+	 * @field varchar(200)
+	 * @type string
+	 */
 	public $title;
-	public $title_page;
+
+	/**
+	 * @field varchar(200)
+	 * @type string
+	 */
 	public $slug;
+
+	/**
+	 * @field text
+	 * @type string
+	 */
 	public $text;
-	public $created_at;
+
+	/**
+	 * @field text
+	 * @type string
+	 */
 	public $meta_keywords;
+
+	/**
+	 * @field text
+	 * @type string
+	 */
 	public $meta_description;
+
+	/**
+	 * @field datetime
+	 * @type datetime
+	 */
+	public $created_at;
+
+	/**
+	 * @field tinyint(1) unsigned
+	 * @type int
+	 */
 	public $state;
 
+	/*
+	 * Constructor
+	 */
+
 	function __construct() {
-		parent::__construct( '#__pages' , 'id' );
+		parent::__construct('#__pages', 'id');
 	}
 
-	function check() {
-		$this->filter( array ( 'text' ) );
+	public function check() {
+		$this->filter(array('text'));
 		return true;
 	}
 

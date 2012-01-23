@@ -23,7 +23,11 @@ class actionsPages extends joosController {
 		$page = new modelPages();
 		$page->load(1);
 
-		joosDocument::instance()->set_page_title($page->title_page ? $page->title_page : $page->title )->add_meta_tag('description', $page->meta_description)->add_meta_tag('keywords', $page->meta_keywords)->seo_tag('yandex-vf1', md5(time())) // формируем тэг для поисковой машины Yandex.ru ( пример )
+		joosDocument::instance()
+				->set_page_title($page->title_page ? $page->title_page : $page->title )
+				->add_meta_tag('description', $page->meta_description)
+				->add_meta_tag('keywords', $page->meta_keywords)
+				->seo_tag('yandex-vf1', md5(time())) // формируем тэг для поисковой машины Yandex.ru ( пример )
 				->seo_tag('rating', false); // тэг rating - скрываем
 		//
 		// если для текущего действия аквирован счетчик хитов - то обновим его
@@ -46,10 +50,8 @@ class actionsPages extends joosController {
 			return false;
 		}
 
-		//Метаинформация страницы
-		joosMetainfo::set_meta('pages', 'item', $page->id, array('title' => $page->title));
-
-		joosBreadcrumbs::instance()->add($page->title);
+		joosBreadcrumbs::instance()
+				->add($page->title);
 
 		// передаём параметры записи и категории в которой находится запись для оформления
 		return array('page' => $page);
