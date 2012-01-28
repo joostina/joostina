@@ -24,7 +24,7 @@ class actionsPages extends joosController {
 		$page->load(1);
 
 		joosDocument::instance()
-				->set_page_title($page->title_page ? $page->title_page : $page->title )
+				->set_page_title($page->title)
 				->add_meta_tag('description', $page->meta_description)
 				->add_meta_tag('keywords', $page->meta_keywords)
 				->seo_tag('yandex-vf1', md5(time())) // формируем тэг для поисковой машины Yandex.ru ( пример )

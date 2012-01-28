@@ -539,7 +539,7 @@ class joosController {
 	public static function run() {
 
 		self::init();
-		
+
 		ob_start();
 
 		$class = 'actions' . ucfirst(self::$controller);
@@ -584,6 +584,8 @@ class joosController {
 	 * @static
 	 */
 	public static function ajax_run() {
+
+		joosRoute::instance();
 
 		$class = 'actionsAjax' . ucfirst(self::$controller);
 

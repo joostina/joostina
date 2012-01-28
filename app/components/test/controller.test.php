@@ -26,6 +26,11 @@ class actionsTest {
 	 */
 	public static function index() {
 
+		joosLoader::lib('php-censure', 'utils');
+
+		echo censure('ты расхуярить пиздолиз хуй расхуярить сука хуй пизда джигурда', 2000);
+		echo '<br />';
+
 		echo joosRoute::href('test_db');
 		echo '<br />';
 		echo joosRoute::href('blog_cat', array('cat_slug' => 'boston'));
