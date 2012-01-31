@@ -118,6 +118,15 @@ class joosRoute extends Route {
 		exit();
 	}
 
+	/**
+	 * Получение название текущего активного правила роутинга
+	 *
+	 * @return string
+	 */
+	public static function get_active_route() {
+		return joosController::$activroute;
+	}
+
 }
 
 /**
@@ -133,6 +142,7 @@ class joosRoute extends Route {
  */
 class Route {
 	// Defines the pattern of a <segment>
+
 	const REGEX_KEY = '<([a-zA-Z0-9_]++)>';
 
 	// What can be part of a <segment> value
