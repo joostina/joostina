@@ -13,7 +13,6 @@
 defined('_JOOS_CORE') or die();
 
 set_error_handler('joosErrorHandler');
-register_shutdown_function('joosfatalErrorShutdownHandler');
 
 function joosErrorHandler($code, $message, $file, $line) {
 	throw new joosException(__('Ошибка :message! <br /> Код: <pre>:code</pre> Файл: :error_file<br />Строка :error_line'),
@@ -26,15 +25,23 @@ function joosErrorHandler($code, $message, $file, $line) {
 	);
 }
 
-function joosfatalErrorShutdownHandler() {
-	$last_error = error_get_last();
-	if ($last_error['type'] === E_ERROR) {
-		joosErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
-	}
-}
+/**
+ * Отлавливаем совсем страшные ошибки
+ *
+ */
+register_shutdown_function(function() {
+			$haltCodes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
+
+			$error = error_get_last();
+			if ($error && in_array($error['type'], $haltCodes)) {
+				joosErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+			}
+		}
+);
 
 // на основе http://alexmuz.ru/php-exception-code/
 class joosException extends Exception {
+
 	const CONTEXT_RADIUS = 10;
 
 	public function __construct($message = '', array $params = array()) {
@@ -91,7 +98,7 @@ class joosException extends Exception {
 
 		if (headers_sent()) {
 			//ob_clean();
-					!ob_get_level() ? : ob_end_clean();
+			!ob_get_level() ? : ob_end_clean();
 		} else {
 			header('Content-type: text/html; charset=UTF-8');
 		}
