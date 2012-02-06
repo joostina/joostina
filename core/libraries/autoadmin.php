@@ -241,7 +241,7 @@ class joosAutoadmin {
 
 		if (!is_file($class_file)) {
 			throw new joosAutoadminFilePluginNotFoundException(
-				sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name)
+					sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name)
 			);
 		}
 
@@ -249,7 +249,7 @@ class joosAutoadmin {
 
 		if (!class_exists($class_name)) {
 			throw new joosAutoadminClassPlugionNotFoundException(
-				sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name)
+					sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name)
 			);
 		}
 
@@ -750,8 +750,12 @@ class joosAutoadmin {
 
 		if (isset($fields_info['state'])) {
 			$header_extra['filter'] = isset($header_extra['filter']) ? $header_extra['filter'] : array();
-			$header_extra['filter'] += array('state' => array('name' => 'Состояние',
-					'call_from' => 'joosAutoadmin::get_state_selector'),);
+			$header_extra['filter'] += array(
+				'state' => array(
+					'name' => 'Состояние',
+					'call_from' => 'joosAutoadmin::get_state_selector'
+				)
+			);
 		}
 		return $header_extra;
 	}

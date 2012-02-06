@@ -105,9 +105,6 @@ DEFINE('JFILE_WRITE_MODE', 0666);
 DEFINE('JDIR_READ_MODE', 0755);
 DEFINE('JDIR_WRITE_MODE', 0777);
 
-// использовать ли системную работу с модулями
-DEFINE('JUSE_MODULES', false);
-
 require 'events.php';
 
 /**

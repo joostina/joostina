@@ -15,10 +15,10 @@ defined('_JOOS_CORE') or die();
 set_error_handler('joosErrorHandler');
 
 function joosErrorHandler($code, $message, $file, $line) {
-	throw new joosException(__('Ошибка :message! <br /> Код: <pre>:code</pre> Файл: :error_file<br />Строка :error_line'),
+	throw new joosException(__('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line'),
 			array(
 				':message' => $message,
-				':code' => $code,
+				':error_code' => $code,
 				':error_file' => $file,
 				':error_line' => $line
 			)
@@ -90,14 +90,17 @@ class joosException extends Exception {
 		!ob_get_level() ? : ob_end_clean();
 
 		parent::__toString();
-		echo joosRequest::is_ajax() ? $this->to_json() : $this->create();
+		echo joosRequest::is_ajax() ? $this->to_json() : $this->show();
 		die();
 	}
 
-	public function create() {
+	private function show() {
+		return JDEBUG ? $this->create() : $this->render();
+	}
+
+	private function create() {
 
 		if (headers_sent()) {
-			//ob_clean();
 			!ob_get_level() ? : ob_end_clean();
 		} else {
 			header('Content-type: text/html; charset=UTF-8');
@@ -138,6 +141,31 @@ HTML;
 		);
 
 		return json_encode($response);
+	}
+
+	private function render() {
+		$message = $this->message;
+
+		$file = (!JDEBUG && $this->code != 500) ? sprintf('%s/app/templates/system/500.php', JPATH_BASE) : sprintf('%s/app/templates/system/exception.php', JPATH_BASE);
+
+		require $file;
+	}
+
+}
+
+/**
+ * Класс обраотки общих ошибок пользователя, без уточнений
+ *
+ */
+class joosUserException extends joosException {
+
+	public function __construct($message = '', array $params = array()) {
+
+		$this->code = 500;
+
+		parent::__construct(strtr($message, $params));
+
+		$this->__toString();
 	}
 
 }

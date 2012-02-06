@@ -572,7 +572,6 @@ class joosController {
 
 			// главное содержимое - стек вывода компонента - mainbody
 			joosDocument::set_body(ob_get_clean());
-
 		} else {
 			//  в контроллере нет запрашиваемого метода
 			return self::error404();
@@ -613,7 +612,8 @@ class joosController {
 	private static function views(array $params, $option, $task) {
 
 		//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
-		JUSE_MODULES ? self::prepare_modules_for_current_page($params, $option, $task) : null;
+		isset($params['core::modules']) ? self::prepare_modules($params['core::modules']) : null;
+
 		self::as_html($params, $option, $task);
 	}
 
@@ -626,6 +626,17 @@ class joosController {
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $view . DS . $template . '.php';
 
 		is_file($viewfile) ? require ( $viewfile ) : null;
+	}
+
+	/**
+	 * Обработка модулей расположенных в возвращенных результатах работы задачи контроллера
+	 *
+	 * @param array $modules_data
+	 */
+	private static function prepare_modules(&$modules_data) {
+		joosModule::add_array($modules_data);
+		// удаляем следы
+		unset($modules_data);
 	}
 
 	/**
@@ -686,7 +697,7 @@ class joosController {
 		self::$controller = $controller;
 		self::$task = $task;
 		self::$param = $params;
-		self::$activroute = 'staticrun';
+		self::$activroute = 'static_run';
 
 		self::run();
 	}

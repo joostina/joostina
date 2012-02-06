@@ -103,7 +103,10 @@ class joosDateTime {
 	 */
 	public static function month_name_from_index($month) {
 
-		$all_month = array(1 => __('Январь'),
+		$month = (int) $month;
+
+		$all_month = array(
+			1 => __('Январь'),
 			2 => __('Февраль'),
 			3 => __('Март'),
 			4 => __('Апрель'),
@@ -114,7 +117,8 @@ class joosDateTime {
 			9 => __('Сентябрь'),
 			10 => __('Октябрь'),
 			11 => __('Ноябрь'),
-			12 => __('Декабрь'));
+			12 => __('Декабрь')
+			);
 		return $all_month[$month];
 	}
 
@@ -131,13 +135,17 @@ class joosDateTime {
 	 */
 	public static function day_name_from_index($day_index) {
 
-		$day_name = array(1 => __('Понедельник'),
+		$day_index = (int) $day_index;
+
+		$day_name = array(
+			1 => __('Понедельник'),
 			2 => __('Вторник'),
 			3 => __('Среда'),
 			4 => __('Четверг'),
 			5 => __('Пятница'),
 			6 => __('Суббота'),
-			7 => __('Воскресение'),);
+			7 => __('Воскресение')
+		);
 		return $day_name[$day_index];
 	}
 
