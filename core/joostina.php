@@ -553,8 +553,16 @@ class joosController {
 		 */
 		if (method_exists($class, self::$task)) {
 
+			$events_name = sprintf('controller.*');
+			joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, self::$task) : null;
+
+
+			$events_name = sprintf('controller.%s.*', $class);
+			joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, self::$task) : null;
+
+
 			$events_name = sprintf('controller.%s.%s', $class, self::$task);
-			joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $this) : null;
+			joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, self::$param) : null;
 
 			// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
 			method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
