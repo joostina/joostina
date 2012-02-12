@@ -448,35 +448,84 @@ class joosText {
 
 	/**
 	 * @todo локализовать, описать, сделать примеры
+	 * @todo сделать склонения
 	 */
-	public static function pretty_date($from_time, $to_time = null) {
-		$to_time = $to_time ? $to_time : $_SERVER['REQUEST_TIME'];
+	public static function pretty_date($ts, $to_time = null) {
+		$now = $to_time ? $to_time : time();
+		$s = date("m.d.Y", $ts);
+		$now = time();
 
-		$distance_in_minutes = floor(abs($to_time - $from_time) / 60);
+		if ($now > $ts) {
+			$diff = round($now - $ts);
+			$numMins = round($diff / 60);
+			$numHours = round($numMins / 60);
+			$numDays = round($numHours / 24);
+			$numWeeks = round($numDays / 7);
+			$numMonths = round($numWeeks / 4.33);
+			$numYears = round($numMonths / 12);
 
-		if ($distance_in_minutes <= 1) {
-			return 'less then a minute';
-		} else if ($distance_in_minutes < 60) {
-			return $distance_in_minutes . ' minutes ago';
-		} else if ($distance_in_minutes < 90) {
-			return '1 hour ago';
-		} else if ($distance_in_minutes < 1440) {
-			return round($distance_in_minutes / 60) . ' hours ago';
-		} else if ($distance_in_minutes < 2880) {
-			return 'Yesterday';
-		} else if ($distance_in_minutes < 10080) {
-			return round($distance_in_minutes / 1440) . ' days ago';
-		} else if ($distance_in_minutes < 43200) {
-			return round($distance_in_minutes / 10080) . ' weeks ago';
-		} else if ($distance_in_minutes < 86400) {
-			return '1 month ago';
-		} else if ($distance_in_minutes < 525960) {
-			return round($distance_in_minutes / 43200) . ' months ago';
-		} else if ($distance_in_minutes < 1051920) {
-			return '1 year ago';
+			if (($diff < 60) || ($numMins <= 1)) {
+				$s = "1 минуту назад";
+			} elseif ($numHours == 0) {
+				$s = $numMins . " мин. назад";
+			} elseif ($numDays == 0) {
+				if ($numHours > 1) {
+					$s = $numHours . " час. назад";
+				} else {
+					$s = "1 час назад";
+				}
+			} elseif ($numWeeks == 0) {
+				if ($numDays > 1) {
+					$s = $numDays . " дней назад";
+				} else {
+					$s = "Сегодня";
+				}
+			} elseif ($numMonths == 0) {
+				if ($numWeeks > 1) {
+					$s = $numWeeks . " недель назад";
+				} else {
+					$s = "на этой неделе";
+				}
+			} else {
+				if ($numMonths > 1) {
+					$s = $numMonths . " мес. назад";
+				} elseif ($numMonths <= 3) {
+					$s = $numMonths .= " мес. назад";
+				} else {
+					$s = "более 3х месяцев назад";
+				}
+			}
 		} else {
-			return 'more then ' . round($distance_in_minutes / 525960) . ' years ago';
+			$diff = ($ts - $now);
+			$numMins = ($diff / 60);
+			$numHours = round($numMins / 60);
+			$numDays = round($numHours / 24);
+			$numWeeks = round($numDays / 7);
+			$numMonths = round($numWeeks / 4.33);
+			$numYears = round($numMonths / 12);
+
+			if ($numDays == 0) {
+				$s = "Сегодня";
+			} elseif ($numDays == 1) {
+				$s = "Завтра";
+			} elseif ($numWeeks == 0) {
+				$s = $numDays . " days";
+			} elseif ($numWeeks == 1) {
+				$s = "Next Week";
+			} elseif ($numMonths == 0) {
+				$s = $numWeeks . " weeks";
+			} elseif ($numMonths == 1) {
+				$s = "Next Month";
+			} elseif ($numYears <= 0) {
+				$s = $numMonths . " months";
+			} elseif ($numYears == 1) {
+				$s = "Next Year";
+			} else {
+				$s = "Over a year";
+			}
 		}
+
+		return $s;
 	}
 
 	/**
