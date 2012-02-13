@@ -824,7 +824,6 @@ class joosString {
 	}
 
 	/* проверка на юникод */
-
 	public static function utf8_check( $str , $is_strict = true ) {
 		for ( $i = 0 , $len = strlen( $str ); $i < $len; $i++ ) {
 			$c       = ord( $str[$i] );

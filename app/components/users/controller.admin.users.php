@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * modelUsers - Компонент управления пользователями
+ * modelUsers - Компонент управления пользователями и группами
  * Контроллер панели управления
  *
  * @version    1.0
@@ -18,13 +18,20 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsAdminUsers {
 
-	private static $headers_data = array(
-		'modelAdminUsers' => array(
-			'Пользователи', array('id', 'user_name', 'group_id', 'lastvisit_date', 'state')
-		),
-		'modelAdminUsersGroups' => array(
-			'Группы пользователей', array('group_title', 'title', 'parent_id'))
-	);
+	/**
+	 * Название обрабатываемой модели
+	 *
+	 * @var joosModel модель
+	 */
+	public static $model = 'modelAdminUsers';
+
+	/**
+	 * Активный по умолчанию пункт меню
+	 *
+	 * @var string
+	 */
+	private static $active_menu = 'users';
+	private static $fields_list;
 
 	/**
 	 * Подменю
@@ -33,210 +40,126 @@ class actionsAdminUsers {
 		'users' => array(
 			'name' => 'Пользователи',
 			'href' => 'index2.php?option=users',
+			'model' => 'modelAdminUsers',
+			'fields' => array('id', 'user_name', 'group_id', 'lastvisit_date', 'state'),
 			'active' => false
 		),
 		'usersgroups' => array(
 			'name' => 'Группы пользователей',
-			'href' => 'index2.php?option=users&model=modelAdminUsersGroups',
+			'href' => 'index2.php?option=users&menu=usersgroups',
+			'model' => 'modelAdminUsersGroups',
+			'fields' => array('group_title', 'title', 'parent_id'),
 			'active' => false
 		)
 	);
 
-	/**
-	 * Название обрабатываемой модели
-	 *
-	 * @var joosModel модель
-	 */
-	public static $model = 'modelAdminUsers';
+	public static function action_before() {
 
-	public static function index($option) {
-		$current_model = joosRequest::request('model', self::$model);
+		$menu = joosRequest::request('menu', false);
 
-		actionsCurrent::$headers_menu = viewsCurrent::get_hrefs(self::$headers_data);
-		actionsCurrent::$model = $current_model;
-		actionsCurrent::$model_data = self::$headers_data[$current_model];
-		actionsCurrent::$headers_data = self::$headers_data[$current_model];
-		actionsCurrent::index($option);
-	}
+		if ($menu && isset(self::$submenu[$menu])) {
 
-	public static function create($option) {
-		$current_model = joosRequest::request('model', self::$model);
+			self::$active_menu = $menu;
 
-		actionsCurrent::$headers_menu = viewsCurrent::get_hrefs(self::$headers_data);
-		actionsCurrent::$model = $current_model;
-		actionsCurrent::$model_data = self::$headers_data[$current_model];
-		actionsCurrent::create($option, 0);
-	}
+			$active = self::$submenu[$menu];
 
-	public static function edit($option, $id) {
-		$current_model = joosRequest::request('model', self::$model);
+			self::$submenu[$menu]['active'] = true;
+			self::$model = $active['model'];
 
-		actionsCurrent::$headers_menu = viewsCurrent::get_hrefs(self::$headers_data);
-		actionsCurrent::$model = $current_model;
-		actionsCurrent::$model_data = self::$headers_data[$current_model];
-		actionsCurrent::edit($option, $id);
-	}
+			joosAutoadmin::$submenu = $menu;
+		} else {
+			$menu = self::$active_menu;
+		}
 
-	public static function save($option, $a, $b, $redirect = 0) {
-		$current_model = joosRequest::request('model', self::$model);
 
-		actionsCurrent::$headers_menu = viewsCurrent::get_hrefs(self::$headers_data);
-		actionsCurrent::$model = $current_model;
-		actionsCurrent::$model_data = self::$headers_data[$current_model];
-		actionsCurrent::save($option, $redirect);
-	}
-
-	public static function apply($option) {
-		self::save($option, 0, 0, 1);
-	}
-
-	public static function save_and_new($option) {
-		self::save($option, 0, 0, 2);
-	}
-
-	public static function remove($option) {
-		$current_model = joosRequest::request('model', self::$model);
-
-		actionsCurrent::$headers_menu = viewsCurrent::get_hrefs(self::$headers_data);
-		actionsCurrent::$model = $current_model;
-		actionsCurrent::$model_data = self::$headers_data[$current_model];
-		actionsCurrent::remove($option);
-	}
-
-}
-
-class actionsCurrent {
-
-	public static $model;
-	public static $model_data;
-	public static $headers_menu;
-	public static $headers_data;
-
-	public static function index($option) {
+		self::$fields_list = isset(self::$submenu[$menu]['fields']) ? self::$submenu[$menu]['fields'] : array('id', 'title', 'type_id', 'category_id', 'state');
 
 		joosAutoadmin::$model = self::$model;
-		// верхнее меню текущего компонента
-		joosAutoadmin::$submenu = self::$headers_menu;
+	}
 
+	/**
+	 * Список объектов
+	 */
+	public static function index($option) {
 		$obj = new self::$model;
 		$obj_count = joosAutoadmin::get_count($obj);
 
 		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
 
-		$param = array('offset' => $pagenav->limitstart,
+		$param = array(
+			'offset' => $pagenav->limitstart,
 			'limit' => $pagenav->limit,
-			'order' => 'id DESC');
+			'order' => 'id DESC'
+		);
 		$obj_list = joosAutoadmin::get_list($obj, $param);
 
-		viewsCurrent::index($obj, $obj_list, $pagenav, self::$model_data[1]);
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, self::$fields_list);
 	}
 
+	/**
+	 * Редактирование
+	 */
 	public static function create($option) {
 		self::edit($option, 0);
 	}
 
-	public static function edit($option) {
-
-		joosAutoadmin::$model = self::$model;
-
+	/**
+	 * Редактирование объекта
+	 * @param integer $id - номер редактируемого объекта
+	 */
+	public static function edit($option, $id) {
 		$obj_data = new self::$model;
+		$id > 0 ? $obj_data->load($id) : null;
 
-		$key = $obj_data->get_key_field();
-		$key_value = joosRequest::int($key, false, $_GET);
-
-		$obj_data->load($key_value);
-
-		viewsCurrent::edit($obj_data, $obj_data);
+		joosAutoadmin::edit($obj_data, $obj_data);
 	}
 
-	public static function save($option, $redirect = 0) {
-		joosCSRF::check_code();
+	/**
+	 * Сохранение отредактированного или созданного объекта
+	 */
+	public static function save($option, $id, $page, $task, $redirect = 0) {
 
-		joosAutoadmin::$model = self::$model;
+		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
 		$result = $obj_data->save($_POST);
 
-		if ($result == false) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
-		}
-
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение
-				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model, 'Всё ок!');
+				return joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
+				return joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
 				break;
 
 			case 2: // сохранить и добавить новое
-				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=create', 'Всё ок, создаём новое');
+				return joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=create', 'Всё ок, создаём новое');
 				break;
 		}
 	}
 
 	public static function apply($option) {
-		return self::save($option, 1);
+		return self::save($option, null, null, null, 1);
 	}
 
 	public static function save_and_new($option) {
-		return self::save($option, 2);
+		return self::save($option, null, null, null, 2);
 	}
 
+	/**
+	 * Удаление одного или группы объектов
+	 */
 	public static function remove($option) {
 		joosCSRF::check_code();
 
-		$cid = joosRequest::array_param('cid');
-
-		joosAutoadmin::$model = self::$model;
+		// идентификаторы удаляемых объектов
+		$cid = (array) joosRequest::array_param('cid');
 
 		$obj_data = new self::$model;
-		$obj_data->delete_array($cid, $obj_data->get_key_field());
-	}
-
-}
-
-class viewsCurrent {
-
-	public static function get_hrefs(array $data) {
-
-		$option = joosRequest::request('option', '');
-		$model = joosRequest::request('model', '');
-
-		$base_href = sprintf('index2.php?option=%s&model=', $option);
-		$result = array();
-		foreach ($data as $name => $table) {
-			$result[] = array('href' => $base_href . $name,
-				'name' => $table[0],
-				'active' => ( $model == $name ? 1 : 0 ));
-		}
-		return $result;
-	}
-
-	/**
-	 * Список объектов
-	 *
-	 * @param joosModel          $obj      - основной объект отображения
-	 * @param array              $obj_list - список объектов вывода
-	 * @param joosAdminPagenator $pagenav  - объект постраничной навигации
-	 */
-	public static function index($obj, array $obj_list, $pagenav, array $fields_list = array()) {
-		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
-	}
-
-	/**
-	 * Редактирование-создание объекта
-	 *
-	 * @param joosModel $articles_obj  - объект  редактирования с данными, либо пустой - при создании
-	 * @param stdClass  $articles_data - свойства объекта
-	 */
-	public static function edit($articles_obj, $articles_data) {
-
-		// передаём данные в формирование представления
-		joosAutoadmin::edit($articles_obj, $articles_data);
+		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Ошибка удаления');
 	}
 
 }

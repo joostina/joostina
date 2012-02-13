@@ -1650,6 +1650,10 @@ class joosModel {
 			$vals[] = " ($key_value, $value  ) ";
 		}
 
+		if( count($vals)==0 ){
+			return true;
+		}
+
 		$values = implode(',', $vals);
 
 		$sql = "INSERT IGNORE INTO $name_table_keys ( $key_name,$value_name ) VALUES $values";

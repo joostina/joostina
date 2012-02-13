@@ -69,7 +69,9 @@ class joosAutoloader {
 		// Библиотеки сторонних вендоров
 		'JJevix' => 'app/vendors/text/jevix/jevix.php',
 		// пока не адаптированные библиотеки
-		'Thumbnail' => 'core/libraries/image.php',);
+		'Thumbnail' => 'core/libraries/image.php',
+		'modelAdminUsersGroups' => 'app/components/users/models/model.admin.users.php',
+	);
 	private static $_debug = true;
 
 	public static function init() {

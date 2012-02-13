@@ -2,7 +2,7 @@
 
 return array(
 	'live_site' => 'http://www.joostina.local',
-	'debug' => false,
+	'debug' => true,
 	'404_page' => false,
 	'template' => 'oiblog',
 	'template_admin' => 'joostin',
@@ -15,14 +15,16 @@ return array(
 		'password' => '',
 		'port' => '',
 		'debug' => true,
-		'profiling_history_size' => 150),
+		'profiling_history_size' => 150
+	),
 	'cache' => array(
 		'enable' => false,
 		'handler' => 'file', // 'apc', 'file', 'memcache', 'xcache'
 		'admin_menu_cache' => false,
 		'cachepath' => JPATH_BASE . '/cache/cache.php', // TODO нехорошо
 		'memcache_host' => '127.0.0.1',
-		'memcache_port' => 11211)
+		'memcache_port' => 11211
+	)
 	,
 	'ajax' => array(
 		'fullajax' => false, // сайт полностью на Ajax
