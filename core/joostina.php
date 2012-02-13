@@ -530,6 +530,9 @@ class joosController {
 	public static function init() {
 		joosDocument::header();
 		joosRoute::route();
+
+		$events_name = 'core.init';
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 	}
 
 	/**
@@ -539,6 +542,9 @@ class joosController {
 	public static function run() {
 
 		self::init();
+
+		$events_name = 'core.run';
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
 		ob_start();
 
@@ -593,6 +599,9 @@ class joosController {
 	public static function ajax_run() {
 
 		joosRoute::instance();
+
+		$events_name = 'core.run';
+		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
 		$class = 'actionsAjax' . ucfirst(self::$controller);
 
@@ -686,7 +695,7 @@ class joosController {
 	public static function ajax_error404() {
 		joosRequest::send_headers_by_code(404);
 		header("Status: 404 Not Found");
-		echo _NOT_EXIST;
+		echo '404';
 
 		self::$error = 404;
 
