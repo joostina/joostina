@@ -182,12 +182,15 @@ class modelAdminUsers extends modelUsers {
 
 	public static function get_users_group_multi($current_obj) {
 
-		joosLoader::model('acls');
+		if ($current_obj->id) {
 
-		$g = new modelAclUsersGroups;
-		$active_groups = $g->get_selector(
-				array('key' => 'group_id', 'value' => 'group_id'), array('where' => 'user_id=' . $current_obj->id)
-		);
+			$g = new modelAclUsersGroups;
+			$active_groups = $g->get_selector(
+					array('key' => 'group_id', 'value' => 'group_id'), array('where' => 'user_id=' . $current_obj->id)
+			);
+		}else{
+			$active_groups = array();
+		}
 
 		return $current_obj->get_one_to_many_selectors('user_groups', '#__acl_groups', '#__acl_users_groups', 'user_id', 'group_id', $active_groups);
 	}
