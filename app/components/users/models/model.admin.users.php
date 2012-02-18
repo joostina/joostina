@@ -65,7 +65,8 @@ class modelAdminUsers extends modelUsers {
 					),
 					'align' => 'center',
 					'class' => 'td-state-joiadmin',
-					'width' => '20px',)
+					'width' => '20px'
+				)
 			),
 			'email' => array(
 				'name' => 'email адрес',
@@ -182,13 +183,15 @@ class modelAdminUsers extends modelUsers {
 
 	public static function get_users_group_multi($current_obj) {
 
+		joosLoader::model('acls');
+
 		if ($current_obj->id) {
 
 			$g = new modelAclUsersGroups;
 			$active_groups = $g->get_selector(
 					array('key' => 'group_id', 'value' => 'group_id'), array('where' => 'user_id=' . $current_obj->id)
 			);
-		}else{
+		} else {
 			$active_groups = array();
 		}
 
@@ -263,14 +266,20 @@ class modelAdminUsersGroups extends modelUsersGroups {
 
 	public static function get_parent_usergroup_selector($obj) {
 		$groups = new modelUsersGroups();
-		$group_selector = $groups->get_selector(array('key' => 'id',
-			'value' => 'group_title'), array('select' => 'id, group_title'));
+		$group_selector = $groups->get_selector
+				(array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title')
+		);
 
 		unset($group_selector[$obj->id]);
 
-		return forms::dropdown(array('name' => 'parent_id',
-					'options' => $group_selector,
-					'selected' => $obj->parent_id)
+		$group_selector = array(0 => _('Корень')) + $group_selector;
+
+		return forms::dropdown(
+						array(
+							'name' => 'parent_id',
+							'options' => $group_selector,
+							'selected' => $obj->parent_id
+						)
 		);
 	}
 

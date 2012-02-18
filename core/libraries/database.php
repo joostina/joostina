@@ -1641,6 +1641,10 @@ class joosModel {
 // сохранение значение одного ко многим
 	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, array $values) {
 
+		if( $key_value==null || $key_value='' ){
+			return false;
+		}
+
 		//сначала чистим все предыдущие связи
 		$this->_db->set_query("DELETE FROM $name_table_keys WHERE $key_name=$key_value ")->query();
 
