@@ -1638,10 +1638,10 @@ class joosModel {
 		return $this->_db->set_query($sql, $offset, $limit)->load_assoc_list('id');
 	}
 
-// сохранение значение одного ко многим
+	// сохранение значение одного ко многим
 	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, array $values) {
 
-		if( $key_value==null || $key_value='' ){
+		if( $key_value==null || $key_value=='' ){
 			return false;
 		}
 

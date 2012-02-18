@@ -26,14 +26,33 @@ class actionsTest {
 	 */
 	public static function index() {
 
-		joosLoader::lib('php-censure', 'utils');
+		$user_id = 1;
 
-		echo censure('ты расхуярить пиздолиз хуй расхуярить сука хуй пизда джигурда', 2000);
-		echo '<br />';
+		$group_obj = new modelAclGroups;
+		$groups = $group_obj->find_all();
 
-		echo joosRoute::href('test_db');
-		echo '<br />';
-		echo joosRoute::href('blog_cat', array('cat_slug' => 'boston'));
+		$acl_list_obj = new modelAclList;
+		$acls = $acl_list_obj->find_all();
+
+		$acl_list = array();
+		foreach ($acls as $acl) {
+			$acl_list[$acl->acl_group][sprintf('%s::%s', $acl->acl_group, $acl->acl_name)] = $acl;
+		}
+
+		$acl_groups = array_keys($acl_list);
+
+		sort($acl_groups);
+		sort($acls);
+
+		$sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id )';
+		$acl_rules_array = joosDatabase::instance()->set_query($sql)->load_assoc_list();
+
+		$acl_rules = array();
+		foreach ($acl_rules_array as $value) {
+			$acl_rules[$value['group_id']][$value['list_id']] = true;
+		}
+
+		joosDebug::dump($acl_rules,$acl_list);
 
 		return array('asd' => crc32('Alanis Morissette - Crazy'));
 	}

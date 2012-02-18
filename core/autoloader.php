@@ -71,6 +71,8 @@ class joosAutoloader {
 		// пока не адаптированные библиотеки
 		'Thumbnail' => 'core/libraries/image.php',
 		'modelAdminUsersGroups' => 'app/components/users/models/model.admin.users.php',
+		'modelAclGroups'=>'app/components/acls/models/model.acls.php',
+
 	);
 	private static $_debug = true;
 

@@ -3,6 +3,26 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+
+/**
+ * Упрощённая заглушка для проверки прав
+ */
+class helperAcl {
+
+	public static function check_access($full_operations_name) {
+		//if(Yii::app()->user->checkAccess('deletePost'))
+	}
+
+	public static function is_allow($full_operations_name) {
+
+	}
+
+	public static function is_deny($full_operations_name) {
+
+	}
+
+}
+
 /**
  * Class AclGroups
  * @package Joostina.Components
@@ -58,35 +78,6 @@ class modelAclGroups extends joosModel {
 		$this->filter();
 		return true;
 	}
-
-	public function before_insert() {
-		return true;
-	}
-
-	public function after_insert() {
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 }
 
 /**
@@ -150,35 +141,6 @@ class modelAclList extends joosModel {
 		$this->filter();
 		return true;
 	}
-
-	public function before_insert() {
-		return true;
-	}
-
-	public function after_insert() {
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 }
 
 /**
@@ -236,56 +198,7 @@ class modelAclUsersGroups extends joosModel {
 		$this->filter();
 		return true;
 	}
-
-	public function before_insert() {
-		return true;
-	}
-
-	public function after_insert() {
-		return true;
-	}
-
-	public function before_update() {
-		return true;
-	}
-
-	public function after_update() {
-		return true;
-	}
-
-	public function before_store() {
-		return true;
-	}
-
-	public function after_store() {
-		return true;
-	}
-
-	public function before_delete() {
-		return true;
-	}
-
 }
-
-/**
- * Упрощённая заглушка для проверки прав
- */
-class Acl {
-
-	public static function check_access($full_operations_name) {
-		//if(Yii::app()->user->checkAccess('deletePost'))
-	}
-
-	public static function is_allow($full_operations_name) {
-
-	}
-
-	public static function is_deny($full_operations_name) {
-
-	}
-
-}
-
 
 /**
  * Class AclAccess
@@ -336,40 +249,4 @@ class modelAclAccess extends joosModel {
 		$this->filter();
 		return true;
 	}
-
-
-	public function before_insert() {
-		return true;
-	}
-
-
-	public function after_insert() {
-		return true;
-	}
-
-
-	public function before_update() {
-		return true;
-	}
-
-
-	public function after_update() {
-		return true;
-	}
-
-
-	public function before_store() {
-		return true;
-	}
-
-
-	public function after_store() {
-		return true;
-	}
-
-
-	public function before_delete() {
-		return true;
-	}
-
 }

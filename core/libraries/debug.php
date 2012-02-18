@@ -149,7 +149,10 @@ class joosDebug {
 		}
 		ob_start();
 
-		var_dump(func_get_args());
+		$func_args = func_get_args();
+
+		$args_count = count(  $func_args );
+		var_dump( $args_count==1 ? $func_args[0] : $func_args );
 		$output = ob_get_clean();
 		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);
 

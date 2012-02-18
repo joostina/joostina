@@ -170,7 +170,7 @@ class modelUsers extends joosModel {
 		return true;
 	}
 
-	function before_store() {
+	protected function before_store() {
 
 		if (!$this->id) {
 			$this->password = self::prepare_password($this->password);
