@@ -470,19 +470,19 @@ class joosText {
 				$s = $numMins . " мин. назад";
 			} elseif ($numDays == 0) {
 				if ($numHours > 1) {
-					$s = $numHours . " час. назад";
+					$s = $numHours . " час назад";
 				} else {
 					$s = "1 час назад";
 				}
 			} elseif ($numWeeks == 0) {
 				if ($numDays > 1) {
-					$s = $numDays . " дней назад";
+					$s = $numDays . " ".joosText::declension($numWeeks, array('день', 'дня', 'дней'))." назад";
 				} else {
 					$s = "Сегодня";
 				}
 			} elseif ($numMonths == 0) {
 				if ($numWeeks > 1) {
-					$s = $numWeeks . " недель назад";
+					$s = $numWeeks . " ".joosText::declension($numWeeks, array('неделя', 'недели', 'недель'))." назад";
 				} else {
 					$s = "на этой неделе";
 				}
@@ -492,7 +492,7 @@ class joosText {
 				} elseif ($numMonths <= 3) {
 					$s = $numMonths .= " мес. назад";
 				} else {
-					$s = "более 3х месяцев назад";
+					$s = "более трех месяцев назад";
 				}
 			}
 		} else {
