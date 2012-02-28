@@ -67,11 +67,54 @@ class joosDebug {
 	}
 
 	public static function get() {
-		echo '<span style="display:none"><![CDATA[<noindex>]]></span><pre>';
 
+		/* подключенные файлы */
+		$files = get_included_files();
+		$f = '<div id="ptb_data_cont_files" class="ptb_data_cont" style="display: none;">
+				  <ul class="ptb_tabs">
+					<li id="ptb_tab_files">files <span>(' . count($files) . ')</span></li>
+				  </ul>
+				  <div id="ptb_tab_cont_files" class="ptb_tab_cont">
+					<table class="ptb_tab_cont_table">
+					  <tbody>
+						<tr>
+						  <th style="width:20px;">№</th>
+						  <th>file</th>
+						</tr>';
+						$c = 1;
+						foreach ($files as $value) {
+							$f .= '<tr><td>' . $c . '</td><td> ' . $value . '</td></tr>';
+							$c++;
+						}
+						unset($c);
+						$f .= '<tr class="total">
+						<th></th>
+						<th>total ' . count($files) . ' files</th>
+					  </tr>
+					  </tbody>
+					</table>
+				  </div>
+				</div>';
+
+
+		$profs = joosDatabase::instance()->set_query('show profiles;')->load_assoc_list();
+
+		// Начало вывода панели
+		echo '<span style="display:none"><![CDATA[<noindex>]]></span>
+		<!-- ============================= PROFILER TOOLBAR ============================= -->
+		<script type="text/javascript" src="'.JPATH_SITE.'/media/js/profilertoolbar.js"></script>
+		<link rel="stylesheet" href="'.JPATH_SITE.'/media/css/profilertoolbar.css">
+		<div id="ptb">
+			<ul id="ptb_toolbar" class="ptb_bg">
+				<li class="time" title="application execution time">	<span class="icon"></span> '.self::$_log[1].' </li>
+				<li class="ram" title="memory peak usage">          	<span class="icon"></span> '.self::$_log[0].' </li>
+				<li class="sql">      <span class="icon"></span> sql <span class="total">(' . count($profs) . ')</span></li>
+				<li class="files">    <span class="icon"></span> files <span class="total">(' . count($files) . ')</span></li>
+		';
+/*
 		self::$text = '';
 
-		/* счетчики */
+		/* счетчики
 		self::$text .= '<ul class="debug_log listreset">';
 
 		// TODO, тут можно отключать если
@@ -84,7 +127,7 @@ class joosDebug {
 		// выведем лог в более приятном отображении
 		array_multisort(self::$_log);
 
-		/* лог */
+		/* лог
 		self::$text .= '<ul class="debug_log listreset">';
 		foreach (self::$_log as $value) {
 			self::$text .= '<li><small>LOG:</small> ' . $value . '</li>';
@@ -93,35 +136,54 @@ class joosDebug {
 
 		self::$text .= self::db_debug();
 
-		/* подключенные файлы */
-		$files = get_included_files();
-		$f = array();
-		$f[] = '<div onclick="$(\'#_debug_file\').toggle();" style="cursor: pointer;border-bottom:1px solid #CCCCCC;border-top:1px solid #CCCCCC;">' . __('Подключено файлов') . ': ' . count($files) . '</div>';
-		$f[] = '<table id="_debug_file" style="display:none">';
-		foreach ($files as $key => $value) {
-			$f[] = '<tr><td>#' . $key . ':</td><td> ' . $value . '</td></tr>';
-		}
-		$f[] = '</table>';
-
-		self::$text .= implode('', $f);
-		unset($f);
-		echo '<div id="jDebug">' . self::$text . '</div>';
-		echo '</pre><span style="display:none"><![CDATA[</noindex>]]></span>';
+		//echo '<div id="jDebug">' . self::$text . '</div>';
+		*/
+		echo '
+				<li class="hide" title="Hide Profiler Toolbar"><span class="icon"></span></li>
+				<li class="show" title="Show Profiler Toolbar"><span class="icon"></span></li>
+			</ul>
+			<div id="ptb_data" class="ptb_bg" style="display: none;">
+				'.self::db_debug().'
+				'.$f.'
+			</div>
+		</div>
+		<!-- ============================= /PROFILER TOOLBAR ============================= -->
+		<span style="display:none"><![CDATA[</noindex>]]></span>';
 	}
 
 	private static function db_debug() {
 		$profs = joosDatabase::instance()->set_query('show profiles;')->load_assoc_list();
 
-		$r = array();
-		$r[] = '<div onclick="$(\'#_sql_debug_log\').toggle();" style="cursor: pointer;border-bottom:1px solid #CCCCCC;border-top:1px solid #CCCCCC;">SQL: ' . count($profs) . '</div>';
-		$r[] = '<table id="_sql_debug_log" style="display:none">';
+		$total_time = 0;
+		$r = '
+			<div id="ptb_data_cont_sql" class="ptb_data_cont">
+				<ul class="ptb_tabs">
+				  <li id="ptb_tab_sqldefault">default <span>(' . count($profs) . ')</span></li>
+				</ul>
+				<div id="ptb_tab_cont_sqldefault" class="ptb_tab_cont">
+				<table class="ptb_tab_cont_table">
+					<tbody>
+					<tr>
+					  <th style="width:20px;">№</th>
+					  <th>query</th>
+					  <th style="width:100px;">time</th>
+					</tr>';
 		if (isset($profs[0])) {
 			foreach ($profs as $prof) {
-				$r[] = '<tr valign="top"><td>#' . $prof['Query_ID'] . ' </td><td> ' . $prof['Duration'] . ' </td><td> ' . $prof['Query'] . ' </td></tr>';
+				$r .= '<tr valign="top"><td>' . $prof['Query_ID'] . ' </td><td> ' . $prof['Query'] . ' </td><td class="tRight"> ' . $prof['Duration'] . ' s</td></tr>';
+				$total_time += $prof['Duration'];
 			}
 		}
-		$r[] = '</table>';
-		return implode('', $r);
+		$r .= '<tr class="total">
+					<td></td>
+					<td>total ' . count($profs) . ' queries</td>
+					<td class="tRight">'.$total_time.' s</td>
+				  </tr>
+				  </tbody>
+				</table>
+				</div>
+			</div>';
+		return $r;
 	}
 
 	/**

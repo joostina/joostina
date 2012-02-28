@@ -68,7 +68,9 @@ if (JDEBUG) {
 		$mem_usage = __('недоступно');
 	}
 
-	joosDebug::add_top(sprintf('Завтрачено <b>времени</b>: %s, <b>памяти</b> %s ', round(( microtime(true) - $sysstart), 5), $mem_usage));
+	// подсчет времени генерации страницы
+	joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
+	joosDebug::add_top($mem_usage);
 
 	// информация отладки, число запросов в БД
 	joosDebug::get();
