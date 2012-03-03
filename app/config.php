@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'live_site' => 'http://www.joostina.local',
+	'live_site' => 'http://acer/joostina',
 	'debug' => true,
 	'404_page' => false,
 	'template' => 'oiblog',
@@ -11,8 +11,8 @@ return array(
 		'host' => 'localhost',
 		'name' => 'joostina',
 		'prefix' => 'jos_',
-		'user' => 'root',
-		'password' => '',
+		'user' => 'joostina',
+		'password' => 'NDEJhtbsLW2nW8nq',
 		'port' => '',
 		'debug' => true,
 		'profiling_history_size' => 150
