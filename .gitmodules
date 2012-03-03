@@ -1,1 +1,4 @@
 
+[submodule "app/vendors/logging/monolog"]
+	path = app/vendors/logging/monolog
+	url = https://github.com/Seldaek/monolog.git
