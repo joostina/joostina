@@ -124,18 +124,18 @@ class joosModule  {
    	 */
    	public static function module($name, array $params = array(), array $extra = array('hide_frame' => false)) {
 
-   		//TODO:Грязный хак. Переделать на подстановки "_1, _2 и т.п."
-   		//TODO: заменить везде "|" на цифры
    		$name = preg_replace('/\|/', '', $name);
    		$name = preg_replace('/[0-9][_]/', '', $name);
 
    		//Определяем имя главного исполняемого файла модуля
    		$file = JPATH_BASE . DS . 'app'. DS. 'modules' . DS . $name . DS . $name . '.php';
 
+        //Определение шаблона
+        $template = (isset($params) && isset($params['template'])) ? $params['template'] : 'default';
+        $template_file = JPATH_BASE . DS .'app'. DS. 'modules' . DS . $name . DS . 'views' . DS . $template . '.php';
+        $params['template_file'] = is_file($template_file) ? $template_file : null;
 
-        echo '<div class="module m-'.$name.'-'.$params['template'].'">';
-           //Пытаемся сразу определить шаблон для вывода
-            $params['template'] = self::module_template($name, $params);
+        echo '<div class="module m-'.$name.'">';
             is_file($file) ? require($file) : null;
         echo '</div>';
    	}
@@ -144,6 +144,7 @@ class joosModule  {
    	 * Определение имени шаблона для вывода
    	 * @var name str Имя модуля
    	 * @var params array Массив параметров
+     * @deprecated
    	 */
    	private static function module_template($name, $params = array()) {
    		$_tpl = (isset($params) && isset($params['template'])) ? $params['template'] : 'default';

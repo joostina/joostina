@@ -4,7 +4,7 @@ return array(
 	'live_site' => 'http://www.joostina.local',
 	'debug' => true,
 	'404_page' => false,
-	'template' => 'oiblog',
+	'template' => 'bootstrap',
 	'template_admin' => 'joostin',
 	'admin_icons_path' => '../media/images/admin/',
 	'db' => array(//'host' => 'p:localhost', - для постоянного соединения
