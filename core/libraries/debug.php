@@ -26,6 +26,10 @@ class joosDebug {
 	private static $text = null;
 	/* счетчики */
 	private static $_inc = array();
+	/**
+	 * @var joosLogging
+	 */
+	private static $_logger = null;
 
 	/**
 	 * Массив внутренней конфигурации отладчика
@@ -46,12 +50,24 @@ class joosDebug {
 
 	}
 
+	private static function getLogger()
+	{
+		if ( ! self::$_logger)
+		{
+			self::$_logger	= joosLogging::instance('debug');
+		}
+
+		return self::$_logger;
+	}
+
 	public static function log($str, array $params = array()) {
 		$value = strtr($str, $params);
 		self::$_log[] = joosFilter::htmlspecialchars($value);
 	}
 
 	public static function add($text, $top = 0) {
+		self::getLogger()->debug($text);
+
 		$top ? array_unshift(self::$_log, $text) : self::$_log[] = $text;
 	}
 
@@ -67,6 +83,7 @@ class joosDebug {
 	}
 
 	public static function get() {
+
 
 		/* подключенные файлы */
 		$files = get_included_files();
