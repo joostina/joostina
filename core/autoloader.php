@@ -89,11 +89,6 @@ class joosAutoloader {
 
 	}
 
-	public static function register($class, $path)
-	{
-		self::$_static_files[$class] = $path;
-	}
-
 	public static function autoload($class) {
 
 		// первый шаг - ищем класс в жестко прописанных параметрах
