@@ -3,14 +3,11 @@
 defined('_JOOS_CORE') or die;
 
 require_once __DIR__ . '/Monolog/Logger.php';
+require_once __DIR__ . '/logger/handler.php';
 require_once __DIR__ . '/Monolog/Formatter/FormatterInterface.php';
-require_once __DIR__ . '/Monolog/Formatter/WildfireFormatter.php';
 require_once __DIR__ . '/Monolog/Formatter/LineFormatter.php';
-require_once __DIR__ . '/Monolog/Handler/HandlerInterface.php';
 require_once __DIR__ . '/Monolog/Handler/AbstractHandler.php';
 require_once __DIR__ . '/Monolog/Handler/AbstractProcessingHandler.php';
-require_once __DIR__ . '/Monolog/Handler/StreamHandler.php';
-require_once __DIR__ . '/Monolog/Handler/FirePHPHandler.php';
 
 class joosLogging {
 
@@ -37,7 +34,12 @@ class joosLogging {
 	{
 		$this->_logger	= new \Monolog\Logger($name);
 
-		$this->_logger->pushHandler(new \Monolog\Handler\StreamHandler($this->get_log_path($name)));
+		joosConfig::init();
+		$config		= joosConfig::get2('logging', $name);
+		foreach ($config as $handler => $options)
+		{
+			$this->_logger->pushHandler(joosLoggingHandler::factory($handler, $options)->handler());
+		}
 	}
 
 	protected function get_log_path($name)
@@ -53,44 +55,44 @@ class joosLogging {
 		return $path;
 	}
 
-	public function add($message, $level = josLoggingLevels::DEBUG)
+	public function add($message, $level = joosLoggingLevels::DEBUG)
 	{
 		$this->_logger->addRecord($level, $message);
 	}
 
 	public function debug($message)
 	{
-		$this->add($message, josLoggingLevels::DEBUG);
+		$this->add($message, joosLoggingLevels::DEBUG);
 	}
 
 	public function info($message)
 	{
-		$this->add($message, josLoggingLevels::INFO);
+		$this->add($message, joosLoggingLevels::INFO);
 	}
 
 	public function warning($message)
 	{
-		$this->add($message, josLoggingLevels::WARNING);
+		$this->add($message, joosLoggingLevels::WARNING);
 	}
 
 	public function error($message)
 	{
-		$this->add($message, josLoggingLevels::ERROR);
+		$this->add($message, joosLoggingLevels::ERROR);
 	}
 
 	public function critical($message)
 	{
-		$this->add($message, josLoggingLevels::CRITICAL);
+		$this->add($message, joosLoggingLevels::CRITICAL);
 	}
 
 	public function alert($message)
 	{
-		$this->add($message, josLoggingLevels::ALERT);
+		$this->add($message, joosLoggingLevels::ALERT);
 	}
 
 }
 
-class josLoggingLevels {
+class joosLoggingLevels {
 
 	/**
 	 * Detailed debug information

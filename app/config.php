@@ -58,5 +58,19 @@ return array(
 		'smtp_user' => '',
 		'smtp_pass' => '',
 		'smtp_host' => '', // Порт для smtp указывается через двоеточие localhost:443
+	),
+	'logging'	=> array(
+		'debug'	=> array(
+			'stream'	=> array(
+				'level'		=> joosLoggingLevels::DEBUG,
+				'stream'	=> JPATH_BASE.DS.'logs'.DS.'example.log'
+			),
+			'mail'		=> array(
+				'level'		=> joosLoggingLevels::ERROR,
+				'to'		=> 'mail@example.com',
+				'subject'	=> 'Message from monolog',
+				'from'		=> 'mail@example.com'
+			)
+		)
 	)
 );
