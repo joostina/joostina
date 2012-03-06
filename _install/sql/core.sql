@@ -762,3 +762,11 @@ CREATE TABLE IF NOT EXISTS `jos_votes_blog_results` (
 -- Дамп данных таблицы `jos_votes_blog_results`
 --
 
+CREATE TABLE IF NOT EXISTS `jos_users_tokens` (
+  `token` varchar(50) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_related` varchar(50) NOT NULL,
+  UNIQUE KEY `token` (`token`),
+  KEY `updated_at` (`updated_at`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
