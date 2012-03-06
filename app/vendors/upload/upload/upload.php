@@ -2,6 +2,10 @@
 
 class joosUpload {
 
+	public static function upload_form() {
+
+	}
+
 	/**
 	 * Упрощённая процедура загрузки файла
 	 * @param string $element_name название элемента массива $_FILES для загрузки
@@ -18,7 +22,7 @@ class joosUpload {
 		$file_base_location = $upload_location . DS . $file_name;
 
 		if (!$only_check) {
-			$success = move_uploaded_file($_FILES[$element_name]['tmp_name'], $file_base_location );
+			$success = move_uploaded_file($_FILES[$element_name]['tmp_name'], $file_base_location);
 		} else {
 			$success = true;
 		}
@@ -133,8 +137,9 @@ class qqFileUploader {
 			return array('error' => 'File has an invalid extension, it should be one of ' . $these . '.');
 		}
 
-                //если только проверка входных данных - уходим отсюда
-                if ($only_check) return array('success' => true);
+		//если только проверка входных данных - уходим отсюда
+		if ($only_check)
+			return array('success' => true);
 
 		if (!$replaceOldFile) {
 			/// don't overwrite previous files that were uploaded
