@@ -13,31 +13,6 @@
  * */
 //Запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
-
-$validator        = UserValidations::registration();
-$register_js_code = <<<EOD
-var validator = $('#m-auto_reg').validate({
-	rules: {$validator->get_js_validator( 'rules' )},
-	messages:  {$validator->get_js_validator( 'messages' )},
-	errorElement: "div",
-	errorClass: "error",
-	errorPlacement: function(error, element) {
-		error.append('<em></em>');
-		element.parent().parent().append(error);
-	},
-	submitHandler: function(form) {
-		ajax_registration();
-	},
-	success: function(label) {
-		label.html('&nbsp;').addClass('checked');
-	}
-});
-$.validator.addMethod("user_nameRegex",function(value,element){
-	return this.optional(element) || /^[a-zA-Z0-9._-]{3,16}$/i.test(value);
-},"user_name are 3-15 characters");
-EOD;
-joosDocument::instance()->add_js_code( $register_js_code );
-
 ?>
 <div class="m-autorization_login">
 

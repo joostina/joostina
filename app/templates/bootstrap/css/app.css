@@ -1,0 +1,11 @@
+@import url('bootstrap.css');
+
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+/*Модуль авторизации*/
+.b-login_form form{
+    padding: 10px
+}
