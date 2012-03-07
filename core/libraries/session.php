@@ -54,19 +54,17 @@ class joosSession {
 		return $_SESSION[$key] = $value;
 	}
 
-	public static function sessionCookieName() {
+	public static function session_cookie_name() {
 		$syte = str_replace(array('http://', 'https://'), '', JPATH_SITE);
 		return md5('site' . $syte);
 	}
 
-	public static function sessionCookieValue($id = null) {
+	public static function session_cookie_value($id = null) {
 		$type = joosConfig::get2('session', 'type', 3);
 		$browser = @$_SERVER['HTTP_USER_AGENT'];
 
 		switch ($type) {
 			case 2:
-				// 1.0.0 to 1.0.7 Compatibility
-				// lowest level security
 				$value = md5($id . $_SERVER['REMOTE_ADDR']);
 				break;
 
@@ -78,7 +76,6 @@ class joosSession {
 				break;
 
 			default:
-				// Highest security level - new default for 1.0.8 and beyond
 				$ip = $_SERVER['REMOTE_ADDR'];
 				$value = joosCSRF::hash($id . $ip . $browser);
 				break;

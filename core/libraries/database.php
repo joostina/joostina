@@ -104,6 +104,7 @@ class joosDatabase {
 	protected function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $debug = 0, $port = null, $socket = null) {
 		$this->_debug = $debug;
 
+
 		// проверка доступности поддержки работы с базой данных в php
 		if (!function_exists('mysqli_connect')) {
 			include JPATH_BASE . '/app/templates/system/offline.php';
@@ -111,7 +112,7 @@ class joosDatabase {
 		}
 
 		// попытка соединиться с сервером баз данных
-		if (!( $this->_resource = @mysqli_connect($host, $user, $pass, $db, $port, $socket) )) {
+		if (!( $this->_resource = mysqli_connect($host, $user, $pass, $db, $port, $socket) )) {
 			include JPATH_BASE . '/app/templates/system/offline.php';
 			exit();
 		}
@@ -121,7 +122,6 @@ class joosDatabase {
 			mysqli_query($this->_resource, 'set profiling=1');
 			mysqli_query($this->_resource, sprintf('set profiling_history_size=%s', joosConfig::get2('db', 'profiling_history_size', 100)));
 		}
-		;
 
 		// устанавливаем кодировку для корректного соединения с сервером базы данных
 		mysqli_set_charset($this->_resource, 'utf8');
@@ -130,6 +130,7 @@ class joosDatabase {
 	/**
 	 * Уничтожение объекта
 	 * При уничтожении объекта происходит закрытие соединения с базой
+	 * 
 	 */
 	public function __destruct() {
 		if (is_resource($this->_resource)) {
@@ -1241,7 +1242,7 @@ class joosModel {
 		if (( isset($this->$k) && $this->$k != 0 ) && !$forcedIns) {
 
 			// дата последней модификации
-			if (property_exists($this, 'modified_at') && $this->modified_at==null ) {
+			if (property_exists($this, 'modified_at') && $this->modified_at == null) {
 				$this->modified_at = JCURRENT_SERVER_TIME;
 			}
 
@@ -1251,7 +1252,7 @@ class joosModel {
 		} else {
 
 			// дата создания объекта
-			if (property_exists($this, 'created_at') && $this->created_at==null ) {
+			if (property_exists($this, 'created_at') && $this->created_at == null) {
 				$this->created_at = JCURRENT_SERVER_TIME;
 			}
 
@@ -1641,7 +1642,7 @@ class joosModel {
 	// сохранение значение одного ко многим
 	public function save_one_to_many($name_table_keys, $key_name, $value_name, $key_value, array $values) {
 
-		if( $key_value==null || $key_value=='' ){
+		if ($key_value == null || $key_value == '') {
 			return false;
 		}
 
@@ -1654,7 +1655,7 @@ class joosModel {
 			$vals[] = " ($key_value, $value  ) ";
 		}
 
-		if( count($vals)==0 ){
+		if (count($vals) == 0) {
 			return true;
 		}
 

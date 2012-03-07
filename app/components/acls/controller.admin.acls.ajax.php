@@ -27,7 +27,7 @@ class actionsAjaxAdminAcls extends joosController {
 
 		$access->find();
 		if ($access->id) {
-			$access->delete( $access->id );
+			$access->delete($access->id);
 		} else {
 			$access->store();
 		}

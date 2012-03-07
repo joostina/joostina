@@ -60,7 +60,7 @@ class actionsUsers extends joosController {
 	}
 
 	//редактирование
-	public static function edituser() {
+	public static function edit_user() {
 
 		$user_name = self::$param['user_name'];
 

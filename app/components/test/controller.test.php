@@ -26,6 +26,9 @@ class actionsTest {
 	 */
 	public static function index() {
 
+		$user = joosCore::user();
+		_xdump($user->user_name);
+
 		$user_id = 1;
 
 		$group_obj = new modelAclGroups;

@@ -39,7 +39,7 @@ class joosFlashMessage {
 					session_start();
 				}
 			} else {
-				session_name( joosSession::sessionCookieName() );
+				session_name( joosSession::session_cookie_name() );
 				session_start();
 			}
 
@@ -56,7 +56,7 @@ class joosFlashMessage {
 		$_s = session_id();
 
 		if ( !joosCore::is_admin() && empty( $_s ) ) {
-			session_name( joosSession::sessionCookieName() );
+			session_name( joosSession::session_cookie_name() );
 			session_start();
 		}
 

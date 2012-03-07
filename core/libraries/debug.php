@@ -68,9 +68,65 @@ class joosDebug {
 
 	public static function get() {
 
+		/*
+		  self::$text = '';
+
+		  /* счетчики
+		  self::$text .= '<ul class="debug_log listreset">';
+
+		  // TODO, тут можно отключать если
+		  self::$config['sort_inc_log'] ? ksort(self::$_inc) : null;
+
+		  foreach (self::$_inc as $key => $value) {
+		  self::$text .= '<li>INC: ' . $key . ': ' . $value . '</small>';
+		  }
+		  self::$text .= '</ul>';
+		  // выведем лог в более приятном отображении
+		  array_multisort(self::$_log);
+
+		  /* лог
+		  self::$text .= '<ul class="debug_log listreset">';
+		  foreach (self::$_log as $value) {
+		  self::$text .= '<li><small>LOG:</small> ' . $value . '</li>';
+		  }
+		  self::$text .= '</ul>';
+
+		  self::$text .= self::db_debug();
+
+		  //echo '<div id="jDebug">' . self::$text . '</div>';
+		 */
+
+		$f = '';
+
+		$f .= '<div id="ptb_data_cont_custom" class="ptb_data_cont" style="display: none;">
+				  <ul class="ptb_tabs">
+					<li id="ptb_tab_custom_default">messages <span>(' . count(self::$_log) . ')</span></li>
+				  </ul>
+				  <div id="ptb_tab_cont_custom_default" class="ptb_tab_cont">
+					<table class="ptb_tab_cont_table">
+					  <tbody>
+						<tr>
+						  <th style="width:20px;">№</th>
+						  <th>message</th>
+						</tr>';
+		$c = 1;
+		foreach (self::$_log as $value) {
+			$f .= '<tr><td>' . $c . '</td><td> ' . $value . '</td></tr>';
+			$c++;
+		}
+		unset($c);
+		$f .= '<tr class="total">
+						<th></th>
+						<th>total ' . count(self::$_log) . ' messages</th>
+					  </tr>
+					  </tbody>
+					</table>
+				  </div>
+				</div>';
+
 		/* подключенные файлы */
 		$files = get_included_files();
-		$f = '<div id="ptb_data_cont_files" class="ptb_data_cont" style="display: none;">
+		$f .= '<div id="ptb_data_cont_files" class="ptb_data_cont" style="display: none;">
 				  <ul class="ptb_tabs">
 					<li id="ptb_tab_files">files <span>(' . count($files) . ')</span></li>
 				  </ul>
@@ -81,13 +137,13 @@ class joosDebug {
 						  <th style="width:20px;">№</th>
 						  <th>file</th>
 						</tr>';
-						$c = 1;
-						foreach ($files as $value) {
-							$f .= '<tr><td>' . $c . '</td><td> ' . $value . '</td></tr>';
-							$c++;
-						}
-						unset($c);
-						$f .= '<tr class="total">
+		$c = 1;
+		foreach ($files as $value) {
+			$f .= '<tr><td>' . $c . '</td><td> ' . $value . '</td></tr>';
+			$c++;
+		}
+		unset($c);
+		$f .= '<tr class="total">
 						<th></th>
 						<th>total ' . count($files) . ' files</th>
 					  </tr>
@@ -102,49 +158,21 @@ class joosDebug {
 		// Начало вывода панели
 		echo '<span style="display:none"><![CDATA[<noindex>]]></span>
 		<!-- ============================= PROFILER TOOLBAR ============================= -->
-		<script type="text/javascript" src="'.JPATH_SITE.'/media/js/profilertoolbar.js"></script>
-		<link rel="stylesheet" href="'.JPATH_SITE.'/media/css/profilertoolbar.css">
+		<script type="text/javascript" src="' . JPATH_SITE . '/media/js/profilertoolbar.js"></script>
+		<link rel="stylesheet" href="' . JPATH_SITE . '/media/css/profilertoolbar.css">
 		<div id="ptb">
 			<ul id="ptb_toolbar" class="ptb_bg">
-				<li class="time" title="application execution time">	<span class="icon"></span> '.self::$_log[1].' </li>
-				<li class="ram" title="memory peak usage">          	<span class="icon"></span> '.self::$_log[0].' </li>
-				<li class="sql">      <span class="icon"></span> sql <span class="total">(' . count($profs) . ')</span></li>
-				<li class="files">    <span class="icon"></span> files <span class="total">(' . count($files) . ')</span></li>
-		';
-/*
-		self::$text = '';
-
-		/* счетчики
-		self::$text .= '<ul class="debug_log listreset">';
-
-		// TODO, тут можно отключать если
-		self::$config['sort_inc_log'] ? ksort(self::$_inc) : null;
-
-		foreach (self::$_inc as $key => $value) {
-			self::$text .= '<li>INC: ' . $key . ': ' . $value . '</small>';
-		}
-		self::$text .= '</ul>';
-		// выведем лог в более приятном отображении
-		array_multisort(self::$_log);
-
-		/* лог
-		self::$text .= '<ul class="debug_log listreset">';
-		foreach (self::$_log as $value) {
-			self::$text .= '<li><small>LOG:</small> ' . $value . '</li>';
-		}
-		self::$text .= '</ul>';
-
-		self::$text .= self::db_debug();
-
-		//echo '<div id="jDebug">' . self::$text . '</div>';
-		*/
-		echo '
+				<li class="time" title="application execution time"><span class="icon"></span> ' . self::$_log[1] . '</li>
+				<li class="ram" title="memory peak usage"><span class="icon"></span> ' . self::$_log[0] . ' </li>
+				<li class="custom"><span class="icon"></span> logs <span class="total">(' . count($files) . ')</span></li>
+				<li class="sql"><span class="icon"></span> sql <span class="total">(' . count($profs) . ')</span></li>
+				<li class="files"><span class="icon"></span> files <span class="total">(' . count($files) . ')</span></li>
 				<li class="hide" title="Hide Profiler Toolbar"><span class="icon"></span></li>
 				<li class="show" title="Show Profiler Toolbar"><span class="icon"></span></li>
 			</ul>
 			<div id="ptb_data" class="ptb_bg" style="display: none;">
-				'.self::db_debug().'
-				'.$f.'
+				' . self::db_debug() . '
+				' . $f . '
 			</div>
 		</div>
 		<!-- ============================= /PROFILER TOOLBAR ============================= -->
@@ -177,7 +205,7 @@ class joosDebug {
 		$r .= '<tr class="total">
 					<td></td>
 					<td>total ' . count($profs) . ' queries</td>
-					<td class="tRight">'.$total_time.' s</td>
+					<td class="tRight">' . $total_time . ' s</td>
 				  </tr>
 				  </tbody>
 				</table>
@@ -213,8 +241,8 @@ class joosDebug {
 
 		$func_args = func_get_args();
 
-		$args_count = count(  $func_args );
-		var_dump( $args_count==1 ? $func_args[0] : $func_args );
+		$args_count = count($func_args);
+		var_dump($args_count == 1 ? $func_args[0] : $func_args );
 		$output = ob_get_clean();
 		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);
 

@@ -1,18 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 3.3.7deb5build0.10.10.1
--- http://www.phpmyadmin.net
---
--- Хост: localhost
--- Время создания: Ноя 17 2011 г., 00:55
--- Версия сервера: 5.1.49
--- Версия PHP: 5.3.3-1ubuntu9
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
---
--- База данных: `joostina`
---
-
 -- --------------------------------------------------------
 
 --
@@ -28,10 +13,99 @@ CREATE TABLE IF NOT EXISTS `jos_access` (
   `accsess` tinytext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `section` (`section`,`subsection`,`action`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_access`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_acl_access`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_acl_access` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) unsigned NOT NULL,
+  `task_id` int(11) unsigned NOT NULL,
+  `created_at` datetime NOT NULL,
+  `modified_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_acl_access`
+--
+
+INSERT INTO `jos_acl_access` (`id`, `group_id`, `task_id`, `created_at`, `modified_at`) VALUES
+(1, 6, 1, '2012-02-18 18:21:50', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_acl_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_acl_groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(20) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `modified_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_acl_groups`
+--
+
+INSERT INTO `jos_acl_groups` (`id`, `title`, `name`, `created_at`, `modified_at`) VALUES
+(6, 'Просто группа', 'Расгрупп', '2012-02-18 18:13:40', '2012-02-18 18:13:44');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_acl_list`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_acl_list` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `acl_group` varchar(25) NOT NULL,
+  `acl_name` varchar(25) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `modified_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `acl_group` (`acl_group`,`acl_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_acl_list`
+--
+
+INSERT INTO `jos_acl_list` (`id`, `title`, `acl_group`, `acl_name`, `created_at`, `modified_at`) VALUES
+(1, 'Доступ к счастью', 'all', 'core_allowed', '2012-02-18 18:21:42', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_acl_users_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_acl_users_groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `group_id` tinyint(5) unsigned NOT NULL,
+  `created_at` datetime NOT NULL,
+  `modified_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_acl_users_groups`
 --
 
 
@@ -51,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `jos_attached` (
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_attached`
@@ -80,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `jos_blog` (
   KEY `state` (`state`),
   KEY `category_id` (`category_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_blog`
@@ -104,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `jos_blog_category` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`slug`),
   KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_blog_category`
@@ -130,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `jos_categories` (
   `state` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `lft` (`lft`,`rgt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_categories`
@@ -164,55 +238,6 @@ CREATE TABLE IF NOT EXISTS `jos_categories_details` (
 
 -- --------------------------------------------------------
 
---
--- Структура таблицы `jos_comments`
---
-
-CREATE TABLE IF NOT EXISTS `jos_comments` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `path` varchar(255) NOT NULL,
-  `level` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  `obj_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `obj_option` varchar(30) NOT NULL,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `user_name` varchar(100) NOT NULL,
-  `user_email` varchar(50) NOT NULL,
-  `user_ip` varchar(50) NOT NULL,
-  `comment_text` mediumtext NOT NULL,
-  `created_at` datetime NOT NULL,
-  `params` longtext,
-  `state` tinyint(1) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `obj_id` (`obj_id`,`obj_option`),
-  KEY `state` (`state`),
-  KEY `path` (`path`,`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_comments`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_comments_counter`
---
-
-CREATE TABLE IF NOT EXISTS `jos_comments_counter` (
-  `obj_id` int(11) unsigned NOT NULL,
-  `obj_option` varchar(30) NOT NULL,
-  `last_user_id` int(11) unsigned NOT NULL,
-  `last_comment_id` int(11) unsigned NOT NULL,
-  `counter` int(11) unsigned NOT NULL,
-  UNIQUE KEY `obj_id` (`obj_id`,`obj_option`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_comments_counter`
---
-
 
 -- --------------------------------------------------------
 
@@ -236,51 +261,10 @@ CREATE TABLE IF NOT EXISTS `jos_content` (
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_content`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_extrafields`
---
-
-CREATE TABLE IF NOT EXISTS `jos_extrafields` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group` varchar(255) NOT NULL,
-  `subgroup` varchar(255) NOT NULL,
-  `object` int(11) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `label` varchar(255) NOT NULL,
-  `rules` text NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_extrafields`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_extrafields_data`
---
-
-CREATE TABLE IF NOT EXISTS `jos_extrafields_data` (
-  `field_id` int(11) unsigned NOT NULL,
-  `obj_id` int(11) unsigned NOT NULL,
-  `value` tinytext NOT NULL,
-  UNIQUE KEY `field_id` (`field_id`,`obj_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `jos_extrafields_data`
+-- Дамп данных таблицы `jos_content`
 --
 
 
@@ -298,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `jos_hits` (
   `hit` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `obj_id` (`obj_id`,`obj_option`,`obj_task`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_hits`
@@ -321,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `jos_metainfo` (
   `meta_keywords` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `group` (`group`,`subgroup`,`obj_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_metainfo`
@@ -348,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `jos_modules` (
   PRIMARY KEY (`id`),
   KEY `published` (`state`),
   KEY `newsfeeds` (`module`,`state`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_modules`
@@ -382,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `jos_modules_pages` (
   `rule` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_id` (`moduleid`,`controller`,`method`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_modules_pages`
@@ -393,30 +377,6 @@ INSERT INTO `jos_modules_pages` (`id`, `moduleid`, `controller`, `method`, `rule
 (3, 3, 'all', '', ''),
 (5, 4, 'all', '', ''),
 (15, 8, 'mainpage', 'index', '');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_news`
---
-
-CREATE TABLE IF NOT EXISTS `jos_news` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) NOT NULL,
-  `slug` varchar(200) NOT NULL,
-  `introtext` text NOT NULL,
-  `fulltext` longtext NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `category_id` int(11) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
-  `special` tinyint(1) unsigned NOT NULL,
-  `attachments` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`),
-  KEY `type_id` (`category_id`),
-  KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Дамп данных таблицы `jos_news`
@@ -441,12 +401,14 @@ CREATE TABLE IF NOT EXISTS `jos_pages` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
   KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_pages`
 --
 
+INSERT INTO `jos_pages` (`id`, `title`, `slug`, `text`, `meta_keywords`, `meta_description`, `created_at`, `state`) VALUES
+(1, 'Главная страничка с текстом, тадааа!', 'glavnaya-stranichka-s-tekstom-tadaaa', '<div>Energistically evisculate end-to-end supply chains after web-enabled services. Objectively mesh open-source infrastructures without B2C opportunities. Efficiently envisioneer goal-oriented technologies before premium experiences. Appropriately restore strategic internal or "organic" sources through turnkey information. Conveniently utilize business human capital whereas functional potentialities.</div><div><br></div><div>Objectively engineer unique metrics rather than client-centered experiences. Dramatically productivate prospective channels with front-end initiatives. Monotonectally cultivate accurate materials through enterprise-wide supply chains. Professionally grow unique outsourcing with pandemic deliverables. Rapidiously extend go forward models without extensible materials.</div><div><br></div><div>Progressively deploy e-business alignments through stand-alone partnerships. Proactively redefine resource maximizing partnerships with quality methods of empowerment. Assertively fashion installed base quality vectors after wireless channels. Assertively recaptiualize one-to-one bandwidth rather than resource-leveling e-commerce. Compellingly leverage existing exceptional functionalities through just in time resources.</div><div><br></div><div>Interactively target stand-alone core competencies and standards compliant experiences. Enthusiastically whiteboard reliable process improvements after 2.0 scenarios. Progressively engage 2.0 interfaces after sticky core competencies. Credibly provide access to web-enabled manufactured products and professional services. Competently communicate team driven internal or "organic" sources and user friendly internal or "organic" sources.</div><div><br></div><div>Collaboratively brand cutting-edge manufactured products whereas alternative alignments. Credibly formulate top-line schemas whereas cross-unit process improvements. Dynamically deploy synergistic web-readiness without 24/365 infomediaries. Competently matrix multifunctional results before granular applications. Phosfluorescently fabricate prospective metrics via interoperable content.</div><div><br></div><div>Efficiently strategize customer directed web services rather than frictionless scenarios. Rapidiously initiate covalent best practices whereas excellent resources. Credibly formulate client-centered action items after compelling e-markets. Globally syndicate scalable resources rather than adaptive outsourcing. Holisticly syndicate B2C methods of empowerment after efficient solutions.</div><div><br></div><div>Professionally re-engineer multimedia based expertise and 2.0 customer service. Appropriately engage leading-edge "outside the box" thinking without cutting-edge intellectual capital. Credibly recaptiualize synergistic catalysts for change for seamless resources. Monotonectally incentivize exceptional customer service and enterprise-wide best practices. Objectively network fully tested portals through client-focused potentialities.</div><div><br></div><div>Enthusiastically integrate distributed human capital whereas leading-edge catalysts for change. Credibly integrate robust models through principle-centered materials. Progressively evisculate one-to-one growth strategies through proactive paradigms. Progressively scale world-class e-services via standardized infomediaries. Professionally evisculate cross-platform total linkage without performance based potentialities.</div>  ', '', '', '2012-01-03 22:58:52', 1);
 
 -- --------------------------------------------------------
 
@@ -462,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `jos_params` (
   `data` text,
   PRIMARY KEY (`id`),
   KEY `name` (`object`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_params`
@@ -485,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `jos_quickicons` (
   `state` tinyint(1) unsigned NOT NULL,
   `gid` tinyint(3) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_quickicons`
@@ -524,67 +486,6 @@ CREATE TABLE IF NOT EXISTS `jos_searched` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `jos_templates`
---
-
-CREATE TABLE IF NOT EXISTS `jos_templates` (
-  `id` int(11) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_templates`
---
-
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_template_positions`
---
-
-CREATE TABLE IF NOT EXISTS `jos_template_positions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `position` varchar(10) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
-
---
--- Дамп данных таблицы `jos_template_positions`
---
-
-INSERT INTO `jos_template_positions` (`id`, `position`, `description`) VALUES
-(1, 'left', ''),
-(2, 'right', ''),
-(3, 'top', ''),
-(4, 'bottom', ''),
-(6, 'banner', ''),
-(7, 'header', ''),
-(8, 'footer', ''),
-(10, 'mainpage', ''),
-(11, 'breadcrumb', ''),
-(12, 'incomponen', ''),
-(14, 'user1', ''),
-(15, 'user2', ''),
-(16, 'user3', ''),
-(17, 'user4', ''),
-(18, 'user5', ''),
-(19, 'user6', ''),
-(20, 'user7', ''),
-(21, 'user8', ''),
-(22, 'user9', ''),
-(23, 'advert1', ''),
-(24, 'advert2', ''),
-(25, 'advert3', ''),
-(26, 'icon', ''),
-(27, 'debug', '');
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `jos_trash`
 --
 
@@ -597,7 +498,7 @@ CREATE TABLE IF NOT EXISTS `jos_trash` (
   `user_id` int(11) unsigned NOT NULL,
   `deleted_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_trash`
@@ -621,23 +522,23 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
   `state` tinyint(1) unsigned NOT NULL,
   `group_id` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `group_name` varchar(25) NOT NULL,
-  `register_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `lastvisit_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL DEFAULT '',
   `bad_auth_count` tinyint(2) unsigned DEFAULT NULL,
+  `register_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `lastvisit_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`user_name`),
   KEY `idxemail` (`email`),
   KEY `block_id` (`state`,`id`),
   KEY `username_canonikal` (`user_name_canonikal`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_users`
 --
 
 INSERT INTO `jos_users` (`id`, `user_name`, `user_name_canonikal`, `real_name`, `email`, `openid`, `password`, `state`, `group_id`, `group_name`, `register_date`, `lastvisit_date`, `activation`, `bad_auth_count`) VALUES
-(1, 'admin', 'adm1n', 'Кооолька!', 'admin@joostina.ru', '', '8946ff6c645d05bc6b1635ac03b80798:OgaubbtrYeZn1KJ3', 1, 8, 'SuperAdministrator', '2010-11-28 15:29:47', '2011-05-30 03:35:20', '', 0);
+(1, 'admin', 'atm1n', 'Adminin', 'admin@joostina.ru', '', '1e72fb95f1710557274dcfd23a4582fd:DAj5Qf4Y1ktEenhE', 1, 8, 'SuperAdministrator', '2010-11-28 15:29:47', '2012-03-07 14:08:23', '', 0);
 
 -- --------------------------------------------------------
 
@@ -660,6 +561,8 @@ CREATE TABLE IF NOT EXISTS `jos_users_extra` (
 -- Дамп данных таблицы `jos_users_extra`
 --
 
+INSERT INTO `jos_users_extra` (`user_id`, `gender`, `about`, `location`, `contacts`, `birth_date`, `interests`) VALUES
+(1, '', NULL, '', '', '0000-00-00', '');
 
 -- --------------------------------------------------------
 
@@ -675,7 +578,7 @@ CREATE TABLE IF NOT EXISTS `jos_users_groups` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `jos_users_groups`
@@ -689,7 +592,8 @@ INSERT INTO `jos_users_groups` (`id`, `parent_id`, `title`, `group_title`) VALUE
 (5, 4, 'Publisher', 'Публикаторы'),
 (6, 1, 'Manager', 'Менеджеры'),
 (7, 6, 'Administrator', 'Администраторы'),
-(8, 7, 'SuperAdministrator', 'Супер Администраторы');
+(8, 7, 'SuperAdministrator', 'Супер Администраторы'),
+(9, 4, 'news', 'Новостные');
 
 -- --------------------------------------------------------
 
@@ -699,11 +603,10 @@ INSERT INTO `jos_users_groups` (`id`, `parent_id`, `title`, `group_title`) VALUE
 
 CREATE TABLE IF NOT EXISTS `jos_users_session` (
   `session_id` varchar(32) NOT NULL DEFAULT '0',
-  `user_name` varchar(50) DEFAULT NULL,
-  `data` longtext,
-  `time` varchar(14) DEFAULT '',
-  `guest` tinyint(4) unsigned DEFAULT '1',
   `user_id` int(11) unsigned DEFAULT '0',
+  `user_name` varchar(50) DEFAULT NULL,
+  `time` varchar(14) DEFAULT '',
+  `guest` tinyint(1) unsigned DEFAULT '1',
   `group_name` varchar(50) DEFAULT NULL,
   `group_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `is_admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -716,8 +619,26 @@ CREATE TABLE IF NOT EXISTS `jos_users_session` (
 -- Дамп данных таблицы `jos_users_session`
 --
 
-INSERT INTO `jos_users_session` (`session_id`, `user_name`, `data`, `time`, `guest`, `user_id`, `group_name`, `group_id`, `is_admin`) VALUES
-('17148907c13ff0ce00c59e969105621d', 'admin', NULL, '1321473304', 0, 1, 'SuperAdministrator', 8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `jos_users_tokens`
+--
+
+CREATE TABLE IF NOT EXISTS `jos_users_tokens` (
+  `token` varchar(32) NOT NULL,
+  `user_related` varchar(50) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `updated_at` timestamp NOT NULL,
+  UNIQUE KEY `token` (`token`),
+  KEY `updated_at` (`updated_at`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `jos_users_tokens`
+--
+
 
 -- --------------------------------------------------------
 
@@ -762,11 +683,3 @@ CREATE TABLE IF NOT EXISTS `jos_votes_blog_results` (
 -- Дамп данных таблицы `jos_votes_blog_results`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_users_tokens` (
-  `token` varchar(50) NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_related` varchar(50) NOT NULL,
-  UNIQUE KEY `token` (`token`),
-  KEY `updated_at` (`updated_at`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;

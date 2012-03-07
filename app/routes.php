@@ -61,13 +61,15 @@ return array(
 		'href' => 'test',
 		'defaults' => array(
 			'controller' => 'test',
-			'action' => 'index')
+			'action' => 'index'
+		)
 	),
 	'test-upload' => array(
 		'href' => 'upload',
 		'defaults' => array(
 			'controller' => 'test',
-			'action' => 'upload')
+			'action' => 'upload'
+		)
 	),
 	// сборник тестиования системных функций
 	'unittest' => array(
@@ -119,7 +121,7 @@ return array(
 		'href' => 'blogs/page/<page>',
 		'params_rules' => array(
 			'page' => ':digit'
-			),
+		),
 		'defaults' => array(
 			'controller' => 'blog',
 			'action' => 'index'

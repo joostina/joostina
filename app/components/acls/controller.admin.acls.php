@@ -221,7 +221,7 @@ class actionsAdminAcls {
 			$cl = $reflect->getClasses();
 			foreach ($cl['\\'] as $k => $cc) {
 				foreach ($cc['methods'] as $km => $m) {
-					$classes[$k.$km] = array(
+					$classes[$k . $km] = array(
 						'title' => sprintf('%s::%s', $k, $km),
 						'acl_group' => $k,
 						'acl_name' => $km,
