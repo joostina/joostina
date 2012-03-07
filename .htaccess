@@ -4,10 +4,14 @@ AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
 	# Разерешение использования символических ссылок и запрет отображения списка каталогов
 	Options +FollowSymLinks -Indexes
-	
+
 	RewriteEngine on
+
+	RewriteBase /
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+
     RewriteRule ^(.*)$ index.php?/$1 [L]
 	#RewriteRule ^(.*)$ ./index.php
 
