@@ -7,13 +7,38 @@ require_once __DIR__ . DS . 'logger' . DS . 'handler.php';
 
 joosLoggingAutoloader::register();
 
+/**
+ * Модуль логирования данных на основе библиотеки Monolog
+ * Настраивается в общем конфигурационном файле, в сексии logging. Пример настройки:
+ *
+ * <pre>
+ * 	'logging'	=> array(
+ * 		'debug'	=> array(
+ * 			'stream'	=> array(
+ * 				'level'		=> joosLoggingLevels::DEBUG,
+ * 				'stream'	=> JPATH_BASE.DS.'logs'.DS.'example.log'
+ * 			),
+ * 			'mail'		=> array(
+ * 				'level'		=> joosLoggingLevels::ERROR,
+ * 				'to'		=> 'mail@example.com',
+ * 				'subject'	=> 'Message from monolog',
+ * 				'from'		=> 'mail@example.com'
+ * 			)
+ * 		)
+ * 	)
+ * </pre>
+ *
+ * @author Maxim Format
+ */
 class joosLogging {
 
 	protected static $_instance	= array();
 
 	/**
+	 * Получение экземпляра логгера
+	 *
 	 * @static
-	 * @param string $name
+	 * @param string $name Имя экземпляра логгера. На основе него берутся настройки из конфигурационного файла
 	 * @return joosLogging
 	 */
 	public static function instance($name = 'default')
@@ -28,6 +53,11 @@ class joosLogging {
 
 	protected $_logger	= NULL;
 
+	/**
+	 * Настройки берутся из секции-пресета, вложенного в сексию logging конфигурационного файла
+	 *
+	 * @param string $name
+	 */
 	public function __construct($name)
 	{
 		$this->_logger	= new \Monolog\Logger($name);
@@ -40,49 +70,75 @@ class joosLogging {
 		}
 	}
 
-	protected function get_log_path($name)
-	{
-		$path	= JPATH_BASE.DS.'logs';
-		if ( ! is_dir($path))
-		{
-			mkdir($path);
-		}
-
-		$path	.= DS.$name.'-'.date('y-m-d').'.log';
-
-		return $path;
-	}
-
+	/**
+	 * Добавление произвольного сообщения в лог.
+	 * Level задает уровень обработки сообщения, указываемого в кофигурационном файле.
+	 * По умолчанию равен DEBUG, что соответствует передаче сообщания обработчикам, которые настроены на обработку
+	 * сообщений, с этим уровнем
+	 *
+	 * @param string $message
+	 * @param int $level
+	 */
 	public function add($message, $level = joosLoggingLevels::DEBUG)
 	{
 		$this->_logger->addRecord($level, $message);
 	}
 
+	/**
+	 * Добавление сообщения в debug-лог и его обработка обработчиками, настроенными на этот уровень
+	 *
+	 * @param string $message
+	 */
 	public function debug($message)
 	{
 		$this->add($message, joosLoggingLevels::DEBUG);
 	}
 
+	/**
+	 * Добавление сообщения в info-лог и его обработка обработчиками, настроенными на этот уровень
+	 *
+	 * @param string $message
+	 */
 	public function info($message)
 	{
 		$this->add($message, joosLoggingLevels::INFO);
 	}
 
+	/**
+	 * Добавление сообщения в warning-лог и его обработка обработчиками, настроенными на этот уровень
+	 *
+	 * @param string $message
+	 */
 	public function warning($message)
 	{
 		$this->add($message, joosLoggingLevels::WARNING);
 	}
 
+	/**
+	 * Добавление сообщения в error-лог и его обработка обработчиками, настроенными на этот уровень
+	 *
+	 * @param string $message
+	 */
 	public function error($message)
 	{
 		$this->add($message, joosLoggingLevels::ERROR);
 	}
 
+	/**
+	 * Добавление сообщения в critical-error-лог и его обработка обработчиками, настроенными на этот уровень
+	 *
+	 * @param string $message
+	 */
 	public function critical($message)
 	{
 		$this->add($message, joosLoggingLevels::CRITICAL);
 	}
 
+	/**
+	 * Добавление сообщения в alert-лог и его обработка обработчиками, настроенными на этот уровень
+	 *
+	 * @param string $message
+	 */
 	public function alert($message)
 	{
 		$this->add($message, joosLoggingLevels::ALERT);
@@ -90,6 +146,9 @@ class joosLogging {
 
 }
 
+/**
+ * Обертка над классом \Monolog\Logging для удобного использования
+ */
 class joosLoggingLevels {
 
 	/**

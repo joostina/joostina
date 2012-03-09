@@ -2,6 +2,12 @@
 
 defined('_JOOS_CORE') or die;
 
+/**
+ * Обертка над обработчиками класса \Monolog\Logging для удобной работы.
+ * Исправляет корявый интерфейс онных.
+ *
+ * @author Maxim Format
+ */
 class joosLoggingHandler {
 
 	/**
@@ -36,6 +42,11 @@ class joosLoggingHandler {
 		$this->_options	= array_merge($this->_options, $options);
 	}
 
+	/**
+	 * Получение инстанса обработчика
+	 *
+	 * @return Monolog\Handler\HandlerInterface|null
+	 */
 	public function handler()
 	{
 		return $this->_handler;
