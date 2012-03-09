@@ -2,12 +2,10 @@
 
 defined('_JOOS_CORE') or die;
 
-require_once __DIR__ . '/Monolog/Logger.php';
-require_once __DIR__ . '/logger/handler.php';
-require_once __DIR__ . '/Monolog/Formatter/FormatterInterface.php';
-require_once __DIR__ . '/Monolog/Formatter/LineFormatter.php';
-require_once __DIR__ . '/Monolog/Handler/AbstractHandler.php';
-require_once __DIR__ . '/Monolog/Handler/AbstractProcessingHandler.php';
+require_once __DIR__ . DS . 'autoload.php';
+require_once __DIR__ . DS . 'logger' . DS . 'handler.php';
+
+joosLoggingAutoloader::register();
 
 class joosLogging {
 

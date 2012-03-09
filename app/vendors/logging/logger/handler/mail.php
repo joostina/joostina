@@ -2,9 +2,6 @@
 
 defined('_JOOS_CORE') or die;
 
-require_once JPATH_BASE.'/app/vendors/logging/Monolog/Handler/MailHandler.php';
-require_once JPATH_BASE.'/app/vendors/logging/Monolog/Handler/NativeMailerHandler.php';
-
 class joosLoggingHandlerMail extends joosLoggingHandler {
 
 	public function __construct($options = array())

@@ -2,9 +2,6 @@
 
 defined('_JOOS_CORE') or die;
 
-
-require_once JPATH_BASE.'/app/vendors/logging/Monolog/Handler/HandlerInterface.php';
-
 class joosLoggingHandler {
 
 	/**
@@ -16,7 +13,8 @@ class joosLoggingHandler {
 	 */
 	public static function factory($name, $options = array())
 	{
-		$path		= JPATH_BASE.'/app/vendors/logging/logger/handler/'.$name.'.php';
+		$path		= JPATH_BASE .DS .'app' . DS . 'vendors' . DS . 'logging' . DS . 'logger' . DS
+					. 'handler'.DS.$name.'.php';
 		$class_name	= 'joosLoggingHandler'.ucfirst($name);
 
 		if ( ! file_exists($path))
