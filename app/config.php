@@ -61,10 +61,10 @@ return array(
 	),
 	'logging' => array(
 		'debug' => array(
-			'stream' => array(
+			/*'stream' => array(
 				'level' => joosLoggingLevels::DEBUG,
 				'stream' => JPATH_BASE . DS . 'logs' . DS . 'example.log'
-			),
+			),*/
 			'mail' => array(
 				'level' => joosLoggingLevels::ERROR,
 				'to' => 'mail@example.com',

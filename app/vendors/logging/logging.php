@@ -32,7 +32,7 @@ joosLoggingAutoloader::register();
  */
 class joosLogging {
 
-	protected static $_instance	= array();
+	protected static $_instance = array();
 
 	/**
 	 * Получение экземпляра логгера
@@ -41,31 +41,27 @@ class joosLogging {
 	 * @param string $name Имя экземпляра логгера. На основе него берутся настройки из конфигурационного файла
 	 * @return joosLogging
 	 */
-	public static function instance($name = 'default')
-	{
-		if (empty(self::$_instance[$name]))
-		{
-			self::$_instance[$name]	= new joosLogging($name);
+	public static function instance($name = 'default') {
+		if (empty(self::$_instance[$name])) {
+			self::$_instance[$name] = new joosLogging($name);
 		}
 
 		return self::$_instance[$name];
 	}
 
-	protected $_logger	= NULL;
+	protected $_logger = NULL;
 
 	/**
 	 * Настройки берутся из секции-пресета, вложенного в сексию logging конфигурационного файла
 	 *
 	 * @param string $name
 	 */
-	public function __construct($name)
-	{
-		$this->_logger	= new \Monolog\Logger($name);
+	public function __construct($name) {
+		$this->_logger = new \Monolog\Logger($name);
 
 		joosConfig::init();
-		$config		= joosConfig::get2('logging', $name);
-		foreach ($config as $handler => $options)
-		{
+		$config = joosConfig::get2('logging', $name);
+		foreach ($config as $handler => $options) {
 			$this->_logger->pushHandler(joosLoggingHandler::factory($handler, $options)->handler());
 		}
 	}
@@ -79,8 +75,7 @@ class joosLogging {
 	 * @param string $message
 	 * @param int $level
 	 */
-	public function add($message, $level = joosLoggingLevels::DEBUG)
-	{
+	public function add($message, $level = joosLoggingLevels::DEBUG) {
 		$this->_logger->addRecord($level, $message);
 	}
 
@@ -89,8 +84,7 @@ class joosLogging {
 	 *
 	 * @param string $message
 	 */
-	public function debug($message)
-	{
+	public function debug($message) {
 		$this->add($message, joosLoggingLevels::DEBUG);
 	}
 
@@ -99,8 +93,7 @@ class joosLogging {
 	 *
 	 * @param string $message
 	 */
-	public function info($message)
-	{
+	public function info($message) {
 		$this->add($message, joosLoggingLevels::INFO);
 	}
 
@@ -109,8 +102,7 @@ class joosLogging {
 	 *
 	 * @param string $message
 	 */
-	public function warning($message)
-	{
+	public function warning($message) {
 		$this->add($message, joosLoggingLevels::WARNING);
 	}
 
@@ -119,8 +111,7 @@ class joosLogging {
 	 *
 	 * @param string $message
 	 */
-	public function error($message)
-	{
+	public function error($message) {
 		$this->add($message, joosLoggingLevels::ERROR);
 	}
 
@@ -129,8 +120,7 @@ class joosLogging {
 	 *
 	 * @param string $message
 	 */
-	public function critical($message)
-	{
+	public function critical($message) {
 		$this->add($message, joosLoggingLevels::CRITICAL);
 	}
 
@@ -139,8 +129,7 @@ class joosLogging {
 	 *
 	 * @param string $message
 	 */
-	public function alert($message)
-	{
+	public function alert($message) {
 		$this->add($message, joosLoggingLevels::ALERT);
 	}
 
@@ -150,10 +139,10 @@ class joosLogging {
  * Обертка над классом \Monolog\Logging для удобного использования
  */
 class joosLoggingLevels {
-
 	/**
 	 * Detailed debug information
 	 */
+
 	const DEBUG = 100;
 
 	/**
