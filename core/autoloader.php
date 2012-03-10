@@ -59,6 +59,7 @@ class joosAutoloader {
 		'joosTrash' => 'core/libraries/trash.php',
 		'joosValidate' => 'core/libraries/validate.php',
 		'joosVersion' => 'core/libraries/version.php',
+		'joosLogging' => 'app/vendors/logging/logging.php',
 		// системные модели
 		//'User' => 'app/components/users/models/model.users.php',
 		//'modelCategories' => 'app/components/categories/models/model.categories.php',

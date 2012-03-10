@@ -25,8 +25,10 @@ class joosConfig {
 	private static $data = array ();
 
 	public static function init() {
-		$conf       = require_once JPATH_BASE . DS . 'app' . DS . 'config.php';
-		self::$data = $conf;
+		if (empty(self::$data)) {
+			$conf       = require_once JPATH_BASE . DS . 'app' . DS . 'config.php';
+			self::$data = $conf;
+		}
 	}
 
 	public static function get_all() {
