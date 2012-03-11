@@ -101,14 +101,14 @@ class joosAutoloader {
 
 		if (!is_file($file)) {
 			joosRequest::send_headers_by_code(500);
-			throw new AutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));
+			throw new joosAutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));
 		}
 
 		require_once $file;
 
 		if (!class_exists($class, false)) {
 			joosRequest::send_headers_by_code(500);
-			throw new AutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
+			throw new joosAutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
 		!self::$_debug ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
 
@@ -168,7 +168,7 @@ class joosAutoloader {
 
 			// модели фронта
 		} else {
-			throw new AutoloaderFileNotFoundException('Правило загрузки для класса :class_name не обнаружено', array(':class_name' => $class));
+			throw new joosAutoloaderFileNotFoundException('Правило загрузки для класса :class_name не обнаружено', array(':class_name' => $class));
 		}
 
 		return $file;
@@ -190,7 +190,7 @@ class joosAutoloader {
 			$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
 
 			if (!is_file($file)) {
-				throw new AutoloaderOnStartFileNotFoundException(sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name));
+				throw new joosAutoloaderOnStartFileNotFoundException(sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name));
 			}
 
 			require_once ( $file );
@@ -202,7 +202,7 @@ class joosAutoloader {
 /**
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
-class AutoloaderFileNotFoundException extends joosException {
+class joosAutoloaderFileNotFoundException extends joosException {
 
 	public function __construct($message = '', array $params = array()) {
 
@@ -221,13 +221,13 @@ class AutoloaderFileNotFoundException extends joosException {
 /**
  * Обработка исключений отсутсвия нужных классов в найденных файлах автозагрузчика
  */
-class AutoloaderClassNotFoundException extends joosException {
+class joosAutoloaderClassNotFoundException extends joosException {
 
 }
 
 /**
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
-class AutoloaderOnStartFileNotFoundException extends joosException {
+class joosAutoloaderOnStartFileNotFoundException extends joosException {
 
 }

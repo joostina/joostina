@@ -2,8 +2,8 @@
 
 require_once 'install.core.php';
 
-$task        = joosRequest::param( 'task' , false , $_POST );
-$form_params = joosRequest::param( 'form_params' , false , $_POST );
+$task        = joosInstallRequest::param( 'task' , false , $_POST );
+$form_params = joosInstallRequest::param( 'form_params' , false , $_POST );
 
 parse_str( $form_params );
 

@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsTest {
+class actionsTest extends joosController {
 
 	/**
 	 * Метод контроллера, запускаемый по умолчанию
@@ -38,7 +38,7 @@ class actionsTest {
 
 	/**
 	 * Пример валидации модели
-	 * 
+	 *
 	 */
 	public static function model_validation() {
 

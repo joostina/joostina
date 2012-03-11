@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsSitemap {
+class actionsSitemap extends joosController {
 
 	public static function action_before( $active_task ) {
 		//Хлебные крошки

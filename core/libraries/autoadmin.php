@@ -456,7 +456,7 @@ class joosAutoadmin {
 
 
 		//Поиск, фильтры и т.п.
-		$return .= adminHtml::controller_header(false, 'config', $extra);
+		$return .= joosAutoadminHTML::controller_header(false, 'config', $extra);
 
 		return $return;
 	}
@@ -483,7 +483,7 @@ class joosAutoadmin {
 		if (isset($class::$toolbars) && isset($class::$toolbars[self::$task])) {
 			return $class::$toolbars[self::$task];
 		} else if ($task) {
-			return JoiAdminToolbar::$task();
+			return joosAdminToolbar::$task();
 		}
 		return false;
 	}
@@ -792,10 +792,6 @@ class joosAutoadmin {
 		);
 	}
 
-	static private function camelizeCallback($match) {
-		return strtoupper($match[1]);
-	}
-
 	private static function get_plugin_name($string) {
 
 		if (strpos($string, '_') === FALSE) {
@@ -809,9 +805,13 @@ class joosAutoadmin {
 		return $string;
 	}
 
+	private static function camelizeCallback($match) {
+		return strtoupper($match[1]);
+	}
+
 }
 
-class adminHTML {
+class joosAutoadminHTML {
 
 	// шапка компонентов
 	public static function controller_header($title, $class = 'config', array $extra = array()) {
@@ -826,7 +826,7 @@ class adminHTML {
 
 }
 
-class JoiAdminToolbar {
+class joosAdminToolbar {
 
 	private static $add_button = array();
 

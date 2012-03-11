@@ -4,7 +4,7 @@ header( 'modelContent-Type: text/html; charset=utf-8' );
 header( 'Cache-Control: s-maxage=0, max-age=0, must-revalidate' );
 header( 'Expires: Mon, 23 Jan 1978 10:00:00 GMT' );
 
-function __( $s ) {
+function __install( $s ) {
 	return $s;
 }
 
@@ -14,7 +14,7 @@ function __( $s ) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="robots" content="noindex">
-	<title><?php echo __( 'Установка Joostina CMS' ) ?></title>
+	<title><?php echo __install( 'Установка Joostina CMS' ) ?></title>
 	<style type="text/css">
 		html {
 			font: 13px/1.5 Verdana, sans-serif;
@@ -141,11 +141,11 @@ function __( $s ) {
 
 <body>
 <div id="wrapper">
-	<h1><?php echo __( 'Установка Joostina CMS' ) ?></h1>
+	<h1><?php echo __install( 'Установка Joostina CMS' ) ?></h1>
 
-	<p><?php echo __( 'Скрипт проверяет доступность БД и создаёт все необходимые базовые таблицы и вносит системные данные' ) ?></p>
+	<p><?php echo __install( 'Скрипт проверяет доступность БД и создаёт все необходимые базовые таблицы и вносит системные данные' ) ?></p>
 
-	<h2><?php echo __( 'База данных' ) ?></h2>
+	<h2><?php echo __install( 'База данных' ) ?></h2>
 
 	<form id="db_data">
 		<table>
@@ -178,7 +178,7 @@ function __( $s ) {
 		</table>
 	</form>
 
-	<h2><?php echo __( 'Создание администратора' ) ?></h2>
+	<h2><?php echo __install( 'Создание администратора' ) ?></h2>
 	<table>
 		<tr class="passed">
 			<th>Логин администратора</th>
@@ -200,7 +200,7 @@ function __( $s ) {
 		</tr>
 	</table>
 
-	<h2><?php echo __( 'Восстановить данные' ) ?></h2>
+	<h2><?php echo __install( 'Восстановить данные' ) ?></h2>
 	<table>
 		<tr class="passed">
 			<th>Сайт про машинки # 19:05:2011</th>

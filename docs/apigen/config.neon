@@ -1,0 +1,18 @@
+source: ./../../
+
+destination: ./files/
+
+exclude:
+	- ./../../_install/*
+	- ./../../_new/*
+	- ./../../docs/*
+	- ./_install/*
+	- ./_new/*
+	- ./docs/*
+
+
+title: Joostina CMS
+
+todo: yes
+
+groups: packages

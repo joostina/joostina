@@ -17,9 +17,12 @@ class elrteEditor {
 		joosHtml::load_jquery();
 		joosHtml::load_jquery_ui();
 
-		joosDocument::instance()->add_css( JPATH_SITE_PLUGINS . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css' )->add_css( JPATH_SITE_PLUGINS . '/editors/elrte/css/elrte.css' )->add_js_file( JPATH_SITE_PLUGINS . '/editors/elrte/js/elrte.js' )->add_js_file( JPATH_SITE_PLUGINS . '/editors/elrte/js/i18n/elrte.ru.js' );
+		joosDocument::instance()
+				->add_css( JPATH_SITE_PLUGINS . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css' )
+				->add_css( JPATH_SITE_PLUGINS . '/editors/elrte/css/elrte.css' )
+				->add_js_file( JPATH_SITE_PLUGINS . '/editors/elrte/js/elrte.js' )
+				->add_js_file( JPATH_SITE_PLUGINS . '/editors/elrte/js/i18n/elrte.ru.js' );
 
-		//joosLoader::lib('elfinder', 'files');
 	}
 
 	public static function display( $name , $content , $hiddenField , $width , $height , $col , $row , $params ) {
