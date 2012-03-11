@@ -24,7 +24,8 @@ class joosDateTime {
 	 *
 	 * @var array массив правил локализации
 	 */
-	private static $date_translation = array('am' => 'дп',
+	private static $date_translation = array(
+		'am' => 'дп',
 		'pm' => 'пп',
 		'AM' => 'ДП',
 		'PM' => 'ПП',
@@ -69,7 +70,45 @@ class joosDateTime {
 		'st' => 'ое',
 		'nd' => 'ое',
 		'rd' => 'е',
-		'th' => 'ое',);
+		'th' => 'ое'
+	);
+
+	/**
+	 * Минута
+	 *
+	 */
+
+	const MINUTE = 60;
+
+	/**
+	 * Час
+	 *
+	 */
+	const HOUR = 3600;
+
+	/**
+	 * День
+	 *
+	 */
+	const DAY = 86400;
+
+	/**
+	 * Неделя
+	 *
+	 */
+	const WEEK = 604800;
+
+	/**
+	 * Месяц
+	 *
+	 */
+	const MONTH = 2629800;
+
+	/**
+	 * Год
+	 *
+	 */
+	const YEAR = 31557600;
 
 	/**
 	 * Реализации функции date с учетом локализации
@@ -118,7 +157,7 @@ class joosDateTime {
 			10 => __('Октябрь'),
 			11 => __('Ноябрь'),
 			12 => __('Декабрь')
-			);
+		);
 		return $all_month[$month];
 	}
 
