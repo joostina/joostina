@@ -466,7 +466,7 @@ class joosAutoadmin {
 	//например: компонент категорий, компонент настроек и т .п
 	public static function get_component_title($name) {
 
-		/*
+		/**
 		 * @type joosModel
 		 */
 		$admin_model = 'admin' . ucfirst($name);

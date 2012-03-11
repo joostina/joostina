@@ -25,7 +25,7 @@ class joosRandomizer {
 	 * Генерация уникального хеша определённой длины
 	 * @param int $length длина символов хеша
 	 * @param int $symbols список символов, разрешённых в хеше
-	 * @return string 
+	 * @return string
 	 */
 	public static function hash($length = 6, $symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") {
 

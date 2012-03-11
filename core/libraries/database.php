@@ -130,7 +130,7 @@ class joosDatabase {
 	/**
 	 * Уничтожение объекта
 	 * При уничтожении объекта происходит закрытие соединения с базой
-	 * 
+	 *
 	 */
 	public function __destruct() {
 		if (is_resource($this->_resource)) {

@@ -243,4 +243,14 @@ class joosValidate {
 		return !static::is_blank($value);
 	}
 
+	/**
+	 * Проверяет что строка не null
+	 *
+	 * @param type $value
+	 * @return bool результат проверки соответсвия
+	 */
+	public static function is_not_null($value) {
+		return !is_null($value);
+	}
+
 }
