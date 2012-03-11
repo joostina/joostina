@@ -1003,6 +1003,7 @@ class joosModel {
 	 * @var string
 	 */
 	protected $__obj_name;
+	protected $_validation_error_messages = array();
 
 	/**
 	 * Инициализация модели
@@ -1050,10 +1051,50 @@ class joosModel {
 
 	/**
 	 * Заглушка получения информации о вкладках для оформления информации
+	 *
 	 * @return array
 	 */
 	protected function get_tabsinfo() {
 		return array();
+	}
+
+	/**
+	 * Заглушка получения правил валидации полей модели
+	 *
+	 * @return array
+	 */
+	protected function get_validate_rules() {
+		return array();
+	}
+
+	/**
+	 * Получение массива ошибок валидации модели
+	 *
+	 * @return bool|array массив ошибок или
+	 */
+	public function get_validation_error_messages() {
+		return count($this->_validation_error_messages) > 0 ? $this->_validation_error_messages : false;
+	}
+
+	/**
+	 * Валидация полей модели
+	 *
+	 * @return boolean
+	 */
+	public function validate() {
+
+		$rules = $this->get_validate_rules();
+
+		$valid = true;
+		foreach ($rules as $rule) {
+			$message = joosValidateHelper::valid($this->$rule[0], $rule[1], ( isset($rule['message']) ? $rule['message'] : false));
+			if ($message !== TRUE) {
+				$this->_validation_error_messages[$rule[0]][] = $message;
+				$valid = false;
+			};
+		}
+
+		return $valid;
 	}
 
 	/**

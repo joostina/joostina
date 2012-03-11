@@ -254,3 +254,110 @@ class joosValidate {
 	}
 
 }
+
+/**
+ * Помошник валидации, позволяет писать в правила проверки в упрощенном стиле
+ *
+ * @example joosValidateHelper::valid(11, 'int:0..10', 'Нет, в диапазон не попадает');
+ * @example joosValidateHelper::valid('Hell', 'string:5..15', 'Не попадает в диапазон от :min до :max');
+ * @example joosValidateHelper::valid('Привет, человеки!', 'string:8..', 'В строке должно быть не меньше :min символов');
+ * @example joosValidateHelper::valid('Не..', 'string:8..');
+ * @example joosValidateHelper::valid('Убить всех человеков', 'string:..32');
+ * @example joosValidateHelper::valid('Быть или не быть?', 'string:8..32');
+ * @example joosValidateHelper::valid(23, 'int:0..10', 'Число не подходит, оно должно быть больше :min и меньше :max');
+ * @example joosValidateHelper::valid(1, 'int|float');
+ * @example joosValidateHelper::valid('sdfds@asds.ru', 'email');
+ * @example joosValidateHelper::valid('192.168.0.256', 'ip', 'Это не Ip!!!');
+ * @example joosValidateHelper::valid('А это уже на регистр', 'lower', 'Надо всё маленькими');
+ * @example joosValidateHelper::valid('234', 'int');
+ * @example joosValidateHelper::valid("	\n \r \t", 'required', 'Поле не должно быть пустым!!!');
+ * 
+ * @copyright на основе оригинальной разработки Nette Framework (http://nette.org)
+ */
+class joosValidateHelper {
+
+	// правила валидации через системный класс
+	protected static $validators = array(
+		// pattern
+		'required' => 'joosValidate::is_not_blank',
+		'email' => 'joosValidate::is_email',
+		'digital' => 'joosValidate::is_digital',
+		'int' => 'joosValidate::is_digital',
+		'alpha' => 'joosValidate::is_alfa',
+		'url' => 'joosValidate::is_url',
+		'array' => 'joosValidate::is_array',
+		'list' => 'joosValidate::is_array',
+		'bool' => 'joosValidate::is_bool',
+		'boolean' => 'joosValidate::is_bool',
+		'float' => 'joosValidate::is_float',
+		'ip' => 'joosValidate::is_ip',
+		'json' => 'joosValidate::is_json',
+		'lower' => 'joosValidate::is_lower',
+		'upper' => 'joosValidate::is_upper',
+		'blank' => 'joosValidate::is_blank',
+		'space' => 'joosValidate::is_blank',
+		'not_blank' => 'joosValidate::is_not_blank',
+		'not_space' => 'joosValidate::is_not_blank',
+		'not_null' => 'joosValidate::is_not_null',
+		// внутренние обработчики текущего класса
+		'string' => 'is_string',
+		'object' => 'is_object',
+		'resource' => 'is_resource',
+		'scalar' => 'is_scalar',
+		'null' => 'is_null',
+	);
+	protected static $counters = array(
+		'string' => 'joosString::strlen',
+		'array' => 'count',
+		'list' => 'count',
+		'alnum' => 'joosString::strlen',
+		'alpha' => 'joosString::strlen',
+		'digit' => 'joosString::strlen',
+		'lower' => 'joosString::strlen',
+		'space' => 'joosString::strlen',
+		'upper' => 'joosString::strlen',
+	);
+
+	public static function valid($value, $expected, $message = false) {
+		foreach (explode('|', $expected) as $item) {
+			list($type) = $item = explode(':', $item, 2);
+			// проверяем тип переменной
+			if (isset(static::$validators[$type])) {
+				if (!call_user_func(static::$validators[$type], $value)) {
+					continue;
+				}
+			} elseif ($type === 'number') {
+				if (!is_int($value) && !is_float($value)) {
+					continue;
+				}
+				// проверка через произвольные регулярки
+			} elseif ($type === 'pattern') {
+				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '$|', $value)) {
+					return TRUE;
+				}
+				continue;
+			} elseif (!$value instanceof $type) {
+				continue;
+			}
+
+			// проверяем вхождение в разрешённый диапазон
+			if (isset($item[1])) {
+				if (isset(static::$counters[$type])) {
+					$value = call_user_func(static::$counters[$type], $value);
+				}
+				$range = explode('..', $item[1]);
+				if (!isset($range[1])) {
+					$range[1] = $range[0];
+				}
+				if (($range[0] !== '' && $value < $range[0]) || ($range[1] !== '' && $value > $range[1])) {
+					//если передана строка для форматирования предупреждения - сформируем её
+					$message = $message == false ? false : strtr($message, array(':min' => $range[0], ':max' => $range[1]));
+					continue;
+				}
+			}
+			return TRUE;
+		}
+		return $message;
+	}
+
+}
