@@ -13,8 +13,6 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category      Zend
- * @package       Zend_Acl
  * @copyright     Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license       http://framework.zend.com/license/new-bsd     New BSD License
  * @version       $Id: Acl.php 151 2011-03-05 10:45:13Z LeeHarvey $
@@ -46,8 +44,6 @@ require_once JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . 'Zend' . DS . 'A
 require_once JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . 'Zend' . DS . 'Acl' . DS . 'Resource.php';
 
 /**
- * @category   Zend
- * @package    Zend_Acl
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */

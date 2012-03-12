@@ -25,7 +25,7 @@ class helperAcl {
 
 /**
  * Class AclGroups
- * @package Joostina.Components
+ * @package Joostina.Components.Models
  * @subpackage AclGroups
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team

@@ -7,9 +7,8 @@ defined('_JOOS_CORE') or die();
  * modelUsers - Модель пользователей
  * Модель для работы сайта
  *
- * @package Joostina.Core.Components
+ * @package Joostina.Components.Models
  * @subpackage Users
- * @subpackage Core
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -415,8 +414,8 @@ class modelUsers extends joosModel {
  * Модель для работы сайта
  *
  * @version    1.0
- * @package    Joostina.Models
- * @subpackage modelUsers
+ * @package    Joostina.Components.Models
+ * @subpackage Users
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -476,8 +475,8 @@ class modelUsersExtra extends joosModel {
  * Модель для работы сайта
  *
  * @version    1.0
- * @package    Joostina.Models
- * @subpackage modelUsers
+ * @package    Joostina.Components.Models
+ * @subpackage Users
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -518,8 +517,8 @@ class modelUsersGroups extends joosModel {
 
 /**
  * Class UsersSession
- * @package Joostina.Components
- * @subpackage UsersSession
+ * @package    Joostina.Components.Models
+ * @subpackage Users
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -648,7 +647,7 @@ class modelUsersSession extends joosModel {
 /**
  * Class UsersTokens
  * @package Joostina.Components
- * @subpackage UsersTokens
+ * @subpackage Users
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php

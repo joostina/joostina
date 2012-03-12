@@ -1,14 +1,16 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /**
  * AdminmenuHelper  - Модуль главного меню панели управления
  * Хелпер модуля панели управления
  *
  * @version   1.0
- * @package   Joostina.modelModules.Helpers
+ * @package   Joostina.Helpers
+ * @subpackage Modules
+ * @subpackage Admin
  * @author    Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2012 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
@@ -20,39 +22,39 @@ class adminmenuHelper {
 	//Отдаем пункты меню
 	public static function get_items() {
 
-		return array ( 'Стартовая'        => array ( 'title' => '' ,
-		                                             'href'  => 'index2.php' ) ,
-		               'Контент'          => array ( 'title'    => '' ,
-		                                             'href'     => '/' ,
-		                                             'children' => array ( 'Независимые страницы:'      => array ( 'href' => '/' ,
-		                                                                                                           'ico'  => '' ,
-		                                                                                                           'type' => 'sep' ) ,
-		                                                                   'Все страницы'               => array ( 'href' => 'index2.php?option=pages' ,
-		                                                                                                           'ico'  => 'ico-pages' , ) ,
-		                                                                   'Добавить страницу'          => array ( 'href' => 'index2.php?option=pages&task=create' ,
-		                                                                                                           'ico'  => 'ico-page_add' , ) ,
-		                                                                   'Структурированный контент:' => array ( 'href' => '/' ,
-		                                                                                                           'ico'  => '' ,
-		                                                                                                           'type' => 'sep' ) ,
-		                                                                   'Все материалы'              => array ( 'href' => 'index2.php?option=content' ,
-		                                                                                                           'ico'  => 'ico-articles' , ) ,
-			                                             /* 'По категориям' => array(
-									'href' => '/',
-									'ico' => 'ico-articles_bycat',
-									), */
-		                                                                   'Добавить материал'          => array ( 'href' => 'index2.php?option=content&task=create' ,
-		                                                                                                           'ico'  => 'ico-article_add' , ) ,
-		                                                                   'Категории:'                 => array ( 'href' => '/' ,
-		                                                                                                           'ico'  => '' ,
-		                                                                                                           'type' => 'sep' ) ,
-		                                                                   'Все категории'              => array ( 'href' => 'index2.php?option=categories&group=content' ,
-		                                                                                                           'ico'  => 'ico-cats' , ) ,
-		                                                                   'Добавить категорию'         => array ( 'href' => 'index2.php?option=categories&group=content&task=create' ,
-		                                                                                                           'ico'  => 'ico-cat_add' , ) , ) , ) ,
-		               'Пользователи'     => array ( 'title'    => '' ,
-		                                             'href'     => '/' ,
-		                                             'children' => array ( 'Все пользователи' => array ( 'href' => 'index2.php?option=users' ,
-		                                                                                                 'ico'  => 'ico-users' , ) , /* 'Группы пользователей' => array(
+		return array('Стартовая' => array('title' => '',
+				'href' => 'index2.php'),
+			'Контент' => array('title' => '',
+				'href' => '/',
+				'children' => array('Независимые страницы:' => array('href' => '/',
+						'ico' => '',
+						'type' => 'sep'),
+					'Все страницы' => array('href' => 'index2.php?option=pages',
+						'ico' => 'ico-pages',),
+					'Добавить страницу' => array('href' => 'index2.php?option=pages&task=create',
+						'ico' => 'ico-page_add',),
+					'Структурированный контент:' => array('href' => '/',
+						'ico' => '',
+						'type' => 'sep'),
+					'Все материалы' => array('href' => 'index2.php?option=content',
+						'ico' => 'ico-articles',),
+					/* 'По категориям' => array(
+					  'href' => '/',
+					  'ico' => 'ico-articles_bycat',
+					  ), */
+					'Добавить материал' => array('href' => 'index2.php?option=content&task=create',
+						'ico' => 'ico-article_add',),
+					'Категории:' => array('href' => '/',
+						'ico' => '',
+						'type' => 'sep'),
+					'Все категории' => array('href' => 'index2.php?option=categories&group=content',
+						'ico' => 'ico-cats',),
+					'Добавить категорию' => array('href' => 'index2.php?option=categories&group=content&task=create',
+						'ico' => 'ico-cat_add',),),),
+			'Пользователи' => array('title' => '',
+				'href' => '/',
+				'children' => array('Все пользователи' => array('href' => 'index2.php?option=users',
+						'ico' => 'ico-users',), /* 'Группы пользователей' => array(
 				  'href' => 'index2.php?option=users&model=modelUsersGroups',
 				  'ico' => 'ico-users',
 				  ),
@@ -63,7 +65,7 @@ class adminmenuHelper {
 				  'Настройки подсистем' => array(
 				  'href' => '/',
 				  'ico' => 'ico-config',
-				  ), */ ) ) ,
+				  ), */)),
 			/* 'Меню' => array(
 			  'title'=>'',
 			  'href'=>'/',
@@ -92,28 +94,28 @@ class adminmenuHelper {
 			  )
 			  ), */
 
-		               'Компоненты'       => array ( 'title'    => '' ,
-		                                             'href'     => '/' ,
-		                                             'children' => array ( 'Новости' => array ( 'href' => 'index2.php?option=news' ,
-		                                                                                        'ico'  => '' , ) ,
-		                                                                   'Новости' => array ( 'href' => 'index2.php?option=news' ,
-		                                                                                        'ico'  => '' , ) , /*
-					'Опросы' => array(
-						'href' => 'index2.php?option=polls',
-						'ico' => '',
-					),
-					'Блоги' => array(
-						'href' => 'index2.php?option=blog',
-						'ico' => '',
-					),*/ ) ) ,
-		               'Центр расширений' => array ( 'title'    => '' ,
-		                                             'href'     => '/' ,
-		                                             'children' => array ( /* 'Компоненты' => array(
+			'Компоненты' => array('title' => '',
+				'href' => '/',
+				'children' => array('Новости' => array('href' => 'index2.php?option=news',
+						'ico' => '',),
+					'Новости' => array('href' => 'index2.php?option=news',
+						'ico' => '',), /*
+				  'Опросы' => array(
+				  'href' => 'index2.php?option=polls',
+				  'ico' => '',
+				  ),
+				  'Блоги' => array(
+				  'href' => 'index2.php?option=blog',
+				  'ico' => '',
+				  ), */)),
+			'Центр расширений' => array('title' => '',
+				'href' => '/',
+				'children' => array(/* 'Компоненты' => array(
 					  'href' => '/',
 					  'ico' => 'ico-component',
 					  ), */
-			                                             'Модули' => array ( 'href' => 'index2.php?option=modules' ,
-			                                                                 'ico'  => 'ico-component' , ) , /* 'Плагины' => array(
+					'Модули' => array('href' => 'index2.php?option=modules',
+						'ico' => 'ico-component',), /* 'Плагины' => array(
 				  'href' => '/',
 				  'ico' => 'ico-component',
 				  ),
@@ -128,7 +130,7 @@ class adminmenuHelper {
 				  'Установка расширений' => array(
 				  'href' => 'index2.php?option=installer',
 				  'ico' => 'ico-manager',
-				  ), */ ) ) ,
+				  ), */)),
 			/* 'Настройки' => array(
 			  'title'=>'',
 			  'href'=>'/',
@@ -169,9 +171,9 @@ class adminmenuHelper {
 			  )
 			  ), */
 
-		               'Инструменты'      => array ( 'title'    => '' ,
-		                                             'href'     => '/' ,
-		                                             'children' => array ( /* 'Файловый менеджер' => array(
+			'Инструменты' => array('title' => '',
+				'href' => '/',
+				'children' => array(/* 'Файловый менеджер' => array(
 					  'href' => '/',
 					  'ico' => '',
 					  ),
@@ -191,27 +193,27 @@ class adminmenuHelper {
 					  'href' => '/',
 					  'ico' => '',
 					  ), */
-			                                             'Кодер' => array ( 'href' => 'index2.php?option=coder' ,
-			                                                                'ico'  => '' , ) , /* 'Сборщик системы' => array(
+					'Кодер' => array('href' => 'index2.php?option=coder',
+						'ico' => '',), /* 'Сборщик системы' => array(
 				  'href' => '',
 				  'ico' => '',
 				  ),
 				  'Системная корзина' => array(
 				  'href' => '/',
 				  'ico' => '',
-				  ), */ ) ) ,
-		               'Информация'       => array ( 'href'     => '/' ,
-		                                             'ico'      => '' ,
-		                                             'children' => array ( 'Сводные данные'               => array ( 'href' => '/' ,
-		                                                                                                             'ico'  => '' , ) ,
-		                                                                   'Информация о системе'         => array ( 'href' => '' ,
-		                                                                                                             'ico'  => '' , ) ,
-		                                                                   'Связь с разработчиками'       => array ( 'href' => '/' ,
-		                                                                                                             'ico'  => '' , ) ,
-		                                                                   'Скачать расширения и шаблоны' => array ( 'href' => '/' ,
-		                                                                                                             'ico'  => '' , ) ,
-		                                                                   'Сайт поддержки'               => array ( 'href' => 'http://forum.joostina.ru' ,
-		                                                                                                             'ico'  => '' , ) , ) ) , );
+				  ), */)),
+			'Информация' => array('href' => '/',
+				'ico' => '',
+				'children' => array('Сводные данные' => array('href' => '/',
+						'ico' => '',),
+					'Информация о системе' => array('href' => '',
+						'ico' => '',),
+					'Связь с разработчиками' => array('href' => '/',
+						'ico' => '',),
+					'Скачать расширения и шаблоны' => array('href' => '/',
+						'ico' => '',),
+					'Сайт поддержки' => array('href' => 'http://forum.joostina.ru',
+						'ico' => '',),)),);
 	}
 
 }

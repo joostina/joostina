@@ -5,7 +5,7 @@
  *
  * $Id: form.php 113 2011-02-21 23:09:12Z bost56 $
  *
- * @package    Core
+ * package    Core
  * @author     Kohana Team
  * @copyright  (c) 2007-2008 Kohana Team
  * @license    http://kohanaphp.com/license.html

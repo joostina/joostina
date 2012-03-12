@@ -7,7 +7,7 @@ defined( '_JOOS_CORE' ) or die();
  * Модель панели управления
  *
  * @version    1.0
- * @package    Joostina.Models
+ * @package    Joostina.Components.Models
  * @subpackage modelCategories
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -319,7 +319,7 @@ class modelCategories extends joosNestedSet {
  * Модель панели управления
  *
  * @version    1.0
- * @package    Joostina.Models
+ * @package    Joostina.Components.Models
  * @subpackage modelCategories
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

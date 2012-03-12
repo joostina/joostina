@@ -3,12 +3,11 @@ source: ./../../
 destination: ./files/
 
 exclude:
-	- ./../../_install/*
-	- ./../../_new/*
-	- ./../../docs/*
-	- ./_install/*
-	- ./_new/*
-	- ./docs/*
+	- */_install/*
+	- */_new/*
+	- */docs/*
+	- */Monolog/*
+	- */Zend/*
 
 
 title: Joostina CMS

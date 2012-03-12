@@ -8,8 +8,8 @@ defined('_JOOS_CORE') or die();
  * Модель панели управления
  *
  * @version    1.0
- * @package    Joostina.Models
- * @subpackage modelUsers
+ * @package    Joostina.Components.Models
+ * @subpackage Users
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -201,11 +201,16 @@ class modelAdminUsers extends modelUsers {
 }
 
 /**
- * Class modelUsersGroups
- * @package       modelUsersGroups
- * @subpackage    Joostina CMS
- * @created       2010-10-20 16:48:08
- */
+ *
+ * @version    1.0
+ * @package    Joostina.Components.Models
+ * @subpackage Users
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class modelAdminUsersGroups extends modelUsersGroups {
 
 	public function check() {

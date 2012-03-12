@@ -131,13 +131,6 @@ class joosRoute extends Route {
 
 /**
  * Базовый класс роутинга
- *
- * @package    Kohana
- * @category   Base
- * @author     Kohana Team
- * @copyright  (c) 2008-2011 Kohana Team
- * @license    http://kohanaframework.org/license
- *
  * Базируется на оригинальной работе Kohana Team
  */
 class Route {
