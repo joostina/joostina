@@ -26,6 +26,16 @@
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Вёрстка здесь
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo joosRoute::href('layouts', array('tpl'=>'blog_index')) ?>">Блог</a></li>
+                            <li><a href="<?php echo joosRoute::href('layouts', array('tpl'=>'blog_post')) ?>">Блог/пост</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
 

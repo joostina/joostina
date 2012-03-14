@@ -161,4 +161,14 @@ return array(
 			'action' => 'view'
 		)
 	),
+    'layouts' => array(
+   		'href' => 'layouts/<tpl>',
+   		'params_rules' => array(
+   			'tpl' => '[a-z0-9\_\-\.]+'
+   		),
+   		'defaults' => array(
+   			'controller' => 'test',
+   			'action' => 'layouts'
+   		)
+   	),
 );

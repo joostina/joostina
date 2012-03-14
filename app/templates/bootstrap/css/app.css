@@ -9,3 +9,215 @@ body {
 .b-login_form form{
     padding: 10px
 }
+
+/*-------------------------------------------Блог*/
+.post{
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 5px solid #369bd7
+}
+    .post-metadata{
+        padding-bottom: 10px;
+    }
+        .post-metadata li{
+            white-space: nowrap;
+            display: inline-block;
+            width: auto;
+            padding-right: 20px
+        }
+        .post-metadata li.author{
+            border-bottom: 1px solid #CCC;
+            display: block;
+            padding: 5px 0 ;
+            margin-bottom: 10px
+        }
+            .post-metadata li.author a{
+                color: #000
+            }
+
+
+    .post-text{
+        margin-bottom: 10px
+    }
+        .post-text img{
+            max-width: 99% !important;
+        }
+
+    .post-tags{
+        font-size: 14px;
+        margin: 20px 0 0 0;
+    }
+
+    .post-share{
+        float: right;
+        padding: 10px 0 0 0
+    }
+
+/*----------------------------------------------Стили комментариев*/
+#comments{
+    margin: 30px 0 0 0
+}
+    .commentlist {
+
+    }
+
+        .commentlist li {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+            .commentlist li:nth-child(2n) .comment-text {
+                background-color: #f9f9f9;
+            }
+            .commentlist li:nth-child(2n+1) .children li:nth-child(2n) .comment-text {
+                background-color: #FFFFFF;
+            }
+
+            .commentlist li:nth-child(2n) .commentnumber {
+                color: #EBEBEB;
+            }
+
+            /*Коммент от автора поста*/
+            .commentlist li.bypostauthor > .comment .comment-author h3:after {
+                color: #F3A48F;
+                content: "post author";
+                font-size: 0.583333em;
+                font-style: italic;
+            }
+
+            .commentlist li.bypostauthor > .comment .comment-text {
+                background-color: rgba(233, 92, 51, 0.1);
+                border: 1px solid rgba(233, 92, 51, 0.5);
+            }
+
+            .no-rgba .commentlist li.bypostauthor > .comment .comment-text {
+                background-color: #FDEEEA;
+                border: 1px solid #F3A48F;
+            }
+
+            .commentlist li.bypostauthor > .commentnumber {
+                color: rgba(233, 92, 51, 0.5);
+            }
+
+            .no-rgba .commentlist li.bypostauthor > .commentnumber {
+                color: #F3A48F;
+            }
+
+
+.commentlist .children {
+    clear: both;
+    margin-left: 5.5%;
+    padding: 1em 0 0;
+}
+
+    .commentlist .children li {
+        margin-bottom: 0;
+    }
+
+.commentlist .commentnumber {
+    color: #F0F0F0;
+    font-size: 16px;
+    position: absolute;
+    right: 10px;
+    top: 30px;
+    z-index: 10;
+}
+
+.commentlist .comment-author {
+    float: left;
+    margin-right: 20px;
+    padding-bottom: 0.5em;
+}
+
+.commentlist .comment-author img, .commentlist .comment-author h3, .commentlist .comment-author .datetime {
+    float: left;
+    margin: 0 20px 0 0;
+    padding: 0;
+}
+
+.commentlist .authormeta {
+    float: left;
+}
+
+.commentlist .comment-author .datetime {
+    clear: left;
+    color: rgba(0, 0, 0, 0.4);
+    float: left;
+    font-size: 0.875em;
+    line-height: 1em;
+    margin-right: 0;
+    margin-top: 5px;
+}
+
+.commentlist .comment-text {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    clear: left;
+    float: left;
+    padding: 0 10% 0 2.5%;
+    width: 87.5%;
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+
+.no-rgba .commentlist .comment-text {
+    border: 1px solid #E5E5E5;
+}
+
+.commentlist .comment-text * {
+    position: relative;
+    z-index: 15;
+}
+
+.commentlist .comment-text p {
+    padding: 0;
+}
+
+.commentlist .comment-text p:last-child {
+    padding: 0 0 0;
+}
+
+.commentlist .commentmeta {
+    clear: both;
+    padding: 0.5em 2.55% 0;
+    width: 94%;
+}
+
+.commentlist .commentmeta .commentrating, .commentlist .commentmeta .reply {
+    float: right;
+    position: relative;
+}
+
+.commentlist .commentmeta .commentrating {
+    bottom: 0;
+    margin: 3px 0 0;
+    right: 0;
+}
+
+.commentlist .commentmeta .reply {
+    margin-left: 20px;
+    margin-top: 5px
+}
+
+.commentlist .commentmeta .reply a:hover {
+    border-bottom: 1px solid;
+}
+.commentlist li .commentrating .rateresult.positive {
+    color: green;
+}
+.commentlist li .commentrating .rateresult.negative {
+    color: red;
+}
+
+
+.commentlist li .commentrating .rateresult {
+    cursor: text;
+    font-weight: bold;
+    margin: 2px 5px 0 10px;
+    white-space: nowrap;
+    width: auto;
+}
+
+.commentlist li .commentrating div {
+    float: right;
+    padding: 0;
+}
