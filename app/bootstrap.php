@@ -66,9 +66,12 @@ switch (JENVIRONMENT) {
 		// установка режима отображения ошибок
 		//error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
 		//error_reporting(-1);
-		error_reporting(E_ALL | E_NOTICE | E_STRICT);
+		error_reporting(E_ALL | E_NOTICE | E_STRICT | E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
+
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 0);
+
+		ini_set('track_errors', 1);
 
 		set_error_handler('joosErrorHandler');
 

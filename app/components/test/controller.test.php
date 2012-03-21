@@ -52,16 +52,16 @@ class actionsTest extends joosController {
 		}
 	}
 
-    /**
-     * Для тестирования вёрстки
-     *
-     */
-    public static function layouts(){
-        $tpl = self::$param['tpl'];
-        return array(
-          'template' => $tpl
-        );
-    }
+	/**
+	 * Для тестирования вёрстки
+	 *
+	 */
+	public static function layouts() {
+		$tpl = self::$param['tpl'];
+		return array(
+			'template' => $tpl
+		);
+	}
 
 }
 
