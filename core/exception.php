@@ -12,7 +12,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-set_error_handler('joosErrorHandler');
+set_exception_handler('joosErrorHandler');
 
 function joosErrorHandler($code, $message, $file, $line) {
 	throw new joosException(__('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line'),
@@ -24,20 +24,6 @@ function joosErrorHandler($code, $message, $file, $line) {
 			)
 	);
 }
-
-/**
- * Отлавливаем совсем страшные ошибки
- *
- */
-register_shutdown_function(function() {
-			$haltCodes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
-
-			$error = error_get_last();
-			if ($error && in_array($error['type'], $haltCodes)) {
-				joosErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
-			}
-		}
-);
 
 // на основе http://alexmuz.ru/php-exception-code/
 class joosException extends Exception {
