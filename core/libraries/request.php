@@ -336,4 +336,13 @@ class joosRequest {
 		header($protocol . ' ' . $code_string);
 	}
 
+	/**
+	 * Проверка на запуск скрипта через консаоль
+	 *
+	 * @return bool
+	 */
+	public static function is_console() {
+		return PHP_SAPI === 'cli';
+	}
+
 }
