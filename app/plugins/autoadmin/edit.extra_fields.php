@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода вывода вложенных элементов joosAutoadmin
+ * Для вывода вывода вложенных элементов joosAutoadmin
  *
  * @version    1.0
  * @package    Plugins

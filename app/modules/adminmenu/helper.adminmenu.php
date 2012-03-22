@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * AdminmenuHelper  - Модуль главного меню панели управления
+ * Модуль главного меню панели управления
  * Хелпер модуля панели управления
  *
  * @version   1.0
@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class adminmenuHelper {
+class helperAdminmenu {
 
 	//Отдаем пункты меню
 	public static function get_items() {

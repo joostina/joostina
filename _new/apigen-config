@@ -38,7 +38,7 @@ google-cse-label: 222
 #аналитика
 google-analytics: analytics_code
 
-template-config: path_to_template #использовать шаблон для конфига (по умолчанию ne-on формат)
+templateConfig: path_to_template #использовать шаблон для конфига (по умолчанию ne-on формат)
 
 #список разрешённых хтмл тегов, по умолчанию: b,i,a,ul,ol,li,p,br,var,samp,kbd,tt
 allowed-html:

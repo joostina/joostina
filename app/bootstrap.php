@@ -73,7 +73,8 @@ switch (JENVIRONMENT) {
 
 		ini_set('track_errors', 1);
 
-		set_error_handler('joosErrorHandler');
+		set_error_handler(array('joosException', 'error_handler'));
+		set_exception_handler(array('joosException', 'error_handler'));
 
 		register_shutdown_function(function() {
 					$haltCodes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);

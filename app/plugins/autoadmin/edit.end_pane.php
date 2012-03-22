@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для закрытия области табов
+ * Для закрытия области табов
  *
  * @version    1.0
  * @package    Plugins

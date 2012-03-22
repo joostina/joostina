@@ -4,11 +4,11 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Adminmenu  - Модуль главного меню панели управления
+ * Модуль главного меню панели управления
  * Модуль панели управления
  *
  * @version   1.0
- * @package   Joostina.modelModules
+ * @package   Modules
  * @author    Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2012 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
@@ -19,7 +19,7 @@ defined( '_JOOS_CORE' ) or die();
 require_once joosCore::path( 'adminmenu' , 'module_helper' );
 
 //Получение дерева пунктов меню
-$menu_items = adminmenuHelper::get_items();
+$menu_items = helperAdminmenu::get_items();
 
 // рендер
 joosModuleAdmin::render( 'adminmenu' , array ( 'menu_items' => $menu_items ) );

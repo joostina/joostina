@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * Расширение joosAutoadmin для вывода элемента смены статуса объекта
+ * Для вывода элемента смены статуса объекта
  * 
  * @version    1.0
  * @package    Plugins

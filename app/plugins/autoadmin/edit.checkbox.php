@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода элемента checkbox
+ * Для вывода элемента checkbox
  *
  * @version    1.0
  * @package    Plugins

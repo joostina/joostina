@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода заголовка в H3
+ * Для вывода заголовка в H3
  *
  * @version    1.0
  * @package    Plugins

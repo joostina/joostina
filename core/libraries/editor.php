@@ -73,7 +73,7 @@ class joosEditor {
 			return sprintf('<!-- %s jooEditor::' . self::$editor . ' -->', __('Не найден редактор:'));
 		}
 
-		$editor_class = self::$editor . 'Editor';
+		$editor_class = 'editor' . joosInflector::camelize(self::$editor);
 
 		// инициализация редактора
 		(!isset(self::$init[self::$editor]) ) ? call_user_func_array("$editor_class::init", array($params)) : null;
@@ -93,7 +93,7 @@ class joosEditor {
 	 * @return mixed js код получения содержмиого, либо js код и комплект необходимого HTML кода
 	 */
 	public static function get_content($field_name, array $params = array()) {
-		$editor_class = self::$editor . 'Editor';
+		$editor_class = 'editor' . joosInflector::camelize(self::$editor);
 		return call_user_func_array("$editor_class::get_content", array($field_name, $params));
 	}
 
@@ -107,7 +107,7 @@ class joosEditor {
 	 * @return mixed js код получения содержмиого, либо js код и комплект необходимого HTML кода
 	 */
 	public static function set_content($field_name, $content) {
-		$editor_class = self::$editor . 'Editor';
+		$editor_class = 'editor' . joosInflector::camelize(self::$editor);
 		return call_user_func_array("$editor_class::set_content", array($field_name, $content));
 	}
 
@@ -120,7 +120,7 @@ class joosEditor {
 	 * @return mixed js код получения содержмиого, либо js код и комплект необходимого HTML кода
 	 */
 	public static function insert_content($field_name, $content) {
-		$editor_class = self::$editor . 'Editor';
+		$editor_class = 'editor' . joosInflector::camelize(self::$editor);
 		return call_user_func_array("$editor_class::set_content", array($field_name, $content));
 	}
 

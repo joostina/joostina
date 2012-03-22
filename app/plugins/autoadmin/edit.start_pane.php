@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода элемента начала области табов
+ * Для вывода элемента начала области табов
  *
  * @version    1.0
  * @package    Plugins

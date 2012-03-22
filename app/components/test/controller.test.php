@@ -26,6 +26,8 @@ class actionsTest extends joosController {
 	 */
 	public static function index() {
 
+		echo joosInflector::camelize('blog');
+
 		return array();
 	}
 

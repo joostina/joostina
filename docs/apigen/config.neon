@@ -21,3 +21,5 @@ debug: yes
 report: ./doc-report.info
 
 php: yes
+
+# templateConfig:  ./themes/bootstrap/config.neon

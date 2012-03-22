@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода элемента перемещения объекта
+ * Для вывода элемента перемещения объекта
  *
  * @version    1.0
  * @package    Plugins

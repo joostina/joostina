@@ -12,19 +12,6 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-set_exception_handler('joosErrorHandler');
-
-function joosErrorHandler($code, $message, $file, $line) {
-	throw new joosException(__('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line'),
-			array(
-				':message' => $message,
-				':error_code' => $code,
-				':error_file' => $file,
-				':error_line' => $line
-			)
-	);
-}
-
 // на основе http://alexmuz.ru/php-exception-code/
 class joosException extends Exception {
 
@@ -135,6 +122,17 @@ HTML;
 		$file = (!JDEBUG && $this->code != 500) ? sprintf('%s/app/templates/system/500.php', JPATH_BASE) : sprintf('%s/app/templates/system/exception.php', JPATH_BASE);
 
 		require $file;
+	}
+
+	public static function error_handler($code, $message, $file, $line) {
+		throw new joosException(__('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line'),
+				array(
+					':message' => $message,
+					':error_code' => $code,
+					':error_file' => $file,
+					':error_line' => $line
+				)
+		);
 	}
 
 }

@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода элементов параметров joosParams
+ * Для вывода элементов параметров joosParams
  *
  * @version    1.0
  * @package    Plugins

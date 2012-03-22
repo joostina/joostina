@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для закрытия таба
+ * Для закрытия таба
  *
  * @version    1.0
  * @package    Plugins

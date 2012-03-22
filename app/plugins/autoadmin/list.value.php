@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для прямого вывода значения элемента
+ * Для прямого вывода значения элемента
  *
  * @version    1.0
  * @package    Plugins

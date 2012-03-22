@@ -10,13 +10,28 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class jwysiwygEditor {
+/**
+ * Для вывода визуального редактора Jwysiwyg
+ *
+ * @version    1.0
+ * @package    Plugins
+ * @subpackage joosEditor
+ * @category   Editor
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class editorJwysiwyg {
 
 	public static function init() {
 
 		joosHtml::load_jquery();
 
-		joosDocument::instance()->add_css(JPATH_SITE . '/plugins/editors/jwysiwyg/media/css/jquery.wysiwyg.css')->add_js_file(JPATH_SITE . '/plugins/editors/jwysiwyg/media/js/jquery.wysiwyg.js');
+		joosDocument::instance()
+				->add_css(JPATH_SITE . '/plugins/editors/jwysiwyg/media/css/jquery.wysiwyg.css')
+				->add_js_file(JPATH_SITE . '/plugins/editors/jwysiwyg/media/js/jquery.wysiwyg.js');
 	}
 
 	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {

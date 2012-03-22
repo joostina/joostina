@@ -10,7 +10,20 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class blogMap {
+/**
+ * Формирует карту блока
+ *
+ * @version    1.0
+ * @package    Plugins
+ * @subpackage Sitemap
+ * @category   Sitemap
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
+class mapBlog {
 
 	public static function get_mapdata_scheme() {
 

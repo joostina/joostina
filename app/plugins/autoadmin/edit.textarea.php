@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Расширение joosAutoadmin для вывода большой текстовой области textarea
+ * Для вывода большой текстовой области textarea
  *
  * @version    1.0
  * @package    Plugins
