@@ -4,12 +4,11 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * autoadminEditCurrentUserId - расширение joosAutoadmin для вывода скрытого элемента формы содержащего ID текущего вторизованного пользователя
- * Базовый плагин
- *
+ * Расширение joosAutoadmin для вывода скрытого элемента формы содержащего ID текущего вторизованного пользователя
+ * 
  * @version    1.0
- * @package    Joostina.Plugins
- * @subpackage Plugins
+ * @package    Plugins
+ * @subpackage joosAutoadmin
  * @category   joosAutoadmin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

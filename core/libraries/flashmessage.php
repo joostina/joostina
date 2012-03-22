@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @subpackage joosSession
  * @category   Libraries

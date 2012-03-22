@@ -4,12 +4,11 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * autoadminListDateFormat - расширение joosAutoadmin для вывода форматированной строки даты/времени
- * Базовый плагин
+ * Расширение joosAutoadmin для вывода форматированной строки даты/времени
  *
  * @version    1.0
- * @package    Joostina.Plugins
- * @subpackage Plugins
+ * @package    Plugins
+ * @subpackage joosAutoadmin
  * @category   joosAutoadmin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -20,15 +19,15 @@ defined('_JOOS_CORE') or die();
 class autoadminListDateFormat {
 
 	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
-		
+
 		if (!isset($element_param['html_table_element_param']['date_format'])) {
 			throw new joosException('Для поля не указана строка форматирования date_format');
 		}
 
 		$format = $element_param['html_table_element_param']['date_format'];
-		
+
 		$timestamp = strtotime($value);
-		
+
 		return joosDateTime::russian_date($format, $timestamp);
 	}
 

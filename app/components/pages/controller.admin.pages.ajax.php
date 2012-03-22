@@ -5,10 +5,10 @@
  * Аякс-контроллер
  *
  * @version    1.0
- * @package    Joostina.Components.Controllers
+ * @package    Controllers
  * @subpackage Pages
  * @author     JoostinaTeam
- * @copyright  (C) 2008-2010 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  *
  */

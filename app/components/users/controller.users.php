@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Контроллер сайта
  *
  * @version    1.0
- * @package    Joostina.Components.Controllers
+ * @package    Controllers
  * @subpackage Users
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

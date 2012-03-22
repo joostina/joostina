@@ -9,7 +9,7 @@ defined('_JOOS_CORE') or die();
  * Базируется на оригинальном класса библиотеки Flourish   http://flourishlib.com/fCache
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>

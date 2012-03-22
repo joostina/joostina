@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Хелпер модуля панели управления
  *
  * @version   1.0
- * @package   Joostina.Helpers
+ * @package   Helpers
  * @subpackage Modules
  * @subpackage Admin
  * @author    Joostina Team <info@joostina.ru>

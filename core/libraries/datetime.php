@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -114,9 +114,9 @@ class joosDateTime {
 	 * Реализации функции date с учетом локализации
 	 * Функция имет синтаксис аналогичный оригинальной функции date
 	 *
-	 * @example joosDateTime::russian_date('d-M-Y') => 30-Апр-2011
-	 * @example joosDateTime::russian_date('d F, l - h часов и i минут') => 30 Апреля, Суббота - 05 часов и 15 минут
-	 * @example joosDateTime::russian_date('d F Y года, l', strtotime('31-10-1983') ) => 31 Октября 1983 года, Понедельник
+	 * @tutorial joosDateTime::russian_date('d-M-Y') => 30-Апр-2011
+	 * @tutorial joosDateTime::russian_date('d F, l - h часов и i минут') => 30 Апреля, Суббота - 05 часов и 15 минут
+	 * @tutorial joosDateTime::russian_date('d F Y года, l', strtotime('31-10-1983') ) => 31 Октября 1983 года, Понедельник
 	 *
 	 * @return string форматированная строка даты - времени
 	 */
@@ -133,8 +133,8 @@ class joosDateTime {
 	/**
 	 * Получение локализованного названия месяца по его порядковому номеру
 	 *
-	 * @example joosDateTime::month_name_from_index(1) => Январь
-	 * @example joosDateTime::month_name_from_index(1) => Октябрь
+	 * @tutorial joosDateTime::month_name_from_index(1) => Январь
+	 * @tutorial joosDateTime::month_name_from_index(1) => Октябрь
 	 *
 	 * @param int $month номер месяца, 1 - Январь, 2 -Февраль и т.д.
 	 *
@@ -165,8 +165,8 @@ class joosDateTime {
 	 * Получение название дня недели по номеру дня
 	 * Значение адаптирванно под Русские реалии, 1 - понедельник, 7 - воскресение
 	 *
-	 * @example joosDateTime::day_name_from_index(1) => Понедельник
-	 * @example joosDateTime::day_name_from_index(5) => Пятница
+	 * @tutorial joosDateTime::day_name_from_index(1) => Понедельник
+	 * @tutorial joosDateTime::day_name_from_index(5) => Пятница
 	 *
 	 * @param int $day_index номер дня, 1 - Понедельник, 2 - Вторник и т.д.
 	 *
@@ -192,8 +192,8 @@ class joosDateTime {
 	 * Форматирование и локализация даты.
 	 * Если не указан конкртеный формат $format, то используется общесистемное правило для форматирования дат JDATE_FORMAT
 	 *
-	 * @example joosDateTime::format('1983-10-31 11:11:11') => 31 Октября 1983 г. 11:11
-	 * @example joosDateTime::format('1983-10-31') => 31 Октября 1983 г. 00:00
+	 * @tutorial joosDateTime::format('1983-10-31 11:11:11') => 31 Октября 1983 г. 11:11
+	 * @tutorial joosDateTime::format('1983-10-31') => 31 Октября 1983 г. 00:00
 	 *
 	 * @param string $date_time исходная строка даты, времени
 	 * @param string $format    правила форматирования даты и времени, как в функции strtr
@@ -212,10 +212,10 @@ class joosDateTime {
 	 * Получение текущего времени в виде локализованной отформатированной строки
 	 * Строка даты форматируется используя общесистемное правило для форматирования дат JDATE_FORMAT
 	 *
-	 * @example joosDateTime::current() => 30 Апреля 2011 г. 04:35
-	 * @example joosDateTime::current('%d %B %Y ') => 30 Апреля 2011
-	 * @example joosDateTime::current( '%H:%M:%S' ) => 04:37:38
-	 * @example joosDateTime::current('%d %h') => 30 Апр
+	 * @tutorial joosDateTime::current() => 30 Апреля 2011 г. 04:35
+	 * @tutorial joosDateTime::current('%d %B %Y ') => 30 Апреля 2011
+	 * @tutorial joosDateTime::current( '%H:%M:%S' ) => 04:37:38
+	 * @tutorial joosDateTime::current('%d %h') => 30 Апр
 	 *
 	 * @param type $format
 	 *

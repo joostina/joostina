@@ -4,12 +4,11 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * autoadminEditExtra - расширение joosAutoadmin для вывода данных сформированных произвольной функцией
- * Базовый плагин
+ * Расширение joosAutoadmin для вывода данных сформированных произвольной функцией
  *
  * @version    1.0
- * @package    Joostina.Plugins
- * @subpackage Plugins
+ * @package    Plugins
+ * @subpackage joosAutoadmin
  * @category   joosAutoadmin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

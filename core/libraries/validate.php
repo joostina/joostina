@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -22,8 +22,8 @@ class joosValidate {
 	/**
 	 * Проверка строка на соответствие email - формату
 	 *
-	 * @example joosValidate::is_email('admin@joostina.ru')
-	 * @example joosValidate::is_email('noooo@mail.ru')
+	 * @tutorial joosValidate::is_email('admin@joostina.ru')
+	 * @tutorial joosValidate::is_email('noooo@mail.ru')
 	 *
 	 * @param string $value email адрес для проверки
 	 * @return bool результат проверки соответсвия
@@ -258,25 +258,28 @@ class joosValidate {
 /**
  * Помошник валидации, позволяет писать в правила проверки в упрощенном стиле
  *
- * @example joosValidateHelper::valid(11, 'int:0..10', 'Нет, в диапазон не попадает');
- * @example joosValidateHelper::valid('Hell', 'string:5..15', 'Не попадает в диапазон от :min до :max');
- * @example joosValidateHelper::valid('Привет, человеки!', 'string:8..', 'В строке должно быть не меньше :min символов');
- * @example joosValidateHelper::valid('Не..', 'string:8..');
- * @example joosValidateHelper::valid('Убить всех человеков', 'string:..32');
- * @example joosValidateHelper::valid('Быть или не быть?', 'string:8..32');
- * @example joosValidateHelper::valid(23, 'int:0..10', 'Число не подходит, оно должно быть больше :min и меньше :max');
- * @example joosValidateHelper::valid(1, 'int|float');
- * @example joosValidateHelper::valid('sdfds@asds.ru', 'email');
- * @example joosValidateHelper::valid('192.168.0.256', 'ip', 'Это не Ip!!!');
- * @example joosValidateHelper::valid('А это уже на регистр', 'lower', 'Надо всё маленькими');
- * @example joosValidateHelper::valid('234', 'int');
- * @example joosValidateHelper::valid("	\n \r \t", 'required', 'Поле не должно быть пустым!!!');
- * 
+ * @tutorial joosValidateHelper::valid(11, 'int:0..10', 'Нет, в диапазон не попадает');
+ * @tutorial joosValidateHelper::valid('Hell', 'string:5..15', 'Не попадает в диапазон от :min до :max');
+ * @tutorial joosValidateHelper::valid('Привет, человеки!', 'string:8..', 'В строке должно быть не меньше :min символов');
+ * @tutorial joosValidateHelper::valid('Не..', 'string:8..');
+ * @tutorial joosValidateHelper::valid('Убить всех человеков', 'string:..32');
+ * @tutorial joosValidateHelper::valid('Быть или не быть?', 'string:8..32');
+ * @tutorial joosValidateHelper::valid(23, 'int:0..10', 'Число не подходит, оно должно быть больше :min и меньше :max');
+ * @tutorial joosValidateHelper::valid(1, 'int|float');
+ * @tutorial joosValidateHelper::valid('sdfds@asds.ru', 'email');
+ * @tutorial joosValidateHelper::valid('192.168.0.256', 'ip', 'Это не Ip!!!');
+ * @tutorial joosValidateHelper::valid('А это уже на регистр', 'lower', 'Надо всё маленькими');
+ * @tutorial joosValidateHelper::valid('234', 'int');
+ * @tutorial joosValidateHelper::valid("	\n \r \t", 'required', 'Поле не должно быть пустым!!!');
+ *
  * @copyright на основе оригинальной разработки Nette Framework (http://nette.org)
  */
 class joosValidateHelper {
 
-	// правила валидации через системный класс
+	/**
+	 * Правила валидации через системный класс
+	 * @var array
+	 */
 	protected static $validators = array(
 		// pattern
 		'required' => 'joosValidate::is_not_blank',
@@ -306,6 +309,11 @@ class joosValidateHelper {
 		'scalar' => 'is_scalar',
 		'null' => 'is_null',
 	);
+
+	/**
+	 * Правила рассчета длины переменной
+	 * @var array
+	 */
 	protected static $counters = array(
 		'string' => 'joosString::strlen',
 		'array' => 'count',

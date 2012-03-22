@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -232,8 +232,8 @@ class joosDebug {
 	/**
 	 * Вывод информации о переменной
 	 *
-	 * @example joosDebug::dump( array(1, 'aad', time() ), $var_name );
-	 * @example joosDebug::dump( $var_name_1,  $var_name_2,  $var_name_3,  $var_name_4 );
+	 * @tutorial joosDebug::dump( array(1, 'aad', time() ), $var_name );
+	 * @tutorial joosDebug::dump( $var_name_1,  $var_name_2,  $var_name_3,  $var_name_4 );
 	 *
 	 * @param mixed функция принимает неограниченное число параметров - переменных для анализа и вывода
 	 */

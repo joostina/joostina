@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -303,8 +303,11 @@ class joosText {
 	/**
 	 * Преобразование строки в URL-безопасный вариант
 	 *
-	 * @param string $str исходная строка для обработки
+	 * @tutorial joosText::str_to_url( 'Compellingly strategize B2B portals after empowered.' ); => compellingly-strategize-b2b-portals-after-empowered
+	 * @tutorial  joosText::str_to_url( 'Гендер теоретически возможен!' ); => gender-teoreticheski-vozmozhen
+	 * @tutorial joosText::str_to_url( 'Разного рода символы !%#$&^&*^%*&)()(*_)*--  <> -' ); => raznogo-roda-simvoly
 	 *
+	 * @param string $str исходная строка для обработки
 	 * @return string обработанная и готовая для формирования ссылки строка
 	 */
 	public static function str_to_url($str) {
@@ -314,9 +317,9 @@ class joosText {
 		$str = self::russian_transliterate($str);
 		// в нижний регистр
 		$str = strtolower($str);
-		// заменям все ненужное нам на "-"
-		$str = str_replace(array("'", '-'), ' ', $str);
-		$str = preg_replace('/[^-a-z0-9_]+/u', '-', $str);
+		// заменям все ненужное нам на " "
+		$str = str_replace(array("'", '-','"','`'), ' ', $str);
+		$str = preg_replace('/[^a-z0-9\-]+/', '-', $str);
 		return trim($str, '-');
 	}
 
@@ -416,7 +419,7 @@ class joosText {
 	/**
 	 * Преобразование названия вложенной модели
 	 * Требуется для определения файла содержащего множественный модели единого контроллера
-	 * @example UserGroops => User_Groops
+	 * @tutorial UserGroops => User_Groops
 	 *
 	 * @param type $string
 	 *
@@ -532,8 +535,8 @@ class joosText {
 	 * Вывод нуждной формы слова, в зависимости от пола
 	 *
 	 *
-	 * @example joosText::sexerate( 1, array('умник','умница','умницо') );
-	 * @example joosText::sexerate( 'm', array('делал','делала','делало') )
+	 * @tutorial joosText::sexerate( 1, array('умник','умница','умницо') );
+	 * @tutorial joosText::sexerate( 'm', array('делал','делала','делало') )
 	 *
 	 * @param string $sex - пол, принимает варианты 1/2, м/ж, m/f. Если вариан  отсутствует - то используется 2й элементы неопределённого пола
 	 * @param array $texts - 3х элементый массив слов для каждого пола 0-мужской, 1-женский, 2

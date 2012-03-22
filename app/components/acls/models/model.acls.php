@@ -25,8 +25,8 @@ class helperAcl {
 
 /**
  * Class AclGroups
- * @package Joostina.Components.Models
- * @subpackage AclGroups
+ * @package Models
+ * @subpackage Acls
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -82,8 +82,8 @@ class modelAclGroups extends joosModel {
 
 /**
  * Class AclList
- * @package Joostina.Components
- * @subpackage AclList
+ * @package Models
+ * @subpackage Acls
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -145,8 +145,8 @@ class modelAclList extends joosModel {
 
 /**
  * Class AclUsersGroups
- * @package Joostina.Components
- * @subpackage AclUsersGroups
+ * @package Models
+ * @subpackage Acls
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -202,8 +202,8 @@ class modelAclUsersGroups extends joosModel {
 
 /**
  * Class AclAccess
- * @package Joostina.Components
- * @subpackage AclAccess
+ * @package Models
+ * @subpackage Acls
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php

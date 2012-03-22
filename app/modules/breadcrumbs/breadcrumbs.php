@@ -7,7 +7,7 @@
  * @package    Joostina CMS
  * @subpackage modelModules
  * @author     JoostinaTeam
- * @copyright  (C) 2008-2010 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    see license.txt
  *
  **/

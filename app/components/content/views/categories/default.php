@@ -5,9 +5,9 @@
  *
  * @version    1.0
  * @package    ComponentsAdmin
- * @subpackage modelContent
+ * @subpackage Content
  * @author     JoostinaTeam
- * @copyright  (C) 2008-2010 Joostina Team
+ * @copyright  (C) 2007-2012 Joostina Team
  * @license    see license.txt
  *
  * */

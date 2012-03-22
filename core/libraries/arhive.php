@@ -8,7 +8,7 @@ defined( '_JOOS_CORE' ) or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -23,7 +23,7 @@ class joosArhive {
 	/**
 	 * Извлечение архива
 	 *
-	 * @example joosArhive::extract( '123.zip' , JPATH_BASE.'/cache/tmp/');
+	 * @tutorial joosArhive::extract( '123.zip' , JPATH_BASE.'/cache/tmp/');
 	 *
 	 * @param string $from_arhive_file полный путь к файлу архива
 	 * @param string $extract_to       каталог для извлечения файлов из архива

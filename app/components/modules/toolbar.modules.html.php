@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-class TOOLBAR_modules {
+class joosToolbar {
 
 	public static function _NEW() {
 		mosMenuBar::startTable();

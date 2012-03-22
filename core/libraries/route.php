@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @subpackage Session
  * @category   Libraries
@@ -147,7 +147,7 @@ class Route {
 	/**
 	 * @var  string  default protocol for all routes
 	 *
-	 * @example  'http://'
+	 * @tutorial  'http://'
 	 */
 	public static $default_protocol = 'http://';
 

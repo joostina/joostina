@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -264,10 +264,10 @@ class joosRequest {
 	/**
 	 * Установка кода в заголовок страницы
 	 *
-	 * @example joosCore::send_headers_by_code(200);
-	 * @example joosCore::send_headers_by_code(301);
-	 * @example joosCore::send_headers_by_code(404);
-	 * @example joosCore::send_headers_by_code(504);
+	 * @tutorial joosCore::send_headers_by_code(200);
+	 * @tutorial joosCore::send_headers_by_code(301);
+	 * @tutorial joosCore::send_headers_by_code(404);
+	 * @tutorial joosCore::send_headers_by_code(504);
 	 *
 	 * @param int $code номер кода
 	 */

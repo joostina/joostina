@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package   Joostina
+ * @package   Core
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
  * @license   Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
@@ -41,7 +41,7 @@ if (joosRequest::is_post()) {
 
 	$user_name = joosRequest::post('user_name');
 	$password = joosRequest::post('password');
-	
+
 	if ($password == null) {
 		joosRoute::redirect(JPATH_SITE_ADMIN . '/', __('Необходимо ввести пароль'));
 		exit();
@@ -113,11 +113,11 @@ if (joosRequest::is_post()) {
 		session_write_close();
 
 		$expired = JPATH_SITE_ADMIN . '/index2.php';
-				
+
 		// скидываем счетчик неудачных авторзаций в админке
 		$query = 'UPDATE #__users SET bad_auth_count = 0 WHERE id = ' . $my->id;
 		$database->set_query($query)->query();
-		
+
 		/** cannot using joosRoute::redirect as this stuffs up the cookie in IIS */
 		// redirects page to admin homepage by default or expired page
 		echo "<script>document.location.href='$expired';</script>\n";

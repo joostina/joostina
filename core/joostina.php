@@ -3,7 +3,7 @@
 /**
  * Ядро
  *
- * @package   Joostina.Core
+ * @package   Core
  * @author    JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
@@ -48,7 +48,7 @@ class joosCore {
 	 * Получение инстанции текущего авторизованного пользователя
 	 * Функция поддерживает работу и на фронте и в панели управления сайта
 	 *
-	 * @example joosCore::user() => Объект пользователя modelUsers
+	 * @tutorial joosCore::user() => Объект пользователя modelUsers
 	 *
 	 * @return modelUsers
 	 */
@@ -735,7 +735,7 @@ class joosController {
 /**
  * Заглушка для локализации интерфейса
  *
- * @example __('К нам пришёл :user_name', array(':user_name'=>'Дед мороз') );
+ * @tutorial __('К нам пришёл :user_name', array(':user_name'=>'Дед мороз') );
  *
  * @param string $string
  * @param array  $args

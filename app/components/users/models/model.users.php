@@ -7,7 +7,7 @@ defined('_JOOS_CORE') or die();
  * modelUsers - Модель пользователей
  * Модель для работы сайта
  *
- * @package Joostina.Components.Models
+ * @package Models
  * @subpackage Users
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
@@ -414,7 +414,7 @@ class modelUsers extends joosModel {
  * Модель для работы сайта
  *
  * @version    1.0
- * @package    Joostina.Components.Models
+ * @package    Models
  * @subpackage Users
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -475,7 +475,7 @@ class modelUsersExtra extends joosModel {
  * Модель для работы сайта
  *
  * @version    1.0
- * @package    Joostina.Components.Models
+ * @package    Models
  * @subpackage Users
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -517,7 +517,7 @@ class modelUsersGroups extends joosModel {
 
 /**
  * Class UsersSession
- * @package    Joostina.Components.Models
+ * @package    Models
  * @subpackage Users
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
@@ -646,7 +646,7 @@ class modelUsersSession extends joosModel {
 
 /**
  * Class UsersTokens
- * @package Joostina.Components
+ * @package Models
  * @subpackage Users
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team

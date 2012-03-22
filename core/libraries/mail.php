@@ -8,7 +8,7 @@ defined( '_JOOS_CORE' ) or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -22,9 +22,7 @@ class joosMail {
 	/**
 	 * Очень упрощённая функция базовой отправки сообщения на email
 	 *
-	 * @example
-	 * joosMail::simply('admin@examle.com','Hello!','From Russia!');
-	 *
+	 * @tutorial joosMail::simply('admin@examle.com','Hello!','From Russia!');
 	 *
 	 * @param string $to      email получателя
 	 * @param string $title   заголовк сообщения

@@ -7,7 +7,7 @@ defined('_JOOS_CORE') or die();
  * Модель для работы сайта
  *
  * @version    1.0
- * @package    Joostina.Components.Models
+ * @package    Models
  * @subpackage Modules
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -165,7 +165,7 @@ class modelModules extends joosModel {
 }
 
 /**
- * @package    Joostina.Components.Models
+ * @package    Models
  * @subpackage    Modules
  * @created       2010-12-12 14:52:47
  */

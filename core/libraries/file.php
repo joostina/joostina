@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -22,8 +22,8 @@ class joosFile {
 	/**
 	 * Логическое представление размера файлов, памяти и прочив байтовых данных
 	 *
-	 * @example joosFile::convert_size(123);
-	 * @example joosFile::convert_size(123456);
+	 * @tutorial joosFile::convert_size(123);
+	 * @tutorial joosFile::convert_size(123456);
 	 *
 	 * @static
 	 * @param string $num исходные строка или число для форматирования
@@ -48,7 +48,7 @@ class joosFile {
 	/**
 	 * Удаление файла
 	 *
-	 * @example joosFile::delete( JPATH_BASE . DS. '_to_delete.php' );
+	 * @tutorial joosFile::delete( JPATH_BASE . DS. '_to_delete.php' );
 	 *
 	 * @param string $filename полный путь к файлу, либо массив полный путей к удаляемым файлам
 	 *
@@ -66,7 +66,7 @@ class joosFile {
 	/**
 	 * Проверка существования файла
 	 *
-	 * @example joosFile::exists( JPATH_BASE . DS. 'index.php' );
+	 * @tutorial joosFile::exists( JPATH_BASE . DS. 'index.php' );
 	 *
 	 * @param string $filename
 	 *
@@ -79,9 +79,9 @@ class joosFile {
 	/**
 	 * Получение MIME типа файла
 	 *
-	 * @example  joosFile::mime_content_type( __FILE__ );
-	 * @example  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'favicon.ico' );
-	 * @example  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');
+	 * @tutorial  joosFile::mime_content_type( __FILE__ );
+	 * @tutorial  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'favicon.ico' );
+	 * @tutorial  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');
 	 *
 	 * @param string $filename
 	 *
@@ -174,9 +174,9 @@ class joosFile {
 	/**
 	 * Формирование вложенного пути к файлу с учетом разделения по каталогам
 	 *
-	 * @example joosFile::make_file_location( 1 );
-	 * @example joosFile::make_file_location( 123 );
-	 * @example joosFile::make_file_location( 123456789123456789 );
+	 * @tutorial joosFile::make_file_location( 1 );
+	 * @tutorial joosFile::make_file_location( 123 );
+	 * @tutorial joosFile::make_file_location( 123456789123456789 );
 	 *
 	 * @param integer $id - номер файла в БД
 	 *
@@ -206,9 +206,9 @@ class joosFile {
 	/**
 	 * Получение полной информации о файле
 	 *
-	 * @example joosFile::file_info( __FILE__ );
-	 * @example joosFile::file_info( JPATH_BASE . DS. 'index.php'  );
-	 * @example joosFile::file_info( 'index.html' );
+	 * @tutorial joosFile::file_info( __FILE__ );
+	 * @tutorial joosFile::file_info( JPATH_BASE . DS. 'index.php'  );
+	 * @tutorial joosFile::file_info( 'index.html' );
 	 *
 	 * @param string $filename абсолюютный или относительный путь до файла
 	 *
@@ -239,8 +239,8 @@ class joosFile {
 	 * Преобразование имени файла к безопасному для файлвоой системы виду
 	 * Из строки удаляются все спецсимволы, кирилические символы транслитерируются
 	 *
-	 * @example  joosFile::get_safe_name('имя файла номер 1 - ( раз)');
-	 * @example  joosFile::get_safe_name(' eminem feat dr.dre i need a doctor.mp3 ');
+	 * @tutorial  joosFile::get_safe_name('имя файла номер 1 - ( раз)');
+	 * @tutorial  joosFile::get_safe_name(' eminem feat dr.dre i need a doctor.mp3 ');
 	 *
 	 * @param type $filename
 	 *

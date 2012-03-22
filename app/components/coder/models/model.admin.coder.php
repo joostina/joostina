@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Модель панели управления
  *
  * @version    1.0
- * @package    Joostina.Components.Models
+ * @package    Models
  * @subpackage Coder
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -43,7 +43,7 @@ class modelAdminCoder {
 		$buffer = array();
 		$buffer[] = "\n/**";
 		$buffer[] = "\n * Class $className";
-		$buffer[] = "\n * @package Joostina.Components";
+		$buffer[] = "\n * @package Models";
 		$buffer[] = "\n * @subpackage $className";
 		$buffer[] = "\n * @author JoostinaTeam";
 		$buffer[] = "\n * @copyright (C) 2007-2012 Joostina Team";
@@ -107,6 +107,19 @@ class modelAdminCoder {
 
 		$buffer[] = "\n}\n";
 
+		$buffer[] = "\n/**";
+		$buffer[] = "\n * Class $className";
+		$buffer[] = "\n * @package Models.Admin";
+		$buffer[] = "\n * @subpackage $className";
+		$buffer[] = "\n * @author JoostinaTeam";
+		$buffer[] = "\n * @copyright (C) 2007-2012 Joostina Team";
+		$buffer[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
+		$buffer[] = "\n * @version 1";
+		$buffer[] = "\n * @created " . JCURRENT_SERVER_TIME;
+		$buffer[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
+
+		$buffer[] = "\n */";
+
 		$buffer[] = "\nclass modelAdmin$className extends model$className {";
 
 
@@ -155,7 +168,7 @@ class modelAdminCoder {
 
 	/**
 	 * Формирование общего представления переменной по типу поля
-	 * @param string $ident_string 
+	 * @param string $ident_string
 	 */
 	private static function get_type($ident_string) {
 

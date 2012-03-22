@@ -8,7 +8,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
  * @category   Libraries
@@ -735,9 +735,9 @@ class joosDatabase {
 	/**
 	 * Быстрое статическое создание модели и доступ к её медотам и свойствам
 	 *
-	 * @example joosDatabase::models('modelUsers')->count()
-	 * @example joosDatabase::model('Blog')->get_list( array('where'=>'sate=1') )
-	 * @example joosDatabase::model('Blog')->save( $_POST )
+	 * @tutorial joosDatabase::models('modelUsers')->count()
+	 * @tutorial joosDatabase::model('Blog')->get_list( array('where'=>'sate=1') )
+	 * @tutorial joosDatabase::model('Blog')->save( $_POST )
 	 *
 	 * @param string $model_name
 	 *
@@ -754,7 +754,7 @@ class joosDatabase {
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
  * @author     Joostina Team <info@joostina.ru>
@@ -949,7 +949,7 @@ class joosDatabaseUtils extends joosDatabase {
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
  * @author     Joostina Team <info@joostina.ru>

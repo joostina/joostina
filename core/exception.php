@@ -3,7 +3,7 @@
 /**
  * Автозагрузчик классов
  *
- * @package   Joostina.Core
+ * @package   Core
  * @author    JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php

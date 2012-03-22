@@ -28,14 +28,14 @@ switch ( $task ) {
 			$published = $database->set_query( $query )->load_result();
 		}
 		$cur_template = JPATH_SITE_ADMIN;
-		TOOLBAR_modules::_EDIT( $cur_template , $published );
+		joosToolbar::_EDIT( $cur_template , $published );
 		break;
 
 	case 'new':
-		TOOLBAR_modules::_NEW();
+		joosToolbar::_NEW();
 		break;
 
 	default:
-		TOOLBAR_modules::_DEFAULT();
+		joosToolbar::_DEFAULT();
 		break;
 }

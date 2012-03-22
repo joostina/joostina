@@ -46,11 +46,10 @@ allowed-html:
 	- ol
 	- li
 
-groups: auto #как элементы сгруппированы в меню, возможные значения: auto, namespaces, 
-#packages, none
+groups: auto #как элементы сгруппированы в меню, возможные значения: auto, namespaces, packages, none
 
-autocomplete: classes #какие элементы будут показываться в окне поиска (autocomplete) 
-# возможные значения: "classes", "constants", "functions", "methods", "properties",  
+autocomplete: classes #какие элементы будут показываться в окне поиска (autocomplete)
+# возможные значения: "classes", "constants", "functions", "methods", "properties",
 # "classconstants"
 
 #для каких классов создавать документацию (по умолчанию не создаётся для private)

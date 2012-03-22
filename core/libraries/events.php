@@ -24,7 +24,7 @@ joosEvents::fire_events('system.onstart', 1, 2);
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @subpackage joosEvents
  * @category   Libraries

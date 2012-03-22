@@ -8,7 +8,7 @@ defined( '_JOOS_CORE' ) or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -16,14 +16,13 @@ defined( '_JOOS_CORE' ) or die();
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
- * @todo       переписать joosPager на joosRoute и привести к общему виду
+ * @todo	переписать joosPager на joosRoute и привести к общему виду
  *
  * @author     Leng Sheng Hong <darkredz@gmail.com>
  * @link       http://www.doophp.com/
  * @copyright  Copyright &copy; 2009 Leng Sheng Hong
  * @license    http://www.doophp.com/license
  *
- * @todo       замениь на чуть более чем переписанный класс
  * */
 class joosPager {
 

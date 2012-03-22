@@ -3,7 +3,7 @@
 /**
  * Автозагрузчик классов
  *
- * @package   Joostina.Core
+ * @package   Core
  * @author    JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
@@ -43,6 +43,7 @@ class joosAutoloader {
 		'joosHit' => 'core/libraries/hit.php',
 		'joosHTML' => 'core/libraries/html.php',
 		'joosImage' => 'core/libraries/image.php',
+		'joosInflector' => 'core/libraries/inflector.php',
 		'joosInputFilter' => 'core/libraries/inputfilter.php',
 		'joosAutoadmin' => 'core/libraries/autoadmin.php',
 		'joosMetainfo' => 'core/libraries/metainfo.php',
@@ -177,7 +178,7 @@ class joosAutoloader {
 	/**
 	 * Предстартовая загрузка необходимого списка
 	 *
-	 * @example joosAutoloader( array('text','array','acl') )
+	 * @tutorial joosAutoloader( array('text','array','acl') )
 	 *
 	 * @param array $names
 	 *

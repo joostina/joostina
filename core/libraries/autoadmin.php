@@ -7,7 +7,7 @@ defined('_JOOS_CORE') or die();
  * Системная библиотека
  *
  * @version    1.0
- * @package    Joostina.Libraries
+ * @package    Libraries
  * @subpackage Libraries
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -16,8 +16,6 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-define('DISPATCHED', true);
-
 class joosAutoadmin {
 
 	private static $js_onformsubmit = array();
@@ -794,19 +792,7 @@ class joosAutoadmin {
 
 	private static function get_plugin_name($string) {
 
-		if (strpos($string, '_') === FALSE) {
-			$string = ucfirst($string);
-		} else {
-			$string[0] = strtolower($string[0]);
-			$string = ucfirst($string);
-			$string = preg_replace_callback('#_([a-z0-9])#i', array('self', 'camelizeCallback'), $string);
-		}
-
-		return $string;
-	}
-
-	private static function camelizeCallback($match) {
-		return strtoupper($match[1]);
+		return joosInflector::camelize($string);
 	}
 
 }
