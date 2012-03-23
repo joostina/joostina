@@ -26,7 +26,12 @@ class actionsTest extends joosController {
 	 */
 	public static function index() {
 
-		echo joosInflector::camelize('blog');
+		require_once '/home/boston/www_home/joostina/app/components/users/models/model.users.php';
+
+		$u = new modelUsersGroups();
+		$u1 = $u->get_list();
+
+		_xdump($u);
 
 		return array();
 	}

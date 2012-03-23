@@ -358,7 +358,7 @@ class joosDatabase {
 
 		$ret = ( $row = mysqli_fetch_row($cur) ) ? $row[0] : null;
 
-		mysqli_free_result($cur);
+		$this->free_result();
 
 		return $ret;
 	}
@@ -378,7 +378,9 @@ class joosDatabase {
 		while ($row = mysqli_fetch_row($cur)) {
 			$array[] = $row[$numinarray];
 		}
-		mysqli_free_result($cur);
+
+		$this->free_result();
+
 		return $array;
 	}
 
@@ -402,7 +404,8 @@ class joosDatabase {
 				$array[] = $row;
 			}
 		}
-		mysqli_free_result($cur);
+
+		$this->free_result();
 
 		return $array;
 	}
@@ -418,7 +421,7 @@ class joosDatabase {
 		}
 		$row = mysqli_fetch_assoc($cur);
 
-		mysqli_free_result($cur);
+		$this->free_result();
 
 		return $row;
 	}
@@ -436,7 +439,7 @@ class joosDatabase {
 				return false;
 			}
 			if (( $array = (array) mysqli_fetch_assoc($cur))) {
-				mysqli_free_result($cur);
+				$this->free_result();
 				$this->bind_array_to_object($array, $object, null, null, false);
 				return true;
 			} else {
@@ -445,7 +448,7 @@ class joosDatabase {
 		} else {
 			if (( $cur = $this->query())) {
 				if (( $object = mysqli_fetch_object($cur))) {
-					mysqli_free_result($cur);
+					$this->free_result();
 					return true;
 				} else {
 					$object = null;
@@ -479,7 +482,8 @@ class joosDatabase {
 				$array[] = $row;
 			}
 		}
-		mysqli_free_result($cur);
+
+		$this->free_result();
 
 		return $array;
 	}
@@ -493,7 +497,8 @@ class joosDatabase {
 			return null;
 		}
 		$ret = ( $row = mysqli_fetch_row($cur) ) ? $row : null;
-		mysqli_free_result($cur);
+
+		$this->free_result();
 
 		return $ret;
 	}
@@ -521,7 +526,8 @@ class joosDatabase {
 				$array[] = $row;
 			}
 		}
-		mysqli_free_result($cur);
+
+		$this->free_result();
 
 		return $array;
 	}
@@ -545,7 +551,8 @@ class joosDatabase {
 		while ($row = mysqli_fetch_object($cur)) {
 			$array[$row->$key] = $row->$value;
 		}
-		mysqli_free_result($cur);
+
+		$this->free_result();
 
 		return $array;
 	}
@@ -608,6 +615,7 @@ class joosDatabase {
 
 		$fields = array();
 		$n = 0;
+		$values = array();
 		foreach (get_object_vars($object) as $k => $v) {
 
 			if (is_array($v) or is_object($v)) {
@@ -745,6 +753,13 @@ class joosDatabase {
 	 */
 	public static function models($model_name) {
 		return new $model_name;
+	}
+
+	/**
+	 * Очистка буфера mysqli
+	 */
+	private function free_result(){;
+		 !JDEBUG ? mysqli_free_result( $this->_cursor ) : null;
 	}
 
 }
