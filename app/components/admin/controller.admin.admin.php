@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Admin - Компонент для управления и конфигурирования системы
+ * Компонент для управления и конфигурирования системы
  * Контроллер панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminAdmin {
+class actionsAdminAdmin  extends joosAdminController{
 
 	public static function index() {
 		require_once JPATH_BASE . '/app/templates/' . JTEMPLATE_ADMIN . '/html/cpanel.php';

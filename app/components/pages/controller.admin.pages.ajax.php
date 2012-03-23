@@ -1,7 +1,7 @@
 <?php
 
 /**
- * modelPages - компонент независимых страниц
+ * Компонент независимых страниц
  * Аякс-контроллер
  *
  * @version    1.0
@@ -15,7 +15,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsAjaxAdminPages {
+class actionsAjaxAdminPages extends joosAdminControllerAjax {
 
 	public static function status_change() {
 		return joosAutoadmin::autoajax();

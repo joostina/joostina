@@ -11,7 +11,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * actionsAjaxUsers - Компонент управления пользователями
+ * Компонент управления пользователями
  * Контроллер сайта ajax
  *
  * @version    1.0
@@ -23,7 +23,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxUsers extends joosController {
+class actionsAjaxUsers extends joosControllerAjax {
 
 	public static function login() {
 

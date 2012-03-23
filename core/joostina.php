@@ -732,6 +732,11 @@ class joosController {
 
 }
 
+
+class  joosControllerAjax extends joosController{
+
+}
+
 /**
  * Заглушка для локализации интерфейса
  *

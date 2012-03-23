@@ -362,3 +362,12 @@ class joosAdminPagenator {
 	}
 
 }
+
+
+class joosAdminController extends joosController{
+
+}
+
+class joosAdminControllerAjax extends joosAdminController{
+
+}

@@ -1,0 +1,3 @@
+[submodule "docs/apigen/themes/joostina-bootstrap"]
+	path = docs/apigen/themes/joostina-bootstrap
+	url = git://github.com/xboston/apigen-template-bootstrap-joostina.git

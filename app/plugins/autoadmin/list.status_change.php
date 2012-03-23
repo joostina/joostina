@@ -5,7 +5,7 @@ defined('_JOOS_CORE') or die();
 
 /**
  * Для вывода элемента смены статуса объекта
- * 
+ *
  * @version    1.0
  * @package    Plugins
  * @subpackage joosAutoadmin
@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminListStatusChange {
+class autoadminListStatusChange extends joosAutoadminPlugins{
 
 	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 

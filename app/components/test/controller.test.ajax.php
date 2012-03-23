@@ -3,7 +3,7 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-class actionsAjaxTest {
+class actionsAjaxTest  extends joosControllerAjax{
 
 	public static function upload() {
 

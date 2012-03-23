@@ -961,6 +961,10 @@ class mosMenuBar {
 
 }
 
+class joosAutoadminPlugins{
+	
+}
+
 class joosAutoadminFilePluginNotFoundException extends joosException {
 
 }

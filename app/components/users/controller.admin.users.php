@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * actionsAdminUsers - Компонент управления пользователями и группами
+ * Компонент управления пользователями и группами
  * Контроллер панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminUsers {
+class actionsAdminUsers extends joosAdminController{
 
 	/**
 	 * Название обрабатываемой модели

@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminListValuesMultiHref {
+class autoadminListValuesMultiHref extends joosAutoadminPlugins{
 
 	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 

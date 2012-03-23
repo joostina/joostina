@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminListExtra {
+class autoadminListExtra extends joosAutoadminPlugins{
 
 	private static $datas_for_select = array ();
 

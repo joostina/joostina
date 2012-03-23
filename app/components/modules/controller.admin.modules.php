@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * modelModules - Компонент управления модулями
+ * Компонент управления модулями
  * Контроллер панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminModules {
+class actionsAdminModules  extends joosAdminController{
 
 	/**
 	 * Название обрабатываемой модели

@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * modelQuickicons - Компонент управления кнопками быстрого доступа панели управления
+ * Компонент управления кнопками быстрого доступа панели управления
  * Контроллер панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminQuickicons {
+class actionsAdminQuickicons  extends joosAdminController{
 
 	/**
 	 * Название обрабатываемой модели

@@ -8,6 +8,12 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
-echo joosAutoadmin::autoajax();
+class actionsAjaxAdminQuickicons extends joosAdminControllerAjax {
+
+	public static function status_change() {
+		return joosAutoadmin::autoajax();
+	}
+
+}

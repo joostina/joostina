@@ -6,11 +6,11 @@ exclude:
 	- */_install/*
 	- */_new/*
 	- */docs/*
-	- */Monolog/*
+	- */logging/*
 	- */Zend/*
 
 
-title: Joostina CMS
+title: Joostina CMS v2.* API
 
 todo: yes
 
@@ -22,4 +22,14 @@ report: ./doc-report.info
 
 php: yes
 
-# templateConfig:  ./themes/bootstrap/config.neon
+templateConfig:  ./themes/joostina-bootstrap/config.neon
+
+autocomplete:
+	- classes
+	- constants
+	- functions
+	- methods
+	- properties
+	- classconstants
+
+baseUrl: http://xboston.github.com

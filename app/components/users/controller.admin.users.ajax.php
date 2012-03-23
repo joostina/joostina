@@ -11,7 +11,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * actionsAjaxAdminUsers - Компонент управления пользователями
+ * Компонент управления пользователями
  * Контроллер панели управления ajax
  *
  * @version    1.0
@@ -23,7 +23,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxAdminUsers {
+class actionsAjaxAdminUsers extends joosAdminControllerAjax {
 
 	public static function status_change() {
 		return joosAutoadmin::autoajax();

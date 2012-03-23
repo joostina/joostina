@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * Coder - Компонент управляемой генерации расширений системы
+ * Компонент управляемой генерации расширений системы
  * Аякс - контроллер панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxAdminCoder {
+class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 
 	private static $implode_model = true;
 
@@ -34,7 +34,7 @@ class actionsAjaxAdminCoder {
 					'rows' => '25',
 					'class' => 'coder_model_area')
 				) : implode("\n", $ret);
-		
+
 		return array(
 			'success'=>true,
 			'body'=>$body

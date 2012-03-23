@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Metainfo - Компонент используется в качестве интерфейса для отображения дефолтной мета-информации
+ * Компонент используется в качестве интерфейса для отображения дефолтной мета-информации
  * Контроллер панели управления
  *
  * @version    1.0
@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminMetainfo {
+class actionsAdminMetainfo  extends joosAdminController{
 
 	/**
 	 * Название обрабатываемой модели

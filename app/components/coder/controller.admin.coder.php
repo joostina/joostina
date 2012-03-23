@@ -3,7 +3,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * Coder - Компонент управляемой генерации расширений системы
+ * Компонент управляемой генерации расширений системы
  * Контроллер панели управления
  *
  * @version    1.0
@@ -15,7 +15,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminCoder {
+class actionsAdminCoder  extends joosAdminController{
 
 	public static $submenu = array(
 		'model_generator' =>
