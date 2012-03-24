@@ -9,26 +9,25 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-joosDocument::instance()
-		->add_css(sprintf('%s/app/vendors/upload/upload/media/css/fileuploader.css', JPATH_SITE))
-		->add_js_file(sprintf('%s/app/vendors/upload/upload/media/js/fileuploader.js', JPATH_SITE));
-
-echo time();
 ?>
-<div id="file-uploader-demo1">		
-	<noscript>			
-	<p>Please enable JavaScript to use file uploader.</p>
-	<!-- or put a simple form for upload here -->
-	</noscript>         
-</div>
-<script>        
-	function createUploader(){            
-		var uploader = new qq.FileUploader({
-			element: document.getElementById('file-uploader-demo1'),
-			action: '/ajax.index.php?option=test&task=upload',
-			debug: true
-		});           
-	}
 
-	window.onload = createUploader;     
-</script>   
+<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.fileupload.js"></script>
+
+
+<input id="fileupload" type="file" name="files[]" multiple>
+
+<script>
+	$(function () {
+		$('#fileupload').fileupload({
+			dataType: 'json',
+			url: 'ajax.index.php?option=site&task=upload',
+			done: function (e, data) {
+				$.each(data.result, function (index, file) {
+					$('<p/>').text(file.name).appendTo(document.body);
+				});
+			}
+		});
+	});
+</script>

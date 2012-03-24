@@ -26,13 +26,6 @@ class actionsTest extends joosController {
 	 */
 	public static function index() {
 
-		require_once '/home/boston/www_home/joostina/app/components/users/models/model.users.php';
-
-		$u = new modelUsersGroups();
-		$u1 = $u->get_list();
-
-		_xdump($u);
-
 		return array();
 	}
 
@@ -41,22 +34,6 @@ class actionsTest extends joosController {
 	 */
 	public static function upload() {
 		return array();
-	}
-
-	/**
-	 * Пример валидации модели
-	 *
-	 */
-	public static function model_validation() {
-
-		$v = new modelPost;
-		$v->title = 'человеков!';
-		if ($v->validate()) {
-			echo 'Всё круто!';
-		} else {
-			echo 'Введённые данные формы невалидны';
-			print_r($v->get_validation_error_messages());
-		}
 	}
 
 	/**
@@ -72,23 +49,38 @@ class actionsTest extends joosController {
 
 }
 
-class modelPost extends joosModel {
+/**
+ * 
+ */
+class rulesValidation {
 
-	public $id;
-	public $title;
-	public $state;
-	public $created_at;
-
-	public function __construct() {
-
-	}
-
-	protected function get_validate_rules() {
-		return array(
-			array('title', 'required', 'message' => 'Заголовок надо!'),
-			array('title', 'string:5..15', 'message' => 'Длина должна быть от :min до :max символов'),
-			array('created_at', 'null', 'on' => 'update', 'message' => 'При измении записи оригинальную дату создания нельзя изменять!'), /* при измении записи created_at уже есть в базе и в моделе оно должно быть NULL */
-		);
-	}
+	public static $params = array(
+		// разрешенные расширения
+		'allowed_ext' => array('jpg', 'gif', 'png'),
+		// разрешённые типы файлов
+		'allowed_mime'=>array('images/jpeg'),
+		// масимальный размер файла
+		'max_size'=>'10mb',
+		// минимальный размер файла
+		'min_size'=>'1mb',
+		// переименовывать файл в порядковый номер
+		'rename'=>true,
+		// транслитерировать имя файла
+		'transliterate_name'=>'true',
+		// использовать системную работу с аттачами
+		'use_attached'=>true,
+		// подкаталог для размещения аттачей
+		'dir'=>'picsiki',
+		// максимальное число файлов для выбора, 1 для отключения мультиселекта
+		'max_multi_select'=>5,
+		// использовать загрузку через перетаскивание файла в браузер
+		'use_drag_drop'=>true,
+		// показывать прогресс-бар
+		'show_progress'=>true,
+		// расширенные настройки js плагина, по правилам https://github.com/blueimp/jQuery-File-Upload/wiki/Options
+		'extra_options'=>array(
+			'replaceFileInput'=>true
+		)
+	);
 
 }
