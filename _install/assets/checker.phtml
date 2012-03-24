@@ -143,9 +143,9 @@ header( 'Expires: Mon, 23 Jan 1978 10:00:00 GMT' );
 
 <body>
 <div id="wrapper">
-	<h1><?php echo __( 'Скрипт проверки конфигурации сервера и настроек PHP' ) ?></h1>
+	<h1><?php echo __( 'Проверка конфигурации сервера и настроек PHP' ) ?></h1>
 
-	<p><?php echo __( 'Скрипт проверяет версии и насйтроки веб сервера и параметры PHP требуемые для полноценной работы <a href="http://www.joostina.ru" target="_blank">Joostina CMS</a>' ) ?></p>
+	<p><?php echo __( 'Скрипт проверяет версии и настройки веб сервера и параметры PHP требуемые для полноценной работы <a href="http://www.joostina.ru" target="_blank">Joostina CMS</a>' ) ?></p>
 
 	<?php if ( $errors ): ?>
 	<div class="failed result">
@@ -153,8 +153,8 @@ header( 'Expires: Mon, 23 Jan 1978 10:00:00 GMT' );
 	</div>
 	<?php else: ?>
 	<div class="passed result">
-		<h2><?php __( 'Поздравляем! Все настройки соответсвуют системным требованиям.' ) ?></h2>
-		<?php if ( $warnings ): ?><p><strong><?php echo __( 'Не всё идеально, ознакомтесь со списком замечаний ниже.' ) ?></strong></p><?php endif ?>
+		<h2><?php echo __( 'Ура! Система подходит для <a href="install.php">установки</a> Joostina.' ) ?></h2>
+		<?php if ( $warnings ): ?><p><strong><?php echo __( 'Система запустится, но не всё идеально, ознакомтесь со списком замечаний ниже.' ) ?></strong></p><?php endif ?>
 	</div>
 	<?php endif ?>
 

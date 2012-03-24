@@ -1,4 +1,4 @@
-## Joostina CMF / CMS 2.0.*
+## CMF / CMS Joostina 2.0.*
 
 ## Требования:
 * php > 5.3
@@ -6,7 +6,7 @@
 * расширения php - mb_string, pcre
 
 
-## Документация по исходному коду проекта и использовнаию API
+## Документация по исходному коду проекта и использованию API
 * Статичная документация: http://xboston.github.com/joostina-docs
 * Поддержка: http://forum.joostina.ru
 
@@ -33,3 +33,6 @@
 	-/js - каталог системных javascript файлов
 	-/swf - каталог флеш-файлов
 ```
+
+## Лицензия
+Released under the [MIT license](http://www.opensource.org/licenses/MIT).

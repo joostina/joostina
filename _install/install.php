@@ -154,7 +154,7 @@ function __install( $s ) {
 				<td style="width: 250px"><input name="db_name" value=""/></td>
 			</tr>
 			<tr class="passed">
-				<th>Название базы данных</th>
+				<th>Сервер базы данных</th>
 				<td><input name="db_host" value="localhost"/></td>
 			</tr>
 			<tr class="passed">
@@ -199,7 +199,7 @@ function __install( $s ) {
 			</td>
 		</tr>
 	</table>
-
+<!--
 	<h2><?php echo __install( 'Восстановить данные' ) ?></h2>
 	<table>
 		<tr class="passed">
@@ -222,6 +222,7 @@ function __install( $s ) {
 		</tr>
 
 	</table>
+-->
 </div>
 <script type="text/javascript" src="../media/js/jquery.js"></script>
 <script type="text/javascript" src="media/js/install.js"></script>

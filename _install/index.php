@@ -117,12 +117,12 @@ $tests[] = array('title' => __('Расширение для кешировани
 	'passed' => extension_loaded('memcache'),
 	'description' => __('Максимально быстро система работает используя кеширование Memcache.'));
 
-$tests[] = array('title' => __('Работса с графикой GD '),
+$tests[] = array('title' => __('Работа с графикой GD '),
 	'required' => TRUE,
 	'passed' => extension_loaded('gd'),
 	'description' => __('Системе необходима поддержка работы с изображениями.'),);
 
-$tests[] = array('title' => __('Расширения GD'),
+$tests[] = array('title' => __('Дополнительные фильтры графики GD'),
 	'required' => FALSE,
 	'passed' => extension_loaded('gd') && GD_BUNDLED,
 	'description' => __('Часть функций работы с изображениями будет недоступна.'),);
