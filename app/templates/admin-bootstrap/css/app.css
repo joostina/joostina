@@ -1,0 +1,10 @@
+@import url('bootstrap.css?v=1');
+
+body {
+    padding-top: 60px;
+}
+
+.g-pseudolink{
+    border-bottom: 1px dotted;
+    cursor: pointer
+}
