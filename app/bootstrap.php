@@ -10,6 +10,8 @@
 // запрет прямого доступа
 DEFINED('_JOOS_CORE') or die();
 
+setlocale(LC_TIME, array("ru_RU","rus_RUS"));
+
 // регистрация автолоадера
 joosAutoloader::init();
 

@@ -1,7 +1,4 @@
+# www.robotstxt.org/
+# https://developers.google.com/webmasters/control-crawl-index/
+
 User-agent: *
-Disallow: /
-min/
-Disallow: /app/
-Disallow: /cache/
-Disallow: /core/
-Disallow: /docs/
