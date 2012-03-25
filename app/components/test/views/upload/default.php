@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
 <script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.fileupload.js"></script>
 
 
-<input id="fileupload" type="file" name="files[]" multiple>
+<input id="fileupload" type="file" name="file" multiple>
 
 <script>
 	$(function () {

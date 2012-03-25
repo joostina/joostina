@@ -113,7 +113,7 @@ HTML;
 			'message' => $this->getMessage()
 		);
 
-		return json_encode($response);
+		return joosText::json_encode($response);
 	}
 
 	private function render() {

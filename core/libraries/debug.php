@@ -236,6 +236,8 @@ class joosDebug {
 	 * @tutorial joosDebug::dump( $var_name_1,  $var_name_2,  $var_name_3,  $var_name_4 );
 	 *
 	 * @param mixed функция принимает неограниченное число параметров - переменных для анализа и вывода
+	 *
+	 * @todo расширить для использования в ajax-запросах
 	 */
 	public static function dump() {
 

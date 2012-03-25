@@ -26,6 +26,8 @@ class actionsTest extends joosController {
 	 */
 	public static function index() {
 
+		echo joosText::json_encode( array(1=>'Один',2=>'Два') );
+
 		return array();
 	}
 
@@ -50,7 +52,7 @@ class actionsTest extends joosController {
 }
 
 /**
- * 
+ *
  */
 class rulesValidation {
 
@@ -80,6 +82,23 @@ class rulesValidation {
 		// расширенные настройки js плагина, по правилам https://github.com/blueimp/jQuery-File-Upload/wiki/Options
 		'extra_options'=>array(
 			'replaceFileInput'=>true
+		),
+		// параметры изменения размера изображений и создания превьюшек
+		'resize_images'=>array(
+			'small'=>array(
+				'w'=>100,
+				'h'=>150,
+				'method'=>'scall_min',
+				'quality'=>90
+			),
+			'big'=>array(
+				'w'=>500,
+				'h'=>350,
+				'method'=>'scall_max',
+				'quality'=>90
+			),
+			// удалять оригинальный файл изображения
+			'delete_original'=>'true'
 		)
 	);
 

@@ -15,17 +15,15 @@ class joosUpload {
 	 * 		string new_extension - переименовать расширение файла
 	 *
 	 */
-	public static function easy_upload($element_name, $upload_location, array $params = array(), $only_check = false) {
+	public static function easy_upload($element_name, $upload_location, array $params = array()) {
 
 		$file_name = joosFilter::filename($_FILES[$element_name]['name']);
 
+		$upload_location = rtrim($upload_location, '/');
+
 		$file_base_location = $upload_location . DS . $file_name;
 
-		if (!$only_check) {
-			$success = move_uploaded_file($_FILES[$element_name]['tmp_name'], $file_base_location);
-		} else {
-			$success = true;
-		}
+		$success = move_uploaded_file($_FILES[$element_name]['tmp_name'], $file_base_location);
 
 		$file_live_location = str_replace(JPATH_BASE, '', $upload_location);
 		$file_live_location = str_replace("\\", DS, $file_live_location);
