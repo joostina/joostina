@@ -74,7 +74,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Информация<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Инфомрация о системе</a></li>
+                            <li><a href="#">Информация о системе</a></li>
                             <li><a href="#">Joostina API</a></li>
                             <li><a href="#">Joostina GitHub</a></li>
                         </ul>
@@ -111,9 +111,14 @@
 
     <div class="row">
         <div class="span6">
-            <div class="pagination">
+            <div class="pagination" style="float: left; margin-right: 10px">
                 <ul>
-                    <li><a href="#" title="Добавить"><i class="icon-plus-sign"></i></a></li>
+                    <li><a href="components-users-add-edit_user.html" title="Добавить"><i class="icon-plus-sign"></i></a></li>
+                </ul>
+            </div>
+
+            <div class="pagination js-btn-group-for_select">
+                <ul>
                     <li class="disabled"><a href="#" title="Разрешить"><i class="icon-ok"></i></a></li>
                     <li class="disabled"><a href="#"><i class="icon-remove" title="Запретить"></i></a></li>
                     <li class="disabled"><a href="#"><i class="icon-trash" title="Удалить"></i></a></li>
@@ -138,10 +143,12 @@
     </div>
 
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-admin">
         <thead>
             <tr>
-                <th><input type="checkbox" name="toggle" value=""></th>
+                <th>
+                    <input type="checkbox" name="toggle" value="" class="js-select_all">
+                </th>
 
                 <th>
                     <span class="js-order-toggle g-pseudolink" title="Сортировать">ID</span>
@@ -149,55 +156,75 @@
                 </th>
 
                 <th width="20%">
-                    <div class="btn-group" style="float: right">
-                        <button data-toggle="dropdown" class="btn btn-mini">
-                            <i class="icon-search"></i>
-                        </button>
+
+                    <div class="search-by-field_state1">
+                        <div class="column-header_control">
+                            <div class="btn-group">
+                                <button data-search="login" class="btn btn-mini js-search-by-field">
+                                    <i class="icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <span class="column-header_txt js-order-toggle g-pseudolink">
+                            Логин
+                        </span>
                     </div>
-                    <span class="js-order-toggle g-pseudolink">
-                        Логин
-                    </span>
+
+                    <div class="search-by-field_state2 hide">
+                        <input type="text" name="search_login" placeholder="Поиск" class="search-by-field">
+                    </div>
+
                 </th>
 
                 <th>
-                    <div class="btn-group" style="float: right">
-                        <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
-                            <i class="icon-cog"></i> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu  bottom-up pull-right">
-                            <li><a href="#">Все</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Супер администраторы</a></li>
-                            <li><a href="#">Администраторы</a></li>
-                            <li><a href="#">Модераторы</a></li>
-                            <li><a href="#">Пользователи</a></li>
-                        </ul>
+                    <div class="column-header_control">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
+                                <i class="icon-cog"></i> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu  bottom-up pull-right">
+                                <li><a href="#">Все</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Супер администраторы</a></li>
+                                <li><a href="#">Администраторы</a></li>
+                                <li><a href="#">Модераторы</a></li>
+                                <li><a href="#">Пользователи</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    Группа
+
+                    <span class="column-header_txt">Группа</span>
                 </th>
 
-                <th><span class="js-order-toggle g-pseudolink">Зарегистрирован</span></th>
-                <th><span class="js-order-toggle g-pseudolink">Последнее посещение</span></th>
+                <th>
+                    <span class="js-order-toggle g-pseudolink column-header_txt">Зарегистрирован</span>
+                </th>
+                <th>
+                    <span class="js-order-toggle g-pseudolink column-header_txt">Последнее посещение</span>
+                </th>
 
                 <th width="130">
-                    <div class="btn-group" style="float: right">
-                        <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
-                            <i class="icon-cog"></i> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu  bottom-up pull-right">
-                            <li><a href="#">Все</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Разрешены</a></li>
-                            <li><a href="#">Не разрешены</a></li>
-                        </ul>
+                    <div class="column-header_control">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
+                                <i class="icon-cog"></i> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu  bottom-up pull-right">
+                                <li><a href="#">Все</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Разрешены</a></li>
+                                <li><a href="#">Не разрешены</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    Разрешен
+                    <span class="column-header_txt">Разрешен</span>
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><input type="checkbox" name="toggle" value=""></td>
+                <td><input type="checkbox" name="toggle" value="" class="js-select"></td>
                 <td>1</td>
                 <td><a href="#">admin</a></td>
                 <td>Супер администраторы [6]</td>
@@ -207,7 +234,7 @@
             </tr>
 
             <tr>
-                <td><input type="checkbox" name="toggle" value=""></td>
+                <td><input type="checkbox" name="toggle" value="" class="js-select"></td>
                 <td>2</td>
                 <td><a href="#">NickName</a></td>
                 <td>Пользователь [7]</td>
@@ -223,6 +250,7 @@
 
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
 
 </body>
 </html>
