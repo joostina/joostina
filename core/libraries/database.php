@@ -1053,7 +1053,7 @@ class joosModel {
 	 * Заглушка получения информации о полях
 	 * @return array
 	 */
-	protected function get_fieldinfo() {
+    public function get_fieldinfo() {
 		return array();
 	}
 
@@ -1061,7 +1061,7 @@ class joosModel {
 	 * Заглушка получения информации о таблице модели
 	 * @return array
 	 */
-	protected function get_tableinfo() {
+    public function get_tableinfo() {
 		return array();
 	}
 
@@ -1070,7 +1070,7 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-	protected function get_tabsinfo() {
+    public function get_tabsinfo() {
 		return array();
 	}
 

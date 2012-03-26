@@ -611,7 +611,7 @@ class joosAutoadmin {
 						$sql = 'UPDATE ' . $obj->get('_tbl') . ' SET ordering = ' . $i . ' WHERE id = ' . $id;
 						$obj->get('_db')->set_query($sql)->query();
 						++$i;
-						$mess .= $query . "\n";
+						$mess .= $sql . "\n";
 					}
 					$return_onj->mess = $mess;
 					$return_onj->min = $min;

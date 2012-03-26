@@ -66,7 +66,6 @@ class joosCore {
 
 	/**
 	 * Вычисление пути расположений файлов
-	 * @static
 	 *
 	 * @param string $name название объекта
 	 * @param string $type тип объекта, компонент, модуль
@@ -659,7 +658,7 @@ class joosController {
 	 * Формирует массив модулей, необходимых для вывода на данной странице
 	 *
 	 * @param array  $params Массив параметров, передаваемый из контроллера компонента
-	 * @param atring $option
+	 * @param string $option
 	 * @param string $task
 	 *
 	 * @return void
