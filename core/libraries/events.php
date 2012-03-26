@@ -20,7 +20,7 @@ joosEvents::fire_events('system.onstart', 1, 2);
 
 */
 /**
- * joosEvents - Библиотека работы с плагинами, реализация метода Observer
+  * Библиотека работы с плагинами, реализация метода Observer
  * Системная библиотека
  *
  * @version    1.0

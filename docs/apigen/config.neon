@@ -33,3 +33,5 @@ autocomplete:
 	- classconstants
 
 baseUrl: http://xboston.github.com/joostina-docs/
+
+main: joos
