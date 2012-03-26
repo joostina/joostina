@@ -12,8 +12,6 @@ defined( '_JOOS_CORE' ) or die();
 
 class actionsAjaxAdminCategories extends joosAdminControllerAjax{
 
-	private static $implode_model = true;
-
 	public static function index() {
 
 	}

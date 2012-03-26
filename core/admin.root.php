@@ -161,7 +161,7 @@ class joosCoreAdmin extends joosCore {
 			define('_JOS_GARBAGECLEAN', 1);
 
 			$garbage_timeout = $session_life_admin + 600;
-			@ini_set('session.gc_maxlifetime', $garbage_timeout);
+			ini_set('session.gc_maxlifetime', $garbage_timeout);
 		}
 	}
 

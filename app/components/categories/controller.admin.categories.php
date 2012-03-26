@@ -168,15 +168,15 @@ class actionsAdminCategories  extends joosAdminController{
 			default:
 			case 0: // просто сохранение
 
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . $obj->get_link_suff() , 'Всё ок!' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . $obj->get_link_suff() , 'Всё ок!' );
 				break;
 
 			case 1: // применить
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj->id . $obj->get_link_suff() , 'Всё ок, редактируем дальше' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj->id . $obj->get_link_suff() , 'Всё ок, редактируем дальше' );
 				break;
 
 			case 2: // сохранить и добавить новое
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' . $obj->get_link_suff() , 'Всё ок, создаём новое' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' . $obj->get_link_suff() , 'Всё ок, создаём новое' );
 				break;
 		}
 	}

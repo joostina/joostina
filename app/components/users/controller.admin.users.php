@@ -123,20 +123,20 @@ class actionsAdminUsers extends joosAdminController{
 		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
-		$result = $obj_data->save($_POST);
+		$obj_data->save($_POST);
 
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение
-				return joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Всё ок!');
+				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Всё ок!');
 				break;
 
 			case 1: // применить
-				return joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
+				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
 				break;
 
 			case 2: // сохранить и добавить новое
-				return joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=create', 'Всё ок, создаём новое');
+				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=create', 'Всё ок, создаём новое');
 				break;
 		}
 	}

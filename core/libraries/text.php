@@ -395,73 +395,74 @@ class joosText {
 	 */
 	public static function pretty_date($ts, $to_time = null) {
 		$now = $to_time ? $to_time : time();
-		$s = date("m.d.Y", $ts);
 		$now = time();
+
+        $s = '';
 
 		if ($now > $ts) {
 			$diff = round($now - $ts);
-			$numMins = round($diff / 60);
-			$numHours = round($numMins / 60);
-			$numDays = round($numHours / 24);
-			$numWeeks = round($numDays / 7);
-			$numMonths = round($numWeeks / 4.33);
-			$numYears = round($numMonths / 12);
+			$num_mins = round($diff / 60);
+			$num_hours = round($num_mins / 60);
+			$num_days = round($num_hours / 24);
+			$num_weeks = round($num_days / 7);
+			$num_months = round($num_weeks / 4.33);
+			$num_years = round($num_months / 12);
 
-			if (($diff < 60) || ($numMins <= 1)) {
+			if (($diff < 60) || ($num_mins <= 1)) {
 				$s = "1 минуту назад";
-			} elseif ($numHours == 0) {
-				$s = $numMins . " мин. назад";
-			} elseif ($numDays == 0) {
-				if ($numHours > 1) {
-					$s = $numHours . " час назад";
+			} elseif ($num_hours == 0) {
+				$s = $num_mins . " мин. назад";
+			} elseif ($num_days == 0) {
+				if ($num_hours > 1) {
+					$s = $num_hours . " час назад";
 				} else {
 					$s = "1 час назад";
 				}
-			} elseif ($numWeeks == 0) {
-				if ($numDays > 1) {
-					$s = $numDays . " " . joosText::declension($numWeeks, array('день', 'дня', 'дней')) . " назад";
+			} elseif ($num_weeks == 0) {
+				if ($num_days > 1) {
+					$s = $num_days . " " . joosText::declension($num_weeks, array('день', 'дня', 'дней')) . " назад";
 				} else {
 					$s = "Сегодня";
 				}
-			} elseif ($numMonths == 0) {
-				if ($numWeeks > 1) {
-					$s = $numWeeks . " " . joosText::declension($numWeeks, array('неделя', 'недели', 'недель')) . " назад";
+			} elseif ($num_months == 0) {
+				if ($num_weeks > 1) {
+					$s = $num_weeks . " " . joosText::declension($num_weeks, array('неделя', 'недели', 'недель')) . " назад";
 				} else {
 					$s = "на этой неделе";
 				}
 			} else {
-				if ($numMonths > 1) {
-					$s = $numMonths . " мес. назад";
-				} elseif ($numMonths <= 3) {
-					$s = $numMonths .= " мес. назад";
+				if ($num_months > 1) {
+					$s = $num_months . " мес. назад";
+				} elseif ($num_months <= 3) {
+					$s = $num_months . " мес. назад";
 				} else {
 					$s = "более трех месяцев назад";
 				}
 			}
 		} else {
 			$diff = ($ts - $now);
-			$numMins = ($diff / 60);
-			$numHours = round($numMins / 60);
-			$numDays = round($numHours / 24);
-			$numWeeks = round($numDays / 7);
-			$numMonths = round($numWeeks / 4.33);
-			$numYears = round($numMonths / 12);
+			$num_mins = ($diff / 60);
+			$num_hours = round($num_mins / 60);
+			$num_days = round($num_hours / 24);
+			$num_weeks = round($num_days / 7);
+			$num_months = round($num_weeks / 4.33);
+			$num_years = round($num_months / 12);
 
-			if ($numDays == 0) {
+			if ($num_days == 0) {
 				$s = "Сегодня";
-			} elseif ($numDays == 1) {
+			} elseif ($num_days == 1) {
 				$s = "Завтра";
-			} elseif ($numWeeks == 0) {
-				$s = $numDays . " days";
-			} elseif ($numWeeks == 1) {
+			} elseif ($num_weeks == 0) {
+				$s = $num_days . " days";
+			} elseif ($num_weeks == 1) {
 				$s = "Next Week";
-			} elseif ($numMonths == 0) {
-				$s = $numWeeks . " weeks";
-			} elseif ($numMonths == 1) {
+			} elseif ($num_months == 0) {
+				$s = $num_weeks . " weeks";
+			} elseif ($num_months == 1) {
 				$s = "Next Month";
-			} elseif ($numYears <= 0) {
-				$s = $numMonths . " months";
-			} elseif ($numYears == 1) {
+			} elseif ($num_years <= 0) {
+				$s = $num_months . " months";
+			} elseif ($num_years == 1) {
 				$s = "Next Year";
 			} else {
 				$s = "Over a year";

@@ -491,7 +491,7 @@ class joosHTML {
 		for ($i = 0, $n = $count; $i < $n; $i++) {
 			$k = $arr[$i]->$key;
 			$t = $arr[$i]->$text;
-			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null );
+			$id = ( isset($arr[$i]->id) ? $arr[$i]->id : null );
 
 			$extra = '';
 			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
@@ -565,7 +565,7 @@ class joosHTML {
 		for ($i = 0, $n = count($arr); $i < $n; $i++) {
 			$k = $arr[$i]->$key;
 			$t = $arr[$i]->$text;
-			$id = isset($arr[$i]->id) ? @$arr[$i]->id : null;
+			$id = isset($arr[$i]->id) ? $arr[$i]->id : null;
 
 			$extra = '';
 			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';

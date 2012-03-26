@@ -375,7 +375,8 @@ class joosDatabase {
 			return null;
 		}
 		$array = array();
-		while ($row = mysqli_fetch_row($cur)) {
+        /** @noinspection PhpAssignmentInConditionInspection */
+        while ($row = mysqli_fetch_row($cur)) {
 			$array[] = $row[$numinarray];
 		}
 
@@ -563,7 +564,7 @@ class joosDatabase {
 	 * Работает ТОЛЬКО через joosDatabase::instance()->insert_object
 	 *
 	 * @param string   $table   название таблицы, можно с преффиксом #__
-	 * @param stdClass $object  объект с заполненными свойствами
+	 * @param joosModel $object  объект с заполненными свойствами
 	 * @param string   $keyName название ключевого автоинскриментного поля таблицы
 	 *
 	 * @return int идентификатор вставленной записи, истину или ложь если операция провалилась

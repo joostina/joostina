@@ -365,7 +365,7 @@ class UploadHandler {
 		$file_path = $this->options['upload_dir'] . $file_name;
 		$success = is_file($file_path) && $file_name[0] !== '.' && unlink($file_path);
 		if ($success) {
-			foreach ($this->options['image_versions'] as $version => $options) {
+			foreach ($this->options['image_versions'] as $options) {
 				$file = $options['upload_dir'] . $file_name;
 				if (is_file($file)) {
 					unlink($file);

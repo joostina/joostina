@@ -101,11 +101,11 @@ class actionsAdminMetainfo  extends joosAdminController{
 		switch ( $redirect ) {
 			default:
 			case 0: // просто сохранение
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&group=' . $group , 'Всё ок!' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&group=' . $group , 'Всё ок!' );
 				break;
 
 			case 1: // применить
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id . '&group=' . $group , 'Всё ок, редактируем дальше' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id . '&group=' . $group , 'Всё ок, редактируем дальше' );
 				break;
 		}
 	}
@@ -116,7 +116,7 @@ class actionsAdminMetainfo  extends joosAdminController{
 
 	public static function cancel( $option ) {
 		$group = joosRequest::request( 'group' );
-		return joosRoute::redirect( 'index2.php?option=' . $group );
+		joosRoute::redirect( 'index2.php?option=' . $group );
 	}
 
 }

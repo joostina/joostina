@@ -37,6 +37,7 @@ class joosArray {
 			}
 			$i++;
 		}
+        return null;
 	}
 
 	/**

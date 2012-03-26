@@ -12,8 +12,6 @@ defined( '_JOOS_CORE' ) or die();
 
 class actionsAjaxAdminContent extends joosAdminControllerAjax {
 
-	private static $implode_model = true;
-
 	public static function index() {
 		joosAutoadmin::autoajax();
 	}

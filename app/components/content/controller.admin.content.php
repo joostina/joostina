@@ -172,15 +172,15 @@ class actionsAdminContent  extends joosAdminController{
 		switch ( $redirect ) {
 			default:
 			case 0: // просто сохранение
-				return joosRoute::redirect( 'index2.php?option=content&model=' . self::$model , 'Всё ок!' );
+				joosRoute::redirect( 'index2.php?option=content&model=' . self::$model , 'Всё ок!' );
 				break;
 
 			case 1: // применить
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj->id , 'Всё ок, редактируем дальше' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj->id , 'Всё ок, редактируем дальше' );
 				break;
 
 			case 2: // сохранить и добавить новое
-				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' , 'Всё ок, создаём новое' );
+				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' , 'Всё ок, создаём новое' );
 				break;
 		}
 	}

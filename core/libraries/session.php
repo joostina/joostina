@@ -61,7 +61,7 @@ class joosSession {
 
 	public static function session_cookie_value($id = null) {
 		$type = joosConfig::get2('session', 'type', 3);
-		$browser = @$_SERVER['HTTP_USER_AGENT'];
+		$browser =  isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'none';
 
 		switch ($type) {
 			case 2:
