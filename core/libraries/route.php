@@ -26,7 +26,11 @@ class joosRoute extends Route {
 	public static function instance() {
 		if (self::$instance === NULL) {
 
-			$routes = require( JPATH_BASE . DS . 'app' . DS . 'routes.php' );
+			/**
+			 *
+			 * @todo файл с пользовательскими роутами, должен конфигурироваться и подключаться в bootstrap.php
+			 */
+			$routes = require( JPATH_APP_CONFIG . DS . 'routes.php' );
 
 			foreach ($routes as $route_name => $route) {
 				self::set($route_name, $route['href'], ( isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);

@@ -31,10 +31,10 @@ class editorElrte {
 		joosHtml::load_jquery_ui();
 
 		joosDocument::instance()
-				->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css')
-				->add_css(JPATH_SITE_PLUGINS . '/editors/elrte/css/elrte.css')
-				->add_js_file(JPATH_SITE_PLUGINS . '/editors/elrte/js/elrte.js')
-				->add_js_file(JPATH_SITE_PLUGINS . '/editors/elrte/js/i18n/elrte.ru.js');
+				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css')
+				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/elrte.css')
+				->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/elrte/js/elrte.js')
+				->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/elrte/js/i18n/elrte.ru.js');
 	}
 
 	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {

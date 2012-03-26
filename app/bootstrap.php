@@ -10,7 +10,16 @@
 // запрет прямого доступа
 DEFINED('_JOOS_CORE') or die();
 
-setlocale(LC_TIME, array("ru_RU","rus_RUS"));
+setlocale(LC_TIME, array("ru_RU", "rus_RUS"));
+
+// название каталога приложения пользователя
+DEFINE('JPATH_APP', 'app');
+
+// путь к каталогу файлов пользовательского приложения
+DEFINE('JPATH_BASE_APP', JPATH_BASE . DS . JPATH_APP);
+
+// название каталога приложения пользователя
+DEFINE('JPATH_APP_CONFIG', JPATH_BASE_APP . DS . 'configs');
 
 // регистрация автолоадера
 joosAutoloader::init();
@@ -20,9 +29,6 @@ joosConfig::init();
 
 // название шаблона панели управления
 DEFINE('JTEMPLATE_ADMIN', joosConfig::get('template_admin'));
-
-// название каталога приложения пользователя
-DEFINE('JAPP_DIR', 'app');
 
 // http адрес сайта
 DEFINE('JPATH_SITE', joosConfig::get('live_site'));
@@ -42,13 +48,14 @@ DEFINE('JPATH_SITE_FILES', JPATH_SITE);
 // http корень каталога администратора
 DEFINE('JPATH_SITE_ADMIN', JPATH_SITE . '/admin');
 
-// каталог файлов пользовательского приложения, app по умолчанию
-DEFINE('JPATH_BASE_APP', JPATH_BASE . DS . JAPP_DIR);
+// http путь к каталогу приложений пользователя
+DEFINE('JPATH_SITE_APP', JPATH_SITE . '/' . JPATH_APP);
 
 //плагины - http-путь
-DEFINE('JPATH_SITE_PLUGINS', JPATH_SITE . '/' . JAPP_DIR . '/' . 'plugins');
+DEFINE('JPATH_APP_PLUGINS_SITE', JPATH_SITE . '/' . JPATH_APP . '/' . 'plugins');
 //плагины - base-путь
-DEFINE('JPATH_BASE_PLUGINS', JPATH_BASE . DS . JAPP_DIR . DS . 'plugins');
+DEFINE('JPATH_APP_PLUGINS_BASE', JPATH_BASE_APP . DS . 'plugins');
+
 
 // каталог кэша
 DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');

@@ -23,9 +23,9 @@ define('DS', DIRECTORY_SEPARATOR);
 define('JPATH_BASE', dirname(__DIR__));
 
 // Обработчик ошибок
-require JPATH_BASE . DS . 'core' . DS . 'exception.php';
+require JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . 'exception.php';
 // Автозагрузчик
-require JPATH_BASE . DS . 'core' . DS . 'autoloader.php';
+require JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . 'autoloader.php';
 // предстартовые конфигурации
 require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
 
@@ -732,8 +732,7 @@ class joosController {
 
 }
 
-
-class  joosControllerAjax extends joosController{
+class joosControllerAjax extends joosController {
 
 }
 

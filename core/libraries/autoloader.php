@@ -74,13 +74,12 @@ class joosAutoloader {
 		// пока не адаптированные библиотеки
 		'Thumbnail' => 'core/libraries/image.php',
 		'modelAdminUsersGroups' => 'app/components/users/models/model.admin.users.php',
-		'modelAclGroups'=>'app/components/acls/models/model.acls.php',
-
+		'modelAclGroups' => 'app/components/acls/models/model.acls.php',
 	);
 	private static $_debug = true;
 
 	public static function init() {
-		$app_autoload_files = require_once JPATH_BASE . '/app/autoload.php';
+		$app_autoload_files = require_once JPATH_APP_CONFIG . DS . 'autoload.php';
 
 		self::$_static_files = array_merge($app_autoload_files, self::$_static_files);
 
