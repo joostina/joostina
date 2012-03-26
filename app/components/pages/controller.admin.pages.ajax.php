@@ -31,7 +31,7 @@ class actionsAjaxAdminPages extends joosAdminControllerAjax {
 		$title = joosRequest::post('title', '');
 
 		// формируем из введённого заголовка страницы валидный UTL-адрес
-		$slug = joosText::str_to_url($title);
+		$slug = joosText::text_to_url($title);
 
 		echo json_encode(array('slug' => $slug));
 		return;

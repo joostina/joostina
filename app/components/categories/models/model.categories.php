@@ -62,7 +62,7 @@ class modelCategories extends joosNestedSet {
 	}
 
 	public function before_store() {
-		$this->slug = $this->slug ? $this->slug : joosText::str_to_url( $this->name );
+		$this->slug = $this->slug ? $this->slug : joosText::text_to_url( $this->name );
 		return true;
 	}
 

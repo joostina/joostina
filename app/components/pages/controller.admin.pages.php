@@ -140,4 +140,19 @@ class actionsAdminPages  extends joosAdminController{
 				return joosRoute::redirect('index2.php?option=' . $option . '&model=' . self::$model . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
 				break;
 
-			case 2: // сохранить и добавит
+			case 2: // сохранить и добавить новое
+				return joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' , 'Всё ок, создаём новое' );
+				break;
+		}
+	}
+
+	/**
+	 * Сохранение отредактированного или созданного объекта
+	 * и перенаправление на главную страницу компонента
+	 *
+	 * @param string $option
+	 */
+	public static function save( $option ) {
+		self::save_this( $option );
+	}
+}

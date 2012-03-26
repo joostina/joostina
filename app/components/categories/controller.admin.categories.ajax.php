@@ -72,7 +72,7 @@ class actionsAjaxAdminCategories extends joosAdminControllerAjax{
 		//Если  в качестве родителя выбран корень
 		if ( $parent_id == 1 ) {
 			//просто транслитерируем название категории
-			$slug = joosText::str_to_url( $cat_name );
+			$slug = joosText::text_to_url( $cat_name );
 		}
 
 			//иначе - построим путь c учётом выбранного родителя
@@ -85,13 +85,13 @@ class actionsAjaxAdminCategories extends joosAdminControllerAjax{
 
 			$_repeat = '';
 			foreach ( $path as $_cat ) {
-				$_slug      = $_cat['slug'] ? $_cat['slug'] . '/' : joosText::str_to_url( $_cat['name'] . '/' );
+				$_slug      = $_cat['slug'] ? $_cat['slug'] . '/' : joosText::text_to_url( $_cat['name'] . '/' );
 				$_slug      = str_replace( $_repeat , '' , $_slug );
 				$segments[] = $_slug;
 				$_repeat .= $_slug;
 			}
 
-			$segments[] = joosText::str_to_url( $cat_name );
+			$segments[] = joosText::text_to_url( $cat_name );
 			$slug       = implode( '' , $segments );
 		}
 

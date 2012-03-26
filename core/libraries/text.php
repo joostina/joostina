@@ -44,7 +44,7 @@ class joosText {
 		if (count($expressions) < 3) {
 			$expressions[2] = $expressions[1];
 		}
-		;
+
 		settype($int, 'integer');
 		$count = $int % 100;
 		if ($count >= 5 && $count <= 20) {
@@ -243,14 +243,14 @@ class joosText {
 	/**
 	 * Преобразование строки в URL-безопасный вариант
 	 *
-	 * @tutorial joosText::str_to_url( 'Compellingly strategize B2B portals after empowered.' ); => compellingly-strategize-b2b-portals-after-empowered
-	 * @tutorial  joosText::str_to_url( 'Гендер теоретически возможен!' ); => gender-teoreticheski-vozmozhen
-	 * @tutorial joosText::str_to_url( 'Разного рода символы !%#$&^&*^%*&)()(*_)*--  <> -' ); => raznogo-roda-simvoly
+	 * @tutorial joosText::text_to_url( 'Compellingly strategize B2B portals after empowered.' ); => compellingly-strategize-b2b-portals-after-empowered
+	 * @tutorial  joosText::text_to_url( 'Гендер теоретически возможен!' ); => gender-teoreticheski-vozmozhen
+	 * @tutorial joosText::text_to_url( 'Разного рода символы !%#$&^&*^%*&)()(*_)*--  <> -' ); => raznogo-roda-simvoly
 	 *
 	 * @param string $str исходная строка для обработки
 	 * @return string обработанная и готовая для формирования ссылки строка
 	 */
-	public static function str_to_url($str) {
+	public static function text_to_url($str) {
 		// убираем непроизносимые
 		$str = str_ireplace(array('ь', 'ъ'), '', $str);
 		// переводим в транслит

@@ -100,7 +100,7 @@ class actionsAjaxAdminContent extends joosAdminControllerAjax {
 		//Если это корневая категория
 		if ( $cat->parent_id == 1 ) {
 			//просто подставляем существующую ссылку или формируем ссылку из названия
-			$segments[] = $cat->slug ? $cat->slug . '/' : joosText::str_to_url( $cat->name ) . '/';
+			$segments[] = $cat->slug ? $cat->slug . '/' : joosText::text_to_url( $cat->name ) . '/';
 		} //иначе - построим путь c учётом выбранного родителя
 		else {
 			$path = $cats->get_path_from_root( $cat_id );
@@ -109,7 +109,7 @@ class actionsAjaxAdminContent extends joosAdminControllerAjax {
 			$_repeat = '';
 			//добавляем все ссылки категорий в массив
 			foreach ( $path as $_cat ) {
-				$_slug      = $_cat['slug'] ? $_cat['slug'] . '/' : joosText::str_to_url( $_cat['name'] ) . '/';
+				$_slug      = $_cat['slug'] ? $_cat['slug'] . '/' : joosText::text_to_url( $_cat['name'] ) . '/';
 				$_slug      = str_replace( $_repeat , '' , $_slug );
 				$segments[] = $_slug;
 				$_repeat .= $_slug;
@@ -117,7 +117,7 @@ class actionsAjaxAdminContent extends joosAdminControllerAjax {
 		}
 
 		//последним сегментом будет название самой статьи
-		$segments[] = joosText::str_to_url( $title );
+		$segments[] = joosText::text_to_url( $title );
 
 		//объединяем в строку
 		$slug = implode( '' , $segments );
