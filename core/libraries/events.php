@@ -1,27 +1,27 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined('_JOOS_CORE') or die();
 
 /*
-joosEvents::add_events('system.onstart', function($a, $b) {
-			echo sprintf('1. a=%s; $b=%s', $a, $b);
-		});
+  joosEvents::add_events('system.onstart', function($a, $b) {
+  echo sprintf('1. a=%s; $b=%s', $a, $b);
+  });
 
-joosEvents::add_events('system.onstart', function($a, $b) {
-			echo sprintf('2. a=%s; $b=%s', $a, $b);
-		});
+  joosEvents::add_events('system.onstart', function($a, $b) {
+  echo sprintf('2. a=%s; $b=%s', $a, $b);
+  });
 
-joosEvents::add_events('system.onstart', 'absd');
+  joosEvents::add_events('system.onstart', 'absd');
 
-joosEvents::add_events('system.onstart', 'actionsTest::viewtest');
+  joosEvents::add_events('system.onstart', 'actionsTest::viewtest');
 
-joosEvents::fire_events('system.onstart', 1, 2);
+  joosEvents::fire_events('system.onstart', 1, 2);
 
-*/
+ */
+
 /**
-  * Библиотека работы с плагинами, реализация метода Observer
- * Системная библиотека
+ * Работа с плагинами, реализация метода Observer
  *
  * @version    1.0
  * @package    Libraries
@@ -37,7 +37,7 @@ joosEvents::fire_events('system.onstart', 1, 2);
  * */
 class joosEvents {
 
-	private static $events = array ();
+	private static $events = array();
 
 	/**
 	 * Добавление функции в общий список обработки
@@ -45,10 +45,10 @@ class joosEvents {
 	 * @param string $events_name название обытия
 	 * @param mixed  $function    задача
 	 */
-	public static function add_events( $events_name , $function ) {
+	public static function add_events($events_name, $function) {
 		// если массива для списка задач на событие не создано - создаём его
-		if ( !isset( self::$events[$events_name] ) ) {
-			self::$events[$events_name] = array ();
+		if (!isset(self::$events[$events_name])) {
+			self::$events[$events_name] = array();
 		}
 		self::$events[$events_name][] = $function;
 	}
@@ -58,19 +58,19 @@ class joosEvents {
 	 *
 	 * @param string $events_name название обытия
 	 */
-	public static function fire_events( $events_name ) {
+	public static function fire_events($events_name) {
 
 		// задач на собыьтие не создано
-		if ( !isset( self::$events[$events_name] ) ) {
+		if (!isset(self::$events[$events_name])) {
 			return false;
 		}
 
 		// задачи на событие есть - выполняем их поочередно
-		foreach ( self::$events[$events_name] as $event ) {
+		foreach (self::$events[$events_name] as $event) {
 
-			if ( is_callable( $event ) ) {
-				JDEBUG ? joosDebug::add( sprintf( 'Запускаем обработку события %s' , $events_name ) ) : null;
-				call_user_func_array( $event , func_get_args() );
+			if (is_callable($event)) {
+				JDEBUG ? joosDebug::add(sprintf('Запускаем обработку события %s', $events_name)) : null;
+				call_user_func_array($event, func_get_args());
 			}
 		}
 	}
@@ -82,9 +82,9 @@ class joosEvents {
 	 *
 	 * @return bool результат наличия событий
 	 */
-	public static function has_events( $event_name ) {
-		joosDebug::log('Проверка наличия событий :event_name', array(':event_name'=>$event_name) );
-		return ( isset( self::$events[$event_name] ) && count( self::$events[$event_name] ) > 0 );
+	public static function has_events($event_name) {
+		joosDebug::log('Проверка наличия событий :event_name', array(':event_name' => $event_name));
+		return ( isset(self::$events[$event_name]) && count(self::$events[$event_name]) > 0 );
 	}
 
 }

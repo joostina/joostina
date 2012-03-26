@@ -5,7 +5,6 @@ defined( '_JOOS_CORE' ) or die();
 
 /**
   * Библиотека работы со строками в правильной кодировке UTF-8
- * Системная библиотека
  *
  * @version    1.0
  * @package    Libraries

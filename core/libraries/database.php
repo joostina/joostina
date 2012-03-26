@@ -4,8 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека работы с базой данных
- * Системная библиотека
+ * Работа с базой данных
  *
  * @version    1.0
  * @package    Libraries
@@ -375,8 +374,8 @@ class joosDatabase {
 			return null;
 		}
 		$array = array();
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = mysqli_fetch_row($cur)) {
+		/** @noinspection PhpAssignmentInConditionInspection */
+		while ($row = mysqli_fetch_row($cur)) {
 			$array[] = $row[$numinarray];
 		}
 
@@ -759,15 +758,15 @@ class joosDatabase {
 	/**
 	 * Очистка буфера mysqli
 	 */
-	private function free_result(){;
-		 !JDEBUG ? mysqli_free_result( $this->_cursor ) : null;
+	private function free_result() {
+;
+		!JDEBUG ? mysqli_free_result($this->_cursor) : null;
 	}
 
 }
 
 /**
-  * Библиотека утилитарных функций работы с базой данных
- * Системная библиотека
+ * Библиотека утилитарных функций работы с базой данных
  *
  * @version    1.0
  * @package    Libraries
@@ -961,8 +960,7 @@ class joosDatabaseUtils extends joosDatabase {
 }
 
 /**
-  * Библиотека ORM расширения для гибкой работы с информацией в юазе данных
- * Системная библиотека
+ * Библиотека ORM расширения для гибкой работы с информацией в юазе данных
  *
  * @version    1.0
  * @package    Libraries
@@ -1053,7 +1051,7 @@ class joosModel {
 	 * Заглушка получения информации о полях
 	 * @return array
 	 */
-    public function get_fieldinfo() {
+	public function get_fieldinfo() {
 		return array();
 	}
 
@@ -1061,7 +1059,7 @@ class joosModel {
 	 * Заглушка получения информации о таблице модели
 	 * @return array
 	 */
-    public function get_tableinfo() {
+	public function get_tableinfo() {
 		return array();
 	}
 
@@ -1070,7 +1068,7 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-    public function get_tabsinfo() {
+	public function get_tabsinfo() {
 		return array();
 	}
 

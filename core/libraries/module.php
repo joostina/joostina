@@ -5,7 +5,6 @@ defined('_JOOS_CORE') or die();
 
 /**
  * joosModule - Общий класс работы с модулями ( на фронте )
- * Системная библиотека
  *
  * @version    1.0
  * @package    Libraries

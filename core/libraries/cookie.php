@@ -4,8 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
-  * Библиотека работы с куками
- * Системная библиотека
+  * Работа с куками
  *
  * @version    1.0
  * @package    Libraries

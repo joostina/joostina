@@ -4,7 +4,6 @@ defined('_JOOS_CORE') or die();
 
 /**
   * Библиотека автоматической генерации интерфейсов панели управлениями
- * Системная библиотека
  *
  * @version    1.0
  * @package    Libraries
@@ -273,7 +272,7 @@ class joosAutoadmin {
 
 		self::$model = get_class($obj);
 
-		//Библиотека работы с табами
+		//Работа с табами
 		$tabs = new htmlTabs();
 
 		$option = joosRequest::param('option');

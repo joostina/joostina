@@ -5,7 +5,6 @@ defined('_JOOS_CORE') or die();
 
 /**
   * Библиотека генерации случайных данных
- * Системная библиотека
  *
  * @version    1.0
  * @package    Libraries

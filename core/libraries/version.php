@@ -5,7 +5,6 @@ defined( '_JOOS_CORE' ) or die();
 
 /**
  * joosVersion - Информационная библиотека данных о системе
- * Системная библиотека
  *
  * @version    1.0
  * @package    Libraries

@@ -4,8 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека работы с изображениями
- * Системная библиотека
+ * Работа с изображениями
  *
  * @version    1.0
  * @package    Libraries
@@ -102,8 +101,7 @@ define('THUMBNAIL_ALIGN_TOP', -1);
 define('THUMBNAIL_ALIGN_BOTTOM', +1);
 
 /**
-  * Библиотека работы с изображениями
- * Системная библиотека
+ * Работа с изображениями
  *
  * @version     1.0
  * @package     Libraries

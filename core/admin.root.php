@@ -363,11 +363,22 @@ class joosAdminPagenator {
 
 }
 
-
+/**
+ * Базовый контроллер работы панели управления Joostina CMS
+ * @package    Joostina
+ * @subpackage Contlroller
+ *
+ */
 class joosAdminController extends joosController{
 
 }
 
+/**
+ * Базовый ajax контроллер работы панели управления Joostina CMS
+ * @package    Joostina
+ * @subpackage Contlroller
+ *
+ */
 class joosAdminControllerAjax extends joosAdminController{
 
 }

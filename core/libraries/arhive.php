@@ -4,8 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
-  * Библиотека работы с архивами
- * Системная библиотека
+  * Работа с архивами
  *
  * @version    1.0
  * @package    Libraries

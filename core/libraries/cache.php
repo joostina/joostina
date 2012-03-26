@@ -5,7 +5,6 @@ defined('_JOOS_CORE') or die();
 
 /**
   * Библиотека кеширования
- * Системная библиотека
  * Базируется на оригинальном класса библиотеки Flourish   http://flourishlib.com/fCache
  *
  * @version    1.0

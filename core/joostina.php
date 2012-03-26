@@ -514,7 +514,7 @@ class joosLoader {
  * @package    Joostina
  * @subpackage Contlroller
  *
- * @todo       разделить/расширить инициализации контроллера для front, front-ajax, admin, admin-ajax
+ * @todo разделить/расширить инициализации контроллера для front, front-ajax, admin, admin-ajax
  */
 class joosController {
 
@@ -731,6 +731,12 @@ class joosController {
 
 }
 
+/**
+ * Базовый ajax - контроллер Joostina CMS
+ * @package    Joostina
+ * @subpackage Contlroller
+ *
+ */
 class joosControllerAjax extends joosController {
 
 }

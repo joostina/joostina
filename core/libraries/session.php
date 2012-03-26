@@ -4,8 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека работы с сессиями
- * Системная библиотека
+  * Работа с сессиями
  *
  * @version    1.0
  * @package    Libraries
