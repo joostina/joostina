@@ -90,7 +90,7 @@ switch (JENVIRONMENT) {
 
 					$error = error_get_last();
 					if ($error && in_array($error['type'], $haltCodes)) {
-						joosErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+						joosException::error_handler($error['type'], $error['message'], $error['file'], $error['line']);
 					}
 				}
 		);
