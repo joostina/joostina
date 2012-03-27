@@ -31,6 +31,13 @@ require JPATH_BASE . DS . 'app' . DS . 'bootstrap.php';
 
 /**
  * Главное ядро Joostina CMS
+ *
+ * Описывать класс можно более чем подробно
+ * - Первое.
+ * - Второе, много разного текста
+ *   даже нна несколкьо строк.
+ * - И третье.
+ *
  * @package    Joostina
  * @subpackage Core
  */
