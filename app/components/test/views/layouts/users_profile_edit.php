@@ -80,6 +80,23 @@ defined('_JOOS_CORE') or die();
                 </div>
             </div>
 
+            <div class="control-group">
+                <label  class="control-label">Email</label>
+
+                <div class="controls">
+                    <input type="text" value="" class="input-xlarge">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label  class="control-label">Пароль</label>
+
+                <div class="controls">
+                    <input type="text" value="" class="span2" placeholder="Старый пароль">
+                    <input type="text" value="" class="span2" placeholder="Новый пароль">
+                </div>
+            </div>
+
 
         </fieldset>
 
