@@ -20,7 +20,8 @@
 	</head>
 
 	<body>
-		<?php joosModule::module('login', array('template' => 'default')) ?>
+
+
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -48,17 +49,8 @@
 						</ul>
 					</div>
 
-					<ul class="nav pull-right">
-						<li class="dropdown">
-							<a data-toggle="dropdown" class="dropdown-toggle" href="#">Вход/регистрация <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a data-toggle="modal" href="#modal-login_form">Войти</a></li>
-								<li><a href="#">Забыли пароль?</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Регистрация</a></li>
-							</ul>
-						</li>
-					</ul>
+                    <?php joosModule::module('login', array('template' => 'default')) ?>
+
 				</div>
 			</div>
 		</div>
@@ -87,6 +79,8 @@
 			</footer>
 
 		</div>
+
+        <div id="modal-output"></div>
 
 	</body>
 </html>

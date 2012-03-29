@@ -18,8 +18,7 @@ defined( '_JOOS_CORE' ) or die();
 $user = isset( $params['user'] ) ? $params['user'] : joosCore::user();
 
 
-//echo '<div id="login_area">';
-//$params['template_file'] = $user->id ? JPATH_BASE . '/app/modules/login/views/logout/default.php' : JPATH_BASE . '/app/modules/login/views/login/default.php';
-//echo '</div>';
+
+$params['template_file'] = $user->id ? JPATH_BASE . '/app/modules/login/views/logout/default.php' : JPATH_BASE . '/app/modules/login/views/login/default.php';
 
 $params['template_file'] ? require_once $params['template_file'] : null;
