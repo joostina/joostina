@@ -13,6 +13,9 @@
 
 		<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.js"></script>
 		<script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>js/lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>js/lib/bootstrap-datepicker.js"></script>
+
+        <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>js/app.js"></script>
 
 	</head>
 
@@ -37,6 +40,9 @@
 								<ul class="dropdown-menu">
 									<li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'blog_index')) ?>">Блог</a></li>
 									<li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'blog_post')) ?>">Блог/пост</a></li>
+                                    <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_index')) ?>">Пользователи. Список</a></li>
+                                    <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_profile')) ?>">Пользователи. Профиль</a></li>
+                                    <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_profile_edit')) ?>">Пользователи. Редактирование профиля</a></li>
 								</ul>
 							</li>
 						</ul>
