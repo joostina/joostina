@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с файлами
+ * Работа с файлами
  *
  * @version    1.0
  * @package    Libraries
@@ -183,7 +183,10 @@ class joosFile {
 	 *
 	 * @todo задокументировать новые параметры
 	 */
-	public static function make_file_location($id, $split_by = 3, $capacity = 9) {
+	public static function make_file_location($id, $split_by = 3, $capacity = 9, $round = false) {
+
+		// округляем
+		$id = $round ? (int) round($id / $round) : $id;
 
 		if (!is_integer($id)) {
 			throw new joosFileLibrariesException('Параметр $id должен иметь цельночисленное значение');
