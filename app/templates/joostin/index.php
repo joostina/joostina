@@ -21,16 +21,15 @@ joosDocument::$config['seotag'] = FALSE;
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 	<head>
-		<title><?php echo __('Панель управления Joostina CMS') ?></title>
 		<meta http-equiv="Content-Type" content="text/html;  charset=UTF-8"/>
-<?php echo joosDocument::head(); ?>
+        <?php echo joosDocument::head(); ?>
 		<?php echo joosDocument::stylesheet(); ?>
 	</head>
 
 	<body>
 
 		<div id="sidebar">
-<?php joosModuleAdmin::load_by_name('adminquickicons'); ?>
+            <?php joosModuleAdmin::load_by_name('adminquickicons'); ?>
 		</div>
 
 		<div id="wrapper">

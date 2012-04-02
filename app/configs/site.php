@@ -5,7 +5,7 @@ return array(
 	'debug' => true,
 	'404_page' => false,
 	'template' => 'bootstrap',
-	'template_admin' => 'joostin',
+	'template_admin' => 'joosbootstrap',
 	'admin_icons_path' => '../media/images/admin/',
 	'db' => array(//'host' => 'p:localhost', - для постоянного соединения
 		'host' => 'localhost',
