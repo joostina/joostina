@@ -9,41 +9,23 @@
  */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
+
+$hrefs = require_once JPATH_APP_CONFIG.'/admin_panel.php';
+
+
 ?>
 <div class="cpanel">
 
-	<div class="b b-50 b-left">
-		<h3>Каталог</h3>
-		<span><a href="index2.php?option=categories&group=content"><img src="<?php echo joosHtml::ico('folder-move', '32x32') ?>"/>Категории каталога</a></span>
-		<span><a href="index2.php?option=content&task=create"><img src="<?php echo joosHtml::ico('folder-documents', '32x32') ?>"/>Добавить категорию</a></span>
-	</div>
-
-	<div class="b b-50 b-left">
-		<h3>Новости</h3>
-		<span><a href="index2.php?option=news"><img src="<?php echo joosHtml::ico('stock_copy', '32x32') ?>"/>Все новости</a></span>
-		<span><a href="index2.php?option=news&task=create"><img src="<?php echo joosHtml::ico('filenew', '32x32') ?>"/>Добавить новость</a></span>
-	</div>
-
-	<div class="b-clear" style="height:25px"></div>
-
-	<div class="b b-50 b-left">
-		<h3>Блоги</h3>
-		<span><a href="index2.php?option=blog"><img src="<?php echo joosHtml::ico('stock_copy', '32x32') ?>"/>Все блогозаписи</a></span>
-		<span><a href="index2.php?option=blog&task=create"><img src="<?php echo joosHtml::ico('filenew', '32x32') ?>"/>Добавить блогозапись</a></span>
-	</div>
-
-	<div class="b b-50 b-left">
-		<h3>Статичные страницы</h3>
-		<span><a href="index2.php?option=pages"><img src="<?php echo joosHtml::ico('stock_copy', '32x32') ?>"/>Страницы</a></span>
-		<span><a href="index2.php?option=pages&task=create"><img src="<?php echo joosHtml::ico('filenew', '32x32') ?>"/>Добавить страницу</a></span>
-	</div>
-
-
-	<div class="b-clear" style="height:50px"></div>
-
-	<div class="b b-50 b-left">
-		<h3>Инструменты</h3>
-		<span><a href="index2.php?option=coder"><img src="<?php echo joosHtml::ico('system-run', '32x32') ?>"/>Кодогенератор</a></span>
-		<span><a href="index2.php?option=acls"><img src="<?php echo joosHtml::ico('system-run', '32x32') ?>"/>Права доступа</a></span>
-	</div>
+    <?php foreach($hrefs as $block_title => $block_hrefs): ?>
+        <?php if( $block_hrefs=='clear' ): ?>
+            <div class="b-clear" style="height:50px"></div>        
+        <?php else: ?>
+        <div class="b b-50 b-left">
+            <h3><?php echo $block_title ?></h3>
+            <?php foreach ($block_hrefs as $href_title => $href): ?>
+                <span><a href="<?php echo $href['href'] ?>"><img src="<?php echo joosHtml::ico( $href['ico'] , '32x32') ?>"/><?php echo $href_title ?></a></span>
+            <?php endforeach ?>
+        </div>
+        <?php endif ?>
+    <?php endforeach ?>
 </div>

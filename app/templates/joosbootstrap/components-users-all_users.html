@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Админка - Joostina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="css/app.css?ver=1" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#">Project name</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Контент<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Независимые страницы</li>
+                            <li><a href="#">Все страницы</a></li>
+                            <li><a href="#">Добавить страницу</a></li>
+
+                            <li class="divider"></li>
+
+                            <li class="nav-header">Структурированный контент</li>
+                            <li><a href="#">Все материалы</a></li>
+                            <li><a href="#">Добавить материал</a></li>
+
+                            <li class="divider"></li>
+
+                            <li class="nav-header">Категории</li>
+                            <li><a href="#">Все категории</a></li>
+                            <li><a href="#">Добавить категорию</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="components-users-all_users.html">Все пользователи</a></li>
+                            <li><a href="#">Добавить пользователя</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Группы</a></li>
+                            <li><a href="#">Права доступа</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Компоненты<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Новости</a></li>
+                            <li><a href="#">Блоги</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#about">Модули</a></li>
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Инструменты<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Кодер</a></li>
+                            <li><a href="#">Медиа-менеджер</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Информация<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Информация о системе</a></li>
+                            <li><a href="#">Joostina API</a></li>
+                            <li><a href="#">Joostina GitHub</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">NickName <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a data-toggle="modal" href="#modal-login_form">Войти</a></li>
+                        <li><a href="#">Забыли пароль?</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Регистрация</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="page-header">
+        <ul class="nav nav-pills" style="float: right">
+            <li class="active"><a href="#">Все пользователи</a></li>
+            <li><a href="#">Группы</a></li>
+            <li><a href="#">Права доступа</a></li>
+        </ul>
+        <h1>Пользователи</h1>
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <div class="pagination" style="float: left; margin-right: 10px">
+                <ul>
+                    <li><a href="components-users-add-edit_user.html" title="Добавить"><i class="icon-plus-sign"></i></a></li>
+                </ul>
+            </div>
+
+            <div class="pagination js-btn-group-for_select">
+                <ul>
+                    <li class="disabled"><a href="#" title="Разрешить"><i class="icon-ok"></i></a></li>
+                    <li class="disabled"><a href="#"><i class="icon-remove" title="Запретить"></i></a></li>
+                    <li class="disabled"><a href="#"><i class="icon-trash" title="Удалить"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="span6">
+
+            <div class="pagination"  style="float: right">
+                <ul>
+                    <li class="disabled"><a href="#">«</a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">»</a></li>
+                </ul>
+            </div>
+
+            <div style="float: right; padding: 30px 20px 0 0; font-weight: bold">1-25 из 520</div>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-admin">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" name="toggle" value="" class="js-select_all">
+                </th>
+
+                <th>
+                    <span class="js-order-toggle g-pseudolink" title="Сортировать">ID</span>
+                    <i class="icon-arrow-down"></i>
+                </th>
+
+                <th width="20%">
+
+                    <div class="search-by-field_state1">
+                        <div class="column-header_control">
+                            <div class="btn-group">
+                                <button data-search="login" class="btn btn-mini js-search-by-field">
+                                    <i class="icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <span class="column-header_txt js-order-toggle g-pseudolink">
+                            Логин
+                        </span>
+                    </div>
+
+                    <div class="search-by-field_state2 hide">
+                        <input type="text" name="search_login" placeholder="Поиск" class="search-by-field">
+                    </div>
+
+                </th>
+
+                <th>
+                    <div class="column-header_control">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
+                                <i class="icon-cog"></i> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu  bottom-up pull-right">
+                                <li><a href="#">Все</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Супер администраторы</a></li>
+                                <li><a href="#">Администраторы</a></li>
+                                <li><a href="#">Модераторы</a></li>
+                                <li><a href="#">Пользователи</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <span class="column-header_txt">Группа</span>
+                </th>
+
+                <th>
+                    <span class="js-order-toggle g-pseudolink column-header_txt">Зарегистрирован</span>
+                </th>
+                <th>
+                    <span class="js-order-toggle g-pseudolink column-header_txt">Последнее посещение</span>
+                </th>
+
+                <th width="130">
+                    <div class="column-header_control">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle">
+                                <i class="icon-cog"></i> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu  bottom-up pull-right">
+                                <li><a href="#">Все</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Разрешены</a></li>
+                                <li><a href="#">Не разрешены</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <span class="column-header_txt">Разрешен</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox" name="toggle" value="" class="js-select"></td>
+                <td>1</td>
+                <td><a href="#">admin</a></td>
+                <td>Супер администраторы [6]</td>
+                <td>5 июня, 2004</td>
+                <td>22 мая, 2012, 12:26</td>
+                <td><a href="#" title="Запретить"><i class="icon-ok"></i></a></td>
+            </tr>
+
+            <tr>
+                <td><input type="checkbox" name="toggle" value="" class="js-select"></td>
+                <td>2</td>
+                <td><a href="#">NickName</a></td>
+                <td>Пользователь [7]</td>
+                <td>5 июня, 2004</td>
+                <td>22 мая, 2012, 12:26</td>
+                <td><a href="#" title="Запретить"><i class="icon-ok"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+    <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+</body>
+</html>

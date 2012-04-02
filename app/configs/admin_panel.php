@@ -11,28 +11,47 @@
 defined('_JOOS_CORE') or die();
 
 return array(
-	'users' => array(
-		'Все пользователи'=>array(
-			'href'=>'',
-			'title'=>'',
-			'ico'=>'',
-		),
-		'Добавить пользователя'=>array(
-			'href'=>'',
-			'title'=>'',
-			'ico'=>'',
-		),
-		'Группы'=>array(
-			'href'=>'',
-			'title'=>'',
-			'ico'=>'',
-		),
-		'Права доступа'=>array(
-			'href'=>'',
-			'title'=>'',
-			'ico'=>'',
-		)
+    'Пользователи' => array(
+        'Все пользователи' => array(
+            'href' => 'index2.php?option=users',
+            'title' => 'Человечки',
+            'ico' => 'user-info',
+        ),
+        'Добавить пользователя' => array(
+            'href' => 'index2.php?option=users&task=create',
+            'title' => '',
+            'ico' => 'contact-new',
+        ),
+        'Группы' => array(
+            'href' => 'index2.php?option=users&menu=usersgroups',
+            'title' => '',
+            'ico' => 'access',
+        ),
+        'Права доступа' => array(
+            'href' => 'index2.php?option=acls',
+            'title' => '',
+            'ico' => 'folder-publicshare',
+        )
+    ),
+    'Статичные страницы' => array(
+        'Все страницы' => array(
+            'href' => 'index2.php?option=pages',
+            'title' => '',
+            'ico' => 'text-editor',
+        ),
+        'Добавить новую' => array(
+            'href' => 'index2.php?option=pages&task=create',
+            'title' => '',
+            'ico' => 'stock_copy',
+        ),
 
-
-	)
+    ),
+    'clear'=>true,
+    'Инструменты' => array(
+        'Кодогенератор' => array(
+            'href' => 'index2.php?option=coder',
+            'title' => '',
+            'ico' => 'application-default-icon',
+        ),
+    ),
 );

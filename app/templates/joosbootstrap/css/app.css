@@ -1,0 +1,60 @@
+@import url('bootstrap.css?v=1');
+
+body {
+    padding-top: 60px;
+}
+section{
+    padding-bottom: 15px
+}
+.g-pseudolink{
+    border-bottom: 1px dotted;
+    cursor: pointer
+}
+.disabled i{
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+
+.table-admin th{
+    background: #f1f1f1
+}
+
+.column-header_control{
+    float: right;
+    margin: -3px 0 0 0
+}
+    .column-header_control .btn-group{
+
+    }
+.column-header_txt{
+    float: left
+}
+
+.search-by-field{
+    margin: 0;
+    padding: 0
+}
+
+
+#admin-form_body{
+    border: 1px solid #CCC;
+    border-radius: 6px;
+    padding: 15px 0
+}
+    #admin-form_body .control-group{
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 10px;
+        margin-bottom: 10px
+    }
+    #admin-form_body .control-group:last-child{
+        border-bottom: none;
+        padding-bottom: 0px;
+        margin-bottom: 0
+    }
+
+#admin-form_body  label.control-label{
+    font-weight: bold
+}
+#admin-form_body .controls p{
+    padding-top: 5px
+}
