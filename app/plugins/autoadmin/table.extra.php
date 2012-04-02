@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Для прямого вывода значения элемента
+ * Для вывода значения через вызов сторонней функции
  *
  * @version    1.0
  * @package    Plugins
@@ -16,10 +16,12 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminListValue extends joosAutoadminPlugins{
+class autoadminTableExtra extends joosAutoadminPlugins{
+
+	private static $datas_for_select = array ();
 
 	public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
-		return $value;
+		return ( isset( $element_param['html_table_element_param']['call_from'] ) && is_callable( $element_param['html_table_element_param']['call_from'] ) ) ? call_user_func( $element_param['html_table_element_param']['call_from'] , $values, $value ) : self::$datas_for_select;
 	}
 
 }

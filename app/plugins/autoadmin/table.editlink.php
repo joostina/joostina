@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Для вывода элемента перемещения объекта
+ * Для вывода значения объекта как ссылки на его редактирование
  *
  * @version    1.0
  * @package    Plugins
@@ -16,10 +16,10 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminListOrdering extends joosAutoadminPlugins{
+class autoadminTableEditlink extends joosAutoadminPlugins{
 
 	public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
-		return '<img src="' . joosConfig::get( 'admin_icons_path' ) . '/cursor_drag_arrow.png" alt="' . __( 'Переместить' ) . '" />';
+		return '<a href="index2.php?option=' . $option . ( joosAutoadmin::$model ? '&menu=' . joosAutoadmin::$submenu : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $value . '</a>';
 	}
 
 }

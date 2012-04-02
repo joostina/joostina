@@ -232,9 +232,9 @@ class joosAutoadmin {
 	}
 
 	public static function get_listing_html_element(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
-
-		$class_file = JPATH_BASE . '/app/plugins/autoadmin/list.' . $element_param['html_table_element'] . '.php';
-		$class_name = 'autoadminList' . self::get_plugin_name($element_param['html_table_element']);
+        
+        $class_file = JPATH_BASE . '/app/plugins/autoadmin/table.' . $element_param['html_table_element'] . '.php';
+		$class_name = 'autoadminTable' . self::get_plugin_name($element_param['html_table_element']);
 
 		if (!is_file($class_file)) {
 			throw new joosAutoadminFilePluginNotFoundException(

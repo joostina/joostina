@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * Для вывода строки значений из нескольких элементов объекта в виде ссылки на редактирование этого объекта
+ * Для вывода строки значений из нескольких элементов объекта
  *
  * @version    1.0
  * @package    Plugins
@@ -16,7 +16,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminListValuesMultiHref extends joosAutoadminPlugins{
+class autoadminTableValuesMulti extends joosAutoadminPlugins{
 
 	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 
@@ -26,9 +26,16 @@ class autoadminListValuesMultiHref extends joosAutoadminPlugins{
 
 		$format = $element_param['html_table_element_param']['format'];
 
-		$href_title = strtr($format, (array) $values);
+		$v = (array) $values;
+		$new_array_values = array();
 
-		return '<a href="index2.php?option=' . $option . ( joosAutoadmin::$model ? '&model=' . joosAutoadmin::$model : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $href_title . '</a>';
+		array_walk($v, function(&$v, $k) use(&$new_array_values) {
+					$key = ':' . $k;
+					$new_array_values[$key] = $v;
+				}
+		);
+
+		return strtr($format, (array) $new_array_values);
 	}
 
 }
