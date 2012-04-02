@@ -29,7 +29,7 @@ class joosToolbar {
 	public static function _EDIT( $cur_template , $publish ) {
 		global $id;
 		mosMenuBar::startTable();
-		mosMenuBar::ext( _PREVIEW , '#' , '-preview' , " onclick=\"if (typeof document.adminForm.content == 'undefined') { alert('" . _PREVIEW_ONLY_CREATED_MODULES . "');} else { var content = document.adminForm.content.value; content = content.replace('#', ''); var title = document.adminForm.title.value; title = title.replace('#', ''); window.open('popups/modulewindow.php?title=' + title + '&amp;content=' + content + '&amp;t=$cur_template', 'win1', 'status=no,toolbar=no,scrollbars=auto,titlebar=no,menubar=no,resizable=yes,width=600,height=500,directories=no,location=no');}\"" );
+		mosMenuBar::ext( _PREVIEW , '#' , '-preview' , " onclick=\"if (typeof document.admin_form.content == 'undefined') { alert('" . _PREVIEW_ONLY_CREATED_MODULES . "');} else { var content = document.admin_form.content.value; content = content.replace('#', ''); var title = document.admin_form.title.value; title = title.replace('#', ''); window.open('popups/modulewindow.php?title=' + title + '&amp;content=' + content + '&amp;t=$cur_template', 'win1', 'status=no,toolbar=no,scrollbars=auto,titlebar=no,menubar=no,resizable=yes,width=600,height=500,directories=no,location=no');}\"" );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		// кнопка "Применить" с Ajax

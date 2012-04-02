@@ -14,8 +14,11 @@ $hrefs = require_once JPATH_APP_CONFIG.'/admin_panel.php';
 
 
 ?>
-<div class="cpanel">
 
+<h1>Dashboard</h1>
+<p>Здесь какие-то сводные данные</p>
+
+<div class="cpanel">
     <?php foreach($hrefs as $block_title => $block_hrefs): ?>
     <?php if( $block_hrefs=='clear' ): ?>
         <div class="b-clear" style="height:50px"></div>

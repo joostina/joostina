@@ -14,16 +14,19 @@ $hrefs = require_once JPATH_APP_CONFIG.'/admin_panel.php';
 
 
 ?>
-<div class="cpanel">
 
+<h1>Dashboard</h1>
+<p>Здесь какие-то сводные данные</p>
+
+<div class="cpanel">
     <?php foreach($hrefs as $block_title => $block_hrefs): ?>
-        <?php if( $block_hrefs=='clear' ): ?>
-            <div class="b-clear" style="height:50px"></div>        
+    <?php if( $block_hrefs=='clear' ): ?>
+        <div class="b-clear" style="height:50px"></div>
         <?php else: ?>
         <div class="b b-50 b-left">
             <h3><?php echo $block_title ?></h3>
             <?php foreach ($block_hrefs as $href_title => $href): ?>
-                <span><a href="<?php echo $href['href'] ?>"><img src="<?php echo joosHtml::ico( $href['ico'] , '32x32') ?>"/><?php echo $href_title ?></a></span>
+            <span><a class="btn btn-large" href="<?php echo $href['href'] ?>"><img src="<?php echo joosHtml::ico( $href['ico'] , '32x32') ?>"/><?php echo $href_title ?></a></span>
             <?php endforeach ?>
         </div>
         <?php endif ?>

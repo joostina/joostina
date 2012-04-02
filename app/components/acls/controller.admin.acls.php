@@ -55,11 +55,11 @@ class actionsAdminAcls  extends joosAdminController{
 
 		$menu = joosRequest::request('menu', false);
 
-		if ($menu && isset(self::$submenu[$menu])) {
+		if ($menu && isset(static::$submenu[$menu])) {
 
-			$active = self::$submenu[$menu];
+			$active = static::$submenu[$menu];
 
-			self::$submenu[$menu]['active'] = true;
+			static::$submenu[$menu]['active'] = true;
 			self::$model = $active['model'];
 
 			joosAutoadmin::$submenu = $menu;

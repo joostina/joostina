@@ -29,7 +29,7 @@ joosDocument::$config['seotag'] = FALSE;
 	<body>
 
 		<div id="sidebar">
-            <?php joosModuleAdmin::load_by_name('adminquickicons'); ?>
+            <?php joosModuleAdmin::load_by_name('admin_quickicons'); ?>
 		</div>
 
 		<div id="wrapper">

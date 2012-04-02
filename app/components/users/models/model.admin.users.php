@@ -148,9 +148,12 @@ class modelAdminUsers extends modelUsers {
 	}
 
 	public function get_tableinfo() {
-		return array('header_list' => 'Пользователи',
+		return array(
+            'header_main'=>'Работа с пользователями',
+            'header_list' => 'Пользователи',
 			'header_new' => 'Создание пользователя',
-			'header_edit' => 'Редактирование данных пользователя');
+			'header_edit' => 'Редактирование данных пользователя'
+        );
 	}
 
 	public function get_extrainfo() {

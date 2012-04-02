@@ -4,7 +4,7 @@
 defined( '_JOOS_CORE' ) or die();
 
 /**
- * Модуль главного меню панели управления
+ * Adminquickicons  - Модуль значков быстрого доступа панели управления
  * Модуль панели управления
  *
  * @version   1.0
@@ -16,10 +16,9 @@ defined( '_JOOS_CORE' ) or die();
  *
  * */
 //Подклчение вспомагательной библиотеки
-require_once joosCore::path( 'adminmenu' , 'module_helper' );
+//Получение перечня значков
+$items = joosDatabase::models( 'modelAdminQuickicons' )
+		->get_list( array ( 'where' => 'state = 1' ) );
 
-//Получение дерева пунктов меню
-$menu_items = helperAdminmenu::get_items();
-
-// рендер
-joosModuleAdmin::render( 'adminmenu' , array ( 'menu_items' => $menu_items ) );
+//Подключение шаблона вывода
+joosModuleAdmin::render( 'admin_quickicons' , array ( 'items' => $items ) );

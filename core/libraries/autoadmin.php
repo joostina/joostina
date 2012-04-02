@@ -21,7 +21,7 @@ class joosAutoadmin {
 	public static $model;
 	private static $data;
 	public static $submenu;
-	public static $component_title;
+	//public static $component_title;
 	private static $data_overload = false;
 	private static $class;
 	private static $option;
@@ -75,8 +75,7 @@ class joosAutoadmin {
 			$results = call_user_func_array($class . '::index', array($option, $id, $page, $task));
 			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
 		} else {
-			throw new joosException('Контроллер :controller, либо требуемая задача :task не найдены.', array(':controller' => $class,
-				':task' => $task));
+			throw new joosException('Контроллер :controller, либо требуемая задача :task не найдены.', array(':controller' => $class,':task' => $task));
 		}
 
 		if (is_array($results)) {
@@ -162,9 +161,6 @@ class joosAutoadmin {
 		$option = joosRequest::param('option');
 		$task = joosRequest::param('task');
 
-		// путь к текущим графическим элементам
-		echo joosHtml::js_code('image_path ="' . joosConfig::get('admin_icons_path') . '"; _option="' . $option . '";');
-
 		$fields_info = $obj->get_fieldinfo();
 
 		$header = $obj->get_tableinfo();
@@ -172,27 +168,37 @@ class joosAutoadmin {
 		$header_extra = self::get_extrainfo($obj);
 		$header_extra = self::prepare_extra($obj, $header_extra);
 
-		//Вывод заголовка
-		echo self::header(( isset($header['header_main']) ? $header['header_main'] : ''), $header['header_list'], $header_extra['for_header'], 'listing');
+        joosAdminView::set_param( 'component_title' , isset($header['header_main']) ? $header['header_main'] : '');
+        joosAdminView::set_param( 'component_header' , $header['header_list']);
 
+        $class = self::$class;
+        joosAdminView::set_param('submenu', $class::get_submenu() );
+        
+        joosAdminView::set_param('current_model', self::$model );
+        
+		//Вывод заголовка
+		self::header($header_extra['for_header'], 'listing');
+        //self::table_body();
+                
+        //return;
+        
 		//Вывод основного содержимого - таблицы с записями
-		echo '<form action="index2.php" method="post" name="adminForm" id="adminForm">';
-		echo '<table class="adminlist' . ( in_array('ordering', $fields_list) ? ' drag' : '' ) . '" id="adminlist"><thead><tr>';
-		echo '<th width="20px"><input type="checkbox" onclick="checkAll();" value="" name="toggle"></th>';
+		echo '<form action="index2.php" method="post" name="admin_form" id="admin_form">';
+		echo '<table class="table table-bordered table-admin"><thead>';
+		echo '<th width="20px"><input type="checkbox" name="toggle" value="" class="js-select_all"></th>';
 
 		$fields_to_table = array();
 		foreach ($fields_list as $field) {
 			if (isset($fields_info[$field]['in_admintable']) && $fields_info[$field]['in_admintable'] == TRUE) {
-				$sortable = ( isset($fields_info[$field]['sortable']) && $fields_info[$field]['sortable'] == true ) ? ' class="column_sortable"' : '';
 				$width = isset($fields_info[$field]['html_table_element_param']['width']) ? ' width="' . $fields_info[$field]['html_table_element_param']['width'] . '"' : '';
 				$class = isset($fields_info[$field]['html_table_element_param']['class']) ? ' class="' . $fields_info[$field]['html_table_element_param']['class'] . '"' : '';
 
-				echo '<th ' . $sortable . $width . $class . '>' . $fields_info[$field]['name'] . '</th>';
+				echo '<th ' . $width . $class . '>' . $fields_info[$field]['name'] . '</th>';
 				$fields_to_table[] = $field;
 			}
 		}
 
-		echo '</thead></tr>';
+		echo '</thead>';
 
 		$n = count($fields_to_table);
 		$k = 1;
@@ -218,7 +224,6 @@ class joosAutoadmin {
 		echo '</tr></table>' . "\n";
 		echo $pagenav->get_list_footer();
 		echo "\n";
-		echo self::footer();
 
 		echo $header_extra['hidden_ellements'];
 		echo forms::hidden('option', $option);
@@ -279,7 +284,7 @@ class joosAutoadmin {
 
 		//Настраиваем параметры HTML-разметки формы
 		if (!$params) {
-			$params = array('wrap_begin' => '<table class="adminform joiadmin">',
+			$params = array('wrap_begin' => '<table class="admin_form joiadmin">',
 				'wrap_end' => '</table>',
 				'label_begin' => '<tr><td width="150" align="right" valign="top">',
 				'label_end' => '</td>',
@@ -291,19 +296,22 @@ class joosAutoadmin {
 
 		//Вывод заголовка страницы с формой
 		$header = $obj->get_tableinfo(); //Получаем данные
-		$component_title = isset($header['header_main']) ? $header['header_main'] : '';
-		$header_text = $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'];
 
-		//Выводим заголовок
+        joosAdminView::set_param( 'component_title' , isset($header['header_main']) ? $header['header_main'] : '');
+        joosAdminView::set_param( 'component_header' ,  $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'] );
 
-		echo self::header($component_title, $header_text, array(), 'edit');
+        $class = self::$class;
+        joosAdminView::set_param('submenu', $class::get_submenu() );
+
+        joosAdminView::set_param('current_model', self::$model );
+        
+		echo self::header(array(), 'edit');
 
 		// начинаем отлавливать поступаемый JS код
 		self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
 
 		//открываем форму
-		echo forms::open('index2.php', array('name' => 'adminForm',
-			'id' => 'adminForm'));
+		echo forms::open('index2.php', array('name' => 'admin_form','id' => 'admin_form'));
 
 		//Массив сформированных элементов для вывода
 		$_elements = array();
@@ -351,8 +359,6 @@ class joosAutoadmin {
 				$i++;
 			}
 
-			//_xdump($_tabs_array);
-
 			echo $_tabs_areas;
 		} else {
 			//Начало общего контейнера
@@ -381,7 +387,6 @@ class joosAutoadmin {
 		self::$js_onformsubmit[] = '};</script>';
 
 		echo "\n" . implode("\n", self::$js_onformsubmit) . "\n";
-		echo self::footer();
 	}
 
 // получение типа элемента для формы редактирования
@@ -420,45 +425,32 @@ class joosAutoadmin {
 	 * joosAutoadmin::header()
 	 * Вывод заголовка с управляющими элементами
 	 *
-	 * @param string $component_title Заголовок текущего компонента ('header_main')
-	 * @param string $header          Заголовок текущей станицы (берётся из метода `get_tableinfo()` текущей модели)
 	 * @param array  $extra           Всяческие куртые штуки типа поля поиска, фильтров и т.п. (подтягивается из `get_extrainfo()` текущей модели)
 	 * @param string $task            Параметр передается в случае, если необходимо вывести стандартный тулбар
 	 *                         (т.е. когда метод вызывается из joosAutoadmin::listing или joosAutoadmin::edit)
 	 *
-	 * @return HTML-представление заголовка: название текущей страницы, субменю, системное сообщение, фильтры, тулбар (кнопки управления)
+	 * @return string HTML-представление заголовка: название текущей страницы, субменю, системное сообщение, фильтры, тулбар (кнопки управления)
 	 */
-	public static function header($component_title = '', $header = '', array $extra = array(), $task = '') {
-
-		$class = self::$class;
-
-		$component_title = ( isset(self::$component_title) ? self::$component_title . ':' : ( $component_title ? $component_title . ':' : '' ) );
-
-		$return = '';
+	public static function header( array $extra = array(), $task = '') {
 
 		//Заголовок страницы + тулбар
-		if (isset($class::$submenu)) {
-			$return = '<div class="page_title"><h1 class="title"><span>' . $component_title . '</span></h1>';
-			$return .= joosAutoadmin::submenu() . '</div>';
-		}
-
-		$return .= '<div class="page_subtitle"><h2>' . $header . '</h2>' . self::toolbar($task) . '</div>';
-
-		//Вывод системного соощения
-		ob_start();
-		joosModuleAdmin::load_by_name('flashmessage');
-		$return .= ob_get_clean();
-
-		$return .= '<div id="component_form">';
-
+        require_once JTEMPLATE_ADMIN_BASE.DS.'html'.DS.'table_header.php';
 
 		//Поиск, фильтры и т.п.
-		$return .= joosAutoadminHTML::controller_header(false, 'config', $extra);
-
-		return $return;
+        /**
+         * @todo запилить позже, потому как слишком уж гибко там внтурях
+         */
+		//$return .= joosAutoadminHTML::controller_header(false, 'config', $extra);
+		//return $return;
 	}
 
-	//Определение заголовка компонента по его названию
+   // тело таблицы
+    public static function table_body(  ) {
+        require_once JTEMPLATE_ADMIN_BASE.DS.'html'.DS.'table_body.php';
+    }
+
+
+    //Определение заголовка компонента по его названию
 	//Требуется в компонентах, которые выступают в качестве интерфейса
 	//например: компонент категорий, компонент настроек и т .п
 	public static function get_component_title($name) {
@@ -517,10 +509,6 @@ class joosAutoadmin {
 		}
 
 		return false;
-	}
-
-	public static function footer() {
-		return '</div>';
 	}
 
 // автоматическя обработка яксовых операций
@@ -864,7 +852,7 @@ class mosMenuBar {
 
 	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true) {
 		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . __('Необходимо выбрать хоть один элемент') . "');}else{submitbutton('$task')}";
+			$href = "javascript:if (document.admin_form.boxchecked.value == 0){ alert('" . __('Необходимо выбрать хоть один элемент') . "');}else{submitbutton('$task')}";
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
@@ -889,7 +877,7 @@ class mosMenuBar {
 
 		public static function publishList($task = 'publish', $alt = 'Показать') {
 		?><li><a class="tb-publish-list"
-					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для публикации') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
+					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для публикации') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
 		}
 
 		public static function unpublish($task = 'unpublish', $alt = 'Скрыть') {
@@ -899,22 +887,22 @@ class mosMenuBar {
 
 		public static function unpublishList($task = 'unpublish', $alt = 'Скрыть') {
 		?><li><a class="tb-unpublish-list"
-					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для скрытия') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
+					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для скрытия') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
 		}
 
 		public static function editList($task = 'edit', $alt = 'Редактировать') {
 		?><li><a class="tb-edit-list"
-					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элемент для редактирования') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo __($alt); ?></span></a></li><?php
+					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элемент для редактирования') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
 		public static function deleteList($msg = '', $task = 'remove', $alt = 'Удалить') {
 		?><li><a class="tb-delete-list"
-					   href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для удаления') ?>'); } else if (confirm('<?php echo __('Уверены в необходимости удаления объектов?') ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __($alt); ?></span></a></li><?php
+					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для удаления') ?>'); } else if (confirm('<?php echo __('Уверены в необходимости удаления объектов?') ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
 		public static function trash($task = 'remove', $alt = 'Переместить в корзину', $check = true) {
 			if ($check) {
-				$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('" . __('Выберите элементы для перемещения в корзину') . "'); } else { submitbutton('$task');}";
+				$js = "javascript:if (document.admin_form.boxchecked.value == 0){ alert('" . __('Выберите элементы для перемещения в корзину') . "'); } else { submitbutton('$task');}";
 			} else {
 				$js = "javascript:submitbutton('$task');";
 			}

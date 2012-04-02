@@ -37,7 +37,13 @@ DEFINE('JPATH_SITE', joosConfig::get('live_site'));
 DEFINE('JTEMPLATE', joosConfig::get('template'));
 
 // http корень текущего шаблона сайта
-DEFINE('JTEMPLATE_LIVE', sprintf('%s/app/templates/%s/', JPATH_SITE, JTEMPLATE));
+DEFINE('JTEMPLATE_LIVE', sprintf('%s/%s/templates/%s/', JPATH_SITE, JPATH_APP, JTEMPLATE));
+
+// физический корень текущего шаблона сайта
+DEFINE('JTEMPLATE_BASE', JPATH_BASE . DS . JPATH_APP . DS . 'templates' . DS . JTEMPLATE);
+
+// http корень текущего шаблона сайта
+DEFINE('JTEMPLATE_ADMIN_BASE', JPATH_BASE . DS . JPATH_APP . DS . 'templates' . DS . JTEMPLATE_ADMIN);
 
 // http корень для изображений
 DEFINE('JPATH_SITE_IMAGES', JPATH_SITE);
@@ -64,62 +70,63 @@ DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');
 DEFINE('JPATH_COOKIE', str_replace(array('http://', 'https://', 'www'), '', JPATH_SITE));
 
 // параметр активации отладки, активация работы в режиме отладки - осуществляется через конфиг, либо вручную установку в браузере куки с произвольным названием, по умолчанию - joostinadebugmode
-DEFINE('JDEBUG', ( (bool) isset($_COOKIE['joostinadebugmode']) ) ? true : joosConfig::get('debug', 0) );
+DEFINE('JDEBUG', ((bool)isset($_COOKIE['joostinadebugmode'])) ? true : joosConfig::get('debug', 0));
 
 // режим работы окружения
-DEFINE('JENVIRONMENT', JDEBUG ? 'development' : 'production' );
+DEFINE('JENVIRONMENT', JDEBUG ? 'development' : 'production');
 
 switch (JENVIRONMENT) {
 
-	case 'development':
-		// установка режима отображения ошибок
-		//error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
-		//error_reporting(-1);
-		error_reporting(E_ALL | E_NOTICE | E_STRICT | E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
+    case 'development':
+        // установка режима отображения ошибок
+        //error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
+        //error_reporting(-1);
+        error_reporting(E_ALL | E_NOTICE | E_STRICT | E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
 
-		ini_set('display_errors', 1);
-		ini_set('display_startup_errors', 0);
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 0);
 
-		ini_set('track_errors', 1);
+        ini_set('track_errors', 1);
 
-		set_error_handler(array('joosException', 'error_handler'));
-		set_exception_handler(array('joosException', 'error_handler'));
+        set_error_handler(array('joosException', 'error_handler'));
+        set_exception_handler(array('joosException', 'error_handler'));
 
-		register_shutdown_function(function() {
-					$haltCodes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
+        register_shutdown_function(function()
+            {
+                $haltCodes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
 
-					$error = error_get_last();
-					if ($error && in_array($error['type'], $haltCodes)) {
-						joosException::error_handler($error['type'], $error['message'], $error['file'], $error['line']);
-					}
-				}
-		);
+                $error = error_get_last();
+                if ($error && in_array($error['type'], $haltCodes)) {
+                    joosException::error_handler($error['type'], $error['message'], $error['file'], $error['line']);
+                }
+            }
+        );
 
-		break;
+        break;
 
-	//case 'testing':
-	case 'production':
-		error_reporting(0);
-		ini_set('display_errors', 0);
-		ini_set('display_startup_errors', 0);
-		break;
+    //case 'testing':
+    case 'production':
+        error_reporting(0);
+        ini_set('display_errors', 0);
+        ini_set('display_startup_errors', 0);
+        break;
 
-	/**
-	 *
-	 * @todo режим суперсайта, в нём все критичные ошибки выдают 404 и через таймаут редиректят на главную
-	 */
-	case 'superproduction':
-		error_reporting(0);
-		ini_set('display_errors', 0);
-		ini_set('display_startup_errors', 0);
-		break;
+    /**
+     *
+     * @todo режим суперсайта, в нём все критичные ошибки выдают 404 и через таймаут редиректят на главную
+     */
+    case 'superproduction':
+        error_reporting(0);
+        ini_set('display_errors', 0);
+        ini_set('display_startup_errors', 0);
+        break;
 
-	default:
-		exit('Окружение работы выбрано некорректно.');
+    default:
+        exit('Окружение работы выбрано некорректно.');
 }
 
 // установка часового пояса по умолчанию
-( ini_get('date.timezone') != '' ) ? : date_default_timezone_set('Europe/Moscow');
+(ini_get('date.timezone') != '') ? : date_default_timezone_set('Europe/Moscow');
 
 // кодировка для строковых функций
 mb_internal_encoding('UTF-8');

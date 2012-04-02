@@ -27,7 +27,7 @@ $ico = JPATH_SITE_ADMIN . '/components/content/media/ico/' ?>
 </form>
 <?php return; endif; ?>
 
-<form id="adminForm" method="post" action="index2.php">
+<form id="admin_form" method="post" action="index2.php">
 	<table class="adminlist">
 		<tr>
 
