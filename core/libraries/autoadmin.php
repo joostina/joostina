@@ -30,7 +30,7 @@ class joosAutoadmin {
 	/**
 	 * Автоматическое определение и запуск метода действия
 	 */
-	public static function dispatch() {
+	public static function dispatch( ) {
 
 		$id = joosRequest::int('id', 0);
 		$page = joosRequest::int('page', false, $_GET);
@@ -39,7 +39,7 @@ class joosAutoadmin {
 		$id = $id ? $id : $page;
 
 		$task = joosRequest::param('task', 'index');
-		$option = joosRequest::param('option');
+		$option = joosRequest::param('option','site');
 		$class = 'actionsAdmin' . ucfirst($option);
 
 		self::$class = $class;
@@ -56,15 +56,15 @@ class joosAutoadmin {
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
-		$events_name = sprintf('controller.*');
+		$events_name = sprintf('controller.admin.*');
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, $task) : null;
 
 
-		$events_name = sprintf('controller.%s.*', $class);
+		$events_name = sprintf('controller.admin.%s.*', $class);
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $task) : null;
 
 
-		$events_name = sprintf('controller.%s.%s', $class, $task);
+		$events_name = sprintf('controller.admin.%s.%s', $class, $task);
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
 
@@ -118,15 +118,15 @@ class joosAutoadmin {
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array()) : null;
 
-		$events_name = sprintf('ajax.controller.*');
+		$events_name = sprintf('ajax.controller.admin.*');
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, $task) : null;
 
 
-		$events_name = sprintf('ajax.controller.%s.*', $class);
+		$events_name = sprintf('ajax.controller.admin.%s.*', $class);
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $task) : null;
 
 
-		$events_name = sprintf('ajax.controller.%s.%s', $class, $task);
+		$events_name = sprintf('ajax.controller.admin.%s.%s', $class, $task);
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
 		if (method_exists($class, $task)) {
@@ -150,9 +150,9 @@ class joosAutoadmin {
 	 *
 	 * Генерация таблицы с записями
 	 *
-	 * @param        object    joosModel $obj
+	 * @param object joosModel $obj
 	 * @param array  $obj_list
-	 * @param        object    joosAdminPagenator $pagenav
+	 * @param object joosAdminPagenator $pagenav
 	 * @param array  $fields_list
 	 * @param string $group_by Используется для указания границ сортировки (для сортировки в пределах определенного значения. Например, в модулях, сортировка происходит в границах позиции модуля (за пределы группы нельзя перетащить строку в процессе сортировки))
 	 */

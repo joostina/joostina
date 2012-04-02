@@ -35,18 +35,9 @@ joosAcl::init_admipanel();
 
 joosAcl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
 
-// страница панели управления по умолчанию
-$option = $_REQUEST['option'] = joosRequest::param('option', 'admin');
-
 ob_start();
 
-$file_controller = JPATH_BASE . '/app/components/' . $option . DS . 'controller.admin.' . $option . '.php';
-if (is_file($file_controller)) {
-	require_once ( $file_controller );
-	joosAutoadmin::dispatch();
-} else {
-	throw new joosException('Не найден предполагаемый файл контроллера :controller', array(':controller' => $file_controller));
-}
+joosAutoadmin::dispatch();
 
 joosDocument::set_body(ob_get_clean());
 
