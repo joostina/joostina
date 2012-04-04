@@ -26,8 +26,6 @@ class actionsTest extends joosController {
 	 */
 	public static function index() {
 
-		echo joosText::json_encode( array(1=>'Один',2=>'Два') );
-
 		return array();
 	}
 

@@ -30,6 +30,9 @@ $my->group_id = (int) joosRequest::session('session_group_id');
 $session_id = joosRequest::session('session_id');
 $logintime = joosRequest::session('session_logintime');
 
+/**
+ * @todo добавить проверку существования этой сессии в БД
+ */
 if ($session_id == md5($my->id . $my->user_name . $my->group_name . $logintime)) {
 	joosRoute::redirect('index2.php');
 	die();

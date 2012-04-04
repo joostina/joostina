@@ -53,7 +53,8 @@ class midelSitemap {
 	 * @var array
 	 */
 	private $config = array(// максимальное число элементов в карте
-		'max_elemets_in_map' => 50000,);
+		'max_elemets_in_map' => 50000
+    );
 
 	/**
 	 * midelSitemap::__construct()
@@ -85,7 +86,7 @@ class midelSitemap {
 		foreach ($map->spaces as $space) {
 
 			//Подключаем плагин для компонента
-			require_once JPATH_PLUGINS_BASE . DS . 'sitemap' . DS . $space . '.php';
+			require_once JPATH_APP_PLUGINS_BASE . DS . 'sitemap' . DS . $space . '.php';
 
 			//По несложному правилу определяем имя модельки
 			$model = 'map' . joosInflector::camelize($space);
