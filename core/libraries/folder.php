@@ -39,7 +39,7 @@ class joosFolder {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_readable($location) {
-		return (bool) (self::exists($location) && is_readable($location));
+		return (bool) is_readable($location);
 	}
 
 	/**
@@ -50,7 +50,7 @@ class joosFolder {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_writable($location) {
-		return (bool) (self::exists($location) && is_writable($location));
+		return (bool) is_writable($location);
 	}
 
 	/**

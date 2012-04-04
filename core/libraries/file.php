@@ -361,7 +361,7 @@ class joosFile {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_writable($file_location) {
-		return (bool) (self::exists($file_location) && is_writable($file_location));
+		return (bool) is_writable($file_location);
 	}
 
 	/**
@@ -372,7 +372,7 @@ class joosFile {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_readable($file_location) {
-		return (bool) (self::exists($file_location) && is_readable($file_location));
+		return (bool) is_readable($file_location);
 	}
 
 }
