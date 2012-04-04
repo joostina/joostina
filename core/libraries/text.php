@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с текстом
+ * Работа с текстом
  *
  * @version    1.0
  * @package    Libraries
@@ -243,7 +243,7 @@ class joosText {
 	 * Преобразование строки в URL-безопасный вариант
 	 *
 	 * @tutorial joosText::text_to_url( 'Compellingly strategize B2B portals after empowered.' ); => compellingly-strategize-b2b-portals-after-empowered
-	 * @tutorial  joosText::text_to_url( 'Гендер теоретически возможен!' ); => gender-teoreticheski-vozmozhen
+	 * @tutorial joosText::text_to_url( 'Гендер теоретически возможен!' ); => gender-teoreticheski-vozmozhen
 	 * @tutorial joosText::text_to_url( 'Разного рода символы !%#$&^&*^%*&)()(*_)*--  <> -' ); => raznogo-roda-simvoly
 	 *
 	 * @param string $str исходная строка для обработки
@@ -396,7 +396,7 @@ class joosText {
 		$now = $to_time ? $to_time : time();
 		$now = time();
 
-        $s = '';
+		$s = '';
 
 		if ($now > $ts) {
 			$diff = round($now - $ts);

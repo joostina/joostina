@@ -3,12 +3,16 @@
 /**
  * Автозагрузчик классов
  *
- * @package   Core
- * @author    JoostinaTeam
- * @copyright (C) 2007-2012 Joostina Team
- * @license   MIT License http://www.opensource.org/licenses/mit-license.php
- * Иинформация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
- */
+ * @version    1.0
+ * @package    Libraries
+ * @subpackage Libraries
+ * @category   Libraries
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
