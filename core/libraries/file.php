@@ -15,6 +15,8 @@ defined('_JOOS_CORE') or die();
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
+ * @todo оценить необходимость использования clearstatcache
+ *
  * */
 class joosFile {
 
@@ -24,7 +26,6 @@ class joosFile {
 	 * @tutorial joosFile::convert_size(123);
 	 * @tutorial joosFile::convert_size(123456);
 	 *
-	 * @static
 	 * @param string $num исходные строка или число для форматирования
 	 * @return string|num
 	 */
@@ -219,6 +220,8 @@ class joosFile {
 	 * 		 size - размер файла в байтах
 	 * 		 ext - расширение файла
 	 * 		 name - имя файла с расширением
+	 *
+	 * @todo переделать на SplFileInfo
 	 */
 	public static function file_info($filename) {
 
@@ -284,7 +287,7 @@ class joosFile {
 	 * @return type
 	 * @throws joosFileLibrariesException
 	 */
-	public static function size($filename) {
+	public static function get_size($filename) {
 
 		if (!joosFile::exists($filename)) {
 			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
@@ -300,7 +303,7 @@ class joosFile {
 	 * @return type
 	 * @throws joosFileLibrariesException
 	 */
-	public static function type($filename) {
+	public static function get_type($filename) {
 
 		if (!joosFile::exists($filename)) {
 			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
@@ -312,34 +315,64 @@ class joosFile {
 	/**
 	 * Записи данных в файл
 	 *
-	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $file_name абсолюютный или относительный путь до файла
 	 * @param string $data данные для записи в файл
 	 * @return type
 	 * @throws joosFileLibrariesException
 	 */
-	public static function put($filename, $data) {
+	public static function put_content($file_name, $data) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		if (!joosFile::exists($file_name)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $file_name));
 		}
 
-		return file_put_contents($filename, $data, LOCK_EX);
+		if (!joosFile::is_writable($file_name)) {
+			throw new joosFileLibrariesException('Файл :file не доступен для записи', array(':file' => $file_name));
+		}
+
+		return file_put_contents($file_name, $data, LOCK_EX);
 	}
 
 	/**
 	 * Получение содержимого файла
 	 *
-	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $file_name абсолюютный или относительный путь до файла
 	 * @return type
 	 * @throws joosFileLibrariesException
 	 */
-	public static function get($filename) {
+	public static function get_content($file_name) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
+		if (!joosFile::exists($file_name)) {
+			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $file_name));
 		}
 
-		return file_get_contents($filename);
+		if (!joosFile::is_writable($file_name)) {
+			throw new joosFileLibrariesException('Файл :file не доступен для чтения', array(':file' => $file_name));
+		}
+
+		return file_get_contents($file_name);
+	}
+
+	/**
+	 * Проверка прав доступа на запись в файл
+	 *
+	 * @param string $file_location полный путь к каталогу
+	 *
+	 * @return bool результат проверки доступа на запись в указанный каталог
+	 */
+	public static function is_writable($file_location) {
+		return (bool) (self::exists($file_location) && is_writable($file_location));
+	}
+
+	/**
+	 * Проверка прав доступа на чтение файла
+	 *
+	 * @param string $file_location полный путь к каталогу
+	 *
+	 * @return bool результат проверки доступа на запись в указанный каталог
+	 */
+	public static function is_readable($file_location) {
+		return (bool) (self::exists($file_location) && is_readable($file_location));
 	}
 
 }

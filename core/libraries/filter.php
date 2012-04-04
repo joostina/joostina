@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека фильтрации данных
+ * Библиотека фильтрации данных
  *
  * @version    1.0
  * @package    Libraries
@@ -40,22 +40,6 @@ class joosFilter {
 	 */
 	public static function htmlspecialchars($value, $quoteStyle = ENT_NOQUOTES) {
 		return htmlspecialchars($value, $quoteStyle, 'UTF-8');
-	}
-
-	/**
-	 * Преобразование имени файла в безопасное значение
-	 * Имя транслитерируется с русского языка, переводится в нижний регистр и очищается от спецсимволов и пробелов
-	 *
-	 * @param string $file_name имя файла с расширением, или без
-	 * @return type  очищенное имя файла
-	 */
-	public static function filename($file_name) {
-
-		$file_name = joosText::russian_transliterate($file_name);
-		$file_name = strtolower($file_name);
-		$file_name = preg_replace('/[^-a-z0-9_.-]+/u', '-', $file_name);
-
-		return trim(basename(stripslashes($file_name)), ".\x00..\x20");
 	}
 
 }

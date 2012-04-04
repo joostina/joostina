@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с каталогами файловой системы
+ * Работа с каталогами файловой системы
  *
  * @version    1.0
  * @package    Libraries
@@ -28,22 +28,29 @@ class joosFolder {
 	public static function exists($location) {
 		$location = (string) $location;
 
-		if (file_exists($location) && is_dir($location)) {
-			return true;
-		}
-
-		return false;
+		return (bool) (file_exists($location) && is_dir($location));
 	}
 
 	/**
-	 * Провека прав доступа к каталогу на запись
+	 * Проверка прав доступа на чтение содержимого каталога
+	 *
+	 * @param string $location полный путь к каталогу
+	 *
+	 * @return bool результат проверки доступа на запись в указанный каталог
+	 */
+	public static function is_readable($location) {
+		return (bool) (self::exists($location) && is_readable($location));
+	}
+
+	/**
+	 * Проверка прав доступа к каталогу на запись
 	 *
 	 * @param string $location полный путь к каталогу
 	 *
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_writable($location) {
-		return (bool) (self::exists && is_writable($location));
+		return (bool) (self::exists($location) && is_writable($location));
 	}
 
 	/**

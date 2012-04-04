@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека управления параметрами
+ * Библиотека управления параметрами
  *
  * @version    1.0
  * @package    Libraries

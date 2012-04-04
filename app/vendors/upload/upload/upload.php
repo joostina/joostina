@@ -17,7 +17,7 @@ class joosUpload {
 	 */
 	public static function easy_upload($element_name, $upload_location, array $params = array()) {
 
-		$file_name = joosFilter::filename($_FILES[$element_name]['name']);
+		$file_name = joosFile::make_safe_name($_FILES[$element_name]['name']);
 
 		$upload_location = rtrim($upload_location, '/');
 

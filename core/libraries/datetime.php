@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с датами и временем
+ * Работа с датами и временем
  *
  * @version    1.0
  * @package    Libraries
@@ -392,7 +392,7 @@ class joosDateTime {
 			return FALSE;
 		}
 
-		return  self::russian_date($formats[$fmt], $time);
+		return self::russian_date($formats[$fmt], $time);
 	}
 
 }
