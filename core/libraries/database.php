@@ -4,7 +4,8 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * Работа с базой данных
+ * joosDatabase - Библиотека работы с базой данных
+ * Системная библиотека
  *
  * @version    1.0
  * @package    Libraries
@@ -374,7 +375,6 @@ class joosDatabase {
 			return null;
 		}
 		$array = array();
-		/** @noinspection PhpAssignmentInConditionInspection */
 		while ($row = mysqli_fetch_row($cur)) {
 			$array[] = $row[$numinarray];
 		}
@@ -563,7 +563,7 @@ class joosDatabase {
 	 * Работает ТОЛЬКО через joosDatabase::instance()->insert_object
 	 *
 	 * @param string   $table   название таблицы, можно с преффиксом #__
-	 * @param joosModel $object  объект с заполненными свойствами
+	 * @param stdClass $object  объект с заполненными свойствами
 	 * @param string   $keyName название ключевого автоинскриментного поля таблицы
 	 *
 	 * @return int идентификатор вставленной записи, истину или ложь если операция провалилась
@@ -758,9 +758,8 @@ class joosDatabase {
 	/**
 	 * Очистка буфера mysqli
 	 */
-	private function free_result() {
-;
-		!JDEBUG ? mysqli_free_result($this->_cursor) : null;
+	private function free_result(){;
+		 !JDEBUG ? mysqli_free_result( $this->_cursor ) : null;
 	}
 
 }
@@ -1051,7 +1050,7 @@ class joosModel {
 	 * Заглушка получения информации о полях
 	 * @return array
 	 */
-	public function get_fieldinfo() {
+	protected function get_fieldinfo() {
 		return array();
 	}
 
@@ -1059,7 +1058,7 @@ class joosModel {
 	 * Заглушка получения информации о таблице модели
 	 * @return array
 	 */
-	public function get_tableinfo() {
+	protected function get_tableinfo() {
 		return array();
 	}
 
@@ -1068,7 +1067,7 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-	public function get_tabsinfo() {
+	protected function get_tabsinfo() {
 		return array();
 	}
 
@@ -1626,20 +1625,50 @@ class joosModel {
 	 */
 	public function get_list(array $params = array()) {
 
+		$offset = isset($params['offset']) ? $params['offset'] . "\n" : 0;
+		$limit = isset($params['limit']) ? $params['limit'] . "\n" : 0;
+		$tbl_key = isset($params['key']) ? $params['key'] : null;
+
+		return $this->_db->set_query($this->get_query_list($params), $offset, $limit)->load_object_list($tbl_key);
+	}
+
+	/**
+	 * Функция, формирующая SQL-запрос для метода get_list()
+	 *
+	 * @param array $params Те же параметры, что и для get_list
+	 * @return string SQL-запрос
+	 */
+	private function get_query_list($params) {
+
 		$select = isset($params['select']) ? $params['select'] . "\n" : '*';
 		$where = isset($params['where']) ? 'WHERE ' . $params['where'] . "\n" : '';
 		$join = isset($params['join']) ? $params['join'] . "\n" : '';
 		$group = isset($params['group']) ? 'GROUP BY ' . $params['group'] . "\n" : '';
 		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] . "\n" : '';
-		$offset = isset($params['offset']) ? $params['offset'] . "\n" : 0;
-		$limit = isset($params['limit']) ? $params['limit'] . "\n" : 0;
-
-		//$tbl_key   = isset( $params['key'] ) ? $params['key'] : $this->_tbl_key;
-		$tbl_key = isset($params['key']) ? $params['key'] : null;
-
 		$pseudonim = isset($params['pseudonim']) ? ' AS ' . $params['pseudonim'] . ' ' : '';
 
-		return $this->_db->set_query("SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order, $offset, $limit)->load_object_list($tbl_key);
+		return "SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order;
+	}
+
+	/**
+	 * Версия метода get_list с кэшированием
+	 *
+	 * @param array $params Те же параметры, что и для get_list
+	 * @param int $cache_time Время жизни кэша
+	 * @return type Закэшированное значение
+	 */
+	public function get_list_cache(array $params = array(), $cache_time = 86400) {
+
+		$cache = new joosCache();
+		$key   = md5($this->get_query_list($params));
+
+		if (($value = $cache->get($key)) === NULL) {
+
+			$value = $this->get_list($params);
+			$cache->set($key, $value, $cache_time);
+		}
+
+		return $value;
 	}
 
 	/**
@@ -1747,6 +1776,15 @@ class joosModel {
 	 * @return boolean результат поиска и загрузки значений в свойства текущей модели
 	 */
 	public function find(array $params = array('select' => '*')) {
+
+		return $this->_db->set_query($this->get_find_query_from_params($params))->load_object($this);
+	}
+
+	/**
+	 * Построение строки запроса из параметров метода find();
+	 */
+	private function get_find_query_from_params($params) {
+
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
 		$tmp = array();
 		foreach (get_object_vars($this) as $k => $v) {
@@ -1761,7 +1799,42 @@ class joosModel {
 			}
 			$tmp[] = $this->_db->name_quote($k) . '=' . $val;
 		}
-		return $this->_db->set_query(sprintf($fmtsql, implode(' AND ', $tmp)))->load_object($this);
+
+		return sprintf($fmtsql, implode(' AND ', $tmp));
+	}
+
+
+	/**
+	 * Кэширующая обертка над фунцией find
+	 *
+	 * @param array $params Параметры к методу find
+	 * @param int $cache_time Время кэширования
+	 * @return boolean Найденный объект
+	 *
+	 * @todo проверить обоснованность использования $find_result
+	 */
+	public function find_cache(array $params = array('select' => '*'), $cache_time = 86400) {
+
+		$cache = new joosCache();
+		$key   = md5($this->get_find_query_from_params($params));
+
+		if (($value = $cache->get($key)) === NULL) {
+
+			$find_result = $this->find($params);
+			//в кэше надо хранить не только значение, но еще и результат поиска
+			$cache->set($key, array($find_result, $this->to_cache()), $cache_time);
+		}
+		else {
+
+			//достаем объект и мэппим его поля на текущий объект
+			list($find_result,$obj) = $value;
+			foreach($obj as $k => $v) {
+
+				$this->$k = $v;
+			}
+		}
+
+		return $find_result;
 	}
 
 	/**
