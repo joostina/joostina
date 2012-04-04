@@ -10,7 +10,19 @@ defined('_JOOS_CORE') or die();
 class helperAcl {
 
 	public static function check_access($full_operations_name) {
-		//if(Yii::app()->user->checkAccess('deletePost'))
+
+        $user_groop_ids = array(1,2);
+
+        $sql = sprintf('SELECT ag.name, al.acl_name FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM jos_acl_users_groups WHERE user_id IN (%s) )',  implode(',',$user_groop_ids) );
+        $r = joosDatabase::instance()->set_query($sql)->load_assoc_list();
+
+        $d = array();
+        foreach ($r as $value) {
+            $d[$value['acl_name']] = true;
+        }
+        
+        _xdump($d);
+        
 	}
 
 	public static function is_allow($full_operations_name) {

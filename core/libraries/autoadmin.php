@@ -948,25 +948,18 @@ class mosMenuBar {
 
 }
 
-class joosAutoadminPlugins{
+interface joosAutoadminPluginsTable{
 
-    /**
-     * Вывод конкретного элемента объекта
-     * 
-     * @param $element_param
-     * @param $key
-     * @param $value
-     * @param $obj_data
-     * @param $params 
-     * @param $tabs
-     * 
-     * @todo описать параметры
-     */
-    public static function render( $element_param , $key , $value , $obj_data , $params , $tabs ) {
-        
-    }
+    public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option );
     
 }
+
+interface joosAutoadminPluginsEdit{
+
+    public static function render( $element_param , $key , $value , $obj_data , $params , $tabs );
+
+}
+
 
 class joosAutoadminFilePluginNotFoundException extends joosException {
 

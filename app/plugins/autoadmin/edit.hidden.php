@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminEditHidden extends joosAutoadminPlugins{
+class autoadminEditHidden implements joosAutoadminPluginsEdit{
 
 	public static function render( $element_param , $key , $value , $obj_data , $params , $tabs ) {
 		return forms::hidden( $key , $value );

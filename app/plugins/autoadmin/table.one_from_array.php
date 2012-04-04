@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminTableOneFromArray extends joosAutoadminPlugins{
+class autoadminTableOneFromArray implements joosAutoadminPluginsTable{
 
 	private static $element_datas = array ();
 

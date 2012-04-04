@@ -57,7 +57,8 @@ if (joosRequest::is_post()) {
 	$database->set_query($query)->load_object($my);
 
 	if (isset($my->id)) {
-		joosAcl::init_admipanel();
+		
+        joosAcl::init_admipanel();
 
 		list( $hash, $salt ) = explode(':', $my->password);
 		$cryptpass = md5($password . $salt);
@@ -66,6 +67,8 @@ if (joosRequest::is_post()) {
 		// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
 		$bad_auth = $my->bad_auth_count;
 
+        //helperAcl::check_access('admin_pane::use');
+        
 		if (strcmp($hash, $cryptpass) || !joosAcl::acl()->isAllowed(strtolower($my->group_name), 'adminpanel')) {
 			// ошибка авторизации
 			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
