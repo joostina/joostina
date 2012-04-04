@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека кеширования
+ * Библиотека кеширования
  * Базируется на оригинальном класса библиотеки Flourish   http://flourishlib.com/fCache
  *
  * @version    1.0
@@ -101,7 +101,7 @@ class joosCache {
 				if ($ttl > 2592000) {
 					$ttl = time() + 2592000;
 				}
-				return $this->data_store->add($key, serialize($value), 0, $ttl);
+				return $this->data_store->add($key, $value, 0, $ttl);
 		}
 	}
 
@@ -143,11 +143,6 @@ class joosCache {
 
 	public function get($key, $default = NULL) {
 
-		//если кэш запрещен
-		if (!joosConfig::get2('cache', 'enable')) {
-			return NULL;
-		}
-
 		switch ($this->type) {
 			case 'apc':
 				$value = apc_fetch($key);
@@ -173,7 +168,7 @@ class joosCache {
 				if ($value === FALSE) {
 					return $default;
 				}
-				return unserialize($value);
+				return $value;
 		}
 	}
 
@@ -203,6 +198,12 @@ class joosCache {
 	}
 
 	public function set($key, $value, $ttl = 0) {
+
+		//если кэш запрещен
+		if (!joosConfig::get2('cache', 'enable')) {
+			return;
+		}
+
 		switch ($this->type) {
 			case 'apc':
 				apc_store($key, serialize($value), $ttl);
@@ -218,10 +219,7 @@ class joosCache {
 				if ($ttl > 2592000) {
 					$ttl = time() + 2592000;
 				}
-				$value = serialize($value);
-				if (!$this->data_store->replace($key, $value, 0, $ttl)) {
-					$this->data_store->set($key, $value, 0, $ttl);
-				}
+				$this->data_store->set($key, $value, 0, $ttl);
 				return;
 		}
 	}

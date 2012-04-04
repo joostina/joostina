@@ -1283,17 +1283,17 @@ class joosModel {
 	 * Сохранение свойств модели в БД
 	 * Производит непосредственно запись в БД значений заполненных полей модели. При этом сами свойства должны быть указаны ранее, методом bind, либо set, либо прямого присвоения $news->title='Новость 1'
 	 *
-	 * @param bool $updateNulls флаг обновления неопределённых свойств
-	 * @param bool $forcedIns   флаг принудительной вставки. Необходимо в случаях, когда значение ключевого поля уже задано, но всё-равно необходимо создать новую запись (например, в компоненте категорий: category_id известно, но в таблице `categories_details` нужно создать запись с этим ключом )
+	 * @param bool $update_nulls флаг обновления неопределённых свойств
+	 * @param bool $forced_Insert   флаг принудительной вставки. Необходимо в случаях, когда значение ключевого поля уже задано, но всё-равно необходимо создать новую запись (например, в компоненте категорий: category_id известно, но в таблице `categories_details` нужно создать запись с этим ключом )
 	 *
 	 * @return boolean результат сохранения модели
 	 */
-	public function store($updateNulls = false, $forcedIns = false) {
+	public function store($update_nulls = false, $forced_Insert = false) {
 		$k = $this->_tbl_key;
 
 		$this->before_store();
 
-		if (( isset($this->$k) && $this->$k != 0 ) && !$forcedIns) {
+		if (( isset($this->$k) && $this->$k != 0 ) && !$forced_Insert) {
 
 			// дата последней модификации
 			if (property_exists($this, 'modified_at') && $this->modified_at == null) {
@@ -1301,7 +1301,7 @@ class joosModel {
 			}
 
 			$this->before_update();
-			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $update_nulls);
 			$this->after_update();
 		} else {
 
@@ -1326,6 +1326,7 @@ class joosModel {
 
 	/**
 	 * Переопределяемая функция проверки правильности заполнения полей модели
+	 *
 	 * @return boolean результат проверки
 	 */
 	public function check() {
@@ -1334,6 +1335,8 @@ class joosModel {
 
 	/**
 	 * Метод, выполняемый до обновления значений модели
+	 *
+	 * @return boolean
 	 */
 	protected function before_update() {
 		return true;
@@ -1341,6 +1344,8 @@ class joosModel {
 
 	/**
 	 * Метод, выполняемый после обновления значений модели
+	 *
+	 * @return boolean
 	 */
 	protected function after_update() {
 		return true;
@@ -1348,6 +1353,8 @@ class joosModel {
 
 	/**
 	 * Метод выполняемый до добавления значений модели
+	 *
+	 * @return boolean
 	 */
 	protected function before_insert() {
 		return true;
@@ -1355,6 +1362,8 @@ class joosModel {
 
 	/**
 	 * Метод выполняемый после вставки значений модели
+	 *
+	 * @return boolean
 	 */
 	protected function after_insert() {
 		return true;
@@ -1362,6 +1371,8 @@ class joosModel {
 
 	/**
 	 * Метод выполняемый до сохранения значений модели ( вставка / обновление )
+	 *
+	 * @return boolean
 	 */
 	protected function before_store() {
 		return true;
@@ -1369,6 +1380,8 @@ class joosModel {
 
 	/**
 	 * Метод выполняемый после полного сохранения данных модели ( вставка / обновление )
+	 *
+	 * @return boolean
 	 */
 	protected function after_store() {
 		return true;
@@ -1376,6 +1389,8 @@ class joosModel {
 
 	/**
 	 * Метод выполняемый до удаления конкретной записи модели
+	 *
+	 * @return boolean
 	 */
 	protected function before_delete() {
 		return true;
@@ -1383,6 +1398,8 @@ class joosModel {
 
 	/**
 	 * Метод выполняемый после удаления конкретной записи модели
+	 *
+	 * @return boolean
 	 */
 	protected function after_delete() {
 		return true;
@@ -1572,13 +1589,13 @@ class joosModel {
 	 * Булево изменение содержимого указанного столбца. Используется для смены статуса элемента
 	 * Меняет значение указанного поля на противопложное
 	 *
-	 * @param string $fieldname название свойства модели для изменения на противоположное
+	 * @param string $field_name название свойства модели для изменения на противоположное
 	 *
 	 * @return boolean результат смены значения поля
 	 */
-	public function change_state($fieldname) {
+	public function change_state($field_name) {
 		$key = $this->{$this->_tbl_key};
-		return $this->_db->set_query("UPDATE `$this->_tbl` SET `$fieldname` = !`$fieldname` WHERE $this->_tbl_key = $key", 0, 1)->query();
+		return $this->_db->set_query("UPDATE `$this->_tbl` SET `$field_name` = !`$field_name` WHERE $this->_tbl_key = $key", 0, 1)->query();
 	}
 
 	/**
