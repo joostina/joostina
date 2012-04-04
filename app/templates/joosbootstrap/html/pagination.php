@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: boston
- * Date: 02.04.12
- * Time: 22:39
- * To change this template use File | Settings | File Templates.
- */
-?>
 <div class="pagination">
     <ul>
         <li><a href="#">Prev</a></li>

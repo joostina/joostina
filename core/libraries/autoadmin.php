@@ -23,7 +23,7 @@ class joosAutoadmin {
 	public static $submenu;
 	//public static $component_title;
 	private static $data_overload = false;
-	private static $class;
+	private static $class = array();
 	private static $option;
 	private static $task;
 
@@ -269,7 +269,7 @@ class joosAutoadmin {
 	 *
 	 * Генерация формы добавления/редактирования записи
 	 *
-	 * @param object $obj
+	 * @param joosModel $obj
 	 * @param object $obj_data
 	 * @param array  $params
 	 */
@@ -376,9 +376,15 @@ class joosAutoadmin {
 		echo forms::hidden('option', $option) . "\t";
 		echo forms::hidden('model', self::$model) . "\t";
 		echo forms::hidden('menu', self::$submenu);
-		echo forms::hidden('task', 'save') . "\t";
-		echo forms::hidden(joosCSRF::get_code(), 1); // элемент защиты от XSS
-		//Закрываем форму
+		//echo forms::hidden('task', 'save') . "\t";
+		echo forms::hidden(joosCSRF::get_code(), 1). "\t"; // элемент защиты от XSS
+
+        echo forms::button('task','Сохранить','value="save"'). "\t";
+        echo forms::button('task','Применить','value="apply"'). "\t";
+        echo forms::button('task','Сохранить и добавить','value="save_and_new"'). "\t";
+
+
+        //Закрываем форму
 		echo forms::close();
 
 
@@ -806,11 +812,11 @@ class joosAdminToolbar {
 	public static function listing() {
 		ob_start();
 
-		mosMenuBar::startTable();
-		mosMenuBar::addNew('create');
-		mosMenuBar::deleteList();
+		mosMenuBar::start_table();
+		mosMenuBar::add_new('create');
+		mosMenuBar::delete_list();
 		echo implode('', self::$add_button);
-		mosMenuBar::endTable();
+		mosMenuBar::end_table();
 
 		$return = ob_get_clean();
 
@@ -820,13 +826,13 @@ class joosAdminToolbar {
 	public static function edit() {
 		ob_start();
 
-		mosMenuBar::startTable();
+		mosMenuBar::start_table();
 		mosMenuBar::save();
 		mosMenuBar::custom('save_and_new', '-save-and-new', '', __('Сохранить и добавить'), false);
 		mosMenuBar::apply();
 		echo implode('', self::$add_button);
 		joosRequest::int('id', false) ? mosMenuBar::cancel('cancel', __('Закрыть')) : mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		joosToolBar::end_table();
 
 		$return = ob_get_clean();
 
@@ -841,33 +847,25 @@ class joosAdminToolbar {
 
 class mosMenuBar {
 
-	public static function startTable() {
+	public static function start_table() {
 		?><div id="toolbar"><ul class="listreset"><?php
 	}
 
-	public static function ext($alt = _BUTTON, $href = '', $class = '', $extra = '') {
-		?><li><a class="tb-ext<?php echo $class; ?>"
-					   href="<?php echo $href; ?>" <?php echo $extra; ?>><span><?php echo $alt; ?></span></a></li><?php
-	}
-
-	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true) {
-		if ($listSelect) {
+	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $list_select = true) {
+		if ($list_select) {
 			$href = "javascript:if (document.admin_form.boxchecked.value == 0){ alert('" . __('Необходимо выбрать хоть один элемент') . "');}else{submitbutton('$task')}";
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
-		?><li><a class="tb-custom<?php echo $icon; ?>"
-					   href="<?php echo $href; ?>"><span><?php echo __($alt); ?></span></a></li><?php
+		?><li><a class="tb-custom<?php echo $icon; ?>" href="<?php echo $href; ?>"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
-		public static function addNew($task = 'new', $alt = 'Создать') {
-		?><li><a class="tb-add-new"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		public static function add_new($task = 'new', $alt = 'Создать') {
+		?><li><a class="tb-add-new" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
 		public static function copy($task = 'copy', $alt = 'Копировать') {
-		?><li><a class="tb-add-new"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		?><li><a class="tb-add-new" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
 		public static function publish($task = 'publish', $alt = 'Показать') {
@@ -875,74 +873,32 @@ class mosMenuBar {
 					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
-		public static function publishList($task = 'publish', $alt = 'Показать') {
-		?><li><a class="tb-publish-list"
-					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для публикации') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
+		public static function delete_list($msg = '', $task = 'remove', $alt = 'Удалить') {
+		?><li><a class="tb-delete-list" href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для удаления') ?>'); } else if (confirm('<?php echo __('Уверены в необходимости удаления объектов?') ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
-		public static function unpublish($task = 'unpublish', $alt = 'Скрыть') {
-		?><li><a class="tb-unpublish"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo $alt; ?></span></a></li><?php
-		}
-
-		public static function unpublishList($task = 'unpublish', $alt = 'Скрыть') {
-		?><li><a class="tb-unpublish-list"
-					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для скрытия') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo $alt; ?></span></a></li><?php
-		}
-
-		public static function editList($task = 'edit', $alt = 'Редактировать') {
-		?><li><a class="tb-edit-list"
-					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элемент для редактирования') ?>'); } else {submitbutton('<?php echo $task; ?>', '');}"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function deleteList($msg = '', $task = 'remove', $alt = 'Удалить') {
-		?><li><a class="tb-delete-list"
-					   href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для удаления') ?>'); } else if (confirm('<?php echo __('Уверены в необходимости удаления объектов?') ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function trash($task = 'remove', $alt = 'Переместить в корзину', $check = true) {
-			if ($check) {
-				$js = "javascript:if (document.admin_form.boxchecked.value == 0){ alert('" . __('Выберите элементы для перемещения в корзину') . "'); } else { submitbutton('$task');}";
-			} else {
-				$js = "javascript:submitbutton('$task');";
-			}
-		?><li><a class="tb-trash" href="<?php echo $js; ?>"><span><?php echo __($alt) ?></span></a></li><?php
-		}
 
 		public static function apply($task = 'apply', $alt = 'Применить') {
-		?><li><a class="tb-apply"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		?><li><a class="tb-apply" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 	}
 
 	public static function save($task = 'save', $alt = 'Сохранить') {
-		?><li><a class="tb-save"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		?><li><a class="tb-save" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
-		public static function savenew() {
-		?><li><a class="tb-save-new"
-					   href="javascript:submitbutton('savenew');"><span><?php echo __('Сохранить') ?></span></a></li><?php
+		public static function save_new() {
+		?><li><a class="tb-save-new" href="javascript:submitbutton('savenew');"><span><?php echo __('Сохранить') ?></span></a></li><?php
 		}
 
-		public static function saveedit() {
-		?><li><a class="tb-save-edit"
-					   href="javascript:submitbutton('saveedit');"><span><?php echo __('Сохранить') ?></span></a></li><?php
+		public static function save_edit() {
+		?><li><a class="tb-save-edit" href="javascript:submitbutton('saveedit');"><span><?php echo __('Сохранить') ?></span></a></li><?php
 		}
 
 		public static function cancel($task = 'cancel', $alt = 'Закрыть') {
-		?><li><a class="tb-cancel"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
+		?><li><a class="tb-cancel" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
 		}
 
-		public static function back($alt = _MENU_BACK, $href = 'javascript:window.history.back();') {
-		?><li><a class="tb-back" href="<?php echo $href; ?>"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function divider() {
-		?><li>&nbsp;|&nbsp;</li><?php
-	}
-
-	public static function endTable() {
+	public static function end_table() {
 		?></ul></div><?php
 	}
 

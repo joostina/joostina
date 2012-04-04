@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: boston
- * Date: 02.04.12
- * Time: 22:40
- * To change this template use File | Settings | File Templates.
- */
-?>
 <div class="alert alert-block">
     <a class="close" data-dismiss="alert">×</a>
     <h4 class="alert-heading">Warning!</h4>

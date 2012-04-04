@@ -64,9 +64,9 @@ class actionsAdminCategories  extends joosAdminController{
 
 	public static function index() {
 		ob_start();
-		mosMenuBar::startTable();
-		mosMenuBar::addNew( 'create' );
-		mosMenuBar::endTable();
+		mosMenuBar::start_table();
+		mosMenuBar::add_new( 'create' );
+		mosMenuBar::end_table();
 		$index_tools             = ob_get_clean();
 
 		self::$toolbars['index'] = $index_tools;

@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-mosMenuBar::startTable();
-mosMenuBar::addNew( 'create' );
-mosMenuBar::deleteList();
-mosMenuBar::endTable();
+mosMenuBar::start_table();
+mosMenuBar::add_new( 'create' );
+mosMenuBar::delete_list();
+mosMenuBar::end_table();

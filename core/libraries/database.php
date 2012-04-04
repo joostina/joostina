@@ -1042,7 +1042,7 @@ class joosModel {
 	 * Загрушка для функции получения данных о расширенных возможностях управления данными
 	 * @return array
 	 */
-	public function get_extrainfo() {
+    public function get_extrainfo() {
 		return array();
 	}
 
@@ -1050,7 +1050,7 @@ class joosModel {
 	 * Заглушка получения информации о полях
 	 * @return array
 	 */
-	protected function get_fieldinfo() {
+    public function get_fieldinfo() {
 		return array();
 	}
 
@@ -1067,7 +1067,7 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-	protected function get_tabsinfo() {
+    public function get_tabsinfo() {
 		return array();
 	}
 
@@ -1076,7 +1076,7 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-	protected function get_validate_rules() {
+    public function get_validate_rules() {
 		return array();
 	}
 

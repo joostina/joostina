@@ -10,10 +10,10 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-mosMenuBar::startTable();
+mosMenuBar::start_table();
 mosMenuBar::save();
 mosMenuBar::custom( 'save_and_new' , '-save-and-new' , '' , _SAVE_AND_ADD , false );
 //$id ? mosMenuBar::ext(_APPLY,'#','-apply','id="tb-apply" onclick="return ch_apply();"') : mosMenuBar::apply();
 mosMenuBar::apply();
 joosRequest::int( 'id' , false ) ? mosMenuBar::cancel( 'cancel' , _CLOSE ) : mosMenuBar::cancel();
-mosMenuBar::endTable();
+mosMenuBar::end_table();

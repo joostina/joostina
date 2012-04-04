@@ -11,11 +11,14 @@ class helperAcl {
 
 	public static function check_access($full_operations_name) {
 
-        $user_groop_ids = array(1,2);
+        $user_id = 1;
 
-        $sql = sprintf('SELECT ag.name, al.acl_name FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM jos_acl_users_groups WHERE user_id IN (%s) )',  implode(',',$user_groop_ids) );
+        echo $sql = sprintf('SELECT ag.name, al.acl_name FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM jos_acl_users_groups WHERE user_id = %s )',  $user_id );
         $r = joosDatabase::instance()->set_query($sql)->load_assoc_list();
-
+echo joosDatabase::instance()->get_query();
+        die();
+        _xdump($r);
+        
         $d = array();
         foreach ($r as $value) {
             $d[$value['acl_name']] = true;

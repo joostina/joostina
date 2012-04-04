@@ -47,10 +47,10 @@ class actionsAdminMetainfo  extends joosAdminController{
 	public static function action_before() {
 
 		ob_start();
-		mosMenuBar::startTable();
+		mosMenuBar::start_table();
 		mosMenuBar::save();
 		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		mosMenuBar::end_table();
 		$index_tools             = ob_get_clean();
 
 
