@@ -25,20 +25,9 @@ joosCoreAdmin::start();
 // стартуем пользователя
 joosCoreAdmin::init_user();
 
-// загружаем набор прав для панели управления
-joosAcl::init_admipanel();
-
-$my = joosCore::user();
-
-if (joosAcl::isDeny('adminpanel')) {
+if ( helperAcl::is_allowed('admin_panel::use') ) {
 	echo json_encode(array('code' => 500,
 		'message' => 'Ошибка прав доступа'));
-	die();
-}
-
-if (!$my->id) {
-	echo json_encode(array('code' => 500,
-		'message' => 'Ошибка авторизации'));
 	die();
 }
 

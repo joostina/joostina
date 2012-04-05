@@ -374,6 +374,15 @@ class joosModel {
 		}
 	}
 
+    /**
+     * Прямое обновление значения полей объекта модели 
+     * 
+     * @return bool результат выполнения обновления
+     */
+    public function update() {
+         return (bool) $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, false);
+    }    
+    
 	/**
 	 * Переопределяемая функция проверки правильности заполнения полей модели
 	 *

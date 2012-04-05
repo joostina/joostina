@@ -28,6 +28,7 @@ joosDocument::instance()
     <div class="container">
         <div class="row">
             <div class="span16">
+                <?php joosModuleAdmin::load_by_name('flashmessage') ?>
                 <h6>Joostina CMS v2.x</h6>
                 <form action="<?php echo JPATH_SITE_ADMIN ?>/index.php" method="post" name="login_form" id="login_form" class="well">
                     <input name="user_name" id="user_name" type="text" class="input-medium" placeholder="Логин">

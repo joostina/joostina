@@ -10,5 +10,5 @@
 defined( '_JOOS_CORE' ) or die();
 
 if ( ( $mosmsg = joosFlashMessage::get() ) ) {
-	echo '<div class="message">' . $mosmsg . '</div>';
+	echo '<div class="alert">' . $mosmsg . '</div>';
 }

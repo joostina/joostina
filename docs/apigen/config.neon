@@ -7,10 +7,9 @@ exclude:
 	- */_new/*
 	- */docs/*
 	- */logging/*
-	- */Zend/*
 
 
-title: Joostina CMS v2.* API
+title: Joostina CMS / CMF v2.* API
 
 todo: yes
 

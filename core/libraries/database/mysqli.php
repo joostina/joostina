@@ -499,14 +499,14 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 *
 	 * @return array ассоциативный или обычный массив результатов
 	 */
-	public function load_row_list($key = null) {
+	public function load_row_list($key = false) {
 
         $cur = $this->query();
 
         $array = array();
 
 		while ($row = mysqli_fetch_row($cur)) {
-			if (!is_null($key)) {
+			if ($key!==false) {
 				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;
@@ -531,7 +531,6 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
         $cur = $this->query();
 
         $array = array();
-
 		while ($row = mysqli_fetch_object($cur)) {
 			$array[$row->$key] = $row->$value;
 		}
@@ -632,12 +631,12 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 *
 	 * @param string   $table       название таблицы, можно с преффиксом #__
 	 * @param stdClass $object      объект с заполненными свойствами
-	 * @param string   $keyName     название ключевого автоинскриментного поля таблицы
-	 * @param bool     $updateNulls флаг обновления неопределённых свойств
+	 * @param string   $key_name     название ключевого автоинскриментного поля таблицы
+	 * @param bool     $update_nulls флаг обновления неопределённых свойств
 	 *
 	 * @return bool результат обновления данных записи
 	 */
-	public function update_object($table, $object, $keyName, $updateNulls = true) {
+	public function update_object($table, $object, $key_name, $update_nulls = true) {
 
 		$fmtsql = "UPDATE $table SET %s  WHERE %s";
 		$tmp = array();
@@ -646,11 +645,11 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 			if (is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
 				continue;
 			}
-			if ($k == $keyName) { // PK not to be updated
-				$where = $keyName . '=' . $this->quote($v);
+			if ($k == $key_name) { // PK not to be updated
+				$where = $key_name . '=' . $this->quote($v);
 				continue;
 			}
-			if ($v === null && !$updateNulls) {
+			if ($v === null && !$update_nulls) {
 				continue;
 			}
 			if ($v == '') {

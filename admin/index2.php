@@ -30,10 +30,10 @@ joosCoreAdmin::start();
 // стартуем пользователя
 joosCoreAdmin::init_user();
 
-// загружаем набор прав для панели управления
-joosAcl::init_admipanel();
+if( helperAcl::is_allowed('admin_panel::use') !==true ){
 
-joosAcl::isAllowed('adminpanel') ? null : joosRoute::redirect(JPATH_SITE_ADMIN, __('В доступе отказано'));
+    joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
+}
 
 ob_start();
 

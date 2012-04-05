@@ -21,11 +21,11 @@ require_once ( JPATH_BASE . DS . 'app' . DS . 'bootstrap.php' );
 joosDocument::header();
 joosCoreAdmin::start();
 
-$my = new stdClass;
-$my->id = (int) joosRequest::session('session_user_id');
-$my->user_name = joosRequest::session('session_user_name');
-$my->group_name = joosRequest::session('session_group_name');
-$my->group_id = (int) joosRequest::session('session_group_id');
+$user = new stdClass;
+$user->id = (int) joosRequest::session('session_user_id');
+$user->user_name = joosRequest::session('session_user_name');
+$user->group_name = joosRequest::session('session_group_name');
+$user->group_id = (int) joosRequest::session('session_group_id');
 
 $session_id = joosRequest::session('session_id');
 $logintime = joosRequest::session('session_logintime');
@@ -33,7 +33,7 @@ $logintime = joosRequest::session('session_logintime');
 /**
  * @todo добавить проверку существования этой сессии в БД
  */
-if ($session_id == md5($my->id . $my->user_name . $my->group_name . $logintime)) {
+if ($session_id == md5($user->id . $user->user_name . $user->group_name . $logintime)) {
 	joosRoute::redirect('index2.php');
 	die();
 }
@@ -46,49 +46,50 @@ if (joosRequest::is_post()) {
 	$password = joosRequest::post('password');
 
 	if ($password == null) {
-		joosRoute::redirect(JPATH_SITE_ADMIN . '/', __('Необходимо ввести пароль'));
+		joosRoute::redirect(JPATH_SITE_ADMIN, 'Необходимо ввести пароль');
 		exit();
 	}
 
 	$database = joosDatabase::instance();
 
-	$my = null;
-	$query = 'SELECT * FROM #__users WHERE user_name =' . $database->quote($user_name) . ' AND state = 1';
-	$database->set_query($query)->load_object($my);
+	$user = new modelUsers;
+    $user->user_name = $user_name;
+    $user->state = 1;
+    $user->find();
 
-	if (isset($my->id)) {
-		
-        joosAcl::init_admipanel();
+	if ($user->id) {
 
-		list( $hash, $salt ) = explode(':', $my->password);
+        // проверка числа неудачных попуток авторизации
+        if ($user->bad_auth_count >= 5) {
+            
+            $user->state = 0;
+            $user->update();
+
+            joosRoute::redirect(JPATH_SITE_ADMIN, 'Ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
+        }
+
+        // готовим введённый пароль для проверки
+		list( $hash, $salt ) = explode(':', $user->password);
 		$cryptpass = md5($password . $salt);
 
-		// TODO переделать логику с bad_auth (сбрасывать счетчик в таблице после успешного логина + $_SESSION['bad_auth'] не работает)
-		// TODO сделать настраиваемым число неудачных авторизаций перед блокировкой
-		$bad_auth = $my->bad_auth_count;
+        // проверка правильности пароля
+        if( $hash !== $cryptpass  ){
 
-        //helperAcl::check_access('admin_pane::use');
-        
-		if (strcmp($hash, $cryptpass) || !joosAcl::acl()->isAllowed(strtolower($my->group_name), 'adminpanel')) {
-			// ошибка авторизации
-			$query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $my->id;
-			$database->set_query($query)->query();
-			$_SESSION['bad_auth'] = $bad_auth + 1;
+            $query = 'UPDATE #__users SET bad_auth_count = bad_auth_count + 1 WHERE id = ' . (int) $user->id;
+            $database->set_query($query)->query();
+            
+            joosRoute::redirect(JPATH_SITE_ADMIN, 'Неправильный логин или пароль');
+        }
 
-			if ($bad_auth >= 5) {
-				$query = 'UPDATE #__users SET state = 0 WHERE id = ' . (int) $my->id;
-				$database->set_query($query)->query();
+        // проверка прав доступа в панель управления
+        if( helperAcl::check_access_for_user_id('admin_panel::use',$user->id) !==true ){
 
-				joosRoute::redirect(JPATH_SITE_ADMIN, 'Ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
-			}
-
-			joosRoute::redirect(JPATH_SITE_ADMIN, 'Неправильный логин или пароль');
-			exit();
-		}
+            joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
+        }
 
 		// construct Session ID
 		$logintime = time();
-		$session_id = md5($my->id . $my->user_name . $my->group_name . $logintime);
+		$session_id = md5($user->id . $user->user_name . $user->group_name . $logintime);
 
 		// чистим старые сессии
 		session_destroy();
@@ -101,36 +102,35 @@ if (joosRequest::is_post()) {
 		session_start();
 
 		// add Session ID entry to DB
-		$query = "INSERT INTO #__users_session SET time = " . $database->quote($logintime) . ", session_id = " . $database->quote($session_id) . ", user_id = " . (int) $my->id . ", group_name = " . $database->quote($my->group_name) . ", user_name = " . $database->quote($my->user_name) . ", group_id=" . (int) $my->group_id . ", guest=0, is_admin=1";
+		$query = "INSERT INTO #__users_session SET time = " . $database->quote($logintime) . ", session_id = " . $database->quote($session_id) . ", user_id = " . (int) $user->id . ", group_name = " . $database->quote($user->group_name) . ", user_name = " . $database->quote($user->user_name) . ", group_id=" . (int) $user->group_id . ", guest=0, is_admin=1";
 		$database->set_query($query)->query();
 
-		$query = "DELETE FROM #__users_session WHERE  is_admin=1 AND session_id != " . $database->quote($session_id) . " AND user_id = " . (int) $my->id;
+		$query = "DELETE FROM #__users_session WHERE  is_admin=1 AND session_id != " . $database->quote($session_id) . " AND user_id = " . (int) $user->id;
 		joosDatabase::instance()->set_query($query)->query();
 
 		$_SESSION['session_id'] = $session_id;
-		$_SESSION['session_user_id'] = $my->id;
-		$_SESSION['session_user_name'] = $my->user_name;
-		$_SESSION['session_group_id'] = $my->group_id;
-		$_SESSION['session_group_name'] = $my->group_name;
+		$_SESSION['session_user_id'] = $user->id;
+		$_SESSION['session_user_name'] = $user->user_name;
+		$_SESSION['session_group_id'] = $user->group_id;
+		$_SESSION['session_group_name'] = $user->group_name;
 		$_SESSION['session_logintime'] = $logintime;
-		$_SESSION['session_bad_auth_count'] = $my->bad_auth_count;
+		$_SESSION['session_bad_auth_count'] = $user->bad_auth_count;
 		$_SESSION['session_userstate'] = array();
 
 		session_write_close();
 
 		$expired = JPATH_SITE_ADMIN . '/index2.php';
 
-		// скидываем счетчик неудачных авторзаций в админке
-		$query = 'UPDATE #__users SET bad_auth_count = 0 WHERE id = ' . $my->id;
-		$database->set_query($query)->query();
-
-		/** cannot using joosRoute::redirect as this stuffs up the cookie in IIS */
-		// redirects page to admin homepage by default or expired page
-		echo "<script>document.location.href='$expired';</script>\n";
-		exit();
+        if( $user->bad_auth_count!==0 ){
+            // скидываем счетчик неудачных авторзаций в админке
+            $user->bad_auth_count = 0;
+            $user->update();
+        }
+            
+        joosRoute::redirect(JPATH_SITE_ADMIN.'/index2.php',  sprintf('С возвращением, %s',$user->user_name) );
 	} else {
+
 		joosRoute::redirect(JPATH_SITE_ADMIN, 'Такой пользователь не существует или ваш аккаунт был заблокирован. Обратитесь к администратору сайта: ' . joosConfig::get2('mail', 'from'));
-		exit();
 	}
 } else {
 	$path = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE_ADMIN . DS . 'login.php';
