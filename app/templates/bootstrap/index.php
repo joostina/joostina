@@ -21,8 +21,6 @@
 
 	<body>
 
-
-
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
@@ -42,8 +40,6 @@
 									<li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'blog_index')) ?>">Блог</a></li>
 									<li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'blog_post')) ?>">Блог/пост</a></li>
                                     <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_index')) ?>">Пользователи. Список</a></li>
-                                    <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_profile')) ?>">Пользователи. Профиль</a></li>
-                                    <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_profile_edit')) ?>">Пользователи. Редактирование профиля</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -84,8 +80,3 @@
 
 	</body>
 </html>
-
-
-
-
-

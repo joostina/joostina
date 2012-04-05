@@ -274,6 +274,15 @@ class modelUsers extends joosModel {
 		return joosCore::is_admin() ? joosCoreAdmin::user() : self::instance();
 	}
 
+    /**
+     * @static
+     * @param $user_name
+     * @param bool $password
+     * @param array $params
+     * @return string
+     * 
+     * @todo требуется рефакторинг, модуль должен возвращать true или false
+     */
 	public static function login($user_name, $password = false, array $params = array()) {
 
 		$params += array('redirect' => true);
@@ -356,6 +365,7 @@ class modelUsers extends joosModel {
 	}
 
 	public static function logout() {
+        
 		// получаем название куки ктоторая должна быть у пользователя
 		$sessionCookieName = joosSession::session_cookie_name();
 		// из куки пробуем получить ХЕШ - значение
@@ -376,13 +386,8 @@ class modelUsers extends joosModel {
 
 	// быстрая проверка авторизации пользователя
 	public static function is_loged() {
-		$sessionCookieName = joosSession::session_cookie_name();
-		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
-		$session = new modelUsersSession;
-		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load(joosSession::session_cookie_value($sessioncookie))) {
-			return true;
-		}
-		return false;
+        
+        return (bool) modelUsers::current()->id != false ;
 	}
 
 }

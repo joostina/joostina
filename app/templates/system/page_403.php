@@ -20,7 +20,8 @@ defined( '_JOOS_CORE' ) or die();
     <link rel="stylesheet" href="<?php echo JPATH_SITE ?>/app/templates/system/media/css/app.css">
 </head>
 <body>
-<h2><?php echo joosConfig::get2( 'info' , 'title' ); ?></h2>
-<!-- <?php echo joosFilter::htmlspecialchars($message) ?> -->
+    <h2><?php echo joosConfig::get2( 'info' , 'title' ); ?></h2>
+    <h6>В доступе отказано</h6>
+    <!-- <?php echo joosFilter::htmlspecialchars($message) ?> -->
 </body>
 </html>

@@ -26,7 +26,7 @@ defined( '_JOOS_CORE' ) or die();
 			<li>
                 <a href="<?php echo joosRoute::href( 'user_view' , array ( 'id' => $user->id , 'user_name' => $user->user_name ) ) ?>">Перейти в профиль</a>
 			</li>
-            <li><a href="#">Настройки профиля</a></li>
+            <li><a href="<?php echo joosRoute::href('user_edit') ?>">Настройки профиля</a></li>
 			<li class="divider"></li>
 			<li class="logout">
                 <form action="<?php echo joosRoute::href('logout') ?>" method="post" id="m-auto_logout">

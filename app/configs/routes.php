@@ -32,11 +32,11 @@ return array(
 			'action' => 'logout'
 		)
 	),
-	'lostpassword' => array(
+	'lost_password' => array(
 		'href' => 'lostpassword',
 		'defaults' => array(
 			'controller' => 'users',
-			'action' => 'lostpassword'
+			'action' => 'lost_password'
 		)
 	),
 	'register' => array(
@@ -54,9 +54,16 @@ return array(
 		),
 		'defaults' => array(
 			'controller' => 'users',
-			'action' => 'view'
+			'action' => 'profile_view'
 		)
 	),
+    'user_edit' => array(
+        'href' => 'user/edit',
+        'defaults' => array(
+            'controller' => 'users',
+            'action' => 'profile_edit'
+        )
+    ),
 	'test' => array(
 		'href' => 'test',
 		'defaults' => array(
@@ -71,6 +78,7 @@ return array(
 			'action' => 'upload'
 		)
 	),
+    
 	// сборник тестиования системных функций
 	'unittest' => array(
 		'href' => 'unittest',

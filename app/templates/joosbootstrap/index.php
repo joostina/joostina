@@ -66,7 +66,7 @@ joosDocument::$config['seotag'] = FALSE;
 
 <div class="container">
 
-    <?php joosModuleAdmin::load_by_name('flashmessage'); ?>
+    <?php joosModuleAdmin::load_by_name('flash_message'); ?>
     
     <div id="component"><?php echo joosDocument::get_body(); ?></div>
 
