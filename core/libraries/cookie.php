@@ -37,8 +37,8 @@ class joosCookie {
 	public static function set($name, $value, array $params = array()) {
 
 		$expires = isset($params['expires']) ? $params['expires'] : NULL;
-		$path = isset($params['path']) ? $params['path'] : NULL;
-		$domain = isset($params['domain']) ? $params['domain'] : NULL;
+		$path = isset($params['path']) ? $params['path'] : '/';
+		$domain = isset($params['domain']) ? $params['domain'] : JPATH_COOKIE;
 		$secure = isset($params['secure']) ? $params['secure'] : false;
 		$httponly = isset($params['httponly']) ? $params['httponly'] : false;
 

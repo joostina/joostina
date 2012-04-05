@@ -299,7 +299,7 @@ class joosModel {
 	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
-	function load($oid) {
+    public function load($oid) {
 
 		// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
 		$this->reset();
@@ -322,7 +322,7 @@ class joosModel {
 	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
-	function load_by_field($field, $value) {
+    public function load_by_field($field, $value) {
 
 		$this->reset();
 

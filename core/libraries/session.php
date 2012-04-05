@@ -58,25 +58,28 @@ class joosSession {
 		return md5('site' . $syte);
 	}
 
-	public static function session_cookie_value($id = null) {
-		$type = joosConfig::get2('session', 'type', 3);
-		$browser =  isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'none';
+    /**
+     * Получение уникального ключа для значения пользовательской сессии
+     * 
+     * @static
+     * @param null $hash_key
+     * @return string
+     * 
+     * @todo добавить возможность работы через прокси, когда у пользователя меняется конечный IP, но единый IP прокси
+     */
+	public static function session_cookie_value($hash_key = null) {
+                
+        $user_ip = joosRequest::user_ip();
+        $user_browser = joosRequest::server('HTTP_USER_AGENT','none');
 
-		switch ($type) {
-			case 2:
-				$value = md5($id . $_SERVER['REMOTE_ADDR']);
-				break;
-
+        $type = joosConfig::get2('session', 'type', 2);
+        switch ($type) {
 			case 1:
-				// slightly reduced security - 3rd level IP authentication for those behind IP Proxy
-				$remote_addr = explode('.', $_SERVER['REMOTE_ADDR']);
-				$ip = $remote_addr[0] . '.' . $remote_addr[1] . '.' . $remote_addr[2];
-				$value = joosCSRF::hash($id . $ip . $browser);
+				$value = md5($hash_key . $user_ip  );
 				break;
 
 			default:
-				$ip = $_SERVER['REMOTE_ADDR'];
-				$value = joosCSRF::hash($id . $ip . $browser);
+				$value = joosCSRF::hash($hash_key . $user_ip . $user_browser);
 				break;
 		}
 
