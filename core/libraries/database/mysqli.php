@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * joosDatabase - Библиотека работы с базой данных
+ * Библиотека работы с базой данных Mysql через Mysqli
  * Системная библиотека
  *
  * @version    1.0
@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosDatabase implements joosInterfaceDatabase{
+class joosDatabaseMysqli implements joosInterfaceDatabase{
 
 	/**
 	 * Объект активного соединения с базой данных
@@ -141,12 +141,12 @@ class joosDatabase implements joosInterfaceDatabase{
 
 	/**
 	 * Получение инстанции для работы с базой данных
-	 * @return joosDatabase - объект базы данных
+	 * @return joosDatabaseMysqli - объект базы данных
 	 */
 	public static function instance() {
 
 		// отметка получения инстенции базы данных
-		JDEBUG ? joosDebug::inc('joosDatabase::instance()') : null;
+		JDEBUG ? joosDebug::inc('joosDatabaseMysqli::instance()') : null;
 
 		if (self::$instance === NULL) {
 			$db_config = joosConfig::get('db');
@@ -265,7 +265,7 @@ class joosDatabase implements joosInterfaceDatabase{
 	 * @param int    $offset значения смещения для результато ввыборки
 	 * @param int    $limit  ограничение н ачисло выбираемых объектов
 	 *
-	 * @return joosDatabase
+	 * @return joosDatabaseMysqli
 	 */
 	public function set_query($sql, $offset = 0, $limit = 0) {
 		$this->_sql = $this->replace_prefix($sql);
@@ -598,7 +598,7 @@ class joosDatabase implements joosInterfaceDatabase{
 	/**
 	 * Вставка записи.
 	 * Работает с объектами, свойства которых являются названиями поле в базе, а значения свойств - значениями полей
-	 * Работает ТОЛЬКО через joosDatabase::instance()->insert_object
+	 * Работает ТОЛЬКО через joosDatabaseMysqli::instance()->insert_object
 	 *
 	 * @param string   $table   название таблицы, можно с преффиксом #__
 	 * @param stdClass $object  объект с заполненными свойствами
@@ -741,10 +741,10 @@ class joosDatabase implements joosInterfaceDatabase{
 
 	/**
 	 * Возвращаем объект с утилитарными функциями работы с базой данных
-	 * @return joosDatabaseUtils
+	 * @return joosDatabaseMysqliUtils
 	 */
 	public function get_utils() {
-		return new joosDatabaseUtils($this);
+		return new joosDatabaseMysqliUtils($this);
 	}
 
 	/**
@@ -781,9 +781,9 @@ class joosDatabase implements joosInterfaceDatabase{
 	/**
 	 * Быстрое статическое создание модели и доступ к её медотам и свойствам
 	 *
-	 * @tutorial joosDatabase::models('modelUsers')->count()
-	 * @tutorial joosDatabase::model('Blog')->get_list( array('where'=>'sate=1') )
-	 * @tutorial joosDatabase::model('Blog')->save( $_POST )
+	 * @tutorial joosDatabaseMysqli::models('modelUsers')->count()
+	 * @tutorial joosDatabaseMysqli::model('Blog')->get_list( array('where'=>'sate=1') )
+	 * @tutorial joosDatabaseMysqli::model('Blog')->save( $_POST )
 	 *
 	 * @param string $model_name
 	 *
@@ -815,7 +815,7 @@ class joosDatabase implements joosInterfaceDatabase{
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosDatabaseUtils extends joosDatabase implements joosInterfaceDatabaseUtils {
+class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfaceDatabaseUtils {
 
 	/**
 	 *
@@ -826,15 +826,15 @@ class joosDatabaseUtils extends joosDatabase implements joosInterfaceDatabaseUti
 	/**
 	 * Объект работы с базой данных
 	 *
-	 * @param joosDatabase $db
+	 * @param joosDatabaseMysqli $db
 	 */
-	public function __construct(joosDatabase $db) {
+	public function __construct(joosDatabaseMysqli $db) {
 		$this->_db = $db;
 	}
 
 	/**
 	 * Возвращает объект работы с базой данных
-	 * @return joosDatabase
+	 * @return joosDatabaseMysqli
 	 */
 	private function db() {
 		return $this->_db;

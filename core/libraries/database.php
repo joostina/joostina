@@ -6,6 +6,8 @@ defined('_JOOS_CORE') or die();
 require_once 'database/interface.php';
 require_once 'database/mysqli.php';
 
+class joosDatabase extends joosDatabaseMysqli{}
+
 
 /**
  * Библиотека ORM расширения для гибкой работы с информацией в юазе данных
