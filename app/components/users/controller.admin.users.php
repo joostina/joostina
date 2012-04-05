@@ -49,7 +49,7 @@ class actionsAdminUsers extends joosAdminController{
 			'href' => 'index2.php?option=users&menu=usersgroups',
 			'model' => 'modelAdminUsersGroups',
 			'fields' => array('group_title', 'title', 'parent_id'),
-			'active' => true
+			'active' => false
 		)
 	);
 
@@ -69,6 +69,7 @@ class actionsAdminUsers extends joosAdminController{
 			joosAutoadmin::$submenu = $menu;
 		} else {
 			$menu = self::$active_menu;
+            self::$submenu[$menu]['active'] = true;
 		}
 
 
@@ -81,6 +82,7 @@ class actionsAdminUsers extends joosAdminController{
 	 * Список объектов
 	 */
 	public static function index($option) {
+
 		$obj = new self::$model;
 		$obj_count = joosAutoadmin::get_count($obj);
 
