@@ -352,9 +352,8 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 		$this->_limit = 1;
 		$this->_offset = 0;
 
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
+		$cur = $this->query();
+
 
 		$ret = ( $row = mysqli_fetch_row($cur) ) ? $row[0] : null;
 
@@ -371,9 +370,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return array массив результата
 	 */
 	public function load_result_array($numinarray = 0) {
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
+		
+        $cur = $this->query();
+
 		$array = array();
 		while ($row = mysqli_fetch_row($cur)) {
 			$array[] = $row[$numinarray];
@@ -393,10 +392,10 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return array ассоциативнй либо обычный массив массивов результата
 	 */
 	public function load_assoc_list($key = '') {
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
-		$array = array();
+
+        $cur = $this->query();
+
+        $array = array();
 		while ($row = mysqli_fetch_assoc($cur)) {
 			if ($key) {
 				$array[$row[$key]] = $row;
@@ -416,10 +415,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 */
 	public function load_assoc_row() {
 
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
-		$row = mysqli_fetch_assoc($cur);
+        $cur = $this->query();
+
+        $row = mysqli_fetch_assoc($cur);
 
 		$this->free_result();
 
@@ -435,10 +433,10 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 */
 	public function load_object(& $object) {
 		if ($object != null) {
-			if (!( $cur = $this->query() )) {
-				return false;
-			}
-			if (( $array = (array) mysqli_fetch_assoc($cur))) {
+
+            $cur = $this->query();
+
+            if (( $array = (array) mysqli_fetch_assoc($cur))) {
 				$this->free_result();
 				$this->bind_array_to_object($array, $object, null, null, false);
 				return true;
@@ -470,11 +468,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 */
 	public function load_object_list($key = false) {
 
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
+        $cur = $this->query();
 
-		$array = array();
+        $array = array();
 		while ($row = mysqli_fetch_object($cur)) {
 			if ($key) {
 				$array[$row->$key] = $row;
@@ -531,10 +527,10 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return array массив значение полей первого результата
 	 */
 	public function load_row() {
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
-		$ret = ( $row = mysqli_fetch_row($cur) ) ? $row : null;
+
+        $cur = $this->query();
+
+        $ret = ( $row = mysqli_fetch_row($cur) ) ? $row : null;
 
 		$this->free_result();
 
@@ -551,11 +547,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 */
 	public function load_row_list($key = null) {
 
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
+        $cur = $this->query();
 
-		$array = array();
+        $array = array();
 
 		while ($row = mysqli_fetch_row($cur)) {
 			if (!is_null($key)) {
@@ -580,11 +574,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 */
 	public function load_row_array($key, $value) {
 
-		if (!( $cur = $this->query() )) {
-			return null;
-		}
+        $cur = $this->query();
 
-		$array = array();
+        $array = array();
 
 		while ($row = mysqli_fetch_object($cur)) {
 			$array[$row->$key] = $row->$value;
@@ -687,7 +679,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @param string   $table       название таблицы, можно с преффиксом #__
 	 * @param stdClass $object      объект с заполненными свойствами
 	 * @param string   $keyName     название ключевого автоинскриментного поля таблицы
-	 * @param type     $updateNulls флаг обновления неопределённых свойств
+	 * @param bool     $updateNulls флаг обновления неопределённых свойств
 	 *
 	 * @return bool результат обновления данных записи
 	 */
@@ -944,10 +936,9 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 		$temp = $this->_sql;
 		$this->_db->_sql = 'EXPLAIN ' . $this->_db->_sql;
 
-		if (!( $cur = $this->_db->query() )) {
-			return null;
-		}
-		$first = true;
+        $cur = $this->query();
+
+        $first = true;
 
 		$buf = '<table cellspacing="1" cellpadding="2" border="0" bgcolor="#000000" align="center">';
 		$buf .= $this->_db->get_query();
