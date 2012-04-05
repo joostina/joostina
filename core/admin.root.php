@@ -231,7 +231,7 @@ class joosAdminPagenator {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$html .= "\n" . __('Показано') . " " . $from_result . " - " . $to_result . " " . __('из') . " " . $this->total;
+			$html .= "\n" . $from_result . "-" . $to_result . " " . __('из') . " " . $this->total;
 		} else {
 			$html .= "\n" . __('Записи не найдены');
 		}
