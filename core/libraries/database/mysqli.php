@@ -701,18 +701,6 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	}
 
 	/**
-	 * Возвращает текст ошибки работы базы данных
-	 *
-	 * @param bool $showSQL флаг отображения в возвращаемом тексте содержимого ошибочного SQL запроса
-	 *
-	 * @return string текст ошибки
-	 */
-	public function stderr($showSQL = false) {
-		JDEBUG ? joosDebug::add($this->_error_msg . "\n\t" . $this->_sql) : null;
-		return "Ошибка базы данных $this->_error_num <br /><font color=\"red\">$this->_error_msg</font>" . ( $showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '' );
-	}
-
-	/**
 	 * Возвращает ID-номер, сгенерированный для столбца AUTO_INCREMENT предыдущим запросом INSERT
 	 * @return int
 	 */
