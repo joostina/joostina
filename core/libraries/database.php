@@ -464,12 +464,12 @@ class joosDatabase {
 	 * Возвращает ассоциативный либо простой массив объектов результата запроса.
 	 * В качестве ключей массива результата может быть использовано значение поля указанного в $key
 	 *
-	 * @param string $key поле выступающее в качестве ключа для ассоциативного массива результата
+	 * @param boolean|string $key поле выступающее в качестве ключа для ассоциативного массива результата
 	 *
 	 * @return array ассоциативный или обычный массив результатов
 	 */
-	public function load_object_list($key = '') {
-
+	public function load_object_list($key = false) {
+echo 555;
 		if (!( $cur = $this->query() )) {
 			return null;
 		}
@@ -488,6 +488,44 @@ class joosDatabase {
 		return $array;
 	}
 
+    /**
+     * Версия load_object_list работающая с кешем
+     *
+     * @param boolean|string $key поле выступающее в качестве ключа для ассоциативного массива результата
+     * @param int $cache_time Время жизни кэша
+     *
+     * @return array ассоциативный или обычный массив результатов
+     */
+    public function load_object_list_cache($key = false,$cache_time = 86400 ) {
+
+        $cache = new joosCache();
+        $cache_key = md5($this->_sql);
+
+        if (($value = $cache->get($cache_key)) === NULL) {
+
+            if (!( $cur = $this->query() )) {
+                return null;
+            }
+
+            $value = array();
+            while ($row = mysqli_fetch_object($cur)) {
+                if ($key) {
+                    $value[$row->$key] = $row;
+                } else {
+                    $value[] = $row;
+                }
+            }
+
+            $this->free_result();
+
+            $cache->set($cache_key, $value, $cache_time);
+        }
+       
+
+
+        return $value;
+    }    
+    
 	/**
 	 * Возвращает массив результата запроса, в котором в качестве значений выступают значения полей первого результата
 	 * @return array массив значение полей первого результата
@@ -1058,7 +1096,7 @@ class joosModel {
 	 * Заглушка получения информации о таблице модели
 	 * @return array
 	 */
-	protected function get_tableinfo() {
+    public function get_tableinfo() {
 		return array();
 	}
 
@@ -1646,7 +1684,7 @@ class joosModel {
 		$limit = isset($params['limit']) ? $params['limit'] . "\n" : 0;
 		$tbl_key = isset($params['key']) ? $params['key'] : null;
 
-		return $this->_db->set_query($this->get_query_list($params), $offset, $limit)->load_object_list($tbl_key);
+		return $this->_db->set_query($this->get_query_list($params), $offset, $limit)->load_object_list_cache($tbl_key);
 	}
 
 	/**
