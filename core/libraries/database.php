@@ -1684,7 +1684,7 @@ class joosModel {
 		$limit = isset($params['limit']) ? $params['limit'] . "\n" : 0;
 		$tbl_key = isset($params['key']) ? $params['key'] : null;
 
-		return $this->_db->set_query($this->get_query_list($params), $offset, $limit)->load_object_list_cache($tbl_key);
+		return $this->_db->set_query($this->get_query_list($params), $offset, $limit)->load_object_list($tbl_key);
 	}
 
 	/**
