@@ -221,8 +221,7 @@ class modelUsers extends joosModel {
 
 		// Добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
 		$extra = new modelUsersExtra;
-		$extra->user_id = $this->id;
-		$this->_db->insert_object('#__users_extra', $extra);
+        $extra->create( $this->id );
 
 		return true;
 	}
@@ -331,9 +330,7 @@ class modelUsers extends joosModel {
 		// сгенерием уникальный ID, захеширем его через sessionCookieValue и запишем в базу
 		$session->generate_id();
 		// записываем в базу данные о авторизованном пользователе и его сессии
-		if (!$session->insert()) {
-			die($session->get_error());
-		}
+        $session->store();
 
 		// формируем и устанавливаем пользователю куку что он автоизован
 		$sessionCookieName = joosSession::session_cookie_name();
@@ -375,25 +372,6 @@ class modelUsers extends joosModel {
 
 		$query = "DELETE FROM #__users_session WHERE session_id = " . joosDatabase::instance()->quote($sessionValueCheck);
 		return joosDatabase::instance()->set_query($query)->query();
-	}
-
-	// проверка что пользователь уже авторизован
-	public static function login_check() {
-		// получаем название куки ктоторая должна быть у пользователя
-		$sessionCookieName = joosSession::session_cookie_name();
-		// из куки пробуем получить ХЕШ - значение
-		$sessioncookie = (string) joosRequest::cookies($sessionCookieName);
-
-		// в базе хранится еще рах хешированное значение куки, повторим его что бы получить нужное
-		$sessionValueCheck = joosSession::session_cookie_value($sessioncookie);
-		// объект сессий
-		$session = new modelUsersSession;
-		// проверяем что кука есть, длина в норме и по ней есть запись в базе
-		if ($sessioncookie && strlen($sessioncookie) == 32 && $sessioncookie != '-' && $session->load($sessionValueCheck)) {
-			// всё нормально - обновляем время действия сессии в базе
-			$session->time = time();
-			$session->update();
-		}
 	}
 
 	// быстрая проверка авторизации пользователя
@@ -468,6 +446,11 @@ class modelUsersExtra extends joosModel {
 		return true;
 	}
 
+    public function create( $user_id ){
+        $this->user_id = $user_id;
+        $this->_db->insert_object('#__users_extra', $this);
+    }
+    
 }
 
 /**
@@ -579,47 +562,26 @@ class modelUsersSession extends joosModel {
 	/*
 	 * Constructor
 	 */
-
 	function __construct() {
 		parent::__construct('#__users_session', 'session_id');
 	}
 
-	public function insert() {
-		$ret = $this->_db->insert_object($this->_tbl, $this);
-		if (!$ret) {
-			$this->_error = strtolower(get_class($this)) . "::store failed <br />" . $this->_db->stderr();
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	public function update($updateNulls = false) {
-		$ret = $this->_db->update_object($this->_tbl, $this, 'session_id', $updateNulls);
-		if (!$ret) {
-			$this->_error = strtolower(get_class($this)) . "::update error <br />" . $this->_db->stderr();
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	public function generate_id() {
+        
 		$failsafe = 20;
 		$randnum = 0;
+        
 		while ($failsafe--) {
-			$randnum = md5(uniqid(microtime(), 1));
+            
+			$randnum = joosRandomizer::hash(32);
 			$new_session_id = joosSession::session_cookie_value($randnum);
-			if ($randnum != '') {
-				$query = "SELECT $this->_tbl_key FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->quote($new_session_id);
-				$this->_db->set_query($query);
-				if (!$result = $this->_db->query()) {
-					die($this->_db->stderr(true));
-				}
-				if ($this->_db->get_num_rows($result) == 0) {
-					break;
-				}
+
+            $session_obj = new modelUsersSession;
+            $session_obj->session_id = $new_session_id;
+            if( !$session_obj->find()){
+				break;
 			}
+
 		}
 		$this->_session_cookie = $randnum;
 		$this->session_id = $new_session_id;
@@ -627,19 +589,6 @@ class modelUsersSession extends joosModel {
 
 	public function get_cookie() {
 		return $this->_session_cookie;
-	}
-
-	public function purge($inc = 1800, $and = '', $lifetime = '') {
-
-		if ($inc == 'core') {
-			$past_logged = time() - $lifetime;
-			$query = "DELETE FROM $this->_tbl WHERE time < '" . (int) $past_logged . "'";
-		} else {
-			// kept for backward compatability
-			$past = time() - $inc;
-			$query = "DELETE FROM $this->_tbl WHERE ( time < '" . (int) $past . "' )" . $and;
-		}
-		return $this->_db->set_query($query)->query();
 	}
 
 }
@@ -682,9 +631,10 @@ class modelUsersTokens extends joosModel {
 	 * @type string
 	 */
 	public $user_related;
+    
 	//вспомогательные переменные и константы
-	private static $_TOKEN_NAME = 'joostoken';
-	private static $_SESSION_TTL = 604800; // неделя день это 86400, умножим на 7 будет 604800
+	private static $_token_name = 'joostoken';
+	private static $_session_ttl =  joosDateTime::WEEK ; // жизнь токена - неделя
 	private $_search_token_result;
 	private $_last_user_id;
 
@@ -705,7 +655,7 @@ class modelUsersTokens extends joosModel {
 	 */
 	public function generate_token($user_id) {
 
-		$token_string = md5(rand() . time() . microtime() . $user_id . JCURRENT_SERVER_TIME);
+		$token_string = md5(joosRandomizer::hash(32) . $user_id . JCURRENT_SERVER_TIME) ;
 
 		//создаем запись в таблице
 		$obj = new self;
@@ -713,15 +663,15 @@ class modelUsersTokens extends joosModel {
 		$obj->token = $token_string;
 
 		//вещи связанные только с текущим браузером пользователя, на случай кражи токена
-		//хоть какая-то защита
 		$obj->user_related = md5($this->get_related_string());
+        $obj->store();
 
-		$r = $obj->store();
+        //и ставим куку на заданный промежуток времени
+        joosCookie::set( self::$_token_name, $token_string, array(
+            'expires'=>time() + self::$_session_ttl,
+        ) );
 
-		//и ставим куку на заданный промежуток времени
-		setcookie(self::$_TOKEN_NAME, $token_string, time() + self::$_SESSION_TTL, '/', JPATH_COOKIE);
-
-		return $r ? $token_string : null;
+		return true;
 	}
 
 	/**
@@ -730,10 +680,7 @@ class modelUsersTokens extends joosModel {
 	 */
 	private function get_related_string() {
 
-		return JPATH_COOKIE .
-				(isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : "") .
-				(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "") .
-				(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "");
+		return sprintf('%s-%s-%s-%s', JPATH_COOKIE, joosRequest::server('HTTP_ACCEPT_ENCODING'), joosRequest::server('HTTP_USER_AGENT'), joosRequest::server('HTTP_ACCEPT_LANGUAGE') );
 	}
 
 	/**
@@ -743,7 +690,7 @@ class modelUsersTokens extends joosModel {
 	 */
 	public function check_auth_token() {
 
-		$user_token = joosCookie::get(self::$_TOKEN_NAME, false);
+		$user_token = joosCookie::get(self::$_token_name, false);
 
 		//если вообще такой куки нет
 		if ($user_token == false) {
@@ -759,7 +706,7 @@ class modelUsersTokens extends joosModel {
 		if (0 == count($result)) {
 
 			//сносим куку, что бы в следующий раз не искать по ней
-			joosCookie::delete(self::$_TOKEN_NAME, array('domain' => JPATH_COOKIE));
+			joosCookie::delete(self::$_token_name);
 
 			return false;
 		}
@@ -799,15 +746,19 @@ class modelUsersTokens extends joosModel {
 
 		// сгенерием уникальный ID, захеширем его через sessionCookieValue и запишем в базу
 		$session->generate_id();
+		
 		// записываем в базу данные о авторизованном пользователе и его сессии
-		if (!$session->insert()) {
+        if (!$session->store() ) {
 			return false;
 		}
 
-		// формируем и устанавливаем пользователю куку что он автоизован
+		// формируем и устанавливаем пользователю куку что он авторизован
 		$sessionCookieName = joosSession::session_cookie_name();
 		// в значении куки - НЕ хешированное session_id из базы
-		setcookie($sessionCookieName, $session->get_cookie(), false, '/', JPATH_COOKIE);
+		//setcookie($sessionCookieName, $session->get_cookie(), false, '/', JPATH_COOKIE);
+        joosCookie::set($sessionCookieName, $session->get_cookie(), array(
+            'expires'=>'+1 day' // кука на 1 день
+        ) );
 
 		//обновляем время последнего доступа к токену
 		$query = "UPDATE #__users_tokens SET updated_at = '" . JCURRENT_SERVER_TIME . "' WHERE token=" . joosDatabase::instance()->quote($this->_search_token_result->token);
@@ -841,7 +792,7 @@ class modelUsersTokens extends joosModel {
 			return;
 		}
 
-		$past = time() - self::$_SESSION_TTL;
+		$past = time() - self::$_session_ttl;
 		$query = "DELETE FROM #__users_tokens WHERE updated_at < '" . (int) $past . "'";
 		joosDatabase::instance()->set_query($query)->query();
 	}
@@ -852,13 +803,13 @@ class modelUsersTokens extends joosModel {
 	 */
 	public function logout_me() {
 
-		$user_token = joosCookie::get(self::$_TOKEN_NAME, false);
+		$user_token = joosCookie::get(self::$_token_name, false);
 		if (!$user_token) {
 			return;
 		}
 
 		//сносим куку, что бы в следующий раз не искать по ней
-		joosCookie::delete(self::$_TOKEN_NAME, array('domain' => JPATH_COOKIE));
+		joosCookie::delete(self::$_token_name);
 
 		//и удаляем из базы данных
 		$query = "DELETE FROM #__users_tokens WHERE token=" . joosDatabase::instance()->quote($user_token);

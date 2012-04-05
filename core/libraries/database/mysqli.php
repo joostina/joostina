@@ -332,17 +332,6 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	}
 
 	/**
-	 * Возвращает количество рядов в результирующем наборе. Эта команда верна только для операторов SELECT.
-	 *
-	 * @param mysql cursor $cur ресурс результата выполнения запроса
-	 *
-	 * @return int количество рядов в результирующем наборе
-	 */
-	public function get_num_rows($cur = false) {
-		return mysqli_num_rows($cur ? $cur : $this->_cursor );
-	}
-
-	/**
 	 * Возвращает один (первый) результат выполненного запроса
 	 * @return string строка результата
 	 */
