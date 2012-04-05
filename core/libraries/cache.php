@@ -16,6 +16,8 @@ defined('_JOOS_CORE') or die();
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
+ * @todo добавить проверки использую библиотеки работы с файлами и каталогами
+ * @todo добавить проверку что кеше включен, сейчас при выключенном кешировании объекты и проверки всё равно выполняются
  * */
 class joosCache {
 
@@ -24,6 +26,7 @@ class joosCache {
 	protected $state;
 	protected $type;
 
+    
 	public function __construct($type = false, $data_store = false) {
 
 		$type = $type ? $type : joosConfig::get2('cache', 'handler');

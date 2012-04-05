@@ -15,7 +15,8 @@ return array(
 		'password' => '',
 		'port' => '',
 		'debug' => true,
-		'profiling_history_size' => 150
+		'profiling_history_size' => 150,
+        'charset'=>'utf8',
 	),
 	'cache' => array(
 		'enable' => false,
