@@ -49,7 +49,7 @@ class actionsAdminUsers extends joosAdminController{
 			'href' => 'index2.php?option=users&menu=usersgroups',
 			'model' => 'modelAdminUsersGroups',
 			'fields' => array('group_title', 'title', 'parent_id'),
-			'active' => false
+			'active' => false 
 		)
 	);
 
