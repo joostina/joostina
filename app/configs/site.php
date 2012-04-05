@@ -2,7 +2,7 @@
 
 return array(
 	'live_site' => 'http://www.joostina.local',
-	'debug' => true,
+	'debug' => false,
 	'404_page' => false,
 	'template' => 'bootstrap',
 	'template_admin' => 'joosbootstrap',

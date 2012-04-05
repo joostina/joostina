@@ -53,15 +53,15 @@ class joosCSRF {
 		}
 
 		if (!$validate) {
-			joosPages::page301();
+			joosPages::page403();
 		}
 
 		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-			joosPages::page301();
+			joosPages::page403();
 		}
 
 		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			joosPages::page301();
+			joosPages::page403();
 		}
 	}
 

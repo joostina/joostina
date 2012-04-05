@@ -1,5 +1,7 @@
 <?php
 /**
+ * Страница вывода информации что сайт отключен
+ *
  * @package   Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
  * @license   Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
@@ -8,38 +10,17 @@
  */
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
-
-// xml prolog
-echo '<?xml version="1.0" encoding="UTF-8"?' . '>';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-	<title><?php echo _SITE_OFFLINE; ?></title>
-	<style type="text/css">
-		@import url(<?php echo JPATH_SITE; ?>/administrator/templates/joostfree/css/admin_login.css);
-	</style>
-	<link rel="stylesheet" href="<?php echo JPATH_SITE; ?>/templates/css/offline.css" type="text/css"/>
-	<link rel="shortcut icon" href="<?php echo JPATH_SITE ?>/images/favicon.ico"/>
-	<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>"/>
+    <title><?php echo joosConfig::get2( 'info' , 'title' ); ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <META name="robots" content="noindex,nofollow" />
+    <link rel="stylesheet" href="<?php echo JPATH_SITE ?>/app/templates/system/media/css/app.css">
 </head>
 <body>
-<div id="joo">
-	<img src="<?php echo JPATH_SITE; ?>/administrator/templates/joostfree/images/logo_130.png" alt="Joostina!"/>
-</div>
-<div id="ctr1" align="center">
-	<p>&nbsp;</p>
-
-	<p>&nbsp;</p>
-
-	<h1>Что - то явно не так</h1>
-</div>
-<div id="break"></div>
-<div id="footer_off" align="center">
-	<div align="center"><?php echo joosVersion::$URL; ?></div>
-</div>
+<h2><?php echo joosConfig::get2( 'info' , 'title' ); ?></h2>
+<!-- <?php echo joosFilter::htmlspecialchars($message) ?> -->
 </body>
 </html>
-<?php
-exit( 0 );
