@@ -67,23 +67,7 @@ $(document).ready(function() {
 
 });
 
-function submitbutton(pressbutton) {
-	submitform(pressbutton);
-}
 
-function submitform(pressbutton) {
-	var form = $("#adminForm");
-	$('input[name=task]').val(pressbutton);
-
-	try {
-		form.onsubmit();
-	}
-	catch (e) {
-	}
-	//document.adminForm.submit();
-
-	form.submit();
-}
 
 function listItemTask(id, task) {
 	var f = document.adminForm;

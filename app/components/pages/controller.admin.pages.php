@@ -155,4 +155,18 @@ class actionsAdminPages  extends joosAdminController{
 	public static function save( $option ) {
 		self::save_this( $option );
 	}
+
+
+    /**
+   	 * Удаление одного или группы объектов
+   	 */
+   	public static function remove($option) {
+   		joosCSRF::check_code();
+
+   		// идентификаторы удаляемых объектов
+   		$cid = (array) joosRequest::array_param('cid');
+
+   		$obj_data = new self::$model;
+   		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option , 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option , 'Ошибка удаления');
+   	}
 }

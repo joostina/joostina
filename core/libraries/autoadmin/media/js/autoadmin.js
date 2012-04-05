@@ -235,4 +235,60 @@ $(document).ready(function() {
 
 	})
 
+    $('.js-toolbar').on('click', function(){
+        $task = $(this).data('toolbar');
+        console.log($task);
+        submitbutton($task);
+        return false;
+    })
+
+
+    $('.js-select').on('change', function(){
+        group_select_toggler()
+    })
+
+    $('.js-select_all').on('change', function(){
+        if($(this).is(':checked')){
+            $('.js-select').attr('checked', 'checked');
+        }
+        else{
+            $('.js-select').removeAttr('checked');
+        }
+        group_select_toggler()
+    })
+
+    function group_select_toggler(){
+        if($('.js-select').is(':checked')){
+            $('.js-btn-group-for_select li').removeClass('disabled');
+        }
+        else{
+            $('.js-btn-group-for_select li').addClass('disabled');
+        }
+    }
+
+
+    $('.js-limit').on('change', function(){
+        $("#admin_form").submit();
+    })
+
+
+    $('.js-pagenav').on('click', function(){
+        $page = $(this).data('page');
+        $('input[name="limitstart"]').val($page);
+        $("#admin_form").submit();
+    })
+
 });
+
+
+
+
+function submitbutton(pressbutton) {
+	submitform(pressbutton);
+}
+
+function submitform(pressbutton) {
+	var form = $("#admin_form");
+	$('input[name=task]').val(pressbutton);
+	form.submit();
+}
