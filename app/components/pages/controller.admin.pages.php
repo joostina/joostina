@@ -125,11 +125,6 @@ class actionsAdminPages  extends joosAdminController{
 			$params->save_params($_POST['params'], 'pages', 'item', $obj_data->id);
 		}
 
-		if ($result == false) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
-		}
-
 		switch ($redirect) {
 			default:
 			case 0: // просто сохранение

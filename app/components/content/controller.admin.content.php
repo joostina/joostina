@@ -163,12 +163,6 @@ class actionsAdminContent  extends joosAdminController{
 			$ef->save_data( $_POST['extra_fields'] , $obj->id );
 		}
 
-
-		if ( $result == false ) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return;
-		}
-
 		switch ( $redirect ) {
 			default:
 			case 0: // просто сохранение

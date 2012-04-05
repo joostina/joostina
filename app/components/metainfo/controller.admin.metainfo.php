@@ -87,16 +87,9 @@ class actionsAdminMetainfo  extends joosAdminController{
 		joosCSRF::check_code();
 
 		$obj_data = new self::$model;
-
 		$result   = $obj_data->save( $_POST );
 
 		$group    = joosRequest::request( 'group' );
-
-
-		if ( $result == false ) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return false;
-		}
 
 		switch ( $redirect ) {
 			default:

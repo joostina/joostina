@@ -134,11 +134,8 @@ class actionsAdminCategories  extends joosAdminController{
 		joosCSRF::check_code();
 
 		$obj = new self::$model;
+		$obj->save( $_POST );
 
-		if ( $obj->save( $_POST ) === false ) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return false;
-		}
 
 		//Сохранение дополинтельной информации о категории
 		$cat_details = new CategoriesDetails;

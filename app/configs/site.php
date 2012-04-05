@@ -14,7 +14,6 @@ return array(
 		'user' => 'root',
 		'password' => '',
 		'port' => '',
-		'debug' => true,
 		'profiling_history_size' => 150,
         'charset'=>'utf8',
 	),

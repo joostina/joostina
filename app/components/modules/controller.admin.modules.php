@@ -129,11 +129,6 @@ class actionsAdminModules  extends joosAdminController{
 			//endforeach
 		}
 
-		if ( $result == false ) {
-			echo 'Ошибочка: ' . joosDatabase::instance()->get_error_msg();
-			return false;
-		}
-
 		switch ( $redirect ) {
 			default:
 			case 0: // просто сохранение

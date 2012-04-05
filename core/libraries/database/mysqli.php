@@ -70,13 +70,6 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	protected $_cursor;
 
 	/**
-	 * Параметр включения отладки работы с базой данных
-	 *
-	 * @var boolean
-	 */
-	protected $_debug;
-
-	/**
 	 * Лимит для активного запроса
 	 *
 	 * @var int
@@ -97,28 +90,23 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @param string  $user   - имя пользователя базы данных
 	 * @param string  $pass   - пароль соединения с базой данных
 	 * @param string  $db     - название базы данных
-	 * @param boolean $debug  - активность отладки рабюоты с базой данных
 	 * @param int     $port   - порт сервера MySQL
 	 * @param string  $socket - сокет MySQL
 	 */
-	protected function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $debug = 0, $port = null, $socket = null) {
-		$this->_debug = $debug;
-
+	protected function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $port = null, $socket = null) {
 
 		// проверка доступности поддержки работы с базой данных в php
 		if (!function_exists('mysqli_connect')) {
-			include JPATH_BASE . '/app/templates/system/offline.php';
-			exit();
+            joosPages::error_database('Нет поддержки mysql');
 		}
 
 		// попытка соединиться с сервером баз данных
 		if (!( $this->_resource = mysqli_connect($host, $user, $pass, $db, $port, $socket) )) {
-			include JPATH_BASE . '/app/templates/system/offline.php';
-			exit();
-		}
+            joosPages::error_database('Ошибка соединения с БД');
+        }
 
 		// при активации отладки выполнение дополнительных запросов профилирования
-		if ($this->_debug == 1) {
+		if ( JDEBUG ) {
 			mysqli_query($this->_resource, 'set profiling=1');
 			mysqli_query($this->_resource, sprintf('set profiling_history_size=%s', joosConfig::get2('db', 'profiling_history_size', 100)));
 		}
@@ -150,11 +138,11 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 
 		if (self::$instance === NULL) {
 			$db_config = joosConfig::get('db');
-			$database = new self($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name'], $db_config['debug']);
+			$database = new self($db_config['host'], $db_config['user'], $db_config['password'], $db_config['name']);
 
-			if ($database->get_error_num()) {
-				include JPATH_BASE . DS . 'templates/system/offline.php';
-				exit();
+			if ($database->_error_num ) {
+                $error_message = $database->_error_msg;
+                joosPages::error_database( $error_message );
 			}
 			self::$instance = $database;
 		}
@@ -163,35 +151,11 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 
 	/**
 	 * Закрытый метод для предотвращения клонирования объекта базы данных
+     * 
+     * @todo исправить, метод CLONE используется при кешированиии и сериалзации модели
 	 */
-// TODO исправить, метод CLONE используется при кешированиии и сериалзации модели
 	public function __clone() {
 
-	}
-
-	/**
-	 * Установка пааметра отладки базы данных
-	 *
-	 * @param boolean $debug флаг активности отладки
-	 */
-	public function debug($debug) {
-		$this->_debug = (bool) $debug;
-	}
-
-	/**
-	 * Получение кода ошибки
-	 * @return int
-	 */
-	public function get_error_num() {
-		return $this->_error_num;
-	}
-
-	/**
-	 * Получение сообщения об ошибке в работе с базой данных
-	 * @return string
-	 */
-	public function get_error_msg() {
-		return str_replace(array("\n", "'"), array('\n', "\'"), $this->_error_msg);
 	}
 
 	/**
@@ -312,12 +276,13 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 
 		if (!$this->_cursor) {
 
-			throw new joosDatabaseException('Ошибка выполнения SQL #:error_num <br /> :error_message.<br /><br /> Ошибка в SQL: :sql',
+			throw new joosDatabaseException('Ошибка выполнения SQL #:error_num <br /> :error_message.<br /><br /> Ошибка в команде: :sql',
 					array(
 						':error_num' => mysqli_errno($this->_resource),
 						':error_message' => mysqli_error($this->_resource),
 						':sql' => $this->_sql)
 			);
+            
 		}
 
 		return $this->_cursor;
@@ -802,14 +767,6 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 	}
 
 	/**
-	 * Возвращает объект работы с базой данных
-	 * @return joosDatabaseMysqli
-	 */
-	private function db() {
-		return $this->_db;
-	}
-
-	/**
 	 * Возвращает строку, представляющую номер версии сервера
 	 * @return string строка версии сервера
 	 */
@@ -865,101 +822,6 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Прямое выполнения множества SQL запросов за один раз.
-	 * Запросы должн ыбыть разделены знаком точки с запятой - ;
-	 *
-	 * @param bool $abort_on_error   флаг указывающий что при ошибки  водном из запросов дальнейшую работу необходимо прекратить
-	 * @param bool $transaction_safe флаг использования транзакций для выполнения запросов
-	 *
-	 * @return bool флаг выполнения работы, истина в случае успешного выполнения всех запросов,
-	 */
-	public function query_batch($abort_on_error = true, $transaction_safe = false) {
-		$this->_error_num = 0;
-		$this->_error_msg = '';
-
-		if ($transaction_safe) {
-			$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
-		}
-
-		$query_split = preg_split("/[;]+/", $this->_sql);
-		$error = 0;
-
-		foreach ($query_split as $command_line) {
-			$command_line = trim($command_line);
-			if ($command_line != '') {
-				$this->_cursor = mysqli_query($this->_resource, $command_line);
-				if (!$this->_cursor) {
-					$error = 1;
-					$this->_error_num .= mysqli_errno($this->_resource) . ' ';
-					$this->_error_msg .= mysqli_error($this->_resource) . " SQL=$command_line <br />";
-					if ($abort_on_error) {
-						return $this->_cursor;
-					}
-				}
-			}
-		}
-
-		return (bool) $error;
-	}
-
-	/**
-	 * Возвращает сформированную HTML таблицу с информации о каждой из использованных в запросе SELECT таблиц
-	 * @return string результирующий HTML код
-	 */
-	public function explain() {
-		$temp = $this->_sql;
-		$this->_db->_sql = 'EXPLAIN ' . $this->_db->_sql;
-
-        $cur = $this->query();
-
-        $first = true;
-
-		$buf = '<table cellspacing="1" cellpadding="2" border="0" bgcolor="#000000" align="center">';
-		$buf .= $this->_db->get_query();
-		while ($row = mysqli_fetch_assoc($cur)) {
-			if ($first) {
-				$buf .= '<tr>';
-				foreach ($row as $k => $v) {
-					$buf .= '<th bgcolor="#ffffff">' . $k . '</th>';
-				}
-				$buf .= '</tr>';
-				$first = false;
-			}
-			$buf .= '<tr>';
-			foreach ($row as $v) {
-				$buf .= '<td bgcolor="#ffffff">' . $v . '</td>';
-			}
-			$buf .= '</tr>';
-		}
-		$buf .= '</table><br />';
-		mysqli_free_result($cur);
-
-		$this->_sql = $temp;
-
-		return '<div style="background-color:#FFFFCC" align="left">' . $buf . '</div>';
-	}
-
-	/**
-	 * Выводит расширенно есообзения о ошибке выполнения запроса
-	 *
-	 * @param string $message текст сообщения - ошибки
-	 * @param string $sql     sql код запрос вызвавшего ошибку
-	 */
-	public function show_db_error($message, $sql = null) {
-		echo '<div style="display:block;width:100%;"><b>DB::error:</b> ';
-		echo $message;
-		echo $sql ? '<pre>' . $sql . '</pre><b>UseFiles</b>::' : '';
-		if (function_exists('debug_backtrace')) {
-			foreach (debug_backtrace() as $back) {
-				if (isset($back['file'])) {
-					echo '<br />' . $back['file'] . ':' . $back['line'];
-				}
-			}
-		}
-		echo '</div>';
 	}
 
 }

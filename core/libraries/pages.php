@@ -40,4 +40,12 @@ class joosPages {
 		die();
 	}
 
+    public static function error_database( $message = 'Ошибка базы данных' ) {
+        self::init( 502 );
+
+        include JPATH_BASE . '/app/templates/system/error_database.php';
+        die();
+    }
+
+
 }

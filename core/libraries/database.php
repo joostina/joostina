@@ -367,7 +367,6 @@ class joosModel {
 		}
 
 		if (!$ret) {
-			$this->_error = $this->classname() . "::store ошибка выполнения" . $this->_db->get_error_msg();
 			return false;
 		} else {
 			$this->after_store();
@@ -485,7 +484,6 @@ class joosModel {
 			$this->after_delete();
 			return true;
 		} else {
-			$this->_error = $this->_db->get_error_msg();
 			return false;
 		}
 	}
@@ -530,7 +528,6 @@ class joosModel {
 		if ($this->_db->set_query($query)->query()) {
 			return true;
 		} else {
-			$this->_error = $this->_db->get_error_msg();
 			return false;
 		}
 	}
@@ -551,7 +548,6 @@ class joosModel {
 		if ($this->_db->query()) {
 			return true;
 		} else {
-			$this->_error = $this->_db->get_error_msg();
 			return false;
 		}
 	}
@@ -628,7 +624,6 @@ class joosModel {
 		$query = "UPDATE $this->_tbl SET published = " . (int) $publish . " WHERE ($cids)";
 
 		if (!$this->_db->set_query($query)->query()) {
-			$this->_error = $this->_db->get_error_msg();
 			return false;
 		}
 
@@ -995,5 +990,18 @@ class joosModel {
 }
 
 class joosDatabaseException extends joosException {
+
+    public function __construct($message = '', array $params = array()) {
+
+        if( JDEBUG ){
+            // при включенной отладке покажем полные данные о ошибке
+            parent::__construct(strtr($message, $params));
+        }else{
+            // при выключенной отладке - общую информацию о системе
+            joosPages::error_database( strtr($message, $params) );
+
+        }
+
+    }
 
 }
