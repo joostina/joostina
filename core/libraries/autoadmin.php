@@ -27,6 +27,10 @@ class joosAutoadmin {
 	private static $option;
 	private static $task;
 
+    public static function get($param){
+        return self::$$param;
+    }
+
 	/**
 	 * Автоматическое определение и запуск метода действия
 	 */
@@ -173,67 +177,60 @@ class joosAutoadmin {
 
         $class = self::$class;
         joosAdminView::set_param('submenu', $class::get_submenu() );
-        
         joosAdminView::set_param('current_model', self::$model );
-        
-		//Вывод заголовка
-		self::header($header_extra['for_header'], 'listing');
-        //self::table_body();
-                
-        //return;
-        
-		//Вывод основного содержимого - таблицы с записями
-		echo '<form action="index2.php" method="post" name="admin_form" id="admin_form">';
-		echo '<table class="table table-bordered table-admin"><thead>';
-		echo '<th width="20px"><input type="checkbox" name="toggle" value="" class="js-select_all"></th>';
 
+
+        //для подсчёта количества столбцов таблицы
 		$fields_to_table = array();
+
+        $table_headers = ''; //сюда будем складывать заголовки
+        //перебор полей для вывода в виде заголовков столбцов
 		foreach ($fields_list as $field) {
+            //если этот столбец нужно выводить
 			if (isset($fields_info[$field]['in_admintable']) && $fields_info[$field]['in_admintable'] == TRUE) {
+
+                //ширина столбца
 				$width = isset($fields_info[$field]['html_table_element_param']['width']) ? ' width="' . $fields_info[$field]['html_table_element_param']['width'] . '"' : '';
+
+                //дополнительный класс
 				$class = isset($fields_info[$field]['html_table_element_param']['class']) ? ' class="' . $fields_info[$field]['html_table_element_param']['class'] . '"' : '';
 
-				echo '<th ' . $width . $class . '>' . $fields_info[$field]['name'] . '</th>';
+				$table_headers .= '<th ' . $width . $class . '>' . $fields_info[$field]['name'] . '</th>';
 				$fields_to_table[] = $field;
 			}
 		}
+        joosAdminView::set_listing_param('table_headers', $table_headers);
 
-		echo '</thead>';
 
+
+        //сюда соберём содержимое таблички
+        $table_body = '';
 		$n = count($fields_to_table);
 		$k = 1;
 		$i = 0;
 		foreach ($obj_list as $values) {
 			$dop_class = $group_by ? $group_by . '-' . $values->$group_by : '';
 
-			echo "\n\t" . '<tr class="row-' . $k . '" ' . ( $group_by ? ' data-obj-ordering="' . $values->ordering . '"' : '' ) . ' data-obj-id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">' . "\n\t";
-			echo "\t" . '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>' . "\n";
+            $table_body .= '<tr class="row-' . $k . '" ' . ( $group_by ? ' data-obj-ordering="' . $values->ordering . '"' : '' ) . ' data-obj-id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">';
+            $table_body .= '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>';
 			for ($index = 0; $index < $n; $index++) {
 				$current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
 				$data = joosAutoadmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
 				$class = isset($fields_info[$fields_to_table[$index]]['html_table_element_param']['class']) ? ' class="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['class'] . '"' : '';
 				$align = isset($fields_info[$fields_to_table[$index]]['html_table_element_param']['align']) ? ' align="' . $fields_info[$fields_to_table[$index]]['html_table_element_param']['align'] . '" ' : '';
 
-				echo "\t\t" . '<td ' . $align . $class . '>' . $data . '</td>' . "\n";
+                $table_body .= '<td ' . $align . $class . '>' . $data . '</td>';
 			}
-			echo "\t" . '</tr>' . "\n";
+            $table_body .= '</tr>';
 			$k = 1 - $k;
 			++$i;
 		}
+        joosAdminView::set_listing_param('table_body', $table_body);
 
-		echo '</tr></table>' . "\n";
-		echo $pagenav->get_list_footer();
-		echo "\n";
+        //Подключаем шаблон листинга
+        //@todo Хочу красивше чтобы было *Ирина
+        require_once JTEMPLATE_ADMIN_BASE.DS.'html'.DS.'listing.php';
 
-		echo $header_extra['hidden_ellements'];
-		echo forms::hidden('option', $option);
-		echo forms::hidden('model', self::$model);
-		echo forms::hidden('menu', self::$submenu);
-		echo forms::hidden('task', $task);
-		echo forms::hidden('boxchecked', '');
-		echo forms::hidden('obj_name', get_class($obj));
-		echo forms::hidden(joosCSRF::get_code(), 1);
-		echo forms::close();
 	}
 
 	public static function get_listing_html_element(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
@@ -812,11 +809,11 @@ class joosAdminToolbar {
 	public static function listing() {
 		ob_start();
 
-		mosMenuBar::start_table();
-		mosMenuBar::add_new('create');
+		//mosMenuBar::start_table();
+        joosAdminToolbarButtons::create();
 		mosMenuBar::delete_list();
 		echo implode('', self::$add_button);
-		mosMenuBar::end_table();
+		//mosMenuBar::end_table();
 
 		$return = ob_get_clean();
 
@@ -843,6 +840,38 @@ class joosAdminToolbar {
 		self::$add_button[] = $button;
 	}
 
+}
+
+class joosAdminToolbarButtons{
+
+    public static function listing($type = ''){
+
+        switch($type){
+
+            case 'create':
+            default:
+                return '<a class="js-toolbar" data-toolbar="create" title="Добавить" href="#"><i class="icon-plus-sign"></i></a>';
+            break;
+
+            case 'publish':
+            default:
+                return '<a  class="js-toolbar"  data-handler="toolbar" data-toolbar="publish" title="Разрешить" href="#"><i class="icon-ok"></i></a>';
+            break;
+
+            case 'unpublish':
+            default:
+                return '<a  class="js-toolbar" data-toolbar="unpublish" href="#"><i title="Запретить" class="icon-remove"></i></a>';
+            break;
+
+            case 'remove':
+            default:
+                return '<a  class="js-toolbar"  data-toolbar="remove" href="#"><i title="Удалить" class="icon-trash"></i></a>';
+            break;
+
+        }
+
+
+    }
 }
 
 class mosMenuBar {

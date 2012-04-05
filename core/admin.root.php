@@ -209,7 +209,7 @@ class joosAdminPagenator {
 		$limits[] = joosHtml::make_option('50000', __('-Всё-'));
 		// build the html select list
 		$html = ' ' . __('Отображать') . ' ';
-		$html .= joosHtml::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.admin_form.submit();"', 'value', 'text', $this->limit);
+		$html .= joosHtml::selectList($limits, 'limit', 'class="js-limit" size="1"', 'value', 'text', $this->limit);
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		return $html;
 	}
@@ -245,12 +245,13 @@ class joosAdminPagenator {
 	function get_pages_links() {
 
 		$total_pages = ceil($this->total / $this->limit);
+
 		// скрываем навигатор по страницам если их меньше 2х.
 		if ($total_pages < 2) {
 			return '';
 		}
 
-		$html = '';
+		$html = '<ul>';
 		$displayed_pages = 10;
 
 		$this_page = ceil(( $this->limitstart + 1 ) / $this->limit);
@@ -264,29 +265,29 @@ class joosAdminPagenator {
 		if ($this_page > 1) {
 			$page = ( $this_page - 2 ) * $this->limit;
 
-			$html .= "\n<a href=\"#prev\" id=\"pagenav_prev\" class=\"pagenav\" onclick=\"javascript: document.admin_form.limitstart.value=$page; document.admin_form.submit();return false;\">&larr;&nbsp;" . __('Предыдущая') . "</a>";
+			$html .= "<li><a href=\"#prev\" class=\"js-pagenav\" data-page=\"$page\">&larr;</a></li>";
 		} else {
 
-			$html .= "\n<span  id=\"pagenav_prev\" class=\"pagenav\">&larr;&nbsp;" . __('Предыдущая') . "</span>";
+			$html .= "<li class=\"disabled\"><a href=\"#\"  class=\"pagenav\">&larr;</a></li>";
 		}
 
 		for ($i = $start_loop; $i <= $stop_loop; $i++) {
 			$page = ( $i - 1 ) * $this->limit;
 			if ($i == $this_page) {
-				$html .= "\n<span id=\"pagenav_current\" class=\"pagenav\"> $i </span>";
+				$html .= "<li class=\"active\"><a href=\"#\" class=\"pagenav\"> $i </a></li>";
 			} else {
-				$html .= "\n<a href=\"#$i\" class=\"pagenav\" onclick=\"javascript: document.admin_form.limitstart.value=$page; document.admin_form.submit();return false;\">$i</a>";
+				$html .= "<li><a href=\"#$i\" class=\"js-pagenav\"  data-page=\"$page\">$i</a></li>";
 			}
 		}
 
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			//$end_page = ($total_pages - 1) * $this->limit;
-			$html .= "\n<a href=\"#next\"  id=\"pagenav_next\" class=\"pagenav\" onclick=\"javascript: document.admin_form.limitstart.value=$page; document.admin_form.submit();return false;\"> " . __('Следующая') . "&nbsp;&rarr;</a>";
+			$html .= "<li><a href=\"#next\"  class=\"js-pagenav\"  data-page=\"$page\">&rarr;</a></li>";
 		} else {
-			$html .= "\n<span id=\"pagenav_next\"  class=\"pagenav\">" . __('Следующая') . "&nbsp;&rarr;</span>";
+			$html .= "<li class=\"disabled\"><a href=\"#\" class=\"pagenav\">&rarr;</a></li>";
 		}
-		return $html;
+		return $html.'</ul>';
 	}
 
 	function get_list_footer() {
@@ -394,12 +395,19 @@ class joosAdminView {
         'component_title'=>'',
         'submenu'=>array(),
         'component_header'=>'',
-        'current_model'=>'',
-        
+        'current_model'=>''
+    );
+
+    private static $listing_elements = array(
+        'table_headers' => ''
     );
 
     public static function  set_param($name, $value){
         self::$component_params[$name] = $value;
+    }
+
+    public static function  set_listing_param($name, $value){
+        self::$listing_elements[$name] = $value;
     }
     
     public static function get_component_title(){
@@ -417,7 +425,11 @@ class joosAdminView {
     public static function get_current_model(){
         return self::$component_params['current_model'];
     }
-    
+
+    public static function get_listing_param($name){
+        return self::$listing_elements[$name];
+    }
+
 }
 
 class joosAdminViewToolbarListing{

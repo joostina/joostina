@@ -35,6 +35,10 @@ section{
     padding: 0
 }
 
+.js-limit{
+    width: 50px
+}
+
 
 #admin-form_body{
     border: 1px solid #CCC;
