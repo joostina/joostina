@@ -267,7 +267,7 @@ class joosRequest {
      * @param $code_string
      */
     public static function send_headers($code_string){ 
-        joosRequest::send_headers($code_string);
+        header($code_string);
     }
     
 	/**
