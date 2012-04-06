@@ -189,30 +189,26 @@ class modelUsers extends joosModel {
 
 	protected function before_store() {
 
-		if (!$this->id) {
-			$this->password = self::prepare_password($this->password);
-			$this->register_date = JCURRENT_SERVER_TIME;
-		} else {
-			if (( $new_password = joosRequest::post('new_password', false))) {
-				$this->password = self::prepare_password($new_password);
-			}
-		}
+        // обновление пароля
+        $this->update_password();
 
-		// получаем название группы пользователя
-		$groups = new modelUsersGroups();
-		$groups->load($this->group_id);
-
-		// название группы пользователя
-		$this->group_name = $groups->title;
-
-		// формируем дополнительно каноничное имя
+        // формируем дополнительно каноничное имя
 		$this->user_name_canonikal = joosText::to_canonikal($this->user_name);
-
-		// сохраняем группы пользователя
-		$this->save_one_to_many('#__acl_users_groups', 'user_id', 'group_id', $this->id, joosRequest::array_param('user_groups'));
 	}
 
-	/**
+    private function update_password(){
+        if (!$this->id) {
+            $this->password = self::prepare_password($this->password);
+            $this->register_date = JCURRENT_SERVER_TIME;
+        } else {
+            $new_password = joosRequest::post('new_password', false);
+            if ( $new_password ) {
+                $this->password = self::prepare_password($new_password);
+            }
+        }
+    }
+
+    /**
 	 * После создания нового пользователя
 	 *
 	 * @return bool результат работы
@@ -222,7 +218,7 @@ class modelUsers extends joosModel {
 		// Добавление в таблицу расширенной информации и пользователях новой записи - для только что зарегистрированного пользователя
 		$extra = new modelUsersExtra;
         $extra->create( $this->id );
-
+        
 		return true;
 	}
 
@@ -253,9 +249,9 @@ class modelUsers extends joosModel {
 	 * modelUsers::prepare_password()
 	 * Подготовка пароля для записи в БД
 	 *
-	 * @param str $password
+	 * @param string $password
 	 *
-	 * @return str
+	 * @return string
 	 */
 	public static function prepare_password($password) {
 

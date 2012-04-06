@@ -167,6 +167,18 @@ class modelAdminUsers extends modelUsers {
 		);
 	}
 
+    protected function before_store() {
+
+        // выполняем сначала задачи родительского класа
+        parent::before_store();
+
+        // сохраняем группы пользователя
+        $user_groops = joosRequest::array_param('user_groups');
+        if( $user_groops !==null ){
+            $this->save_one_to_many('#__acl_users_groups', 'user_id', 'group_id', $this->id, $user_groops);
+        }
+    }    
+    
 	public static function get_users_group($group_id = false) {
 
 		$groups = new modelUsersGroups();
@@ -271,7 +283,7 @@ class modelAdminUsersGroups extends modelUsersGroups {
 			'header_edit' => 'Редактирование группы пользователей'
 		);
 	}
-
+    
 	public static function get_parent_usergroup_selector($obj) {
 		$groups = new modelUsersGroups();
 		$group_selector = $groups->get_selector

@@ -27,7 +27,7 @@ class joosFile {
 	 * @tutorial joosFile::convert_size(123456);
 	 *
 	 * @param string $num исходные строка или число для форматирования
-	 * @return string|num
+	 * @return string|int
 	 */
 	public static function convert_size($num) {
 
@@ -260,7 +260,7 @@ class joosFile {
 		$filename = strtolower($filename);
 		// заменям все ненужное нам на "-"
 		$filename = str_replace(array("'", '-'), ' ', $filename);
-		$filename = preg_replace('/[^-a-z0-9._]+/u', '-', $filename);
+		$filename = preg_replace('/[^\-a-z0-9\._]+/u', '-', $filename);
 		return trim($filename, '-');
 	}
 

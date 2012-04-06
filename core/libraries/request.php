@@ -177,7 +177,7 @@ class joosRequest {
 	 * @param string $default значение для параметра по умолчани
 	 * @param array  $vars    массив переменных из которого необходимо получить параметр $name, по умолчанию используется суперглобальный $_REQUEST
 	 *
-	 * @return mixed результат, массив или строка
+	 * @return array результат, массив или строка
 	 */
 	public static function array_param($name = null, array $default = null, $vars = null) {
 		return (array) self::param($name, $default, $vars);
