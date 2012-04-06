@@ -233,7 +233,7 @@ class joosMetainfo extends joosModel {
 	 * Получение всех метаданных
 	 */
 	public static function get_all_meta() {
-		return joosDatabase::instance()->setQuery('SELECT * FROM #__metainfo')->loadObjectList('obj_id');
+		return joosDatabase::instance()->set_query('SELECT * FROM #__metainfo')->load_object_list('obj_id');
 	}
 
 	/**
@@ -241,7 +241,7 @@ class joosMetainfo extends joosModel {
 	 * Получение всех метаданных
 	 */
 	public static function get_all_meta_items($group, $subgroup) {
-		return joosDatabase::instance()->setQuery("SELECT id as meta_id, obj_id, meta_title, meta_description, meta_keywords FROM #__metainfo WHERE subgroup='" . $subgroup . "' AND obj_id > 0 AND group = '" . $group . "'")->loadObjectList('obj_id');
+		return joosDatabase::instance()->set_query("SELECT id as meta_id, obj_id, meta_title, meta_description, meta_keywords FROM #__metainfo WHERE subgroup='" . $subgroup . "' AND obj_id > 0 AND group = '" . $group . "'")->load_object_list('obj_id');
 	}
 
 }
