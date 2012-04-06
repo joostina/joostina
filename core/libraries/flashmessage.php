@@ -59,16 +59,16 @@ class joosFlashMessage {
 			session_start();
 		}
 
-		$mosmsg = joosRequest::session('joostina.mosmsg', false);
+		$message = joosRequest::session('joostina.mosmsg', false);
 
-		if ($mosmsg != '' && joosString::strlen($mosmsg) > 300) { // выводим сообщения не длинее 300 символов
-			$mosmsg = joosString::substr($mosmsg, 0, 300);
+		if ($message != '' && joosString::strlen($message) > 300) { // выводим сообщения не длинее 300 символов
+			$message = joosString::substr($message, 0, 300);
 		}
 
 		/**
 		  @var $_SESSION array */
 		unset($_SESSION['joostina.mosmsg']);
-		return $mosmsg ? '<div class="b-system_message">' . $mosmsg . '</div>' : '';
+		return $message ? '<div class="b-system_message">' . $message . '</div>' : '';
 	}
 
 	/*
