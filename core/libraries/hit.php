@@ -37,9 +37,9 @@ class joosHit {
 	 * Добавление / увеличение счетчика хитов по объекту
 	 *
 	 * @param stdClass $obj  объект который, обращения к которому необходимо подсчитать
-	 * @param  string  $task название задачи выполняемой над объектов
+	 * @param string  $task название задачи выполняемой над объектов
 	 *
-	 * @return  bool результат добвления / увеличения счетчика
+	 * @return bool результат добавления / увеличения счетчика
 	 */
 	public static function add_obj( stdClass $obj , $task = '' ) {
 
@@ -47,7 +47,7 @@ class joosHit {
 		$id         = crc32( $class_name );
 		$option     = $class_name;
 
-		$sql        = sprintf( "INSERT INTO `#__hits` (`id`, `obj_id`, `obj_option`, `obj_task`, `hit`) VALUES (NULL, %s, '%s', '%s', 1)
+		$sql        = sprintf( "INSERT INTO `#__hits` (`id`, `obj_id`, `obj_option`, `obj_task`, `hit`) VALUES (NULL, %u, '%s', '%s', 1)
 									ON DUPLICATE KEY UPDATE hit=hit+1;" , (int) $id , $option , $task );
 		return joosDatabase::instance()->set_query( $sql )->query();
 	}
