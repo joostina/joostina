@@ -53,20 +53,10 @@ class modelAdminUsers extends modelUsers {
 				'in_admintable' => true,
 				'editlink' => true,
 				'html_edit_element' => 'checkbox',
-				'html_table_element' => 'state_box',
+				'html_table_element' => 'status_change',
 				'html_edit_element_param' => array(
 					'text' => 'Разрешён / Активирован',
 				),
-				'html_table_element' => 'status_change',
-				'html_table_element_param' => array(
-					'statuses' => array(
-						0 => 'Разрешён',
-						1 => 'Заблокирован',
-					),
-					'align' => 'center',
-					'class' => 'td-state-joiadmin',
-					'width' => '20px'
-				)
 			),
 			'email' => array(
 				'name' => 'email адрес',
@@ -156,17 +146,15 @@ class modelAdminUsers extends modelUsers {
         // сохраняем группы пользователя
         $user_groops = joosRequest::array_param('user_groups');
         if( $user_groops !==null ){
-            $this->save_one_to_many('#__acl_users_groups', 'user_id', 'group_id', $this->id, $user_groops);
+            $this->save_one_to_many('#__users_acl_groups', 'user_id', 'group_id', $this->id, $user_groops);
         }
     }    
     
 	public static function get_users_group_multi($current_obj) {
 
-		joosLoader::model('acls');
-
 		if ($current_obj->id) {
 
-			$g = new modelAclUsersGroups;
+			$g = new modelUsersAclGroupsUsers;
 			$active_groups = $g->get_selector(
 					array('key' => 'group_id', 'value' => 'group_id'), array('where' => 'user_id=' . $current_obj->id)
 			);
@@ -174,7 +162,7 @@ class modelAdminUsers extends modelUsers {
 			$active_groups = array();
 		}
 
-		return $current_obj->get_one_to_many_selectors('user_groups', '#__user_groups', '#__acl_users_groups', 'user_id', 'group_id', $active_groups);
+		return $current_obj->get_one_to_many_selectors('user_groups', '#__users_acl_groups', '#__users_acl_groups', 'user_id', 'group_id', $active_groups);
 	}
 
 }

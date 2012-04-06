@@ -16,15 +16,15 @@ class helperAcl {
 	}
 
 	public static function is_deny($full_operations_name) {
-
-	}
+        return !self::is_allowed($full_operations_name);
+}
 
     public static function check_access_for_user_id($full_operations_name,$user_id) {
 
         static $allowed_rules;
         
         if( $allowed_rules===null ){
-            $sql = sprintf("SELECT DISTINCT CONCAT_WS('::',al.acl_group, al.acl_name) AS rule_name, 1 AS value FROM  #__acl_access AS aa INNER JOIN #__user_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_rules AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM #__acl_users_groups WHERE user_id = %s )",  $user_id );
+            $sql = sprintf("SELECT DISTINCT CONCAT_WS('::',al.acl_group, al.acl_name) AS rule_name, 1 AS value FROM  #__users_acl_rules_groups AS aa INNER JOIN #__users_acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__users_acl_rules AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM #__users_acl_groups_users WHERE user_id = %s )",  $user_id );
             $allowed_rules = joosDatabase::instance()->set_query($sql)->load_row_array('rule_name','value');
         }
             
@@ -45,7 +45,7 @@ class helperAcl {
  * @created 2011-12-05 12:38:49
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
-class modelAclGroups extends joosModel {
+class modelUsersAclGroups extends joosModel {
 
 	/**
 	 * @field int(11) unsigned
@@ -82,7 +82,7 @@ class modelAclGroups extends joosModel {
 	 */
 
 	function __construct() {
-		parent::__construct('#__user_groups', 'id');
+		parent::__construct('#__users_acl_groups', 'id');
 	}
 
 	public function check() {
@@ -102,7 +102,7 @@ class modelAclGroups extends joosModel {
  * @created 2011-12-05 12:38:49
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
-class modelAclList extends joosModel {
+class modelUsersAclRules extends joosModel {
 
 	/**
 	 * @field int(11) unsigned
@@ -145,7 +145,7 @@ class modelAclList extends joosModel {
 	 */
 
 	function __construct() {
-		parent::__construct('#__acl_rules', 'id');
+		parent::__construct('#__users_acl_rules', 'id');
 	}
 
 	public function check() {
@@ -165,7 +165,7 @@ class modelAclList extends joosModel {
  * @created 2011-12-05 12:38:49
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
-class modelAclUsersGroups extends joosModel {
+class modelUsersAclGroupsUsers extends joosModel {
 
 	/**
 	 * @field int(11) unsigned
@@ -185,24 +185,12 @@ class modelAclUsersGroups extends joosModel {
 	 */
 	public $group_id;
 
-	/**
-	 * @field datetime
-	 * @type datetime
-	 */
-	public $created_at;
-
-	/**
-	 * @field datetime
-	 * @type datetime
-	 */
-	public $modified_at;
-
 	/*
 	 * Constructor
 	 */
 
 	function __construct() {
-		parent::__construct('#__acl_users_groups', 'id');
+		parent::__construct('#__users_acl_groups_users', 'id');
 	}
 
 	public function check() {
@@ -222,7 +210,7 @@ class modelAclUsersGroups extends joosModel {
  * @created 2011-12-07 14:23:55
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
-class modelAclAccess extends joosModel {
+class modelUsersAclRolesGroups extends joosModel {
 	/**
 	 * @field int(11) unsigned
 	 * @type int
@@ -238,22 +226,12 @@ class modelAclAccess extends joosModel {
 	 * @type int
 	 */
 	public $task_id;
-	/**
-	 * @field datetime
-	 * @type datetime
-	 */
-	public $created_at;
-	/**
-	 * @field datetime
-	 * @type datetime
-	 */
-	public $modified_at;
 
 	/*
 	 * Constructor
 	 */
 	function __construct(){
-		parent::__construct( '#__acl_access', 'id' );
+		parent::__construct( '#__users_acl_rules_groups', 'id' );
 	}
 
 	public function check() {

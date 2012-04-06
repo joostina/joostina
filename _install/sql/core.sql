@@ -30,8 +30,6 @@ CREATE TABLE IF NOT EXISTS `jos_acl_access` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `group_id` int(11) unsigned NOT NULL,
   `task_id` int(11) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
-  `modified_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
@@ -91,21 +89,19 @@ INSERT INTO `jos_acl_list` (`id`, `title`, `acl_group`, `acl_name`, `created_at`
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `jos_acl_users_groups`
+-- Структура таблицы `jos`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_acl_users_groups` (
+CREATE TABLE IF NOT EXISTS `jos` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
   `group_id` tinyint(5) unsigned NOT NULL,
-  `created_at` datetime NOT NULL,
-  `modified_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `jos_acl_users_groups`
+-- Дамп данных таблицы `jos`
 --
 
 

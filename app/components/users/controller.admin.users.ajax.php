@@ -45,7 +45,7 @@ class actionsAjaxAdminUsers extends joosAdminControllerAjax {
         $group_id = joosRequest::int('group_id');
         $task_id = joosRequest::int('task_id');
 
-        $access = new modelAclAccess;
+        $access = new modelUsersAclRolesGroups;
 
         $access->group_id = $group_id;
         $access->task_id = $task_id;

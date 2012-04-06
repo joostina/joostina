@@ -28,15 +28,15 @@ class actionsAdminUsers extends joosAdminController{
 			'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
 			'active' => false
 		),
-        'groups' => array(
-            'name' => 'Группы',
-            'model' => 'modelAdminAclGroups',
+        'user_groups' => array(
+            'name' => 'Группы пользователей',
+            'model' => 'modelAdminUsersAclGroups',
             'fields' => array('title'),
             'active' => false
         ),
-        'acls' => array(
+        'acl_rules_list' => array(
             'name' => 'Права',
-            'model' => 'modelAdminAclList',
+            'model' => 'modelAdminUsersAclRules',
             'fields' => array('title'),
             'active' => false
         ),
@@ -50,10 +50,10 @@ class actionsAdminUsers extends joosAdminController{
 
     public static function acl_table() {
 
-        $group_obj = new modelAclGroups;
+        $group_obj = new modelUsersAclGroups;
         $groups = $group_obj->find_all();
 
-        $acl_list_obj = new modelAclList;
+        $acl_list_obj = new modelUsersAclRules;
         $acls = $acl_list_obj->find_all();
 
         $acl_list = array();
@@ -66,7 +66,7 @@ class actionsAdminUsers extends joosAdminController{
         sort($acl_groups);
         sort($acls);
 
-        $sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__acl_access AS aa INNER JOIN #__user_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_rules AS al ON ( al.id=aa.task_id )';
+        $sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__users_acl_rules_groups AS aa INNER JOIN #__users_acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__users_acl_rules AS al ON ( al.id=aa.task_id )';
         $acl_rules_array = joosDatabase::instance()->set_query($sql)->load_assoc_list();
 
         $acl_rules = array();
@@ -122,7 +122,7 @@ class actionsAdminUsers extends joosAdminController{
 
         //_xdump($classes);
 
-        $acls_list = new modelAclList;
+        $acls_list = new modelUsersAclRules;
         $acls_list->insert_array($classes);
 
         echo sprintf('Вставлено %s правил', count($classes));

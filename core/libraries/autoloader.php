@@ -65,10 +65,13 @@ class joosAutoloader {
 		'joosValidateHelper' => 'core/libraries/validate.php',
 		'joosVersion' => 'core/libraries/version.php',
 		'joosLogging' => 'app/vendors/logging/logging.php',
-        'modelAclGroups' => 'app/components/acls/models/model.acls.php',
-        'modelAdminAclGroups'=>'app/components/acls/models/model.admin.acls.php',
-        'modelAdminAclList'=>'app/components/acls/models/model.admin.acls.php',
+        
+        'modelUsersAclGroups' => 'app/components/acls/models/model.acls.php',
+        'modelAdminUsersAclGroups'=>'app/components/acls/models/model.admin.acls.php',
+        'modelUsersAclRolesGroups'=>'app/components/acls/models/model.admin.acls.php',
+        'modelAdminUsersAclRules'=>'app/components/acls/models/model.admin.acls.php',
         'helperAcl'=> 'app/components/acls/models/model.acls.php',
+        
         // Это старьё, надо переписать либо удалить
 		'htmlTabs' => 'core/libraries/html.php',
 		'forms' => 'app/vendors/forms/forms.php',
