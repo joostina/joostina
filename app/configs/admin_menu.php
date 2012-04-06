@@ -68,10 +68,6 @@ return array(
             'href' => 'index2.php?option=users',
             'ico' => 'ico-users',
         ),
-            'Группы пользователей' => array(
-                'href' => 'index2.php?option=users&model=modelUsersGroups',
-                'ico' => 'ico-users',
-            ),
             'Управление правами' => array(
                 'href' => '/',
                 'ico' => 'ico-acl',

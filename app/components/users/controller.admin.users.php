@@ -4,7 +4,7 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * Компонент управления пользователями и группами
+ * Компонент управления пользователями, группами и правами доступа
  * Контроллер панели управления
  *
  * @version    1.0
@@ -17,151 +17,118 @@ defined('_JOOS_CORE') or die();
  *
  * */
 class actionsAdminUsers extends joosAdminController{
-
-	/**
-	 * Название обрабатываемой модели
-	 *
-	 * @var joosModel модель
-	 */
-	public static $model = 'modelAdminUsers';
-
-	/**
-	 * Активный по умолчанию пункт меню
-	 *
-	 * @var string
-	 */
-	private static $active_menu = 'users';
-	private static $fields_list;
-
+    
 	/**
 	 * Подменю
 	 */
     protected static $submenu = array(
-		'users' => array(
+		'default' => array(
 			'name' => 'Пользователи',
 			'href' => 'index2.php?option=users',
 			'model' => 'modelAdminUsers',
 			'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
 			'active' => false
 		),
-		'usersgroups' => array(
-			'name' => 'Группы пользователей',
-			'href' => 'index2.php?option=users&menu=usersgroups',
-			'model' => 'modelAdminUsersGroups',
-			'fields' => array('group_title', 'title', 'parent_id'),
-			'active' => false 
-		)
+        'groups' => array(
+            'name' => 'Группы',
+            'href' => 'index2.php?option=users&menu=groups',
+            'model' => 'modelAdminAclGroups',
+            'fields' => array('title'),
+            'active' => false
+        ),
+        'acls' => array(
+            'name' => 'Права',
+            'href' => 'index2.php?option=users&menu=acls',
+            'model' => 'modelAdminAclList',
+            'fields' => array('title'),
+            'active' => false
+        ),
+        'acl_table' => array(
+            'name' => 'Рапределение прав',
+            'href' => 'index2.php?option=users&menu=acl_table&task=acl_table',
+            'model' => false,
+            'active' => false
+        ),
 	);
 
-	public static function action_before() {
+    public static function acl_table() {
 
-		$menu = joosRequest::request('menu', false);
+        $group_obj = new modelAclGroups;
+        $groups = $group_obj->find_all();
 
-		if ($menu && isset(self::$submenu[$menu])) {
+        $acl_list_obj = new modelAclList;
+        $acls = $acl_list_obj->find_all();
 
-			self::$active_menu = $menu;
+        $acl_list = array();
+        foreach ($acls as $acl) {
+            $acl_list[$acl->acl_group][sprintf('%s::%s', $acl->acl_group, $acl->acl_name)] = $acl;
+        }
 
-			$active = self::$submenu[$menu];
+        $acl_groups = array_keys($acl_list);
 
-			self::$submenu[$menu]['active'] = true;
-			self::$model = $active['model'];
+        sort($acl_groups);
+        sort($acls);
 
-			joosAutoadmin::$submenu = $menu;
-		} else {
-			$menu = self::$active_menu;
-            self::$submenu[$menu]['active'] = true;
-		}
+        $sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__acl_access AS aa INNER JOIN #__user_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_rules AS al ON ( al.id=aa.task_id )';
+        $acl_rules_array = joosDatabase::instance()->set_query($sql)->load_assoc_list();
+
+        $acl_rules = array();
+        foreach ($acl_rules_array as $value) {
+            $acl_rules[$value['group_id']][$value['list_id']] = true;
+        }
+
+        return array(
+            'groups' => $groups,
+            'acl_groups' => $acl_groups,
+            'acl_list' => $acl_list,
+            'acls' => $acls,
+            'acl_rules' => $acl_rules
+        );
+    }
 
 
-		self::$fields_list = isset(self::$submenu[$menu]['fields']) ? self::$submenu[$menu]['fields'] : array('id', 'title', 'type_id', 'category_id', 'state');
+    public static function get_actions() {
 
-		joosAutoadmin::$model = self::$model;
-	}
+        $location = JPATH_BASE . '/app/components/';
 
-	/**
-	 * Список объектов
-	 */
-	public static function index($option) {
+        $Directory = new RecursiveDirectoryIterator($location);
+        $Iterator = new RecursiveIteratorIterator($Directory);
+        $Regex = new RegexIterator($Iterator, '/^.+controller.+/i', RecursiveRegexIterator::GET_MATCH);
 
-		$obj = new self::$model;
-		$obj_count = joosAutoadmin::get_count($obj);
+        joosLoader::lib('Reflect', 'Reflect');
 
-		$pagenav = joosAutoadmin::pagenav($obj_count, $option);
+        $options = array(
+            'properties' => array(
+                'class' => array(
+                    'methods'
+                ),
+            )
+        );
+        $reflect = new PHP_Reflect($options);
 
-		$param = array(
-			'offset' => $pagenav->limitstart,
-			'limit' => $pagenav->limit,
-			'order' => 'id DESC'
-		);
-		$obj_list = joosAutoadmin::get_list($obj, $param);
+        $classes = array();
+        foreach ($Regex as $path) {
+            $source = $path[0];
+            $reflect->scan($source);
+            $cl = $reflect->getClasses();
+            foreach ($cl['\\'] as $k => $cc) {
+                foreach ($cc['methods'] as $km => $m) {
+                    $classes[$k . $km] = array(
+                        'title' => sprintf('%s::%s', $k, $km),
+                        'acl_group' => $k,
+                        'acl_name' => $km,
+                        'created_at' => JCURRENT_SERVER_TIME
+                    );
+                }
+            }
+        }
 
-		// передаём информацию о объекте и настройки полей в формирование представления
-		joosAutoadmin::listing($obj, $obj_list, $pagenav, self::$fields_list);
-	}
+        //_xdump($classes);
 
-	/**
-	 * Редактирование
-	 */
-	public static function create($option) {
-		self::edit($option, 0);
-	}
+        $acls_list = new modelAclList;
+        $acls_list->insert_array($classes);
 
-	/**
-	 * Редактирование объекта
-	 * @param integer $id - номер редактируемого объекта
-	 */
-	public static function edit($option, $id) {
-		$obj_data = new self::$model;
-		$id > 0 ? $obj_data->load($id) : null;
-
-		joosAutoadmin::edit($obj_data, $obj_data);
-	}
-
-	/**
-	 * Сохранение отредактированного или созданного объекта
-	 */
-	public static function save($option, $id, $page, $task, $redirect = 0) {
-
-		joosCSRF::check_code();
-
-		$obj_data = new self::$model;
-		$obj_data->save($_POST);
-
-		switch ($redirect) {
-			default:
-			case 0: // просто сохранение
-				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Всё ок!');
-				break;
-
-			case 1: // применить
-				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
-				break;
-
-			case 2: // сохранить и добавить новое
-				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu . '&task=create', 'Всё ок, создаём новое');
-				break;
-		}
-	}
-
-	public static function apply($option) {
-		return self::save($option, null, null, null, 1);
-	}
-
-	public static function save_and_new($option) {
-		return self::save($option, null, null, null, 2);
-	}
-
-	/**
-	 * Удаление одного или группы объектов
-	 */
-	public static function remove($option) {
-		joosCSRF::check_code();
-
-		// идентификаторы удаляемых объектов
-		$cid = (array) joosRequest::array_param('cid');
-
-		$obj_data = new self::$model;
-		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . self::$active_menu, 'Ошибка удаления');
-	}
-
+        echo sprintf('Вставлено %s правил', count($classes));
+    }
+    
 }

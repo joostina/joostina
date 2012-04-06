@@ -441,51 +441,6 @@ class modelUsersExtra extends joosModel {
 }
 
 /**
- * modelUsersGroups - Модель пользовательских групп
- * Модель для работы сайта
- *
- * @version    1.0
- * @package    Models
- * @subpackage Users
- * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2012 Joostina Team
- * @license    MIT License http://www.opensource.org/licenses/mit-license.php
- * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
- *
- * */
-class modelUsersGroups extends joosModel {
-
-	/**
-	 * @var int(10) unsigned
-	 */
-	public $id;
-
-	/**
-	 * @var int(10) unsigned
-	 */
-	public $parent_id;
-
-	/**
-	 * @var varchar(100)
-	 */
-	public $title;
-
-	/**
-	 * @var varchar(255)
-	 */
-	public $group_title;
-
-	/*
-	 * Constructor
-	 */
-
-	function __construct() {
-		parent::__construct('#__users_groups', 'id');
-	}
-
-}
-
-/**
  * Class UsersSession
  * @package    Models
  * @subpackage Users

@@ -25,28 +25,6 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class actionsAjaxUsers extends joosControllerAjax {
 
-	public static function login() {
-
-		//joosSpoof::check_code(null, 1);
-
-		$user_name = joosRequest::post( 'user_name' );
-		$password = joosRequest::post( 'password' );
-
-		$response = json_decode( modelUsers::login( $user_name , $password , array ( 'return' => 1 ) ) , true );
-
-		if ( isset( $response['error'] ) ) {
-			echo json_encode( array ( 'error' => $response['error'] ) );
-		} else {
-			echo json_encode( array ( 'success' => 'всё пучком' ) );
-		}
-	}
-
-	public static function logout() {
-		joosCSRF::check_code( 1 );
-		modelUsers::logout();
-		echo json_encode( array ( 'success' => 'всё пучком' ) );
-	}
-
 	public static function register() {
 
 		$validator = UserValidations::registration();
@@ -79,16 +57,6 @@ class actionsAjaxUsers extends joosControllerAjax {
 			echo json_encode( array ( 'error' => 'Что-то не так с данными для регистрации' ) );
 			return false;
 		}
-	}
-
-	public static function reload_login_area() {
-		require_once( JPATH_BASE . DS . 'includes' . DS . 'frontend.php' );
-		echo joosModule::module( 'login' );
-	}
-
-	public static function reload_menu() {
-		require_once( JPATH_BASE . DS . 'includes' . DS . 'frontend.php' );
-		echo joosModule::module( 'navigation' );
 	}
 
 }

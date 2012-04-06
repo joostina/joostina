@@ -16,10 +16,13 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminSite  extends joosAdminController{
+class actionsAdminSite extends joosAdminController{
 
-	public static function index() {
-		require_once JPATH_BASE . '/app/templates/' . JTEMPLATE_ADMIN . '/html/cpanel.php';
-	}
+    public static function index() {
 
+        require_once JPATH_BASE . '/app/templates/' . JTEMPLATE_ADMIN . '/html/cpanel.php';
+        
+        return array();
+    }
+    
 }

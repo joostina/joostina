@@ -18,22 +18,19 @@ defined('_JOOS_CORE') or die();
 class joosAutoadmin {
 
 	private static $js_onformsubmit = array();
-	public static $model;
+    private static $active_model_name;
 	private static $data;
-	public static $submenu;
-	//public static $component_title;
 	private static $data_overload = false;
-	private static $class = array();
+	private static $active_class = array();
 	private static $option;
 	private static $task;
 
+    private static $active_menu;
+    
     public static function get($param){
         return self::$$param;
     }
 
-	/**
-	 * Автоматическое определение и запуск метода действия
-	 */
 	public static function dispatch( ) {
 
 		$id = joosRequest::int('id', 0);
@@ -46,7 +43,7 @@ class joosAutoadmin {
 		$option = joosRequest::param('option','site');
 		$class = 'actionsAdmin' . ucfirst($option);
 
-		self::$class = $class;
+		self::$active_class = $class;
 		self::$option = $option;
 		self::$task = $task;
 
@@ -56,13 +53,12 @@ class joosAutoadmin {
 
 
 		!JDEBUG ? : joosDebug::add('joosAutoadmin::dispatch() - ' . $class . '::' . $task);
-
+        
 		// в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подклбчение можделей, скриптов и т.д.
 		method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
 
 		$events_name = sprintf('controller.admin.*');
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, $task) : null;
-
 
 		$events_name = sprintf('controller.admin.%s.*', $class);
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $task) : null;
@@ -71,8 +67,7 @@ class joosAutoadmin {
 		$events_name = sprintf('controller.admin.%s.%s', $class, $task);
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
-
-		if (method_exists($class, $task)) {
+        if (method_exists($class, $task)) {
 			$results = call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
 			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
 		} elseif (method_exists($class, 'index')) {
@@ -175,9 +170,9 @@ class joosAutoadmin {
         joosAdminView::set_param( 'component_title' , isset($header['header_main']) ? $header['header_main'] : '');
         joosAdminView::set_param( 'component_header' , $header['header_list']);
 
-        $class = self::$class;
+        $class = self::$active_class;
         joosAdminView::set_param('submenu', $class::get_submenu() );
-        joosAdminView::set_param('current_model', self::$model );
+        joosAdminView::set_param('current_model', self::get_active_menu_name() );
 
 
         //для подсчёта количества столбцов таблицы
@@ -272,7 +267,7 @@ class joosAutoadmin {
 	 */
 	public static function edit(joosModel $obj, $obj_data, $params = null) {
 
-		self::$model = get_class($obj);
+		self::$active_model_name = get_class($obj);
 
 		//Работа с табами
 		$tabs = new htmlTabs();
@@ -297,10 +292,10 @@ class joosAutoadmin {
         joosAdminView::set_param( 'component_title' , isset($header['header_main']) ? $header['header_main'] : '');
         joosAdminView::set_param( 'component_header' ,  $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'] );
 
-        $class = self::$class;
+        $class = self::$active_class;
         joosAdminView::set_param('submenu', $class::get_submenu() );
 
-        joosAdminView::set_param('current_model', self::$model );
+        joosAdminView::set_param('current_model', self::get_active_model_name());
         
 		echo self::header(array(), 'edit');
 
@@ -371,9 +366,9 @@ class joosAutoadmin {
 		//Выводим скрытые поля формы
 		echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
 		echo forms::hidden('option', $option) . "\t";
-		echo forms::hidden('model', self::$model) . "\t";
-		echo forms::hidden('menu', self::$submenu);
-		//echo forms::hidden('task', 'save') . "\t";
+		echo forms::hidden('model', joosAdminView::get_current_model() ) . "\t";
+		echo forms::hidden('menu', joosAutoadmin::get_active_menu_name() );
+		echo forms::hidden('task', '') . "\t";
 		echo forms::hidden(joosCSRF::get_code(), 1). "\t"; // элемент защиты от XSS
 
         echo forms::button('task','Сохранить','value="save"'). "\t";
@@ -392,7 +387,7 @@ class joosAutoadmin {
 		echo "\n" . implode("\n", self::$js_onformsubmit) . "\n";
 	}
 
-// получение типа элемента для формы редактирования
+    // получение типа элемента для формы редактирования
 	public static function get_edit_html_element($element_param, $key, $value, $obj_data, $params, $tabs) {
 
 		$class_file = JPATH_BASE . '/app/plugins/autoadmin/edit.' . $element_param['html_edit_element'] . '.php';
@@ -415,11 +410,13 @@ class joosAutoadmin {
 		self::$js_onformsubmit[] = $js_raw_code;
 	}
 
-// упрощенная система получения пагинатора
-	public static function pagenav($total, $com_name = '') {
+    // упрощенная система получения пагинатора
+	public static function pagenav($total) {
 
+        $com_name = self::$option;
+        
 		$limit = (int) joosSession::get_user_state_from_request("{$com_name}_viewlistlimit", 'limit', joosConfig::get2('admin', 'list_limit', 25));
-		$limitstart = (int) joosSession::get_user_state_from_request("{$com_name}_limitstart" . self::$model, 'limitstart', 0);
+		$limitstart = (int) joosSession::get_user_state_from_request("{$com_name}_limitstart" . self::get_active_model_name(), 'limitstart', 0);
 
 		return new joosAdminPagenator($total, $limitstart, $limit);
 	}
@@ -469,20 +466,9 @@ class joosAutoadmin {
 		return $component_title;
 	}
 
-	public static function toolbar($task = '') {
-
-		$class = self::$class;
-		if (isset($class::$toolbars) && isset($class::$toolbars[self::$task])) {
-			return $class::$toolbars[self::$task];
-		} else if ($task) {
-			return joosAdminToolbar::$task();
-		}
-		return false;
-	}
-
 	public static function submenu() {
 
-		$class = self::$class;
+		$class = self::$active_class;
 
 		if (isset($class::$submenu)) {
 
@@ -513,7 +499,8 @@ class joosAutoadmin {
 
 		return false;
 	}
-
+   
+    
 // автоматическя обработка яксовых операций
 	public static function autoajax() {
 
@@ -525,16 +512,16 @@ class joosAutoadmin {
 		// ключ-название запрашиваемого элемента
 		$obj_key = joosRequest::post('obj_key');
 		// название объекта запрашиваемого элемента
-		$obj_name = joosRequest::param('obj_name');
-		if (!$obj_name) {
+		$model = joosRequest::param('model');
+		if (!$model) {
 			return false;
 		}
 		// пустой объект для складирования результата
 		$return_onj = new stdClass();
 
-		if (class_exists($obj_name)) {
+		if (class_exists($model)) {
 			// создаём объект класса
-			$obj = new $obj_name;
+			$obj = new $model;
 
 			switch ($task) {
 				case 'status_change':
@@ -784,6 +771,28 @@ class joosAutoadmin {
 
 		return joosInflector::camelize($string);
 	}
+
+    public static function set_active_model_name( $model_name ){
+        self::$active_model_name = $model_name;
+    }
+    
+    public static function get_active_model_name(){
+        return self::$active_model_name;
+    }
+
+
+    public static function get_active_model_obj(){
+        return new self::$active_model_name;
+    }
+
+    public static function set_active_menu_name( $menu_name ){
+        return self::$active_menu;
+    }
+    
+    public static function get_active_menu_name(){
+        return self::$active_menu;
+    }
+
 
 }
 

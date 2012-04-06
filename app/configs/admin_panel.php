@@ -22,11 +22,6 @@ return array(
             'title' => '',
             'ico' => 'contact-new',
         ),
-        'Группы' => array(
-            'href' => 'index2.php?option=users&menu=usersgroups',
-            'title' => '',
-            'ico' => 'access',
-        ),
         'Права доступа' => array(
             'href' => 'index2.php?option=acls',
             'title' => '',

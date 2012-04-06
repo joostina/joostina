@@ -174,7 +174,7 @@ class modelAdminUsers extends modelUsers {
 			$active_groups = array();
 		}
 
-		return $current_obj->get_one_to_many_selectors('user_groups', '#__acl_groups', '#__acl_users_groups', 'user_id', 'group_id', $active_groups);
+		return $current_obj->get_one_to_many_selectors('user_groups', '#__user_groups', '#__acl_users_groups', 'user_id', 'group_id', $active_groups);
 	}
 
 }

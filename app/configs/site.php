@@ -64,13 +64,14 @@ return array(
 			/*'stream' => array(
 				'level' => joosLoggingLevels::DEBUG,
 				'stream' => JPATH_BASE . DS . 'logs' . DS . 'example.log'
-			),*/
+			),
 			'mail' => array(
 				'level' => joosLoggingLevels::ERROR,
 				'to' => 'mail@example.com',
 				'subject' => 'Message from monolog',
 				'from' => 'mail@example.com'
 			)
+			*/
 		)
 	)
 );

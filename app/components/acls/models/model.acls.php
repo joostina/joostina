@@ -24,7 +24,7 @@ class helperAcl {
         static $allowed_rules;
         
         if( $allowed_rules===null ){
-            $sql = sprintf("SELECT DISTINCT CONCAT_WS('::',al.acl_group, al.acl_name) AS rule_name, 1 AS value FROM  #__acl_access AS aa INNER JOIN #__acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_list AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM #__acl_users_groups WHERE user_id = %s )",  $user_id );
+            $sql = sprintf("SELECT DISTINCT CONCAT_WS('::',al.acl_group, al.acl_name) AS rule_name, 1 AS value FROM  #__acl_access AS aa INNER JOIN #__user_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__acl_rules AS al ON ( al.id=aa.task_id ) WHERE ag.id IN (  SELECT group_id FROM #__acl_users_groups WHERE user_id = %s )",  $user_id );
             $allowed_rules = joosDatabase::instance()->set_query($sql)->load_row_array('rule_name','value');
         }
             
@@ -82,7 +82,7 @@ class modelAclGroups extends joosModel {
 	 */
 
 	function __construct() {
-		parent::__construct('#__acl_groups', 'id');
+		parent::__construct('#__user_groups', 'id');
 	}
 
 	public function check() {
@@ -145,7 +145,7 @@ class modelAclList extends joosModel {
 	 */
 
 	function __construct() {
-		parent::__construct('#__acl_list', 'id');
+		parent::__construct('#__acl_rules', 'id');
 	}
 
 	public function check() {

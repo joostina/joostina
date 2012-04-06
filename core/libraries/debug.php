@@ -64,7 +64,7 @@ class joosDebug {
 	}
 
 	public static function add($text, $top = 0) {
-		self::getLogger()->debug($text);
+		//self::getLogger()->debug($text);
 
 		$top ? array_unshift(self::$_log, $text) : self::$_log[] = $text;
 	}

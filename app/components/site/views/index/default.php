@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package   Joostina
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
@@ -8,12 +7,4 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
-class actionsAjaxAdminQuickicons extends joosAdminControllerAjax {
-
-	public static function status_change() {
-		return joosAutoadmin::autoajax();
-	}
-
-}
+defined( '_JOOS_CORE' ) or die();

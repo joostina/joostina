@@ -21,8 +21,8 @@ class joosFilter {
 	/**
 	 * Преобразует символы в соответствующие HTML сущности
 	 *
-	 * @param string $value      строка для
-	 * @param string $quoteStyle - одно из доступных значений ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES
+	 * @param string $value строка для
+	 * @param string $quoteStyle одно из доступных значений ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES
 	 *
 	 * @return string преобразованная строка
 	 */
@@ -36,7 +36,7 @@ class joosFilter {
 	 * @param string   $value      строка для
 	 * @param string $quoteStyle - одно из доступных значений ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES
 	 *
-	 * @return type преобразованная строка
+	 * @return string преобразованная строка
 	 */
 	public static function htmlspecialchars($value, $quoteStyle = ENT_NOQUOTES) {
 		return htmlspecialchars($value, $quoteStyle, 'UTF-8');

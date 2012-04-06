@@ -22,6 +22,9 @@ class joosException extends Exception {
 	const CONTEXT_RADIUS = 10;
 
 	public function __construct($message = '', array $params = array()) {
+
+        joosRequest::send_headers_by_code(500);
+        
 		parent::__construct(strtr($message, $params));
 
 		if (isset($params[':error_file'])) {
@@ -103,7 +106,7 @@ HTML;
 	}
 
 	protected function prepare($content) {
-		return joosFilter::htmlspecialchars($content);
+		return htmlspecialchars($content,ENT_NOQUOTES,'UTF-8');
 	}
 
 	/**

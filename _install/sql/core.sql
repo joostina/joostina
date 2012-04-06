@@ -343,7 +343,6 @@ INSERT INTO `jos_modules` (`id`, `title`, `content`, `ordering`, `position`, `st
 (2, 'Системные сообщения', '', 1, 'inset', 0, 'adminmsg', '', '', 1),
 (3, 'Главное меню', '', 2, 'left', 1, 'navigation', '', 'null', 0),
 (4, 'Авторизация', '', 1, 'header', 1, 'login', '', '{"param1":"","param2":""}', 0),
-(5, 'Кнопки быстрого доступа', '', 1, 'icon', 1, 'adminquickicons', '', '', 1),
 (6, 'Хлебные крошки', '', 0, 'pathway', 1, 'breadcrumbs', '', '', 0),
 (7, 'Про нас', '', 0, 'pathway', 1, 'about', '', '', 0),
 (8, 'Новое в блоге', '', 0, 'right', 1, 'blogs', '', '""', 0),
@@ -431,41 +430,6 @@ CREATE TABLE IF NOT EXISTS `jos_params` (
 --
 
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `jos_quickicons`
---
-
-CREATE TABLE IF NOT EXISTS `jos_quickicons` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(64) NOT NULL DEFAULT '',
-  `alt_text` varchar(255) NOT NULL,
-  `href` varchar(255) NOT NULL DEFAULT '',
-  `icon` varchar(100) NOT NULL DEFAULT '',
-  `ordering` tinyint(3) unsigned NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
-  `gid` tinyint(3) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `jos_quickicons`
---
-
-INSERT INTO `jos_quickicons` (`id`, `title`, `alt_text`, `href`, `icon`, `ordering`, `state`, `gid`) VALUES
-(1, 'Комментарии', 'Тыц-мегатыц', 'index2.php?option=comments', 'empathy.png', 5, 1, 0),
-(2, 'Пользователи', '', 'index2.php?option=users', 'contact-new.png', 10, 1, 0),
-(3, 'Странички', '', 'index2.php?option=pages', 'edit-select-all.png', 0, 1, 0),
-(4, 'Файловый манипулятор', '', 'index2.php?option=finder', 'folder-move.png', 0, 1, 0),
-(5, 'Блог', '', 'index2.php?option=blog', 'folder-documents.png', 0, 1, 0),
-(6, 'Кодер', '', 'index2.php?option=coder', 'gnome-fs-bookmark-missing.png', 0, 1, 0),
-(7, 'Новости', '', 'index2.php?option=news', 'xfce4-menueditor.png', 0, 1, 0),
-(8, 'Корзина', '', 'index2.php?option=trash', 'emptytrash.png', 0, 1, 0),
-(9, 'Группы пользователей', 'Группы пользователей', 'index2.php?option=usergroups', 'gwibber.png', 0, 1, 0),
-(10, 'Расширения', 'Расширения', 'index2.php?option=exts', 'gnome-power-manager.png', 0, 1, 1);
-
--- --------------------------------------------------------
 
 --
 -- Структура таблицы `jos_searched`

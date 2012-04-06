@@ -367,14 +367,118 @@ class joosAdminPagenator {
  * @package    Joostina
  * @subpackage Contlroller
  *
+ * //  extends joosController
+ * 
  */
-class joosAdminController extends joosController{
+class joosAdminController{
 
-    protected static $submenu = array();
+    protected static $submenu;
     
+    protected static $active_menu = 'default';
+
+
     public static function get_submenu(){
+
         return static::$submenu;
-    }    
+    }
+
+    public static function action_before() {
+        
+        $menu = joosRequest::request('menu', false);
+
+        if ($menu && isset(static::$submenu[$menu])) {
+
+            static::$active_menu = $menu;
+        } else {
+            
+            $menu = static::$active_menu;
+        }
+
+        static::$submenu[$menu]['active'] = true;
+
+        joosAutoadmin::set_active_model_name(static::$submenu[$menu]['model']);
+        joosAutoadmin::set_active_menu_name($menu);
+    }
+
+    public static function index() {
+
+        $obj = joosAutoadmin::get_active_model_obj();
+        $obj_count = joosAutoadmin::get_count($obj);
+
+        $pagenav = joosAutoadmin::pagenav($obj_count);
+
+        $param = array(
+            'offset' => $pagenav->limitstart,
+            'limit' => $pagenav->limit,
+            'order' => 'id DESC'
+        );
+        $obj_list = joosAutoadmin::get_list($obj, $param);
+
+        $fields_list= isset(static::$submenu[static::$active_menu]['fields'])
+            ? static::$submenu[static::$active_menu]['fields']
+            : array('id', 'title', 'state');
+        
+        // передаём информацию о объекте и настройки полей в формирование представления
+        joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
+    }
+
+    public static function create($option) {
+        static::edit($option, 0);
+    }
+
+    public static function edit($option, $id) {
+        
+        $obj_data = joosAutoadmin::get_active_model_obj();
+        $id > 0 ? $obj_data->load($id) : null;
+
+        joosAutoadmin::edit($obj_data, $obj_data);
+    }
+
+    // $option, $redirect = 0
+    public static function save() {
+
+        joosCSRF::check_code();
+
+        $obj_data = joosAutoadmin::get_active_model_obj();
+        $obj_data->save($_POST);
+
+        switch ($redirect) {
+            default:
+            case 0: // просто сохранение
+                joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Всё ок!');
+                break;
+
+            case 1: // применить
+                joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
+                break;
+
+            case 2: // сохранить и добавить новое
+                joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=create', 'Всё ок, создаём новое');
+                break;
+        }
+    }
+
+    public static function apply($option) {
+        
+        return static::save($option, null, null, null, 1);
+    }
+
+    public static function save_and_new($option) {
+        
+        return static::save($option, null, null, null, 2);
+    }
+
+    public static function remove($option) {
+        
+        joosCSRF::check_code();
+
+        // идентификаторы удаляемых объектов
+        $cid = (array) joosRequest::array_param('cid');
+
+        $obj_data =  joosAutoadmin::get_active_model_obj();
+        $obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка удаления');
+    }
+    
 }
 
 /**

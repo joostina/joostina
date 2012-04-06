@@ -28,7 +28,7 @@ class autoadminTableValuesMultiHref implements joosAutoadminPluginsTable{
 
 		$href_title = strtr($format, (array) $values);
 
-		return '<a href="index2.php?option=' . $option . ( joosAutoadmin::$model ? '&model=' . joosAutoadmin::$model : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $href_title . '</a>';
+		return '<a href="index2.php?option=' . $option . ( joosAutoadmin::get_active_model_name() ? '&model=' . joosAutoadmin::get_active_model_name() : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $href_title . '</a>';
 	}
 
 }

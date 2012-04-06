@@ -69,6 +69,18 @@ class modelAdminPages extends modelPages {
 				'html_edit_element' => 'wysiwyg',
 				'html_edit_element_param' => array(),
 			),
+            'created_at' => array(
+                'name' => 'Создано',
+                'editable' => true,
+                'in_admintable' => true,
+                'html_edit_element' => 'value',
+                'html_table_element' => 'date_format',
+                'html_table_element_param' => array(
+                    'date_format' => 'd F в H:m',
+                    'width' => '200px',
+                    'align' => 'center'
+                )
+            ),
 		);
 	}
 

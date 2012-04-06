@@ -28,7 +28,6 @@ class joosAutoloader {
 	 * @var array
 	 */
 	private static $_static_files = array(// проверенные библиотеки
-		'joosAcl' => 'core/libraries/acl.php',
 		'joosArray' => 'core/libraries/array.php',
 		'joosAttached' => 'core/libraries/attached.php',
 		'joosBenchmark' => 'core/libraries/benchmark.php',
@@ -66,20 +65,17 @@ class joosAutoloader {
 		'joosValidateHelper' => 'core/libraries/validate.php',
 		'joosVersion' => 'core/libraries/version.php',
 		'joosLogging' => 'app/vendors/logging/logging.php',
-		// системные модели
-		//'User' => 'app/components/users/models/model.users.php',
-		//'modelCategories' => 'app/components/categories/models/model.categories.php',
-		//'CategoriesDetails' => 'app/components/categories/models/model.categories.php',
-		// Это старьё, надо переписать либо удалить
+        'modelAclGroups' => 'app/components/acls/models/model.acls.php',
+        'modelAdminAclGroups'=>'app/components/acls/models/model.admin.acls.php',
+        'modelAdminAclList'=>'app/components/acls/models/model.admin.acls.php',
+        'helperAcl'=> 'app/components/acls/models/model.acls.php',
+        // Это старьё, надо переписать либо удалить
 		'htmlTabs' => 'core/libraries/html.php',
 		'forms' => 'app/vendors/forms/forms.php',
 		// Библиотеки сторонних вендоров
 		'JJevix' => 'app/vendors/text/jevix/jevix.php',
 		// пока не адаптированные библиотеки
 		'Thumbnail' => 'core/libraries/image.php',
-		'modelAdminUsersGroups' => 'app/components/users/models/model.admin.users.php',
-		'modelAclGroups' => 'app/components/acls/models/model.acls.php',
-        'helperAcl'=> 'app/components/acls/models/model.acls.php',
 	);
 	private static $_debug = true;
 
@@ -105,14 +101,14 @@ class joosAutoloader {
 		}
 
 		if (!is_file($file)) {
-			joosRequest::send_headers_by_code(500);
+
 			throw new joosAutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));
 		}
 
 		require_once $file;
 
 		if (!class_exists($class, false)) {
-			joosRequest::send_headers_by_code(500);
+			
 			throw new joosAutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
 		!self::$_debug ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
@@ -178,24 +174,26 @@ class joosAutoloader {
 
 		return $file;
 	}
-
-	/**
-	 * Предстартовая загрузка необходимого списка
-	 *
-	 * @tutorial joosAutoloader( array('text','array','acl') )
-	 *
-	 * @param array $names
-	 *
-	 * @return void
-	 */
+    
+    /**
+     *  Предстартовая загрузка необходимого списка
+     * 
+     * @tutorial joosAutoloader( array('text','array','acl') )
+     * 
+     * @static
+     * @param array $names
+     * @throws joosAutoloaderOnStartFileNotFoundException
+     */
 	public static function libraries_load_on_start(array $names = array()) {
 
 		foreach ($names as $name) {
 
 			$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
 
-			if (!is_file($file)) {
-				throw new joosAutoloaderOnStartFileNotFoundException(sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name));
+			if (! joosFile::exists($file)) {
+				throw new joosAutoloaderOnStartFileNotFoundException(
+                    sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name)
+                );
 			}
 
 			require_once ( $file );
@@ -211,13 +209,15 @@ class joosAutoloaderFileNotFoundException extends joosException {
 
 	public function __construct($message = '', array $params = array()) {
 
-		$backtrace_error = debug_backtrace();
+/*        
+        $backtrace_error = debug_backtrace();
 
-		if (isset($backtrace_error[1])) {
-			//$params[':error_file'] = $backtrace_error[3]['file'];
-			//$params[':error_line'] = $backtrace_error[3]['line'];
-		}
-
+        if (isset($backtrace_error[1])) {
+            $params[':error_file'] = $backtrace_error[3]['file'];
+            $params[':error_line'] = $backtrace_error[3]['line'];
+        }
+*/
+        
 		parent::__construct($message, $params);
 	}
 

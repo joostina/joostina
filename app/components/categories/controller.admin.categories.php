@@ -18,76 +18,25 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class actionsAdminCategories  extends joosAdminController{
 
-	/**
-	 * Название обрабатываемой модели
-	 *
-	 * @var joosModel модель
-	 */
-	public static $model = 'modelCategories';
-	/**
-	 * Массив с пунктами подменю
-	 *
-	 * @var array
-	 */
-	public static $submenu = array ();
-	/**
-	 * Название компонента, с которым работаем
-	 *
-	 * @var string
-	 */
-	public static $component_title = '';
-	/**
-	 * Тулбар
-	 *
-	 * @var array
-	 */
-	public static $toolbars = array ();
+    protected static $active_menu = 'categories';
 
+    public static $submenu = array(
+        'categories' => array(
+            'name' => 'Все страницы',
+            'model'=>'modelCategories',
+            'href' => 'index2.php?option=pages',
+            'active' => false
+        ),
+    );
 
-	public static function action_before() {
+    public static function action_before() {
 
-		joosDocument::instance()->add_css( JPATH_SITE . '/app/components/categories/media/css/categories.admin.css' )->add_js_file( JPATH_SITE . '/app/components/categories/media/js/categories.admin.js' );
+        parent::action_before();
+        
+		joosDocument::instance()
+            ->add_css( JPATH_SITE . '/app/components/categories/media/css/categories.admin.css' )
+            ->add_js_file( JPATH_SITE . '/app/components/categories/media/js/categories.admin.js' );
 
-		$group = joosRequest::request( 'group' , '' );
-		if ( $group ) {
-			//Определяем заголовок компонента, с которым работаем
-			joosAutoadmin::$component_title = joosAutoadmin::get_component_title( $group );
-
-			//вытягиваем подменю, если оно есть
-			$component_menu = joosAutoadmin::get_component_submenu( $group );
-			if ( $component_menu ) {
-				self::$submenu                         = $component_menu;
-				self::$submenu['categories']['active'] = true;
-			}
-		}
-	}
-
-	public static function index() {
-		ob_start();
-		mosMenuBar::start_table();
-		mosMenuBar::add_new( 'create' );
-		mosMenuBar::end_table();
-		$index_tools             = ob_get_clean();
-
-		self::$toolbars['index'] = $index_tools;
-
-		echo joosAutoadmin::header( self::$component_title , 'Категории' , array () , 'listing' );
-
-		$cats       = new modelCategories;
-		$rootExists = $cats->check_root_node();
-
-		$tree       = $cats->get_full_tree_extended();
-
-		require_once ( 'views/categories/default.php' );
-
-		echo joosAutoadmin::footer();
-	}
-
-	/**
-	 * Редактирование
-	 */
-	public static function create( $option ) {
-		self::edit( $option , 0 );
 	}
 
 	/**
@@ -176,34 +125,6 @@ class actionsAdminCategories  extends joosAdminController{
 				joosRoute::redirect( 'index2.php?option=' . $option . '&model=' . self::$model . '&task=create' . $obj->get_link_suff() , 'Всё ок, создаём новое' );
 				break;
 		}
-	}
-
-	/**
-	 * Сохранение отредактированного или созданного объекта
-	 * и перенаправление на главную страницу компонента
-	 *
-	 * @param string $option
-	 */
-	public static function save( $option ) {
-		self::save_this( $option );
-	}
-
-	/**
-	 * Сохраняем и возвращаем на форму редактирования
-	 *
-	 * @param string $option
-	 */
-	public static function apply( $option ) {
-		return self::save_this( $option , 1 );
-	}
-
-	/**
-	 * Сохраняем и направляем на форму создания нового объекта
-	 *
-	 * @param mixed $option
-	 */
-	public static function save_and_new( $option ) {
-		return self::save_this( $option , 2 );
 	}
 
 	public static function root_add() {
