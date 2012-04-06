@@ -260,17 +260,27 @@ class joosRequest {
 		return false;
 	}
 
+    /**
+     * Отправка HTTP заголовков
+     * 
+     * @static
+     * @param $code_string
+     */
+    public static function send_headers($code_string){ 
+        joosRequest::send_headers($code_string);
+    }
+    
 	/**
-	 * Установка кода в заголовок страницы
+	 * Установка кода HTTP ответа в заголовок страницы
 	 *
-	 * @tutorial joosCore::send_headers_by_code(200);
-	 * @tutorial joosCore::send_headers_by_code(301);
-	 * @tutorial joosCore::send_headers_by_code(404);
-	 * @tutorial joosCore::send_headers_by_code(504);
+	 * @tutorial joosRequest::send_headers_by_code(200);
+	 * @tutorial joosRequest::send_headers_by_code(301);
+	 * @tutorial joosRequest::send_headers_by_code(404);
+	 * @tutorial joosRequest::send_headers_by_code(504);
 	 *
-	 * @param int $code номер кода
+	 * @param int $code_num номер кода
 	 */
-	public static function send_headers_by_code($code = 200) {
+	public static function send_headers_by_code($code_num = 200) {
 
 		$code_array = array(
 			// Информационные 1xx
@@ -323,19 +333,27 @@ class joosRequest {
 		);
 
 		// проверяем наличие кода ошибки
-		$code_string = isset($code_array[$code]) ? (int) $code : $code_array[$code];
+		if(isset($code_array[$code_num])){
+            
+            $code_message = $code_array[$code_num];
+        }else{
+            
+            throw new joosException('Код :code не поддерживается протоколом HTTP', array(':code'=>$code_num) );
+        }
 
-		// версия HTTP протокола
-		if (isset($_SERVER['SERVER_PROTOCOL'])) {
-			$protocol = $_SERVER['SERVER_PROTOCOL'];
-		} else {
-			$protocol = 'HTTP/1.1';
-		}
+        // версия HTTP протокола
+        if (isset($_SERVER['SERVER_PROTOCOL'])) {
+            $protocol = $_SERVER['SERVER_PROTOCOL'];
+        } else {
+            $protocol = 'HTTP/1.1';
+        }
 
-		header($protocol . ' ' . $code_string);
-	}
+        $code_string = sprintf('%s %s %s',$protocol, $code_num, $code_message);
+        
+        self::send_headers($code_string);
+    }
 
-	/**
+    /**
 	 * Проверка на запуск скрипта через консаоль
 	 *
 	 * @return bool

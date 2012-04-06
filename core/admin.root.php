@@ -15,7 +15,7 @@ class joosModuleAdmin {
 	public static function load_by_name($module_name) {
 		$module_file = JPATH_BASE_APP . DS . 'modules' . DS . $module_name . DS . $module_name . '.php';
 
-		if (is_file($module_file)) {
+		if ( joosFile::exists($module_file)) {
 			require_once $module_file;
 		} else {
 			throw new joosException('Файл :file_name для модуля :module_name не найден',
@@ -62,7 +62,7 @@ class joosCoreAdmin extends joosCore {
 		session_name(JADMIN_SESSION_NAME);
 		session_start();
 
-		joosCore::admin();
+		joosCore::set_admin_mode();
 
 		// это что бы в админке запоминались фильтры, последние страницы и прочие вкусняшки
 		joosSession::init_user_state();

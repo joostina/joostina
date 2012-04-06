@@ -306,9 +306,9 @@ class joosText {
 	 *
 	 * @param string $text исходная строка
 	 *
-	 * @return type
+	 * @return string
 	 */
-	public static function to_canonikal($text) {
+	public static function to_canonical($text) {
 		// приводим к единому нижнему регистру
 		$text = joosString:: strtolower($text);
 
@@ -332,40 +332,6 @@ class joosText {
 			}
 		}
 		return $return;
-	}
-
-	public static function amp_replace($text) {
-		$text = str_replace('&&', '*--*', $text);
-		$text = str_replace('&#', '*-*', $text);
-		$text = str_replace('&amp;', '&', $text);
-		$text = preg_replace('|&(?![\w]+;)|', '&amp;', $text);
-		$text = str_replace('*-*', '&#', $text);
-		$text = str_replace('*--*', '&&', $text);
-		return $text;
-	}
-
-	function mosSmartSubstr($text, $length = 200, $searchword = '') {
-
-		$wordpos = joosString::strpos(joosString::strtolower($text), joosString::strtolower($searchword));
-		$halfside = intval($wordpos - $length / 2 - joosString::strlen($searchword));
-		if ($wordpos && $halfside > 0) {
-			return '...' . joosString::substr($text, $halfside, $length) . '...';
-		} else {
-			return joosString::substr($text, 0, $length);
-		}
-	}
-
-	/**
-	 * Преобразование названия вложенной модели
-	 * Требуется для определения файла содержащего множественный модели единого контроллера
-	 * @tutorial UserGroops => User_Groops
-	 *
-	 * @param type $string
-	 *
-	 * @return string
-	 */
-	private static function underscore($string) {
-		return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string));
 	}
 
 	/**

@@ -43,7 +43,7 @@ class joosInflector {
 	public static function underscore($string) {
 		return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string));
 	}
-
+    
     /**
      * Переводит строку из under_score в человекочитаемые слова
      * 

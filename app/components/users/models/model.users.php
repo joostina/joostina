@@ -181,7 +181,7 @@ class modelUsers extends joosModel {
         $this->update_password();
 
         // формируем дополнительно каноничное имя
-		$this->user_name_canonikal = joosText::to_canonikal($this->user_name);
+		$this->user_name_canonikal = joosText::to_canonical($this->user_name);
 	}
 
     private function update_password(){

@@ -242,7 +242,7 @@ class midelSitemap {
 		$xml[] = implode("\n", $sitemap);
 		$xml[] = "</sitemapindex>";
 
-		//is_file( JPATH_BASE . DS . 'sitemap.xml' ) ? unlink(JPATH_BASE . DS . 'sitemap.xml') : null;
+		// joosFile::exists( JPATH_BASE . DS . 'sitemap.xml' ) ? unlink(JPATH_BASE . DS . 'sitemap.xml') : null;
 
 		$xml = new SimpleXMLElement(implode("\n", $xml));
 		$xml->asXML(JPATH_BASE . DS . 'sitemap.xml');

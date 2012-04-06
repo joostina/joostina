@@ -115,7 +115,7 @@ class joosRoute extends Route {
 		} else {
 			!ob_get_level() ? : ob_end_clean();
 			joosRequest::send_headers_by_code(301);
-			header("Location: " . $url);
+			joosRequest::send_headers("Location: " . $url);
 		}
 
 		exit();

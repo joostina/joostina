@@ -37,7 +37,7 @@ class editorJwysiwyg {
 	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {
 
 		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
-		$config = is_file(__DIR__ . '/toolbars/' . $toolbar . '.php') ? require_once ( __DIR__ . '/toolbars/' . $toolbar . '.php' ) : '';
+		$config =  joosFile::exists(__DIR__ . '/toolbars/' . $toolbar . '.php') ? require_once ( __DIR__ . '/toolbars/' . $toolbar . '.php' ) : '';
 
 		$code_on_ready = sprintf("$().ready(function() { $('#%s').wysiwyg(%s); })", $name, $config);
 		joosDocument::$data['js_code'][] = $code_on_ready;

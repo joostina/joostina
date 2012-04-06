@@ -1,8 +1,8 @@
 <?php
 
-header( 'modelContent-Type: text/html; charset=utf-8' );
-header( 'Cache-Control: s-maxage=0, max-age=0, must-revalidate' );
-header( 'Expires: Mon, 23 Jan 1978 10:00:00 GMT' );
+joosRequest::send_headers( 'modelContent-Type: text/html; charset=utf-8' );
+joosRequest::send_headers( 'Cache-Control: s-maxage=0, max-age=0, must-revalidate' );
+joosRequest::send_headers( 'Expires: Mon, 23 Jan 1978 10:00:00 GMT' );
 
 function __install( $s ) {
 	return $s;

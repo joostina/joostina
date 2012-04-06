@@ -13,7 +13,7 @@ class joosLoggingAutoloader {
 		$path_parts = explode("\\", $class_name);
 		$class_path = $monolog_path . DS . implode(DS, $path_parts) . '.php';
 
-		if (!is_file($class_path)){
+		if (! joosFile::exists($class_path)){
 			return;
 		}
 

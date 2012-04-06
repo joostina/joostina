@@ -26,7 +26,7 @@ class joosImage {
 	 * @param string $text
 	 * @param int    $default_image
 	 *
-	 * @return stirng
+	 * @return stirng|bool
 	 */
 	public static function get_image_from_text($text, $default_image = null) {
 
@@ -59,7 +59,7 @@ class joosImage {
 			$size = $size ? 'image_' . $size . '.png' : 'image.png';
 			$file_location = '/attachments/' . $dir . '/' . $location . '/' . $size;
 			$image_attr += array('src' => JPATH_SITE . '/' . $file_location);
-			return is_file(JPATH_BASE . DS . $file_location) ? joosHtml::image($image_attr) : false;
+			return  joosFile::exists(JPATH_BASE . DS . $file_location) ? joosHtml::image($image_attr) : false;
 		}
 		return false;
 	}
@@ -140,7 +140,7 @@ class Thumbnail {
 	 * @see    Thumbnail::imageCreateFromFile(), Thumbnail::imageCreateFromString()
 	 */
 	public static function imageCreate($input) {
-		if (is_file($input)) {
+		if ( joosFile::exists($input)) {
 			return Thumbnail::imageCreateFromFile($input);
 		} else if (is_string($input)) {
 			return Thumbnail::imageCreateFromString($input);
@@ -159,9 +159,8 @@ class Thumbnail {
 	 * @static
 	 */
 	public static function imageCreateFromFile($filename) {
-		if (!is_file($filename) || !is_readable($filename)) {
-			user_error('Unable to open file "' . $filename . '"', E_USER_NOTICE);
-			return false;
+		if (!joosFile::exists($filename) || !joosFile::is_readable($filename)) {
+			 throw new joosImageLibrariesException('Unable to open file "' . $filename . '"', E_USER_NOTICE);
 		}
 
 		// determine image format
@@ -181,8 +180,7 @@ class Thumbnail {
 				return imagecreatefrompng($filename);
 				break;
 		}
-		user_error('Unsupport image type', E_USER_NOTICE);
-		return false;
+        throw new joosImageLibrariesException('Unsupport image type', E_USER_NOTICE);
 	}
 
 	/**
@@ -196,8 +194,7 @@ class Thumbnail {
 	 */
 	public static function imageCreateFromString($string) {
 		if (!is_string($string) || empty($string)) {
-			user_error('Invalid image value in string', E_USER_NOTICE);
-			return false;
+            throw new joosImageLibrariesException('Invalid image value in string', E_USER_NOTICE);
 		}
 
 		return imagecreatefromstring($string);
@@ -231,8 +228,7 @@ class Thumbnail {
 		// Load source file and render image
 		$renderImage = Thumbnail::render($input, $options);
 		if (!$renderImage) {
-			user_error('Error rendering image', E_USER_NOTICE);
-			return false;
+			throw new joosImageLibrariesException('Error rendering image', E_USER_NOTICE);
 		}
 
 		// Set output image type
@@ -244,10 +240,9 @@ class Thumbnail {
 		if (empty($output)) {
 			$content_type = image_type_to_mime_type($type);
 			if (!headers_sent()) {
-				header('Content-Type: ' . $content_type);
+				joosRequest::send_headers('Content-Type: ' . $content_type);
 			} else {
-				user_error('Headers have already been sent. Could not display image.', E_USER_NOTICE);
-				return false;
+				throw new joosImageLibrariesException('Headers have already been sent. Could not display image.', E_USER_NOTICE);
 			}
 		} else {
 			$content_type = 'ERROR';
@@ -267,14 +262,12 @@ class Thumbnail {
 				$result = empty($output) ? imagejpeg($renderImage) : imagejpeg($renderImage, $output, $quality);
 				break;
 			default:
-				user_error('Image type ' . $content_type . ' not supported by PHP', E_USER_NOTICE);
-				return false;
+				throw new joosImageLibrariesException('Image type ' . $content_type . ' not supported by PHP', E_USER_NOTICE);
 		}
 
 
 		if (!$result) {
-			user_error('Error output image', E_USER_NOTICE);
-			return false;
+			throw new joosImageLibrariesException('Error output image', E_USER_NOTICE);
 		}
 
 		// освобождаем память, выделенную для изображения
@@ -298,8 +291,7 @@ class Thumbnail {
 		// Создаем ресурс
 		$sourceImage = Thumbnail::imageCreate($input);
 		if (!is_resource($sourceImage)) {
-			user_error('Invalid image resource', E_USER_NOTICE);
-			return false;
+			throw new joosImageLibrariesException('Invalid image resource', E_USER_NOTICE);
 		}
 		$sourceWidth = imagesx($sourceImage);
 		$sourceHeight = imagesy($sourceImage);
@@ -390,7 +382,7 @@ class Thumbnail {
 			$targetImage = imagecreate($width, $height);
 		}
 		if (!is_resource($targetImage)) {
-			user_error('Cannot initialize new GD image stream', E_USER_NOTICE);
+			throw new joosImageLibrariesException('Cannot initialize new GD image stream', E_USER_NOTICE);
 			return false;
 		}
 
@@ -407,10 +399,10 @@ class Thumbnail {
 		} else {
 			$result = imagecopyresized($targetImage, $sourceImage, 0, 0, $X, $Y, $width, $height, $W, $H);
 		}
+        
 		if (!$result) {
 
-			user_error('Cannot resize image', E_USER_NOTICE);
-			return false;
+			throw new joosImageLibrariesException('Cannot resize image', E_USER_NOTICE);
 		}
 
 		// освобождаем память, выделенную для изображения
@@ -556,3 +548,5 @@ class Thumbnail {
 	}
 
 }
+
+class joosImageLibrariesException extends joosException{}

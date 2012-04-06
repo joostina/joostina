@@ -49,7 +49,6 @@ class joosAutoloader {
 		'joosInflector' => 'core/libraries/inflector.php',
 		'joosInputFilter' => 'core/libraries/inputfilter.php',
 		'joosAutoadmin' => 'core/libraries/autoadmin.php',
-		'joosMetainfo' => 'core/libraries/metainfo.php',
 		'joosNestedSet' => 'core/libraries/nestedset.php',
 		'joosPager' => 'core/libraries/pager.php',
 		'joosParams' => 'core/libraries/params.php',
@@ -103,6 +102,7 @@ class joosAutoloader {
 			$file = JPATH_BASE . DS . self::get_class_dinamic_path($class);
 		}
 
+        // joosFile::exists тут не подходит, потому как он еще не загрузился
 		if (!is_file($file)) {
 
 			throw new joosAutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));

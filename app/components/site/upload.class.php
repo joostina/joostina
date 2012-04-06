@@ -81,13 +81,13 @@ class UploadHandler {
 
 	protected function get_file_object($file_name) {
 		$file_path = $this->options['upload_dir'] . $file_name;
-		if (is_file($file_path) && $file_name[0] !== '.') {
+		if (joosFile::exists($file_path) && $file_name[0] !== '.') {
 			$file = new stdClass();
 			$file->name = $file_name;
 			$file->size = filesize($file_path);
 			$file->url = $this->options['upload_url'] . rawurlencode($file->name);
 			foreach ($this->options['image_versions'] as $version => $options) {
-				if (is_file($options['upload_dir'] . $file_name)) {
+				if ( joosFile::exists($options['upload_dir'] . $file_name)) {
 					$file->{$version . '_url'} = $options['upload_url']
 							. rawurlencode($file->name);
 				}
@@ -211,7 +211,7 @@ class UploadHandler {
 			$file_name .= '.' . $matches[1];
 		}
 		if ($this->options['discard_aborted_uploads']) {
-			while (is_file($this->options['upload_dir'] . $file_name)) {
+			while ( joosFile::exists($this->options['upload_dir'] . $file_name)) {
 				$file_name = $this->upcount_name($file_name);
 			}
 		}
@@ -253,7 +253,7 @@ class UploadHandler {
 		if (!$error && $file->name) {
 			$file_path = $this->options['upload_dir'] . $file->name;
 			$append_file = !$this->options['discard_aborted_uploads'] &&
-					is_file($file_path) && $file->size > filesize($file_path);
+					 joosFile::exists($file_path) && $file->size > filesize($file_path);
 			clearstatcache();
 			if ($uploaded_file && is_uploaded_file($uploaded_file)) {
 				// multipart/formdata uploads (POST method uploads)
@@ -307,7 +307,7 @@ class UploadHandler {
 		} else {
 			$info = $this->get_file_objects();
 		}
-		header('Content-type: application/json');
+		joosRequest::send_headers('Content-type: application/json');
 		echo json_encode($info);
 	}
 
@@ -342,19 +342,19 @@ class UploadHandler {
 									$upload['type'] : null), isset($upload['error']) ? $upload['error'] : null
 			);
 		}
-		header('Vary: Accept');
+		joosRequest::send_headers('Vary: Accept');
 		$json = json_encode($info);
 		$redirect = isset($_REQUEST['redirect']) ?
 				stripslashes($_REQUEST['redirect']) : null;
 		if ($redirect) {
-			header('Location: ' . sprintf($redirect, rawurlencode($json)));
+			joosRequest::send_headers('Location: ' . sprintf($redirect, rawurlencode($json)));
 			return;
 		}
 		if (isset($_SERVER['HTTP_ACCEPT']) &&
 				(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)) {
-			header('Content-type: application/json');
+			joosRequest::send_headers('Content-type: application/json');
 		} else {
-			header('Content-type: text/plain');
+			joosRequest::send_headers('Content-type: text/plain');
 		}
 		echo $json;
 	}
@@ -363,16 +363,16 @@ class UploadHandler {
 		$file_name = isset($_REQUEST['file']) ?
 				basename(stripslashes($_REQUEST['file'])) : null;
 		$file_path = $this->options['upload_dir'] . $file_name;
-		$success = is_file($file_path) && $file_name[0] !== '.' && unlink($file_path);
+		$success =  joosFile::exists($file_path) && $file_name[0] !== '.' && unlink($file_path);
 		if ($success) {
 			foreach ($this->options['image_versions'] as $options) {
 				$file = $options['upload_dir'] . $file_name;
-				if (is_file($file)) {
+				if ( joosFile::exists($file)) {
 					unlink($file);
 				}
 			}
 		}
-		header('Content-type: application/json');
+		joosRequest::send_headers('Content-type: application/json');
 		echo json_encode($success);
 	}
 

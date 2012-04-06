@@ -22,8 +22,6 @@ class actionsSitemap extends joosController {
 		//Хлебные крошки
 		joosBreadcrumbs::instance()->add('Карта сайта');
 
-		//Метаинформация страницы
-		joosMetainfo::set_meta('sitemap', '', '', array('title' => 'Карта сайта'));
 	}
 
 	public static function index() {

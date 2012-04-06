@@ -132,10 +132,10 @@ class joosModule  {
         //Определение шаблона
         $template = (isset($params) && isset($params['template'])) ? $params['template'] : 'default';
         $template_file = JPATH_BASE . DS .'app'. DS. 'modules' . DS . $name . DS . 'views' . DS . $template . '.php';
-        $params['template_file'] = is_file($template_file) ? $template_file : null;
+        $params['template_file'] =  joosFile::exists($template_file) ? $template_file : null;
 
         echo '<div class="module m-'.$name.'">';
-            is_file($file) ? require($file) : null;
+             joosFile::exists($file) ? require($file) : null;
         echo '</div>';
    	}
 
@@ -148,12 +148,12 @@ class joosModule  {
    	private static function module_template($name, $params = array()) {
    		$_tpl = (isset($params) && isset($params['template'])) ? $params['template'] : 'default';
    		$_tpl_file = JPATH_BASE . DS .'app'. DS. 'modules' . DS . $name . DS . 'views' . DS . $_tpl . '.php';
-   		return is_file($_tpl_file) ? $_tpl_file : null;
+   		return  joosFile::exists($_tpl_file) ? $_tpl_file : null;
    	}
 
 	public static function run($name) {
 		$_tpl_file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . $name . '.php';
-		if (is_file($_tpl_file)) {
+		if ( joosFile::exists($_tpl_file)) {
 			require_once $_tpl_file;
 		} else {
 			throw new joosException('Файл :file для модуля :module_name не найден', array(':file' => $_tpl_file, ':module_name' => $name));

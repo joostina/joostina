@@ -139,7 +139,7 @@ DEFINE('JFILE_ANTICACHE', '?v=1');
 DEFINE('JCURRENT_SERVER_TIME', date('Y-m-d H:i:s', time()));
 
 // ГЛАВНОЕ регулярное выражение для проверки логина-имени пользователя
-DEFINE('JUSER_NAME_REGEX', '/^[a-zA-Z0-9_-]{3,25}$/iu');
+DEFINE('JUSER_NAME_REGEX', '/^[a-zA-Z0-9_\-]{3,25}$/iu');
 
 // секретная фраза для хеширования
 DEFINE('JSECRET_CODE', 'i-love-joostina');

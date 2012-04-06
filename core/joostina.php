@@ -63,7 +63,7 @@ class joosCore {
 		return self::$is_admin ? joosCoreAdmin::user() : modelUsers::instance();
 	}
 
-	public static function admin() {
+	public static function set_admin_mode() {
 		self::$is_admin = TRUE;
 	}
 
@@ -139,7 +139,7 @@ class joosCore {
 				break;
 		}
 
-		if (JDEBUG && !is_file($file)) {
+		if (JDEBUG && ! joosFile::exists($file)) {
 			throw new joosCoreException('Не найден требуемый файл :file для типа :name', array(':file' => $file,
 				':name' => ( $cat ? sprintf('%s ( %s )', $name, $type) : $name )));
 		}
@@ -454,14 +454,14 @@ class joosDocument {
 		if (!headers_sent()) {
 			if (self::$cache_header_time) {
 				header_remove('Pragma');
-				header('Cache-Control: max-age=' . self::$cache_header_time);
-				header('Expires: ' . gmdate('r', time() + self::$cache_header_time));
+				joosRequest::send_headers('Cache-Control: max-age=' . self::$cache_header_time);
+				joosRequest::send_headers('Expires: ' . gmdate('r', time() + self::$cache_header_time));
 			} else {
-				header('Pragma: no-cache');
-				header('Cache-Control: no-cache, must-revalidate');
+				joosRequest::send_headers('Pragma: no-cache');
+				joosRequest::send_headers('Cache-Control: no-cache, must-revalidate');
 			}
-			header('X-Powered-By: Joostina CMS');
-			header('Content-type: text/html; charset=UTF-8');
+			joosRequest::send_headers('X-Powered-By: Joostina CMS');
+			joosRequest::send_headers('Content-type: text/html; charset=UTF-8');
 		}
 	}
 
@@ -592,7 +592,7 @@ class joosController {
 			joosDocument::set_body(ob_get_clean());
 		} else {
 			//  в контроллере нет запрашиваемого метода
-			return self::error404();
+			joosPages::page404('Метод не найден');
 		}
 	}
 
@@ -632,9 +632,6 @@ class joosController {
 
 	private static function views(array $params, $option, $task) {
 
-		//Готовим модули к выдаче: выбираем модули, которые нужны для текущей страницы
-		isset($params['core::modules']) ? self::prepare_modules($params['core::modules']) : null;
-
 		self::as_html($params, $option, $task);
 	}
 
@@ -646,59 +643,12 @@ class joosController {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $view . DS . $template . '.php';
 
-		is_file($viewfile) ? require ( $viewfile ) : null;
-	}
-
-	/**
-	 * Обработка модулей расположенных в возвращенных результатах работы задачи контроллера
-	 *
-	 * @param array $modules_data
-	 */
-	private static function prepare_modules(&$modules_data) {
-		joosModule::add_array($modules_data);
-		// удаляем следы
-		unset($modules_data);
-	}
-
-	/**
-	 * joosController::prepare_modules_for_current_page()
-	 * Формирует массив модулей, необходимых для вывода на данной странице
-	 *
-	 * @param array  $params Массив параметров, передаваемый из контроллера компонента
-	 * @param string $option
-	 * @param string $task
-	 *
-	 * @return void
-	 */
-	private static function prepare_modules_for_current_page(array $params, $option, $task) {
-		joosModule::modules_by_page($option, $task, $params);
-	}
-
-	/**
-	 * Системный вызов 404 страницы
-	 *
-	 * @static
-	 */
-	public static function error404() {
-
-		joosRequest::send_headers_by_code(404);
-		header("Status: 404 Not Found");
-
-		if (!joosConfig::get('404_page')) {
-			echo __('Страница не найдена');
-		} else {
-			require_once ( JPATH_BASE . '/app/templates/system/404.php' );
-			exit(404);
-		}
-
-		self::$error = 404;
-
-		return;
+		 joosFile::exists($viewfile) ? require ( $viewfile ) : null;
 	}
 
 	public static function ajax_error404() {
+
 		joosRequest::send_headers_by_code(404);
-		header("Status: 404 Not Found");
 		echo '404';
 
 		self::$error = 404;
@@ -733,7 +683,7 @@ class joosController {
 	public static function get_view($controller, $task, $template = 'default', $params = array()) {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $task . DS . $template . '.php';
-		is_file($viewfile) ? require ( $viewfile ) : null;
+		 joosFile::exists($viewfile) ? require ( $viewfile ) : null;
 	}
 
 }

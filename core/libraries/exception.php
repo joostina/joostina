@@ -83,7 +83,7 @@ class joosException extends Exception {
 		if (headers_sent()) {
 			!ob_get_level() ? : ob_end_clean();
 		} else {
-			header('Content-type: text/html; charset=UTF-8');
+			joosRequest::send_headers('Content-type: text/html; charset=UTF-8');
 		}
 
 		$message = nl2br($this->getMessage());

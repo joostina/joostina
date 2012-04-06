@@ -213,7 +213,7 @@ class adminModules extends modelModules {
 		$file = 'modules' . DS . $item->module . DS . $item->module . '.params.php';
 		$file = $item->client_id ? JPATH_BASE . DS . JPATH_BASE_ADMIN . $file : JPATH_BASE . DS . $file;
 
-		if (is_file($file)) {
+		if (joosFile::exists($file)) {
 			require( $file );
 			return $extension_params;
 		} else {

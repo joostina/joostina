@@ -136,7 +136,7 @@ class joosParams extends joosModel {
 
 		$model = 'params' . ucfirst($item->group);
 
-		if (is_file($file)) {
+		if ( joosFile::exists($file)) {
 			require_once( $file );
 			return $model::get_params_scheme('default');
 		} else {
@@ -153,7 +153,7 @@ class joosParams extends joosModel {
 
 		$model = 'params' . ucfirst($group);
 
-		if (is_file($file)) {
+		if ( joosFile::exists($file)) {
 			require_once( $file );
 
 			$params = array('notdefault' => array('name' => 'Использовать уникальные параметры',

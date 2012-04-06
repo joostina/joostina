@@ -97,7 +97,7 @@ class joosAutoadmin {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'admin_views' . DS . $views . DS . $template . '.php';
 
-		is_file($viewfile) ? require ( $viewfile ) : null;
+		 joosFile::exists($viewfile) ? require ( $viewfile ) : null;
 	}
 
 	// автодиспатчер для Ajax - обработчиков
@@ -235,7 +235,7 @@ class joosAutoadmin {
         $class_file = JPATH_BASE . '/app/plugins/autoadmin/table.' . $element_param['html_table_element'] . '.php';
 		$class_name = 'autoadminTable' . self::get_plugin_name($element_param['html_table_element']);
 
-		if (!is_file($class_file)) {
+		if (! joosFile::exists($class_file)) {
 			throw new joosAutoadminFilePluginNotFoundException(
 					sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name)
 			);
@@ -395,7 +395,7 @@ class joosAutoadmin {
 		$class_file = JPATH_BASE . '/app/plugins/autoadmin/edit.' . $element_param['html_edit_element'] . '.php';
 		$class_name = 'autoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
 
-		if (!is_file($class_file)) {
+		if (! joosFile::exists($class_file)) {
 			throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
 		}
 

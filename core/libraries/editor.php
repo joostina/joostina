@@ -66,7 +66,7 @@ class joosEditor {
 		// файл используемого визуального редактора
 		$editor_file = JPATH_BASE . DS . 'app' . DS . 'plugins' . DS . 'editors' . DS . self::$editor . DS . self::$editor . '.php';
 
-		if (is_file($editor_file)) {
+		if ( joosFile::exists($editor_file)) {
 			require_once $editor_file;
 		} else {
 			return sprintf('<!-- %s jooEditor::' . self::$editor . ' -->', __('Не найден редактор:'));

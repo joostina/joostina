@@ -63,12 +63,6 @@ class actionsAdminCategories  extends joosAdminController{
 		$obj_data->params_group = $obj_data->group;
 		$obj_data->params       = joosParams::get_params( $obj_data->group , 'category' , $obj_data->id );
 
-		//Мета-информация
-		$obj_data->metainfo = array ();
-		if ( $id ) {
-			$obj_data->metainfo = joosMetainfo::get_meta( 'category' , 'item' , $id );
-		}
-
 		joosAutoadmin::edit( $obj_data , $obj_data );
 	}
 
@@ -106,9 +100,6 @@ class actionsAdminCategories  extends joosAdminController{
 			$params = new joosParams;
 			$params->save_params( $_POST['params'] , $obj->group , 'category' , $obj->id );
 		}
-
-		//Сохранение мета-информации
-		joosMetainfo::add_meta( $_POST['metainfo'] , 'category' , 'item' , $obj->id );
 
 		switch ( $redirect ) {
 			default:
