@@ -68,18 +68,6 @@ class modelUsers extends joosModel {
 	public $state;
 
 	/**
-	 * @field tinyint(3) unsigned
-	 * @type int
-	 */
-	public $group_id;
-
-	/**
-	 * @field varchar(25)
-	 * @type string
-	 */
-	public $group_name;
-
-	/**
 	 * @field datetime
 	 * @type datetime
 	 */
@@ -329,8 +317,6 @@ class modelUsers extends joosModel {
 		$session->guest = 0;
 		$session->user_name = $user->user_name;
 		$session->user_id = $user->id;
-		$session->group_name = $user->group_name;
-		$session->group_id = $user->group_id;
 		$session->is_admin = 0;
 		// сгенерием уникальный ID, захеширем его через sessionCookieValue и запишем в базу
 		$session->generate_id();
@@ -543,18 +529,6 @@ class modelUsersSession extends joosModel {
 	public $user_id;
 
 	/**
-	 * @field varchar(50)
-	 * @type string
-	 */
-	public $group_name;
-
-	/**
-	 * @field tinyint(3) unsigned
-	 * @type int
-	 */
-	public $group_id;
-
-	/**
 	 * @field tinyint(1) unsigned
 	 * @type int
 	 */
@@ -700,7 +674,7 @@ class modelUsersTokens extends joosModel {
 
 		//ищем в базе токенов
 		$database = joosDatabase::instance();
-		$database->set_query("SELECT t.*,u.user_name,u.group_id,u.group_name FROM #__users_tokens AS t INNER JOIN #__users AS u ON u.id=t.user_id WHERE t.token=" . $database->quote($user_token));
+		$database->set_query("SELECT t.*,u.user_name FROM #__users_tokens AS t INNER JOIN #__users AS u ON u.id=t.user_id WHERE t.token=" . $database->quote($user_token));
 		$result = $database->load_object_list();
 
 		//не нашли такого, удален уже давно
@@ -741,8 +715,6 @@ class modelUsersTokens extends joosModel {
 		$session->guest = 0;
 		$session->user_name = $this->_search_token_result->user_name;
 		$session->user_id = $this->_search_token_result->user_id;
-		$session->group_name = $this->_search_token_result->group_name;
-		$session->group_id = $this->_search_token_result->group_id;
 		$session->is_admin = 0;
 
 		// сгенерием уникальный ID, захеширем его через sessionCookieValue и запишем в базу

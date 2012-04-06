@@ -520,8 +520,6 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
   `openid` varchar(200) DEFAULT NULL,
   `password` varchar(100) NOT NULL DEFAULT '',
   `state` tinyint(1) unsigned NOT NULL,
-  `group_id` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `group_name` varchar(25) NOT NULL,
   `activation` varchar(100) NOT NULL DEFAULT '',
   `bad_auth_count` tinyint(2) unsigned DEFAULT NULL,
   `register_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -537,8 +535,8 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
 -- Дамп данных таблицы `jos_users`
 --
 
-INSERT INTO `jos_users` (`id`, `user_name`, `user_name_canonikal`, `real_name`, `email`, `openid`, `password`, `state`, `group_id`, `group_name`, `register_date`, `lastvisit_date`, `activation`, `bad_auth_count`) VALUES
-(1, 'admin', 'atm1n', 'Adminin', 'admin@joostina.ru', '', '1e72fb95f1710557274dcfd23a4582fd:DAj5Qf4Y1ktEenhE', 1, 8, 'SuperAdministrator', '2010-11-28 15:29:47', '2012-03-07 14:08:23', '', 0);
+INSERT INTO `jos_users` (`id`, `user_name`, `user_name_canonikal`, `real_name`, `email`, `openid`, `password`, `state`, `register_date`, `lastvisit_date`, `activation`, `bad_auth_count`) VALUES
+(1, 'admin', 'atm1n', 'Adminin', 'admin@joostina.ru', '', '1e72fb95f1710557274dcfd23a4582fd:DAj5Qf4Y1ktEenhE', 1, '2010-11-28 15:29:47', '2012-03-07 14:08:23', '', 0);
 
 -- --------------------------------------------------------
 
@@ -607,8 +605,6 @@ CREATE TABLE IF NOT EXISTS `jos_users_session` (
   `user_name` varchar(50) DEFAULT NULL,
   `time` varchar(14) DEFAULT '',
   `guest` tinyint(1) unsigned DEFAULT '1',
-  `group_name` varchar(50) DEFAULT NULL,
-  `group_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `is_admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
   UNIQUE KEY `session_id` (`session_id`),
   KEY `userid` (`user_id`),

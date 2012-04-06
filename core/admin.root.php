@@ -103,8 +103,6 @@ class joosCoreAdmin extends joosCore {
 		$my = new modelUsers();
 		$my->id = joosRequest::int('session_user_id', 0, $_SESSION);
 		$my->user_name = joosRequest::session('session_user_name');
-		$my->group_name = joosRequest::session('session_group_name');
-		$my->group_id = joosRequest::int('session_group_id', 0, $_SESSION);
 
 		$session_id = joosRequest::session('session_id');
 		$logintime = joosRequest::session('session_logintime');
@@ -114,7 +112,7 @@ class joosCoreAdmin extends joosCore {
 		}
 
 		// check to see if session id corresponds with correct format
-		if ($session_id == md5($my->id . $my->user_name . $my->group_name . $logintime)) {
+		if ($session_id == md5($my->id . $my->user_name . $logintime)) {
 
 			$task = joosRequest::param('task');
 			if ($task != 'save' && $task != 'apply') {
@@ -125,7 +123,7 @@ class joosCoreAdmin extends joosCore {
 
 				// purge expired admin sessions only
 				$past = time() - $session_life_admin;
-				$query = "DELETE FROM #__users_session WHERE time < '" . (int) $past . "' AND guest = 1 AND group_id = 0 AND user_id <> 0";
+				$query = "DELETE FROM #__users_session WHERE time < '" . (int) $past . "' AND guest = 1 AND user_id <> 0";
 				$database->set_query($query)->query();
 
 				// update session timestamp

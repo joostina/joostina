@@ -93,20 +93,6 @@ class modelAdminUsers extends modelUsers {
 				),
 				'html_table_element' => 'value',
 			),
-			'group_id' => array(
-				'name' => 'Группа',
-				'editable' => true,
-				'sortable' => true,
-				'in_admintable' => true,
-				'html_edit_element' => 'option',
-				'html_edit_element_param' => array(
-					'call_from' => 'modelAdminUsers::get_users_group_title'
-				),
-				'html_table_element' => 'one_from_array',
-				'html_table_element_param' => array(
-					'call_from' => 'modelAdminUsers::get_users_group_title'
-				),
-			),
 			'group_multi' => array(
 				'name' => 'Состоит в группах',
 				'editable' => true,
@@ -159,11 +145,6 @@ class modelAdminUsers extends modelUsers {
 	public function get_extrainfo() {
 		return array(
 			'search' => array('user_name', 'real_name', 'email'),
-			'filter' => array(
-				'group_id' => array(
-					'name' => 'Группа',
-					'call_from' => 'modelAdminUsers::get_users_group_title')
-			)
 		);
 	}
 
@@ -179,23 +160,6 @@ class modelAdminUsers extends modelUsers {
         }
     }    
     
-	public static function get_users_group($group_id = false) {
-
-		$groups = new modelUsersGroups();
-		$group = $groups->get_selector(
-				array('key' => 'id', 'value' => 'title'), array('select' => 'id, title')
-		);
-
-		return $group_id ? $group[$group_id] : $group;
-	}
-
-	public static function get_users_group_title() {
-		$groups = new modelUsersGroups();
-		return $groups->get_selector(
-						array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title')
-		);
-	}
-
 	public static function get_users_group_multi($current_obj) {
 
 		joosLoader::model('acls');
@@ -211,102 +175,6 @@ class modelAdminUsers extends modelUsers {
 		}
 
 		return $current_obj->get_one_to_many_selectors('user_groups', '#__acl_groups', '#__acl_users_groups', 'user_id', 'group_id', $active_groups);
-	}
-
-}
-
-/**
- *
- * @version    1.0
- * @package    Models
- * @subpackage Users
- * @author     Joostina Team <info@joostina.ru>
- * @copyright  (C) 2007-2012 Joostina Team
- * @license    MIT License http://www.opensource.org/licenses/mit-license.php
- * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
- *
- * */
-class modelAdminUsersGroups extends modelUsersGroups {
-
-	public function check() {
-		$this->filter();
-		return true;
-	}
-
-	public function get_fieldinfo() {
-		return array(
-			'id' => array(
-				'name' => 'id',
-				'editable' => false,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(
-					'width' => '20px',
-					'align' => 'center'
-				),
-				'html_edit_element' => 'edit',
-			),
-			'parent_id' => array(
-				'name' => 'Родительская группа',
-				'editable' => true,
-				'in_admintable' => false,
-				'html_table_element' => 'one_from_array',
-				'html_table_element_param' => array(
-					'call_from' => 'modelAdminUsersGroups::get_parent_usergroup'
-				),
-				'html_edit_element' => 'extra',
-				'html_edit_element_param' => array(
-					'call_from' => 'modelAdminUsersGroups::get_parent_usergroup_selector'
-				),
-			),
-			'title' => array(
-				'name' => 'Заголовок группы',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_edit_element' => 'edit',
-			),
-			'group_title' => array(
-				'name' => 'Название группы',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'editlink',
-				'html_edit_element' => 'edit',
-			)
-		);
-	}
-
-	public function get_tableinfo() {
-		return array(
-			'header_list' => 'Группы пользователей',
-			'header_new' => 'Создание новой группы пользователей',
-			'header_edit' => 'Редактирование группы пользователей'
-		);
-	}
-    
-	public static function get_parent_usergroup_selector($obj) {
-		$groups = new modelUsersGroups();
-		$group_selector = $groups->get_selector
-				(array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title')
-		);
-
-		unset($group_selector[$obj->id]);
-
-		$group_selector = array(0 => _('Корень')) + $group_selector;
-
-		return forms::dropdown(
-						array(
-							'name' => 'parent_id',
-							'options' => $group_selector,
-							'selected' => $obj->parent_id
-						)
-		);
-	}
-
-	public static function get_parent_usergroup() {
-		$groups = new modelUsersGroups();
-		return $groups->get_selector(
-						array('key' => 'id', 'value' => 'group_title'), array('select' => 'id, group_title'));
 	}
 
 }

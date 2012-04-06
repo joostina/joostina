@@ -24,8 +24,6 @@ joosCoreAdmin::start();
 $user = new stdClass;
 $user->id = (int) joosRequest::session('session_user_id');
 $user->user_name = joosRequest::session('session_user_name');
-$user->group_name = joosRequest::session('session_group_name');
-$user->group_id = (int) joosRequest::session('session_group_id');
 
 $session_id = joosRequest::session('session_id');
 $logintime = joosRequest::session('session_logintime');
@@ -33,9 +31,15 @@ $logintime = joosRequest::session('session_logintime');
 /**
  * @todo добавить проверку существования этой сессии в БД
  */
-if ($session_id == md5($user->id . $user->user_name . $user->group_name . $logintime)) {
-	joosRoute::redirect('index2.php');
-	die();
+if ($session_id == md5($user->id . $user->user_name . $logintime)) {
+
+    // проверка прав доступа в панель управления
+    if( helperAcl::check_access_for_user_id('admin_panel::use',$user->id)  ){
+
+        joosRoute::redirect('index2.php');
+    }
+
+    session_destroy();
 }
 
 if (joosRequest::is_post()) {
@@ -89,7 +93,7 @@ if (joosRequest::is_post()) {
 
 		// construct Session ID
 		$logintime = time();
-		$session_id = md5($user->id . $user->user_name . $user->group_name . $logintime);
+		$session_id = md5($user->id . $user->user_name . $logintime);
 
 		// чистим старые сессии
 		session_destroy();
@@ -102,7 +106,7 @@ if (joosRequest::is_post()) {
 		session_start();
 
 		// add Session ID entry to DB
-		$query = "INSERT INTO #__users_session SET time = " . $database->quote($logintime) . ", session_id = " . $database->quote($session_id) . ", user_id = " . (int) $user->id . ", group_name = " . $database->quote($user->group_name) . ", user_name = " . $database->quote($user->user_name) . ", group_id=" . (int) $user->group_id . ", guest=0, is_admin=1";
+		$query = "INSERT INTO #__users_session SET time = " . $database->quote($logintime) . ", session_id = " . $database->quote($session_id) . ", user_id = " . (int) $user->id  . ", user_name = " . $database->quote($user->user_name) . ", guest=0, is_admin=1";
 		$database->set_query($query)->query();
 
 		$query = "DELETE FROM #__users_session WHERE  is_admin=1 AND session_id != " . $database->quote($session_id) . " AND user_id = " . (int) $user->id;
@@ -111,8 +115,6 @@ if (joosRequest::is_post()) {
 		$_SESSION['session_id'] = $session_id;
 		$_SESSION['session_user_id'] = $user->id;
 		$_SESSION['session_user_name'] = $user->user_name;
-		$_SESSION['session_group_id'] = $user->group_id;
-		$_SESSION['session_group_name'] = $user->group_name;
 		$_SESSION['session_logintime'] = $logintime;
 		$_SESSION['session_bad_auth_count'] = $user->bad_auth_count;
 		$_SESSION['session_userstate'] = array();

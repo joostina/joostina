@@ -41,7 +41,7 @@ class actionsAdminUsers extends joosAdminController{
 			'name' => 'Пользователи',
 			'href' => 'index2.php?option=users',
 			'model' => 'modelAdminUsers',
-			'fields' => array('id', 'user_name', 'group_id', 'lastvisit_date', 'state'),
+			'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
 			'active' => false
 		),
 		'usersgroups' => array(
