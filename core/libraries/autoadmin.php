@@ -18,14 +18,16 @@ defined('_JOOS_CORE') or die();
 class joosAutoadmin {
 
 	private static $js_onformsubmit = array();
-    private static $active_model_name;
+
 	private static $data;
 	private static $data_overload = false;
-	private static $active_class = array();
+
 	private static $option;
 	private static $task;
 
-    private static $active_menu;
+    private static $active_model_name;
+    private static $active_actions_class;
+    private static $active_menu_name;
     
     public static function get($param){
         return self::$$param;
@@ -43,7 +45,7 @@ class joosAutoadmin {
 		$option = joosRequest::param('option','site');
 		$class = 'actionsAdmin' . ucfirst($option);
 
-		self::$active_class = $class;
+		self::$active_actions_class = $class;
 		self::$option = $option;
 		self::$task = $task;
 
@@ -170,7 +172,7 @@ class joosAutoadmin {
         joosAdminView::set_param( 'component_title' , isset($header['header_main']) ? $header['header_main'] : '');
         joosAdminView::set_param( 'component_header' , $header['header_list']);
 
-        $class = self::$active_class;
+        $class = self::$active_actions_class;
         joosAdminView::set_param('submenu', $class::get_submenu() );
         joosAdminView::set_param('current_model', self::get_active_menu_name() );
 
@@ -292,7 +294,7 @@ class joosAutoadmin {
         joosAdminView::set_param( 'component_title' , isset($header['header_main']) ? $header['header_main'] : '');
         joosAdminView::set_param( 'component_header' ,  $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'] );
 
-        $class = self::$active_class;
+        $class = self::$active_actions_class;
         joosAdminView::set_param('submenu', $class::get_submenu() );
 
         joosAdminView::set_param('current_model', self::get_active_model_name());
@@ -468,12 +470,16 @@ class joosAutoadmin {
 
 	public static function submenu() {
 
-		$class = self::$active_class;
+        ECHO 555;
+        die();
+        
+		$class = self::$active_actions_class;
 
 		if (isset($class::$submenu)) {
 
 			$return = array();
-			foreach ($class::$submenu as $href) {
+			foreach ($class::$submenu as $menu_name => $href) {
+                $href['href'] = isset( $href['href'] ) ? $href['href'] : sprintf('index2.php?option=%s&menu=%s','--',$menu_name);
 				$return[] = '<li>' . ( $href['active'] == false ? sprintf('<a href="%s">%s</a>', $href['href'], $href['name']) : '<span>' . $href['name'] . '</span>' ) . '</li>';
 			}
 
@@ -786,14 +792,17 @@ class joosAutoadmin {
     }
 
     public static function set_active_menu_name( $menu_name ){
-        return self::$active_menu;
+        return self::$active_menu_name = $menu_name;
     }
     
     public static function get_active_menu_name(){
-        return self::$active_menu;
+        return self::$active_menu_name;
     }
 
-
+    public static function get_option(){
+        return self::$option;
+    }
+    
 }
 
 class joosAutoadminHTML {

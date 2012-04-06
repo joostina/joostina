@@ -372,8 +372,18 @@ class joosAdminPagenator {
  */
 class joosAdminController{
 
-    protected static $submenu;
+    /**
+     * Пункты подменю компеонента
+     * 
+     * @var array
+     */
+    protected static $submenu = array();
     
+    /**
+     * Текущий активный пункт меню
+     * 
+     * @var string
+     */
     protected static $active_menu = 'default';
 
 
@@ -434,14 +444,15 @@ class joosAdminController{
         joosAutoadmin::edit($obj_data, $obj_data);
     }
 
-    // $option, $redirect = 0
-    public static function save() {
+    public static function save( $redirect = 0 ) {
 
         joosCSRF::check_code();
 
         $obj_data = joosAutoadmin::get_active_model_obj();
         $obj_data->save($_POST);
 
+        $option = joosRequest::param('option');
+        
         switch ($redirect) {
             default:
             case 0: // просто сохранение
@@ -460,21 +471,22 @@ class joosAdminController{
 
     public static function apply($option) {
         
-        return static::save($option, null, null, null, 1);
+        return static::save(1);
     }
 
     public static function save_and_new($option) {
         
-        return static::save($option, null, null, null, 2);
+        return static::save( 2);
     }
 
-    public static function remove($option) {
+    public static function remove() {
         
         joosCSRF::check_code();
 
         // идентификаторы удаляемых объектов
         $cid = (array) joosRequest::array_param('cid');
-
+        $option = joosRequest::param('option');
+        
         $obj_data =  joosAutoadmin::get_active_model_obj();
         $obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка удаления');
     }
@@ -521,6 +533,13 @@ class joosAdminView {
     }
     
     public static function get_submenu(){
+
+        $options = joosAutoadmin::get_option();
+        
+        foreach (self::$component_params['submenu'] as $menu_name => &$href) {
+            $href['href'] = isset( $href['href'] ) ? $href['href'] : sprintf('index2.php?option=%s&menu=%s',$options,$menu_name);
+        }
+        
         return self::$component_params['submenu'];
     }
 

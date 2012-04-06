@@ -61,7 +61,7 @@ defined('_JOOS_CORE') or die();
     </table>
 
     <input type="hidden" name="option" value="<?php echo $option ?>" />
-    <input type="hidden" name="model" value="<?php echo joosAdminView::get_current_model() ?>"/>
+    <input type="hidden" name="model" value="<?php echo joosAutoadmin::get_active_model_name() ?>"/>
     <input type="hidden" name="menu" value="<?php echo joosAutoadmin::get_active_menu_name() ?>"/>
     <input type="hidden" name="task" value="<?php echo $task ?>" name="task"/>
     <input type="hidden" name="boxchecked" value="false"/>

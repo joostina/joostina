@@ -24,21 +24,18 @@ class actionsAdminUsers extends joosAdminController{
     protected static $submenu = array(
 		'default' => array(
 			'name' => 'Пользователи',
-			'href' => 'index2.php?option=users',
 			'model' => 'modelAdminUsers',
 			'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
 			'active' => false
 		),
         'groups' => array(
             'name' => 'Группы',
-            'href' => 'index2.php?option=users&menu=groups',
             'model' => 'modelAdminAclGroups',
             'fields' => array('title'),
             'active' => false
         ),
         'acls' => array(
             'name' => 'Права',
-            'href' => 'index2.php?option=users&menu=acls',
             'model' => 'modelAdminAclList',
             'fields' => array('title'),
             'active' => false

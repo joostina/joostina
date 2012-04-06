@@ -18,8 +18,6 @@ class actionsAjaxSite extends joosControllerAjax {
 		$upload_handler = new UploadHandler();
 		$upload_handler->post();
 
-
-
 		return array(
 			'success' => true
 		);
