@@ -44,7 +44,7 @@ class actionsUsers extends joosController {
 
 	//профиль пользователя
 	public static function profile_view() {
-
+        
 		$user_name = self::$param['user_name'];
 
 		$user = new modelUsers;

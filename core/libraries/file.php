@@ -50,30 +50,28 @@ class joosFile {
 	 *
 	 * @tutorial joosFile::delete( JPATH_BASE . DS. '_to_delete.php' );
 	 *
-	 * @param string $filename полный путь к файлу, либо массив полный путей к удаляемым файлам
+	 * @param string $file_name полный путь к файлу, либо массив полный путей к удаляемым файлам
 	 *
 	 * @return bool результат удаления
 	 */
-	public static function delete($filename) {
+	public static function delete($file_name) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
-		}
+        self::exception_if_file_not_exists($file_name);
 
-		return unlink((string) $filename);
+        return unlink((string) $file_name);
 	}
 
-	/**
+    /**
 	 * Проверка существования файла
 	 *
 	 * @tutorial joosFile::exists( JPATH_BASE . DS. 'index.php' );
 	 *
-	 * @param string $filename
+	 * @param string $file_name
 	 *
 	 * @return bool результат проверки
 	 */
-	public static function exists($filename) {
-		return (bool) ( file_exists($filename) && is_file($filename) );
+	public static function exists($file_name) {
+		return (bool) ( file_exists($file_name) && is_file($file_name) );
 	}
 
 	/**
@@ -83,11 +81,11 @@ class joosFile {
 	 * @tutorial  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'favicon.ico' );
 	 * @tutorial  joosFile::mime_content_type( JPATH_BASE . DS . 'media' . DS . 'js' . DS . 'jquery.js');
 	 *
-	 * @param string $filename
+	 * @param string $file_name
 	 *
 	 * @return string
 	 */
-	public static function mime_content_type($filename) {
+	public static function mime_content_type($file_name) {
 		$mime_types = array(// all
 			'txt' => 'text/plain',
 			'htm' => 'text/html',
@@ -157,13 +155,13 @@ class joosFile {
 			'ods' => 'application/vnd.oasis.opendocument.spreadsheet'
 		);
 
-		$file_info = pathinfo($filename);
+		$file_info = pathinfo($file_name);
 		$ext = $file_info['extension'];
 		if (isset($mime_types[$ext])) {
 			return $mime_types[$ext];
 		} elseif (function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
-			$mimetype = finfo_file($finfo, $filename);
+			$mimetype = finfo_file($finfo, $file_name);
 			finfo_close($finfo);
 			return $mimetype;
 		} else {
@@ -213,7 +211,7 @@ class joosFile {
 	 * @tutorial joosFile::file_info( JPATH_BASE . DS. 'index.php'  );
 	 * @tutorial joosFile::file_info( 'index.html' );
 	 *
-	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $file_name абсолюютный или относительный путь до файла
 	 *
 	 * @return array массив информации о файле
 	 * 		 mime - mime тип файла
@@ -223,17 +221,15 @@ class joosFile {
 	 *
 	 * @todo переделать на SplFileInfo
 	 */
-	public static function file_info($filename) {
+	public static function file_info($file_name) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
-		}
+        self::exception_if_file_not_exists($file_name);
 
-		$f = pathinfo($filename);
+		$f = pathinfo($file_name);
 
 		$r = array();
-		$r['mime'] = self::mime_content_type($filename);
-		$r['size'] = filesize($filename);
+		$r['mime'] = self::mime_content_type($file_name);
+		$r['size'] = filesize($file_name);
 		$r['ext'] = $f['extension'];
 		$r['name'] = $f['basename'];
 
@@ -247,69 +243,63 @@ class joosFile {
 	 * @tutorial  joosFile::get_safe_name('имя файла номер 1 - ( раз)');
 	 * @tutorial  joosFile::get_safe_name(' eminem feat dr.dre i need a doctor.mp3 ');
 	 *
-	 * @param type $filename
+	 * @param type $file_name
 	 *
 	 * @return type
 	 */
-	public static function make_safe_name($filename) {
+	public static function make_safe_name($file_name) {
 		// убираем непроизносимые русские мязкие звуки
-		$filename = str_ireplace(array('ь', 'ъ'), '', $filename);
+		$file_name = str_ireplace(array('ь', 'ъ'), '', $file_name);
 		// переводим в транслит
-		$filename = joosText::russian_transliterate($filename);
+		$file_name = joosText::russian_transliterate($file_name);
 		// в нижний регистр
-		$filename = strtolower($filename);
+		$file_name = strtolower($file_name);
 		// заменям все ненужное нам на "-"
-		$filename = str_replace(array("'", '-'), ' ', $filename);
-		$filename = preg_replace('/[^\-a-z0-9\._]+/u', '-', $filename);
-		return trim($filename, '-');
+		$file_name = str_replace(array("'", '-'), ' ', $file_name);
+		$file_name = preg_replace('/[^\-a-z0-9\._]+/u', '-', $file_name);
+		return trim($file_name, '-');
 	}
 
 	/**
 	 * Получение даты последнего изменения файла
 	 *
-	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $file_name абсолюютный или относительный путь до файла
 	 * @return bool
 	 * @throws joosFileLibrariesException
 	 */
-	public static function get_modified_date($filename) {
+	public static function get_modified_date($file_name) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
-		}
+        self::exception_if_file_not_exists($file_name);
 
-		return filemtime($filename);
+		return filemtime($file_name);
 	}
 
 	/**
 	 * Получение размера файла ( в байта )
 	 *
-	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $file_name абсолюютный или относительный путь до файла
 	 * @return type
 	 * @throws joosFileLibrariesException
 	 */
-	public static function get_size($filename) {
+	public static function get_size($file_name) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
-		}
+        self::exception_if_file_not_exists($file_name);
 
-		return filesize($filename);
+		return filesize($file_name);
 	}
 
 	/**
 	 * Получение типа файла
 	 *
-	 * @param string $filename абсолюютный или относительный путь до файла
+	 * @param string $file_name абсолюютный или относительный путь до файла
 	 * @return type
 	 * @throws joosFileLibrariesException
 	 */
-	public static function get_type($filename) {
+	public static function get_type($file_name) {
 
-		if (!joosFile::exists($filename)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $filename));
-		}
+        self::exception_if_file_not_exists($file_name);
 
-		return filetype($filename);
+		return filetype($file_name);
 	}
 
 	/**
@@ -322,9 +312,7 @@ class joosFile {
 	 */
 	public static function put_content($file_name, $data) {
 
-		if (!joosFile::exists($file_name)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $file_name));
-		}
+        self::exception_if_file_not_exists($file_name);
 
 		if (!joosFile::is_writable($file_name)) {
 			throw new joosFileLibrariesException('Файл :file не доступен для записи', array(':file' => $file_name));
@@ -342,9 +330,7 @@ class joosFile {
 	 */
 	public static function get_content($file_name) {
 
-		if (!joosFile::exists($file_name)) {
-			throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $file_name));
-		}
+        self::exception_if_file_not_exists($file_name);
 
 		if (!joosFile::is_writable($file_name)) {
 			throw new joosFileLibrariesException('Файл :file не доступен для чтения', array(':file' => $file_name));
@@ -375,6 +361,19 @@ class joosFile {
 		return (bool) is_readable($file_location);
 	}
 
+    /**
+     * Внутренний метод проверки существования файла
+     * В случае ошибки выбрасывает исключение joosFileLibrariesException
+     * 
+     * @static
+     * @param $file_name путь к файлу
+     * @throws joosFileLibrariesException
+     */
+    private static function exception_if_file_not_exists($file_name){
+        if (!joosFile::exists($file_name)) {
+            throw new joosFileLibrariesException('Файл :file не существует', array(':file' => $file_name));
+        }
+    }
 }
 
 /**
