@@ -86,7 +86,7 @@ if (joosRequest::is_post()) {
         }
 
         // проверка прав доступа в панель управления
-        if( helperAcl::check_access_for_user_id('admin_panel::use',$user->id) !==true ){
+        if( helperAcl::check_access_for_user_id('admin_panel::init',$user->id) !==true ){
 
             joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
         }

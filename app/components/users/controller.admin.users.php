@@ -48,13 +48,33 @@ class actionsAdminUsers extends joosAdminController{
         ),
 	);
 
+    public static function action_before(){
+        parent::action_before();
+        
+        joosDocument::instance()
+            ->add_js_file( JPATH_SITE . '/app/components/users/media/js/users.admin.js' );
+
+        joosDocument::instance()
+            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/jquery.noty.css' )
+            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/noty_theme_default.css' )
+            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/noty_theme_twitter.css' )
+            ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty.js' );
+        
+    }
+    
+    /**
+     * Вывод сводной таблицы расспределения и назначения прав
+     * 
+     * @static
+     * @return array
+     */
     public static function acl_table() {
 
         $group_obj = new modelUsersAclGroups;
-        $groups = $group_obj->find_all();
+        $groups = $group_obj->find_all( array('select'=>'id,title') );
 
         $acl_list_obj = new modelUsersAclRules;
-        $acls = $acl_list_obj->find_all();
+        $acls = $acl_list_obj->find_all( array('select'=>'id,title,acl_group,acl_name') );
 
         $acl_list = array();
         foreach ($acls as $acl) {
@@ -62,9 +82,9 @@ class actionsAdminUsers extends joosAdminController{
         }
 
         $acl_groups = array_keys($acl_list);
-
-        sort($acl_groups);
-        sort($acls);
+        
+        //sort($acl_groups);
+        //sort($acls);
 
         $sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__users_acl_rules_groups AS aa INNER JOIN #__users_acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__users_acl_rules AS al ON ( al.id=aa.task_id )';
         $acl_rules_array = joosDatabase::instance()->set_query($sql)->load_assoc_list();
@@ -73,7 +93,7 @@ class actionsAdminUsers extends joosAdminController{
         foreach ($acl_rules_array as $value) {
             $acl_rules[$value['group_id']][$value['list_id']] = true;
         }
-
+        
         return array(
             'groups' => $groups,
             'acl_groups' => $acl_groups,

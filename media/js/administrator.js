@@ -118,5 +118,13 @@ function getSelectedValueById(srcListId) {
  * Функция обработки уведомления пользователя для панели управления
  */
 function joosNotify($message, $type) {
-	alert( $type + ': ' + $message);
+
+    var noty_id = noty({
+        text: $message,
+        theme: 'noty_theme_twitter',
+        type: $type,
+        layout: 'topRight'
+    });
+    
+	//alert( $type + ': ' + $message);
 }

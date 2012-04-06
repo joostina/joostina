@@ -40,7 +40,7 @@ class actionsAjaxAdminUsers extends joosAdminControllerAjax {
      *
      * @return array
      */
-    public static function change() {
+    public static function change_rules() {
 
         $group_id = joosRequest::int('group_id');
         $task_id = joosRequest::int('task_id');
@@ -60,7 +60,7 @@ class actionsAjaxAdminUsers extends joosAdminControllerAjax {
 
         return array(
             'success' => true,
-            'body' => 555
+            'message' => 'Сохранено'
         );
     }
 

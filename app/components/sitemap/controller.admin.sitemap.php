@@ -18,28 +18,14 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class actionsAdminSitemap  extends joosAdminController{
 
-	/**
-	 * Название обрабатываемой модели
-	 *
-	 * @var joosModel модель
-	 */
-	public static $model = 'modelAdminSitemap';
-	/**
-	 * Подменю
-	 */
-	public static $submenu = array ();
-	/**
-	 * Тулбары
-	 */
-	public static $toolbars = array ();
-
-	/**
-	 * Список объектов
-	 *
-	 * @param string $option
-	 */
-	public static function index( $option ) {
-
+    /**
+     * Список объектов
+     * 
+     * @static
+     * @return array|void
+     */
+	public static function index( ) {
+        return array();
 	}
 
 	public static function generate_xml( $option ) {

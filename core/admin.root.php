@@ -432,11 +432,13 @@ class joosAdminController{
         joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
     }
 
-    public static function create($option) {
-        static::edit($option, 0);
+    public static function create() {
+        static::edit();
     }
 
-    public static function edit($option, $id) {
+    public static function edit() {
+        
+        $id = joosRequest::get('id',0);
         
         $obj_data = joosAutoadmin::get_active_model_obj();
         $id > 0 ? $obj_data->load($id) : null;
@@ -469,14 +471,14 @@ class joosAdminController{
         }
     }
 
-    public static function apply($option) {
+    public static function apply() {
         
         return static::save(1);
     }
 
-    public static function save_and_new($option) {
+    public static function save_and_new() {
         
-        return static::save( 2);
+        return static::save(2);
     }
 
     public static function remove() {

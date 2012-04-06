@@ -1,9 +1,24 @@
 <?php
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
+
 ?>
-<div id="change_result"></div>
-<table>
+
+<div class="page-header">
+    <ul class="nav nav-pills" style="float: right">
+        <?php foreach(joosAdminView::get_submenu() as $submenu_item): ?>
+        <li <?php echo ($submenu_item['active'] == false) ? '' : 'class="active"' ?>>
+            <a href="<?php echo $submenu_item['href'] ?>">
+                <?php echo $submenu_item['name'] ?>
+            </a>
+        </li>
+        <?php endforeach ?>
+    </ul>
+    <h2><?php echo joosAdminView::get_component_title() .' / '. joosAdminView::get_component_header() ?></h2>
+</div>
+    
+<table class="table table-striped table-bordered table-condensed table-admin">
+    <thead>
 	<tr>
 		<th>&nbsp;</th>
 		<?php foreach ($acl_groups as $acl_group): ?>
@@ -11,11 +26,13 @@ defined('_JOOS_CORE') or die();
 		<?php endforeach; ?>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
+		<th>&nbsp;</th>
 		<?php foreach ($acls as $acl): ?>
-			<td><?php echo sprintf('%s::%s', $acl->acl_group, $acl->acl_name) ?></td>
+			<th><?php echo sprintf('%s<br />%s::%s', $acl->title, $acl->acl_group, $acl->acl_name) ?></th>
 		<?php endforeach; ?>
 	</tr>
+    </thead>
+    <tbody>
 	<?php foreach ($groups as $group) : ?>
 		<tr>
 			<td><?php echo $group->title ?></td>
@@ -24,4 +41,6 @@ defined('_JOOS_CORE') or die();
 				<?php endforeach; ?>
 		</tr>
 	<?php endforeach ?>
+    </tbody>
 </table>
+    

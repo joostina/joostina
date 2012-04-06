@@ -3,14 +3,11 @@ $(document).ready(function() {
 	var $click_td = $('.acl_state input');
 
 	$click_td.bind('click',function(){
-		//$('input',$(this)).prop('checked',true);
-
-		console.log( $(this) );
 
 		var $chbox = $(this);
 
 		$.ajax({
-			url:"ajax.index.php?option=acls&task=change",
+			url:"ajax.index.php?option=users&task=change_rules",
 			type:"POST",
 			dataType:'json',
 			data: {
@@ -19,12 +16,11 @@ $(document).ready(function() {
 				task_id:$chbox.val()
 			},
 			success:function(data) {
-				$("#change_result").html(data.body);
+                joosNotify(data.message,'success');
 			}
 		});
 
 		return true;
 	} );
-
-
+    
 });

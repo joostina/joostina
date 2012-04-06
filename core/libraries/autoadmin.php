@@ -820,46 +820,6 @@ class joosAutoadminHTML {
 
 }
 
-class joosAdminToolbar {
-
-	private static $add_button = array();
-
-	public static function listing() {
-		ob_start();
-
-		//mosMenuBar::start_table();
-        joosAdminToolbarButtons::create();
-		mosMenuBar::delete_list();
-		echo implode('', self::$add_button);
-		//mosMenuBar::end_table();
-
-		$return = ob_get_clean();
-
-		return $return;
-	}
-
-	public static function edit() {
-		ob_start();
-
-		mosMenuBar::start_table();
-		mosMenuBar::save();
-		mosMenuBar::custom('save_and_new', '-save-and-new', '', __('Сохранить и добавить'), false);
-		mosMenuBar::apply();
-		echo implode('', self::$add_button);
-		joosRequest::int('id', false) ? mosMenuBar::cancel('cancel', __('Закрыть')) : mosMenuBar::cancel();
-		joosToolBar::end_table();
-
-		$return = ob_get_clean();
-
-		return $return;
-	}
-
-	public static function add_button($button) {
-		self::$add_button[] = $button;
-	}
-
-}
-
 class joosAdminToolbarButtons{
 
     public static function listing($type = ''){
@@ -873,7 +833,7 @@ class joosAdminToolbarButtons{
 
             case 'publish':
             default:
-                return '<a  class="js-toolbar"  data-handler="toolbar" data-toolbar="publish" title="Разрешить" href="#"><i class="icon-ok"></i></a>';
+                return '<a  class="js-toolbar" data-handler="toolbar" data-toolbar="publish" title="Разрешить" href="#"><i class="icon-ok"></i></a>';
             break;
 
             case 'unpublish':
@@ -883,7 +843,7 @@ class joosAdminToolbarButtons{
 
             case 'remove':
             default:
-                return '<a  class="js-toolbar"  data-toolbar="remove" href="#"><i title="Удалить" class="icon-trash"></i></a>';
+                return '<a  class="js-toolbar" data-toolbar="remove" href="#"><i title="Удалить" class="icon-trash"></i></a>';
             break;
 
         }
@@ -892,64 +852,6 @@ class joosAdminToolbarButtons{
     }
 }
 
-class mosMenuBar {
-
-	public static function start_table() {
-		?><div id="toolbar"><ul class="listreset"><?php
-	}
-
-	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $list_select = true) {
-		if ($list_select) {
-			$href = "javascript:if (document.admin_form.boxchecked.value == 0){ alert('" . __('Необходимо выбрать хоть один элемент') . "');}else{submitbutton('$task')}";
-		} else {
-			$href = "javascript:submitbutton('$task')";
-		}
-		?><li><a class="tb-custom<?php echo $icon; ?>" href="<?php echo $href; ?>"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function add_new($task = 'new', $alt = 'Создать') {
-		?><li><a class="tb-add-new" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function copy($task = 'copy', $alt = 'Копировать') {
-		?><li><a class="tb-add-new" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function publish($task = 'publish', $alt = 'Показать') {
-		?><li><a class="tb-publish"
-					   href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function delete_list($msg = '', $task = 'remove', $alt = 'Удалить') {
-		?><li><a class="tb-delete-list" href="javascript:if (document.admin_form.boxchecked.value == 0){ alert('<?php echo __('Выберите элементы для удаления') ?>'); } else if (confirm('<?php echo __('Уверены в необходимости удаления объектов?') ?> <?php echo $msg; ?>')){ submitbutton('<?php echo $task; ?>');}"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-
-		public static function apply($task = 'apply', $alt = 'Применить') {
-		?><li><a class="tb-apply" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
-	}
-
-	public static function save($task = 'save', $alt = 'Сохранить') {
-		?><li><a class="tb-save" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-		public static function save_new() {
-		?><li><a class="tb-save-new" href="javascript:submitbutton('savenew');"><span><?php echo __('Сохранить') ?></span></a></li><?php
-		}
-
-		public static function save_edit() {
-		?><li><a class="tb-save-edit" href="javascript:submitbutton('saveedit');"><span><?php echo __('Сохранить') ?></span></a></li><?php
-		}
-
-		public static function cancel($task = 'cancel', $alt = 'Закрыть') {
-		?><li><a class="tb-cancel" href="javascript:submitbutton('<?php echo $task; ?>');"><span><?php echo __($alt); ?></span></a></li><?php
-		}
-
-	public static function end_table() {
-		?></ul></div><?php
-	}
-
-}
 
 interface joosAutoadminPluginsTable{
 

@@ -30,7 +30,7 @@ joosCoreAdmin::start();
 // стартуем пользователя
 joosCoreAdmin::init_user();
 
-if( helperAcl::is_allowed('admin_panel::use') !==true ){
+if( helperAcl::is_allowed('admin_panel::init') !==true ){
 
     joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
 }
