@@ -63,6 +63,8 @@ section{
     padding-top: 5px
 }
 
-.controls .el-rte{
-    width: 98%
+.controls .el-rte,
+#redactor_box_text{
+    width: 98%;
+    max-width: 98%
 }

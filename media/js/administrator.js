@@ -41,29 +41,32 @@ $(document).ready(function() {
 		$('a#pagenav_prev').length ? $('#pagenav_prev').trigger('click') : null;
 	});
 
-	$(document).ajaxComplete(function(evt, request, settings){
+     /*Автоматический вывод ошибок аяксовых запросов*/
+    $(document).ajaxComplete(function(evt, request, settings){
+   		var data =  request.responseText;
+   		var _is_json = 0;
 
-		var data = jQuery.parseJSON( request.responseText );
+   		if(settings.dataType == 'json'){
+   			_is_json = 1;
+   			data = $.parseJSON( data );
+   		}
 
-		if (request.status== 500) {
-			joosNotify(data.message, 'error-500');
-			return;
-		}
+   		if (request.status == 500 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
+               joosNotify(data.message, 'error-500');
+   			return;
+   		}
 
-		if (request.status==404 ) {
-			joosNotify(data.message, 'error-404');
-			return;
-		}
-
-		if( data !== null && data.success !== undefined){
-
-			if ( data.success !== null &&  data.success == false) {
-				joosNotify(request.message, 'error-success');
-				return;
-			}
-		}
-
-	});
+   		if (request.status == 404 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
+               joosNotify(data.message, 'error-404');
+   			return;
+   		}
+        if (data !== null && data.success !== undefined) {
+            if (data.success !== null && data.success == false) {
+                joosNotify(data.message, 'success');
+                return;
+            }
+        }
+   	});
 
 });
 
