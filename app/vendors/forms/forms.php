@@ -448,7 +448,7 @@ class forms {
 			}
 		}
 
-		return '<label' . forms::attributes( $data ) . ' ' . $extra . '>' . $text . '</label>';
+		return '<label class="control-label"' . forms::attributes( $data ) . ' ' . $extra . '>' . $text . '</label>';
 	}
 
 	/**

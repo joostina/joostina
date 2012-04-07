@@ -833,8 +833,11 @@ class joosModel {
 		foreach ($childrens as $key => $value) {
 			$el_id = $name . $key;
 			$checked = (bool) isset($selected_ids[$key]);
+            $rets[] = '<label class="checkbox">';
 			$rets[] = forms::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
-			$rets[] = forms::label($el_id, $value);
+            $rets[] =  $value;
+            $rets[] = '</label>';
+			//$rets[] = forms::label($el_id, $value);
 		}
 
 		return implode("\n\t", $rets);

@@ -278,14 +278,17 @@ class joosAutoadmin {
 
 		//Настраиваем параметры HTML-разметки формы
 		if (!$params) {
-			$params = array('wrap_begin' => '<table class="admin_form joiadmin">',
-				'wrap_end' => '</table>',
-				'label_begin' => '<tr><td width="150" align="right" valign="top">',
-				'label_end' => '</td>',
-				'el_begin' => '<td>',
-				'el_end' => '</td></tr>',
-				'tab_wrap_begin' => '<tr><td>',
-				'tab_wrap_end' => '</td></tr>',);
+			$params = array(
+                //'wrap_begin' => '<table class="admin_form joiadmin">',
+				//'wrap_end' => '</table>',
+
+				'label_begin' => '<div class="control-group">',
+				'label_end' => '',
+				'el_begin' => '<div class="controls">',
+				'el_end' => '</div></div>');
+
+				//'tab_wrap_begin' => '<tr><td>',
+				//'tab_wrap_end' => '</td></tr>',);
 		}
 
 		//Вывод заголовка страницы с формой
@@ -295,17 +298,15 @@ class joosAutoadmin {
         joosAdminView::set_param( 'component_header' ,  $obj_data->{$obj->get_key_field()} > 0 ? $header['header_edit'] : $header['header_new'] );
 
         $class = self::$active_actions_class;
-        joosAdminView::set_param('submenu', $class::get_submenu() );
-
+        joosAdminView::set_param('submenu', $class::get_submenu());
         joosAdminView::set_param('current_model', self::get_active_model_name());
-        
-		echo self::header(array(), 'edit');
+
+		//echo self::header(array(), 'edit');
 
 		// начинаем отлавливать поступаемый JS код
-		self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
+        //@ зачем?
+		//self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
 
-		//открываем форму
-		echo forms::open('index2.php', array('name' => 'admin_form','id' => 'admin_form'));
 
 		//Массив сформированных элементов для вывода
 		$_elements = array();
@@ -319,6 +320,8 @@ class joosAutoadmin {
 		}
 
 		//Если заданы табы
+        //@todo Реализуем позже
+        /*
 		$_tabs_areas = '';
 		$_tabs_array = array();
 		$_tabs_new = is_callable(array($obj, 'get_tabsinfo')) ? $obj->get_tabsinfo() : null;
@@ -355,6 +358,9 @@ class joosAutoadmin {
 
 			echo $_tabs_areas;
 		} else {
+        */
+
+        /*
 			//Начало общего контейнера
 			echo $params['wrap_begin'];
 
@@ -364,29 +370,18 @@ class joosAutoadmin {
 			//Конец общего контейнера
 			echo $params['wrap_end'];
 		}
-
-		//Выводим скрытые поля формы
-		echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
-		echo forms::hidden('option', $option) . "\t";
-		echo forms::hidden('model', joosAdminView::get_current_model() ) . "\t";
-		echo forms::hidden('menu', joosAutoadmin::get_active_menu_name() );
-		echo forms::hidden('task', '') . "\t";
-		echo forms::hidden(joosCSRF::get_code(), 1). "\t"; // элемент защиты от XSS
-
-        echo forms::button('task','Сохранить','value="save"'). "\t";
-        echo forms::button('task','Применить','value="apply"'). "\t";
-        echo forms::button('task','Сохранить и добавить','value="save_and_new"'). "\t";
+        */
 
 
-        //Закрываем форму
-		echo forms::close();
 
 
 		// закрываем JS вкрапления
-		self::$js_onformsubmit[] = 'submitform( pressbutton );';
-		self::$js_onformsubmit[] = '};</script>';
+		//self::$js_onformsubmit[] = 'submitform( pressbutton );';
+		//self::$js_onformsubmit[] = '};</script>';
 
-		echo "\n" . implode("\n", self::$js_onformsubmit) . "\n";
+		//echo "\n" . implode("\n", self::$js_onformsubmit) . "\n";
+
+        require_once JTEMPLATE_ADMIN_BASE.DS.'html'.DS.'edit.php';
 	}
 
     // получение типа элемента для формы редактирования
@@ -835,7 +830,6 @@ class joosAdminToolbarButtons{
             break;
 
             case 'publish':
-            default:
                 return '
                     <button  class="btn btn-large js-toolbar js-tooltip"  data-toolbar="publish" title="Разрешить">
                         <i class="icon-ok"></i>
@@ -843,7 +837,6 @@ class joosAdminToolbarButtons{
             break;
 
             case 'unpublish':
-            default:
                 return '
                     <button class="btn btn-large js-toolbar js-tooltip" data-toolbar="unpublish"  title="Запретить">
                         <i class="icon-remove"></i>
@@ -851,7 +844,6 @@ class joosAdminToolbarButtons{
             break;
 
             case 'remove':
-            default:
                 return '
                     <button class="btn btn-large js-toolbar js-tooltip" data-toolbar="remove"  title="Удалить">
                         <i class="icon-trash"></i>
@@ -859,8 +851,52 @@ class joosAdminToolbarButtons{
             break;
 
         }
+    }
 
 
+    public static function edit($type = ''){
+
+        switch($type){
+
+            case 'save':
+            default:
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="apply" title="Сохранить изменения">
+                        <i class="icon-ok"></i> Сохранить
+                    </button>';
+            break;
+
+            case 'apply':
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="apply" title="Применить изменения">
+                        <i class="icon-ok"></i> Применить
+                    </button>';
+            break;
+
+            case 'save_and_new':
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="save_and_new" title="Сохранить изменения и добавить новую запись">
+                        <i class="icon-ok"></i> Сохранить и добавить
+                    </button>';
+            break;
+
+            case 'remove':
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip" data-toolbar="remove"  title="Удалить">
+                        <i class="icon-trash"></i> Удалить
+                    </button>';
+            break;
+
+            case 'cancel':
+                return '
+                    <button  class="btn btn-large js-toolbar js-tooltip"  data-toolbar="cancel" title="Отменить">
+                        <i class="icon-off"></i>
+                    </button>';
+            break;
+
+
+
+        }
     }
 }
 
