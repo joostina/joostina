@@ -34,19 +34,14 @@ class editorRedactor {
 	}
 
 	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {
-
-		/**
-		 *  tiny: только кнопки изменения стиля текста (жирный, наклонный, подчеркнутый, перечеркнутый, subscript, superscript)
-		 * compact: тоже, что и tiny + сохранить, отмена/повтор, выравнивание, списки, ссылки, полноэкранный режим
-		 * normal: compact + копировать/вставить, цвета, отступы, элементы, изображения
-		 * complete: normal + форматирование, размер и стиль шрифта
-		 * maxi: complete + таблицы
-		 */
-		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'maxi';
+        $option = $option = joosRequest::param('option');
 
 		$code_on_ready = <<< EOD
 		$(document).ready(function() {
-			$('#$name').redactor();
+			$('#$name').redactor({
+			    imageUpload: '/admin/ajax.index.php?option=$option&task=upload_images_embedded',
+			    fileUpload: '/admin/ajax.index.php?option=$option&task=upload_files_embedded'
+			});
 		});
 EOD;
 		joosDocument::instance()->add_js_code($code_on_ready);
@@ -54,7 +49,7 @@ EOD;
 	}
 
 	public static function get_content($name, $params = array()) {
-		return isset($params['js_wrap']) ? joosHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
+		return true;
 	}
 
 }

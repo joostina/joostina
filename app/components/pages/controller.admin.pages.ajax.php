@@ -21,6 +21,7 @@ class actionsAjaxAdminPages extends joosAdminControllerAjax {
 		return joosAutoadmin::autoajax();
 	}
 
+
 	/**
 	 * Генерация ссылки на страницу
 	 *

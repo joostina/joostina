@@ -61,7 +61,7 @@ class modelAdminPages extends modelPages {
 			'text' => array('name' => 'Описание',
 				'editable' => true,
 				'html_edit_element' => 'wysiwyg',
-				'html_edit_element_param' => array('editor'=>'redactor'),
+				'html_edit_element_param' => array('editor'=>'redactor', 'option'=>'pages'),
 			),
             'created_at' => array(
                 'name' => 'Создано',

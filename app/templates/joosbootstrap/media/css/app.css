@@ -43,7 +43,8 @@ section{
 #admin-form_body{
     border: 1px solid #CCC;
     border-radius: 6px;
-    padding: 15px 0
+    padding: 15px 0;
+    background: none repeat scroll 0 0 #F8F8F8;
 }
     #admin-form_body .control-group{
         border-bottom: 1px solid #CCC;

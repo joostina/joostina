@@ -11,28 +11,44 @@ class joosUpload {
 	 * @param string $element_name название элемента массива $_FILES для загрузки
 	 * @param string $upload_location каталог размещения загруженного файла
 	 * @param array $params массив расширенных парамтеров загрузки
-	 * 		string new_name - переименовать файл
+	 * 		string new_name - новое имя для файла
 	 * 		string new_extension - переименовать расширение файла
 	 *
 	 */
 	public static function easy_upload($element_name, $upload_location, array $params = array()) {
 
-		$file_name = joosFile::make_safe_name($_FILES[$element_name]['name']);
+        $file_name = $_FILES[$element_name]['name'];
 
+        //Если нужно сменить имя файла
+        if(isset($params['new_name'])){
+            $file_name = $params['new_name'] . '.' . substr($file_name, strrpos($file_name, '.') + 1);
+        }
+        //иначе - очищаем исходное имя файла от мусора
+        else{
+            $file_name = joosFile::make_safe_name($file_name);
+        }
+
+        //директория загрузки
 		$upload_location = rtrim($upload_location, '/');
+        //если её нет, создаём
+        is_dir($upload_location) ? null : mkdir($upload_location, 0755, true);
 
+        //перемещаем файл в директорию назначения
 		$file_base_location = $upload_location . DS . $file_name;
-
 		$success = move_uploaded_file($_FILES[$element_name]['tmp_name'], $file_base_location);
 
+        //получаем путь файла для http
 		$file_live_location = str_replace(JPATH_BASE, '', $upload_location);
 		$file_live_location = str_replace("\\", DS, $file_live_location);
+
+        $file_info = joosFile::file_info($file_base_location);
 
 		return array(
 			'location' => $file_live_location,
 			'base_location' => $file_base_location,
 			'name' => $file_name,
 			'file' => $file_live_location . '/' . $file_name,
+            'file_info' => $file_info,
 			'success' => $success
 		);
 	}

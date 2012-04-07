@@ -34,6 +34,10 @@ body .redactor_air {
 	width: 100%;
 	font-size: 13px;
 }
+#redactor_modal input,
+#redactor_modal select{
+    width: auto !important;
+}
 
 /*
 	FULLSCREEN
