@@ -105,7 +105,7 @@ class modelAdminPages extends modelPages {
 
 	public static function get_slug($item) {
 		return JPATH_SITE . '/
-			<input type="text" style="width: 80%;" class="text_area" size="50%" value="' . $item->slug . '" name="slug" id="slug">
+			<input type="text" style="width: 50%;" class="text_area" size="30" value="' . $item->slug . '" name="slug" id="slug">
 			<span class="g-pseudolink" id="pages_slug_generator" obj_id="' . $item->id . '">Сформировать</span>
 		';
 	}

@@ -14,7 +14,7 @@ defined('_JOOS_CORE') or die();
             </li>
             <?php endforeach ?>
         </ul>
-        <h2><?php echo joosAdminView::get_component_title() //.' / '. joosAdminView::get_component_header() ?></h2>
+        <h1><?php echo joosAdminView::get_component_title() //.' / '. joosAdminView::get_component_header() ?></h1>
     </div>
 
     <div class="row">

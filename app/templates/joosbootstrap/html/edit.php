@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or die();
 </div>
 
 
-<form action="index2.php" class="form-horizontal"  name="admin_form" id="admin_form">
+<form action="index2.php" class="form-horizontal"  name="admin_form" id="admin_form" method="post">
 
     <div id="admin-form">
         <section id="admin-form_header">
