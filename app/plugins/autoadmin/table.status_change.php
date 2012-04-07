@@ -24,21 +24,25 @@ class autoadminTableStatusChange implements joosAutoadminPluginsTable{
 			'html_table_element_param' =>
 			array('statuses' =>
 				array(
-					0 => __('Скрыто'),
-					1 => __('Опубликовано')
+					0 => __('Активно'),
+					1 => __('Не активно')
 				),
 				'images' => array(
-					0 => 'publish_x.png',
-					1 => 'publish_g.png'
+					0 => 'remove',
+					1 => 'ok'
 				)
 			)
 				)
 		);
 
-		$images = isset($element_param['html_table_element_param']['images'][$value]) ? $element_param['html_table_element_param']['images'][$value] : 'error.png';
+		$style = isset($element_param['html_table_element_param']['images'][$value]) ? $element_param['html_table_element_param']['images'][$value] : 'error.png';
 		$text = isset($element_param['html_table_element_param']['statuses'][$value]) ? $element_param['html_table_element_param']['statuses'][$value] : 'ERROR';
 
-		return '<img class="img-mini-state" src="' . joosConfig::get('admin_icons_path') . $images . '" id="img-pub-' . $values->id . '" data-obj-id="' . $values->id . '" data-obj-key="' . $key . '" alt="' . $text . '" />';
+		return '
+		    <button class="btn btn-mini js-tooltip js-set_state" title="' . $text . '" data-id="' . $values->id . '" data-state="'.$values->state.'">
+		        <i class="icon-'.$style.'"></i>
+		    </button>';
+
 	}
 
 }

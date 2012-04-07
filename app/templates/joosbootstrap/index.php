@@ -19,7 +19,7 @@ joosDocument::instance()
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tiptip.js')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.jeditable.js')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tablednd.js')
-    ->add_js_file(JPATH_SITE . '/media/js/administrator.js');
+    ->add_js_file(JPATH_SITE . '/app/templates/' . JTEMPLATE_ADMIN . '/media/js/app.administrator.js');
 
 joosDocument::instance()
     ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/jquery.noty.css' )

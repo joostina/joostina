@@ -1,29 +1,16 @@
 // JS функции панели управления
 $(document).ready(function() {
+
+    $('.js-search-by-field').on('click', function(){
+        $(this).parents('.search-by-field_state1').hide();
+        $(this).parents('th').find('.search-by-field_state2').show();
+    })
+
+        
 	// скрываем индиктор загрузки
 	$('#ajax_status').hide();
 
-	// клики на ячейки и значки смены статуса
-	$('.adminlist .td-state').live('click', function() {
-		// объект по которому производится клик
-		var current_obj = $(this);
-		var option = $('img', this).prop('obj_option') ? $('img', this).prop('obj_option') : _option;
-		$.ajax({
-			url:'ajax.index.php?option=' + option,
-			type:'post',
-			data:{
-				obj_id:$('img', this).prop('obj_id'),
-				task:$('img', this).prop('obj_task')
-			},
-			dataType:'json',
-			// обрабатываем результат
-			success:function(data) {
-				$('img', current_obj).prop('src', image_path + data.image);
-				$('img', current_obj).prop('alt', data.mess);
-				$('img', current_obj).prop('title', data.mess);
-			}
-		});
-	});
+
 
 	$(".quickicon").tipTip({
 		attribute:'alt'

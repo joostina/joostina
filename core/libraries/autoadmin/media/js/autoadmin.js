@@ -1,33 +1,29 @@
 $(document).ready(function() {
 
 	// клики на ячуйки и значки смены статуса
-	$('.adminlist .td-state-joiadmin').live('click', function() {
+	$('.js-set_state').live('click', function() {
 		// объект по которому производится клик
 		var current_obj = $(this);
 
 		$.ajax({
-			url:'ajax.index.php?option=' + _option + '&task=status_change',
+			url:'/admin/ajax.index.php?option=' + _option + '&task=set_state',
 			type:'post',
 			data:{
-				obj_id:$('img', this).data('obj-id'),
-				obj_key:$('img', this).data('obj-key'),
-				obj_name:$('input[name=obj_name]').val()
+				obj_id: current_obj.data('id'),
+				obj_state: current_obj.data('state'),
+                obj_model: $('input[name="model"]').val()
 			},
 			dataType:'json',
-			success:function(data) {
-				if (data.code == 500) {
-					joosNotify(data.message, 'error');
-					return;
-				}
-				$('img', current_obj).prop('src', image_path + data.image);
-				$('img', current_obj).prop('alt', image_path + data.mess);
-			},
-			error: function(){
-				joosNotify('Ошибка выполнения Ajax запроса', 'error');
-				return;
+			success: function(data) {
+                current_obj.data('state', data.new_state);
+                current_obj.prop('title', data.new_title);
+                $('i', current_obj).prop('class', data.new_class);
 			}
 		});
+
+        return false;
 	});
+
 
 	/*
     //Сортировка

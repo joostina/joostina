@@ -507,6 +507,38 @@ class joosAdminController{
 class joosAdminControllerAjax extends joosAdminController{
 
     /**
+     * Смена статуса (поля 'state')
+     */
+    public static function set_state(){
+
+        $obj_id = joosRequest::int('obj_id', 0, $_POST);
+     	$obj_state = joosRequest::post('obj_state');
+        $obj_model = joosRequest::post('obj_model');
+
+        if (!$obj_model || !class_exists($obj_model)) {
+            return false;
+        }
+
+        $new_state = ($obj_state == 1 ? 0 : 1);
+
+        $obj = new $obj_model;
+        $obj->load($obj_id);
+
+        if(! $obj->change_state('state')){
+            return array('type' => 'error');
+        }
+
+        return array(
+            'type' => 'success',
+            'message' => 'Статус изменён',
+            'new_state' => $new_state,
+            'new_title' => $new_state == 1 ? 'Активно' : 'Не активно',
+            'new_class' => $new_state == 1 ? 'icon-ok' : 'icon-remove'
+        );
+
+    }
+
+    /**
      * Загрузка изображений для текстов материалов (через визуальный редактор)
      * Грузятся в /attachments/images_embedded
     */
