@@ -23,7 +23,7 @@ class actionsAdminUsers extends joosAdminController{
 	 */
     protected static $submenu = array(
 		'default' => array(
-			'name' => 'Пользователи',
+			'name' => 'Все пользователи',
 			'model' => 'modelAdminUsers',
 			'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
 			'active' => false

@@ -828,22 +828,34 @@ class joosAdminToolbarButtons{
 
             case 'create':
             default:
-                return '<a class="js-toolbar" data-toolbar="create" title="Добавить" href="#"><i class="icon-plus-sign"></i></a>';
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip js-toolbar_once"  data-toolbar="create" title="Добавить запись">
+                        <i class="icon-plus-sign"></i> Добавить
+                    </button>';
             break;
 
             case 'publish':
             default:
-                return '<a  class="js-toolbar" data-handler="toolbar" data-toolbar="publish" title="Разрешить" href="#"><i class="icon-ok"></i></a>';
+                return '
+                    <button  class="btn btn-large js-toolbar js-tooltip"  data-toolbar="publish" title="Разрешить">
+                        <i class="icon-ok"></i>
+                    </button>';
             break;
 
             case 'unpublish':
             default:
-                return '<a  class="js-toolbar" data-toolbar="unpublish" href="#"><i title="Запретить" class="icon-remove"></i></a>';
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip" data-toolbar="unpublish"  title="Запретить">
+                        <i class="icon-remove"></i>
+                    </button>';
             break;
 
             case 'remove':
             default:
-                return '<a  class="js-toolbar" data-toolbar="remove" href="#"><i title="Удалить" class="icon-trash"></i></a>';
+                return '
+                    <button class="btn btn-large js-toolbar js-tooltip" data-toolbar="remove"  title="Удалить">
+                        <i class="icon-trash"></i>
+                    </button>';
             break;
 
         }

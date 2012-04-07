@@ -19,18 +19,16 @@ defined('_JOOS_CORE') or die();
 
     <div class="row">
         <div class="span6">
-            <div class="pagination" style="float: left; margin-right: 10px">
-                <ul>
-                    <li><?php echo joosAdminToolbarButtons::listing('create')?></li>
-                </ul>
+            <div class="toolbar-once" style="float: left; margin-right: 10px">
+                <?php echo joosAdminToolbarButtons::listing('create')?>
             </div>
 
-            <div class="pagination js-btn-group-for_select">
-                <ul>
-                    <li class="disabled"><?php echo joosAdminToolbarButtons::listing('publish')?></li>
-                    <li class="disabled"><?php echo joosAdminToolbarButtons::listing('unpublish')?></li>
-                    <li class="disabled"><?php echo joosAdminToolbarButtons::listing('remove')?></li>
-                </ul>
+            <div class="toolbar-group js-btn-group-for_select"  style="float: left; margin-right: 10px">
+                <div style="margin:0;" class="btn-group">
+                    <?php echo joosAdminToolbarButtons::listing('publish')?>
+                    <?php echo joosAdminToolbarButtons::listing('unpublish')?>
+                    <?php echo joosAdminToolbarButtons::listing('remove')?>
+                </div>
             </div>
         </div>
         <div class="span6">
@@ -39,11 +37,11 @@ defined('_JOOS_CORE') or die();
                 <?php echo $pagenav->get_pages_links();?>
             </div>
 
-            <div class="pagination-limit_box" style="float: right; padding: 22px 20px 0 0; ">
+            <div class="pagination-limit_box" style="float: right; padding: 12px 20px 0 0; ">
                 <?php echo $pagenav->get_limit_box();?>
             </div>
 
-            <div style="float: right; padding: 30px 20px 0 0; font-weight: bold">
+            <div style="float: right; padding: 20px 20px 0 0; font-weight: bold">
                 <?php echo $pagenav->get_pages_counter();?>
             </div>
         </div>

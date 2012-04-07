@@ -237,7 +237,6 @@ $(document).ready(function() {
 
     $('.js-toolbar').on('click', function(){
         $task = $(this).data('toolbar');
-        console.log($task);
         submitbutton($task);
         return false;
     })
@@ -257,12 +256,13 @@ $(document).ready(function() {
         group_select_toggler()
     })
 
+        $('.js-btn-group-for_select button').attr('disabled', 'disabled');
     function group_select_toggler(){
         if($('.js-select').is(':checked')){
-            $('.js-btn-group-for_select li').removeClass('disabled');
+            $('.js-btn-group-for_select button').removeAttr('disabled');
         }
         else{
-            $('.js-btn-group-for_select li').addClass('disabled');
+            $('.js-btn-group-for_select button').attr('disabled', 'disabled');
         }
     }
 
@@ -277,6 +277,8 @@ $(document).ready(function() {
         $('input[name="limitstart"]').val($page);
         $("#admin_form").submit();
     })
+
+    $('.js-tooltip').tooltip();
 
 });
 
