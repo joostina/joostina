@@ -26,9 +26,6 @@ defined('_JOOS_CORE') or die();
                     <h2><?php echo joosAdminView::get_component_header() ?></h2>
                 </div>
                 <div class="span6">
-                    <div style="float: right" class="btn-group">
-                        <?php echo joosAdminToolbarButtons::edit('cancel')?>
-                    </div>
 
                     <div style="float: right; margin-right: 12px" class="btn-group">
                         <?php echo joosAdminToolbarButtons::edit('remove')?>
@@ -36,6 +33,7 @@ defined('_JOOS_CORE') or die();
 
                     <div style="float: right; margin-right: 10px" class="btn-group">
                         <?php echo joosAdminToolbarButtons::edit('save')?>
+                        <?php echo joosAdminToolbarButtons::edit('apply')?>
                         <?php echo joosAdminToolbarButtons::edit('save_and_new')?>
                     </div>
                 </div>

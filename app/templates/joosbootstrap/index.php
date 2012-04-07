@@ -21,6 +21,12 @@ joosDocument::instance()
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tablednd.js')
     ->add_js_file(JPATH_SITE . '/media/js/administrator.js');
 
+joosDocument::instance()
+    ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/jquery.noty.css' )
+    ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/noty_theme_default.css' )
+    ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/noty_theme_twitter.css' )
+    ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty.js' );
+
 // для панели управления расширенные тэги индексации не нужны
 joosDocument::$config['seotag'] = FALSE;
 ?>

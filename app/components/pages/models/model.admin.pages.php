@@ -41,17 +41,11 @@ class modelAdminPages extends modelPages {
 				'sortable' => true,
 				'in_admintable' => true,
 				'editlink' => true,
-				'html_edit_element' => 'checkbox',
-				'html_table_element' => 'state_box',
-				'html_edit_element_param' => array(
-					'text' => 'Опубликовано',
-				),
-				'html_table_element' => 'status_change',
-				'html_table_element_param' => array(
-					'align' => 'center',
-					'class' => 'td-state-joiadmin',
-					'width' => '80px',
-				)
+                'html_edit_element' => 'checkbox',
+                'html_table_element' => 'status_change',
+                'html_edit_element_param' => array(
+                    'text' => 'Разрешён / Активирован',
+                ),
 			),
 			'slug' => array('name' => 'Ссылка',
 				'editable' => true,
@@ -81,6 +75,7 @@ class modelAdminPages extends modelPages {
                     'align' => 'center'
                 )
             ),
+
 		);
 	}
 
@@ -104,7 +99,7 @@ class modelAdminPages extends modelPages {
 	}
 
 	public static function get_slug($item) {
-		return JPATH_SITE . '/
+		return '
 			<input type="text" style="width: 50%;" class="text_area" size="30" value="' . $item->slug . '" name="slug" id="slug">
 			<span class="g-pseudolink" id="pages_slug_generator" obj_id="' . $item->id . '">Сформировать</span>
 		';

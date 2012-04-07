@@ -861,22 +861,22 @@ class joosAdminToolbarButtons{
             case 'save':
             default:
                 return '
-                    <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="apply" title="Сохранить изменения">
-                        <i class="icon-ok"></i> Сохранить
+                    <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="save" title="Сохранить изменения">
+                        <i class="icon-ok-circle"></i> Сохранить
                     </button>';
             break;
 
             case 'apply':
                 return '
                     <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="apply" title="Применить изменения">
-                        <i class="icon-ok"></i> Применить
+                        <i class="icon-ok-circle"></i> <i class="icon-refresh"></i>
                     </button>';
             break;
 
             case 'save_and_new':
                 return '
                     <button class="btn btn-large js-toolbar js-tooltip"  data-toolbar="save_and_new" title="Сохранить изменения и добавить новую запись">
-                        <i class="icon-ok"></i> Сохранить и добавить
+                        <i class="icon-ok-circle"></i> <i class="icon-plus-sign"></i>
                     </button>';
             break;
 
@@ -890,7 +890,7 @@ class joosAdminToolbarButtons{
             case 'cancel':
                 return '
                     <button  class="btn btn-large js-toolbar js-tooltip"  data-toolbar="cancel" title="Отменить">
-                        <i class="icon-off"></i>
+                        <i class="icon-ban-circle"></i>
                     </button>';
             break;
 

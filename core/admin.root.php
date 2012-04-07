@@ -406,7 +406,10 @@ class joosAdminController{
 
         static::$submenu[$menu]['active'] = true;
 
-        joosAutoadmin::set_active_model_name(static::$submenu[$menu]['model']);
+        if (isset(static::$submenu[$menu]['model'])) {
+            joosAutoadmin::set_active_model_name(static::$submenu[$menu]['model']);
+        }
+
         joosAutoadmin::set_active_menu_name($menu);
     }
 

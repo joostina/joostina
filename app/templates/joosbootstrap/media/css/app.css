@@ -62,3 +62,7 @@ section{
 #admin-form_body .controls p{
     padding-top: 5px
 }
+
+.controls .el-rte{
+    width: 98%
+}

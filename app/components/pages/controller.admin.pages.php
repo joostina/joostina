@@ -23,9 +23,17 @@ class actionsAdminPages  extends joosAdminController{
 			'name' => 'Все страницы',
             'model'=>'modelAdminPages',
 			'href' => 'index2.php?option=pages',
-            'fields'=>array('title','created_at'),
+            'fields'=>array('title','created_at', 'state'),
 			'active' => false
 		),
 	);
+
+    public static function action_before(){
+        parent::action_before();
+
+        joosDocument::instance()
+            ->add_js_file( JPATH_SITE . '/app/components/pages/media/js/pages.admin.js' );
+
+    }
 
 }

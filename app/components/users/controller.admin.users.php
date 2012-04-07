@@ -53,12 +53,6 @@ class actionsAdminUsers extends joosAdminController{
         
         joosDocument::instance()
             ->add_js_file( JPATH_SITE . '/app/components/users/media/js/users.admin.js' );
-
-        joosDocument::instance()
-            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/jquery.noty.css' )
-            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/noty_theme_default.css' )
-            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty/noty_theme_twitter.css' )
-            ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/jquery.noty.js' );
         
     }
     

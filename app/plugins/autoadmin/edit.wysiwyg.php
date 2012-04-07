@@ -29,7 +29,7 @@ class autoadminEditWysiwyg implements joosAutoadminPluginsEdit{
 		$editor_params = array('editor' => isset($element_param['html_edit_element_param']['editor']) ? $element_param['html_edit_element_param']['editor'] : 'elrte',
 			'rows' => isset($element_param['html_edit_element_param']['rows']) ? $element_param['html_edit_element_param']['rows'] : null,
 			'cols' => isset($element_param['html_edit_element_param']['cols']) ? $element_param['html_edit_element_param']['cols'] : null,
-			'width' => isset($element_param['html_edit_element_param']['width']) ? $element_param['html_edit_element_param']['width'] : '"100%"',
+			'width' => isset($element_param['html_edit_element_param']['width']) ? $element_param['html_edit_element_param']['width'] : '"98%"',
 			'height' => isset($element_param['html_edit_element_param']['height']) ? $element_param['html_edit_element_param']['height'] : '200px',);
 
 		$element[] = joosEditor::display($key, $value, $editor_params);

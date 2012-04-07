@@ -31,9 +31,9 @@ class editorElrte {
 		joosHtml::load_jquery_ui();
 
 		joosDocument::instance()
-				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css')
-				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/elrte.css')
-				->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/elrte/js/elrte.js')
+				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/smoothness/jquery-ui-1.8.13.custom.css')
+				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/elrte.min.css')
+				->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/elrte/js/elrte.min.js')
 				->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/elrte/js/i18n/elrte.ru.js');
 	}
 
@@ -46,7 +46,7 @@ class editorElrte {
 		 * complete: normal + форматирование, размер и стиль шрифта
 		 * maxi: complete + таблицы
 		 */
-		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
+		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'maxi';
 
 		$code_on_ready = <<< EOD
 	elRTE.prototype.filter.prototype.replaceTags = false;
