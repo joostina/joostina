@@ -4,8 +4,8 @@
  * Работа с файлами
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage File
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -361,7 +361,7 @@ class joosFile {
     /**
      * Внутренний метод проверки существования файла
      * В случае ошибки выбрасывает исключение joosFileLibrariesException
-     * 
+     *
      * @static
      * @param $file_name путь к файлу
      * @throws joosFileLibrariesException

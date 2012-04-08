@@ -4,8 +4,8 @@
  * Библиотека работы со строками в правильной кодировке UTF-8
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage String
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

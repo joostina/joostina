@@ -4,9 +4,8 @@
  * Работа с визуальными редакторами
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosEditor
+ * @package    Core\Libraries
+ * @subpackage Editor
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

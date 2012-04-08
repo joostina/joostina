@@ -4,8 +4,7 @@
  * Библиотека управления параметрами
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
  * @subpackage Config
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>

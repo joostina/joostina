@@ -10,9 +10,8 @@ class joosDatabase extends joosDatabaseMysqli{}
  * Библиотека ORM расширения для гибкой работы с информацией в юазе данных
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosDatabase
+ * @package    Core\Libraries
+ * @subpackage Database
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php

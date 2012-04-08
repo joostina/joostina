@@ -21,9 +21,8 @@
  * Работа с плагинами, реализация метода Observer
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosEvents
+ * @package    Core\Libraries
+ * @subpackage Events
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

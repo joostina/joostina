@@ -4,10 +4,9 @@
  * joosModule - Общий класс работы с модулями ( на фронте )
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Module
  * @category   Libraries
- * @category   modelModules
  * @category   joosModule
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

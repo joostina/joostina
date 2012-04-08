@@ -4,9 +4,8 @@
  * Работа с ссылками и роутингом
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage Session
+ * @package    Core\Libraries
+ * @subpackage Route
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -76,7 +75,7 @@ class joosRoute extends Route {
 	public static function href($route_name, array $params = array()) {
 		return JPATH_SITE . '/' . self::get($route_name)->uri($params);
 	}
-    
+
 	/**
 	 * Систменый автоматический редирект
 	 *
@@ -127,7 +126,7 @@ class joosRoute extends Route {
     public static function get_current_url() {
         return self::$current_url;
     }
-    
+
 }
 
 /**

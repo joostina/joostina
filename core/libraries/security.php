@@ -4,9 +4,8 @@
  * Работа с проверками на безопасность
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage Session
+ * @package    Core\Libraries
+ * @subpackage Security
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

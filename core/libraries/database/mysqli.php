@@ -1,16 +1,12 @@
-<?php
-
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * Библиотека работы с базой данных Mysql через Mysqli
  * Системная библиотека
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosDatabase
+ * @package    Core\Libraries
+ * @subpackage Database\Drivers
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -739,7 +735,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
  * Библиотека утилитарных функций работы с базой данных
  *
  * @version    1.0
- * @package    Libraries
+ * @package    Core\Libraries
  * @subpackage Libraries
  * @subpackage joosDatabase
  * @author     Joostina Team <info@joostina.ru>

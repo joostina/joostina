@@ -4,8 +4,8 @@
  * Работа с "хлебными крошками"
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Breadcrumbs
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

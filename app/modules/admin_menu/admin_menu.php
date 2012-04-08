@@ -8,7 +8,7 @@ defined( '_JOOS_CORE' ) or die();
  * Модуль панели управления
  *
  * @version   1.0
- * @package   Modules
+ * @package   Core\Modules
  * @author    Joostina Team <info@joostina.ru>
  * @copyright (C) 2007-2012 Joostina Team
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php

@@ -4,9 +4,8 @@
  * Работа с изображениями
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosImage
+ * @package    Core\Libraries
+ * @subpackage Image
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -101,9 +100,8 @@ define('THUMBNAIL_ALIGN_BOTTOM', +1);
  * Работа с изображениями
  *
  * @version     1.0
- * @package     Libraries
- * @subpackage  Libraries
- * @subpackage  joosImage
+ * @package    Core\Libraries
+ * @subpackage Image
  * @author      Joostina Team <info@joostina.ru>
  * @copyright   (C) 2007-2012 Joostina Team
  * @license     MIT License http://www.opensource.org/licenses/mit-license.php
@@ -396,7 +394,7 @@ class Thumbnail {
 		} else {
 			$result = imagecopyresized($targetImage, $sourceImage, 0, 0, $X, $Y, $width, $height, $W, $H);
 		}
-        
+
 		if (!$result) {
 
 			throw new joosImageLibrariesException('Cannot resize image', E_USER_NOTICE);

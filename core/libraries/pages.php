@@ -4,8 +4,8 @@
  * Библиотека работы со страницами системных сообщений
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Pages
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -17,7 +17,7 @@ class joosPages {
 
     /**
      * Инициализация задачи
-     * 
+     *
      * @static
      * @param $code
      */
@@ -30,7 +30,7 @@ class joosPages {
 
     /**
      * Подключение шаблона страницы и завершение работы системы
-     * 
+     *
      * @static
      * @param $message
      * @param $page
@@ -42,7 +42,7 @@ class joosPages {
 
     /**
      * 404 страница - не найдено
-     * 
+     *
      * @static
      * @param string $message тест сообщения
      */
@@ -95,7 +95,7 @@ class joosPages {
      * @param string $message тест сообщения
      */
     public static function error_user( $message = 'Ошибка' ) {
-        
+
         self::init( 500 );
         self::render($message,'error_user');
     }

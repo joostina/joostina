@@ -4,10 +4,8 @@
  * Работа с вложенными категориями и деревьями в базе данных
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosModel
- * @subpackage joosDatabase
+ * @package    Core\Libraries
+ * @subpackage Nestedset
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

@@ -4,11 +4,9 @@
  * Библиотека генерации случайных данных
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Randomizer
  * @category   Libraries
- * @category   modelModules
- * @category   joosModule
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -19,10 +17,10 @@ class joosRandomizer {
 
 	/**
 	 * Генерация уникального хеша определённой длины
-     * 
+     *
 	 * @param int $length длина символов хеша
 	 * @param string $symbols список символов, разрешённых в хеше
-     * 
+     *
 	 * @return string
 	 */
 	public static function hash($length = 6, $symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") {

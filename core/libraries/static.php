@@ -1,10 +1,18 @@
 <?php defined('_JOOS_CORE') or die();
 
 /**
- * 
  * Класс работы со статичными данными внутри приложения
  *
- */
+ * @version    1.0
+ * @package    Core\Libraries
+ * @subpackage Static
+ * @category   Libraries
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class joosStatic {
 
 	/**

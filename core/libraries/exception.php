@@ -4,8 +4,8 @@
  * Обработка исключений
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Exception
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -24,7 +24,7 @@ class joosException extends Exception {
 	public function __construct($message = '', array $params = array()) {
 
         joosRequest::send_headers_by_code(500);
-        
+
 		parent::__construct(strtr($message, $params));
 
 		if (isset($params[':error_file'])) {

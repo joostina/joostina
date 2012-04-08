@@ -4,8 +4,7 @@
  * Работа с сессиями
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
  * @subpackage Session
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
@@ -57,15 +56,15 @@ class joosSession {
 
     /**
      * Получение уникального ключа для значения пользовательской сессии
-     * 
+     *
      * @static
      * @param null $hash_key
      * @return string
-     * 
+     *
      * @todo добавить возможность работы через прокси, когда у пользователя меняется конечный IP, но единый IP прокси
      */
 	public static function session_cookie_value($hash_key = null) {
-                
+
         $user_ip = joosRequest::user_ip();
         $user_browser = joosRequest::server('HTTP_USER_AGENT','none');
 

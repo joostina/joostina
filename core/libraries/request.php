@@ -4,8 +4,8 @@
  * Библиотека работы со входящими пользовательскими данными и информацией
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Request
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -259,14 +259,14 @@ class joosRequest {
 
     /**
      * Отправка HTTP заголовков
-     * 
+     *
      * @static
      * @param $code_string
      */
-    public static function send_headers($code_string){ 
+    public static function send_headers($code_string){
         header($code_string);
     }
-    
+
 	/**
 	 * Установка кода HTTP ответа в заголовок страницы
 	 *
@@ -331,10 +331,10 @@ class joosRequest {
 
 		// проверяем наличие кода ошибки
 		if(isset($code_array[$code_num])){
-            
+
             $code_message = $code_array[$code_num];
         }else{
-            
+
             throw new joosException('Код :code не поддерживается протоколом HTTP', array(':code'=>$code_num) );
         }
 
@@ -346,7 +346,7 @@ class joosRequest {
         }
 
         $code_string = sprintf('%s %s %s',$protocol, $code_num, $code_message);
-        
+
         self::send_headers($code_string);
     }
 

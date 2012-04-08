@@ -4,8 +4,7 @@
  * Работа с параметрами
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
  * @subpackage Params
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>

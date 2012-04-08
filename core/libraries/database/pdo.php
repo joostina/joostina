@@ -1,14 +1,12 @@
-<?php
-defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * joosDatabase - Библиотека работы с базой данных MySQL через PDO
  * Системная библиотека
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
- * @subpackage joosDatabase
+ * @package    Core\Libraries
+ * @subpackage Database\Drivers
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

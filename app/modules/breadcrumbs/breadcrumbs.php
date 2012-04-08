@@ -5,7 +5,7 @@
  *
  * @version    1.0
  * @package    Joostina CMS
- * @subpackage modelModules
+ * @package   Core\Modules
  * @author     JoostinaTeam
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    see license.txt
