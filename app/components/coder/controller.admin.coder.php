@@ -33,17 +33,16 @@ class actionsAdminCoder  extends joosAdminController{
 		'db_faker' => array(
             'name' => 'Генератор тестовых данных',
 			'href' => 'index2.php?option=coder&task=faker',
+            'model' => 'modelAdminCoder_Faker',
 			'active' => false
 		),
 	);
 
 	public static function action_before() {
-
 		joosDocument::instance()
             ->add_css( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.css' )
             ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.js' )
 		    ->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
-
         joosAdminView::set_param( 'component_title' ,  'Кодер');
 	}
 
@@ -53,44 +52,15 @@ class actionsAdminCoder  extends joosAdminController{
 
 
 	public static function index() {
-
-		//Установка подменю
 		self::$submenu['default']['active'] = true;
-
         $tables = joosDatabase::instance()->get_utils()->get_table_list();
-
         return array('tables' => $tables);
-
 	}
 
 	public static function faker($option) {
-		//Установка подменю
 		self::$submenu['db_faker']['active'] = true;
-
-		echo joosAutoadmin::header('Кодер', self::$submenu['db_faker']['name']);
-
-
-		$rets = array();
-		$rets[] = '<table class="adminlist"><tbody><tr><th>Таблицы</th><th>Правила заполнения</th></tr></tbody><tr>';
-		$rets[] = '<td width="200" valign="top">';
-
-		$rets[] = forms::open('#', array('id' => 'faker_form'));
-		$tables = joosDatabase::instance()->get_utils()->get_table_list();
-		foreach ($tables as $value) {
-			$el_id = 'table_' . $value;
-			$rets[] = forms::radio('fakertable[]', $value, false, 'id="' . $el_id . '" ');
-			$rets[] = forms::label($el_id, $value);
-			$rets[] = '<br />';
-		}
-		$rets[] = forms::close();
-		$rets[] = '</td><td valign="top">';
-		$rets[] = '<div id="faker_results" /></div>';
-		$rets[] = '</td>';
-		$rets[] = '</tr></table>';
-
-		echo implode("\n", $rets);
-
-		echo joosAutoadmin::footer();
+        $tables = joosDatabase::instance()->get_utils()->get_table_list();
+        return array('tables' => $tables);
 	}
 
 	public static function componenter($option) {

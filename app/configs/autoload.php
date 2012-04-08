@@ -8,4 +8,5 @@
  */
 return array(
 	'class_name' => 'app/class.name.php',
+    'modelAdminCoder_Faker' => 'app/components/coder/models/model.admin.coder.php',
 );

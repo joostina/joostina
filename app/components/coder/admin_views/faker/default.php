@@ -23,11 +23,11 @@ defined('_JOOS_CORE') or die();
         <div class="span4">
             <h3>Таблицы</h3>
             <div class="well">
-                <form action="/" id="coder_form" class="form-horizontal">
+                <form action="/" id="faker_form" class="form-horizontal">
                     <?php foreach($tables as $table):?>
                         <div class="control-group">
-                            <label class="checkbox">
-                                <input type="checkbox" value="<?php echo $table ?>" name="codertable[]">
+                            <label class="radio">
+                                <input type="radio" value="<?php echo $table ?>" name="fakertable[]">
                                 <?php echo $table ?>
                             </label>
                         </div>
@@ -37,12 +37,11 @@ defined('_JOOS_CORE') or die();
         </div>
 
         <div class="span8">
-            <h3>Код моделей</h3>
-            <div id="coder_results"></div>
+            <h3>Правила заполнения</h3>
+            <div id="faker_results"></div>
         </div>
 
     </div>
 </section>
 
-<?php
-
+    

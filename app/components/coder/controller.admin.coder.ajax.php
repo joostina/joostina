@@ -28,48 +28,70 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 			$ret[] = modelAdminCoder::get_model($table, self::$implode_model);
 		}
 
-		$body = self::$implode_model ? forms::textarea(
-				array('name' => 'all_models',
-					'value' => implode('', $ret),
-					'rows' => '25',
-					'class' => 'coder_model_area')
-				) : implode("\n", $ret);
+		$body = self::$implode_model ? implode('', $ret) : implode("\n\n\n", $ret);
 
 		return array(
 			'success'=>true,
-			'body'=>'<pre>' . implode("\n", $ret) . '</pre>'
+			'body'=>'<pre>' . $body . '</pre>'
 		);
 	}
 
 	public static function table_select() {
+
 		$table = joosRequest::post('table');
 
 		$types = modelAdminCoder_Faker::$data_types;
 		$type_names = array();
 
 		array_walk($types, function( $v, $k ) use ( &$type_names ) {
-					$type_names[$k] = $v['name'];
-				});
+	        $type_names[$k] = $v['name'];
+		});
 
 		$table_fields = joosDatabase::instance()->get_utils()->get_table_fields($table);
 
-		$ret = array();
-		$ret[] = '<table valign="top"><tr><th>Поле<th><th>Заполнить<th></tr>';
-		foreach ($table_fields as $key => $value) {
-			$type = preg_replace('#[^A-Z]#i', '', $value);
-			$type = str_replace('unsigned', '', $type);
-			$active_option = null;
+        ob_start();
+        ?>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Поле</th>
+                        <th>Тип</th>
+                        <th>Чем заполнить</th>
+                    </tr>
+                </thead>
 
-			array_walk($types, function( $v, $k ) use ( $type, &$active_option ) {
-						$active_option = ( in_array($type, $v['types']) && $active_option === null ) ? $k : $active_option;
-					});
+                <tbody>
+                    <?php $i = 1; foreach ($table_fields as $key => $value) :?>
+                        <?php
 
-			$faker_selector = forms::dropdown('type', $type_names, $active_option);
-			$ret[] = sprintf('<tr><td>%s <small>(%s)</small></td><td>%s</td></tr>', $key, $type, $faker_selector);
-		}
-		$ret[] = '</table>';
+                        $type = preg_replace('#[^A-Z]#i', '', $value);
+                        $type = str_replace('unsigned', '', $type);
+                        $active_option = null;
 
-		return implode('', $ret);
+                        array_walk($types, function($v, $k) use ($type, &$active_option) {
+                            $active_option = (in_array($type, $v['types']) && $active_option === null) ? $k : $active_option;
+                        });
+
+                        $faker_selector = forms::dropdown('type', $type_names, $active_option);
+                        ?>
+                    <tr>
+                        <td><?php echo $i;?></td>
+                        <td><?php echo $key ?></td>
+                        <td><?php echo $type ?></td>
+                        <td><?php echo $faker_selector ?></td>
+                    </tr>
+
+                    <?php ++$i; endforeach;?>
+                </tbody>
+            </table>
+        <?php
+
+
+        $return = ob_get_contents();
+        ob_get_clean();
+
+		return $return;
 	}
 
 	public static function generate_code() {
