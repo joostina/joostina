@@ -612,16 +612,12 @@ class joosModel {
 	}
 
 	/**
-	 * @todo прередалать на set_state
-	 *
 	 * @param array $cid
-	 * @param type  $publish
+	 * @param type  $state
 	 *
 	 * @return type
 	 */
-	function publish(array $cid = null, $publish = 1) {
-
-		joosCore::array_to_ints($cid, array());
+	function set_state_group(array $cid = null, $state = 1) {
 
 		if (count($cid) < 1) {
 			$this->_error = __('Ничего не было выбрано');
@@ -630,7 +626,7 @@ class joosModel {
 
 		$cids = $this->_tbl_key . '=' . implode(' OR ' . $this->_tbl_key . '=', $cid);
 
-		$query = "UPDATE $this->_tbl SET published = " . (int) $publish . " WHERE ($cids)";
+		$query = "UPDATE $this->_tbl SET state = " . (int) $state . " WHERE ($cids)";
 
 		if (!$this->_db->set_query($query)->query()) {
 			return false;

@@ -495,6 +495,30 @@ class joosAdminController{
         $obj_data =  joosAutoadmin::get_active_model_obj();
         $obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка удаления');
     }
+
+    public static function publish(){
+        self::publish_unpublish(1);
+    }
+
+    public static function unpublish(){
+        self::publish_unpublish(0);
+    }
+
+    /**
+     * Смена статуса (поля 'state')
+     */
+    public static function publish_unpublish($state = 1){
+
+        joosCSRF::check_code();
+
+        $cid = (array) joosRequest::array_param('cid');
+        $option = joosRequest::param('option');
+
+        $obj_data =  joosAutoadmin::get_active_model_obj();
+        $obj_data->set_state_group($cid, $state)
+                ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Выполнено успешно')
+                : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка смены статуса');
+    }
     
 }
 
@@ -516,7 +540,7 @@ class joosAdminControllerAjax extends joosAdminController{
         $obj_model = joosRequest::post('obj_model');
 
         if (!$obj_model || !class_exists($obj_model)) {
-            return false;
+            return array('type' => 'error');
         }
 
         $new_state = ($obj_state == 1 ? 0 : 1);
