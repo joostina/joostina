@@ -4,12 +4,12 @@
 defined('_JOOS_CORE') or die();
 
 /**
- * modelAdminCoder - Модель компонента управляемой генерации расширений системы
+ * Модель компонента управляемой генерации расширений системы
  * Модель панели управления
  *
  * @version    1.0
- * @package    Models
- * @subpackage Coder
+ * @package    Components\Coder
+ * @subpackage Models\Admin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php

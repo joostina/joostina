@@ -7,8 +7,8 @@ defined('_JOOS_CORE') or die();
  * modelUsers - Модель пользователей
  * Модель для работы сайта
  *
- * @package Models
- * @subpackage Users
+ * @package    Components\Users
+ * @subpackage Models\Site
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -379,8 +379,8 @@ class modelUsers extends joosModel {
  * Модель для работы сайта
  *
  * @version    1.0
- * @package    Models
- * @subpackage Users
+ * @package    Components\Users
+ * @subpackage Models\Site
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -442,8 +442,9 @@ class modelUsersExtra extends joosModel {
 
 /**
  * Class UsersSession
- * @package    Models
- * @subpackage Users
+ * 
+ * @package    Components\Users
+ * @subpackage Models\Site
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php
@@ -525,8 +526,9 @@ class modelUsersSession extends joosModel {
 
 /**
  * Class UsersTokens
- * @package Models
- * @subpackage Users
+ * 
+ * @package    Components\Users
+ * @subpackage Models\Site
  * @author JoostinaTeam
  * @copyright (C) 2007-2012 Joostina Team
  * @license MIT License http://www.opensource.org/licenses/mit-license.php

@@ -1,4 +1,4 @@
-source: ./../../app/components/news/
+source: ./../../
 
 destination: ./files/
 

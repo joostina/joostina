@@ -8,8 +8,8 @@ defined('_JOOS_CORE') or die();
  * Контроллер панели управления
  *
  * @version    1.0
- * @package    Controllers
- * @subpackage Users
+ * @package    Components\Users
+ * @subpackage Controllers\Admin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php

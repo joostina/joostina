@@ -3,6 +3,18 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
+/**
+ * Модель панели управления распределения прав
+ *
+ * @version    1.0
+ * @package    Components\Acls
+ * @subpackage Models\Admin
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class modelAdminUsersAclGroups extends modelUsersAclGroups {
 
 	public function get_fieldinfo() {
@@ -69,6 +81,18 @@ class modelAdminUsersAclGroups extends modelUsersAclGroups {
 
 }
 
+/**
+ * Модель панели управления распределения прав
+ *
+ * @version    1.0
+ * @package    Components\Acls
+ * @subpackage Models\Admin
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class modelAdminUsersAclRules extends modelUsersAclRules {
 
 	public function get_fieldinfo() {

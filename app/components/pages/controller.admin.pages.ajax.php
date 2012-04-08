@@ -5,8 +5,8 @@
  * Аякс-контроллер
  *
  * @version    1.0
- * @package    Controllers
- * @subpackage Pages
+ * @package    Components\Pages
+ * @subpackage Controllers\Admin
  * @author     JoostinaTeam
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
