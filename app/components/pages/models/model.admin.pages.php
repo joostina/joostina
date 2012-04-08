@@ -87,13 +87,14 @@ class modelAdminPages extends modelPages {
 	}
 
 	public function get_tabsinfo() {
-		return array('first' => array(
+		return array(
+            'first' => array(
 				'title' => 'Основное',
 				'fields' => array('title', 'created_at', 'state', 'slug', 'text')
 			),
 			'second' => array(
-				'title' => 'Метаданные',
-				'fields' => array('metainfo')
+				'title' => 'Вторая вкладка',
+				'fields' => array('text')
 			)
 		);
 	}

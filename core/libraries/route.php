@@ -79,29 +79,21 @@ class joosRoute extends Route {
 	public static function href($route_name, array $params = array()) {
 		return JPATH_SITE . '/' . self::get($route_name)->uri($params);
 	}
-
-	/**
-	 * Получение текущий ссылки ( в адресной сроке браузера )
-	 *
-	 * @return string
-	 */
-	public static function current_url() {
-		return self::$current_url;
-	}
-
+    
 	/**
 	 * Систменый автоматический редирект
 	 *
 	 * @param string $url ссылка, на которую надо перейти
 	 * @param string $msg текст сообщения, отображаемый после перехода
 	 * @param string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
-	 */
+     * @return void
+     */
 	public static function redirect($url, $msg = '', $type = 'success') {
 
 		$iFilter = joosInputFilter::instance();
 		$url = $iFilter->process($url);
 
-		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg));
+		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg),$type);
 
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
@@ -130,6 +122,15 @@ class joosRoute extends Route {
 		return joosController::$activroute;
 	}
 
+    /**
+     * Получение текущий ссылки ( в адресной сроке браузера )
+     *
+     * @return string
+     */
+    public static function get_current_url() {
+        return self::$current_url;
+    }
+    
 }
 
 /**

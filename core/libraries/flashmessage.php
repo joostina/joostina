@@ -27,7 +27,7 @@ class joosFlashMessage {
 	 *
 	 * @return void
 	 */
-	public static function add($msg) {
+	public static function add($msg,$type='info') {
 		$msg = joosString::trim($msg);
 
 		if ($msg != '') {
