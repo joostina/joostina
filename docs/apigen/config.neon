@@ -6,7 +6,6 @@ exclude:
 	- */_install/*
 	- */_new/*
 	- */docs/*
-	- */logging/*
 
 
 title: Joostina CMS / CMF v2.* API

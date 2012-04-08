@@ -25,12 +25,12 @@ defined('_JOOS_CORE') or die();
             <div class="well">
                 <form action="/" id="coder_form" class="form-horizontal">
                     <?php foreach($tables as $table):?>
-                        <div class="control-group">
+                        <!--<div class="control-group">-->
                             <label class="checkbox">
                                 <input type="checkbox" value="<?php echo $table ?>" name="codertable[]">
                                 <?php echo $table ?>
                             </label>
-                        </div>
+                        <!--</div>-->
                     <?php endforeach;?>
                 </form>
             </div>
