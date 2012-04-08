@@ -589,6 +589,17 @@ class joosAdminControllerAjax extends joosAdminController{
         );
         echo '<a href="'.$upload_result['file'].'" class="redactor_file_link redactor_file_ico_'.$upload_result['file_info']['ext'].'">'.$upload_result['name'].'</a>';
     }
+
+    /**
+     * Смена статуса публикации объекта
+     * 
+     * @static
+     * @return bool
+     */
+    public static function status_change() {
+        return joosAutoadmin::autoajax();
+    }
+    
 }
 
 class joosAdminView {
