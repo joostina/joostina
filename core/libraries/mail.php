@@ -1,10 +1,7 @@
-<?php
-
-// запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с файлами
+ * Работа с файлами
  *
  * @version    1.0
  * @package    Libraries

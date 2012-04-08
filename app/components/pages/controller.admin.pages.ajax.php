@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * Компонент независимых страниц
@@ -12,9 +12,6 @@
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  *
  */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
-
 class actionsAjaxAdminPages extends joosAdminControllerAjax {
 
 	public static function status_change() {

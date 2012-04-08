@@ -1,7 +1,4 @@
-<?php
-
-// запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * modelAdminSitemap - Модель компонента управления картой сайта

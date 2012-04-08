@@ -1,7 +1,5 @@
-<?php
+<?php defined('_JOOS_CORE') or die();
 
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
 
 /**
  * modelPages - Модель независимымых страниц

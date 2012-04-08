@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * Ядро
@@ -9,8 +9,6 @@
  * @license   MIT License http://www.opensource.org/licenses/mit-license.php
  * Иинформация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  */
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
 
 /**
  * Короткий синоним разделителя каталогов

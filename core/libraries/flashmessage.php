@@ -1,10 +1,7 @@
-<?php
-
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с системными уведомлениями
+ * Работа с системными уведомлениями
  *
  * @version    1.0
  * @package    Libraries

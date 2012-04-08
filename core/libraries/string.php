@@ -1,10 +1,7 @@
-<?php
-
-// запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека работы со строками в правильной кодировке UTF-8
+ * Библиотека работы со строками в правильной кодировке UTF-8
  *
  * @version    1.0
  * @package    Libraries

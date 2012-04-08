@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * Обработка исключений

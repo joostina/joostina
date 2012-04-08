@@ -1,10 +1,7 @@
-<?php
-
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с ссылками и роутингом
+ * Работа с ссылками и роутингом
  *
  * @version    1.0
  * @package    Libraries

@@ -1,7 +1,4 @@
-<?php
-
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
  * joosModule - Общий класс работы с модулями ( на фронте )

@@ -1,10 +1,7 @@
-<?php
-
-// запрет прямого доступа
-defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
-  * Библиотека валидациии данных
+ * Библиотека валидациии данных
  *
  * @version    1.0
  * @package    Libraries

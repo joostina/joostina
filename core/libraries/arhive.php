@@ -1,14 +1,11 @@
-<?php
-
-// запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+<?php defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с архивами
+ * Работа с архивами
  *
  * @version    1.0
- * @package    Libraries
- * @subpackage Libraries
+ * @package    Core\Libraries
+ * @subpackage Arhive
  * @category   Libraries
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

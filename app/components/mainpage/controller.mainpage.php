@@ -1,7 +1,5 @@
-<?php
+<?php defined('_JOOS_CORE') or die();
 
-// запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
 
 /**
  * Компонент - главная страница
