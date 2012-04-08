@@ -21,23 +21,8 @@ class joosDebug {
 	private static $instance;
 	/* стек сообщений лога */
 	private static $_log = array();
-	/* буфер сообщений лога */
-	private static $text = null;
 	/* счетчики */
 	private static $_inc = array();
-
-	/**
-	 * @var joosLogging
-	 */
-	private static $_logger = null;
-
-	/**
-	 * Массив внутренней конфигурации отладчика
-	 *
-	 * @var array
-	 */
-	private static $config = array('sort_inc_log' => true // сортировать лог счетчика по алфавиту
-	);
 
 	public static function instance() {
 		if (self::$instance === null) {
@@ -46,17 +31,7 @@ class joosDebug {
 		return self::$instance;
 	}
 
-	private function __clone() {
-
-	}
-
-	private static function getLogger() {
-		if (!self::$_logger) {
-			self::$_logger = joosLogging::instance('debug');
-		}
-
-		return self::$_logger;
-	}
+	private function __clone() {}
 
 	public static function log($str, array $params = array()) {
 		$value = strtr($str, $params);
@@ -64,8 +39,6 @@ class joosDebug {
 	}
 
 	public static function add($text, $top = 0) {
-		//self::getLogger()->debug($text);
-
 		$top ? array_unshift(self::$_log, $text) : self::$_log[] = $text;
 	}
 
@@ -81,34 +54,6 @@ class joosDebug {
 	}
 
 	public static function get() {
-
-		/*
-		  self::$text = '';
-
-		  /* счетчики
-		  self::$text .= '<ul class="debug_log listreset">';
-
-		  // TODO, тут можно отключать если
-		  self::$config['sort_inc_log'] ? ksort(self::$_inc) : null;
-
-		  foreach (self::$_inc as $key => $value) {
-		  self::$text .= '<li>INC: ' . $key . ': ' . $value . '</small>';
-		  }
-		  self::$text .= '</ul>';
-		  // выведем лог в более приятном отображении
-		  array_multisort(self::$_log);
-
-		  /* лог
-		  self::$text .= '<ul class="debug_log listreset">';
-		  foreach (self::$_log as $value) {
-		  self::$text .= '<li><small>LOG:</small> ' . $value . '</li>';
-		  }
-		  self::$text .= '</ul>';
-
-		  self::$text .= self::db_debug();
-
-		  //echo '<div id="jDebug">' . self::$text . '</div>';
-		 */
 
 		$f = '';
 
