@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $("pre").snippet("php",{style:"zellner"});
+
 	$('#coder_form input').live('click', function() {
 		
 		var $hhhh = $('#coder_form').serialize();
@@ -10,7 +12,10 @@ $(document).ready(function() {
 			dataType:'json',
 			data: $hhhh,
 			success:function(data) {
+
 				$("#coder_results").html(data.body);
+                $("pre").snippet("php",{style:"ide-codewarrior", clipboard:"/media/js/jquery.plugins/syntax/ZeroClipboard.swf"});
+
 			}
 		});
 

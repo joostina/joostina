@@ -18,17 +18,12 @@ defined('_JOOS_CORE') or die();
  * */
 class modelAdminCoder {
 
-	//Для вывода меню компонента
-	public static $_submenu = array(
-		'model' => array(
-			'title' => 'Генератор моделей',
-			'href' => 'index2.php?option=coder&task=model'
-		),
-		'module' => array(
-			'title' => 'Генератор модулей',
-			'href' => 'index2.php?option=coder&task=module'
-		)
-	);
+    public function get_tableinfo() {
+        return array(
+            'header_main'=>'Кодер'
+        );
+    }
+
 
 	public static function get_model($table, $implode_models = false) {
 

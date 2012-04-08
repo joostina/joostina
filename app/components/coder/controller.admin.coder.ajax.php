@@ -37,7 +37,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 
 		return array(
 			'success'=>true,
-			'body'=>$body
+			'body'=>'<pre>' . implode("\n", $ret) . '</pre>'
 		);
 	}
 

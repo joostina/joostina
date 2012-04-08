@@ -18,57 +18,49 @@ defined('_JOOS_CORE') or die();
 class actionsAdminCoder  extends joosAdminController{
 
 	public static $submenu = array(
-		'model_generator' =>
-		array('name' => 'Генератор моделей',
-			'href' => 'index2.php?option=coder',
-			'active' => false
-		),
-		'component_generator' =>
-		array('name' => 'Генератор компонента',
+        'default' => array(
+            'name' => 'Генератор моделей',
+            'model' => 'modelAdminCoder',
+            'active' => false
+        ),
+
+		'component_generator' => array(
+            'name' => 'Генератор компонента',
 			'href' => 'index2.php?option=coder&task=componenter',
 			'active' => false
 		),
-		'db_faker' =>
-		array('name' => 'Генератор тестовых данных',
+
+		'db_faker' => array(
+            'name' => 'Генератор тестовых данных',
 			'href' => 'index2.php?option=coder&task=faker',
 			'active' => false
 		),
 	);
 
 	public static function action_before() {
+
 		joosDocument::instance()
-				->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
+            ->add_css( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.css' )
+            ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.js' )
+		    ->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
+
+        joosAdminView::set_param( 'component_title' ,  'Кодер');
 	}
+
+    public static function action_after() {
+        joosAdminView::set_param('submenu', self::get_submenu() );
+    }
+
 
 	public static function index() {
 
 		//Установка подменю
-		self::$submenu['model_generator']['active'] = true;
+		self::$submenu['default']['active'] = true;
 
-		echo joosAutoadmin::header('Кодер', self::$submenu['model_generator']['name']);
+        $tables = joosDatabase::instance()->get_utils()->get_table_list();
 
+        return array('tables' => $tables);
 
-		$rets = array();
-		$rets[] = '<table class="adminlist"><tbody><tr><th>Таблицы</th><th>Код моделей</th></tr></tbody><tr>';
-		$rets[] = '<td width="200" valign="top">';
-
-		$rets[] = forms::open('#', array('id' => 'coder_form'));
-		$tables = joosDatabase::instance()->get_utils()->get_table_list();
-		foreach ($tables as $value) {
-			$el_id = 'table_' . $value;
-			$rets[] = forms::checkbox('codertable[]', $value, false, 'id="' . $el_id . '" ');
-			$rets[] = forms::label($el_id, $value);
-			$rets[] = '<br />';
-		}
-		$rets[] = forms::close();
-		$rets[] = '</td><td valign="top">';
-		$rets[] = '<div id="coder_results" /></div>';
-		$rets[] = '</td>';
-		$rets[] = '</tr></table>';
-
-		echo implode("\n", $rets);
-
-		echo joosAutoadmin::footer();
 	}
 
 	public static function faker($option) {
