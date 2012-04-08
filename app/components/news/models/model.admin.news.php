@@ -5,7 +5,7 @@
  * Модель панели управления компонента управления новостями
  *
  * @version    1.0
- * @package    News
+ * @package    Components\News
  * @subpackage Models\Admin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -21,7 +21,7 @@ class modelAdminNews extends modelNews {
  * Модель панели управления компонента управления типами новостей
  *
  * @version    1.0
- * @package    News
+ * @package    Components\News
  * @subpackage Models\Admin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

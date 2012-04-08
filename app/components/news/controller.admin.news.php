@@ -5,7 +5,7 @@
  * Контроллер панели управления
  *
  * @version    1.0
- * @package    News
+ * @package    Components\News
  * @subpackage Controllers\Admin
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
@@ -24,7 +24,7 @@ class actionsAdminNews extends joosAdminController{
 		),
         'news_types' => array(
             'name' => 'Типы новостей',
-            'model' => 'modelAdminUNewsTypes',
+            'model' => 'modelAdminNewsTypes',
             'fields' => array('title'),
             'active' => false
         ),
@@ -35,7 +35,7 @@ class actionsAdminNews extends joosAdminController{
         parent::action_before();
         
         joosDocument::instance()
-            ->add_js_file( JPATH_SITE . '/app/components/users/media/js/admin.news.js' );
+            ->add_js_file( JPATH_SITE . '/app/components/news/media/js/admin.news.js' );
         
     }
     

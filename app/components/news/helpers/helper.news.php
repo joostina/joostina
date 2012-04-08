@@ -4,7 +4,7 @@
  * Подсобный класс управления общих функций и методов для компонента новостей
  *
  * @version    1.0
- * @package    News
+ * @package    Components\News
  * @subpackage Helpers
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team

@@ -4,7 +4,7 @@
  * Компонент новостей - шаблон панели управления для просомтра информации о компоненте ( task=info )
  *
  * @version    1.0
- * @package    News
+ * @package    Components\News
  * @subpackage Views\Admin
  * @copyright Авторские права (C) 2007-2010 Joostina team. Все права защищены.
  * @license   Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php

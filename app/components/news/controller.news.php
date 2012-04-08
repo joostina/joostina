@@ -5,8 +5,8 @@
  * Контроллер сайта
  *
  * @version    1.0
- * @package    News
- * @subpackage Controllers
+ * @package    Components\News
+ * @subpackage Controllers\Site
  * @author     Joostina Team <info@joostina.ru>
  * @copyright  (C) 2007-2012 Joostina Team
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
@@ -19,6 +19,10 @@ class actionsNews extends joosController {
 
         joosBreadcrumbs::instance()
             ->add('Новости');
+
+        joosDocument::instance()
+            ->add_js_file( JPATH_SITE . '/app/components/news/media/js/news.js' );
+        
     }
 
     /**
