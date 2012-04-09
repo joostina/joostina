@@ -78,9 +78,6 @@ class joosCache {
 
 	public function __destruct() {
 		$this->save();
-		if ($this->type == 'memcache') {
-			$this->data_store->close();
-		}
 	}
 
 	public function add($key, $value, $ttl = 0) {
