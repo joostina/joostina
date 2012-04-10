@@ -25,64 +25,15 @@ class joosAutoloader {
 	 *
 	 * @var array
 	 */
-	private static $_static_files = array(// проверенные библиотеки
-		'joosArray' => 'core/libraries/array.php',
-		'joosAttached' => 'core/libraries/attached.php',
-		'joosBenchmark' => 'core/libraries/benchmark.php',
-		'joosBreadcrumbs' => 'core/libraries/breadcrumbs.php',
-		'joosCache' => 'core/libraries/cache.php',
-		'joosConfig' => 'core/libraries/config.php',
-		'joosDatabase' => 'core/libraries/database.php',
-		'joosModel' => 'core/libraries/database.php',
-		'joosDateTime' => 'core/libraries/datetime.php',
-		'joosDebug' => 'core/libraries/debug.php',
-		'joosEditor' => 'core/libraries/editor.php',
-		'joosEvents' => 'core/libraries/events.php',
-		'joosFile' => 'core/libraries/file.php',
-		'joosFilter' => 'core/libraries/filter.php',
-		'joosFlashMessage' => 'core/libraries/flashmessage.php',
-		'joosHit' => 'core/libraries/hit.php',
-		'joosHTML' => 'core/libraries/html.php',
-		'joosImage' => 'core/libraries/image.php',
-		'joosInflector' => 'core/libraries/inflector.php',
-		'joosInputFilter' => 'core/libraries/inputfilter.php',
-		'joosAutoadmin' => 'core/libraries/autoadmin.php',
-		'joosNestedSet' => 'core/libraries/nestedset.php',
-		'joosPager' => 'core/libraries/pager.php',
-		'joosParams' => 'core/libraries/params.php',
-		'joosRandomizer' => 'core/libraries/randomizer.php',
-		'joosRequest' => 'core/libraries/request.php',
-		'joosRoute' => 'core/libraries/route.php',
-		'joosSession' => 'core/libraries/session.php',
-		'joosSpoof' => 'core/libraries/spoof.php',
-		'joosString' => 'core/libraries/string.php',
-		'joosText' => 'core/libraries/text.php',
-		'joosTrash' => 'core/libraries/trash.php',
-		'joosValidate' => 'core/libraries/validate.php',
-		'joosValidateHelper' => 'core/libraries/validate.php',
-		'joosVersion' => 'core/libraries/version.php',
-		'joosLogging' => 'app/vendors/logging/logging.php',
-        
-        'modelUsersAclGroups' => 'app/components/acls/models/model.acls.php',
-        'modelAdminUsersAclGroups'=>'app/components/acls/models/model.admin.acls.php',
-        'modelUsersAclRolesGroups'=>'app/components/acls/models/model.admin.acls.php',
-        'modelAdminUsersAclRules'=>'app/components/acls/models/model.admin.acls.php',
-        'helperAcl'=> 'app/components/acls/models/model.acls.php',
-        
-        // Это старьё, надо переписать либо удалить
-		'htmlTabs' => 'core/libraries/html.php',
-		'forms' => 'app/vendors/forms/forms.php',
-		// Библиотеки сторонних вендоров
-		'JJevix' => 'app/vendors/text/jevix/jevix.php',
-		// пока не адаптированные библиотеки
-		'Thumbnail' => 'core/libraries/image.php',
+	private static $static_files = array(// проверенные библиотеки
+		
 	);
-	private static $_debug = true;
 
 	public static function init() {
-		$app_autoload_files = require_once JPATH_APP_CONFIG . DS . 'autoload.php';
+        
+		$app_autoload_files = require_once JPATH_APP_CONFIG . '/autoload.php';
 
-		self::$_static_files = array_merge($app_autoload_files, self::$_static_files);
+		self::$static_files = array_merge($app_autoload_files, self::$static_files);
 
 		spl_autoload_register(array(new self, 'autoload'));
 	}
@@ -94,8 +45,8 @@ class joosAutoloader {
 	public static function autoload($class) {
 
 		// первый шаг - ищем класс в жестко прописанных параметрах
-		if (isset(self::$_static_files[$class])) {
-			$file = JPATH_BASE . DS . self::$_static_files[$class];
+		if (isset(self::$static_files[$class])) {
+			$file = JPATH_BASE . DS . self::$static_files[$class];
 		} else {
 			$file = JPATH_BASE . DS . self::get_class_dinamic_path($class);
 		}
@@ -112,7 +63,8 @@ class joosAutoloader {
 			
 			throw new joosAutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
 		}
-		!self::$_debug ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
+        
+		//!JDEBUG ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
 
 		unset($file);
 	}

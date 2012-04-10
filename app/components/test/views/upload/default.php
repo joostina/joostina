@@ -9,25 +9,4 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-?>
-
-<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.iframe-transport.js"></script>
-<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.fileupload.js"></script>
-
-
-<input id="fileupload" type="file" name="file" multiple>
-
-<script>
-	$(function () {
-		$('#fileupload').fileupload({
-			dataType: 'json',
-			url: 'ajax.index.php?option=site&task=upload',
-			done: function (e, data) {
-				$.each(data.result, function (index, file) {
-					$('<p/>').text(file.name).appendTo(document.body);
-				});
-			}
-		});
-	});
-</script>
+require JPATH_APP.'/components/site/blocks/upload_form.php';

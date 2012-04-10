@@ -2,11 +2,39 @@
 
 class joosUpload {
 
-	public static function upload_form() {
 
-	}
+    private static $upload_rules;
+    private static $active_rules_name;
 
-	/**
+    public static function init( ){
+        if( self::$upload_rules === null ){
+            self::$upload_rules = require JPATH_APP_CONFIG.'/uploads.php';
+        }
+    }
+
+    public static function set_active_rules_name( $rules_name ){
+        return self::$active_rules_name = $rules_name;
+    }
+
+
+    public static function get_active_rules_name(){
+        return self::$active_rules_name;
+    }
+
+    public static function get_input_name(){
+        return self::$active_rules_name;
+    }
+
+    public static function get_class(){
+        $active_rules = self::$upload_rules[self::$active_rules_name];
+        return (isset($active_rules['style']) && isset( $active_rules['style']['class'])) ? $active_rules['style']['class'] : '';
+    }
+
+    public static function get_upload_url(){
+        return 'ajax.index.php?option=site&task=upload';
+    }
+
+    /**
 	 * Упрощённая процедура загрузки файла
 	 * @param string $element_name название элемента массива $_FILES для загрузки
 	 * @param string $upload_location каталог размещения загруженного файла
@@ -30,6 +58,11 @@ class joosUpload {
 
         //директория загрузки
 		$upload_location = rtrim($upload_location, '/');
+        
+        if( !joosFolder::is_writable($upload_location) ){
+            throw new joosUploadLibrariesException('Каталог :upload_location недоступен для создания подкаталогов и записи', array(':upload_location'=>$upload_location) );
+        }
+        
         //если её нет, создаём
         is_dir($upload_location) ? null : mkdir($upload_location, 0755, true);
 
@@ -231,5 +264,12 @@ class ValumsfileUploader {
 
 		return array('file' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . File::makefilename($id), 'filelocation' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . File::makefilename($id), 'file_id' => $id);
 	}
+
+}
+
+/**
+ * Обработчик ошибок для библиотеки joosUpload
+ */
+class joosUploadLibrariesException extends joosException {
 
 }

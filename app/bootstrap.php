@@ -37,7 +37,7 @@ DEFINE('JPATH_SITE', joosConfig::get('live_site'));
 DEFINE('JTEMPLATE', joosConfig::get('template'));
 
 // http корень текущего шаблона сайта
-DEFINE('JTEMPLATE_LIVE', sprintf('%s/%s/templates/%s/', JPATH_SITE, JPATH_APP, JTEMPLATE));
+DEFINE('JTEMPLATE_LIVE', sprintf('%s/%s/templates/%s', JPATH_SITE, JPATH_APP, JTEMPLATE));
 
 // физический корень текущего шаблона сайта
 DEFINE('JTEMPLATE_BASE', JPATH_BASE . DS . JPATH_APP . DS . 'templates' . DS . JTEMPLATE);

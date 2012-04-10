@@ -5,17 +5,22 @@
 		<?php echo joosDocument::head(); ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link href="<?php echo JTEMPLATE_LIVE ?>css/app.css" rel="stylesheet">
+		<link href="<?php echo JTEMPLATE_LIVE ?>/css/app.css" rel="stylesheet">
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
 		<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.js"></script>
-		<script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>js/lib/bootstrap.min.js"></script>
-        <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>js/lib/bootstrap-datepicker.js"></script>
+		<script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>/js/lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>/js/lib/bootstrap-datepicker.js"></script>
 
-        <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>js/app.js"></script>
+        <link rel="stylesheet" type="text/css" media="all" href="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.noty/jquery.noty.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.noty/noty_theme_default.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.noty/noty_theme_twitter.css" />
+        <script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.noty.js"></script>
+        
+        <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>/js/app.js"></script>
 
 	</head>
 

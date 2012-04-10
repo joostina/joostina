@@ -17,19 +17,21 @@ class actionsAjaxSite extends joosControllerAjax {
 
 	public static function upload() {
 
-		joosLoader::lib('upload', 'upload');
+        // активное правило загрузки для файла
+        $rules_name = joosRequest::post('rules_name');
 
-		$upload_result = joosUpload::easy_upload('file',  JPATH_BASE.'/cache/tmp/' );
+        joosUpload::init();
+        joosUpload::set_active_rules_name($rules_name);
+        
+		//joosLoader::lib('upload', 'upload');
 
-		joosDebug::dump($upload_result);
+		$upload_result = joosUpload::easy_upload($rules_name,  JPATH_BASE.'/cache/tmp/' );
 
-		require_once 'upload.class.php';
+		//joosDebug::dump($upload_result);
 
-		$upload_handler = new UploadHandler();
-		$upload_handler->post();
 
 		return array(
-			'success' => true
+			'success' => $upload_result
 		);
 	}
 
