@@ -8,8 +8,6 @@ defined('_JOOS_CORE') or die();
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 
-$cur_file_icons_path = joosConfig::get('admin_icons_path');
-
 joosDocument::instance()
     ->add_css(JPATH_SITE . '/app/templates/' . JTEMPLATE_ADMIN . '/media/css/app.css?ver=1')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.js', array('first' => true)) // jquery всегда первое!
@@ -17,8 +15,8 @@ joosDocument::instance()
     //->add_js_file(JPATH_SITE . '/media/js/jquery.ui/jquery-ui-1.8.7.custom.min.js')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.hotkeys.js')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tiptip.js')
-    ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.jeditable.js')
-    ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tablednd.js')
+    //->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.jeditable.js')
+    //->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tablednd.js')
     ->add_js_file(JPATH_SITE . '/app/templates/' . JTEMPLATE_ADMIN . '/media/js/app.administrator.js');
 
 joosDocument::instance()
@@ -57,7 +55,7 @@ joosDocument::$config['seotag'] = FALSE;
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Выйти <?php echo sprintf(__('@%s'), joosCore::user()->user_name) ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Редактировать профиль</a></li>
+                        <li><a href="index2.php?option=users&menu=my_profile_edit&task=my_profile_edit">Редактировать профиль</a></li>
                         <li class="divider"></li>
                         <li><a href="index2.php?option=logout">Выйти</a></li>
                     </ul>
@@ -80,7 +78,6 @@ joosDocument::$config['seotag'] = FALSE;
     <script type="text/javascript">
         var _live_site = '<?php echo JPATH_SITE; ?>';
         var _option = '<?php echo joosRequest::param('option'); ?>';
-        var image_path = '<?php echo $cur_file_icons_path ?>';
         var _cur_template = '<?php echo JTEMPLATE_ADMIN; ?>';
     </script>
     <?php echo joosDocument::javascript(); ?>

@@ -41,7 +41,7 @@ class joosAutoadmin {
 
 		$task = joosRequest::param('task', 'index');
 		$option = joosRequest::param('option','site');
-		$class = 'actionsAdmin' . ucfirst($option);
+        $class = 'actionsAdmin' . joosInflector::camelize($option);
 
 		self::$active_actions_class = $class;
 		self::$option = $option;

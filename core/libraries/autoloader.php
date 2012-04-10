@@ -123,7 +123,7 @@ class joosAutoloader {
 		// контроллеры панели управления
 		if (strpos($class, 'actionsAdmin', 0) === 0) {
 			$name = str_replace('actionsAdmin', '', $class);
-			$name = strtolower($name);
+            $name = joosInflector::underscore($name);
 			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
 
 			// аякс-контроллеры панели управления

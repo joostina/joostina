@@ -14,17 +14,23 @@
  *
  * */
 class actionsAdminUsers extends joosAdminController{
-    
-	/**
-	 * Подменю
-	 */
+
+    /**
+     * Подменю
+     */
     protected static $submenu = array(
-		'default' => array(
-			'name' => 'Все пользователи',
-			'model' => 'modelAdminUsers',
-			'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
-			'active' => false
-		),
+        'default' => array(
+            'name' => 'Все пользователи',
+            'model' => 'modelAdminUsers',
+            'fields' => array('id', 'user_name', 'lastvisit_date', 'state'),
+            'active' => false
+        ),
+        'my_profile_edit' => array(
+            'name' => 'Мой профиль',
+            'href' => 'index2.php?option=users&menu=my_profile_edit&task=my_profile_edit',
+            'model' => 'modelAdminUsers',
+            'active' => false
+        ),
         'user_groups' => array(
             'name' => 'Группы пользователей',
             'model' => 'modelAdminUsersAclGroups',
@@ -43,19 +49,34 @@ class actionsAdminUsers extends joosAdminController{
             'model' => false,
             'active' => false
         ),
-	);
+    );
 
     public static function action_before(){
         parent::action_before();
-        
+
         joosDocument::instance()
             ->add_js_file( JPATH_SITE . '/app/components/users/media/js/users.admin.js' );
-        
+
     }
-    
+
+    /**
+     * Редактирование своих пользовательстких данных
+     *
+     * @static
+     * @return array
+     */
+    public static function my_profile_edit() {
+
+        $current_user = joosCore::user();
+        $_GET['id'] = $current_user->id;
+
+
+        return parent::edit();
+    }
+
     /**
      * Вывод сводной таблицы расспределения и назначения прав
-     * 
+     *
      * @static
      * @return array
      */
@@ -73,7 +94,7 @@ class actionsAdminUsers extends joosAdminController{
         }
 
         $acl_groups = array_keys($acl_list);
-        
+
         //sort($acl_groups);
         //sort($acls);
 
@@ -84,7 +105,7 @@ class actionsAdminUsers extends joosAdminController{
         foreach ($acl_rules_array as $value) {
             $acl_rules[$value['group_id']][$value['list_id']] = true;
         }
-        
+
         return array(
             'groups' => $groups,
             'acl_groups' => $acl_groups,
@@ -138,5 +159,5 @@ class actionsAdminUsers extends joosAdminController{
 
         echo sprintf('Вставлено %s правил', count($classes));
     }
-    
+
 }
