@@ -1,7 +1,7 @@
 <?php defined('_JOOS_CORE') or die();
 
 /**
-  * Работа с вложениями, загрузками, аттачами
+ * Работа с вложениями, загрузками, аттачами
  *
  * @version    1.0
  * @package    Core\Libraries
@@ -15,78 +15,79 @@
  * */
 class joosAttached extends joosModel {
 
-	/**
-	 * @var int(11) unsigned
-	 */
-	public $id;
-	/**
-	 * @var timestamp
-	 */
-	public $created_at;
-	/**
-	 * @var int(11) unsigned
-	 */
-	public $user_id;
-	/**
-	 * @var varchar(200)
-	 */
-	public $file_name;
-	/**
-	 * @var varchar(25)
-	 */
-	public $file_ext;
-	/**
-	 * @var varchar(50)
-	 */
-	public $file_mime;
-	/**
-	 * @var int(11) unsigned
-	 */
-	public $file_size;
+    /**
+     * @var int(11) unsigned
+     */
+    public $id;
+    /**
+     * @var timestamp
+     */
+    public $created_at;
+    /**
+     * @var int(11) unsigned
+     */
+    public $user_id;
+    /**
+     * @var varchar(200)
+     */
+    public $file_name;
+    /**
+     * @var varchar(25)
+     */
+    public $file_ext;
+    /**
+     * @var varchar(50)
+     */
+    public $file_mime;
+    /**
+     * @var int(11) unsigned
+     */
+    public $file_size;
 
-	/*
-	 * Constructor
-	 */
-	function __construct() {
-		parent::__construct( '#__attached' , 'id' );
-	}
+    /*
+         * Constructor
+         */
+    function __construct() {
+        parent::__construct( '#__attached' , 'id' );
+    }
 
-	/**
-	 * Загрузка данных по номеру файла
-	 *
-	 * @param int $id - номер файла
-	 *
-	 * @return joosAttached
-	 */
-	public static function file( $id ) {
-		$file = new self;
-		$file->load( $id );
+    /**
+     * Загрузка данных по номеру файла
+     *
+     * @param int $id - номер файла
+     *
+     * @return joosAttached
+     */
+    public static function file( $id ) {
+        
+        $file = new self;
+        $file->load( $id );
 
-		return $file;
-	}
+        return $file;
+    }
 
-	/**
-	 * Добавление информации о файле в базу данных
-	 *
-	 * @param string $filename полный путь к файлу
-	 *
-	 * @return self
-	 */
-	public static function add( $filename ) {
+    /**
+     * Добавление информации о файле в базу данных
+     *
+     * @param string $filename полный путь к файлу
+     *
+     * @return self
+     */
+    public static function add( $filename ) {
 
-		$filedata         = joosFile::file_info( $filename );
+        $filedata         = joosFile::file_info( $filename );
 
-		$file             = new self;
-		$file->created_at = JCURRENT_SERVER_TIME;
-		$file->user_id    = joosCore::user()->id;
-		$file->file_ext   = $filedata['ext'];
-		$file->file_mime  = $filedata['mime'];
-		$file->file_name  = $filedata['name'];
-		$file->file_size  = $filedata['size'];
+        $attached_obj             = new self;
 
-		$file->store();
+        $attached_obj->user_id    = joosCore::user()->id;
+        $attached_obj->file_ext   = $filedata['ext'];
+        $attached_obj->file_mime  = $filedata['mime'];
+        $attached_obj->file_name  = $filedata['name'];
+        $attached_obj->file_size  = $filedata['size'];
 
-		return $file;
-	}
+        $attached_obj->store();
+
+        return $attached_obj;
+    }
 
 }

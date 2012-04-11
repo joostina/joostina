@@ -20,19 +20,20 @@ class actionsAjaxSite extends joosControllerAjax {
         // активное правило загрузки для файла
         $rules_name = joosRequest::post('rules_name');
 
-        joosUpload::init();
-        joosUpload::set_active_rules_name($rules_name);
+        joosUpload::init($rules_name);
+
+        $upload_result = array();
         
-		//joosLoader::lib('upload', 'upload');
+        $upload_result = joosUpload::actions_before($upload_result) + $upload_result;
 
-		$upload_result = joosUpload::easy_upload($rules_name,  JPATH_BASE.'/cache/tmp/' );
+        $upload_result = joosUpload::easy_upload( joosUpload::get_input_name() , joosUpload::get_upload_location() ) + $upload_result;
 
-		//joosDebug::dump($upload_result);
-
-
-		return array(
-			'success' => $upload_result
-		);
+        $upload_result = joosUpload::actions_after($upload_result) + $upload_result;
+        
+        // подчищаем секретные данные
+        unset( $upload_result['file_base_location'] );
+        
+		return $upload_result;
 	}
 
 }

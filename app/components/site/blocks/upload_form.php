@@ -11,8 +11,7 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-joosUpload::init();
-joosUpload::set_active_rules_name('mp3files');
+joosUpload::init( 'mp3files' );
 
 ?>
 

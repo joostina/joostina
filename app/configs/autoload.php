@@ -60,4 +60,5 @@ return array(
     // пока не адаптированные библиотеки
     'Thumbnail' => 'core/libraries/image.php',
     'modelAdminCoder_Faker' => 'app/components/coder/models/model.admin.coder.php',
+    'helperTest'=>'app/components/test/helpers/helpers.test.php',
 );

@@ -1,5 +1,6 @@
 <?php
 return array(
+
   'mp3files'=>array(
       'accept_file_types'=>'/(\.|\/)(gif|jpe?g|png)$/i',// регулярное выражение для разрешённых типов/имён файлов
       'max_file_size'=>1024*3,// 3 мегабайта
@@ -13,7 +14,10 @@ return array(
       ),
       'style'=>array(
           'class'=>'' // class свойство кнопки выбора файла
-      )
-      
+      ),
+      'upload_location'=> JPATH_BASE.'/cache/tmp/' ,
+      'actions_before'=>'helperTest::upload_file', // действие до начала загрузки, принимает на вход массив параметров полученных из формы
+      'actions_after'=>'', // действия после загрузки файла, принимает на вход все данные о загруженном файле
+
   )  
 );
