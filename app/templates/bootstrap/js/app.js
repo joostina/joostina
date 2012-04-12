@@ -30,8 +30,8 @@ $(document).ready(function() {
             return;
         }
         if (data !== null && data.success !== undefined) {
-            if (data.success !== null && data.success == false) {
-                joosNotify(data.message, 'success');
+            if (data.success !== null) {
+                joosNotify(data.message, ( data.success == false ? 'error' : 'success' ) );
                 return;
             }
         }

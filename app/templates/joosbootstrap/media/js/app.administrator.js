@@ -39,17 +39,17 @@ $(document).ready(function() {
    		}
 
    		if (request.status == 500 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
-               joosNotify(data.message, 'error-500');
+               joosNotify(data.message, 'error');
    			return;
    		}
 
    		if (request.status == 404 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
-               joosNotify(data.message, 'error-404');
+               joosNotify(data.message, 'error');
    			return;
    		}
         if (data !== null && data.success !== undefined) {
-            if (data.success !== null && data.success == false) {
-                joosNotify(data.message, 'success');
+            if (data.success !== null) {
+                joosNotify(data.message, ( data.success == false ? 'error' : 'success' ) );
                 return;
             }
         }

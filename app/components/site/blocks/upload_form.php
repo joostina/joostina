@@ -11,12 +11,12 @@
 // запрет прямого доступа
 defined( '_JOOS_CORE' ) or die();
 
-joosUpload::init( 'mp3files' );
+joosUpload::init( 'test_images' );
 
 ?>
 
 <script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.fileupload/jquery.iframe-transport.js"></script>
 <script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.fileupload.js"></script>
 
 
@@ -24,17 +24,22 @@ joosUpload::init( 'mp3files' );
     <input id="<?php echo joosUpload::get_input_name() ?>" type="file" name="<?php echo joosUpload::get_input_name() ?>" class="<?php echo joosUpload::get_class() ?>" multiple="">
     <input type="hidden" name="rules_name" value="<?php echo joosUpload::get_input_name() ?>" />
 </form>
-    
+
 <script>
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
+            autoUpload: true,
+            acceptFileTypes: <?php echo joosUpload::get_accept_file_types() ?>,
             url: '<?php echo joosUpload::get_upload_url() ?>',
             done: function (e, data) {
-                $.each(data.result, function (index, file) {
-                    $('<p/>').text(file.name).appendTo(document.body);
-                });
+
+                if( data.result.success == true ){
+
+                    joosNotify( data.result.file_name + ' загружен','success');
+                }
             }
         });
     });
 </script>
+

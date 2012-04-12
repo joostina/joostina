@@ -6,55 +6,73 @@ class joosUpload {
     private static $active_rules_name;
 
     public static function init( $active_rules_name ){
-        
+
         if( self::$upload_rules === null ){
             self::$upload_rules = require JPATH_APP_CONFIG.'/uploads.php';
         }
-        
+
         self::$active_rules_name = $active_rules_name;
-        
+
     }
 
     public static function get_active_rules_name(){
-        
+
         return self::$active_rules_name;
     }
 
     public static function get_input_name(){
-        
+
         return self::$active_rules_name;
     }
 
     public static function get_class(){
-        
+
         $active_rules = self::$upload_rules[self::$active_rules_name];
         return (isset($active_rules['style']) && isset( $active_rules['style']['class'])) ? $active_rules['style']['class'] : '';
     }
 
     public static function get_upload_url(){
-        
-        return 'ajax.index.php?option=site&task=upload';
+
+        return JPATH_SITE . '/ajax.index.php?option=site&task=upload';
     }
 
     public static function get_upload_location(){
-        
+
         $active_rules = self::$upload_rules[self::$active_rules_name];
         if( !isset($active_rules['upload_location']) ){
             throw new joosUploadLibrariesException('Не указан каталог загрузки файлов');
         }
-        
+
         return $active_rules['upload_location'];
     }
-    
-    public static function actions_before($upload_result){
-        
+
+    public static function get_accept_file_types(){
+
+        $active_rules = self::$upload_rules[self::$active_rules_name];
+        if( !isset($active_rules['accept_file_types']) ){
+            throw new joosUploadLibrariesException('Не указаны типы разрешённых файлов');
+        }
+
+        return $active_rules['accept_file_types'];
+    }
+
+    public static function get_accept_mime_content_types(){
+
+        $active_rules = self::$upload_rules[self::$active_rules_name];
+        return (isset($active_rules['accept_mime_content_types'])  && count($active_rules['accept_mime_content_types'])>0 )
+            ? $active_rules['accept_mime_content_types']
+            : false;
+    }
+
+    public static function actions_before(){
+
         $rules_name = self::$upload_rules[self::$active_rules_name];
-        
+
         $result = array();
         if( isset( $rules_name['actions_before'] ) && is_callable( $rules_name['actions_before'] ) ){
-            $result = call_user_func( $rules_name['actions_before'], $upload_result );
+            $result = call_user_func( $rules_name['actions_before']  );
         }
-        
+
         return $result;
     }
 
@@ -69,7 +87,33 @@ class joosUpload {
 
         return $result;
     }
-    
+
+    public static function check(){
+
+        // проверка MIME - типа
+        $accept_mime_content_types = self::get_accept_mime_content_types();
+        if( $accept_mime_content_types !== false ){
+
+            $tmp_file = $_FILES[self::$active_rules_name]['tmp_name'];
+
+            $content_type = joosFile::get_mime_content_type($tmp_file);
+
+            if( !in_array($content_type,$accept_mime_content_types)  ){
+
+                // убираем все элементы из массива, даные о файле нельзя дальше передавать
+                $upload_result = array();
+                $upload_result['success'] = false;
+                $upload_result['message'] = 'Файл не загружен, такой тип не разрешён';
+
+                return $upload_result;
+            }
+
+        }
+
+        return true;
+
+    }
+
     /**
      * Упрощённая процедура загрузки файла
      * @param string $element_name название элемента массива $_FILES для загрузки
@@ -85,10 +129,11 @@ class joosUpload {
 
         //Если нужно сменить имя файла
         if(isset($params['new_name'])){
+
             $file_name = $params['new_name'] . '.' . substr($file_name, strrpos($file_name, '.') + 1);
-        }
-        //иначе - очищаем исходное имя файла от мусора
-        else{
+        }else{
+
+            //иначе - очищаем исходное имя файла от мусора
             $file_name = joosFile::make_safe_name($file_name);
         }
 
@@ -114,8 +159,8 @@ class joosUpload {
             'success' => $success,
             'file_location' => $file_live_location,
             'file_name' => $file_name,
-            'file_live_location' => sprintf('%s/%s/%s', JPATH_SITE, $file_live_location, $file_name),
-            'file_base_location' => sprintf('%s/%s/%s', JPATH_BASE, $file_live_location, $file_name),
+            'file_live_location' => sprintf('%s%s/%s', JPATH_SITE, $file_live_location, $file_name),
+            'file_base_location' => sprintf('%s%s/%s', JPATH_BASE, $file_live_location, $file_name),
         );
     }
 
