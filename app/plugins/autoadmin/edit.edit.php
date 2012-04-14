@@ -27,9 +27,10 @@ class autoadminEditEdit implements joosAutoadminPluginsEdit{
 		$element[] = $params['label_end'];
 		$element[] = $params['el_begin'];
 		$element[] = forms::input( array ( 'name'  => $key ,
-		                                   'class' => 'input-xlarge' ,
+		                                   'class' => ( isset( $element_param['html_edit_element_param']['class'] ) ? $element_param['html_edit_element_param']['class'] : 'input-xlarge' ) ,
 		                                   'size'  => 100 ,
-		                                   'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : '' ) , ) , $value );
+		                                   'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : '' ) ,
+        ) , $value );
 		$element[] = $params['el_end'];
 
 		return implode( "\n" , $element );

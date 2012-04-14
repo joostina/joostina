@@ -27,9 +27,9 @@ class autoadminEditTextArea implements joosAutoadminPluginsEdit{
 		$element[] = $params['el_begin'];
 		$element[] = forms::textarea( array ( 'name'  => $key ,
 		                                      'class' => 'text_area' ,
-		                                      'rows'  => ( isset( $element_param['html_edit_element_param']['rows'] ) ? $element_param['html_edit_element_param']['rows'] : 10 ) ,
+		                                      'rows'  => ( isset( $element_param['html_edit_element_param']['rows'] ) ? $element_param['html_edit_element_param']['rows'] : 6 ) ,
 		                                      'cols'  => ( isset( $element_param['html_edit_element_param']['cols'] ) ? $element_param['html_edit_element_param']['cols'] : 40 ) ,
-		                                      'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : 'width:99%' ) , ) , $value );
+		                                      'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : 'width:97%' ) , ) , $value );
 		$element[] = $params['el_end'];
 
 		return implode( "\n" , $element );

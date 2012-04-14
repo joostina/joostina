@@ -19,7 +19,7 @@ class actionsAdminNews extends joosAdminController{
 		'default' => array(
 			'name' => 'Все новости',
 			'model' => 'modelAdminNews',
-			'fields' => array('title', 'created_at', 'state'),
+			'fields' => array('id', 'title', 'created_at', 'state'),
 			'active' => false
 		),
         'news_types' => array(

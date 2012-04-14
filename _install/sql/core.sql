@@ -232,6 +232,27 @@ INSERT INTO `jos_modules_pages` (`id`, `moduleid`, `controller`, `method`, `rule
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `jos_news`
+--
+CREATE TABLE IF NOT EXISTS `jos_news` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `slug` varchar(200) NOT NULL,
+  `introtext` text NOT NULL,
+  `fulltext` longtext NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `category_id` int(11) unsigned NOT NULL,
+  `created_at` datetime NOT NULL,
+  `state` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`),
+  KEY `type_id` (`category_id`),
+  KEY `state` (`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `jos_pages`
 --
 

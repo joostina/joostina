@@ -65,7 +65,8 @@ section{
 }
 
 .controls .el-rte,
-#redactor_box_text{
+#redactor_box_text,
+.redactor_box{
     width: 98%;
     max-width: 98%
 }

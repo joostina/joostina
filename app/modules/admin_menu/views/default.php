@@ -42,7 +42,7 @@ defined( '_JOOS_CORE' ) or die();
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Компоненты<b class="caret"></b></a>
         <ul class="dropdown-menu">
-            <li><a href="#">Новости</a></li>
+            <li><a href="?option=news">Новости</a></li>
             <li><a href="#">Блоги</a></li>
             <li><a href="#">Контакты</a></li>
         </ul>
