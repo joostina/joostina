@@ -245,7 +245,6 @@ CREATE TABLE IF NOT EXISTS `jos_news` (
   `created_at` datetime NOT NULL,
   `state` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`),
   KEY `type_id` (`category_id`),
   KEY `state` (`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
