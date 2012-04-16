@@ -135,6 +135,34 @@ return array(
 			'action' => 'index'
 		)
 	),
+ 	/* Компонент новостей */
+	'news' => array(
+		'href' => 'news',
+		'defaults' => array(
+			'controller' => 'news',
+			'action' => 'index'
+		)
+	),
+    'news_pages' => array(
+   		'href' => 'news/page/<page>',
+   		'params_rules' => array(
+   			'page' => ':digit'
+   		),
+   		'defaults' => array(
+   			'controller' => 'news',
+   			'action' => 'index'
+   		)
+   	),
+	'news_view' => array(
+		'href' => 'news/<id>',
+		'params_rules' => array(
+			'id' => ':digit'
+		),
+		'defaults' => array(
+			'controller' => 'news',
+			'action' => 'view'
+		)
+	),
 	/* Компонент страниц */
 	'pages' => array(
 		'href' => 'pages',

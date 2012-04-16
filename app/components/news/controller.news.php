@@ -33,21 +33,27 @@ class actionsNews extends joosController {
      */
     public static function index() {
 
-        /**
-         *
-         * Тут код выполнения задачи
-         *
-         */
+        $news = new modelNews();
 
+        $page = isset(self::$param['page']) ? self::$param['page'] : 0;
+        $pager = new joosPager(joosRoute::href('news'), $news->count('WHERE state = 1'), 5);
+      	$pager->paginate($page);
+
+        $news = $news->get_list(array(
+            'where' => 'state = 1',
+            'order' => 'id DESC',
+            'limit' => $pager->limit,
+            'offset' => $pager->offset
+        ));
 
         joosDocument::instance()
             ->set_page_title('Новости')
-            ->add_meta_tag('description', 'Новости сайта');
+            ->add_meta_tag('description', 'Новости компании');
 
         joosBreadcrumbs::instance()
             ->add('Новости');
 
-        return array();
+        return array('news' => $news, 'pager' => $pager);
     }
 
     public static function view() {
