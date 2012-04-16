@@ -48,7 +48,6 @@ class joosDateTime {
 		'April' => 'Апреля',
 		'Apr' => 'Апр',
 		'May' => 'Мая',
-		'May' => 'Мая',
 		'June' => 'Июня',
 		'Jun' => 'Июн',
 		'July' => 'Июля',
@@ -192,7 +191,7 @@ class joosDateTime {
 	 * @tutorial joosDateTime::format('1983-10-31') => 31 Октября 1983 г. 00:00
 	 *
 	 * @param string $date_time исходная строка даты, времени
-	 * @param string $format    правила форматирования даты и времени, как в функции strtr
+	 * @param string|bool $format    правила форматирования даты и времени, как в функции strtr
 	 *
 	 * @return string
 	 */
@@ -213,9 +212,9 @@ class joosDateTime {
 	 * @tutorial joosDateTime::current( '%H:%M:%S' ) => 04:37:38
 	 * @tutorial joosDateTime::current('%d %h') => 30 Апр
 	 *
-	 * @param type $format
+	 * @param string|bool $format
 	 *
-	 * @return type
+	 * @return string
 	 */
 	public static function current($format = false) {
 
@@ -229,7 +228,7 @@ class joosDateTime {
 	 * Рассчет и прописное представление прошедшего времени
 	 *
 	 * @param int $timestamp    первоначальный момент времени в секундах
-	 * @param int $current_time конечный момент времени в секундах, по умолчанию - текущее время
+	 * @param int|bool $current_time конечный момент времени в секундах, по умолчанию - текущее время
 	 *
 	 * @return string логическое прописное обозначение времени
 	 */
