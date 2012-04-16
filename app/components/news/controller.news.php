@@ -58,13 +58,11 @@ class actionsNews extends joosController {
 
     public static function view() {
 
+        $id = self::$param['id'];
 
-        /**
-         *
-         * Тут код выполнения задачи
-         *
-         */
-
+        $item = new modelNews();
+        $item->id = $id;
+        $item->find() ? null : joosPages::page404();
 
         joosDocument::instance()
             ->set_page_title('Новости')
@@ -73,7 +71,7 @@ class actionsNews extends joosController {
         joosBreadcrumbs::instance()
             ->add('Новости');
 
-        return array();
+        return array('item' => $item);
     }
 
     //редактирование
