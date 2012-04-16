@@ -195,10 +195,9 @@ class joosPager {
 		$this->_output .= '';
 
 		//-----------------------------------------------------------------------------------------------"НАЗАД"
-		$_prev                    = ( $this->currentPage != 1 ) ? //Ссылка
-			"<a class=\"page_left\" href=\"{$this->baseUrl}/page/{$prev_page}\">Предыдущие</a>" : //Текст
-			"<b class=\"page_left\">Предыдущие</b>";
-		$this->components['prev'] = $_prev;
+		$_prev   = "<a class=\"page_left\" href=\"{$this->baseUrl}/page/{$prev_page}\">&larr;</a>";
+        $_class = ( $this->currentPage != 1 ) ? '' : ' class="disabled"';
+		$this->components['prev'] = '<li'.$_class.'>' . $_prev . '</li>';
 
 
 		//Вывод джампером (с разрывом, если кол-во страниц > допустимого интервала)
@@ -252,38 +251,40 @@ class joosPager {
 					}
 
 					//-----------------------------------------------------------------------------НОМЕРА СТРАНИЦ
-					$_number = ( $i == $this->currentPage ) ? "<b>$i" : "<a href=\"{$this->baseUrl}/page/$i\">$lastDot $i";
+					$_number = "<a href=\"{$this->baseUrl}/page/$i\">$lastDot $i";
 
 
 					if ( $range[0] > 2 && $i == 1 ) {
 						$_number .= " ...</a>";
 					} else {
-						$_number .= ( $i == $this->currentPage ) ? '</b>' : '</a>';
+						$_number .= '</a>';
 					}
 
-					$this->_output .= $_number;
+                    $_class = ( $i == $this->currentPage ) ? ' class="active"' : '';
+                    $this->_output .= '<li'.$_class.'>'.$_number .'</li>';
 				}
 			}
 
 
 			//-----------------------------------------------------------------------------"ВПЕРЕД"
-			$_next                    = ( $this->currentPage != $this->totalPage && $this->totalItem >= $this->maxLength ) ? //Ссылка
-				"<a class=\"page_right\"  href=\"{$this->baseUrl}/page/$next_page\">Следующие</a>" : //Текст
-				"<b class=\"page_right\">Следующие</b>";
-			$this->components['next'] = $_next;
+			$_next  = "<a class=\"page_right\"  href=\"{$this->baseUrl}/page/$next_page\">&rarr;</a>";
+            $_class = ( $this->currentPage != $this->totalPage && $this->totalItem >= $this->maxLength ) ? '' : ' class="disabled"';
+            $this->components['next'] = '<li'.$_class.'>' . $_next . '</li>';
+
 		} else {
 			//-----------------------------------------------------------------------------НОМЕРА СТРАНИЦ
 			for ( $i = 1; $i <= $this->totalPage; $i++ ) {
-				$_number = ( $i == $this->currentPage ) ? "<b>$i</b>" : "<a href=\"{$this->baseUrl}/page/$i\">$i</a>";
-
-				$this->_output .= $_number;
+				$_number = "<a href=\"{$this->baseUrl}/page/$i\">$i</a>";
+                $_class = ( $i == $this->currentPage ) ? ' class="active"' : '';
+                $this->_output .= '<li'.$_class.'>'.$_number .'</li>';
 			}
 
 			//-----------------------------------------------------------------------------"ВПЕРЕД"
-			$_next                    = ( $this->currentPage != $this->totalPage ) ? //Ссылка
-				"<a class=\"page_right\"  href=\"{$this->baseUrl}/page/$next_page\">Следующие</a>" : //Текст
-				"<b class=\"page_right\">Следующие</b>";
-			$this->components['next'] = $_next;
+			$_next  = "<a class=\"page_right\"  href=\"{$this->baseUrl}/page/$next_page\">&rarr;</a>";
+
+            $_class = ( $this->currentPage != $this->totalPage ) ? '' : ' class="disabled"';
+            $this->components['next'] = '<li'.$_class.'>' . $_next . '</li>';
+
 		}
 
 
@@ -310,7 +311,9 @@ class joosPager {
 		  </div>';
 		 */
 		//$this->output = $this->components['prev'].$this->_output.$this->components['next'];
-		$this->output              = '<div class="pagination"><div class="pagination_wrap">' . $this->_output . '</div></div>';
+		$this->output              = '<div class="pagination"><ul>' .
+                $this->components['prev'].$this->_output.$this->components['next'] .
+        '</ul></div>';
 
 		$this->output              = $this->totalItem > 0 && $this->totalPage > 1 ? $this->output : '';
 
