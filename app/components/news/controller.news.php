@@ -18,7 +18,8 @@ class actionsNews extends joosController {
     public static function action_before() {
 
         joosBreadcrumbs::instance()
-            ->add('Новости');
+            ->add('Главная', joosRoute::href('default'))
+            ->add('Новости', joosRoute::href('news'));
 
         joosDocument::instance()
             ->add_js_file( JPATH_SITE . '/app/components/news/media/js/news.js' );
@@ -68,8 +69,6 @@ class actionsNews extends joosController {
             ->set_page_title('Новости')
             ->add_meta_tag('description', 'Новости сайта');
 
-        joosBreadcrumbs::instance()
-            ->add('Новости');
 
         return array('item' => $item);
     }

@@ -13,6 +13,8 @@
  */
 ?>
 
+<?php echo joosBreadcrumbs::instance()->get() ?>
+
 <h1><?php echo $item->title ?></h1>
 
 <div class="news-item_full">
