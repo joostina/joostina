@@ -130,7 +130,7 @@ class joosModule  {
         $template_file = JPATH_BASE . DS .'app'. DS. 'modules' . DS . $name . DS . 'views' . DS . $template . '.php';
         $params['template_file'] =  joosFile::exists($template_file) ? $template_file : null;
 
-        echo '<div class="module m-'.$name.'">';
+        echo '<div class="module module-'.$name.'">';
              joosFile::exists($file) ? require($file) : null;
         echo '</div>';
    	}

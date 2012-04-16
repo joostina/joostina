@@ -66,8 +66,8 @@ class actionsNews extends joosController {
         $item->find() ? null : joosPages::page404();
 
         joosDocument::instance()
-            ->set_page_title('Новости')
-            ->add_meta_tag('description', 'Новости сайта');
+            ->set_page_title($item->title)
+            ->add_meta_tag('description', 'Новости компании');
 
 
         return array('item' => $item);
