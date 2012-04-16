@@ -566,13 +566,14 @@ class joosAdminControllerAjax extends joosAdminController{
      * Грузятся в /attachments/images_embedded
     */
     public static function upload_images_embedded(){
-        joosLoader::lib('upload', 'upload');
+
         $upload_result = joosUpload::easy_upload(
             'file',
-            JPATH_BASE . '/app/attachments/images_embedded/',
+            JPATH_BASE_APP . '/attachments/images_embedded/',
             array('new_name' => date('YmdHis'))
         );
-        echo '<img src="'.$upload_result['file'].'" />';
+        
+        echo '<img src="'.$upload_result['file_live_location'].'" />';
     }
 
     /**
@@ -580,13 +581,13 @@ class joosAdminControllerAjax extends joosAdminController{
      * Грузятся в /attachments/files_embedded
     */
     public static function upload_files_embedded(){
-        joosLoader::lib('upload', 'upload');
+
         $upload_result = joosUpload::easy_upload(
             'file',
-            JPATH_BASE . '/app/attachments/files_embedded/',
+            JPATH_BASE_APP . '/attachments/files_embedded/',
             array('new_name' => date('YmdHis'))
         );
-        echo '<a href="'.$upload_result['file'].'" class="redactor_file_link redactor_file_ico_'.$upload_result['file_info']['ext'].'">'.$upload_result['name'].'</a>';
+        echo '<a href="'.$upload_result['file_live_location'].'" class="redactor_file_link redactor_file_ico_'.$upload_result['file_info']['ext'].'">'.$upload_result['file_name'].'</a>';
     }
 
     /**

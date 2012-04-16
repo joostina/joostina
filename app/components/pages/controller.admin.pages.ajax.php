@@ -22,7 +22,7 @@ class actionsAjaxAdminPages extends joosAdminControllerAjax {
 	/**
 	 * Генерация ссылки на страницу
 	 *
-	 * @return json string
+	 * @return string|json string
 	 */
 	public static function slug_generator() {
 
