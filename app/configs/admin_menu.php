@@ -10,13 +10,9 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-
 return array(
-    'Главная' => array(
-        'title' => '',
-        'href' => 'index2.php'
-    ),
-    'Контент' => array('title' => '',
+    'Контент' => array(
+        'title' => 'Контент сайта',
         'href' => '/',
         'children' => array(
             'Независимые страницы:' => array(
@@ -48,7 +44,8 @@ return array(
                 'href' => 'index2.php?option=content&task=create',
                 'ico' => 'ico-article_add',
             ),
-            'Категории:' => array('href' => '/',
+            'Категории:' => array(
+                'href' => '/',
                 'ico' => '',
                 'type' => 'sep'),
             'Все категории' => array(
@@ -62,9 +59,11 @@ return array(
         ),
     ),
 
-    'Пользователи' => array('title' => '',
+    'Пользователи' => array(
+        'title' => '',
         'href' => '/',
-        'children' => array('Все пользователи' => array(
+        'children' => array(
+            'Все пользователи' => array(
             'href' => 'index2.php?option=users',
             'ico' => 'ico-users',
         ),
@@ -107,15 +106,14 @@ return array(
         )
     ),
 
-    'Компоненты' => array('title' => '',
+    'Компоненты' => array(
+        'title' => '',
         'href' => '/',
-        'children' => array('Новости' => array(
+        'children' => array(
+            'Новости' => array(
             'href' => 'index2.php?option=news',
             'ico' => '',
         ),
-            'Новости' => array('href' => 'index2.php?option=news',
-                'ico' => '',
-            ),
             'Опросы' => array(
                 'href' => 'index2.php?option=polls',
                 'ico' => '',
@@ -127,7 +125,8 @@ return array(
         )
     ),
 
-    'Центр расширений' => array('title' => '',
+    'Центр расширений' => array(
+        'title' => '',
         'href' => '/',
         'children' => array(
             'Компоненты' => array(
@@ -161,7 +160,7 @@ return array(
         'title' => '',
         'href' => '/',
         'children' => array(
-            'Настройки сайта:' => array(
+            'Настройки сайта' => array(
                 'href' => '/',
                 'ico' => '',
                 'type' => 'sep'
@@ -196,10 +195,11 @@ return array(
 
         )
     ),
-
-    'Инструменты' => array('title' => '',
+    'Инструменты' => array(
+        'title' => '',
         'href' => '/',
-        'children' => array('Файловый менеджер' => array(
+        'children' => array(
+            'Файловый менеджер' => array(
             'href' => '/',
             'ico' => '',
         ),
@@ -234,10 +234,12 @@ return array(
         )
     ),
 
-    'Информация' => array('href' => '/',
+    'Информация' => array(
+        'href' => '/',
         'ico' => '',
         'children' => array(
-            'Сводные данные' => array('href' => '/',
+            'Сводные данные' => array(
+                'href' => '/',
                 'ico' => '',
             ),
             'Информация о системе' => array(
@@ -255,6 +257,10 @@ return array(
                 'href' => 'http://forum.joostina.ru',
                 'ico' => '',
             ),
+            'Fork me on GitHub' => array(
+                'href' => 'https://github.com/joostina/joostina',
+                'ico' => '',
+            ),         
         )
     ),
 );
