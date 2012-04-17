@@ -148,7 +148,7 @@ class modelAdminUsers extends modelUsers {
         // сохраняем группы пользователя
         $user_groops = joosRequest::array_param('user_groups');
         if( $user_groops !==null ){
-            $this->save_one_to_many('#__users_acl_groups', 'user_id', 'group_id', $this->id, $user_groops);
+            $this->save_one_to_many('#__users_acl_groups_users', 'user_id', 'group_id', $this->id, $user_groops);
         }
     }    
     
