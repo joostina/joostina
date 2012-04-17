@@ -170,6 +170,14 @@ class modelUsers extends joosModel {
 			return false;
 		}
 
+        if (!$this->validate()) {
+            $messages = $this->get_validation_error_messages();
+            foreach($messages as $message){
+                $this->_error .=  $messages===false ?  : implode('<br />',$message);
+            }
+            return false;
+        }
+        
 		return true;
 	}
 
@@ -181,18 +189,6 @@ class modelUsers extends joosModel {
         // формируем дополнительно каноничное имя
 		$this->user_name_canonikal = joosText::to_canonical($this->user_name);
 	}
-
-    private function update_password(){
-        if (!$this->id) {
-            $this->password = self::prepare_password($this->password);
-            $this->register_date = JCURRENT_SERVER_TIME;
-        } else {
-            $new_password = joosRequest::post('new_password', false);
-            if ( $new_password ) {
-                $this->password = self::prepare_password($new_password);
-            }
-        }
-    }
 
     /**
 	 * После создания нового пользователя
@@ -208,12 +204,20 @@ class modelUsers extends joosModel {
 		return true;
 	}
 
+    protected function get_validate_rules() {
+        return array(
+            array('user_name', 'required', 'message' => 'Не указан логин пользователя'),
+            array('user_name', 'string:5..50', 'message' => 'Длина логина быть от :min до :max символов'),
+            //array('created_at', 'null', 'on' => 'update', 'message' => 'При измении записи оригинальную дату создания нельзя изменять!'), /* при измении записи created_at уже есть в базе и в моделе оно должно быть NULL */
+        );
+    }
+    
 	/**
 	 * modelUsers::check_password()
 	 * Проверка введенного пароля на соответствие паролю в БД
 	 *
-	 * @param str $input_password
-	 * @param str $real_password
+	 * @param string $input_password
+	 * @param string $real_password
 	 *
 	 * @return bool
 	 */
@@ -247,6 +251,19 @@ class modelUsers extends joosModel {
 		return $crypt . ':' . $salt;
 	}
 
+
+    private function update_password(){
+        if (!$this->id) {
+            $this->password = self::prepare_password($this->password);
+            $this->register_date = JCURRENT_SERVER_TIME;
+        } else {
+            $new_password = joosRequest::post('new_password', false);
+            if ( $new_password ) {
+                $this->password = self::prepare_password($new_password);
+            }
+        }
+    }
+    
 	/**
 	 * Получение объекта текущего пользователя
 	 * @return modelUsers

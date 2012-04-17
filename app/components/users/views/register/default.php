@@ -50,7 +50,7 @@ joosDocument::$data['footer'][] = $register_js_code;
 
 	<form action="<?php echo joosRoute::href( 'register' ) ?>" method="post" id="reg_form">
 
-		<div class="errors"><?php echo $user->get_error(); ?></div>
+		<div class="errors"><?php echo $user->get_errors(); ?></div>
 		<dl class="form_registration">
 			<dt><label for="user_name">Имя пользователя:</label></dt>
 			<dd><input type="text" name="user_name" id="user_name" size="40" value="<?php echo $user->user_name ?>"

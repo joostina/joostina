@@ -123,7 +123,7 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-    public function get_validate_rules() {
+    protected function get_validate_rules() {
 		return array();
 	}
 
@@ -238,7 +238,7 @@ class joosModel {
 	 * Получение текста ошибки при работе с текущей моделью
 	 * @return string
 	 */
-	public function get_error() {
+	public function get_errors() {
 		return $this->_error;
 	}
 
@@ -599,6 +599,7 @@ class joosModel {
 		if (!$this->check()) {
 			return false;
 		}
+        
 		if (!$this->store()) {
 			return false;
 		}

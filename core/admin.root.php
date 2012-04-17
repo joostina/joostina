@@ -453,9 +453,15 @@ class joosAdminController{
         joosCSRF::check_code();
 
         $obj_data = joosAutoadmin::get_active_model_obj();
-        $obj_data->save($_POST);
+        $save_result = $obj_data->save($_POST);
 
         $option = joosRequest::param('option');
+        
+        if( $save_result!==true ){
+            $errors = $obj_data->get_errors();
+            joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=edit&id=' . $obj_data->id, $errors);
+        }
+        
         
         switch ($redirect) {
             default:

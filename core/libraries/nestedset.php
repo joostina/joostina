@@ -519,7 +519,7 @@ class joosNestedSet extends joosModel {
 	 *
 	 * @return mixed        array         array Error Messages or null
 	 */
-	public function get_error() {
+	public function get_errors() {
 		return ( true === $this->is_error() ) ? $this->errors : null;
 	}
 
