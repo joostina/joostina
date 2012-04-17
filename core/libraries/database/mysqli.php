@@ -168,14 +168,14 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	}
 
 	/**
-	 * Квотирование элемента
+	 * Получение квотированного значения элемента
 	 *
 	 * @param string  $text    - значение для квотирования
 	 * @param boolean $escaped - параметр расширенного квотирования
 	 *
 	 * @return string обработанный результат
 	 */
-	public function quote($text, $escaped = true) {
+	public function get_quoted($text, $escaped = true) {
 		return '\'' . ( $escaped ? $this->get_escaped($text) : $text ) . '\'';
 	}
 
@@ -187,7 +187,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 *
 	 * @return string обработанная строка
 	 */
-	public function name_quote($s) {
+	public function get_name_quote($s) {
 		return '`' . $s . '`';
 	}
 
@@ -228,9 +228,11 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return joosDatabaseMysqli
 	 */
 	public function set_query($sql, $offset = 0, $limit = 0) {
+        
 		$this->_sql = $this->replace_prefix($sql);
 		$this->_limit = (int) $limit;
 		$this->_offset = (int) $offset;
+        
 		return $this;
 	}
 
@@ -256,6 +258,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	/**
 	 * Выполнение установленного ранее SQL запроса
 	 * Непосредственно само действие выполняемое в базе данных
+     * 
 	 * @return mysql cursor ресурс результата выполнения запроса
 	 */
 	public function query() {
@@ -276,7 +279,8 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 					array(
 						':error_num' => mysqli_errno($this->_resource),
 						':error_message' => mysqli_error($this->_resource),
-						':sql' => $this->_sql)
+						':sql' => $this->_sql
+                    )
 			);
             
 		}
@@ -564,8 +568,8 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 				continue;
 			}
 
-			$fields[] = $this->name_quote($k);
-			$values[] = $this->quote($v);
+			$fields[] = $this->get_name_quote($k);
+			$values[] = $this->get_quoted($v);
 		}
 
 		$this->set_query(sprintf($fmtsql, implode(",", $fields), implode(",", $values)));
@@ -605,9 +609,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 				continue;
 			}
 
-			$fields[] = $this->name_quote($k);
+			$fields[] = $this->get_name_quote($k);
 			foreach ($values_array as $key => $value) {
-				$values[$key][$n] = ( isset($value[$k]) && $v == null ) ? $this->quote($value[$k]) : ( ( $v != null ) ? $this->quote($v) : 'NULL' );
+				$values[$key][$n] = ( isset($value[$k]) && $v == null ) ? $this->get_quoted($value[$k]) : ( ( $v != null ) ? $this->get_quoted($v) : 'NULL' );
 				++$n;
 			}
 		}
@@ -642,7 +646,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 				continue;
 			}
 			if ($k == $key_name) { // PK not to be updated
-				$where = $key_name . '=' . $this->quote($v);
+				$where = $key_name . '=' . $this->get_quoted($v);
 				continue;
 			}
 			if ($v === null && !$update_nulls) {
@@ -651,9 +655,9 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 			if ($v == '') {
 				$val = "''";
 			} else {
-				$val = $this->quote($v);
+				$val = $this->get_quoted($v);
 			}
-			$tmp[] = $this->name_quote($k) . '=' . $val;
+			$tmp[] = $this->get_name_quote($k) . '=' . $val;
 		}
 		$this->set_query(sprintf($fmtsql, implode(",", $tmp), $where));
 

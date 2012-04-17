@@ -81,10 +81,18 @@ class joosModel {
 	 * Возвращает назание текущей модели
 	 * @return string
 	 */
-	public function classname() {
+	public function get_class_name() {
 		return get_class($this);
 	}
 
+    /**
+     * Аналог метода get_class_name
+     * @return string
+     */
+    public function get_model_name() {
+        return $this->get_class_name();
+    }
+    
 	/**
 	 * Загрушка для функции получения данных о расширенных возможностях управления данными
 	 * @return array
@@ -300,10 +308,10 @@ class joosModel {
 		// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
 		$this->reset();
 
-		$query = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->quote($oid);
+		$query = 'SELECT * FROM ' . $this->_tbl . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->get_quoted($oid);
 		$result = $this->_db->set_query($query)->load_object($this);
 
-		$events_name = 'model.on_load.' . $this->classname();
+		$events_name = 'model.on_load.' . $this->get_class_name();
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $result, $this) : null;
 
 		return $result;
@@ -322,7 +330,7 @@ class joosModel {
 
 		$this->reset();
 
-		$query = 'SELECT * FROM ' . $this->_db->name_quote($this->_tbl) . ' WHERE ' . $this->_db->name_quote($field) . ' = ' . $this->_db->quote($value);
+		$query = 'SELECT * FROM ' . $this->_db->get_name_quote($this->_tbl) . ' WHERE ' . $this->_db->get_name_quote($field) . ' = ' . $this->_db->get_quoted($value);
 		return $this->_db->set_query($query, 0, 1)->load_object($this);
 	}
 
@@ -482,7 +490,7 @@ class joosModel {
 			joosTrash::add($this);
 		}
 
-		$query = "DELETE FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->quote($this->$k);
+		$query = "DELETE FROM $this->_tbl WHERE $this->_tbl_key = " . $this->_db->get_quoted($this->$k);
 		$this->_db->set_query($query);
 
 		if ($this->_db->query()) {
@@ -507,7 +515,7 @@ class joosModel {
 		$key = $key ? $key : $this->_tbl_key;
 		$table = $table ? $table : $this->_tbl;
 
-		$table = $this->_db->name_quote($table);
+		$table = $this->_db->get_name_quote($table);
 
 		// "мягкое" удаление объектов
 		if ($this->_soft_delete) {
@@ -525,7 +533,7 @@ class joosModel {
 		foreach ($oid as &$cur_id) {
 			$obj->{$key} = $cur_id;
 			$obj->before_delete();
-			$cur_id = $this->_db->quote($cur_id);
+			$cur_id = $this->_db->get_quoted($cur_id);
 		}
 
 		$query = "DELETE FROM $table WHERE $key IN (" . implode(',', $oid) . ')';
@@ -571,7 +579,7 @@ class joosModel {
 		$key = $key ? $key : $this->_tbl_key;
 		$table = $table ? $table : $this->_tbl;
 
-		$table = $this->_db->name_quote($table);
+		$table = $this->_db->get_name_quote($table);
 
 		$query = "SELECT * FROM $table WHERE $key IN (" . implode(',', $oid) . ')';
 		$rows = $this->_db->set_query($query)->load_object_list();
@@ -845,7 +853,9 @@ class joosModel {
 	 */
 	public function find(array $params = array('select' => '*')) {
 
-		return $this->_db->set_query($this->get_find_query_from_params($params))->load_object($this);
+        $query = $this->get_find_query_from_params($params);
+        
+        return $query===false ? false : $this->_db->set_query($query)->load_object($this);
 	}
 
 	/**
@@ -856,18 +866,32 @@ class joosModel {
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
 		$tmp = array();
 		foreach (get_object_vars($this) as $k => $v) {
-
-			if (is_array($v) or is_object($v) or $k[0] == '_' or empty($v)) {
+            
+			if (is_array($v) or is_object($v) or $k[0] == '_' or is_null($v)) {
 				continue;
 			}
+
+            $v = strval($v);
+            
 			if ($v == '') {
 				$val = "''";
 			} else {
-				$val = $this->_db->quote($v);
+				$val = $this->_db->get_quoted($v);
 			}
-			$tmp[] = $this->_db->name_quote($k) . '=' . $val;
+            
+			$tmp[] = $this->_db->get_name_quote($k) . '=' . $val;
 		}
-
+        
+        if( count($tmp)==0 ){
+            
+            return false;
+            
+            throw new joosDatabaseException('Для поиска значения модели :model_name не указано ни одного параметра', 
+                array(':model_name'=>$this->get_class_name()) 
+            );
+            
+        }
+        
 		return sprintf($fmtsql, implode(' AND ', $tmp));
 	}
 
@@ -937,12 +961,15 @@ class joosModel {
 			if (is_array($v) or is_object($v) or $k[0] == '_' or empty($v)) {
 				continue;
 			}
+
+            $v = strval($v);
+            
 			if ($v == '') {
 				$val = "''";
 			} else {
-				$val = $this->_db->quote($v);
+				$val = $this->_db->get_quoted($v);
 			}
-			$tmp[] = $this->_db->name_quote($k) . '=' . $val;
+			$tmp[] = $this->_db->get_name_quote($k) . '=' . $val;
 		}
 		$tmp = count($tmp) > 0 ? $tmp : array('true');
 

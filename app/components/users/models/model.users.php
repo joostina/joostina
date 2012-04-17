@@ -156,14 +156,14 @@ class modelUsers extends joosModel {
 
 		$this->filter();
 
-		$query = "SELECT id FROM #__users WHERE user_name = " . $this->_db->quote($this->user_name) . " AND id != " . (int) $this->id;
+		$query = "SELECT id FROM #__users WHERE user_name = " . $this->_db->get_quoted($this->user_name) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
 		if ($xid && $xid != $this->id) {
 			$this->_error = __('Логин уже зарегистрирован');
 			return false;
 		}
 
-		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->quote($this->email) . " AND id != " . (int) $this->id;
+		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->get_quoted($this->email) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
 		if ($xid && $xid != $this->id) {
 			$this->_error = __('Email уже зарегистрирован');
@@ -344,7 +344,7 @@ class modelUsers extends joosModel {
 		setcookie($sessionCookieName, $session->get_cookie(), false, '/', JPATH_COOKIE);
 
 		// очищаем базу от всех прежних сессий вновь авторизовавшегося пользователя
-		$query = "DELETE FROM #__users_session WHERE  is_admin=0 AND session_id != " . $session->_db->quote($session->session_id) . " AND user_id = " . (int) $user->id;
+		$query = "DELETE FROM #__users_session WHERE  is_admin=0 AND session_id != " . $session->_db->get_quoted($session->session_id) . " AND user_id = " . (int) $user->id;
 		joosDatabase::instance()->set_query($query)->query();
 
 		// обновляем дату последнего визита авторизованного пользователя
@@ -377,7 +377,7 @@ class modelUsers extends joosModel {
 		$token = new modelUsersTokens;
 		$token->logout_me();
 
-		$query = "DELETE FROM #__users_session WHERE session_id = " . joosDatabase::instance()->quote($sessionValueCheck);
+		$query = "DELETE FROM #__users_session WHERE session_id = " . joosDatabase::instance()->get_quoted($sessionValueCheck);
 		return joosDatabase::instance()->set_query($query)->query();
 	}
 
@@ -646,7 +646,7 @@ class modelUsersTokens extends joosModel {
 
 		//ищем в базе токенов
 		$database = joosDatabase::instance();
-		$database->set_query("SELECT t.*,u.user_name FROM #__users_tokens AS t INNER JOIN #__users AS u ON u.id=t.user_id WHERE t.token=" . $database->quote($user_token));
+		$database->set_query("SELECT t.*,u.user_name FROM #__users_tokens AS t INNER JOIN #__users AS u ON u.id=t.user_id WHERE t.token=" . $database->get_quoted($user_token));
 		$result = $database->load_object_list();
 
 		//не нашли такого, удален уже давно
@@ -706,7 +706,7 @@ class modelUsersTokens extends joosModel {
         ) );
 
 		//обновляем время последнего доступа к токену
-		$query = "UPDATE #__users_tokens SET updated_at = '" . JCURRENT_SERVER_TIME . "' WHERE token=" . joosDatabase::instance()->quote($this->_search_token_result->token);
+		$query = "UPDATE #__users_tokens SET updated_at = '" . JCURRENT_SERVER_TIME . "' WHERE token=" . joosDatabase::instance()->get_quoted($this->_search_token_result->token);
 		joosDatabase::instance()->set_query($query)->query();
 
 		//запоминаем ID
@@ -757,7 +757,7 @@ class modelUsersTokens extends joosModel {
 		joosCookie::delete(self::$_token_name);
 
 		//и удаляем из базы данных
-		$query = "DELETE FROM #__users_tokens WHERE token=" . joosDatabase::instance()->quote($user_token);
+		$query = "DELETE FROM #__users_tokens WHERE token=" . joosDatabase::instance()->get_quoted($user_token);
 		return joosDatabase::instance()->set_query($query)->query();
 	}
 

@@ -81,13 +81,13 @@ class joosCoreAdmin extends joosCore {
 
 			// обновление записи последнего посещения панели управления в базе данных
 			if (isset($_SESSION['session_user_id']) && $_SESSION['session_user_id'] != '') {
-				$query = "UPDATE #__users SET lastvisit_date = " . $database->quote(JCURRENT_SERVER_TIME) . " WHERE id = " . (int) $_SESSION['session_user_id'];
+				$query = "UPDATE #__users SET lastvisit_date = " . $database->get_quoted(JCURRENT_SERVER_TIME) . " WHERE id = " . (int) $_SESSION['session_user_id'];
 				$database->set_query($query)->query();
 			}
 
 			// delete db session record corresponding to currently logged in user
 			if (isset($_SESSION['session_id']) && $_SESSION['session_id'] != '') {
-				$query = "DELETE FROM #__users_session WHERE session_id = " . $database->quote($_SESSION['session_id']);
+				$query = "DELETE FROM #__users_session WHERE session_id = " . $database->get_quoted($_SESSION['session_id']);
 				$database->set_query($query)->query();
 			}
 
@@ -126,14 +126,14 @@ class joosCoreAdmin extends joosCore {
 				$database->set_query($query)->query();
 
 				// update session timestamp
-				$query = "UPDATE #__users_session SET time = " . $database->quote(time()) . " WHERE session_id = " . $database->quote($session_id);
+				$query = "UPDATE #__users_session SET time = " . $database->get_quoted(time()) . " WHERE session_id = " . $database->get_quoted($session_id);
 				$database->set_query($query)->query();
 
 				// set garbage cleaning timeout
 				self::set_session_garbage_clean($session_life_admin);
 
 				// check against db record of session
-				$query = "SELECT COUNT( session_id ) FROM #__users_session WHERE session_id = " . $database->quote($session_id) . " AND user_name = " . $database->quote($my->user_name) . " AND user_id = " . intval($my->id);
+				$query = "SELECT COUNT( session_id ) FROM #__users_session WHERE session_id = " . $database->get_quoted($session_id) . " AND user_name = " . $database->get_quoted($my->user_name) . " AND user_id = " . intval($my->id);
 				$count = $database->set_query($query)->load_result();
 
 				// если в таблице нет информации о текущей сессии - она устарела

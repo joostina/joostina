@@ -629,7 +629,7 @@ class joosAutoadmin {
 					case 'search':
 						$results[] = forms::label(array('for' => 'search_elements'), 'Поиск');
 
-						$search_value = joosSession::get_user_state_from_request("search-" . $obj->classname(), 'search', false);
+						$search_value = joosSession::get_user_state_from_request("search-" . $obj->get_class_name(), 'search', false);
 
 						$results[] = forms::input(array('name' => 'search_elements',
 									'id' => 'search_elements'), $search_value);
@@ -637,7 +637,7 @@ class joosAutoadmin {
 
 						if ($search_value !== false && joosString::trim($search_value) != '') {
 							foreach ($value as $selected_value) {
-								$wheres_search[] = sprintf('%s LIKE ( %s )', joosDatabase::instance()->name_quote($selected_value), joosDatabase::instance()->quote("%" . $search_value . "%"));
+								$wheres_search[] = sprintf('%s LIKE ( %s )', joosDatabase::instance()->get_name_quote($selected_value), joosDatabase::instance()->get_quoted("%" . $search_value . "%"));
 							}
 						}
 						break;
@@ -658,7 +658,7 @@ class joosAutoadmin {
 							);
 							$datas_for_select += ( isset($value[$field_name]['call_from']) && is_callable($value[$field_name]['call_from']) ) ? call_user_func($value[$field_name]['call_from'], $obj, $params_key) : array();
 
-							$selected_value = joosSession::get_user_state_from_request('filter-' . '-' . $field_name . '-' . $obj->classname(), $field_name, -1);
+							$selected_value = joosSession::get_user_state_from_request('filter-' . '-' . $field_name . '-' . $obj->get_class_name(), $field_name, -1);
 							$selected_value = $selected_value === '0' ? '0' : $selected_value;
 
 							$results[] = forms::dropdown(
@@ -673,7 +673,7 @@ class joosAutoadmin {
 
 							$hidden_elements[] = forms::hidden($field_name, $selected_value);
 							if (( $selected_value && $selected_value != -1 ) OR $selected_value === '0') {
-								$wheres_filter[] = sprintf('%s=%s', joosDatabase::instance()->name_quote($field_name), joosDatabase::instance()->quote($selected_value));
+								$wheres_filter[] = sprintf('%s=%s', joosDatabase::instance()->get_name_quote($field_name), joosDatabase::instance()->get_quoted($selected_value));
 							}
 						}
 						break;
@@ -687,7 +687,7 @@ class joosAutoadmin {
 							$datas_for_select += array($params_key => $value[$field_name]['name']);
 						}
 
-						$selected_value = joosSession::get_user_state_from_request("extrafilter-" . $obj->classname(), 'filter_extrafilter', -1);
+						$selected_value = joosSession::get_user_state_from_request("extrafilter-" . $obj->get_class_name(), 'filter_extrafilter', -1);
 
 						$results[] = forms::label(array('for' => 'filter_extrafilter'), 'Фильтр');
 						$results[] = forms::dropdown(array('name' => 'filter_extrafilter_selector',

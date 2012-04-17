@@ -106,7 +106,7 @@ if (joosRequest::is_post()) {
 		session_start();
 
 		// add Session ID entry to DB
-		$query = "INSERT INTO #__users_session SET time = " . $database->quote($logintime) . ", session_id = " . $database->quote($session_id) . ", user_id = " . (int) $user->id  . ", user_name = " . $database->quote($user->user_name) . ", guest=0, is_admin=1";
+		$query = "INSERT INTO #__users_session SET time = " . $database->get_quoted($logintime) . ", session_id = " . $database->quote($session_id) . ", user_id = " . (int) $user->id  . ", user_name = " . $database->quote($user->user_name) . ", guest=0, is_admin=1";
 		$database->set_query($query)->query();
 
 		$query = "DELETE FROM #__users_session WHERE  is_admin=1 AND session_id != " . $database->quote($session_id) . " AND user_id = " . (int) $user->id;
