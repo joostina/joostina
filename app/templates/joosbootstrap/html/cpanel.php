@@ -18,7 +18,7 @@ $hrefs = require_once JPATH_APP_CONFIG.'/admin_panel.php';
 
 <div class="cpanel">
     <?php foreach($hrefs as $block_title => $block_hrefs): ?>
-        <?php if( $block_hrefs=='clear' ): ?>
+        <?php if( $block_hrefs===true ): ?>
             <div class="b-clear" style="height:50px"></div>
         <?php else: ?>
             <div class="b b-50 b-left">

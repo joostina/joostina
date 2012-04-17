@@ -28,6 +28,7 @@ return array(
             'ico' => 'folder-publicshare',
         )
     ),
+    'clear_1'=>true,
     'Статичные страницы' => array(
         'Все страницы' => array(
             'href' => 'index2.php?option=pages',
@@ -41,7 +42,7 @@ return array(
         ),
 
     ),
-    'clear'=>true,
+    'clear_2'=>true,
     'Инструменты' => array(
         'Кодогенератор' => array(
             'href' => 'index2.php?option=coder',
