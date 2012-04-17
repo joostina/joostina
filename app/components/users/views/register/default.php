@@ -62,8 +62,7 @@ joosDocument::$data['footer'][] = $register_js_code;
 
 			<dt><label for="password"><?php echo _REGISTER_PASSWORD; ?></label></dt>
 			<dd>
-				<input class="inputbox" type="password" name="password" id="password" size="20" maxlength="15"
-				       value=""/>
+				<input class="inputbox" type="password" name="password" id="password" size="20" value=""/>
 				<!--<a href="javascript:void(0)" class="show_hide_pass">Показать</a>-->
 			</dd>
 
