@@ -60,7 +60,9 @@ class modelAdminUsers extends modelUsers {
 				'editable' => true,
 				'in_admintable' => true,
 				'html_edit_element' => 'edit',
-				'html_table_element' => 'value',),
+				'html_table_element' => 'value',
+                'hide_on'=>'edit',
+            ),
 			'openid' => array(
 				'name' => 'Адрес OpenID',
 				'editable' => false,
@@ -89,6 +91,7 @@ class modelAdminUsers extends modelUsers {
 				'html_edit_element_param' => array(
 					'call_from' => 'modelAdminUsers::get_users_group_multi'
 				),
+                'hide_on'=>'create',
 			),
 			'register_date' => array(
 				'name' => 'Дата регистрации',
@@ -96,6 +99,7 @@ class modelAdminUsers extends modelUsers {
 				'in_admintable' => true,
 				'html_edit_element' => 'value',
 				'html_table_element' => 'value',
+                'hide_on'=>'create',
 			),
 			'lastvisit_date' => array(
 				'name' => 'Последнее посещение',
@@ -108,7 +112,8 @@ class modelAdminUsers extends modelUsers {
 					'date_format' => 'd F в H:m',
 					'width' => '200px',
 					'align' => 'center'
-				)
+				),
+                'hide_on'=>'create',
 			),
 			'activation' => array(
 				'name' => 'Код активации',

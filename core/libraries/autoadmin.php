@@ -272,11 +272,9 @@ class joosAutoadmin {
 
 		self::$active_model_name = get_class($obj);
 
-		//Работа с табами
-		$tabs = new htmlTabs();
-
-		$option = joosRequest::param('option');
-
+        $option = joosRequest::param('option');
+        $task = joosRequest::param('task');
+        
 		//Настраиваем параметры HTML-разметки формы
 		if (!$params) {
 			$params = array(
@@ -308,13 +306,15 @@ class joosAutoadmin {
         //@ зачем?
 		//self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
 
-
+        //Работа с табами
+        $tabs = new htmlTabs();
+        
 		//Массив сформированных элементов для вывода
 		$_elements = array();
 		//Получаем данные о элементах формы
 		$fields_info = $obj->get_fieldinfo();
 		foreach ($fields_info as $key => $field) {
-			if (isset($field['editable']) && $field['editable'] == true):
+			if ($field['editable'] == true && !( isset( $field['hide_on']) &&  $field['hide_on'] === $task ) ):
 				$v = isset($obj_data->$key) ? $obj_data->$key : '';
 				$_elements[$key] = self::get_edit_html_element($field, $key, $v, $obj_data, $params, $tabs);
 			endif;
@@ -462,25 +462,6 @@ class joosAutoadmin {
 		$titles = $admin_model->get_tableinfo();
 		$component_title = isset($titles['header_main']) ? $titles['header_main'] : '';
 		return $component_title;
-	}
-
-	public static function submenu() {
-
-        ECHO 555;
-        die();
-        
-		$class = self::$active_actions_class;
-
-		if (isset($class::$submenu)) {
-
-			$return = array();
-			foreach ($class::$submenu as $menu_name => $href) {
-                $href['href'] = isset( $href['href'] ) ? $href['href'] : sprintf('index2.php?option=%s&menu=%s','--',$menu_name);
-				$return[] = '<li>' . ( $href['active'] == false ? sprintf('<a href="%s">%s</a>', $href['href'], $href['name']) : '<span>' . $href['name'] . '</span>' ) . '</li>';
-			}
-
-			return '<div class="submenu"><ul class="listreset nav-horizontal">' . implode('', $return) . '</ul></div>';
-		}
 	}
 
 	/**
@@ -631,8 +612,7 @@ class joosAutoadmin {
 
 						$search_value = joosSession::get_user_state_from_request("search-" . $obj->get_class_name(), 'search', false);
 
-						$results[] = forms::input(array('name' => 'search_elements',
-									'id' => 'search_elements'), $search_value);
+						$results[] = forms::input(array('name' => 'search_elements','id' => 'search_elements'), $search_value);
 						$hidden_elements[] = forms::hidden('search', $search_value);
 
 						if ($search_value !== false && joosString::trim($search_value) != '') {
