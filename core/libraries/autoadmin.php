@@ -23,6 +23,9 @@ class joosAutoadmin {
 	private static $option;
 	private static $task;
 
+    /**
+     * @var joosModel
+     */
     private static $active_model_name;
     private static $active_actions_class;
     private static $active_menu_name;
@@ -779,7 +782,11 @@ class joosAutoadmin {
         return self::$active_model_name;
     }
 
-
+    /**
+     * 
+     * 
+     * @return joosModel
+     */
     public static function get_active_model_obj(){
         return new self::$active_model_name;
     }

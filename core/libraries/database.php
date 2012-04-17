@@ -609,9 +609,9 @@ class joosModel {
 
 	/**
 	 * @param array $cid
-	 * @param type  $state
+	 * @param int $state
 	 *
-	 * @return type
+	 * @return bool
 	 */
 	function set_state_group(array $cid = null, $state = 1) {
 
