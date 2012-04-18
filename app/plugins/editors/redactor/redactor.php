@@ -34,6 +34,7 @@ class editorRedactor {
 	}
 
 	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {
+        
         $option = $option = joosRequest::param('option');
 
 		$code_on_ready = <<< EOD
@@ -44,7 +45,8 @@ class editorRedactor {
 			});
 		});
 EOD;
-		joosDocument::instance()->add_js_code($code_on_ready);
+		joosDocument::instance()
+            ->add_js_code($code_on_ready);
 		return '<textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
 	}
 

@@ -35,6 +35,14 @@ class actionsAdminCoder  extends joosAdminController{
             'model' => 'modelAdminCoder_Faker',
             'active' => false
         ),
+
+        'autoload_generator' => array(
+            'name' => 'Генератор файла автозагрузки классов',
+            'href' => 'index2.php?option=coder&task=autoload_generator',
+            'active' => false
+        ),
+
+
     );
 
     public static function action_before() {
@@ -125,4 +133,15 @@ class actionsAdminCoder  extends joosAdminController{
         echo joosAutoadmin::footer();
     }
 
+    public static function autoload_generator(){
+        
+        $classes = joosRobotLoader::get_classes( JPATH_BASE );
+        $body = var_export($classes,true);
+        
+        return array(
+          'body'=> $body
+        );
+        
+    }
+    
 }
