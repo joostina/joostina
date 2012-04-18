@@ -30,7 +30,7 @@ class actionsAdminSitemap  extends joosAdminController{
 
 		require_once ( JPATH_BASE . DS . 'includes' . DS . 'route.php' );
 
-		$map = midelSitemap::get_map( true );
+		$map = modelSitemap::get_map( true );
 		$map->xml_output();
 
 		joosRoute::redirect( 'index2.php' , 'Карта сайта обновлена' );

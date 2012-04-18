@@ -23,7 +23,7 @@ class actionsSitemap extends joosController {
 
 	public static function index() {
 
-		$map = midelSitemap::get_map();
+		$map = modelSitemap::get_map();
 
 		return array('map' => $map);
 	}

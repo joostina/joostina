@@ -34,6 +34,7 @@ return array(
     'joosParams' => 'core/libraries/params.php',
     'joosRandomizer' => 'core/libraries/randomizer.php',
     'joosRequest' => 'core/libraries/request.php',
+    'joosRobotLoader' => 'core/libraries/robotloader.php',
     'joosRoute' => 'core/libraries/route.php',
     'joosSession' => 'core/libraries/session.php',
     'joosSpoof' => 'core/libraries/spoof.php',

@@ -13,7 +13,7 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class midelSitemap {
+class modelSitemap {
 
 	/**
 	 * @var $spaces array
@@ -86,7 +86,7 @@ class midelSitemap {
 			require_once JPATH_APP_PLUGINS_BASE . DS . 'sitemap' . DS . $space . '.php';
 
 			//По несложному правилу определяем имя модельки
-			$model = 'map' . joosInflector::camelize($space);
+			$model = 'sitemap' . joosInflector::camelize($space);
 
 			//Настройки плагина
 			$params = $model::get_params();
