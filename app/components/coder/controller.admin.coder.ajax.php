@@ -18,18 +18,32 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 	private static $implode_model = true;
 
 	public static function index() {
+        
 		$tables = joosRequest::array_param('codertable',array(),$_POST);
 
-		$ret = array();
+		$ret = array(
+            'site'=>array(),
+            'admin'=>array()
+        );
+        
 		foreach ($tables as $table) {
-			$ret[] = modelAdminCoder::get_model($table, self::$implode_model);
-		}
+            
+            $model_code = modelAdminCoder::get_model($table, self::$implode_model);
+			$ret['site'][] = $model_code['site'];
+            $ret['admin'][] = $model_code['admin'];
 
-		$body = self::$implode_model ? implode('', $ret) : implode("\n\n\n", $ret);
-
+        }     
+		
+        $body_site = self::$implode_model ? implode('', $ret['site']) : implode("\n\n\n", $ret);
+        $body_admin = self::$implode_model ? implode('', $ret['admin']) : implode("\n\n\n", $ret);
+        
+        $tables_count = count( $tables );
+        
 		return array(
 			'success'=>true,
-			'body'=>'<pre>' . $body . '</pre>'
+            'message'=> $tables_count ? sprintf('Код для %s %s готов', $tables_count, joosText::declension($tables_count, array('модели','моделей','моделей') )  ) : 'Модели не выбраны' ,
+			'body_site'=>'<pre>' . $body_site . '</pre>',
+			'body_admin'=>'<pre>' . $body_admin . '</pre>'
 		);
 	}
 

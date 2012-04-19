@@ -47,7 +47,7 @@ $(document).ready(function() {
 			joosNotify(data.message, 'error');
 			return;
 		}
-		if (data !== null && data.success !== undefined) {
+		if (data !== null && data.success !== undefined && data.message!==undefined ) {
 			if (data.success !== null && data.message!==null && data.message!==''  ) {
 				joosNotify(data.message, ( data.success == false ? 'error' : 'success' ) );
 				return;

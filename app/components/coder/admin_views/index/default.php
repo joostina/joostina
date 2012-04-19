@@ -38,7 +38,8 @@ defined('_JOOS_CORE') or die();
 
         <div class="span8">
             <h3>Код моделей</h3>
-            <div id="coder_results"></div>
+            <div id="coder_results_site"></div>
+            <div id="coder_results_admin"></div>
         </div>
 
     </div>
