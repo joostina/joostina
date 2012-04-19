@@ -1,4 +1,6 @@
-<?php defined('_JOOS_CORE') or die();
+<?php
+
+defined('_JOOS_CORE') or die();
 
 /**
  * Автоматический сборщик классов системы и их расположения
@@ -16,83 +18,81 @@
  * */
 class joosRobotLoader {
 
+	public static function get_classes($location) {
 
-	public static function get_classes( $location ){
+		$directory = new RecursiveDirectoryIterator($location);
+		$iterator = new RecursiveIteratorIterator($directory);
+		$regex = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
 
-        $directory = new RecursiveDirectoryIterator($location);
-        $iterator = new RecursiveIteratorIterator($directory);
-        $regex = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+		$classes = array();
+		foreach ($regex as $path) {
 
-        $classes = array();
-        foreach ($regex as $path) {
+			$expected = FALSE;
+			$level = $minLevel = 0;
 
-            $expected = FALSE;
-            $level = $minLevel = 0;
+			$name = '';
 
-            $name = '';
+			$file = $path[0];
 
-            $file = $path[0];
+			if (!joosFile::is_readable($file)) {
+				continue;
+			}
 
-            if( !joosFile::is_readable($file) ){
-                continue;
-            }
+			$php_file_source = file_get_contents($file);
 
-            $php_file_source = file_get_contents($file);
+			$class_location = str_replace(JPATH_BASE . DS, '', $file);
 
-            foreach (@token_get_all($php_file_source) as $token) {
-                if (is_array($token)) {
-                    switch ($token[0]) {
-                        case T_COMMENT:
-                        case T_DOC_COMMENT:
-                        case T_WHITESPACE:
-                            continue 2;
+			foreach (@token_get_all($php_file_source) as $token) {
+				if (is_array($token)) {
+					switch ($token[0]) {
+						case T_COMMENT:
+						case T_DOC_COMMENT:
+						case T_WHITESPACE:
+							continue 2;
 
-                        case T_NS_SEPARATOR:
-                        case T_STRING:
-                            if ($expected) {
-                                $name .= $token[1];
-                            }
-                            continue 2;
+						case T_NS_SEPARATOR:
+						case T_STRING:
+							if ($expected) {
+								$name .= $token[1];
+							}
+							continue 2;
 
 
-                        case T_CLASS:
-                        case T_INTERFACE:
-                            $expected = $token[0];
-                            $name = '';
-                            continue 2;
-                        case T_CURLY_OPEN:
-                        case T_DOLLAR_OPEN_CURLY_BRACES:
-                            $level++;
-                    }
-                }
+						case T_CLASS:
+						case T_INTERFACE:
+							$expected = $token[0];
+							$name = '';
+							continue 2;
+						case T_CURLY_OPEN:
+						case T_DOLLAR_OPEN_CURLY_BRACES:
+							$level++;
+					}
+				}
 
-                if ($expected) {
-                    switch ($expected) {
-                        case T_CLASS:
-                        case T_INTERFACE:
-                            if ($level === $minLevel) {
-                                $classes[$name] = $file;
-                            }
-                            break;
+				if ($expected) {
+					switch ($expected) {
+						case T_CLASS:
+						case T_INTERFACE:
+							if ($level === $minLevel) {
+								$classes[$name] = $class_location;
+							}
+							break;
+					}
 
-                    }
+					$expected = NULL;
+				}
 
-                    $expected = NULL;
-                }
+				if ($token === '{') {
+					$level++;
+				} elseif ($token === '}') {
+					$level--;
+				}
+			}
+		}
 
-                if ($token === '{') {
-                    $level++;
-                } elseif ($token === '}') {
-                    $level--;
-                }
+		ksort($classes);
 
-            }
-
-        }
-
-        ksort($classes);
-
-        return $classes;
-    }
+		return $classes;
+	}
 
 }

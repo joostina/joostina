@@ -64,67 +64,58 @@ return array(
         'href' => '/',
         'children' => array(
             'Все пользователи' => array(
-            'href' => 'index2.php?option=users',
-            'ico' => 'ico-users',
-        ),
-            'Управление правами' => array(
-                'href' => '/',
+                'href' => 'index2.php?option=users',
+                'ico' => 'ico-users',
+            ),
+            'Добавить пользователя' => array(
+                'href' => 'index2.php?option=users&task=create',
+                'ico' => 'ico-users',
+            ),
+            'Группы пользователей' => array(
+                'href' => 'index2.php?option=users&menu=user_groups',
                 'ico' => 'ico-acl',
             ),
-            'Настройки подсистем' => array(
-                'href' => '/',
+            'Управление правами' => array(
+                'href' => 'index2.php?option=users&menu=acl_table&task=acl_table',
+                'ico' => 'ico-acl',
+            ),
+            'Права доступа' => array(
+                'href' => 'index2.php?option=users&menu=acl_rules_list',
                 'ico' => 'ico-config',
             ),
         )
     ),
 
-    'Меню' => array(
-        'title' => '',
-        'href' => '/',
-        'children' => array(
-            'Менеджер меню' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Добавить меню' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Существующие меню:' => array(
-                'href' => '/',
-                'ico' => '',
-                'type' => 'sep'
-            ),
-            'Первое меню' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Второе меню' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-        )
-    ),
-
-    'Компоненты' => array(
+    'Новости' => array(
         'title' => '',
         'href' => '/',
         'children' => array(
             'Новости' => array(
-            'href' => 'index2.php?option=news',
-            'ico' => '',
-        ),
-            'Опросы' => array(
-                'href' => 'index2.php?option=polls',
+                'href' => 'index2.php?option=news',
                 'ico' => '',
             ),
-            'Блоги' => array(
-                'href' => 'index2.php?option=blog',
+            'Добавить новость' => array(
+                'href' => 'index2.php?option=news&task=create',
                 'ico' => '',
             ),
         )
     ),
 
+    'Страницы' => array(
+        'title' => '',
+        'href' => '/',
+        'children' => array(
+            'Все страницы' => array(
+                'href' => 'index2.php?option=pages',
+                'ico' => '',
+            ),
+            'Добавить страницу' => array(
+                'href' => 'index2.php?option=pages&task=create',
+                'ico' => '',
+            ),
+        )
+    ),
+    
     'Центр расширений' => array(
         'title' => '',
         'href' => '/',
@@ -141,18 +132,7 @@ return array(
                 'href' => '/',
                 'ico' => 'ico-component',
             ),
-            'Шаблоны' => array(
-                'href' => 'index2.php?option=templates',
-                'ico' => 'ico-template',
-            ),
-            'Языки' => array(
-                'href' => '/',
-                'ico' => 'ico-lang',
-            ),
-            'Установка расширений' => array(
-                'href' => 'index2.php?option=installer',
-                'ico' => 'ico-manager',
-            ),
+
         )
     ),
 
@@ -199,10 +179,18 @@ return array(
         'title' => '',
         'href' => '/',
         'children' => array(
+            'Генерация моделей' => array(
+                'href' => 'index2.php?option=coder',
+                'ico' => '',
+            ),
+            'Генератор автозагрузки' => array(
+                'href' => 'index2.php?option=coder&task=autoload_generator',
+                'ico' => '',
+            ),
             'Файловый менеджер' => array(
-            'href' => '/',
-            'ico' => '',
-        ),
+                'href' => '/',
+                'ico' => '',
+            ),
             'Менеджер БД' => array(
                 'href' => '/',
                 'ico' => '',
@@ -217,10 +205,6 @@ return array(
             ),
             'Резервное копирование' => array(
                 'href' => '/',
-                'ico' => '',
-            ),
-            'Кодер' => array(
-                'href' => 'index2.php?option=coder',
                 'ico' => '',
             ),
             'Сборщик системы' => array(
@@ -249,10 +233,6 @@ return array(
             'Связь с разработчиками' => array(
                 'href' => '/',
                 'ico' => '',),
-            'Скачать расширения и шаблоны' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
             'Сайт поддержки' => array(
                 'href' => 'http://forum.joostina.ru',
                 'ico' => '',
@@ -260,7 +240,11 @@ return array(
             'Fork me on GitHub' => array(
                 'href' => 'https://github.com/joostina/joostina',
                 'ico' => '',
-            ),         
+            ),
+            'Extra GitHub' => array(
+                'href' => 'https://github.com/xboston/joostina-extra',
+                'ico' => '',
+            ),
         )
     ),
 );

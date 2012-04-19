@@ -1,12 +1,12 @@
 // JS функции панели управления
 $(document).ready(function() {
 
-    $('.js-search-by-field').on('click', function(){
-        $(this).parents('.search-by-field_state1').hide();
-        $(this).parents('th').find('.search-by-field_state2').show();
-    })
+	$('.js-search-by-field').on('click', function(){
+		$(this).parents('.search-by-field_state1').hide();
+		$(this).parents('th').find('.search-by-field_state2').show();
+	})
 
-        
+
 	// скрываем индиктор загрузки
 	$('#ajax_status').hide();
 
@@ -28,32 +28,32 @@ $(document).ready(function() {
 		$('a#pagenav_prev').length ? $('#pagenav_prev').trigger('click') : null;
 	});
 
-     /*Автоматический вывод ошибок аяксовых запросов*/
-    $(document).ajaxComplete(function(evt, request, settings){
-   		var data =  request.responseText;
-   		var _is_json = 0;
+	/*Автоматический вывод ошибок аяксовых запросов*/
+	$(document).ajaxComplete(function(evt, request, settings){
+		var data =  request.responseText;
+		var _is_json = 0;
 
-   		if(settings.dataType == 'json'){
-   			_is_json = 1;
-   			data = $.parseJSON( data );
-   		}
+		if(settings.dataType == 'json'){
+			_is_json = 1;
+			data = $.parseJSON( data );
+		}
 
-   		if (request.status == 500 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
-               joosNotify(data.message, 'error');
-   			return;
-   		}
+		if (request.status == 500 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
+			joosNotify(data.message, 'error');
+			return;
+		}
 
-   		if (request.status == 404 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
-               joosNotify(data.message, 'error');
-   			return;
-   		}
-        if (data !== null && data.success !== undefined) {
-            if (data.success !== null) {
-                joosNotify(data.message, ( data.success == false ? 'error' : 'success' ) );
-                return;
-            }
-        }
-   	});
+		if (request.status == 404 || ( _is_json && (data.code!==undefined && data.code == 500)) ) {
+			joosNotify(data.message, 'error');
+			return;
+		}
+		if (data !== null && data.success !== undefined) {
+			if (data.success !== null && data.message!==null && data.message!==''  ) {
+				joosNotify(data.message, ( data.success == false ? 'error' : 'success' ) );
+				return;
+			}
+		}
+	});
 
 });
 
@@ -109,12 +109,12 @@ function getSelectedValueById(srcListId) {
  */
 function joosNotify($message, $type) {
 
-    var noty_id = noty({
-        text: $message,
-        theme: 'noty_theme_twitter',
-        type: $type,
-        layout: 'topRight'
-    });
-    
-	//alert( $type + ': ' + $message);
+	var noty_id = noty({
+		text: $message,
+		theme: 'noty_theme_twitter',
+		type: $type,
+		layout: 'topRight'
+	});
+
+//alert( $type + ': ' + $message);
 }

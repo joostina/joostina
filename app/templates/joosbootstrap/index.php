@@ -12,7 +12,7 @@ joosDocument::instance()
     ->add_css(JPATH_SITE . '/app/templates/' . JTEMPLATE_ADMIN . '/media/css/app.css?ver=1')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.js', array('first' => true)) // jquery всегда первое!
     ->add_js_file(JPATH_SITE . '/app/templates/' . JTEMPLATE_ADMIN . '/media/js/bootstrap.min.js')
-    //->add_js_file(JPATH_SITE . '/media/js/jquery.ui/jquery-ui-1.8.7.custom.min.js')
+    ->add_js_file(JPATH_SITE . '/media/js/jquery-ui.js')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.hotkeys.js')
     ->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.tiptip.js')
     //->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/jquery.jeditable.js')
@@ -40,6 +40,8 @@ joosDocument::$config['seotag'] = FALSE;
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <?php echo joosDocument::javascript(); ?>
 
 </head>
 <body>
@@ -71,7 +73,7 @@ joosDocument::$config['seotag'] = FALSE;
 <div class="container">
 
     <?php joosModuleAdmin::load_by_name('flash_message'); ?>
-    
+
     <div id="component"><?php echo joosDocument::get_body(); ?></div>
 
 </div>
@@ -80,7 +82,6 @@ joosDocument::$config['seotag'] = FALSE;
         var _option = '<?php echo joosRequest::param('option'); ?>';
         var _cur_template = '<?php echo JTEMPLATE_ADMIN; ?>';
     </script>
-    <?php echo joosDocument::javascript(); ?>
     <?php echo joosDocument::footer_data(); ?>
 </body>
 </html>
