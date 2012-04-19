@@ -882,14 +882,10 @@ class joosModel {
 			$tmp[] = $this->_db->get_name_quote($k) . '=' . $val;
 		}
         
+        // если в параметрах не было ни одного заполненного поля
         if( count($tmp)==0 ){
             
-            return false;
-            
-            throw new joosDatabaseException('Для поиска значения модели :model_name не указано ни одного параметра', 
-                array(':model_name'=>$this->get_class_name()) 
-            );
-            
+            return false;          
         }
         
 		return sprintf($fmtsql, implode(' AND ', $tmp));
