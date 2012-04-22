@@ -32,7 +32,7 @@ class actionsPages extends joosController {
 
 		$page = new modelPages;
 		$page->slug = $slug;
-		$page->find() ? null : self::error404();
+		$page->find() ? null : joosPages::page404();
 
 		// одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
 		if (self::$error) {

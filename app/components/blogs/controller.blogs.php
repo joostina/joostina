@@ -19,10 +19,7 @@ class actionsBlogs extends joosController {
 
         joosBreadcrumbs::instance()
             ->add('Главная', joosRoute::href('default'))
-            ->add('Новости', joosRoute::href('news'));
-
-        joosDocument::instance()
-            ->add_js_file( JPATH_SITE . '/app/components/blogs/media/js/blogs.js' );
+            ->add('Блоги', joosRoute::href('blog'));
         
     }
 
@@ -33,44 +30,60 @@ class actionsBlogs extends joosController {
      * @return array
      */
     public static function index() {
-
-        $news = new modelNews();
+        
+        $blogs = new modelBlogs;
 
         $page = isset(self::$param['page']) ? self::$param['page'] : 0;
-        $pager = new joosPager(joosRoute::href('news'), $news->count('WHERE state = 1'), 5);
+        $pager = new joosPager(joosRoute::href('blog'), $blogs->count('WHERE state = 1'), 5);
       	$pager->paginate($page);
 
-        $news = $news->get_list(array(
-            'where' => 'state = 1',
-            'order' => 'id DESC',
+        $blog_items = $blogs->get_list(array(
+            'select'=>'b.*, bc.title as category_title, bc.slug as category_slug, u.id AS user_id, u.user_name',
+            'join'=>' AS b'
+                .' INNER JOIN #__blogs_category AS bc ON( b.category_id = bc.id )'
+                .' INNER JOIN #__users AS u ON( b.user_id = u.id )',
+            'where' => 'b.state = 1',
+            'order' => 'b.id DESC',
             'limit' => $pager->limit,
             'offset' => $pager->offset
         ));
-
+        
         joosDocument::instance()
-            ->set_page_title('Новости')
-            ->add_meta_tag('description', 'Новости компании');
-
-        joosBreadcrumbs::instance()
-            ->add('Новости');
-
-        return array('news' => $news, 'pager' => $pager);
+            ->set_page_title('Блоги')
+            ->add_meta_tag('description', 'Блоги');
+        
+        return array(
+            'blogs_items' => $blog_items, 
+            'pager' => $pager
+        );
     }
 
     public static function view() {
 
         $id = self::$param['id'];
 
-        $item = new modelNews();
-        $item->id = $id;
-        $item->find() ? null : joosPages::page404();
+        $blog_item = new modelBlogs();
+        ($blog_item->load( $id ) && $blog_item->state==1)  ? null : joosPages::page404();
+        
+        $blog_category = new modelBlogsCategory;
+        ($blog_category->load( $blog_item->category_id ) && $blog_category->state==1)  ? null : joosPages::page404();
+
+        $author = new modelUsers;
+        ($author->load( $blog_item->user_id ) && $author->state==1)  ? null : joosPages::page404();
+
 
         joosDocument::instance()
-            ->set_page_title($item->title)
-            ->add_meta_tag('description', 'Новости компании');
+            ->set_page_title($blog_item->title)
+            ->add_meta_tag('description', 'Блоги');
 
+        joosBreadcrumbs::instance()
+            ->add($blog_item->title);
 
-        return array('item' => $item);
+        return array(
+            'blog_item' => $blog_item,
+            'blog_category'=>$blog_category,
+            'author'=>$author,
+        );
     }
 
     //редактирование
@@ -84,13 +97,15 @@ class actionsBlogs extends joosController {
 
 
         joosDocument::instance()
-            ->set_page_title('Новости')
-            ->add_meta_tag('description', 'Новости сайта');
+            ->set_page_title('Блоги')
+            ->add_meta_tag('description', 'Блоги');
 
         joosBreadcrumbs::instance()
-            ->add('Новости');
+            ->add('Блоги');
 
-        return array();
+        return array(
+            
+        );
 
     }
 
@@ -105,13 +120,15 @@ class actionsBlogs extends joosController {
          */
 
         joosDocument::instance()
-            ->set_page_title('Новости')
-            ->add_meta_tag('description', 'Новости сайта');
+            ->set_page_title('Блоги')
+            ->add_meta_tag('description', 'Блоги');
 
         joosBreadcrumbs::instance()
-            ->add('Новости');
+            ->add('Блоги');
 
-        return array();
+        return array(
+            
+        );
     }
 
 }

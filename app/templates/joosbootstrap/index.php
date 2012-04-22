@@ -59,6 +59,7 @@ joosDocument::$config['seotag'] = FALSE;
                     <ul class="dropdown-menu">
                         <li><a href="index2.php?option=users&menu=my_profile_edit&task=my_profile_edit">Редактировать профиль</a></li>
                         <li class="divider"></li>
+                        <li><a href="<?php echo JPATH_SITE ?>" target="_blank">Перейти на сайт</a></li>
                         <li><a href="index2.php?option=logout">Выйти</a></li>
                     </ul>
                 </li>

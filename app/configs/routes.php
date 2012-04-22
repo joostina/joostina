@@ -82,18 +82,18 @@ return array(
 	'blog' => array(
 		'href' => 'blogs',
 		'defaults' => array(
-			'controller' => 'blog',
+			'controller' => 'blogs',
 			'action' => 'index'
 		)
 	),
 	'blog_view' => array(
-		'href' => 'blogs/<cat_slug>/<id>',
+		'href' => 'blogs/<category_slug>/<id>',
 		'params_rules' => array(
-			'id' => ':digit',
-			'cat_slug' => '[a-z]+'
+            'category_slug' => '[a-z\-]+',
+			'id' => ':digit'
 		),
 		'defaults' => array(
-			'controller' => 'blog',
+			'controller' => 'blogs',
 			'action' => 'view'
 		)
 	),
@@ -103,16 +103,16 @@ return array(
 			'id' => ':digit'
 		),
 		'defaults' => array(
-			'controller' => 'blog',
+			'controller' => 'blogs',
 			'action' => 'view'
 		)
 	),
 	'blog_cat' => array(
-		'href' => 'blogs/<cat_slug>',
+		'href' => 'blogs/<category_slug>',
 		'params_rules' => array(
-			'cat_slug' => '[a-z]+'),
+			'category_slug' => '[a-z\-]+'),
 		'defaults' => array(
-			'controller' => 'blog',
+			'controller' => 'blogs',
 			'action' => 'category'
 		)
 	),
@@ -122,7 +122,7 @@ return array(
 			'page' => ':digit'
 		),
 		'defaults' => array(
-			'controller' => 'blog',
+			'controller' => 'blogs',
 			'action' => 'index'
 		)
 	),

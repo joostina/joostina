@@ -46,8 +46,10 @@ class modelAdminBlogs extends modelBlogs {
                 'in_admintable' => true,
                 'html_table_element' => 'value',
                 'html_table_element_param' => array(),
-                'html_edit_element' => 'edit',
-                'html_edit_element_param' => array(),
+                'html_edit_element' => 'option',
+                'html_edit_element_param' => array(
+                    'call_from' => 'modelAdminBlogs::get_categories_selector'
+                ),
             ),
             'user_id' => array(
                 'name' => 'Автор',
@@ -114,6 +116,18 @@ class modelAdminBlogs extends modelBlogs {
         );
     }
 
+    /**
+     * Получение списка категорий блоов в виде двумерно массива id=>title
+     * 
+     * @static
+     * @return array
+     */
+    public static function get_categories_selector(){
+
+        $categories_obj = new modelBlogsCategory;
+        return $categories_obj->get_selector();
+    }
+    
 }
 
 /**
@@ -153,15 +167,6 @@ class modelAdminBlogsCategory extends modelBlogsCategory {
             'description' => array(
                 'name' => 'Описание',
                 'editable' => true,
-                'in_admintable' => true,
-                'html_table_element' => 'value',
-                'html_table_element_param' => array(),
-                'html_edit_element' => 'edit',
-                'html_edit_element_param' => array(),
-            ),
-            'params' => array(
-                'name' => 'params',
-                'editable' => false,
                 'in_admintable' => true,
                 'html_table_element' => 'value',
                 'html_table_element_param' => array(),

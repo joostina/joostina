@@ -23,7 +23,7 @@ class joosFilter {
 	 *
 	 * @return string преобразованная строка
 	 */
-	public static function htmlentities($value, $quoteStyle = ENT_NOQUOTES) {
+	public static function htmlentities($value, $quoteStyle = ENT_QUOTES) {
 		return htmlentities($value, $quoteStyle, 'UTF-8');
 	}
 
@@ -35,7 +35,7 @@ class joosFilter {
 	 *
 	 * @return string преобразованная строка
 	 */
-	public static function htmlspecialchars($value, $quoteStyle = ENT_NOQUOTES) {
+	public static function htmlspecialchars($value, $quoteStyle = ENT_QUOTES) {
 		return htmlspecialchars($value, $quoteStyle, 'UTF-8');
 	}
 
