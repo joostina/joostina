@@ -106,7 +106,8 @@ class modelAdminNews extends modelNews {
             'header_main' => 'Новости',
    			'header_list' => 'Все новости',
    			'header_new' => 'Создание новости',
-   			'header_edit' => 'Редактирование новости');
+   			'header_edit' => 'Редактирование новости'
+           );
    	}
 
     public function get_extrainfo() {

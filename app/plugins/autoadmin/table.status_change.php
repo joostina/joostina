@@ -18,31 +18,32 @@ defined('_JOOS_CORE') or die();
  * */
 class autoadminTableStatusChange implements joosAutoadminPluginsTable{
 
-	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
+    public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 
-		$element_param = array_merge_recursive($element_param, array(
-			'html_table_element_param' =>
-			array('statuses' =>
-				array(
-					0 => __('Активно'),
-					1 => __('Не активно')
-				),
-				'images' => array(
-					0 => 'remove',
-					1 => 'ok'
-				)
-			)
-				)
-		);
+        $element_param = array_merge_recursive($element_param, array(
+                'html_table_element_param' =>
+                array(
+                    'statuses' =>
+                    array(
+                        0 => __('Активно'),
+                        1 => __('Не активно')
+                    ),
+                    'images' => array(
+                        0 => 'remove',
+                        1 => 'ok'
+                    )
+                ),
+            )
+        );
 
-		$style = isset($element_param['html_table_element_param']['images'][$value]) ? $element_param['html_table_element_param']['images'][$value] : 'error.png';
-		$text = isset($element_param['html_table_element_param']['statuses'][$value]) ? $element_param['html_table_element_param']['statuses'][$value] : 'ERROR';
+        $style = isset($element_param['html_table_element_param']['images'][$value]) ? $element_param['html_table_element_param']['images'][$value] : 'error.png';
+        $text = isset($element_param['html_table_element_param']['statuses'][$value]) ? $element_param['html_table_element_param']['statuses'][$value] : 'ERROR';
 
-		return '
+        return '
 		    <button class="btn btn-mini js-tooltip js-set_state" title="' . $text . '" data-id="' . $values->id . '" data-state="'.$values->state.'">
 		        <i class="icon-'.$style.'"></i>
 		    </button>';
 
-	}
+    }
 
 }

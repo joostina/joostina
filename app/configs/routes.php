@@ -78,15 +78,6 @@ return array(
 			'action' => 'upload'
 		)
 	),
-    
-	// сборник тестиования системных функций
-	'unittest' => array(
-		'href' => 'unittest',
-		'defaults' => array(
-			'controller' => 'example',
-			'action' => 'index'
-		)
-	),
 	/* Компонент блогов */
 	'blog' => array(
 		'href' => 'blogs',

@@ -62,4 +62,11 @@ return array(
     'Thumbnail' => 'core/libraries/image.php',
     'modelAdminCoder_Faker' => 'app/components/coder/models/model.admin.coder.php',
     'helperTest'=>'app/components/test/helpers/helpers.test.php',
+
+    /* блоги */
+    'modelBlogs' => 'app/components/blogs/models/model.blogs.php',
+    'modelBlogsCategory' => 'app/components/blogs/models/model.blogs.php',
+    'modelAdminBlogs' => 'app/components/blogs/models/model.admin.blogs.php',
+    'modelAdminBlogsCategory' => 'app/components/blogs/models/model.admin.blogs.php',
+    
 );

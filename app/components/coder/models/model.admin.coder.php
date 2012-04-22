@@ -97,18 +97,18 @@ class modelAdminCoder {
 
         $buffer_site[] = "\n}\n";
 
-        $buffer_site[] = "\n/**";
-        $buffer_site[] = "\n * Модель панели управления компонента $className";
-        $buffer_site[] = "\n * ";
-        $buffer_site[] = "\n * @package Components\\$className";
-        $buffer_site[] = "\n * @subpackage Models\Admin";
-        $buffer_site[] = "\n * @author JoostinaTeam <info@joostina.ru>";
-        $buffer_site[] = "\n * @copyright (C) 2007-2012 Joostina Team";
-        $buffer_site[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
-        $buffer_site[] = "\n * @created " . JCURRENT_SERVER_TIME;
-        $buffer_site[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
-        $buffer_site[] = "\n * ";
-        $buffer_site[] = "\n */";
+        $buffer_admin[] = "\n/**";
+        $buffer_admin[] = "\n * Модель панели управления компонента $className";
+        $buffer_admin[] = "\n * ";
+        $buffer_admin[] = "\n * @package Components\\$className";
+        $buffer_admin[] = "\n * @subpackage Models\Admin";
+        $buffer_admin[] = "\n * @author JoostinaTeam <info@joostina.ru>";
+        $buffer_admin[] = "\n * @copyright (C) 2007-2012 Joostina Team";
+        $buffer_admin[] = "\n * @license MIT License http://www.opensource.org/licenses/mit-license.php";
+        $buffer_admin[] = "\n * @created " . JCURRENT_SERVER_TIME;
+        $buffer_admin[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
+        $buffer_admin[] = "\n * ";
+        $buffer_admin[] = "\n */";
         
         $buffer_admin[] = "\nclass modelAdmin$className extends model$className {";
 
@@ -130,6 +130,7 @@ class modelAdminCoder {
 
         $buffer_admin[] = "\n\n	public function get_tableinfo() {\n";
         $buffer_admin[] = "			return array(";
+        $buffer_admin[] = "\n				'header_main' => '$className',";
         $buffer_admin[] = "\n				'header_list' => '$className',";
         $buffer_admin[] = "\n				'header_new' => 'Создание $className',";
         $buffer_admin[] = "\n				'header_edit' => 'Редактирование $className'";

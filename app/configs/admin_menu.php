@@ -11,6 +11,7 @@
 defined('_JOOS_CORE') or die();
 
 return array(
+/*    
     'Контент' => array(
         'title' => 'Контент сайта',
         'href' => '/',
@@ -58,7 +59,7 @@ return array(
             ),
         ),
     ),
-
+*/
     'Пользователи' => array(
         'title' => '',
         'href' => '/',
@@ -101,6 +102,30 @@ return array(
         )
     ),
 
+    'Блоги' => array(
+        'title' => '',
+        'href' => '/',
+        'children' => array(
+            'Блогозаписи' => array(
+                'href' => 'index2.php?option=blogs',
+                'ico' => '',
+            ),
+            'Добавить блогозапись' => array(
+                'href' => 'index2.php?option=blogs&task=create',
+                'ico' => '',
+            ),
+            'Категории' => array(
+                'href' => 'index2.php?option=blogs&menu=blogs_category',
+                'ico' => '',
+            ),
+            'Добавить категорию' => array(
+                'href' => 'index2.php?option=blogs&menu=blogs_category&task=create',
+                'ico' => '',
+            ),
+
+        )
+    ),
+    
     'Страницы' => array(
         'title' => '',
         'href' => '/',

@@ -31,47 +31,37 @@ CREATE TABLE IF NOT EXISTS `jos_attached` (
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Дамп данных таблицы `jos_attached`
---
-
-
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `jos_blog`
+-- Структура таблицы `jos_blogs`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_blog` (
+CREATE TABLE IF NOT EXISTS `jos_blogs` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
-  `introtext` text,
-  `fulltext` longtext,
+  `text_intro` text,
+  `text_full` longtext,
   `params` text,
   `category_id` tinyint(2) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
+  `state` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL,
+  `modified_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`slug`),
-  KEY `state` (`state`),
   KEY `category_id` (`category_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_blog`
---
-
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `jos_blog_category`
+-- Структура таблицы `jos_blogs_category`
 --
 
-CREATE TABLE IF NOT EXISTS `jos_blog_category` (
+CREATE TABLE IF NOT EXISTS `jos_blogs_category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `slug` varchar(100) NOT NULL,
@@ -82,12 +72,7 @@ CREATE TABLE IF NOT EXISTS `jos_blog_category` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`slug`),
   KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `jos_blog_category`
---
-
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
