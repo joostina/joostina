@@ -102,6 +102,21 @@ return array(
         )
     ),
 
+    'Страницы' => array(
+        'title' => '',
+        'href' => '/',
+        'children' => array(
+            'Все страницы' => array(
+                'href' => 'index2.php?option=pages',
+                'ico' => '',
+            ),
+            'Добавить страницу' => array(
+                'href' => 'index2.php?option=pages&task=create',
+                'ico' => '',
+            ),
+        )
+    ),
+    
     'Блоги' => array(
         'title' => '',
         'href' => '/',
@@ -126,80 +141,6 @@ return array(
         )
     ),
     
-    'Страницы' => array(
-        'title' => '',
-        'href' => '/',
-        'children' => array(
-            'Все страницы' => array(
-                'href' => 'index2.php?option=pages',
-                'ico' => '',
-            ),
-            'Добавить страницу' => array(
-                'href' => 'index2.php?option=pages&task=create',
-                'ico' => '',
-            ),
-        )
-    ),
-    
-    'Центр расширений' => array(
-        'title' => '',
-        'href' => '/',
-        'children' => array(
-            'Компоненты' => array(
-                'href' => '/',
-                'ico' => 'ico-component',
-            ),
-            'Модули' => array(
-                'href' => 'index2.php?option=modules',
-                'ico' => 'ico-component',
-            ),
-            'Плагины' => array(
-                'href' => '/',
-                'ico' => 'ico-component',
-            ),
-
-        )
-    ),
-
-    'Настройки' => array(
-        'title' => '',
-        'href' => '/',
-        'children' => array(
-            'Настройки сайта' => array(
-                'href' => '/',
-                'ico' => '',
-                'type' => 'sep'
-            ),
-            'Конфигурация сайта' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Позиции модулей' => array(
-                'href' => 'index2.php?option=templates&task=positions',
-                'ico' => '',
-            ),
-
-            'Настройки админ-панели:' => array(
-                'href' => '/',
-                'ico' => '',
-                'type' => 'sep'
-            ),
-            'Конфигурация админ-панели' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-
-            'Модули админ-панели' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Меню компонентов' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-
-        )
-    ),
     'Инструменты' => array(
         'title' => '',
         'href' => '/',
@@ -208,36 +149,12 @@ return array(
                 'href' => 'index2.php?option=coder',
                 'ico' => '',
             ),
+            'Генерация контроллеров' => array(
+                'href' => 'index2.php?option=coder&task=code_generator',
+                'ico' => '',
+            ),
             'Генератор автозагрузки' => array(
                 'href' => 'index2.php?option=coder&task=autoload_generator',
-                'ico' => '',
-            ),
-            'Файловый менеджер' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Менеджер БД' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Управление кэшем' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Инструменты оптимизации' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Резервное копирование' => array(
-                'href' => '/',
-                'ico' => '',
-            ),
-            'Сборщик системы' => array(
-                'href' => '',
-                'ico' => '',
-            ),
-            'Системная корзина' => array(
-                'href' => '/',
                 'ico' => '',
             ),
         )

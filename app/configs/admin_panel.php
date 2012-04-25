@@ -28,24 +28,72 @@ return array(
             'ico' => 'folder-publicshare',
         )
     ),
-    'clear_1'=>true,
+    'clear_pages'=>true,
     'Статичные страницы' => array(
         'Все страницы' => array(
             'href' => 'index2.php?option=pages',
             'title' => '',
             'ico' => 'text-editor',
         ),
-        'Добавить новую' => array(
+        'Добавить страницу' => array(
             'href' => 'index2.php?option=pages&task=create',
             'title' => '',
             'ico' => 'stock_copy',
         ),
 
     ),
-    'clear_2'=>true,
+    'clear_news'=>true,
+    'Новости' => array(
+        'Все новости' => array(
+            'href' => 'index2.php?option=news',
+            'title' => '',
+            'ico' => 'edit-select-all',
+        ),
+        'Добавить новость' => array(
+            'href' => 'index2.php?option=news&task=create',
+            'title' => '',
+            'ico' => 'stock_copy',
+        ),
+
+    ),
+    'clear_blogs'=>true,
+    'Блоги' => array(
+        'Блогозаписи' => array(
+            'href' => 'index2.php?option=blogs',
+            'title' => '',
+            'ico' => 'folder-documents',
+        ),
+        'Добавить блогозапись' => array(
+            'href' => 'index2.php?option=blogs&task=create',
+            'title' => '',
+            'ico' => 'stock_edit',
+        ),
+        'Категории' => array(
+            'href' => 'index2.php?option=blogs&menu=blogs_category',
+            'title' => '',
+            'ico' => 'fileopen',
+        ),
+        'Добавить категорию' => array(
+            'href' => 'index2.php?option=blogs&menu=blogs_category&task=create',
+            'title' => '',
+            'ico' => 'folder-new',
+        ),
+
+    ),
+    'clear_coder'=>true,
     'Инструменты' => array(
-        'Кодогенератор' => array(
+        'Генератор моделей' => array(
             'href' => 'index2.php?option=coder',
+            'title' => '',
+            'ico' => 'application-default-icon',
+        ),
+        'Генератор контроллеров' => array(
+            'href' => 'index2.php?option=coder&task=code_generator',
+            'title' => '',
+            'ico' => 'application-default-icon',
+        ),
+        'Генератор автозагрузки' => array(
+            'href' => 'index2.php?option=coder&task=autoload_generator',
             'title' => '',
             'ico' => 'application-default-icon',
         ),

@@ -23,16 +23,9 @@ class actionsAdminCoder  extends joosAdminController{
             'active' => false
         ),
 
-        'codegenerator' => array(
-            'name' => 'Генератор компонента',
-            'href' => 'index2.php?option=coder&task=codegenerator',
-            'active' => false
-        ),
-
-        'db_faker' => array(
-            'name' => 'Генератор тестовых данных',
-            'href' => 'index2.php?option=coder&task=faker',
-            'model' => 'modelAdminCoder_Faker',
+        'code_generator' => array(
+            'name' => 'Генератор контроллеров',
+            'href' => 'index2.php?option=coder&task=code_generator',
             'active' => false
         ),
 
@@ -42,6 +35,12 @@ class actionsAdminCoder  extends joosAdminController{
             'active' => false
         ),
 
+        'db_faker' => array(
+            'name' => 'Генератор тестовых данных',
+            'href' => 'index2.php?option=coder&task=faker',
+            'model' => 'modelAdminCoder_Faker',
+            'active' => false
+        ),
 
     );
 
@@ -86,9 +85,9 @@ class actionsAdminCoder  extends joosAdminController{
         );
     }
 
-    public static function codegenerator() {
+    public static function code_generator() {
 
-        self::$submenu['codegenerator']['active'] = true;
+        self::$submenu['code_generator']['active'] = true;
         
         return array();
     }
