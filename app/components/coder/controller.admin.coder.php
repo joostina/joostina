@@ -23,9 +23,9 @@ class actionsAdminCoder  extends joosAdminController{
             'active' => false
         ),
 
-        'component_generator' => array(
+        'codegenerator' => array(
             'name' => 'Генератор компонента',
-            'href' => 'index2.php?option=coder&task=componenter',
+            'href' => 'index2.php?option=coder&task=codegenerator',
             'active' => false
         ),
 
@@ -86,51 +86,11 @@ class actionsAdminCoder  extends joosAdminController{
         );
     }
 
-    public static function componenter() {
+    public static function codegenerator() {
 
-        //Установка подменю
-        self::$submenu['component_generator']['active'] = true;
-
-        //Установка заголовка
-        echo joosAutoadmin::header('Кодер', self::$submenu['db_faker']['name']);
-        ?>
-    <table class="adminlist">
-        <tr>
-            <th>Описание</th>
-            <th>Код компонента</th>
-        </tr>
-        <tr>
-            <td width="200">
-                <?php echo forms::open('#', array('id' => 'componenter_form')); ?>
-                <label for="">Имя компонента:</label><br/>
-                <input type="text" name="component_name" class="text" value="news"/>
-                <br/><br/>
-
-                <label for="">Заголовок компонента:</label><br/>
-                <input type="text" name="component_title" class="text" value="Новости"/>
-                <br/><br/>
-
-                <label for="">Описание компонента:</label><br/>
-                <input type="text" name="component_desc" class="text" value="Компонент новостей"/>
-                <br/><br/>
-
-                <label for="">Автор:</label><br/>
-                <input type="text" name="component_author" class="text" value="Joostina Team"/>
-                <br/><br/>
-
-                <label for="">Email:</label><br/>
-                <input type="text" name="component_authoremail" class="text" value="info@joostina.ru"/>
-                <br/><br/>
-                <?php echo forms::close(); ?>
-                <button id="create_component">Сгенерировать</button>
-            </td>
-            <td>
-                <div id="componenter_results"></div>
-            </td>
-        </tr>
-    </table>
-    <?php
-        echo joosAutoadmin::footer();
+        self::$submenu['codegenerator']['active'] = true;
+        
+        return array();
     }
 
     public static function autoload_generator(){

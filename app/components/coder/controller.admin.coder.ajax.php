@@ -113,66 +113,45 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 		self::generate_component(true);
 	}
 
-	public static function generate_component($create_files = false) {
+	public static function generate_component() {
 
-		$tpls_vars = array('name' => '',
-			'desc' => '',
-			'author' => '',
-			'authoremail' => '',
-			'title' => '');
+		$template_vars_default = array(
+            'component_title' => '',
+            'component_name' => '',
+			'component_description' => '',
+			'component_author' => 'Joostina Team',
+			'component_authoremail' => 'info@joostina.ru',
+            'component_copyright'=>'(C) 2007-2012 Joostina Team'
+        );
 
-		foreach ($tpls_vars as $var => $val) {
-			$tpls_vars[$var] = joosRequest::post('component_' . $var, '');
+        $template_vars = array();
+		foreach ($template_vars_default as $var => $default_value) {
+            $value = joosRequest::post($var, false);
+			$template_vars[':'.$var] = $value ? $value : $default_value;
 		}
+    
+		$template_vars[':component_name_camelcase'] =  joosInflector::camelize($template_vars[':component_name']);
 
-		$tpls_vars['name_lower'] = strtolower($tpls_vars['name']);
-		$tpls_vars['name_upper'] = ucfirst($tpls_vars['name']);
+        $template_path_root = JPATH_BASE . DS . 'app' . DS . 'components' . DS . 'coder' . DS . 'templates' . DS . 'component'.DS;
 
-		$tpl_path = JPATH_BASE . DS . 'app' . DS . 'components' . DS . 'coder' . DS . 'tpls' . DS . 'componenter';
+        
+        $template_files = array(
+            'controller.component_name.php',
+            'controller.component_name.ajax.php',
+            'controller.admin.component_name.php',
+            'controller.admin.component_name.ajax.php'
+        );
 
-		$ret = array();
 
-		$c_path = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $tpls_vars['name_lower'];
-		if ($create_files == true) {
+        foreach ($template_files as $template_file) {
+            $template_body = joosFile::get_content( $template_path_root . $template_file);
 
-			// @todo переделать на joosFile
-			$_blank = '<html><body></body></html>';
-			// @todo переделать
-			$file = new joosFile;
-			$file->create($c_path);
-			$file->create($c_path . DS . 'index.html', $_blank);
-			$file->create($c_path . DS . 'views');
-			$file->create($c_path . DS . 'views' . DS . 'index.html', $_blank);
-			$file->create($c_path . DS . 'admin_views');
-			$file->create($c_path . DS . 'admin_views' . DS . 'index.html', $_blank);
-			$file->create($c_path . DS . 'media');
-			$file->create($c_path . DS . 'media' . DS . 'index.html', $_blank);
-		}
-
-		$files = array('c' => $tpls_vars['name_lower'],
-			'c_ajax' => $tpls_vars['name_lower'] . '.ajax',
-			'c_class' => $tpls_vars['name_lower'] . '.class',
-			'c_admin' => 'admin.' . $tpls_vars['name_lower'],
-			'c_admin_ajax' => 'admin.' . $tpls_vars['name_lower'] . '.ajax',
-			'c_admin_class' => 'admin.' . $tpls_vars['name_lower'] . '.class',
-			'c_params' => $tpls_vars['name_lower'] . '.params');
-
-		foreach ($files as $type => $name) {
-			$content = file_get_contents($tpl_path . DS . $type . '.txt');
-			$content = sprintf($content, $tpls_vars['name_upper'], $tpls_vars['name_lower'], $tpls_vars['desc'], $tpls_vars['author'], $tpls_vars['authoremail'], $tpls_vars['title']);
-			$ret[] = '<strong>' . $name . '.php</strong><br/>' . forms::textarea(array('name' => 'c_admin',
-						'value' => $content,
-						'rows' => '5',
-						'class' => 'c_content')) . '<br/><br/>';
-			if ($create_files == true) {
-				$file->create($c_path . DS . $name . '.php', $content);
-			}
-		}
-
-		$output = implode('', $ret);
-		$output .= is_dir($c_path) ? 'Такой компонент уже существует, введите другое имя, чтобы создать файлы' : '<button id="create_component_files">Создать файлы</button>';
-
-		echo $output;
+            $b = strtr($template_body,$template_vars);
+            
+            echo sprintf('<textarea class="span8" rows="10">%s</textarea>',$b);
+            
+        }
+       
 	}
 
 }
