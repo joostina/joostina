@@ -4,13 +4,13 @@ $(document).ready(function() {
 
     $('#coder_form input').live('click', function() {
 
-        var $hhhh = $('#coder_form').serialize();
+        var $coder_data = $('#coder_form').serialize();
 
         $.ajax({
             url:"ajax.index.php?option=coder",
             type:"POST",
             dataType:'json',
-            data: $hhhh,
+            data: $coder_data,
             success:function(data) {
 
                 $("#coder_results_site").html(data.body_site);
@@ -45,30 +45,17 @@ $(document).ready(function() {
     $('#create_component').live('click', function() {
 
         $.ajax({
-            url:"ajax.index.php?option=coder&task=generate_code",
+            url:"ajax.index.php?option=coder&task=codegenerator",
             type:"POST",
+            dataType:'json',
             cache:false,
             data:$('#componenter_form').serialize(),
             success:function(html) {
-                $("#componenter_results").html(html);
+                $("#componenter_results").html(html.body);
             }
         });
 
     });
 
-
-    $('#create_component_files').live('click', function() {
-
-        $.ajax({
-            url:"ajax.index.php?option=coder&task=generate_files",
-            type:"POST",
-            cache:false,
-            data:$('#componenter_form').serialize(),
-            success:function(html) {
-                $("#componenter_results").html(html);
-            }
-        });
-
-    });
 
 });

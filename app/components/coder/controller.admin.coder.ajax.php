@@ -105,16 +105,8 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 		return $return;
 	}
 
-	public static function generate_code() {
-		self::generate_component();
-	}
-
-	public static function generate_files() {
-		self::generate_component(true);
-	}
-
-	public static function generate_component() {
-
+	public static function codegenerator() {
+        
 		$template_vars_default = array(
             'component_title' => '',
             'component_name' => '',
@@ -136,22 +128,24 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
 
         
         $template_files = array(
-            'controller.component_name.php',
-            'controller.component_name.ajax.php',
-            'controller.admin.component_name.php',
-            'controller.admin.component_name.ajax.php'
+            'controller.component_name',
+            'controller.component_name.ajax',
+            'controller.admin.component_name',
+            'controller.admin.component_name.ajax'
         );
 
-
+        $return = array();
         foreach ($template_files as $template_file) {
             $template_body = joosFile::get_content( $template_path_root . $template_file);
 
-            $b = strtr($template_body,$template_vars);
+            $file_body = strtr($template_body,$template_vars);
+            $file_name = str_replace('component_name', $template_vars[':component_name'] ,$template_file);
             
-            echo sprintf('<textarea class="span8" rows="10">%s</textarea>',$b);
+            $return[$template_file] = sprintf('%s.php<br /><textarea class="span10" rows="10">%s</textarea>',$file_name,$file_body);
             
         }
-       
+        
+        return array('success'=>true, 'body' => implode("\n", $return) );
 	}
 
 }
