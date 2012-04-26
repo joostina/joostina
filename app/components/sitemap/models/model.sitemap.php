@@ -86,7 +86,7 @@ class modelSitemap {
 			require_once JPATH_APP_PLUGINS_BASE . DS . 'sitemap' . DS . $space . '.php';
 
 			//По несложному правилу определяем имя модельки
-			$model = 'sitemap' . joosInflector::camelize($space);
+			$model = 'pluginSitemap' . joosInflector::camelize($space);
 
 			//Настройки плагина
 			$params = $model::get_params();
