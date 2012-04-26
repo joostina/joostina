@@ -23,7 +23,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class editorJwysiwyg {
+class pluginEditorJwysiwyg {
 
 	public static function init() {
 

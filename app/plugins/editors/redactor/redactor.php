@@ -24,7 +24,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class editorRedactor {
+class pluginEditorRedactor {
 
 	public static function init() {
 

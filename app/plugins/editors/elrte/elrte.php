@@ -23,7 +23,7 @@ defined('_JOOS_CORE') or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class editorElrte {
+class pluginEditorElrte {
 
 	public static function init() {
 
