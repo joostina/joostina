@@ -26,8 +26,7 @@ joosCoreAdmin::start();
 joosCoreAdmin::init_user();
 
 if ( helperAcl::is_allowed('admin_panel::use') ) {
-	echo json_encode(array('code' => 500,
-		'message' => 'Ошибка прав доступа'));
+	echo json_encode(array('code' => 500,'message' => 'Ошибка прав доступа'));
 	die();
 }
 
@@ -43,8 +42,7 @@ if (file_exists($file_com)) {
 	include_once ( $file_com );
 	joosAutoadmin::dispatch_ajax();
 } else {
-	echo json_encode(array('code' => 500,
-		'message' => sprintf('Файл контроллера для %s не найден', $file_com)));
+	echo json_encode(array('code' => 500,'message' => sprintf('Файл контроллера для %s не найден', $file_com)));
 	die();
 }
 

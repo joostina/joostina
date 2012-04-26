@@ -23,7 +23,7 @@ class joosException extends Exception {
 
 	public function __construct($message = '', array $params = array()) {
 
-        joosRequest::send_headers_by_code(500);
+        joosRequest::send_headers_by_code(503);
 
 		parent::__construct(strtr($message, $params));
 
@@ -116,7 +116,7 @@ HTML;
 	 */
 	private function to_json() {
 		$response = array(
-			'code' => ( $this->getCode() != 0 ) ? $this->getCode() : 500,
+			'code' => ( $this->getCode() != 0 ) ? $this->getCode() : 503,
 			'message' => $this->getMessage()
 		);
 
@@ -126,7 +126,7 @@ HTML;
 	private function render() {
 		$message = $this->message;
 
-		$file = (!JDEBUG && $this->code != 500) ? sprintf('%s/app/templates/system/500.php', JPATH_BASE) : sprintf('%s/app/templates/system/exception.php', JPATH_BASE);
+		$file = (!JDEBUG && $this->code != 503) ? sprintf('%s/app/templates/system/500.php', JPATH_BASE) : sprintf('%s/app/templates/system/exception.php', JPATH_BASE);
 
 		require $file;
 	}
@@ -152,7 +152,7 @@ class joosUserException extends joosException {
 
 	public function __construct($message = '', array $params = array()) {
 
-		$this->code = 500;
+		$this->code = 503;
 
 		parent::__construct(strtr($message, $params));
 

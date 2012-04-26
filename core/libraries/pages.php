@@ -60,7 +60,7 @@ class joosPages {
      */
     public static function page403( $message = 'В доступе отказано' ) {
 
-        self::init( 301 );
+        self::init( 403 );
         self::render($message,'page_403');
     }
 
@@ -84,7 +84,7 @@ class joosPages {
      */
     public static function error_database( $message = 'Ошибка базы данных' ) {
 
-        self::init( 500 );
+        self::init( 503 );
         self::render($message,'error_database');
     }
 
@@ -96,7 +96,7 @@ class joosPages {
      */
     public static function error_user( $message = 'Ошибка' ) {
 
-        self::init( 500 );
+        self::init( 503 );
         self::render($message,'error_user');
     }
 
@@ -108,7 +108,7 @@ class joosPages {
      */
     public static function error_code( $message = 'Ой, у нас ошибочка' ) {
 
-        self::init( 500 );
+        self::init( 503 );
         self::render($message,'error_code');
     }
 
@@ -120,7 +120,7 @@ class joosPages {
      */
     public static function maintenance( $message = 'Технические работы' ) {
 
-        self::init( 500 );
+        self::init( 503 );
         self::render($message,'maintenance');
     }
 
