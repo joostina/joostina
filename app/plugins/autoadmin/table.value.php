@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminTableValue implements joosAutoadminPluginsTable{
+class pluginAutoadminTableValue implements joosAutoadminPluginsTable{
 
 	public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
 		return $value;

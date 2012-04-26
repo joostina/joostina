@@ -16,7 +16,7 @@ defined( '_JOOS_CORE' ) or die();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class autoadminEditExtraFields implements joosAutoadminPluginsEdit{
+class pluginAutoadminEditExtraFields implements joosAutoadminPluginsEdit{
 
 	public static function render( $element_param , $key , $value , $obj_data , $params , $tabs ) {
 		$element = array ();

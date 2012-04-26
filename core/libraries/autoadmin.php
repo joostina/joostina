@@ -234,7 +234,7 @@ class joosAutoadmin {
     public static function get_listing_html_element(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
 
         $class_file = JPATH_BASE . '/app/plugins/autoadmin/table.' . $element_param['html_table_element'] . '.php';
-        $class_name = 'autoadminTable' . self::get_plugin_name($element_param['html_table_element']);
+        $class_name = 'pluginAutoadminTable' . self::get_plugin_name($element_param['html_table_element']);
 
         if (! joosFile::exists($class_file)) {
             throw new joosAutoadminFilePluginNotFoundException(
@@ -389,7 +389,7 @@ class joosAutoadmin {
     public static function get_edit_html_element($element_param, $key, $value, $obj_data, $params, $tabs) {
 
         $class_file = JPATH_BASE . '/app/plugins/autoadmin/edit.' . $element_param['html_edit_element'] . '.php';
-        $class_name = 'autoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
+        $class_name = 'pluginAutoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
 
         if (! joosFile::exists($class_file)) {
             throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
