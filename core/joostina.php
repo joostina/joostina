@@ -670,14 +670,17 @@ class joosController {
 
 		self::run();
 	}
-
-	/**
-	 * Подключение шаблона
-	 *
-	 * @param string $controller название контроллера
-	 * @param string $task       выполняемая задача
-	 * @param array  $params     массив параметров, которые могут переданы в шаблон
-	 */
+   
+    /**
+     * Подключение шаблона
+     * 
+     * @static
+     * @param string $controller название контроллера
+     * @param string $task       выполняемая задача
+     * @param string $template   название шаблона оформления
+     * @param array  $params     массив параметров, которые могут переданы в шаблон
+     * @param array $params
+     */
 	public static function get_view($controller, $task, $template = 'default', $params = array()) {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $task . DS . $template . '.php';
