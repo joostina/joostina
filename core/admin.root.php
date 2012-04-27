@@ -107,7 +107,7 @@ class joosCoreAdmin extends joosCore {
 		$logintime = joosRequest::session('session_logintime');
 
 		if ($session_id != session_id()) {
-			joosRoute::redirect(JPATH_SITE_ADMIN, __('Вы не авторизованы'));
+			joosRoute::redirect(JPATH_SITE_ADMIN, 'Вы не авторизованы');
 		}
 
 		// check to see if session id corresponds with correct format
@@ -140,13 +140,13 @@ class joosCoreAdmin extends joosCore {
 				if ($count == 0) {
 					setcookie(JADMIN_SESSION_NAME);
 					// TODO тут можно сделать нормальную запоминалку последней активной страницы, и разных данных с неё. И записывать всё это как параметры пользователя в JSON
-					joosRoute::redirect(JPATH_SITE_ADMIN, __('Вы не авторизованы'));
+					joosRoute::redirect(JPATH_SITE_ADMIN, 'Вы не авторизованы');
 				}
 			}
 		} elseif ($session_id == '') {
-			joosRoute::redirect(JPATH_SITE, __('Вы не авторизованы'));
+			joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
 		} else {
-			joosRoute::redirect(JPATH_SITE, __('Вы не авторизованы'));
+			joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
 			exit();
 		}
 
@@ -203,9 +203,9 @@ class joosAdminPagenator {
 		$limits[] = joosHtml::make_option('50');
 		$limits[] = joosHtml::make_option('100');
 		$limits[] = joosHtml::make_option('150');
-		$limits[] = joosHtml::make_option('50000', __('-Всё-'));
+		$limits[] = joosHtml::make_option('50000', '-Всё-');
 		// build the html select list
-		$html = ' ' . __('Отображать') . ' ';
+		$html = ' ' . 'Отображать' . ' ';
 		$html .= joosHtml::select_list($limits, 'limit', 'class="js-limit" size="1"', 'value', 'text', $this->limit);
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		return $html;
@@ -228,9 +228,9 @@ class joosAdminPagenator {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$html .= "\n" . $from_result . "-" . $to_result . " " . __('из') . " " . $this->total;
+			$html .= "\n" . $from_result . "-" . $to_result . " " . 'из' . " " . $this->total;
 		} else {
-			$html .= "\n" . __('Записи не найдены');
+			$html .= "\n" . 'Записи не найдены';
 		}
 		return '' . $html;
 	}

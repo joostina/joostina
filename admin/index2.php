@@ -56,7 +56,7 @@ if (JDEBUG) {
 	if (defined('_MEM_USAGE_START')) {
 		$mem_usage = joosFile::convert_size(( memory_get_usage() - _MEM_USAGE_START));
 	} else {
-		$mem_usage = __('недоступно');
+		$mem_usage = 'недоступно';
 	}
 
 	// подсчет времени генерации страницы

@@ -625,7 +625,7 @@ class joosModel {
 	function set_state_group(array $cid = null, $state = 1) {
 
 		if (count($cid) < 1) {
-			$this->_error = __('Ничего не было выбрано');
+			$this->_error = 'Ничего не было выбрано';
 			return false;
 		}
 

@@ -238,7 +238,7 @@ class joosAutoadmin {
 
         if (! joosFile::exists($class_file)) {
             throw new joosAutoadminFilePluginNotFoundException(
-                sprintf(__('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден'), $class_file, $class_name)
+                sprintf('Файл плагина joosAutoadmin %s  для вывода элемента %s не найден', $class_file, $class_name)
             );
         }
 
@@ -246,7 +246,7 @@ class joosAutoadmin {
 
         if (!class_exists($class_name)) {
             throw new joosAutoadminClassPlugionNotFoundException(
-                sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name)
+                sprintf('Класс для обработки %s средствами joosAutoadmin в файле %s не найден', $class_file, $class_name)
             );
         }
 
@@ -392,13 +392,13 @@ class joosAutoadmin {
         $class_name = 'pluginAutoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
 
         if (! joosFile::exists($class_file)) {
-            throw new joosAutoadminFilePluginNotFoundException(sprintf(__('Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден'), $class_file, $class_name));
+            throw new joosAutoadminFilePluginNotFoundException(sprintf('Файл плагина joosAutoadmin %s  для редактирования элемента %s не найден', $class_file, $class_name));
         }
 
         require_once $class_file;
 
         if (!class_exists($class_name)) {
-            throw new joosAutoadminClassPlugionNotFoundException(sprintf(__('Класс для обработки %s средствами joosAutoadmin в файле %s не найден'), $class_file, $class_name));
+            throw new joosAutoadminClassPlugionNotFoundException(sprintf('Класс для обработки %s средствами joosAutoadmin в файле %s не найден', $class_file, $class_name));
         }
 
         return call_user_func_array($class_name . '::render', array($element_param, $key, $value, $obj_data, $params, $tabs));
@@ -519,8 +519,8 @@ class joosAutoadmin {
                         $fields_info[$obj_key], array(
                         'html_table_element_param' => array(
                             'statuses' => array(
-                                0 => __('Скрыто'),
-                                1 => __('Опубликовано')
+                                0 => 'Скрыто',
+                                1 => 'Опубликовано'
                             ),
                             'images' => array(
                                 0 => 'publish_x.png',
@@ -589,7 +589,7 @@ class joosAutoadmin {
                             ), $field_title);
 
                             $datas_for_select = array(
-                                -1 => __('Всё сразу')
+                                -1 => 'Всё сразу'
                             );
                             $datas_for_select += ( isset($value[$field_name]['call_from']) && is_callable($value[$field_name]['call_from']) ) ? call_user_func($value[$field_name]['call_from'], $obj, $params_key) : array();
 

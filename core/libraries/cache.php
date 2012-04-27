@@ -35,10 +35,10 @@ class joosCache {
 
 				$exists = file_exists($data_store);
 				if (!$exists && !is_writable(dirname($data_store))) {
-					throw new joosCacheException(sprintf(__('Каталог кеширования %s недоступен для записи'), $data_store));
+					throw new joosCacheException(sprintf('Каталог кеширования %s недоступен для записи', $data_store));
 				}
 				if ($exists && !is_writable($data_store)) {
-					throw new joosCacheException(sprintf(__('Файл кеша %s недоступен для записи'), $data_store));
+					throw new joosCacheException(sprintf('Файл кеша %s недоступен для записи', $data_store));
 				}
 				$this->data_store = $data_store;
 				if ($exists) {
@@ -53,7 +53,7 @@ class joosCache {
 			case 'xcache':
 			case 'memcache':
 				if (!extension_loaded($type)) {
-					throw new joosCacheException(sprintf(__('Расширение кеширования %s недоступно либо не установлено'), $type));
+					throw new joosCacheException(sprintf('Расширение кеширования %s недоступно либо не установлено', $type));
 				}
 				if ($type == 'memcache') {
 
@@ -63,14 +63,14 @@ class joosCache {
 					}
 
 					if (!$data_store instanceof Memcache) {
-						throw new joosCacheException(__('Объект кеширования не является допустимым объектом Memcache'));
+						throw new joosCacheException('Объект кеширования не является допустимым объектом Memcache');
 					}
 					$this->data_store = $data_store;
 				}
 				break;
 
 			default:
-				throw new joosCacheException(sprintf(__('Кеширующая система не поддерживает %s, разрешено лишь %s'), $type, join(', ', array('apc', 'file', 'memcache', 'xcache'))));
+				throw new joosCacheException(sprintf('Кеширующая система не поддерживает %s, разрешено лишь %s', $type, join(', ', array('apc', 'file', 'memcache', 'xcache'))));
 		}
 
 		$this->type = $type;

@@ -85,7 +85,7 @@ class actionsUsers extends joosController {
 			joosBreadcrumbs::instance()
                 ->add($user->user_name);
 
-			joosHtml::make_safe($user);
+            joosFilter::make_safe($user);
 
 			return array(
                 'user' => $user

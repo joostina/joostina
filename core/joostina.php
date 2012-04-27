@@ -697,20 +697,6 @@ class joosControllerAjax extends joosController {
 }
 
 /**
- * Заглушка для локализации интерфейса
- *
- * @tutorial __('К нам пришёл :user_name', array(':user_name'=>'Дед мороз') );
- *
- * @param string $string
- * @param array  $args
- *
- * @return string
- */
-function __($string, array $args = null) {
-	return $args === NULL ? $string : strtr($string, $args);
-}
-
-/**
  * Убрать, заменить везде и использовать как joosDebug::dump($var);
  * @deprecated
  */

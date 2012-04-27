@@ -18,7 +18,7 @@ defined( '_JOOS_CORE' ) or die();
 class pluginAutoadminTableOrdering implements joosAutoadminPluginsTable{
 
 	public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
-		return '<img src="' . joosConfig::get( 'admin_icons_path' ) . '/cursor_drag_arrow.png" alt="' . __( 'Переместить' ) . '" />';
+		return '<img src="' . joosConfig::get( 'admin_icons_path' ) . '/cursor_drag_arrow.png" alt="' . 'Переместить' . '" />';
 	}
 
 }

@@ -24,8 +24,8 @@ class pluginAutoadminTableStatusChange implements joosAutoadminPluginsTable{
                 array(
                     'statuses' =>
                     array(
-                        0 => __('Активно'),
-                        1 => __('Не активно')
+                        0 => 'Активно',
+                        1 => 'Не активно'
                     ),
                     'images' => array(
                         0 => 'remove',

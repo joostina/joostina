@@ -31,13 +31,13 @@ class joosFile {
         $num = (int) $num;
 
         if ($num >= 1073741824) {
-            $num = round($num / 1073741824 * 100) / 100 . ' ' . __('gb');
+            $num = round($num / 1073741824 * 100) / 100 . ' ' . 'gb';
         } else if ($num >= 1048576) {
-            $num = round($num / 1048576 * 100) / 100 . ' ' . __('mb');
+            $num = round($num / 1048576 * 100) / 100 . ' ' . 'mb';
         } else if ($num >= 1024) {
-            $num = round($num / 1024 * 100) / 100 . ' ' . __('kb');
+            $num = round($num / 1024 * 100) / 100 . ' ' . 'kb';
         } else {
-            $num .= ' ' . __('byte');
+            $num .= ' ' . 'byte';
         }
         return $num;
     }

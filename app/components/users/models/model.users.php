@@ -159,14 +159,14 @@ class modelUsers extends joosModel {
 		$query = "SELECT id FROM #__users WHERE user_name = " . $this->_db->get_quoted($this->user_name) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
 		if ($xid && $xid != $this->id) {
-			$this->_error = __('Логин уже зарегистрирован');
+			$this->_error = 'Логин уже зарегистрирован';
 			return false;
 		}
 
 		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->get_quoted($this->email) . " AND id != " . (int) $this->id;
 		$xid = $this->_db->set_query($query)->load_result();
 		if ($xid && $xid != $this->id) {
-			$this->_error = __('Email уже зарегистрирован');
+			$this->_error = 'Email уже зарегистрирован';
 			return false;
 		}
 

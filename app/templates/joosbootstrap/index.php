@@ -55,7 +55,7 @@ joosDocument::$config['seotag'] = FALSE;
 
             <ul class="nav pull-right">
                 <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Выйти <?php echo sprintf(__('@%s'), joosCore::user()->user_name) ?> <b class="caret"></b></a>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Выйти <?php echo sprintf('@%s', joosCore::user()->user_name) ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="index2.php?option=users&menu=my_profile_edit&task=my_profile_edit">Редактировать профиль</a></li>
                         <li class="divider"></li>

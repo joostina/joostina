@@ -54,14 +54,14 @@ class joosAutoloader {
         // joosFile::exists тут не подходит, потому как он еще не загрузился
 		if (!is_file($file)) {
 
-			throw new joosAutoloaderFileNotFoundException(sprintf(__('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s'), $file, $class));
+			throw new joosAutoloaderFileNotFoundException(sprintf('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s', $file, $class));
 		}
 
 		require_once $file;
 
 		if (!class_exists($class, false)) {
 			
-			throw new joosAutoloaderClassNotFoundException(sprintf(__('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s'), $class, $file));
+			throw new joosAutoloaderClassNotFoundException(sprintf('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s', $class, $file));
 		}
         
 		//!JDEBUG ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
@@ -145,7 +145,7 @@ class joosAutoloader {
 
 			if (! joosFile::exists($file)) {
 				throw new joosAutoloaderOnStartFileNotFoundException(
-                    sprintf(__('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %'), $file, $name)
+                    sprintf('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %', $file, $name)
                 );
 			}
 

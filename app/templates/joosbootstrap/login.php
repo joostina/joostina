@@ -19,7 +19,7 @@ joosDocument::instance()
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title><?php echo __("Панель управления Joostina CMS") ?></title>
+    <title><?php echo "Панель управления Joostina CMS" ?></title>
     <meta http-equiv="Content-Type" content="text/html;  charset=UTF-8"/>
     <link rel="shortcut icon" href="<?php echo JPATH_SITE; ?>/media/favicon.ico"/>
     <?php echo joosDocument::stylesheet(); ?>

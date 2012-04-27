@@ -65,7 +65,7 @@ class joosEditor {
 		if ( joosFile::exists($editor_file)) {
 			require_once $editor_file;
 		} else {
-			return sprintf('<!-- %s jooEditor::' . self::$editor . ' -->', __('Не найден редактор:'));
+			return sprintf('<!-- %s jooEditor::' . self::$editor . ' -->', 'Не найден редактор:');
 		}
 
 		$editor_class = 'pluginEditor' . joosInflector::camelize(self::$editor);

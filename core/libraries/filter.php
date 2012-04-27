@@ -39,4 +39,46 @@ class joosFilter {
 		return htmlspecialchars($value, $quoteStyle, 'UTF-8');
 	}
 
+
+    /**
+     * "Обезопасивание" сущностей. Защищает данные от вывода их в прямом HTML формате.
+     * Варианты использования - в формах или небезопасных выводах
+     *
+     * @param mixed $mixed        строка массив или объект для обезопасивания
+     * @param const $quote_style  тип зашиты - ENT_COMPAT, ENT_QUOTES или ENT_NOQUOTES
+     * @param mixed $exclude_keys массив или название ключа массива или поля объекта которые обезопасивать не стоит
+     *
+     * @return mixed обезопасенная сущность
+     */
+    public static function make_safe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '') {
+        if (is_object($mixed)) {
+            foreach (get_object_vars($mixed) as $k => $v) {
+                if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_') {
+                    continue;
+                }
+                if (is_string($exclude_keys) && $k == $exclude_keys) {
+                    continue;
+                } else if (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
+                    continue;
+                }
+                $mixed->$k = htmlspecialchars($v, $quote_style, 'UTF-8');
+            }
+        } elseif (is_string($mixed)) {
+            return htmlspecialchars($mixed, $quote_style, 'UTF-8');
+        }
+    }
+
+    /**
+     * Perform a joosHtml::specialchars() with additional URL specific encoding.
+     *
+     * @param   string   string to convert
+     * @param   boolean  encode existing entities
+     *
+     * @return  string
+     */
+    public static function specialurlencode($str, $double_encode = TRUE) {
+        return str_replace(' ', '%20', joosFilter::htmlspecialchars($str, $double_encode));
+    }
+
+
 }

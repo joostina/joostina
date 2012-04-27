@@ -116,7 +116,7 @@ class joosNestedSet extends joosModel {
 		//проверяем, не существует ли уже корневой узел
 		//если существует - прекрашаем выполнение
 		if ($this->check_root_node() === true) {
-			$error = __('Корневой узел уже существует. NestedSet::insert_root_node ("' . $nodeName . '")');
+			$error = 'Корневой узел уже существует. NestedSet::insert_root_node ("' . $nodeName . '")';
 			$this->_set_error($error);
 			return false;
 		}
@@ -127,7 +127,7 @@ class joosNestedSet extends joosModel {
 		$this->level = 0;
 
 		if ($this->store()) {
-			$error = __('Ошибка запроса к БД. NestedSet::insert_root_node ("' . $nodeName . '")');
+			$error = 'Ошибка запроса к БД. NestedSet::insert_root_node ("' . $nodeName . '")';
 			$this->_set_error($error);
 			return false;
 		}
@@ -149,7 +149,7 @@ class joosNestedSet extends joosModel {
 		$parent = new self(array('table' => $this->_tbl));
 
 		if (!$parent->load($source['parent_id'])) {
-			$error = __('Родительский узел не найден ("' . $source['parent_id'] . '")');
+			$error = 'Родительский узел не найден ("' . $source['parent_id'] . '")';
 			$this->_set_error($error);
 			return false;
 		}
@@ -185,7 +185,7 @@ class joosNestedSet extends joosModel {
 		$branch = clone $this;
 
 		if (!$branch->load($id)) {
-			$error = __('Требуемый узел не найден');
+			$error = 'Требуемый узел не найден';
 			$this->_set_error($error);
 			return false;
 		}
@@ -217,7 +217,7 @@ class joosNestedSet extends joosModel {
 		$node = clone $this;
 
 		if (!$node->load($id)) {
-			$error = __('Требуемый узел не найден');
+			$error = 'Требуемый узел не найден';
 			$this->_set_error($error);
 			return false;
 		}
@@ -249,7 +249,7 @@ class joosNestedSet extends joosModel {
 		$node = clone $this;
 
 		if (!$node->load($id)) {
-			$error = __('Требуемый узел не найден');
+			$error = 'Требуемый узел не найден';
 			$this->_set_error($error);
 			return false;
 		}
@@ -258,13 +258,13 @@ class joosNestedSet extends joosModel {
 		$a_rgt = $node->rgt;
 
 		if (!$b_id = $this->_get_id($a_lft - 1, 'r')) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $id . ')');
+			$error = 'Родственный узел слева не найден. NestedSet::move_lft (' . $id . ')';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$b = $this->_get_node($b_id)) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_lft (' . $id . ')');
+			$error = 'Родственный узел слева не найден. NestedSet::move_lft (' . $id . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -301,7 +301,7 @@ class joosNestedSet extends joosModel {
 		$nodeLevel = $this->_get_node_level($nodeId);
 
 		if ($nodeLevel == 0) {
-			$error = __('Это корневой узел, его нельзя перемещать. NestedSet::move_rgt (' . $nodeId . ' ' . $nodeLevel . ')');
+			$error = 'Это корневой узел, его нельзя перемещать. NestedSet::move_rgt (' . $nodeId . ' ' . $nodeLevel . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -311,13 +311,13 @@ class joosNestedSet extends joosModel {
 		$a_rgt = $a['rgt'];
 
 		if (!$b_id = $this->_get_id($a_rgt + 1, 'l')) {
-			$error = __('Родственный узел справа не найден. NestedSet::move_rgt (' . $nodeId . ')');
+			$error = 'Родственный узел справа не найден. NestedSet::move_rgt (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$b = $this->_get_node($b_id)) {
-			$error = __('Родственный узел справа не найден. NestedSet::move_rgt (' . $nodeId . ')');
+			$error = 'Родственный узел справа не найден. NestedSet::move_rgt (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -359,13 +359,13 @@ class joosNestedSet extends joosModel {
 		//echo 'Уровень узла: '.$nodeLevel;
 
 		if ($nodeLevel == 0) {
-			$error = __('Это корневой узел, его нельзя перемещать. NestedSet::move_up (' . $nodeId . ')');
+			$error = 'Это корневой узел, его нельзя перемещать. NestedSet::move_up (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if ($nodeLevel == 1) {
-			$error = __('Родственный узел справа не найден. NestedSet::move_up (' . $nodeId . ')');
+			$error = 'Родственный узел справа не найден. NestedSet::move_up (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -382,13 +382,13 @@ class joosNestedSet extends joosModel {
 		$a_rgt = $a['rgt'];
 
 		if (!$b_id = $this->_get_id($a_rgt + 1, 'r')) {
-			$error = __('На корневной уровень нельзя переместиться. NestedSet::move_up (' . $nodeId . ')');
+			$error = 'На корневной уровень нельзя переместиться. NestedSet::move_up (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$b = $this->_get_node($b_id)) {
-			$error = __('На корневной уровень нельзя переместиться. NestedSet::move_up (' . $nodeId . ')');
+			$error = 'На корневной уровень нельзя переместиться. NestedSet::move_up (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -436,7 +436,7 @@ class joosNestedSet extends joosModel {
 		$nodeLevel = $this->_get_node_level($nodeId);
 
 		if ($nodeLevel == 1) {
-			$error = __('Это корневой узел, его нельзя перемещать. NestedSet::move_down (' . $nodeId . ')');
+			$error = 'Это корневой узел, его нельзя перемещать. NestedSet::move_down (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -446,12 +446,12 @@ class joosNestedSet extends joosModel {
 		$a_rgt = $a['rgt'];
 
 		if (!$b_id = $this->_get_id($a_lft - 1, 'r')) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_down (' . $nodeId . ')');
+			$error = 'Родственный узел слева не найден. NestedSet::move_down (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
 		if (!$b = $this->_get_node($b_id)) {
-			$error = __('Родственный узел слева не найден. NestedSet::move_down (' . $nodeId . ')');
+			$error = 'Родственный узел слева не найден. NestedSet::move_down (' . $nodeId . ')';
 			$this->_set_error($error);
 			return false;
 		}
@@ -491,13 +491,13 @@ class joosNestedSet extends joosModel {
 		$this->_db->set_query($sql);
 
 		if (!$result = $this->_db->query()) {
-			$error = __('Ошибка запроса к БД. NestedSet::check_root_node ()');
+			$error = 'Ошибка запроса к БД. NestedSet::check_root_node ()';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$result->num_rows) {
-			$error = __('Корневой узел не найден. NestedSet::check_root_node ()');
+			$error = 'Корневой узел не найден. NestedSet::check_root_node ()';
 			$this->_set_error($error);
 			return false;
 		}
@@ -629,13 +629,13 @@ class joosNestedSet extends joosModel {
 		$this->_db->set_query($sql);
 
 		if (!$result = $this->_db->query()) {
-			$error = __('Ошибка запроса к БД. NestedSet::_get_id()');
+			$error = 'Ошибка запроса к БД. NestedSet::_get_id()';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$result->num_rows) {
-			$error = __('Невозможно получить информацию по предоставленным данным. NestedSet::_get_id()');
+			$error = 'Невозможно получить информацию по предоставленным данным. NestedSet::_get_id()';
 			$this->_set_error($error);
 			return false;
 		}
@@ -657,13 +657,13 @@ class joosNestedSet extends joosModel {
 		$this->_db->set_query($sql);
 
 		if (!$result = $this->_db->query()) {
-			$error = __('Ошибка запроса к БД. NestedSet::_get_node()');
+			$error = 'Ошибка запроса к БД. NestedSet::_get_node()';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$result->num_rows) {
-			$error = __('Требуемый узел не найден. NestedSet::_get_node()');
+			$error = 'Требуемый узел не найден. NestedSet::_get_node()';
 			$this->_set_error($error);
 			return false;
 		}
@@ -692,13 +692,13 @@ class joosNestedSet extends joosModel {
 
 
 		  if (!$result = $this->_db->query()) {
-		  $error = __('Ошибка запроса к БД. NestedSet::_get_node_level()');
+		  $error = 'Ошибка запроса к БД. NestedSet::_get_node_level()';
 		  $this->_set_error($error);
 		  return false;
 		  }
 
 		  if (!$result->num_rows) {
-		  $error = __('Требуемый узел не найден. NestedSet::_get_node_level()');
+		  $error = 'Требуемый узел не найден. NestedSet::_get_node_level()';
 		  $this->_set_error($error);
 		  return false;
 		  }
@@ -725,13 +725,13 @@ class joosNestedSet extends joosModel {
 		$this->_db->set_query($sql);
 
 		if (!$result = $this->_db->query()) {
-			$error = __('Ошибка запроса к БД. NestedSet::_count_nodes()');
+			$error = 'Ошибка запроса к БД. NestedSet::_count_nodes()';
 			$this->_set_error($error);
 			return false;
 		}
 
 		if (!$result->num_rows) {
-			$error = __('Узлы не найдены. NestedSet::_count_nodes()');
+			$error = 'Узлы не найдены. NestedSet::_count_nodes()';
 			$this->_set_error($error);
 			return false;
 		}

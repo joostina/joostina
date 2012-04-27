@@ -38,35 +38,6 @@ class joosImage {
 		}
 	}
 
-	/**
-	 * Генерация HTML-представления изображения
-	 *
-	 * @param string $dir        Директория
-	 * @param int    $image_id   ID изображения
-	 * @param str    $size       Размер изображения
-	 * @param array  $image_attr Аттрибуты изображения
-	 *
-	 * @return stirng
-	 */
-	public static function get_image($dir = '', $image_id = 0, $size = '', $image_attr = array()) {
-		if ($image_id && $dir) {
-
-			$location = joosFile::make_file_location($image_id);
-			$size = $size ? 'image_' . $size . '.png' : 'image.png';
-			$file_location = '/attachments/' . $dir . '/' . $location . '/' . $size;
-			$image_attr += array('src' => JPATH_SITE . '/' . $file_location);
-			return  joosFile::exists(JPATH_BASE . DS . $file_location) ? joosHtml::image($image_attr) : false;
-		}
-		return false;
-	}
-
-	public static function get_image_default($image_attr = array()) {
-		$file_location = JPATH_SITE . '/media/images/nomp3s.jpg';
-		$image_attr += array('src' => $file_location,
-			'alt' => '');
-		return joosHtml::image($image_attr);
-	}
-
 }
 
 /**
