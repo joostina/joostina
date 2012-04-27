@@ -1017,6 +1017,10 @@ class joosModel {
 
 }
 
+/**
+ * Обработка ошибок работы с базой данных
+ * 
+ */
 class joosDatabaseException extends joosException {
 
     public function __construct($message = '', array $params = array()) {

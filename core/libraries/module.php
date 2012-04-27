@@ -158,6 +158,10 @@ class joosModule  {
 
 }
 
+/**
+ * Обработка исключение работы с модулями
+ * 
+ */
 class joosModulesException extends joosException {
 
 }

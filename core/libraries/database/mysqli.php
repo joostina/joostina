@@ -736,7 +736,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 }
 
 /**
- * Библиотека утилитарных функций работы с базой данных
+ * Библиотека утилитарных функций работы с базой данных через расширение mysqli
  *
  * @version    1.0
  * @package    Core\Libraries

@@ -6,6 +6,7 @@ exclude:
 	- */_install/*
 	- */_new/*
 	- */docs/*
+	- */daemon/*
 
 
 title: Joostina CMS / CMF v2.* API
@@ -18,7 +19,7 @@ debug: yes
 
 report: ./doc-report.info
 
-php: yes
+php: no
 
 templateConfig:  ./themes/joostina-bootstrap/config.neon
 

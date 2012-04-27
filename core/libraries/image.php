@@ -515,4 +515,8 @@ class Thumbnail {
 
 }
 
+/**
+ * Обработка исключений работы с изображениями
+ * 
+ */
 class joosImageLibrariesException extends joosException{}

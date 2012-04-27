@@ -43,8 +43,9 @@ class joosModuleAdmin {
 
 /**
  * Расширение ядра для работы панели управления
- * @category core
- * @category admin_cp
+ * 
+ * @package    Joostina
+ * @subpackage Core
  */
 class joosCoreAdmin extends joosCore {
 

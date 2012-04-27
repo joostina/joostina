@@ -13,11 +13,6 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-
-/**
- * Автозагрузчик классов
- * @sinletone
- */
 class joosAutoloader {
 
 	/**

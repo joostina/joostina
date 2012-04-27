@@ -16,7 +16,10 @@
 // запрет прямого доступа
 defined('_JOOS_CORE') or die();
 
-// на основе http://alexmuz.ru/php-exception-code/
+/**
+ * Обработка всех уровней ошибок
+ * 
+ */
 class joosException extends Exception {
 
 	const CONTEXT_RADIUS = 10;
@@ -112,7 +115,7 @@ HTML;
 	/**
 	 * Возврат информации об ошибки в JSON-сериализованном виде
 	 *
-	 * @return json string строка с кодом ошибки закодированная в JSON
+	 * @return string строка в json с кодом ошибки закодированная в JSON
 	 */
 	private function to_json() {
 		$response = array(

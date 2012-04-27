@@ -1,7 +1,7 @@
 <?php defined('_JOOS_CORE') or die();
 
 /**
- * joosDatabase - Библиотека работы с базой данных MySQL через PDO
+ * Библиотека работы с базой данных MySQL через PDO
  * Системная библиотека
  *
  * @version    1.0
@@ -517,8 +517,18 @@ class joosDatabasePDO implements joosInterfaceDatabase{
 }
 
 /**
- * Класс, содержащий мелкие функции для работы с базой данных
- */
+ * Библиотека утилитарных функций работы с базой данных через расширение PDO
+ *
+ * @version    1.0
+ * @package    Core\Libraries
+ * @subpackage Libraries
+ * @subpackage joosDatabase
+ * @author     Joostina Team <info@joostina.ru>
+ * @copyright  (C) 2007-2012 Joostina Team
+ * @license    MIT License http://www.opensource.org/licenses/mit-license.php
+ * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
+ *
+ * */
 class joosDatabaseUtilsPDO extends joosDatabasePDO implements joosInterfaceDatabaseUtils{
 	
 	/**

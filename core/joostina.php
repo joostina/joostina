@@ -691,6 +691,7 @@ class joosController {
 
 /**
  * Базовый ajax - контроллер Joostina CMS
+ * 
  * @package    Joostina
  * @subpackage Controller
  *
@@ -707,6 +708,10 @@ function _xdump($var) {
 	joosDebug::dump($var);
 }
 
+/**
+ * Обработка исключение уровня ядра
+ * 
+ */
 class joosCoreException extends joosException {
 
 }
