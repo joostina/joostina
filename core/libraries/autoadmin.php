@@ -210,7 +210,7 @@ class joosAutoadmin {
             $dop_class = $group_by ? $group_by . '-' . $values->$group_by : '';
 
             $table_body .= '<tr class="row-' . $k . '" ' . ( $group_by ? ' data-obj-ordering="' . $values->ordering . '"' : '' ) . ' data-obj-id="' . $values->{$obj->get_key_field()} . '" id="adminlist-row-' . $values->{$obj->get_key_field()} . '" rel="' . $dop_class . '">';
-            $table_body .= '<td align="center">' . joosHtml::idBox($i, $values->{$obj->get_key_field()}) . '</td>';
+            $table_body .= '<td align="center">' . joosHtml::id_box($i, $values->{$obj->get_key_field()}) . '</td>';
             for ($index = 0; $index < $n; $index++) {
                 $current_value = isset($values->$fields_to_table[$index]) ? $values->$fields_to_table[$index] : null;
                 $data = joosAutoadmin::get_listing_html_element($obj, $fields_info[$fields_to_table[$index]], $fields_to_table[$index], $current_value, $values, $option);
@@ -563,12 +563,12 @@ class joosAutoadmin {
 
 
                     case 'search':
-                        $results[] = forms::label(array('for' => 'search_elements'), 'Поиск');
+                        $results[] = joosHtml::label(array('for' => 'search_elements'), 'Поиск');
 
                         $search_value = joosSession::get_user_state_from_request("search-" . $obj->get_class_name(), 'search', false);
 
-                        $results[] = forms::input(array('name' => 'search_elements','id' => 'search_elements'), $search_value);
-                        $hidden_elements[] = forms::hidden('search', $search_value);
+                        $results[] = joosHtml::input(array('name' => 'search_elements','id' => 'search_elements'), $search_value);
+                        $hidden_elements[] = joosHtml::hidden('search', $search_value);
 
                         if ($search_value !== false && joosString::trim($search_value) != '') {
                             foreach ($value as $selected_value) {
@@ -584,7 +584,7 @@ class joosAutoadmin {
                             $field_name = $params_key;
                             $field_title = $value[$field_name]['name'];
 
-                            $results[] = forms::label(array(
+                            $results[] = joosHtml::label(array(
                                 'for' => 'filter_' . $field_name
                             ), $field_title);
 
@@ -596,7 +596,7 @@ class joosAutoadmin {
                             $selected_value = joosSession::get_user_state_from_request('filter-' . '-' . $field_name . '-' . $obj->get_class_name(), $field_name, -1);
                             $selected_value = $selected_value === '0' ? '0' : $selected_value;
 
-                            $results[] = forms::dropdown(
+                            $results[] = joosHtml::dropdown(
                                 array(
                                     'name' => 'filter_' . $field_name,
                                     'data-obj-name' => $field_name,
@@ -606,7 +606,7 @@ class joosAutoadmin {
                                 )
                             );
 
-                            $hidden_elements[] = forms::hidden($field_name, $selected_value);
+                            $hidden_elements[] = joosHtml::hidden($field_name, $selected_value);
                             if (( $selected_value && $selected_value != -1 ) OR $selected_value === '0') {
                                 $wheres_filter[] = sprintf('%s=%s', joosDatabase::instance()->get_name_quote($field_name), joosDatabase::instance()->get_quoted($selected_value));
                             }
@@ -624,12 +624,12 @@ class joosAutoadmin {
 
                         $selected_value = joosSession::get_user_state_from_request("extrafilter-" . $obj->get_class_name(), 'filter_extrafilter', -1);
 
-                        $results[] = forms::label(array('for' => 'filter_extrafilter'), 'Фильтр');
-                        $results[] = forms::dropdown(array('name' => 'filter_extrafilter_selector',
+                        $results[] = joosHtml::label(array('for' => 'filter_extrafilter'), 'Фильтр');
+                        $results[] = joosHtml::dropdown(array('name' => 'filter_extrafilter_selector',
                             'class' => 'extrafilter_elements',
                             'options' => $datas_for_select,
                             'selected' => $selected_value));
-                        $hidden_elements[] = forms::hidden('filter_extrafilter', $selected_value);
+                        $hidden_elements[] = joosHtml::hidden('filter_extrafilter', $selected_value);
 
                         //self::$data_overload = ( $selected_value && isset($value[$selected_value]['call_from']) && is_callable($value[$selected_value]['call_from']) ) ? call_user_func($value[$selected_value]['call_from'], $obj) : array();
                         self::$data_overload = ( $selected_value && isset($value[$selected_value]['call_from']) && is_callable($value[$selected_value]['call_from']) ) ? $value[$selected_value]['call_from'] : array();

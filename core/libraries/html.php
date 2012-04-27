@@ -473,7 +473,7 @@ class joosHTML {
 		return $obj;
 	}
 
-	public static function selectList(array $arr, $tag_name, $tag_attribs, $key, $text, $selected = null, $first_el_key = '*000', $first_el_text = '*000') {
+	public static function select_list(array $arr, $tag_name, $tag_attribs, $key, $text, $selected = null, $first_el_key = '*000', $first_el_text = '*000') {
 
 		is_array($arr) ? reset($arr) : null;
 
@@ -515,7 +515,7 @@ class joosHTML {
 		// месяца с правильным склонением
 		$arr_2 = array(joosHtml::make_option('01', _JAN_2), joosHtml::make_option('02', _FEB_2), joosHtml::make_option('03', _MAR_2), joosHtml::make_option('04', _APR_2), joosHtml::make_option('05', _MAY_2), joosHtml::make_option('06', _JUN_2), joosHtml::make_option('07', _JUL_2), joosHtml::make_option('08', _AUG_2), joosHtml::make_option('09', _SEP_2), joosHtml::make_option('10', _OCT_2), joosHtml::make_option('11', _NOV_2), joosHtml::make_option('12', _DEC_2));
 		$arr = $type ? $arr_2 : $arr_1;
-		return joosHtml::selectList($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
+		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
 
 	public static function select_day($tag_name, $tag_attribs, $selected) {
@@ -529,7 +529,7 @@ class joosHTML {
 			$arr[] = joosHtml::make_option($pref . $i, $pref . $i);
 		}
 
-		return joosHtml::selectList($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
+		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
 
 	public static function select_year($tag_name, $tag_attribs, $selected, $min = 1900, $max = null) {
@@ -540,21 +540,21 @@ class joosHTML {
 		for ($i = $min; $i <= $max; $i++) {
 			$arr[] = joosHtml::make_option($i, $i);
 		}
-		return joosHtml::selectList($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
+		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
 
-	public static function genderSelectList($tag_name, $tag_attribs, $selected) {
+	public static function gender_select_list($tag_name, $tag_attribs, $selected) {
 		$arr = array(joosHtml::make_option('no_gender', _GENDER_NONE), joosHtml::make_option('male', _MALE), joosHtml::make_option('female', _FEMALE));
-		return joosHtml::selectList($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
+		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
 
-	public static function yesnoSelectList($tag_name, $tag_attribs, $selected, $yes = _YES, $no = _NO) {
+	public static function yesno_select_list($tag_name, $tag_attribs, $selected, $yes = _YES, $no = _NO) {
 		$arr = array(joosHtml::make_option('0', $no), joosHtml::make_option('1', $yes));
 
-		return joosHtml::selectList($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
+		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
 
-	public static function radioList(&$arr, $tag_name, $tag_attribs, $selected = null, $key = 'value', $text = 'text') {
+	public static function radio_list(&$arr, $tag_name, $tag_attribs, $selected = null, $key = 'value', $text = 'text') {
 		reset($arr);
 
 		$html = '';
@@ -584,15 +584,198 @@ class joosHTML {
 		return $html;
 	}
 
-	public static function yesnoRadioList($tag_name, $tag_attribs, $selected, $yes = _YES, $no = _NO) {
+	public static function yesno_radio_list($tag_name, $tag_attribs, $selected, $yes = _YES, $no = _NO) {
 		$arr = array(joosHtml::make_option('0', $no), joosHtml::make_option('1', $yes));
 
-		return joosHtml::radioList($arr, $tag_name, $tag_attribs, $selected);
+		return joosHtml::radio_list($arr, $tag_name, $tag_attribs, $selected);
 	}
 
-	public static function idBox($rowNum, $recId, $checkedOut = false, $name = 'cid') {
+	public static function id_box($rowNum, $recId, $checkedOut = false, $name = 'cid') {
 		return $checkedOut ? '' : '<input class="js-select" type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId . '"  />';
 	}
+
+
+    /**
+     * Creates an HTML form select tag, or "dropdown menu".
+     *
+     * @param   string|array  input         name or an array of HTML attributes
+     * @param                 array         select options, when using a name
+     * @param   string|array  option        key(s) that should be selected by default
+     * @param                 string        a string to be attached to the end of the attributes
+     *
+     * @return  string
+     */
+    public static function dropdown( $data , $options = NULL , $selected = NULL , $extra = '' ) {
+        if ( !is_array( $data ) ) {
+            $data = array ( 'name' => $data );
+        } else {
+            if ( isset( $data['options'] ) ) {
+                // Use data options
+                $options = $data['options'];
+            }
+
+            if ( isset( $data['selected'] ) ) {
+                // Use data selected
+                $selected = $data['selected'];
+            }
+        }
+
+        if ( is_array( $selected ) ) {
+            // Multi-select box
+            $data['multiple'] = 'multiple';
+        } else {
+            // Single selection (but converted to an array)
+            $selected = array ( $selected );
+        }
+
+        $input = '<select' . joosHTML::attributes( $data , 'select' ) . ' ' . $extra . '>' . "\n";
+        foreach ( (array) $options as $key => $val ) {
+            // Key should always be a string
+            $key = (string) $key;
+
+            if ( is_array( $val ) ) {
+                $input .= '<optgroup label="' . $key . '">' . "\n";
+                foreach ( $val as $inner_key => $inner_val ) {
+                    // Inner key should always be a string
+                    $inner_key = (string) $inner_key;
+
+                    $sel       = in_array( $inner_key , $selected ) ? ' selected="selected"' : '';
+                    $input .= '<option value="' . $inner_key . '"' . $sel . '>' . $inner_val . '</option>' . "\n";
+                }
+                $input .= '</optgroup>' . "\n";
+            } else {
+                $sel = in_array( $key , $selected ) ? ' selected="selected"' : '';
+                $input .= '<option value="' . $key . '"' . $sel . '>' . $val . '</option>' . "\n";
+            }
+        }
+        $input .= '</select>';
+
+        return $input;
+    }
+
+
+    /**
+     * Creates an HTML form textarea tag.
+     *
+     * @param   string|array  input         name or an array of HTML attributes
+     * @param                 string        input value, when using a name
+     * @param                 string        a string to be attached to the end of the attributes
+     * @param                 boolean       encode existing entities
+     *
+     * @return  string
+     */
+    public static function textarea( $data , $value = '' , $extra = '' , $double_encode = TRUE ) {
+        if ( !is_array( $data ) ) {
+            $data = array ( 'name' => $data );
+        }
+
+        // Use the value from $data if possible, or use $value
+        $value = isset( $data['value'] ) ? $data['value'] : $value;
+
+        // Value is not part of the attributes
+        unset( $data['value'] );
+
+        return '<textarea' . joosHtml::attributes( $data , 'textarea' ) . ' ' . $extra . '>' . joosHtml::specialchars( $value , $double_encode ) . '</textarea>';
+    }
+
+    /**
+     * Creates an HTML form input tag. Defaults to a text type.
+     *
+     * @param   string|array  input         name or an array of HTML attributes
+     * @param                 string        input value, when using a name
+     * @param                 string        a string to be attached to the end of the attributes
+     *
+     * @return  string
+     */
+    public static function input( $data , $value = '' , $extra = '' ) {
+        if ( !is_array( $data ) ) {
+            $data = array ( 'name' => $data );
+        }
+
+        // Type and value are required attributes
+        $data += array ( 'type'  => 'text' ,
+            'value' => $value );
+
+        return '<input' . joosHtml::attributes( $data ) . ' ' . $extra . ' />';
+    }
+
+
+    /**
+     * Creates an HTML form label tag.
+     *
+     * @param   string|array  label         "for" name or an array of HTML attributes
+     * @param                 string        label text or HTML
+     * @param                 string        a string to be attached to the end of the attributes
+     *
+     * @return  string
+     */
+    public static function label( $data = '' , $text = NULL , $extra = '' ) {
+        if ( !is_array( $data ) ) {
+            if ( is_string( $data ) ) {
+                // Specify the input this label is for
+                $data = array ( 'for' => $data );
+            } else {
+                // No input specified
+                $data = array ();
+            }
+        }
+
+        return '<label class="control-label"' . joosHtml::attributes( $data ) . ' ' . $extra . '>' . $text . '</label>';
+    }
+
+    /**
+     * Generates hidden form fields.
+     * You can pass a simple key/value string or an associative array with multiple values.
+     *
+     * @param   string|array  input         name (string) or key/value pairs (array)
+     * @param                 string        input value, if using an input name
+     *
+     * @return  string
+     */
+    public static function hidden( $data , $value = '' ) {
+        if ( !is_array( $data ) ) {
+            $data = array ( $data => $value );
+        }
+
+        $input = '';
+        foreach ( $data as $name => $value ) {
+            $attr = array ( 'type'  => 'hidden' ,
+                'name'  => $name ,
+                'value' => $value );
+
+            $input .= joosHtml::input( $attr ) . "\n";
+        }
+
+        return $input;
+    }
+
+
+    /**
+     * Creates an HTML form checkbox input tag.
+     *
+     * @param   string|array  input         name or an array of HTML attributes
+     * @param                 string        input value, when using a name
+     * @param                 boolean       make the checkbox checked by default
+     * @param                 string        a string to be attached to the end of the attributes
+     *
+     * @return  string
+     */
+    public static function checkbox( $data , $value = '' , $checked = FALSE , $extra = '' ) {
+        if ( !is_array( $data ) ) {
+            $data = array ( 'name' => $data );
+        }
+
+        $data['type'] = 'checkbox';
+
+        if ( $checked == TRUE OR ( isset( $data['checked'] ) AND $data['checked'] == TRUE ) ) {
+            $data['checked'] = 'checked';
+        } else {
+            unset( $data['checked'] );
+        }
+
+        return joosHtml::input( $data , $value , $extra );
+    }
+
 
 }
 

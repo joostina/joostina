@@ -206,7 +206,7 @@ class joosAdminPagenator {
 		$limits[] = joosHtml::make_option('50000', __('-Всё-'));
 		// build the html select list
 		$html = ' ' . __('Отображать') . ' ';
-		$html .= joosHtml::selectList($limits, 'limit', 'class="js-limit" size="1"', 'value', 'text', $this->limit);
+		$html .= joosHtml::select_list($limits, 'limit', 'class="js-limit" size="1"', 'value', 'text', $this->limit);
 		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		return $html;
 	}

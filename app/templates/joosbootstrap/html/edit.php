@@ -51,12 +51,12 @@ defined('_JOOS_CORE') or die();
 
     <?php
     //Выводим скрытые поля формы
-    echo forms::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
-    echo forms::hidden('option', $option) . "\t";
-    echo forms::hidden('model', joosAdminView::get_current_model()) . "\t";
-    echo forms::hidden('menu', joosAutoadmin::get_active_menu_name());
-    echo forms::hidden('task', '') . "\t";
-    echo forms::hidden(joosCSRF::get_code(), 1) . "\t"; // элемент защиты от XSS
+    echo joosHtml::hidden($obj->get_key_field(), $obj_data->{$obj->get_key_field()}) . "\t"; // id объекта
+    echo joosHtml::hidden('option', $option) . "\t";
+    echo joosHtml::hidden('model', joosAdminView::get_current_model()) . "\t";
+    echo joosHtml::hidden('menu', joosAutoadmin::get_active_menu_name());
+    echo joosHtml::hidden('task', '') . "\t";
+    echo joosHtml::hidden(joosCSRF::get_code(), 1) . "\t"; // элемент защиты от XSS
     ?>
 
 </form>

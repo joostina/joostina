@@ -84,7 +84,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax{
                             $active_option = (in_array($type, $v['types']) && $active_option === null) ? $k : $active_option;
                         });
 
-                        $faker_selector = forms::dropdown('type', $type_names, $active_option);
+                        $faker_selector = joosHTML::dropdown('type', $type_names, $active_option);
                         ?>
                     <tr>
                         <td><?php echo $i;?></td>

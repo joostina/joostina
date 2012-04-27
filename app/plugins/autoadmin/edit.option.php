@@ -21,7 +21,7 @@ class pluginAutoadminEditOption implements joosAutoadminPluginsEdit{
 		$element = array();
 
 		$element[] = $params['label_begin'];
-		$element[] = forms::label(array('for' => $key), ( isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
+		$element[] = joosHtml::label(array('for' => $key), ( isset($element_param['html_edit_element_param']['text']) ? $element_param['html_edit_element_param']['text'] : $element_param['name']));
 
 		$element[] = $params['label_end'];
 		$element[] = $params['el_begin'];
@@ -29,9 +29,9 @@ class pluginAutoadminEditOption implements joosAutoadminPluginsEdit{
 		$datas_for_select = ( isset($element_param['html_edit_element_param']['call_from']) && is_callable($element_param['html_edit_element_param']['call_from']) ) ? call_user_func($element_param['html_edit_element_param']['call_from'], $value, $obj_data) : $datas_for_select;
 		$datas_for_select = isset($element_param['html_edit_element_param']['options']) ? $element_param['html_edit_element_param']['options'] : $datas_for_select;
 
-		$element[] = forms::dropdown(array('name' => $key,
-					'options' => $datas_for_select,
-					'selected' => $value));
+		$element[] = joosHtml::dropdown(
+            array('name' => $key,'options' => $datas_for_select,'selected' => $value)
+        );
 
 		$element[] = $params['el_end'];
 

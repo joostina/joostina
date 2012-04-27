@@ -27,7 +27,7 @@ class pluginAutoadminEditParams implements joosAutoadminPluginsEdit{
 		}
 
 		$element[] = $params['label_begin'];
-		$element[] = forms::label( array ( 'for' => $key ) , ( isset( $element_param['html_edit_element_param']['text'] ) ? $element_param['html_edit_element_param']['text'] : $element_param['name'] ) );
+		$element[] = joosHtml::label( array ( 'for' => $key ) , ( isset( $element_param['html_edit_element_param']['text'] ) ? $element_param['html_edit_element_param']['text'] : $element_param['name'] ) );
 
 		$element[] = $params['label_end'];
 		$element[] = $params['el_begin'];

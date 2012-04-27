@@ -18,7 +18,7 @@ defined( '_JOOS_CORE' ) or die();
 class pluginAutoadminEditCurrentUserId implements joosAutoadminPluginsEdit{
 
 	public static function render( $element_param , $key , $value , $obj_data , $params , $tabs ) {
-		return forms::hidden( $key , joosCore::user()->id );
+		return joosHtml::hidden( $key , joosCore::user()->id );
 	}
 
 }

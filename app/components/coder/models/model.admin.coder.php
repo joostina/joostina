@@ -150,7 +150,7 @@ class modelAdminCoder {
 
         $return = array();
         
-        $return['site'] = $implode_models ? implode('', $buffer_site) : forms::textarea(
+        $return['site'] = $implode_models ? implode('', $buffer_site) : joosHTML::textarea(
             array('name' => $tableName,
                 'value' => implode('', $buffer_site),
                 'rows' => '5',
@@ -158,7 +158,7 @@ class modelAdminCoder {
             )
         );
         
-        $return['admin'] = $implode_models ? implode('', $buffer_admin) : forms::textarea(
+        $return['admin'] = $implode_models ? implode('', $buffer_admin) : joosHTML::textarea(
             array('name' => $tableName,
                 'value' => implode('', $buffer_site),
                 'rows' => '5',

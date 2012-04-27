@@ -835,7 +835,7 @@ class joosModel {
 			$el_id = $name . $key;
 			$checked = (bool) isset($selected_ids[$key]);
             $rets[] = '<label class="checkbox">';
-			$rets[] = forms::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
+			$rets[] = joosHtml::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
             $rets[] =  $value;
             $rets[] = '</label>';
 			//$rets[] = forms::label($el_id, $value);

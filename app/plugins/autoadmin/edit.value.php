@@ -21,7 +21,7 @@ class pluginAutoadminEditValue implements joosAutoadminPluginsEdit{
 		$element   = array ();
 
 		$element[] = $params['label_begin'];
-		$element[] = forms::label( array ( 'for' => $key ) , $element_param['name'] );
+		$element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
 		$element[] = $params['label_end'];
 		$element[] = $params['el_begin'];
 		$element[] =  '<p>'.$value.'</p>';

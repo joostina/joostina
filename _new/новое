@@ -16,7 +16,7 @@
 
 Добавить новый тип пользователя - мегадамин, информация о котором записывается в файле конфигурации, и он может авторизовываться и настраивать систему даже без создания и наличия базы данных.
 
-Поушчение ULL:
+Получение URL:
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 		{

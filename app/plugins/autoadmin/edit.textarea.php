@@ -21,10 +21,10 @@ class pluginAutoadminEditTextArea implements joosAutoadminPluginsEdit{
 		$element   = array ();
 
 		$element[] = $params['label_begin'];
-		$element[] = forms::label( array ( 'for' => $key ) , $element_param['name'] );
+		$element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
 		$element[] = $params['label_end'];
 		$element[] = $params['el_begin'];
-		$element[] = forms::textarea( array ( 'name'  => $key ,
+		$element[] = joosHtml::textarea( array ( 'name'  => $key ,
 		                                      'class' => 'text_area' ,
 		                                      'rows'  => ( isset( $element_param['html_edit_element_param']['rows'] ) ? $element_param['html_edit_element_param']['rows'] : 6 ) ,
 		                                      'cols'  => ( isset( $element_param['html_edit_element_param']['cols'] ) ? $element_param['html_edit_element_param']['cols'] : 40 ) ,

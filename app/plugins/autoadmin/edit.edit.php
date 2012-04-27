@@ -22,10 +22,10 @@ class pluginAutoadminEditEdit implements joosAutoadminPluginsEdit{
 		$element   = array ();
 
 		$element[] = $params['label_begin'];
-		$element[] = forms::label( array ( 'for' => $key ) , $element_param['name'] );
+		$element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
 		$element[] = $params['label_end'];
 		$element[] = $params['el_begin'];
-		$element[] = forms::input( array ( 'name'  => $key ,
+		$element[] = joosHtml::input( array ( 'name'  => $key ,
 		                                   'class' => ( isset( $element_param['html_edit_element_param']['class'] ) ? $element_param['html_edit_element_param']['class'] : 'input-xlarge' ) ,
 		                                   'size'  => 100 ,
 		                                   'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : '' ) ,

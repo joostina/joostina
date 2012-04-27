@@ -77,7 +77,7 @@ class modelAdminUsers extends modelUsers {
 				'html_edit_element_param' => array(
 					'call_from' => function ($user) {
 						$name = $user->id ? 'new_password' : 'password';
-						return forms::input(array('name' => $name, 'value' => '', 'class' => 'text_area'));
+						return joosHtml::input(array('name' => $name, 'value' => '', 'class' => 'text_area'));
 					}
 				),
 				'html_table_element' => 'value',
