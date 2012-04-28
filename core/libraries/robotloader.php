@@ -1,6 +1,6 @@
 <?php
 
-defined('_JOOS_CORE') or die();
+defined('_JOOS_CORE') or exit();
 
 /**
  * Автоматический сборщик классов системы и их расположения

@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or exit();
 
 /*
   joosEvents::add_events('system.onstart', function($a, $b) {

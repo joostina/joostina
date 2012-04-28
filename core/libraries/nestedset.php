@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or die();
+<?php defined('_JOOS_CORE') or exit();
 
 /**
  * Работа с вложенными категориями и деревьями в базе данных
