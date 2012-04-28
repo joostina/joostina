@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 
 /**
  * Для вывода скрытого элемента формы содержащего ID текущего вторизованного пользователя
@@ -17,7 +17,7 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class pluginAutoadminEditCurrentUserId implements joosAutoadminPluginsEdit{
 
-	public static function render( $element_param , $key , $value , $obj_data , $params , $tabs ) {
+	public static function render( $element_param , $key , $value , $obj_data , $params ) {
 		return joosHtml::hidden( $key , joosCore::user()->id );
 	}
 

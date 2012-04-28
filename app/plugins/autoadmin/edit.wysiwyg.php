@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or exit();
  * */
 class pluginAutoadminEditWysiwyg implements joosAutoadminPluginsEdit{
 
-	public static function render($element_param, $key, $value, $obj_data, $params, $tabs) {
+    public static function render( $element_param , $key , $value , $obj_data , $params ) {
 
 		$element = array();
 		$element[] = $params['label_begin'];

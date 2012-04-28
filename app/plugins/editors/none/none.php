@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 
 /**
  * Для вывода пустого поля без редактора
@@ -26,9 +26,8 @@ class noneEditor {
 
 	public static function init() {
 
-		joosHtml::load_jquery();
-
-		joosDocument::instance()->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/jquery.insertatcaret.js' );
+		joosDocument::instance()
+            ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/jquery.insertatcaret.js' );
 	}
 
 	/**

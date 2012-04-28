@@ -306,9 +306,6 @@ class joosAutoadmin {
         //@ зачем?
         //self::$js_onformsubmit[] = '<script type="text/javascript" charset="utf-8">function submitbutton(pressbutton) {';
 
-        //Работа с табами
-        $tabs = new htmlTabs();
-
         //Массив сформированных элементов для вывода
         $_elements = array();
         //Получаем данные о элементах формы
@@ -316,7 +313,7 @@ class joosAutoadmin {
         foreach ($fields_info as $key => $field) {
             if ($field['editable'] == true && !( isset( $field['hide_on']) &&  $field['hide_on'] === $task ) ):
                 $v = isset($obj_data->$key) ? $obj_data->$key : '';
-                $_elements[$key] = self::get_edit_html_element($field, $key, $v, $obj_data, $params, $tabs);
+                $_elements[$key] = self::get_edit_html_element($field, $key, $v, $obj_data, $params);
             endif;
         }
 
@@ -386,7 +383,7 @@ class joosAutoadmin {
     }
 
     // получение типа элемента для формы редактирования
-    public static function get_edit_html_element($element_param, $key, $value, $obj_data, $params, $tabs) {
+    public static function get_edit_html_element($element_param, $key, $value, $obj_data, $params) {
 
         $class_file = JPATH_BASE . '/app/plugins/autoadmin/edit.' . $element_param['html_edit_element'] . '.php';
         $class_name = 'pluginAutoadminEdit' . self::get_plugin_name($element_param['html_edit_element']);
@@ -401,7 +398,7 @@ class joosAutoadmin {
             throw new joosAutoadminClassPlugionNotFoundException(sprintf('Класс для обработки %s средствами joosAutoadmin в файле %s не найден', $class_file, $class_name));
         }
 
-        return call_user_func_array($class_name . '::render', array($element_param, $key, $value, $obj_data, $params, $tabs));
+        return call_user_func_array($class_name . '::render', array($element_param, $key, $value, $obj_data, $params));
     }
 
     public static function add_js_onformsubmit($js_raw_code) {
@@ -849,7 +846,7 @@ interface joosAutoadminPluginsTable{
 
 interface joosAutoadminPluginsEdit{
 
-    public static function render( $element_param , $key , $value , $obj_data , $params , $tabs );
+    public static function render( $element_param , $key , $value , $obj_data , $params );
 
 }
 

@@ -17,7 +17,7 @@
  **/
 
 //Запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 
 //Подключение вспомогательной библиотеки
 require_once joosCore::path( 'test' , 'module_helper' );

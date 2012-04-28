@@ -1,5 +1,5 @@
 <?php
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 ?>
 <h3 class="module-title"><a href="#">Новости</a></h3>
 

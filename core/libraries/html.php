@@ -15,16 +15,6 @@
  * */
 class joosHTML {
 
-    // Enable or disable automatic setting of target="_blank"
-    public static $windowed_urls = FALSE;
-
-    /**
-     * Массив хранения подключенных расширений Jquery
-     *
-     * @var array
-     */
-    private static $jqueryplugins;
-
     /**
      * Подключение JS файла в тело страницы
      *
@@ -46,41 +36,6 @@ class joosHTML {
      */
     public static function js_code($code) {
         return '<script type="text/javascript" charset="utf-8">;' . $code . ';</script>';
-    }
-
-    public static function load_jquery($ret = false) {
-        joosDocument::instance()->add_js_file(JPATH_SITE . '/media/js/jquery.js', array('first' => true));
-    }
-
-    public static function load_jquery_ui($ret = false) {
-        joosDocument::instance()->add_js_file(JPATH_SITE . '/media/js/jquery.ui/jquery-ui.js');
-    }
-
-    public static function load_jquery_ui_css($ret = false, $theme = 'ui-lightness') {
-        if (!defined('_JQUERY_UICSS_LOADED')) {
-            define('_JQUERY_UICSS_LOADED', 1);
-            if ($ret) {
-                echo joosHtml::css_file(JPATH_SITE . '/media/js/jquery.ui/themes/' . $theme . '/jquery-ui.css');
-            } else {
-                joosDocument::instance()->add_css(JPATH_SITE . '/media/js/jquery.ui/themes/' . $theme . '/jquery-ui.css');
-            }
-        }
-    }
-
-    public static function load_jquery_plugins($name, $ret = false, $css = false) {
-        // формируем константу-флаг для исключения повтороной загрузки
-
-        if (!isset(self::$jqueryplugins[$name])) {
-            // отмечаем плагин в массиве уже подключенных
-            self::$jqueryplugins[$name] = true;
-            if ($ret) {
-                echo joosHtml::js_file(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '.js');
-                echo ( $css ) ? joosHtml::css_file(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '/' . $name . '.css') : '';
-            } else {
-                joosDocument::instance()->add_js_file(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '.js');
-                $css ? joosDocument::instance()->add_css(JPATH_SITE . '/media/js/jquery.plugins/' . $name . '/' . $name . '.css') : null;
-            }
-        }
     }
 
     /**
@@ -112,31 +67,31 @@ class joosHTML {
         return sprintf('%s/media/images/icons/%s/candy/%s.png', JPATH_SITE, $size, $name);
     }
 
+    /**
+     * Вывод ссылки
+     * 
+     * @param $uri адрес
+     * @param null $title название и title ссылки
+     * @param array|null $attributes дополнительные атрибуты ссылки
+     * @param bool $escape_title экранирование html сущностей названия ссылки
+     * @return string
+     */
     public static function anchor($uri, $title = NULL, $attributes = NULL, $escape_title = true) {
 
-        return // Parsed URL
-            '<a href="' . joosFilter::specialurlencode($uri, FALSE) . '"' // Attributes empty? Use an empty string
-            . ( is_array($attributes) ? joosHtml::attributes($attributes) : '' ) . '>' // Title empty? Use the parsed URL
+        return '<a href="' . joosFilter::specialurlencode($uri, FALSE) . '"' 
+            . ( is_array($attributes) ? joosHtml::attributes($attributes) : '' ) . '>'
             . ( $escape_title ? joosFilter::htmlspecialchars(( ( $title === NULL ) ? $uri : $title), FALSE) : ( ( $title === NULL ) ? $uri : $title ) ) . '</a>';
     }
 
-    public static function attributes($attrs) {
-        if (empty($attrs)) {
-            return '';
-        }
-
-        if (is_string($attrs)) {
-            return ' ' . $attrs;
-        }
-
-        $compiled = '';
-        foreach ($attrs as $key => $val) {
-            $compiled .= ' ' . $key . '="' . joosFilter::htmlspecialchars($val) . '"';
-        }
-
-        return $compiled;
-    }
-
+    /**
+     * Создание одного элемента для выпадающего списка select_list
+     * 
+     * @param $value значение элемента
+     * @param string $text название
+     * @param string $value_name название элемента значения
+     * @param string $text_name значение элемента значения
+     * @return stdClass
+     */
     public static function make_option($value, $text = '', $value_name = 'value', $text_name = 'text') {
 
         $obj = new stdClass;
@@ -249,14 +204,16 @@ class joosHTML {
     public static function gender_select_list($tag_name, $tag_attribs, $selected) {
 
         $arr = array(
-            joosHtml::make_option('no_gender', _GENDER_NONE),
-            joosHtml::make_option('male', _MALE),
-            joosHtml::make_option('female', _FEMALE)
+            joosHtml::make_option('no_gender', 'Не указано'),
+            joosHtml::make_option('male', 'М'),
+            joosHtml::make_option('female', 'Ж')
         );
+        
         return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
     }
 
     public static function id_box($rowNum, $recId, $checkedOut = false, $name = 'cid') {
+        
         return $checkedOut ? '' : '<input class="js-select" type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId . '"  />';
     }
 
@@ -315,10 +272,8 @@ class joosHTML {
             $data = array ( 'name' => $data );
         }
 
-        // Use the value from $data if possible, or use $value
         $value = isset( $data['value'] ) ? $data['value'] : $value;
 
-        // Value is not part of the attributes
         unset( $data['value'] );
 
         return '<textarea' . joosHtml::attributes( $data , 'textarea' ) . ' ' . $extra . '>' . joosFilter::htmlspecialchars( $value , $double_encode ) . '</textarea>';
@@ -330,9 +285,10 @@ class joosHTML {
             $data = array ( 'name' => $data );
         }
 
-        // Type and value are required attributes
-        $data += array ( 'type'  => 'text' ,
-            'value' => $value );
+        $data += array ( 
+            'type'  => 'text' ,
+            'value' => $value
+        );
 
         return '<input' . joosHtml::attributes( $data ) . ' ' . $extra . ' />';
     }
@@ -341,10 +297,8 @@ class joosHTML {
 
         if ( !is_array( $data ) ) {
             if ( is_string( $data ) ) {
-                // Specify the input this label is for
                 $data = array ( 'for' => $data );
             } else {
-                // No input specified
                 $data = array ();
             }
         }
@@ -387,50 +341,27 @@ class joosHTML {
         return joosHtml::input( $data , $value , $extra );
     }
 
-}
+    /**
+     * Вывод расширенных элементов html тега
+     * 
+     * @param string|array $attrs строка или массив параметров
+     * @return string
+     */
+    private static function attributes($attrs) {
 
-// TODO убрать это стаьё
-class htmlTabs {
-
-    private $useCookies = 0;
-    private static $loaded = false;
-
-    public function htmlTabs($useCookies = false, $xhtml = 0) {
-
-        /* запрет повторного включения css и js файлов в документ */
-        if (self::$loaded == false) {
-            self::$loaded = true;
-
-            $js_file = JPATH_SITE . '/media/js/tabs.js';
-            $css_file = JPATH_SITE . '/media/js/tabs/tabpane.css';
-
-            if ($xhtml) {
-                joosDocument::instance()->add_js_file($js_file)->add_css($css_file);
-            } else {
-                echo joosHtml::css_file($css_file) . "\n\t";
-                echo joosHtml::js_file($js_file) . "\n\t";
-            }
-            $this->useCookies = $useCookies;
+        if (empty($attrs)) {
+            return '';
         }
-    }
 
-    public function startPane($id) {
-        echo '<div class="tab-page" id="' . $id . '">';
-        echo '<script type="text/javascript">var tabPane1 = new WebFXTabPane( document.getElementById( "' . $id . '" ), ' . $this->useCookies . ' )</script>';
-    }
+        if (is_string($attrs)) {
+            return ' ' . $attrs;
+        }
 
-    public function endPane() {
-        echo '</div>';
-    }
+        $compiled = '';
+        foreach ($attrs as $key => $val) {
+            $compiled .= ' ' . $key . '="' . joosFilter::htmlspecialchars($val) . '"';
+        }
 
-    public function startTab($tabText, $paneid) {
-        echo '<div class="tab-page" id="' . $paneid . '">';
-        echo '<h2 class="tab">' . $tabText . '</h2>';
-        echo '<script type="text/javascript">tabPane1.addTabPage( document.getElementById( "' . $paneid . '" ) );</script>';
+        return $compiled;
     }
-
-    public function endTab() {
-        echo '</div>';
-    }
-
 }

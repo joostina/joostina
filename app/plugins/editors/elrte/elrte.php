@@ -26,9 +26,6 @@ class pluginEditorElrte {
 
 	public static function init() {
 
-		joosHtml::load_jquery();
-		joosHtml::load_jquery_ui();
-
 		joosDocument::instance()
 				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/smoothness/jquery-ui-1.8.13.custom.css')
 				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/elrte/css/elrte.min.css')

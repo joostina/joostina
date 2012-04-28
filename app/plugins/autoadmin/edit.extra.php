@@ -1,7 +1,7 @@
 <?php
 
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 
 /**
  * Для вывода данных сформированных произвольной функцией
@@ -17,7 +17,7 @@ defined( '_JOOS_CORE' ) or die();
  * */
 class pluginAutoadminEditExtra implements joosAutoadminPluginsEdit{
 
-	public static function render( $element_param , $key , $value , $obj_data , $params , $tabs ) {
+	public static function render( $element_param , $key , $value , $obj_data , $params ) {
 		$element = array ();
 
 		// скрываем левую колонку с названием поля

@@ -12,7 +12,7 @@
  *
  * */
 //Запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 
 array_unshift( $items , '<a href="' . JPATH_SITE . '">Главная</a>' );
 $last = count( $items ) - 1;

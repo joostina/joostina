@@ -3,7 +3,7 @@
  * Promo
  *
  * */
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 ?>
 <?php if ( joosController::$controller == 'mainpage' ): ?>
 

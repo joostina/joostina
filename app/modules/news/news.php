@@ -2,7 +2,7 @@
 /**
  *
  */
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 
 $news = new modelNews();
 $news = $news->get_list(array(

@@ -26,8 +26,6 @@ class pluginEditorJwysiwyg {
 
 	public static function init() {
 
-		joosHtml::load_jquery();
-
 		joosDocument::instance()
 				->add_css(JPATH_SITE . '/plugins/editors/jwysiwyg/media/css/jquery.wysiwyg.css')
 				->add_js_file(JPATH_SITE . '/plugins/editors/jwysiwyg/media/js/jquery.wysiwyg.js');

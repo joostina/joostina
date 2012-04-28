@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or die();
+defined( '_JOOS_CORE' ) or exit();
 ?>
 <div class="page page_lostpassword">
 	<h5>Восстановление пароля</h5>
