@@ -26,7 +26,7 @@ class joosSimpleMail{
      * 
      * @tutorial joosSimpleMail::send_email('admin@examle.com','Hello!','From Russia!');
      *
-     * @param string $to      email получателя
+     * @param string|array $to      email получателя
      * @param string $title   заголовк сообщения
      * @param string $message текст сообщения
      * @param string|bool $from email отправителя, по умолчанию используется системный параметр
@@ -39,9 +39,7 @@ class joosSimpleMail{
             $email_obj = new SimpleMail ();
 
             $email_obj->From = $from ? $from : joosConfig::get2('mail','system_email');
-            $email_obj->From = 'moi@example.org'; 
-            $email_obj->To = array ( $to );
-
+            $email_obj->To = is_array($to) ? $to : array ( $to );
             $email_obj->Subject = $title;
 
             $body = strip_tags($message);
