@@ -594,8 +594,19 @@ class joosController {
 		}
 	}
 
+    
+    public static function render(){
+        
+        ob_start();
+        // загрузка файла шаблона
+        require_once ( JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php' );
+
+        return ob_get_clean();
+    }
+    
 	/**
 	 * Автоматическое определение и запуск метода действия для Аякс-запросов
+     * 
 	 * @static
 	 */
 	public static function ajax_run() {

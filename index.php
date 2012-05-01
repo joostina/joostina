@@ -21,18 +21,14 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joo
 require_once JPATH_BASE . DS . 'core' . DS . 'front.root.php';
 
 try{
+
     // запускаем контроллер
     joosController::run();
+    echo joosController::render();
+    
 }catch (Exception $e){
     echo $e;
 }
-    
-ob_start();
-// загрузка файла шаблона
-require_once ( JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php' );
-joosDocument::$data['html_body'] = ob_get_clean();
-
-echo $html_body = joosDocument::$data['html_body'];
 
 // вывод лога отладки
 if (JDEBUG) {
