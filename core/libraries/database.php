@@ -72,6 +72,7 @@ class joosModel {
 	 * @param string $key   Название поля первичного ключа таблицы,
 	 */
 	public function __construct($table, $key) {
+        
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
 		$this->_db = joosDatabase::instance();
@@ -82,6 +83,7 @@ class joosModel {
 	 * @return string
 	 */
 	public function get_class_name() {
+        
 		return get_class($this);
 	}
 
@@ -90,6 +92,7 @@ class joosModel {
      * @return string
      */
     public function get_model_name() {
+        
         return $this->get_class_name();
     }
     
@@ -98,6 +101,7 @@ class joosModel {
 	 * @return array
 	 */
     public function get_extrainfo() {
+        
 		return array();
 	}
 
@@ -106,6 +110,7 @@ class joosModel {
 	 * @return array
 	 */
     public function get_fieldinfo() {
+        
 		return array();
 	}
 
@@ -114,6 +119,7 @@ class joosModel {
 	 * @return array
 	 */
     public function get_tableinfo() {
+        
 		return array();
 	}
 
@@ -123,6 +129,7 @@ class joosModel {
 	 * @return array
 	 */
     public function get_tabsinfo() {
+        
 		return array();
 	}
 
@@ -132,6 +139,7 @@ class joosModel {
 	 * @return array
 	 */
     protected function get_validate_rules() {
+        
 		return array();
 	}
 
@@ -141,6 +149,7 @@ class joosModel {
 	 * @return bool|array массив ошибок или
 	 */
 	public function get_validation_error_messages() {
+        
 		return count($this->_validation_error_messages) > 0 ? $this->_validation_error_messages : false;
 	}
 
@@ -174,6 +183,7 @@ class joosModel {
 	 * @return stdClass восстановленный объект модели
 	 */
 	public static function __set_state(array $values) {
+        
 		// формируем объект по сохранённым параметрам
 		$obj = new $values['__obj_name']($values['_tbl'], $values['_tbl_key']);
 		// заполняем сохранёнными параметрами настоящие поля модели
@@ -187,6 +197,7 @@ class joosModel {
 	 * @return stdClass подготовленный к кэшированию объект
 	 */
 	public function to_cache() {
+        
 		$obj = clone $this;
 		// удаляем ненужную ссылку на ресурс базы данных и стек ошибок
 		unset($obj->_db, $obj->_error);
@@ -201,6 +212,7 @@ class joosModel {
 	 * @return string
 	 */
 	public function get_key_field() {
+        
 		return $this->_tbl_key;
 	}
 
@@ -210,6 +222,7 @@ class joosModel {
 	 * @return array
 	 */
 	public function get_public_properties() {
+        
 		static $cache = null;
 
 		if (is_null($cache)) {
@@ -231,6 +244,7 @@ class joosModel {
 	 * @param array $ignoreList массив названий полей модели, которые НЕ требуется очистить от HTML кода
 	 */
 	public function filter(array $ignoreList = null) {
+        
 		$ignore = is_array($ignoreList);
 
 		$iFilter = joosInputFilter::instance();
@@ -247,6 +261,7 @@ class joosModel {
 	 * @return string
 	 */
 	public function get_errors() {
+        
 		return $this->_error;
 	}
 
@@ -258,6 +273,7 @@ class joosModel {
 	 * @return string значение поля
 	 */
 	public function get($_property) {
+        
 		return isset($this->$_property) ? $this->$_property : null;
 	}
 
@@ -268,6 +284,7 @@ class joosModel {
 	 * @param string $_value    значение поля для установки
 	 */
 	public function set($_property, $_value) {
+        
 		$this->$_property = $_value;
 	}
 
@@ -277,6 +294,7 @@ class joosModel {
 	 * @param string $value значение, устанавливаемое во все поля активной модели
 	 */
 	public function reset($value = null) {
+        
 		$keys = $this->get_public_properties();
 		foreach ($keys as $k) {
 			$this->$k = $value;
@@ -292,6 +310,7 @@ class joosModel {
 	 * @return boolean результат заполнения
 	 */
 	function bind(array $array, $ignore = '') {
+        
 		return $this->_db->bind_array_to_object($array, $this, $ignore);
 	}
 
@@ -344,6 +363,7 @@ class joosModel {
 	 * @return boolean результат сохранения модели
 	 */
 	public function store($update_nulls = false, $forced_Insert = false) {
+        
 		$k = $this->_tbl_key;
 
 		$this->before_store();
@@ -384,6 +404,7 @@ class joosModel {
      * @return bool результат выполнения обновления
      */
     public function update() {
+        
          return (bool) $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, false);
     }    
     
@@ -393,6 +414,7 @@ class joosModel {
 	 * @return boolean результат проверки
 	 */
 	public function check() {
+        
 		return true;
 	}
 
@@ -402,6 +424,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_update() {
+        
 		return true;
 	}
 
@@ -411,6 +434,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_update() {
+        
 		return true;
 	}
 
@@ -420,6 +444,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_insert() {
+        
 		return true;
 	}
 
@@ -429,6 +454,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_insert() {
+        
 		return true;
 	}
 
@@ -438,6 +464,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_store() {
+        
 		return true;
 	}
 
@@ -447,6 +474,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_store() {
+        
 		return true;
 	}
 
@@ -456,6 +484,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_delete() {
+        
 		return true;
 	}
 
@@ -465,6 +494,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_delete() {
+        
 		return true;
 	}
 
@@ -477,6 +507,7 @@ class joosModel {
 	 * @return boolean результат удаления
 	 */
 	public function delete($oid) {
+        
 		$k = $this->_tbl_key;
 
 		if ($oid) {
@@ -506,12 +537,13 @@ class joosModel {
 	 * Производит непосредственное удаление записей из БД принимая массив значений вида array(1,15,16,22)
 	 *
 	 * @param array  $oid   массив значений ключевого
-	 * @param string $key   название ключевого поля, по умолчанию - название ключевого поля текущей модели
-	 * @param string $table название таблицы, в которой необходимо произвести удаление, по умолчанию - таблица текущей модели
+	 * @param string|bool $key   название ключевого поля, по умолчанию - название ключевого поля текущей модели
+	 * @param string|bool $table название таблицы, в которой необходимо произвести удаление, по умолчанию - таблица текущей модели
 	 *
 	 * @return boolean результат удаления записей
 	 */
 	public function delete_array(array $oid = array(), $key = false, $table = false) {
+        
 		$key = $key ? $key : $this->_tbl_key;
 		$table = $table ? $table : $this->_tbl;
 
@@ -569,8 +601,8 @@ class joosModel {
 	 * Копирование неограниченного числа записей в БД через указание массива значений ключевого, либо произвольного поля
 	 *
 	 * @param array  $oid   массив значений ключевого
-	 * @param string $key   название ключевого поля, по умолчанию - название ключевого поля текущей модели
-	 * @param string $table название таблицы, в которой необходимо произвести копирование, по умолчанию - таблица текущей модели
+	 * @param string|bool $key   название ключевого поля, по умолчанию - название ключевого поля текущей модели
+	 * @param string|bool $table название таблицы, в которой необходимо произвести копирование, по умолчанию - таблица текущей модели
 	 *
 	 * @return boolean результат копирования записей
 	 */
@@ -601,6 +633,7 @@ class joosModel {
 	 * @return boolean результат сохранения
 	 */
 	public function save(array $source, $ignore = '') {
+        
 		if ($source && !$this->bind($source, $ignore)) {
 			return false;
 		}
@@ -650,6 +683,7 @@ class joosModel {
 	 * @return boolean результат смены значения поля
 	 */
 	public function change_state($field_name) {
+        
 		$key = $this->{$this->_tbl_key};
 		return $this->_db->set_query("UPDATE `$this->_tbl` SET `$field_name` = !`$field_name` WHERE $this->_tbl_key = $key", 0, 1)->query();
 	}
@@ -662,6 +696,7 @@ class joosModel {
 	 * @return int число записей
 	 */
 	public function count($where = '') {
+        
 		$sql = "SELECT count(*) FROM $this->_tbl " . $where;
 		return $this->_db->set_query($sql)->load_result();
 	}
@@ -675,6 +710,7 @@ class joosModel {
 	 * @return int число записей
 	 */
 	public function sum($field, $where = '') {
+        
 		$sql = "SELECT sum($field) FROM $this->_tbl " . $where;
 		return $this->_db->set_query($sql)->load_result();
 	}
@@ -728,7 +764,7 @@ class joosModel {
 	 *
 	 * @param array $params Те же параметры, что и для get_list
 	 * @param int $cache_time Время жизни кэша
-	 * @return type Закэшированное значение
+	 * @return array Закэшированное значение
 	 */
 	public function get_list_cache(array $params = array(), $cache_time = 86400) {
 
@@ -782,7 +818,7 @@ class joosModel {
 		return $return;
 	}
 
-// отношение один-ко-многим, список выбранных значений из многих
+    // отношение один-ко-многим, список выбранных значений из многих
 	public function get_select_one_to_many($table_values, $table_keys, $key_parent, $key_children, array $params = array()) {
 
 		$select = isset($params['select']) ? $params['select'] : 't_val.*';
@@ -857,10 +893,13 @@ class joosModel {
         
         return $query===false ? false : $this->_db->set_query($query)->load_object($this);
 	}
-
-	/**
-	 * Построение строки запроса из параметров метода find();
-	 */
+    
+    /**
+     * Построение строки запроса из параметров метода find();
+     * 
+     * @param $params массив параметров запроса
+     * @return bool|string
+     */
 	private function get_find_query_from_params($params) {
 
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
@@ -941,6 +980,7 @@ class joosModel {
 	 * @return array ассоциативный массив результата поиска
 	 */
 	public function find_all(array $params = array()) {
+        
 		$def_param = array('select' => '*');
 		$params += $def_param;
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
@@ -985,6 +1025,7 @@ class joosModel {
 	 * @return integer максимальное значение
 	 */
 	function get_max_by_field($name) {
+        
 		$query = 'SELECT  ' . $name . ' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
 		return $this->_db->set_query($query)->load_result();
 	}

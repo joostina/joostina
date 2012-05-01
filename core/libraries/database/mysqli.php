@@ -54,14 +54,14 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	/**
 	 * Ресурс активного соединения с базой данных
 	 *
-	 * @var res
+	 * @var mysqli_result
 	 */
 	protected $_resource;
 
 	/**
 	 * Результат последнего активного SQL запроса
 	 *
-	 * @var
+	 * @var mysqli_result
 	 */
 	protected $_cursor;
 
@@ -93,16 +93,19 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 
 		// проверка доступности поддержки работы с базой данных в php
 		if (!function_exists('mysqli_connect')) {
+            
             joosPages::error_database('Нет поддержки mysql');
 		}
 
 		// попытка соединиться с сервером баз данных
 		if (!( $this->_resource = mysqli_connect($host, $user, $pass, $db, $port, $socket) )) {
+            
             joosPages::error_database('Ошибка соединения с БД');
         }
 
 		// при активации отладки выполнение дополнительных запросов профилирования
 		if ( JDEBUG ) {
+            
 			mysqli_query($this->_resource, 'set profiling=1');
 			mysqli_query($this->_resource, sprintf('set profiling_history_size=%s', joosConfig::get2('db', 'profiling_history_size', 100)));
 		}
@@ -117,6 +120,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 *
 	 */
 	public function __destruct() {
+        
 		if (is_resource($this->_resource)) {
 			// TODO это убрать при постоянных соединениях
 			mysqli_close($this->_resource);
@@ -163,6 +167,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string
 	 */
 	public function get_escaped($text, $extra = false) {
+        
 		$string = mysqli_real_escape_string($this->_resource, $text);
 		return $extra ? addcslashes($string, '%_') : $string;
 	}
@@ -176,6 +181,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string обработанный результат
 	 */
 	public function get_quoted($text, $escaped = true) {
+        
 		return '\'' . ( $escaped ? $this->get_escaped($text) : $text ) . '\'';
 	}
 
@@ -188,6 +194,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string обработанная строка
 	 */
 	public function get_name_quote($s) {
+        
 		return '`' . $s . '`';
 	}
 
@@ -197,6 +204,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string
 	 */
 	public function get_prefix() {
+        
 		return $this->_table_prefix;
 	}
 
@@ -206,6 +214,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @param string $prefix
 	 */
 	public function set_prefix($prefix) {
+        
 		$this->_table_prefix = $prefix;
 	}
 
@@ -214,6 +223,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string строка определяющая нулевое значение времени для использования в базе
 	 */
 	public function get_null_date() {
+        
 		return '0000-00-00 00:00:00';
 	}
 
@@ -244,6 +254,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string sql с заменённым преффиксом
 	 */
 	private function replace_prefix($sql) {
+        
 		return str_replace('#__', $this->_table_prefix, $sql);
 	}
 
@@ -252,6 +263,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return string строка sql запроса
 	 */
 	public function get_query() {
+        
 		return sprintf('<pre code="sql">%s</pre>', htmlspecialchars($this->_sql, ENT_QUOTES, 'utf-8'));
 	}
 
@@ -259,7 +271,8 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * Выполнение установленного ранее SQL запроса
 	 * Непосредственно само действие выполняемое в базе данных
      * 
-	 * @return mysql cursor ресурс результата выполнения запроса
+	 * @return mysqli_result ресурс результата выполнения запроса
+     * @throws joosDatabaseException
 	 */
 	public function query() {
 
@@ -293,6 +306,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return int число рядок результатов
 	 */
 	public function get_affected_rows() {
+        
 		return mysqli_affected_rows($this->_resource);
 	}
 
@@ -303,8 +317,8 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	public function load_result() {
 
 		// TODO, логично, но спорно
-		$this->_limit = 1;
-		$this->_offset = 0;
+		//$this->_limit = 1;
+		//$this->_offset = 0;
 
 		$cur = $this->query();
 
@@ -386,6 +400,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return bool результат сбора результата в значения полей принимаемого объекта
 	 */
 	public function load_object(& $object) {
+        
 		if ($object != null) {
 
             $cur = $this->query();
@@ -495,8 +510,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * Возвращает ассоциативный массив результата запроса.
 	 * В качестве ключей массива результата может быть использовано номер поля указанного в $key
 	 *
-	 * @param int $key номер поля начиная с 0, значение которого необходимо использовать  вкачестве ключа для ассициативного массива результата
-	 *
+	 * @param int|bool $key номер поля начиная с 0, значение которого необходимо использовать  вкачестве ключа для ассициативного массива результата
 	 * @return array ассоциативный или обычный массив результатов
 	 */
 	public function load_row_list($key = false) {
@@ -580,7 +594,6 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 
 		// TODO тут был прямой вызов
 		$id = $this->insert_id();
-		//$id = mysqli_insert_id($this->_resource);
 
 		if ($keyName && $id) {
 			$object->$keyName = $id;
@@ -669,6 +682,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return int
 	 */
 	public function insert_id() {
+        
 		return mysqli_insert_id($this->_resource);
 	}
 
@@ -677,6 +691,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * @return joosDatabaseMysqliUtils
 	 */
 	public function get_utils() {
+        
 		return new joosDatabaseMysqliUtils($this);
 	}
 
@@ -714,7 +729,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	/**
 	 * Быстрое статическое создание модели и доступ к её медотам и свойствам
 	 *
-	 * @tutorial joosDatabaseMysqli::models('modelUsers')->count()
+	 * @tutorial joosDatabaseMysqli::model('modelUsers')->count()
 	 * @tutorial joosDatabaseMysqli::model('Blog')->get_list( array('where'=>'sate=1') )
 	 * @tutorial joosDatabaseMysqli::model('Blog')->save( $_POST )
 	 *
@@ -722,7 +737,8 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 *
 	 * @return joosModel объект выбранной модели
 	 */
-	public static function models($model_name) {
+	public static function model($model_name) {
+        
 		return new $model_name;
 	}
 
@@ -730,6 +746,7 @@ class joosDatabaseMysqli implements joosInterfaceDatabase{
 	 * Очистка буфера mysqli
 	 */
 	private function free_result(){;
+        
 		 !JDEBUG ? mysqli_free_result( $this->_cursor ) : null;
 	}
 
@@ -759,7 +776,7 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 	/**
 	 * Объект работы с базой данных
 	 *
-	 * @param joosDatabaseMysqli $db
+	 * @param joosDatabaseMysqli|string $db
 	 */
 	public function __construct(joosDatabaseMysqli $db) {
 		$this->_db = $db;
@@ -770,6 +787,7 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 	 * @return string строка версии сервера
 	 */
 	public function get_version() {
+        
 		return mysqli_get_server_info($this->_db->_resource);
 	}
 
@@ -781,6 +799,7 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 	 * @return array массив таблиц текущей базы данных
 	 */
 	public function get_table_list($only_joostina = true) {
+        
 		$only_joostina = $only_joostina ? " LIKE '" . $this->_db->_table_prefix . "%' " : '';
 		return $this->_db->set_query('SHOW TABLES ' . $only_joostina)->load_result_array();
 	}
@@ -793,6 +812,7 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 	 * @return array ассоциативный массив, ключами которогоявляются названия  таблиц, а значениями - самаструктура этихтаблиц
 	 */
 	public function get_table_create(array $tables) {
+        
 		$result = array();
 
 		foreach ($tables as $tblval) {
@@ -813,6 +833,7 @@ class joosDatabaseMysqliUtils extends joosDatabaseMysqli implements joosInterfac
 	 * @return array ассоциативный массив, ключами которого являются названия полей, а значения - свойства полей
 	 */
 	public function get_table_fields($tables) {
+        
 		$fields = $this->_db->set_query('SHOW FIELDS FROM ' . $tables)->load_object_list();
 
 		$result = array();
