@@ -416,6 +416,7 @@ class joosAdminController{
     public static function index() {
 
         $obj = joosAutoadmin::get_active_model_obj();
+
         $obj_count = joosAutoadmin::get_count($obj);
 
         $pagenav = joosAutoadmin::pagenav($obj_count);

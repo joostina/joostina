@@ -242,6 +242,7 @@ class joosHTML {
         }
 
         $input = '<select' . joosHTML::attributes( $data , 'select' ) . ' ' . $extra . '>' . "\n";
+        
         foreach ( (array) $options as $key => $val ) {
             // Key should always be a string
             $key = (string) $key;
@@ -359,6 +360,11 @@ class joosHTML {
 
         $compiled = '';
         foreach ($attrs as $key => $val) {
+            
+            if( is_array($val) ){
+                _xdump($val);
+            }
+            
             $compiled .= ' ' . $key . '="' . joosFilter::htmlspecialchars($val) . '"';
         }
 

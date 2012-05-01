@@ -71,18 +71,23 @@ class joosAutoadmin {
         joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
         if (method_exists($class, $task)) {
+            
             $results = call_user_func_array($class . '::' . $task, array($option, $id, $page, $task));
             method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
         } elseif (method_exists($class, 'index')) {
+            
             $results = call_user_func_array($class . '::index', array($option, $id, $page, $task));
             method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task)) : null;
         } else {
+            
             throw new joosException('Контроллер :controller, либо требуемая задача :task не найдены.', array(':controller' => $class,':task' => $task));
         }
 
         if (is_array($results)) {
+            
             self::views($results, self::$option, self::$task);
         } elseif (is_string($results)) {
+            
             echo $results;
         }
 
@@ -598,9 +603,8 @@ class joosAutoadmin {
                                     'name' => 'filter_' . $field_name,
                                     'data-obj-name' => $field_name,
                                     'class' => 'filter_elements',
-                                    'options' => $datas_for_select,
                                     'selected' => $selected_value
-                                )
+                                ),$datas_for_select
                             );
 
                             $hidden_elements[] = joosHtml::hidden($field_name, $selected_value);
@@ -672,10 +676,13 @@ class joosAutoadmin {
     public static function get_count(joosModel $obj) {
 
         $header_extra = self::get_extrainfo($obj);
+
         $header_extra = self::prepare_extra($obj, $header_extra);
 
-        $params = array('where' => $header_extra['wheres'],
-            'only_count' => true);
+        $params = array(
+            'where' => $header_extra['wheres'],
+            'only_count' => true
+        );
 
         return self::$data_overload ? call_user_func(self::$data_overload, $params) : $obj->count('WHERE ' . $header_extra['wheres']);
     }
@@ -695,6 +702,7 @@ class joosAutoadmin {
     }
 
     public static function get_state_selector() {
+        
         return array(
             0 => 'Не активно',
             1 => 'Активно'
@@ -707,10 +715,12 @@ class joosAutoadmin {
     }
 
     public static function set_active_model_name( $model_name ){
+        
         self::$active_model_name = $model_name;
     }
 
     public static function get_active_model_name(){
+        
         return self::$active_model_name;
     }
 
@@ -720,18 +730,22 @@ class joosAutoadmin {
      * @return joosModel
      */
     public static function get_active_model_obj(){
+        
         return new self::$active_model_name;
     }
 
     public static function set_active_menu_name( $menu_name ){
+
         return self::$active_menu_name = $menu_name;
     }
 
     public static function get_active_menu_name(){
+        
         return self::$active_menu_name;
     }
 
     public static function get_option(){
+        
         return self::$option;
     }
 
