@@ -21,9 +21,7 @@
         <script type="text/javascript" src="<?php echo JPATH_SITE ?>/media/js/jquery.plugins/jquery.noty.js"></script>
         
         <script type="text/javascript" src="<?php echo JTEMPLATE_LIVE ?>/js/app.js"></script>
-
 	</head>
-
 	<body>
 
 		<div class="navbar navbar-fixed-top">
@@ -33,10 +31,10 @@
 
 					<div class="nav-collapse">
 						<ul class="nav">
-							<li class="active"><a href="#">Home</a></li>
-							<li><a href="#about">About</a></li>
-							<li><a href="#contact">Contact</a></li>
-							<li class="dropdown">
+							<li class="active"><a href="<?php echo JPATH_SITE ?>">Главная</a></li>
+							<li><a href="<?php echo joosRoute::href('news') ?>">Новости</a></li>
+                            <li><a href="<?php echo joosRoute::href('blog') ?>">Блоги</a></li>
+                            <li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									Вёрстка здесь
 									<b class="caret"></b>

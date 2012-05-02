@@ -108,7 +108,7 @@ class joosCore {
 				break;
 
 			case 'admin_view':
-				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'admin_views' . DS . $cat . DS . 'default.php';
+				$file = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $name . DS . 'views_admin' . DS . $cat . DS . 'default.php';
 				break;
 
 			case 'admin_template_html':

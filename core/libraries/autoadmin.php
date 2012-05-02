@@ -101,7 +101,7 @@ class joosAutoadmin {
         $views = isset($params['method']) ? $params['method'] : $method;
 
         extract($params, EXTR_OVERWRITE);
-        $viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'admin_views' . DS . $views . DS . $template . '.php';
+        $viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views_admin' . DS . $views . DS . $template . '.php';
 
         joosFile::exists($viewfile) ? require ( $viewfile ) : null;
     }
