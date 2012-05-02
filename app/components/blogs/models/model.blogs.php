@@ -184,10 +184,6 @@ class modelBlogsCategory extends joosModel {
 
     public function before_insert() {
         
-        // формирование ссылки на категорию блогов
-        $new_slug = joosRequest::param('slug',false);
-        $this->slug = $new_slug ? $new_slug : joosText::text_to_url($this->title);
-        
         return true;
     }
 
@@ -208,6 +204,11 @@ class modelBlogsCategory extends joosModel {
 
 
     public function before_store() {
+
+        // формирование ссылки на категорию блогов
+        $new_slug = joosRequest::param('slug',false);
+        $this->slug = $new_slug ? $new_slug : joosText::text_to_url($this->title);
+        
         return true;
     }
 

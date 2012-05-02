@@ -170,7 +170,7 @@ class modelAdminBlogsCategory extends modelBlogsCategory {
                 'in_admintable' => true,
                 'html_table_element' => 'value',
                 'html_table_element_param' => array(),
-                'html_edit_element' => 'edit',
+                'html_edit_element' => 'textarea',
                 'html_edit_element_param' => array(),
             ),
             'state' => array(

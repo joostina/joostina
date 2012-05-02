@@ -361,8 +361,9 @@ class joosHTML {
         $compiled = '';
         foreach ($attrs as $key => $val) {
             
+            // @todo тут что-то не правильно!!!
             if( is_array($val) ){
-                _xdump($val);
+                continue;
             }
             
             $compiled .= ' ' . $key . '="' . joosFilter::htmlspecialchars($val) . '"';

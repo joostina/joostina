@@ -41,3 +41,14 @@
     <a class="btn btn-large btn-primary" href="<?php echo joosRoute::href('blog_view', array('category_slug'=>$blog_item->category_slug, 'id'=>$blog_item->id) ) ?>">Читать дальше</a>
 </article>
 <?php endforeach ?>
+
+<div class="pagination">
+    <ul>
+        <li class="disabled"><a href="#">«</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">»</a></li>
+    </ul>
+</div>
