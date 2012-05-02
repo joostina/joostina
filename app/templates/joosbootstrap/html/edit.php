@@ -28,6 +28,7 @@ defined('_JOOS_CORE') or exit();
                 <div class="span6">
 
                     <div style="float: right; margin-right: 12px" class="btn-group">
+                        <?php echo joosAdminToolbarButtons::edit('cancel')?>
                         <?php echo joosAdminToolbarButtons::edit('remove')?>
                     </div>
 

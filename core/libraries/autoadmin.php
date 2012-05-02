@@ -834,14 +834,14 @@ class joosAdminToolbarButtons{
             case 'remove':
                 return '
                     <button class="btn btn-large js-toolbar js-tooltip" data-toolbar="remove"  title="Удалить">
-                        <i class="icon-trash"></i> Удалить
+                        <i class="icon-trash"></i>
                     </button>';
                 break;
 
             case 'cancel':
                 return '
                     <button  class="btn btn-large js-toolbar js-tooltip"  data-toolbar="cancel" title="Отменить">
-                        <i class="icon-ban-circle"></i>
+                        <i class="icon-ban-circle"></i> Отменить
                     </button>';
                 break;
 
