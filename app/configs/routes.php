@@ -86,17 +86,16 @@ return array(
 			'action' => 'index'
 		)
 	),
-	'blog_view' => array(
-		'href' => 'blogs/<category_slug>/<id>',
-		'params_rules' => array(
-            'category_slug' => '[a-z\-]+',
-			'id' => ':digit'
-		),
-		'defaults' => array(
-			'controller' => 'blogs',
-			'action' => 'view'
-		)
-	),
+    'blog_pages' => array(
+        'href' => 'blogs/page/<page>',
+        'params_rules' => array(
+            'page' => ':digit'
+        ),
+        'defaults' => array(
+            'controller' => 'blogs',
+            'action' => 'index'
+        )
+    ),
 	'blog_edit' => array(
 		'href' => 'blogs/edit/<id>',
 		'params_rules' => array(
@@ -116,16 +115,17 @@ return array(
 			'action' => 'category'
 		)
 	),
-	'blog_pages' => array(
-		'href' => 'blogs/page/<page>',
-		'params_rules' => array(
-			'page' => ':digit'
-		),
-		'defaults' => array(
-			'controller' => 'blogs',
-			'action' => 'index'
-		)
-	),
+    'blog_view' => array(
+        'href' => 'blogs/<category_slug>/<id>',
+        'params_rules' => array(
+            'category_slug' => '[a-z\-]+',
+            'id' => ':digit'
+        ),
+        'defaults' => array(
+            'controller' => 'blogs',
+            'action' => 'view'
+        )
+    ),
  	/* Компонент новостей */
 	'news' => array(
 		'href' => 'news',
