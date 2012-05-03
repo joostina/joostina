@@ -148,7 +148,7 @@ class modelUsers extends joosModel {
 	private static function get_guest() {
 		$guest = new stdClass();
 		$guest->id = 0;
-		$guest->user_name = _GUEST_USER;
+		$guest->user_name = 'Гость';
 		return $guest;
 	}
 

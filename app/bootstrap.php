@@ -93,10 +93,10 @@ switch (JENVIRONMENT) {
 
         register_shutdown_function(function()
             {
-                $haltCodes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
+                $halt_codes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
 
                 $error = error_get_last();
-                if ($error && in_array($error['type'], $haltCodes)) {
+                if ($error!==null && in_array($error['type'], $halt_codes)) {
                     joosException::error_handler($error['type'], $error['message'], $error['file'], $error['line']);
                 }
             }

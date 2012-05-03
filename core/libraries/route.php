@@ -124,7 +124,7 @@ class joosRoute extends Route {
      * @return string
      */
     public static function get_current_url() {
-        return self::$current_url;
+        return self::$current_url=='' ? JPATH_SITE : self::$current_url;
     }
 
 }
