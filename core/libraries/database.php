@@ -768,7 +768,7 @@ class joosModel {
 	 */
 	public function get_list_cache(array $params = array(), $cache_time = 86400) {
 
-		$cache = new joosCache();
+		$cache = joosCache::instance();
 		$key   = md5($this->get_query_list($params));
 
 		if (($value = $cache->get($key)) === NULL) {
@@ -942,7 +942,7 @@ class joosModel {
 	 */
 	public function find_cache(array $params = array('select' => '*'), $cache_time = 86400) {
 
-		$cache = new joosCache();
+		$cache = joosCache::instance();
 		$key   = md5($this->get_find_query_from_params($params));
 
 		if (($value = $cache->get($key)) === NULL) {

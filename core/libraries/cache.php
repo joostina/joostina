@@ -23,8 +23,25 @@ class joosCache {
 	protected $state;
 	protected $type;
 
+    private static $instance = array();
     
-	public function __construct($type = false, $data_store = false) {
+    /**
+     * Получение инстанции объекта кеша
+     * 
+     * @static
+     * @param bool $type
+     * @return joosCache
+     */
+    public static function instance($type = false){
+     
+        if( !isset( self::$instance[$type] ) || self::$instance[$type] === null ){
+            self::$instance[$type] = new self($type);
+        }
+        
+        return self::$instance[$type];
+    }
+    
+	private function __construct($type = false, $data_store = false) {
 
 		$type = $type ? $type : joosConfig::get2('cache', 'handler');
 
