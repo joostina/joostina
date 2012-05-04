@@ -24,9 +24,10 @@ class actionsTest extends joosController {
 	 */
 	public static function index() {
 
-        $classes = joosRobotLoader::get_classes( JPATH_APP );
+        $obj = new stdClass;
+        $obj->id = 123;
         
-        echo _xdump( var_export($classes,true) );
+        helperComments::load_comments_tree($obj);
         
 		return array();
 	}

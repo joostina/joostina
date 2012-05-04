@@ -79,7 +79,7 @@ switch (JENVIRONMENT) {
 
     case 'development':
         // установка режима отображения ошибок
-        //error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
+        error_reporting(E_ALL & ~E_DEPRECATED ^ E_STRICT);
         //error_reporting(-1);
         error_reporting(E_ALL | E_NOTICE | E_STRICT | E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR);
 
@@ -91,13 +91,12 @@ switch (JENVIRONMENT) {
         set_error_handler(array('joosException', 'error_handler'));
         set_exception_handler(array('joosException', 'error_handler'));
 
-        register_shutdown_function(function()
-            {
+        register_shutdown_function(function(){
                 $halt_codes = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, 4096);
 
                 $error = error_get_last();
                 if ($error!==null && in_array($error['type'], $halt_codes)) {
-                    joosException::error_handler($error['type'], $error['message'], $error['file'], $error['line']);
+                    echo joosException::error_handler($error['type'], $error['message'], $error['file'], $error['line']);
                 }
             }
         );
