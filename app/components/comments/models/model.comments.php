@@ -109,6 +109,32 @@ class modelComments extends joosModel {
 
 
     public function before_store() {
+
+        $comment_text = $this->comment_text;
+        $comment_text = joosText::text_clean($comment_text);
+        $comment_text = joosText::word_limiter($comment_text,200);
+        $this->comment_text = $comment_text;
+
+
+        $this->user_id = joosCore::user()->id;
+        $this->user_ip = joosRequest::user_ip();
+
+        // высчитываем родителя и заполняем дерево
+        if ($this->parent_id > 0) {
+
+            $parent = new modelComments();
+            $parent->load($this->parent_id);
+
+            $this->level = $parent->level + 1;
+            $this->path = $parent->path . ',' . $parent->id;
+
+        } else {
+
+            $this->path = 0;
+        }
+        
+        $this->state = 1;
+        
         return true;
     }
 

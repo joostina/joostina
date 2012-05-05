@@ -81,5 +81,6 @@
 
         <div id="modal-output"></div>
 
+    <?php echo joosDocument::javascript(); ?>
 	</body>
 </html>

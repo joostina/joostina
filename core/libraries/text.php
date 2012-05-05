@@ -68,6 +68,7 @@ class joosText {
 	 * @return string обработанная строка
 	 */
 	public static function word_limiter($str, $limit = 100, $end_char = '&#8230;') {
+        
 		if (joosString::trim($str) == '') {
 			return $str;
 		}
@@ -90,6 +91,7 @@ class joosText {
 	 * @return string обработанная строка
 	 */
 	public static function character_limiter($str, $limit = 500, $end_char = '&#8230;', $max_word_lench = 500) {
+        
 		if (joosString::strlen($str) < $limit) {
 			return $str;
 		}

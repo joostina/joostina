@@ -1,13 +1,19 @@
 <?php defined('_JOOS_CORE') or die();
 
 ?>
-<div id="first_comment_wrap">
-	<div class="comment_form" id="comment_form">
-		<form action="" id="comments_addform">
-			<textarea id="comment_input" name="comment_text" cols="10" rows="10" style="width: 98%"></textarea>
-			<button class="comment_button button" type="submit">Добавить комментарий</button>
-			<button class="button" id="comment_back" style="display: none">Отмена</button>
-			<input type="hidden" name="parent_id" id="parent_id" value="0" />
-		</form>
-	</div>
+
+<div id="comments-form">
+    <form id="commentform" method="post" action="#">
+
+        <div class="control-group">
+            <label for="comment">Текст комментария <span class="required">*</span></label>
+            <textarea class="span12" tabindex="4" rows="6" id="comment" name="comment"></textarea>
+        </div>
+        <button class="btn btn-success comment_button" type="submit">Отправить</button>
+
+        <input type="hidden" name="parent_id" id="parent_id" value="0" />
+        <input type="hidden" name="obj_option" id="obj_option" value="<?php echo $obj_option ?>" />
+        <input type="hidden" name="obj_id" id="obj_id" value="<?php echo $obj_id ?>" />
+    </form>
+    </form>
 </div>
