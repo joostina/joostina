@@ -30,22 +30,7 @@
 					<a class="brand" href="<?php echo JPATH_SITE ?>"><?php echo joosConfig::get2('info', 'title') ?></a>
 
 					<div class="nav-collapse">
-						<ul class="nav">
-							<li class="active"><a href="<?php echo JPATH_SITE ?>">Главная</a></li>
-							<li><a href="<?php echo joosRoute::href('news') ?>">Новости</a></li>
-                            <li><a href="<?php echo joosRoute::href('blog') ?>">Блоги</a></li>
-                            <li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									Вёрстка здесь
-									<b class="caret"></b>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'blog_index')) ?>">Блог</a></li>
-									<li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'blog_post')) ?>">Блог/пост</a></li>
-                                    <li><a href="<?php echo joosRoute::href('layouts', array('tpl' => 'users_index')) ?>">Пользователи. Список</a></li>
-								</ul>
-							</li>
-						</ul>
+                        <?php echo joosModule::execute('menu') ?>
 					</div>
 
                     <?php echo joosModule::execute('login') ?>
