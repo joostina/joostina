@@ -461,7 +461,9 @@ class joosAdminController{
         
         if( $save_result!==true ){
             $errors = $obj_data->get_errors();
-            joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=edit&id=' . $obj_data->id, $errors);
+            joosFlashMessage::add($errors, 'success');
+            joosAutoadmin::edit($obj_data, $obj_data);
+            return;
         }
         
         
