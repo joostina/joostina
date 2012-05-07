@@ -22,7 +22,8 @@ class pluginAutoadminEditCheckbox implements joosAutoadminPluginsEdit{
 		$element   = array ();
 
 		$element[] = $params['label_begin'];
-		$element[] = joosHtml::label( array ( 'for' => $key ) , ( isset( $element_param['html_edit_element_param']['text'] ) ? $element_param['html_edit_element_param']['text'] : $element_param['name'] ) );
+                $desc = ( isset ( $element_param['html_edit_element_param']['tooltip'] ) ) ? ' <a class="js-tooltip" href="#" data-original-title="' . $element_param['html_edit_element_param']['tooltip'] . '"><i class="icon-question-sign"></i></a>' : '';
+		$element[] = joosHtml::label( array ( 'for' => $key ) , ( isset( $element_param['html_edit_element_param']['text'] ) ? $element_param['html_edit_element_param']['text'] : $element_param['name'] ) . $desc );
 		$element[] = $params['label_end'];
 		$element[] = joosHtml::hidden( $key , 0 );
 		$element[] = $params['el_begin'];

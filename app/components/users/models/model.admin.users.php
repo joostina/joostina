@@ -52,7 +52,7 @@ class modelAdminUsers extends modelUsers {
 				'html_edit_element' => 'checkbox',
 				'html_table_element' => 'status_change',
 				'html_edit_element_param' => array(
-					'text' => 'Разрешён / Активирован',
+					'tooltip' => 'Активирован',
 				),
 			),
 			'email' => array(
