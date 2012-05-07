@@ -10,11 +10,11 @@ body {
 .b-login_form form{
     padding: 10px
 }
-.m-login .logout{
+.module-login .logout{
     text-align: center;
     padding-bottom: 5px
 }
-    .m-login .logout form{
+    .module-login .logout form{
         margin: 0 !important
     }
 

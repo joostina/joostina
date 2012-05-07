@@ -48,13 +48,15 @@
 						</ul>
 					</div>
 
-                    <?php joosModule::module('login', array('template' => 'default')) ?>
+                    <?php echo joosModule::execute('login') ?>
 
 				</div>
 			</div>
 		</div>
 
 		<div class="container">
+
+            <?php echo joosModule::load_by_position('top');?>
 
 			<?php if (joosController::$activroute == 'default'): ?>
 				<div class="hero-unit">

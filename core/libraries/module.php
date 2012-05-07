@@ -3,7 +3,7 @@
 /**
  * joosModule - Общий класс работы с модулями ( на фронте )
  *
- * @version    1.0
+ * @version    2.0
  * @package    Core\Libraries
  * @subpackage Module
  * @category   Libraries
@@ -14,154 +14,237 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosModule  {
+class joosModule {
 
-	private static $data = array();
-	private static $_object_data = array();
+    /**
+     * Весь конфиг modules.php
+     */
+    private static $data = array();
 
-	public static function get_data() {
-		return self::$data;
-	}
+    /**
+     * Конфиг, пересортированный по ключу "position"
+     */
+    private static $modules_by_positions = array();
 
-	public static function add_array(array $modules) {
-		self::$data += $modules;
+    /**
+     * Конфиг, пересортированный по ключу "route"
+     */
+    private static $modules_by_routes = array();
+
+    /**
+     * Результаты выполнения текущего метода контроллера
+     */
+    private static $controller_data = array();
+
+
+
+    /**
+     * Инициализация модулей. На этом этапе пробегаемся по массиву параметров
+     */
+    public static function init() {
+        if (empty(self::$data)) {
+            self::$data = require_once JPATH_APP_CONFIG . DS . 'modules.php';
+
+            foreach (self::$data as $name => $m) {
+                $modules_by_name[$name] = $m;
+                foreach ($m as $m_r) {
+                    self::$modules_by_routes[$m_r['route']][$name] = $m_r;
+                    self::$modules_by_positions[$m_r['position']][$name][] = $m_r;
+                }
+            }
+        }
+    }
+
+    /**
+     * Передача данных выполнения метода текущего контроллера
+     * Данные передаются из joosController::views()
+     * @var $controller_data array
+     */
+    public static function set_controller_data($controller_data){
+        self::$controller_data = $controller_data;
+    }
+
+    /**
+     * Получение данных выполнения метода текущего контроллера
+     * @return $controller_data array
+     */
+    public static function get_controller_data(){
+        return self::$controller_data;
+    }
+
+
+    /**
+     * Получение всего содержимого конфига modules.php
+     * @return array
+     */
+    public static function get_data() {
+        return self::$data;
+    }
+
+    /**
+     * Запуск подключения модулей по заданной позиции
+     * Учитывается текущее правило роутинга
+     * если $name == '__all' - модуль выводится на всех страницах
+     * @var name str Имя позиции
+     */
+    public static function load_by_position($name) {
+
+        $modules = '';
+
+        //_xdump(self::$modules_by_positions[$name]);
+
+        if (isset(self::$modules_by_positions[$name])) {
+            foreach (self::$modules_by_positions[$name] as $name => $modules_array) {
+
+                foreach ($modules_array as $params) {
+
+                    $params['action'] = isset($params['action']) ? $params['action'] : 'default_action';
+
+                    if (joosController::$activroute == $params['route'] || $params['route'] == '__all') {
+                        $params['params'] = isset($params['params']) ?: array();
+                        $modules .= self::execute($name, $params['action'], $params['params']);
+                    }
+                    elseif ($params['route'] == '__exept') {
+                        if (!in_array(joosController::$activroute, $params['__exept_routes'])) {
+                            $params['params'] = isset($params['params']) ?: array();
+                            $modules .= self::execute($name, $params['action'], $params['params']);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Получение массива модулей для заданного правила роутинга
+     * @var route_name str Правило роутинга
+     * @return array Массив массивов модулей, где ключом является имя позиции, в которой выводится модуль
+     */
+    public static function get_array_by_route($route_name) {
+
+        $modules = array();
+
+        if (isset(self::$modules_by_routes[$route_name])) {
+            foreach (self::$modules_by_routes[$route_name] as $name => $params) {
+                $params['action'] = isset($params['action']) ?: 'default_action';
+                $modules[$params['position']][] = self::execute($name, $params['action'], $params['params']);
+            }
+        }
+
+        //для модулей, которые должны выводиться на всех страницах
+        foreach (self::$modules_by_routes['__all'] as $name => $params) {
+            $params['action'] = isset($params['action']) ?: 'default_action';
+            $modules[$params['position']][] = self::execute($name, $params['action'], $params['params']);
+        }
+
+        //для модулей, которые должны выводиться на всех страницах, кроме заданных
+        foreach (self::$modules_by_routes['__exept'] as $name => $params) {
+            if( !in_array($route_name,  $params['__exept_routes'] ) ){
+                $params['action'] = isset($params['action']) ?: 'default_action';
+                $modules[$params['position']][] = self::execute($name, $params['action'], $params['params']);
+            }
+
+        }
+
+        return $modules;
+    }
+
+
+    /**
+     * Исполнение модуля и его метода с указанными параметрами
+     * @var name str Имя модуля
+     * @var action str исполняемый метод модуля
+     * @var $config array Массив параметров
+     */
+	public static function execute($name, $action = 'default_action', $config = array()) {
+
+		$file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . $name . '.php';
+		require_once($file);
+
+		$class = 'moduleActions'.ucfirst($name);
+		if (!method_exists($class, $action)) {
+			throw new joosModulesException("Метод $action в модуле $name не обнаружен");
+		}
+
+		//устанавливаем параметры вызова
+		$class::$config = $config;
+		$class::$task   = $action;
+
+		//вызов метода и его оберток
+		if (method_exists($class, 'action_before')) {
+			call_user_func_array($class . '::action_before', array());
+		}
+		$results = call_user_func($class . '::' . $action);
+		if (method_exists($class, 'action_after')) {
+			call_user_func_array($class . '::action_after', array($results));
+		}
+
+        moduleActions::set_current_module_action_results($results);
+
+		//вывод результатов
+		if (is_array($results)) {
+			return self::as_html($results, $name, $action, $config);
+		} elseif (is_string($results)) {
+			return $results;
+		}
 	}
 
 	/**
-	 * Загрузка ВСЕХ модулей для текущей страницы
-	 * @static
-	 *
-	 * @param string $controller текущий контроллер
-	 * @param string $method     метод текущего контроллера
-	 * @param array  $object_data
+	 * Вывод шаблона модуля в зависимости от того, что нагенерил класс модуля
 	 */
-	public static function modules_by_page($controller, $method, $object_data = array()) {
+	private static function as_html($params, $module_name, $method, $config) {
 
-		$modules_pages = new modelModulesPages;
-		$modules = $modules_pages->get_list(array('select' => "mp.*,m.*",
-			'join' => 'AS mp INNER JOIN #__modules AS m ON ( m.id = mp.moduleid AND m.state = 1 AND m.client_id = 0 )',
-			'where' => sprintf("mp.controller = 'all' OR mp.controller ='%s'", $controller),
-			'order' => 'm.position, m.ordering'));
+        //сначала смотрим в настройки конфига
+		$template = isset($config['template']) ? $config['template'] : 'default';
+        //но то, что пришло по результатм выполнения метода считаем более приоритетным
+        $template = isset($params['template']) ? $params['template'] : $template;
 
-		if (count($modules) > 0) {
-			$by_position = array();
-			$by_name = array();
-			$by_id = array();
+		$view = isset($params['view']) ? $params['view'] : $method;
 
-			foreach ($modules as $module) {
-				if ($module->controller == 'all' || (!$module->method || ( $module->method == $method ) )) {
-					$by_position[$module->position][$module->id] = $module;
-					$by_name[$module->module] = $module;
-					$by_id[$module->id] = $module;
-				}
-			}
+		extract($params, EXTR_OVERWRITE);
 
-			self::$data += $by_position;
-			self::$data += $by_name;
-			self::$data += $by_id;
+		$viewfile = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $module_name . DS . 'views' . DS . $view . DS . $template . '.php';
 
-			self::$_object_data = $object_data;
-		}
+		$template_engine = joosTemplater::instance(isset($params['template_engine']) ? $params['template_engine'] : 'default');
+
+		$output  = '<div class="module module-' . $module_name . '">';
+		$output .= $template_engine->render_file($viewfile, $params);
+		$output .= '</div>';
+
+		return $output;
 	}
+}
 
-    /**
-   	 * Загрузка ВСЕХ модулей определённой позиции
-   	 * @param string $name название позиции
-   	 */
-   	public static function load_by_position($name, array $extra = array('hide_frame' => false)) {
-   		echo $extra['hide_frame'] == false ? '<span id="jpos_' . $name . '" class="jposition">' : null;
-   		if (self::in_position($name)) {
-   			foreach (self::$data[$name] as $position_name => $position_params) {
-   				self::module($position_name, $position_params, array('hide_frame' => true));
-   			}
-   		}
-   		echo $extra['hide_frame'] == false ? '</span>' : null;
-   	}
+/**
+ * Родительский класс-заглушка для модулей
+ */
+class moduleActions {
 
-	public static function load_by_name($name, $add_params = array()) {
-		if (isset(self::$data[$name])) {
-			self::module(self::$data[$name], $add_params);
-		}
-	}
+	//параметры вызова модуля
+	public static $config = array();
 
-	public static function load_by_id($id, $add_params = array()) {
-		if (isset(self::$data[$id])) {
-			self::module(self::$data[$id], $add_params);
-		}
-	}
+	//вызываемый метод модуля
+	public static $task = '';
 
-	/**
-	 * Получение числа модулей расположенных в определённой позиции
-	 *
-	 * @param string $name название позиции
-	 *
-	 * @return int число модулей в выбранной позиции
-	 */
-	public static function count_by_position($name) {
-		return isset(self::$data[$name]) ? count(self::$data[$name]) : false;
-	}
+    //сохраняем результаты выполнения методов (для благодарных потомков)
+    private static  $current_module_action_results;
 
-	/**
-	 * Проверка наличия модулей определённой позиции
-	 *
-	 * @param string $name название позиции
-	 *
-	 * @return bool наличие модулей в выбранной позиции
-	 */
-	public static function in_position($name) {
-		return isset(self::$data[$name]);
-	}
+    public static function set_current_module_action_results($results){
+        self::$current_module_action_results = $results;
+    }
 
-    /**
-   	 * Подключение (вывод) модуля в тело страницы
-   	 * @var name str Имя модуля
-   	 * @var params array Массив параметров
-   	 */
-   	public static function module($name, array $params = array(), array $extra = array('hide_frame' => false)) {
-
-   		$name = preg_replace('/\|/', '', $name);
-   		$name = preg_replace('/[0-9][_]/', '', $name);
-
-   		//Определяем имя главного исполняемого файла модуля
-   		$file = JPATH_BASE . DS . 'app'. DS. 'modules' . DS . $name . DS . $name . '.php';
-
-        //Определение шаблона
-        $template = (isset($params) && isset($params['template'])) ? $params['template'] : 'default';
-        $template_file = JPATH_BASE . DS .'app'. DS. 'modules' . DS . $name . DS . 'views' . DS . $template . '.php';
-        $params['template_file'] =  joosFile::exists($template_file) ? $template_file : null;
-
-        echo '<div class="module module-'.$name.'">';
-             joosFile::exists($file) ? require($file) : null;
-        echo '</div>';
-   	}
-
-    /**
-   	 * Определение имени шаблона для вывода
-   	 * @var name str Имя модуля
-   	 * @var params array Массив параметров
-     * @deprecated
-   	 */
-   	private static function module_template($name, $params = array()) {
-   		$_tpl = (isset($params) && isset($params['template'])) ? $params['template'] : 'default';
-   		$_tpl_file = JPATH_BASE . DS .'app'. DS. 'modules' . DS . $name . DS . 'views' . DS . $_tpl . '.php';
-   		return  joosFile::exists($_tpl_file) ? $_tpl_file : null;
-   	}
-
-	public static function run($name) {
-		$_tpl_file = JPATH_BASE . DS . 'app' . DS . 'modules' . DS . $name . DS . $name . '.php';
-		if ( joosFile::exists($_tpl_file)) {
-			require_once $_tpl_file;
-		} else {
-			throw new joosException('Файл :file для модуля :module_name не найден', array(':file' => $_tpl_file, ':module_name' => $name));
-		}
-	}
+    public static function get_current_module_action_results(){
+        return self::$current_module_action_results;
+    }
 
 }
 
 /**
- * Обработка исключение работы с модулями
- * 
- */
-class joosModulesException extends joosException {
+ * Обработка исключений работы с модулями
+  */
+class joosModulesException extends joosException
+{
 
 }

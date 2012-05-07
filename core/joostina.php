@@ -641,6 +641,10 @@ class joosController {
 
 	private static function views(array $params, $option, $task) {
 
+        //Инициализируем модули
+        joosModule::init();
+        joosModule::set_controller_data($params);
+
 		self::as_html($params, $option, $task);
 	}
 

@@ -17,7 +17,7 @@
 <ul class="news-list unstyled">
     <?php foreach ($news as $item):?>
     <li>
-        <div class="date"><?php echo joosDateTime::format($item->created_at, '%d %B %Y ')  ?></div>
+        <div class="date"><?php echo joosDateTime::russian_date('d F в H:m', strtotime($item->created_at)) ?></div>
         <h2>
             <a class="news-title" href="<?php echo joosRoute::href('news_view', array('id' => $item->id ))  ?>">
                 <?php echo $item->title ?>

@@ -20,7 +20,7 @@
 <div class="news-item_full">
 
     <div class="date">
-        <?php echo joosDateTime::format($item->created_at, '%d %B %Y ')  ?>
+        <?php echo joosDateTime::russian_date('d F в H:m', strtotime($item->created_at)) ?>
     </div>
 
     <div class="item-body">

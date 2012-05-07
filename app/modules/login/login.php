@@ -1,24 +1,61 @@
-<?php
+<?php defined('_JOOS_CORE') or exit();
 
 /**
- * Login - модуль авторизации
- * Основной исполняемый файл
- *
- * @version    1.0
- * @package    Joostina CMS
- * @package   Core\Modules
- * @author     JoostinaTeam
- * @copyright  (C) 2007-2012 Joostina Team
- * @license    see license.txt
- *
- * */
-//Запрет прямого доступа
-defined( '_JOOS_CORE' ) or exit();
+ * Модуль входа и выхода пользователя на сайт
+ */
+class moduleActionsLogin extends moduleActions {
+	
+	/**
+	 * Некоторые данные, которыми мы заполняем в JS модельку
+	 */
+	private static function get_login_info() {
+		
+		$user = joosCore::user();
 
-$user = isset( $params['user'] ) ? $params['user'] : joosCore::user();
+        return array(
+            'is_logged' =>  ($user->id > 0 ? 1 : 0),
+            'id' => (int) $user->id,
+            'uid_code' =>  base_convert($user->id, 10, 36)
+        );
 
-
-
-$params['template_file'] = $user->id ? JPATH_BASE . '/app/modules/login/views/logout/default.php' : JPATH_BASE . '/app/modules/login/views/login/default.php';
-
-$params['template_file'] ? require_once $params['template_file'] : null;
+	}
+	
+	/**
+	 * Метод входа
+	 */
+	public static function default_action() {
+		
+		if (joosCore::user()->id) {
+			return self::logged();
+		}
+		else {
+			
+			return self::not_logged();
+		}
+	}
+	
+	/**
+	 * Если пользователь не авторизован, показываем форму входа/регистрации
+	 */
+	public static function not_logged() {
+		
+		return array(
+            'state' => 'not_logged',
+            'view' => 'not_logged',
+            'user' => joosCore::user(),
+            'user_login_information' => self::get_login_info()
+        );
+	}
+	
+	/**
+	 * Менюшка и кнопка выхода
+	 */
+	public static function logged() {
+		return array(
+            'state' => 'logged',
+			'view' => 'logged',
+            'user' => joosCore::user(),
+			'user_login_information' => self::get_login_info()
+		);
+	}
+}
