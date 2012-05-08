@@ -3,6 +3,7 @@
 return array(
     'live_site' => 'http://www.joostina.local',
     'debug' => true,
+    'debug_template' => false, //в режиме true будут использованы less-файлы
     '404_page' => false,
     'template' => 'bootstrap',
     'template_admin' => 'joosbootstrap',
@@ -22,6 +23,7 @@ return array(
         'enable' => false,
         'handler' => 'file', // 'apc', 'file', 'memcache', 'xcache'
         'admin_menu_cache' => false,
+        'js_cache' => false, //при установке в true JS-файлы будут минимизированы и склеены в один файл
         'cachepath' => JPATH_BASE . '/cache/cache.php', // TODO нехорошо
         'memcache_host' => '127.0.0.1',
         'memcache_port' => 11211

@@ -364,22 +364,32 @@ class joosDocument {
 		return self::js_files() . self::js_code();
 	}
 
+    /**
+     * Подготовка JS файлов к выводу
+     * Если включено кэширование, файлы будут минимизированы и склеены
+     */
 	public static function js_files() {
-		$result = array();
 
-		foreach (self::$data['js_files'] as $js_file) {
-			// если включена отладка - то будет добавлять антикеш к имени файла
-			$result[] = joosHtml::js_file($js_file . ( JDEBUG ? '?' . time() : false ));
-		}
+        //Если включено кэширование JS-файлов, оптимизируем и склеиваем
+        if(joosConfig::get2('cache', 'js_cache')){
+            $js_file = joosJSOptimizer::optimize_and_save(self::$data['js_files']);
+            return joosHtml::js_file($js_file['live'] . ( JDEBUG ? '?' . time() : JFILE_ANTICACHE));
+        }
 
-		return implode("\n\t", $result) . "\n";
+        //иначе, отдаём файлы как есть
+        else{
+            $result = array();
+            foreach (self::$data['js_files'] as $js_file) {
+                $result[] = joosHtml::js_file($js_file . (JDEBUG ? '?' . time() : false));
+            }
+            return implode("\n\t", $result) . "\n";
+        }
 	}
 
 	public static function js_code() {
 
 		$c = array();
 		foreach (self::$data['js_code'] as $js_code) {
-			//$result[] = JHtml::js_code($js_code);
 			$c[] = $js_code . ";\n";
 		}
 		$result = joosHtml::js_code(implode("", $c));

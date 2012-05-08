@@ -43,6 +43,17 @@ class joosFile {
     }
 
     /**
+     * Создание файла
+     * @tutorial joosFile::create( JPATH_BASE . DS. 'create_file.php', $content );
+     * @param string $file_name Полный путь к файлу
+     * @param mixed $data Содержимое файла
+     * @return mixed Результат создания (false при неудаче)
+     */
+    public static function create($file_name, $data) {
+        return file_put_contents($file_name, $data, LOCK_EX);
+    }
+
+    /**
      * Удаление файла
      *
      * @tutorial joosFile::delete( JPATH_BASE . DS. '_to_delete.php' );

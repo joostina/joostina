@@ -130,8 +130,6 @@ switch (JENVIRONMENT) {
 // кодировка для строковых функций
 mb_internal_encoding('UTF-8');
 
-// склеивать и кешировать js+css файлы
-DEFINE('JSCSS_CACHE', false);
 DEFINE('JFILE_ANTICACHE', '?v=1');
 
 // текущее время сервера
