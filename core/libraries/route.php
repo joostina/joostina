@@ -257,6 +257,7 @@ class Route {
 			':alpha' => '[a-zA-Z]+',
 			':rus_alpha' => '[a-zA-Zа-яА-ЯёЁ]+',
 			':word' => '[\w-_]+',
+            ':slug' => '[a-zA-Zа-яА-ЯёЁ0-9\-]+',
 		);
 
 		if ($regex) {
