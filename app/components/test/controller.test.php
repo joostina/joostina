@@ -39,6 +39,13 @@ class actionsTest extends joosController {
 		return array();
 	}
 
+    /**
+   	 * Тестирование конфигурации
+   	 */
+   	public static function config() {
+   		return array();
+   	}
+
 	/**
 	 * Для тестирования вёрстки
 	 *

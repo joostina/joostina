@@ -31,11 +31,49 @@ class joosConfig {
 	}
 
 	public static function get($name, $default = null) {
-		return isset(self::$data[$name]) ? self::$data[$name] : $default;
+        $name_array = explode(':', $name);
+        $count = count($name_array);
+
+        if($count == 1){
+            return isset(self::$data[$name]) ? self::$data[$name] : $default;
+        }
+
+        //@todo собрать в алгоритм
+        else{
+
+            switch($count){
+                case 2:
+                default:
+                    return
+                        isset(self::$data[$name_array[0]][$name_array[1]])
+                            ? self::$data[$name_array[0]][$name_array[1]]
+                            : $default;
+                break;
+
+                case 3:
+                    return
+                        isset(self::$data[$name_array[0][$name_array[1][$name_array[2]]]])
+                            ? self::$data[$name_array[0][$name_array[1][$name_array[2]]]]
+                            : $default;
+                break;
+
+                case 4:
+                    return
+                        isset(self::$data[$name_array[0][$name_array[1][$name_array[2][$name_array[3]]]]])
+                            ? self::$data[$name_array[0][$name_array[1][$name_array[2][$name_array[3]]]]]
+                            : $default;
+                break;
+            }
+
+        }
+
 	}
 
+    /**
+     *@deprecated
+     */
 	public static function get2($type, $name, $default = null) {
-		return ( isset(self::$data[$type]) && isset(self::$data[$type][$name]) ) ? self::$data[$type][$name] : $default;
+        return self::get($type.':'.$name, $default);
 	}
 
 	public static function set($name, $value) {
