@@ -91,8 +91,7 @@ class joosModule {
 
         $modules = '';
 
-        //_xdump(self::$modules_by_positions[$name]);
-
+        //@todo Рефакторинг
         if (isset(self::$modules_by_positions[$name])) {
             foreach (self::$modules_by_positions[$name] as $name => $modules_array) {
 
@@ -101,12 +100,12 @@ class joosModule {
                     $params['action'] = isset($params['action']) ? $params['action'] : 'default_action';
 
                     if (joosController::$activroute == $params['route'] || $params['route'] == '__all') {
-                        $params['params'] = isset($params['params']) ?: array();
+                        $params['params'] = isset($params['params']) ? $params['params'] : array();
                         $modules .= self::execute($name, $params['action'], $params['params']);
                     }
                     elseif ($params['route'] == '__exept') {
                         if (!in_array(joosController::$activroute, $params['__exept_routes'])) {
-                            $params['params'] = isset($params['params']) ?: array();
+                            $params['params'] = isset($params['params']) ? $params['params'] : array();
                             $modules .= self::execute($name, $params['action'], $params['params']);
                         }
                     }
@@ -126,23 +125,28 @@ class joosModule {
 
         $modules = array();
 
+        //@todo Рефакторинг
+
         if (isset(self::$modules_by_routes[$route_name])) {
             foreach (self::$modules_by_routes[$route_name] as $name => $params) {
-                $params['action'] = isset($params['action']) ?: 'default_action';
+                $params['action'] = isset($params['action']) ? $params['action'] : 'default_action';
+                $params['params'] = isset($params['params']) ? $params['params'] : array();
                 $modules[$params['position']][] = self::execute($name, $params['action'], $params['params']);
             }
         }
 
         //для модулей, которые должны выводиться на всех страницах
         foreach (self::$modules_by_routes['__all'] as $name => $params) {
-            $params['action'] = isset($params['action']) ?: 'default_action';
+            $params['action'] = isset($params['action']) ? $params['action'] : 'default_action';
+            $params['params'] = isset($params['params']) ? $params['params'] : array();
             $modules[$params['position']][] = self::execute($name, $params['action'], $params['params']);
         }
 
         //для модулей, которые должны выводиться на всех страницах, кроме заданных
         foreach (self::$modules_by_routes['__exept'] as $name => $params) {
             if( !in_array($route_name,  $params['__exept_routes'] ) ){
-                $params['action'] = isset($params['action']) ?: 'default_action';
+                $params['action'] = isset($params['action']) ? $params['action'] : 'default_action';
+                $params['params'] = isset($params['params']) ? $params['params'] : array();
                 $modules[$params['position']][] = self::execute($name, $params['action'], $params['params']);
             }
 
