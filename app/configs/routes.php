@@ -78,6 +78,13 @@ return array(
 			'action' => 'upload'
 		)
 	),
+    'test-config' => array(
+   		'href' => 'test-config',
+   		'defaults' => array(
+   			'controller' => 'test',
+   			'action' => 'config'
+   		)
+   	),
 	/* Компонент блогов */
 	'blog' => array(
 		'href' => 'blogs',
