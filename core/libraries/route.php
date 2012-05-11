@@ -15,11 +15,9 @@
  * */
 class joosRoute extends Route {
 
-	private static $instance;
 	private static $current_url;
 
-	public static function instance() {
-		if (self::$instance === NULL) {
+	public static function init() {
 
 			/**
 			 *
@@ -34,13 +32,12 @@ class joosRoute extends Route {
 			//$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
 			$uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
 			self::$current_url = urldecode($uri);
-		}
-		return self::$instance;
+
 	}
 
 	public static function route() {
 
-		self::instance();
+		self::init();
 
 		$routes = self::all();
 		$params = NULL;
@@ -77,7 +74,7 @@ class joosRoute extends Route {
 	}
 
 	/**
-	 * Систменый автоматический редирект
+	 * Системный 301 редирект
 	 *
 	 * @param string $url ссылка, на которую надо перейти
 	 * @param string $msg текст сообщения, отображаемый после перехода
@@ -115,6 +112,7 @@ class joosRoute extends Route {
 	 * @return string
 	 */
 	public static function get_active_route() {
+        
 		return joosController::$activroute;
 	}
 
@@ -124,7 +122,8 @@ class joosRoute extends Route {
      * @return string
      */
     public static function get_current_url() {
-        return self::$current_url=='' ? JPATH_SITE : self::$current_url;
+        
+        return self::$current_url=='' ? JPATH_SITE : JPATH_SITE . '/' . self::$current_url;
     }
 
 }
@@ -213,6 +212,7 @@ class Route {
 	 * @return  array  routes by name
 	 */
 	protected static function all() {
+        
 		return self::$_routes;
 	}
 
@@ -233,6 +233,7 @@ class Route {
 	 * @uses    self::REGEX_SEGMENT
 	 */
 	private static function compile($uri, array $regex = NULL) {
+        
 		if (!is_string($uri)) {
 			return;
 		}

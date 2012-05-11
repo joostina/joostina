@@ -37,6 +37,7 @@ class joosText {
 	 * @param array   $expressions Например: array("ответ", "ответа", "ответов")
 	 */
 	public static function declension($int, $expressions) {
+        
 		if (count($expressions) < 3) {
 			$expressions[2] = $expressions[1];
 		}
@@ -149,6 +150,7 @@ class joosText {
 	 * @return string очищенная от тэгов строка
 	 */
 	public static function text_msword_clean($text) {
+        
 		$text = str_replace("&nbsp;", "", $text);
 		$text = str_replace("</html>", "", $text);
 		$text = preg_replace("/FONT-SIZE: [0-9]+pt;/miu", "", $text);
@@ -163,6 +165,7 @@ class joosText {
 	 * @return string строка с исправленными тэгами
 	 */
 	public static function semantic_replacer($text) {
+        
 		$text = preg_replace("!<b>(.*?)</b>!si", "<strong>\\1</strong>", $text);
 		$text = preg_replace("!<i>(.*?)</i>!si", "<em>\\1</em>", $text);
 		$text = preg_replace("!<u>(.*?)</u>!si", "<strike>\\1</strike>", $text);
@@ -177,6 +180,7 @@ class joosText {
 	 * @return string очищенная строка
 	 */
 	public static function simple_clean($text) {
+        
 		$text = html_entity_decode($text, ENT_QUOTES, 'utf-8');
 		return self::text_clean($text);
 	}
@@ -186,9 +190,10 @@ class joosText {
 	 *
 	 * @param string $text исходная строка для очистки
 	 *
-	 * @return type очищенная от тэгов строка
+	 * @return string очищенная от тэгов строка
 	 */
 	public static function text_clean($text) {
+        
 		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);
 		$text = preg_replace('/<!--.+?-->/', '', $text);
 		$text = preg_replace('/{.+?}/', '', $text);
@@ -249,6 +254,7 @@ class joosText {
 	 * @return string обработанная и готовая для формирования ссылки строка
 	 */
 	public static function text_to_url($str) {
+        
 		// убираем непроизносимые
 		$str = str_ireplace(array('ь', 'ъ'), '', $str);
 		// переводим в транслит
@@ -270,6 +276,7 @@ class joosText {
 	 * @return string обрезанная строка
 	 */
 	public static function text_wrap($text, $max_length = 30) {
+        
 		$counter = 0;
 		$newText = array();
 		$array = array();
@@ -308,6 +315,7 @@ class joosText {
 	 * @return string
 	 */
 	public static function to_canonical($text) {
+        
 		// приводим к единому нижнему регистру
 		$text = joosString:: strtolower($text);
 
@@ -342,6 +350,7 @@ class joosText {
 	 * @return type
 	 */
 	function id_decode($string) {
+        
 		$chars = '23456789abcdeghkmnpqsuvxyzABCDEGHKLMNPQSUVXYZ'; // Используем непохожие друг на друга символы
 		$length = 45; //strlen($chars); // если изменяем набор символов, то число нужно изменить
 		$size = strlen($string) - 1;
@@ -362,7 +371,7 @@ class joosText {
 	 *
 	 * @param string $sex - пол, принимает варианты 1/2, м/ж, m/f. Если вариан  отсутствует - то используется 2й элементы неопределённого пола
 	 * @param array $texts - 3х элементый массив слов для каждого пола 0-мужской, 1-женский, 2
-	 * @return type
+	 * @return string
 	 */
 	public static function sexerate($sex, array $texts) {
 
@@ -381,8 +390,7 @@ class joosText {
 				)
 		);
 
-
-		return isset($texts[$sex]) ? $texts[$sex] : $texts[$sex];
+		return isset($texts[$sex]) ? $texts[$sex] : $texts[2];
 	}
 
 	/**
@@ -391,9 +399,10 @@ class joosText {
 	 * @tutorial  joosText::json_encode( array(1=>'Один',2=>'Два') ); => {"1":"Один","2":"Два"}
 	 *
 	 * @param mixed $value любой тип переменной
-	 * @return json_string
+	 * @return string|json_string
 	 */
 	public static function json_encode($value) {
+        
 		$arr_replace_utf = array('\u0410', '\u0430', '\u0411', '\u0431', '\u0412', '\u0432',
 			'\u0413', '\u0433', '\u0414', '\u0434', '\u0415', '\u0435', '\u0401', '\u0451', '\u0416',
 			'\u0436', '\u0417', '\u0437', '\u0418', '\u0438', '\u0419', '\u0439', '\u041a', '\u043a',
