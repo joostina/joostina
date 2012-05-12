@@ -497,7 +497,8 @@ class joosAutoadmin {
         // ключ-название запрашиваемого элемента
         $obj_key = joosRequest::post('obj_key');
         // название объекта запрашиваемого элемента
-        $model = joosRequest::param('model');
+        $model = joosRequest::param('obj_model');
+        
         if (!$model) {
             return false;
         }
@@ -508,7 +509,7 @@ class joosAutoadmin {
             // создаём объект класса
             $obj = new $model;
 
-            switch ($task) {
+            switch ($task) {    
                 case 'status_change':
                     $obj->load($obj_id);
                     // меняем состояние объекта на противоположное
@@ -533,6 +534,7 @@ class joosAutoadmin {
                     // формируем ответ из противоположных элементов текущему состоянию
                     $return_onj->image = isset($fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['images'][!$obj->$obj_key] : 'error.png';
                     $return_onj->mess = isset($fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key]) ? $fields_info[$obj_key]['html_table_element_param']['statuses'][!$obj->$obj_key] : 'ERROR';
+                    $return_onj->new_class = $obj->$obj_key ? 'icon-remove' : 'icon-ok';
                     break;
 
                 default:

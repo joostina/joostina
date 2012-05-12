@@ -754,7 +754,7 @@ class joosModel {
 		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] . "\n" : '';
 		$pseudonim = isset($params['pseudonim']) ? ' AS ' . $params['pseudonim'] . ' ' : '';
         
-        $limit = isset($params['limit']) ? 'LIMIT '.$params['offset']."\n" : '';
+        $limit = isset($params['limit']) ? 'LIMIT '.$params['limit']."\n" : '';
         $limit = (isset($params['limit']) && isset($params['offset'])) ? 'LIMIT '.$params['offset'].','.$params['limit']."\n" : $limit;
 
 		return "SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order . $limit;
