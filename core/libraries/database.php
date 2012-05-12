@@ -734,11 +734,9 @@ class joosModel {
 	 */
 	public function get_list(array $params = array()) {
 
-		$offset = isset($params['offset']) ? $params['offset'] . "\n" : 0;
-		$limit = isset($params['limit']) ? $params['limit'] . "\n" : 0;
 		$tbl_key = isset($params['key']) ? $params['key'] : null;
 
-		return $this->_db->set_query($this->get_query_list($params), $offset, $limit)->load_object_list($tbl_key);
+		return $this->_db->set_query($this->get_query_list($params))->load_object_list($tbl_key);
 	}
 
 	/**
@@ -755,8 +753,11 @@ class joosModel {
 		$group = isset($params['group']) ? 'GROUP BY ' . $params['group'] . "\n" : '';
 		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] . "\n" : '';
 		$pseudonim = isset($params['pseudonim']) ? ' AS ' . $params['pseudonim'] . ' ' : '';
+        
+        $limit = isset($params['limit']) ? 'LIMIT '.$params['offset']."\n" : '';
+        $limit = (isset($params['limit']) && isset($params['offset'])) ? 'LIMIT '.$params['offset'].','.$params['limit']."\n" : $limit;
 
-		return "SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order;
+		return "SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order . $limit;
 	}
 
 	/**
