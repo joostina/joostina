@@ -23,24 +23,24 @@ class joosCache {
 	protected $state;
 	protected $type;
 
-    private static $instance = array();
-    
-    /**
-     * Получение инстанции объекта кеша
-     * 
-     * @static
-     * @param bool $type
-     * @return joosCache
-     */
-    public static function instance($type = false){
-     
-        if( !isset( self::$instance[$type] ) || self::$instance[$type] === null ){
-            self::$instance[$type] = new self($type);
-        }
-        
-        return self::$instance[$type];
-    }
-    
+	private static $instance = array();
+
+	/**
+	 * Получение инстанции объекта кеша
+	 *
+	 * @static
+	 * @param bool $type
+	 * @return joosCache
+	 */
+	public static function instance($type = false) {
+
+		if (!isset(self::$instance[$type]) || self::$instance[$type] === null) {
+			self::$instance[$type] = new self($type);
+		}
+
+		return self::$instance[$type];
+	}
+
 	private function __construct($type = false, $data_store = false) {
 
 		$type = $type ? $type : joosConfig::get2('cache', 'handler');
@@ -60,7 +60,8 @@ class joosCache {
 				$this->data_store = $data_store;
 				if ($exists) {
 					$this->cache = unserialize(file_get_contents($data_store));
-				} else {
+				}
+				else {
 					$this->cache = array();
 				}
 				$this->state = 'clean';
@@ -106,8 +107,7 @@ class joosCache {
 				if (isset($this->cache[$key]) && $this->cache[$key]['expire'] && $this->cache[$key]['expire'] >= time()) {
 					return FALSE;
 				}
-				$this->cache[$key] = array('value' => $value,
-					'expire' => (!$ttl ) ? 0 : time() + $ttl);
+				$this->cache[$key] = array('value' => $value, 'expire' => (!$ttl) ? 0 : time() + $ttl);
 				$this->state = 'dirty';
 				return TRUE;
 
@@ -170,7 +170,8 @@ class joosCache {
 					$expire = $this->cache[$key]['expire'];
 					if (!$expire || $expire >= time()) {
 						return $this->cache[$key]['value'];
-					} elseif ($expire) {
+					}
+					elseif ($expire) {
 						unset($this->cache[$key]);
 						$this->state = 'dirty';
 					}
@@ -224,8 +225,7 @@ class joosCache {
 				return;
 
 			case 'file':
-				$this->cache[$key] = array('value' => $value,
-					'expire' => (!$ttl ) ? 0 : time() + $ttl);
+				$this->cache[$key] = array('value' => $value, 'expire' => (!$ttl) ? 0 : time() + $ttl);
 				$this->state = 'dirty';
 				return;
 

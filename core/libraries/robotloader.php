@@ -84,7 +84,8 @@ class joosRobotLoader {
 
 				if ($token === '{') {
 					$level++;
-				} elseif ($token === '}') {
+				}
+				elseif ($token === '}') {
 					$level--;
 				}
 			}

@@ -31,9 +31,11 @@ class joosImage {
 		if (preg_match($regex, $text, $matches)) {
 			$img = $matches[2];
 			return $img;
-		} elseif ($default_image) {
+		}
+		elseif ($default_image) {
 			return '/images/noimage.jpg';
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -106,11 +108,13 @@ class Thumbnail {
 	 * @see    Thumbnail::imageCreateFromFile(), Thumbnail::imageCreateFromString()
 	 */
 	public static function imageCreate($input) {
-		if ( joosFile::exists($input)) {
+		if (joosFile::exists($input)) {
 			return Thumbnail::imageCreateFromFile($input);
-		} else if (is_string($input)) {
+		}
+		else if (is_string($input)) {
 			return Thumbnail::imageCreateFromString($input);
-		} else {
+		}
+		else {
 			return $input;
 		}
 	}
@@ -126,11 +130,11 @@ class Thumbnail {
 	 */
 	public static function imageCreateFromFile($filename) {
 		if (!joosFile::exists($filename) || !joosFile::is_readable($filename)) {
-			 throw new joosImageLibrariesException('Unable to open file "' . $filename . '"', E_USER_NOTICE);
+			throw new joosImageLibrariesException('Unable to open file "' . $filename . '"', E_USER_NOTICE);
 		}
 
 		// determine image format
-		list(,, $type ) = getimagesize($filename);
+		list(, , $type) = getimagesize($filename);
 
 		switch ($type) {
 
@@ -146,7 +150,7 @@ class Thumbnail {
 				return imagecreatefrompng($filename);
 				break;
 		}
-        throw new joosImageLibrariesException('Unsupport image type', E_USER_NOTICE);
+		throw new joosImageLibrariesException('Unsupport image type', E_USER_NOTICE);
 	}
 
 	/**
@@ -160,7 +164,7 @@ class Thumbnail {
 	 */
 	public static function imageCreateFromString($string) {
 		if (!is_string($string) || empty($string)) {
-            throw new joosImageLibrariesException('Invalid image value in string', E_USER_NOTICE);
+			throw new joosImageLibrariesException('Invalid image value in string', E_USER_NOTICE);
 		}
 
 		return imagecreatefromstring($string);
@@ -200,17 +204,19 @@ class Thumbnail {
 		// Set output image type
 		// By default PNG image
 		$type = isset($options['type']) ? $options['type'] : IMAGETYPE_PNG;
-		$quality = isset($options['quality']) ? $options['quality'] : ( $type == IMAGETYPE_PNG ? 8 : 80 );
-		$quality = ( $type == IMAGETYPE_PNG ? (int) $quality / 10 : $quality ); // что бы не указывать в параметрах 0-100 для JPG и 0-9 для PNG - можно всегда 0-100, а тут подправим
+		$quality = isset($options['quality']) ? $options['quality'] : ($type == IMAGETYPE_PNG ? 8 : 80);
+		$quality = ($type == IMAGETYPE_PNG ? (int)$quality / 10 : $quality); // что бы не указывать в параметрах 0-100 для JPG и 0-9 для PNG - можно всегда 0-100, а тут подправим
 		// Before output to browsers send appropriate headers
 		if (empty($output)) {
 			$content_type = image_type_to_mime_type($type);
 			if (!headers_sent()) {
 				joosRequest::send_headers('Content-Type: ' . $content_type);
-			} else {
+			}
+			else {
 				throw new joosImageLibrariesException('Headers have already been sent. Could not display image.', E_USER_NOTICE);
 			}
-		} else {
+		}
+		else {
 			$content_type = 'ERROR';
 		}
 
@@ -263,14 +269,7 @@ class Thumbnail {
 		$sourceHeight = imagesy($sourceImage);
 
 		// Устанавливаем настройки по-умолчанию
-		static $defOptions = array('width' => 150,
-	'height' => 150,
-	'method' => THUMBNAIL_METHOD_SCALE_MAX,
-	'percent' => 0,
-	'halign' => THUMBNAIL_ALIGN_CENTER,
-	'valign' => THUMBNAIL_ALIGN_CENTER,
-	'check_size' => 0,
-	'resize' => 1);
+		static $defOptions = array('width' => 150, 'height' => 150, 'method' => THUMBNAIL_METHOD_SCALE_MAX, 'percent' => 0, 'halign' => THUMBNAIL_ALIGN_CENTER, 'valign' => THUMBNAIL_ALIGN_CENTER, 'check_size' => 0, 'resize' => 1);
 		foreach ($defOptions as $k => $v) {
 			if (!isset($options[$k])) {
 				$options[$k] = $v;
@@ -278,7 +277,7 @@ class Thumbnail {
 		}
 
 		$resize = 1;
-		if (( $options['check_size'] == 1 && $sourceWidth <= $options['width'] && $sourceHeight <= $options['height'] ) || $options['resize'] == 0) {
+		if (($options['check_size'] == 1 && $sourceWidth <= $options['width'] && $sourceHeight <= $options['height']) || $options['resize'] == 0) {
 			$resize = 0;
 		}
 
@@ -289,7 +288,8 @@ class Thumbnail {
 				if ($options['percent']) {
 					$W = floor($options['percent'] * $sourceWidth);
 					$H = floor($options['percent'] * $sourceHeight);
-				} else {
+				}
+				else {
 					$W = $options['width'];
 					$H = $options['height'];
 				}
@@ -299,7 +299,8 @@ class Thumbnail {
 
 				$Y = Thumbnail::_coord($options['valign'], $sourceHeight, $H);
 				$X = Thumbnail::_coord($options['halign'], $sourceWidth, $W);
-			} else {
+			}
+			else {
 				$X = 0;
 				$Y = 0;
 
@@ -309,7 +310,8 @@ class Thumbnail {
 				if ($options['percent']) {
 					$width = floor($options['percent'] * $W);
 					$height = floor($options['percent'] * $H);
-				} else {
+				}
+				else {
 					$width = $options['width'];
 					$height = $options['height'];
 
@@ -319,20 +321,24 @@ class Thumbnail {
 						if ($Ww > $Hh) {
 							$W = floor($width * $Hh);
 							$X = Thumbnail::_coord($options['halign'], $sourceWidth, $W);
-						} else {
+						}
+						else {
 							$H = floor($height * $Ww);
 							$Y = Thumbnail::_coord($options['valign'], $sourceHeight, $H);
 						}
-					} else {
+					}
+					else {
 						if ($H > $W) {
 							$width = floor($height / $H * $W);
-						} else {
+						}
+						else {
 							$height = floor($width / $W * $H);
 						}
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			$W = $sourceWidth;
 			$H = $sourceHeight;
 			$width = $sourceWidth;
@@ -344,7 +350,8 @@ class Thumbnail {
 		// Create the target image
 		if (function_exists('imagecreatetruecolor')) {
 			$targetImage = imagecreatetruecolor($width, $height);
-		} else {
+		}
+		else {
 			$targetImage = imagecreate($width, $height);
 		}
 		if (!is_resource($targetImage)) {
@@ -360,9 +367,11 @@ class Thumbnail {
 		// Copy the source image to the target image
 		if ($options['method'] == THUMBNAIL_METHOD_CROP) {
 			$result = imagecopy($targetImage, $sourceImage, 0, 0, $X, $Y, $W, $H);
-		} elseif (function_exists('imagecopyresampled')) {
+		}
+		elseif (function_exists('imagecopyresampled')) {
 			$result = imagecopyresampled($targetImage, $sourceImage, 0, 0, $X, $Y, $width, $height, $W, $H);
-		} else {
+		}
+		else {
 			$result = imagecopyresized($targetImage, $sourceImage, 0, 0, $X, $Y, $width, $height, $W, $H);
 		}
 
@@ -380,10 +389,12 @@ class Thumbnail {
 	private static function _coord($align, $param, $src) {
 		if ($align < THUMBNAIL_ALIGN_CENTER) {
 			$result = 0;
-		} elseif ($align > THUMBNAIL_ALIGN_CENTER) {
+		}
+		elseif ($align > THUMBNAIL_ALIGN_CENTER) {
 			$result = $param - $src;
-		} else {
-			$result = ( $param - $src ) >> 1;
+		}
+		else {
+			$result = ($param - $src) >> 1;
 		}
 		return $result;
 	}
@@ -399,12 +410,14 @@ class Thumbnail {
 	public static function create_thumbs($original, $path, $params, $ext = 'jpg', $quality = 80) {
 
 		//определим ориентацию изображения - портретная или альбомная
-		list( $width, $height ) = getimagesize($original);
+		list($width, $height) = getimagesize($original);
 		if ($width > $height) {
 			$o = 'album'; //альбомная ориентация
-		} else if ($height > $width) {
+		}
+		else if ($height > $width) {
 			$o = 'portret'; //портретная ориентация
-		} else {
+		}
+		else {
 			$o = 'square'; //квадратное
 		}
 
@@ -444,7 +457,7 @@ class Thumbnail {
 					case 'portret':
 						//уменьшаем по меньшей стороне
 						$thumb_params['method'] = THUMBNAIL_METHOD_SCALE_MIN;
-						$thumb_params['height'] = floor(( $height * $thumb_params['width'] ) / $width);
+						$thumb_params['height'] = floor(($height * $thumb_params['width']) / $width);
 						break;
 				}
 			}
@@ -484,7 +497,8 @@ class Thumbnail {
 							//уменьшаем по большей стороне
 							$thumb_params['method'] = THUMBNAIL_METHOD_SCALE_MIN;
 							Thumbnail::output($original, $path . '/' . $key . '.' . $ext, $thumb_params);
-						} else {
+						}
+						else {
 							$thumb_params['resize'] = 0;
 						}
 
@@ -495,7 +509,8 @@ class Thumbnail {
 							//уменьшаем по меньшей стороне
 							$thumb_params['method'] = THUMBNAIL_METHOD_SCALE_MIN;
 							Thumbnail::output($original, $path . '/' . $key . '.' . $ext, $thumb_params);
-						} else {
+						}
+						else {
 							$thumb_params['resize'] = 0;
 						}
 						break;
@@ -517,6 +532,7 @@ class Thumbnail {
 
 /**
  * Обработка исключений работы с изображениями
- * 
+ *
  */
-class joosImageLibrariesException extends joosException{}
+class joosImageLibrariesException extends joosException {
+}

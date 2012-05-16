@@ -1,7 +1,7 @@
 <?php defined('_JOOS_CORE') or exit();
 
 /**
-  * Библиотека профилирования системы
+ * Библиотека профилирования системы
  *
  * @version    1.0
  * @package    Core\Libraries
@@ -57,7 +57,7 @@ class joosBenchmark {
 		// время, прошедшее с начала рассчета
 		$mark['since_start'] = $mark['microtime'] - self::$start;
 		// время с момента установки последней точки
-		$mark['since_last_mark'] = count(self::$markers) ? ( $mark['microtime'] - self::$markers[count(self::$markers) - 1]['microtime'] ) : $mark['since_start'];
+		$mark['since_last_mark'] = count(self::$markers) ? ($mark['microtime'] - self::$markers[count(self::$markers) - 1]['microtime']) : $mark['since_start'];
 		self::$markers[] = $mark;
 
 		return $mark['since_last_mark'];
@@ -98,7 +98,7 @@ class joosBenchmark {
 	 * @return float затраченное время
 	 */
 	public static function get_time() {
-		return round(( microtime(true) - self::$start), 5);
+		return round((microtime(true) - self::$start), 5);
 	}
 
 }

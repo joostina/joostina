@@ -17,15 +17,15 @@ class joosRandomizer {
 
 	/**
 	 * Генерация уникального хеша определённой длины
-     *
+	 *
 	 * @param int $length длина символов хеша
 	 * @param string $symbols список символов, разрешённых в хеше
-     *
+	 *
 	 * @return string
 	 */
 	public static function hash($length = 6, $symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") {
 
-		mt_srand(10000000 * (double) microtime());
+		mt_srand(10000000 * (double)microtime());
 
 		$symbols_length = strlen($symbols) - 1;
 

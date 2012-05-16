@@ -80,7 +80,7 @@ class joosEvents {
 	 */
 	public static function has_events($event_name) {
 		joosDebug::log('Проверка наличия событий :event_name', array(':event_name' => $event_name));
-		return ( isset(self::$events[$event_name]) && count(self::$events[$event_name]) > 0 );
+		return (isset(self::$events[$event_name]) && count(self::$events[$event_name]) > 0);
 	}
 
 }

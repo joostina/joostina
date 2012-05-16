@@ -43,7 +43,6 @@ class joosCore {
 
 	/**
 	 * Флаг работы ядра в режиме FALSE - сайт, TRUE - панель управления
-
 	 *
 	 * @var bool
 	 */
@@ -66,7 +65,7 @@ class joosCore {
 	}
 
 	public static function is_admin() {
-		return (bool) self::$is_admin;
+		return (bool)self::$is_admin;
 	}
 
 	/**
@@ -80,7 +79,7 @@ class joosCore {
 	 */
 	public static function path($name, $type, $cat = '') {
 
-		( JDEBUG && $name != 'debug' ) ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
+		(JDEBUG && $name != 'debug') ? joosDebug::inc(sprintf('joosCore::%s - <b>%s</b>', $type, $name)) : null;
 
 		switch ($type) {
 			case 'controller':
@@ -137,9 +136,8 @@ class joosCore {
 				break;
 		}
 
-		if (JDEBUG && ! joosFile::exists($file)) {
-			throw new joosCoreException('Не найден требуемый файл :file для типа :name', array(':file' => $file,
-				':name' => ( $cat ? sprintf('%s ( %s )', $name, $type) : $name )));
+		if (JDEBUG && !joosFile::exists($file)) {
+			throw new joosCoreException('Не найден требуемый файл :file для типа :name', array(':file' => $file, ':name' => ($cat ? sprintf('%s ( %s )', $name, $type) : $name)));
 		}
 
 		return $file;
@@ -156,31 +154,11 @@ class joosDocument {
 
 	private static $instance;
 	public static $page_body;
-	public static $data = array('title' => array(),
-		'meta' => array(),
-		'custom' => array(), //JS-файлы
+	public static $data = array('title' => array(), 'meta' => array(), 'custom' => array(), //JS-файлы
 		'js_files' => array(), //Исполняемый код, подключаемый ПОСЛЕ js-файлов
-		'js_code' => array(),
-		'js_onready' => array(),
-		'css' => array(),
-		'header' => array(),
-		'pathway' => array(),
-		'pagetitle' => false,
-		'page_body' => false,
-		'html_body' => false,
-		'footer' => array(),);
-	public static $config = array('favicon' => true,
-		'seotag' => true,);
-	public static $seotag = array('distribution' => 'global',
-		'rating' => 'General',
-		'document-state' => 'Dynamic',
-		'documentType' => 'WebDocument',
-		'audience' => 'all',
-		'revisit' => '5 days',
-		'revisit-after' => '5 days',
-		'allow-search' => 'yes',
-		'language' => 'russian',
-		'robots' => 'index, follow',);
+		'js_code' => array(), 'js_onready' => array(), 'css' => array(), 'header' => array(), 'pathway' => array(), 'pagetitle' => false, 'page_body' => false, 'html_body' => false, 'footer' => array(),);
+	public static $config = array('favicon' => true, 'seotag' => true,);
+	public static $seotag = array('distribution' => 'global', 'rating' => 'General', 'document-state' => 'Dynamic', 'documentType' => 'WebDocument', 'audience' => 'all', 'revisit' => '5 days', 'revisit-after' => '5 days', 'allow-search' => 'yes', 'language' => 'russian', 'robots' => 'index, follow',);
 	// время кэширования страницы браузером, в секундах
 	public static $cache_header_time = false;
 
@@ -329,12 +307,13 @@ class joosDocument {
 
 		if (isset($params['first']) && $params['first'] == true) {
 			array_unshift(self::$data['js_files'], $path);
-		} else {
+		}
+		else {
 			self::$data['js_files'][] = $path;
 		}
 
 		/**
-		  @var $this self */
+		@var $this self */
 		return $this;
 	}
 
@@ -364,26 +343,26 @@ class joosDocument {
 		return self::js_files() . self::js_code();
 	}
 
-    /**
-     * Подготовка JS файлов к выводу
-     * Если включено кэширование, файлы будут минимизированы и склеены
-     */
+	/**
+	 * Подготовка JS файлов к выводу
+	 * Если включено кэширование, файлы будут минимизированы и склеены
+	 */
 	public static function js_files() {
 
-        //Если включено кэширование JS-файлов, оптимизируем и склеиваем
-        if(joosConfig::get2('cache', 'js_cache')){
-            $js_file = joosJSOptimizer::optimize_and_save(self::$data['js_files']);
-            return joosHtml::js_file($js_file['live'] . ( JDEBUG ? '?' . time() : JFILE_ANTICACHE));
-        }
+		//Если включено кэширование JS-файлов, оптимизируем и склеиваем
+		if (joosConfig::get2('cache', 'js_cache')) {
+			$js_file = joosJSOptimizer::optimize_and_save(self::$data['js_files']);
+			return joosHtml::js_file($js_file['live'] . (JDEBUG ? '?' . time() : JFILE_ANTICACHE));
+		}
 
-        //иначе, отдаём файлы как есть
-        else{
-            $result = array();
-            foreach (self::$data['js_files'] as $js_file) {
-                $result[] = joosHtml::js_file($js_file . (JDEBUG ? '?' . time() : false));
-            }
-            return implode("\n\t", $result) . "\n";
-        }
+		//иначе, отдаём файлы как есть
+		else {
+			$result = array();
+			foreach (self::$data['js_files'] as $js_file) {
+				$result[] = joosHtml::js_file($js_file . (JDEBUG ? '?' . time() : false));
+			}
+			return implode("\n\t", $result) . "\n";
+		}
 	}
 
 	public static function js_code() {
@@ -402,7 +381,7 @@ class joosDocument {
 
 		foreach (self::$data['css'] as $css_file) {
 			// если включена отладка - то будет добавлять онтикеш к имени файла
-			$result[] = joosHtml::css_file($css_file[0] . ( JDEBUG ? '?' . time() : JFILE_ANTICACHE ), $css_file[1]['media']);
+			$result[] = joosHtml::css_file($css_file[0] . (JDEBUG ? '?' . time() : JFILE_ANTICACHE), $css_file[1]['media']);
 		}
 
 		return implode("\n\t", $result) . "\n";
@@ -420,7 +399,8 @@ class joosDocument {
 		for ($i = 0; $i < $n; $i++) {
 			if ($meta[$i][0] == 'keywords') {
 				$keywords = $meta[$i][1];
-			} else {
+			}
+			else {
 				if ($meta[$i][0] == 'description') {
 					$description = $meta[$i][1];
 				}
@@ -464,7 +444,8 @@ class joosDocument {
 				header_remove('Pragma');
 				joosRequest::send_headers('Cache-Control: max-age=' . self::$cache_header_time);
 				joosRequest::send_headers('Expires: ' . gmdate('r', time() + self::$cache_header_time));
-			} else {
+			}
+			else {
 				joosRequest::send_headers('Pragma: no-cache');
 				joosRequest::send_headers('Cache-Control: no-cache, must-revalidate');
 			}
@@ -592,31 +573,33 @@ class joosController {
 
 			if (is_array($results)) {
 				self::views($results, self::$controller, self::$task);
-			} elseif (is_string($results)) {
+			}
+			elseif (is_string($results)) {
 				echo $results;
 			}
 
 			// главное содержимое - стек вывода компонента - mainbody
 			joosDocument::set_body(ob_get_clean());
-		} else {
+		}
+		else {
 			//  в контроллере нет запрашиваемого метода
 			joosPages::page404('Метод не найден');
 		}
 	}
 
-    
-    public static function render(){
-        
-        ob_start();
-        // загрузка файла шаблона
-        require_once ( JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php' );
 
-        return ob_get_clean();
-    }
-    
+	public static function render() {
+
+		ob_start();
+		// загрузка файла шаблона
+		require_once (JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php');
+
+		return ob_get_clean();
+	}
+
 	/**
 	 * Автоматическое определение и запуск метода действия для Аякс-запросов
-     * 
+	 *
 	 * @static
 	 */
 	public static function ajax_run() {
@@ -638,22 +621,24 @@ class joosController {
 			$result = call_user_func($class . '::' . self::$task);
 
 			method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $result)) : null;
-		} else {
+		}
+		else {
 			//  в контроллере нет запрашиваемого метода
 			return self::ajax_error404();
 		}
 		if (is_array($result)) {
 			echo json_encode($result);
-		} elseif (is_string($result)) {
+		}
+		elseif (is_string($result)) {
 			echo $result;
 		}
 	}
 
 	private static function views(array $params, $option, $task) {
 
-        //Инициализируем модули
-        joosModule::init();
-        joosModule::set_controller_data($params);
+		//Инициализируем модули
+		joosModule::init();
+		joosModule::set_controller_data($params);
 
 		self::as_html($params, $option, $task);
 	}
@@ -666,7 +651,7 @@ class joosController {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $view . DS . $template . '.php';
 
-		 joosFile::exists($viewfile) ? require ( $viewfile ) : null;
+		joosFile::exists($viewfile) ? require ($viewfile) : null;
 	}
 
 	public static function ajax_error404() {
@@ -695,28 +680,28 @@ class joosController {
 
 		self::run();
 	}
-   
-    /**
-     * Подключение шаблона
-     * 
-     * @static
-     * @param string $controller название контроллера
-     * @param string $task       выполняемая задача
-     * @param string $template   название шаблона оформления
-     * @param array  $params     массив параметров, которые могут переданы в шаблон
-     * @param array $params
-     */
+
+	/**
+	 * Подключение шаблона
+	 *
+	 * @static
+	 * @param string $controller название контроллера
+	 * @param string $task       выполняемая задача
+	 * @param string $template   название шаблона оформления
+	 * @param array  $params     массив параметров, которые могут переданы в шаблон
+	 * @param array $params
+	 */
 	public static function get_view($controller, $task, $template = 'default', $params = array()) {
 		extract($params, EXTR_OVERWRITE);
 		$viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $task . DS . $template . '.php';
-		 joosFile::exists($viewfile) ? require ( $viewfile ) : null;
+		joosFile::exists($viewfile) ? require ($viewfile) : null;
 	}
 
 }
 
 /**
  * Базовый ajax - контроллер Joostina CMS
- * 
+ *
  * @package    Joostina
  * @subpackage Controller
  *
@@ -735,7 +720,7 @@ function _xdump($var) {
 
 /**
  * Обработка исключение уровня ядра
- * 
+ *
  */
 class joosCoreException extends joosException {
 

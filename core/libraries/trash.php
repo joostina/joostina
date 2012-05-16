@@ -24,7 +24,7 @@ class joosTrash extends joosModel {
 	public $deleted_at;
 
 	public function __construct() {
-		parent::__construct( '#__trash' , 'id' );
+		parent::__construct('#__trash', 'id');
 	}
 
 	/**
@@ -35,7 +35,7 @@ class joosTrash extends joosModel {
 	 *
 	 * @return boolean результат сохранения копии удаляемого объекта в корзину
 	 */
-	public static function add( $obj_original ) {
+	public static function add($obj_original) {
 
 		$obj = clone $obj_original;
 
@@ -43,23 +43,23 @@ class joosTrash extends joosModel {
 		$_tbl_key = $obj->_tbl_key;
 
 		// если у удаляемого объекта отсутствует ключ - то объет не определён
-		if ( !$obj_original->$_tbl_key ) {
+		if (!$obj_original->$_tbl_key) {
 			return false;
 		}
 
 		// удаляем объект базы данных
-		unset( $obj->_db , $obj->_error );
+		unset($obj->_db, $obj->_error);
 
 		// собираем данные для сохранения резервной копии
-		$trash             = new self;
-		$trash->obj_id     = $obj->$_tbl_key;
-		$trash->obj_table  = $obj->_tbl;
-		$trash->title      = isset( $obj->title ) ? $obj->title : $obj->$_tbl_key;
-		$trash->data       = json_encode( $obj );
-		$trash->user_id    = modelUsers::instance()->id;
+		$trash = new self;
+		$trash->obj_id = $obj->$_tbl_key;
+		$trash->obj_table = $obj->_tbl;
+		$trash->title = isset($obj->title) ? $obj->title : $obj->$_tbl_key;
+		$trash->data = json_encode($obj);
+		$trash->user_id = modelUsers::instance()->id;
 		$trash->deleted_at = JCURRENT_SERVER_TIME;
 
-		return (bool) $trash->store();
+		return (bool)$trash->store();
 	}
 
 }

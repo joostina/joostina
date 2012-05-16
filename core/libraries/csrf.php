@@ -24,11 +24,12 @@ class joosCSRF {
 	public static function get_code($alt = null) {
 		if ($alt) {
 			$random = $alt . date('Ymd');
-		} else {
+		}
+		else {
 			$random = date('dmY');
 		}
 
-		return 'joosCSRF-' . self::hash(JPATH_BASE . $random . ( joosCore::user() ? joosCore::user()->id : 'null' ));
+		return 'joosCSRF-' . self::hash(JPATH_BASE . $random . (joosCore::user() ? joosCore::user()->id : 'null'));
 	}
 
 	public static function check_code($alt = null, $method = 'post') {

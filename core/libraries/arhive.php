@@ -24,16 +24,17 @@ class joosArhive {
 	 * @param string $from_arhive_file полный путь к файлу архива
 	 * @param string $extract_to       каталог для извлечения файлов из архива
 	 *
- 	 * @static
+	 * @static
 	 * @return bool
 	 */
-	public static function extract( $from_arhive_file , $extract_to ) {
+	public static function extract($from_arhive_file, $extract_to) {
 		$zip = new ZipArchive;
-		if ( $zip->open( $from_arhive_file ) === TRUE ) {
-			$zip->extractTo( $extract_to );
+		if ($zip->open($from_arhive_file) === TRUE) {
+			$zip->extractTo($extract_to);
 			$zip->close();
 			$result = true;
-		} else {
+		}
+		else {
 			$result = false;
 		}
 

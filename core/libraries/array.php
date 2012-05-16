@@ -58,8 +58,8 @@ class joosArray {
 			$count = count($array);
 			$last_index = $count - 1;
 
-			if (( $last_index - $offset ) < ( $prev + $next )) {
-				$offset = $offset + ( $last_index - $offset ) - ( $prev + $next );
+			if (($last_index - $offset) < ($prev + $next)) {
+				$offset = $offset + ($last_index - $offset) - ($prev + $next);
 			}
 		}
 		return array_slice($array, $offset, $length, true);

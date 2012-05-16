@@ -83,47 +83,11 @@ class joosParams extends joosModel {
 	}
 
 	public function get_fieldinfo() {
-		return array('id' => array('name' => 'id',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'hidden',
-				'html_edit_element_param' => array(),),
-			'group' => array('name' => 'group',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'hidden',
-				'html_edit_element_param' => array(),),
-			'subgroup' => array('name' => 'subgroup',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'hidden',
-				'html_edit_element_param' => array(),),
-			'object' => array('name' => 'object',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'hidden',
-				'html_edit_element_param' => array(),),
-			'data' => array('name' => 'data',
-				'editable' => true,
-				'in_admintable' => true,
-				'html_table_element' => 'value',
-				'html_table_element_param' => array(),
-				'html_edit_element' => 'json',
-				'html_edit_element_param' => array('call_from' => 'joosParams::get_defaults'),),);
+		return array('id' => array('name' => 'id', 'editable' => true, 'in_admintable' => true, 'html_table_element' => 'value', 'html_table_element_param' => array(), 'html_edit_element' => 'hidden', 'html_edit_element_param' => array(),), 'group' => array('name' => 'group', 'editable' => true, 'in_admintable' => true, 'html_table_element' => 'value', 'html_table_element_param' => array(), 'html_edit_element' => 'hidden', 'html_edit_element_param' => array(),), 'subgroup' => array('name' => 'subgroup', 'editable' => true, 'in_admintable' => true, 'html_table_element' => 'value', 'html_table_element_param' => array(), 'html_edit_element' => 'hidden', 'html_edit_element_param' => array(),), 'object' => array('name' => 'object', 'editable' => true, 'in_admintable' => true, 'html_table_element' => 'value', 'html_table_element_param' => array(), 'html_edit_element' => 'hidden', 'html_edit_element_param' => array(),), 'data' => array('name' => 'data', 'editable' => true, 'in_admintable' => true, 'html_table_element' => 'value', 'html_table_element_param' => array(), 'html_edit_element' => 'json', 'html_edit_element_param' => array('call_from' => 'joosParams::get_defaults'),),);
 	}
 
 	public function get_tableinfo() {
-		return array('header_list' => 'Параметры',
-			'header_new' => 'Создание параметров',
-			'header_edit' => 'Редактирование параметров');
+		return array('header_list' => 'Параметры', 'header_new' => 'Создание параметров', 'header_edit' => 'Редактирование параметров');
 	}
 
 	public static function get_defaults($item) {
@@ -132,10 +96,11 @@ class joosParams extends joosModel {
 
 		$model = 'params' . ucfirst($item->group);
 
-		if ( joosFile::exists($file)) {
-			require_once( $file );
+		if (joosFile::exists($file)) {
+			require_once($file);
 			return $model::get_params_scheme('default');
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -149,13 +114,10 @@ class joosParams extends joosModel {
 
 		$model = 'params' . ucfirst($group);
 
-		if ( joosFile::exists($file)) {
-			require_once( $file );
+		if (joosFile::exists($file)) {
+			require_once($file);
 
-			$params = array('notdefault' => array('name' => 'Использовать уникальные параметры',
-					'editable' => true,
-					'html_edit_element' => 'checkbox',
-					'html_edit_element_param' => array('text' => 'Использовать уникальные параметры',)));
+			$params = array('notdefault' => array('name' => 'Использовать уникальные параметры', 'editable' => true, 'html_edit_element' => 'checkbox', 'html_edit_element_param' => array('text' => 'Использовать уникальные параметры',)));
 
 			$add_params = $model::get_params_scheme($item->params['subgroup']);
 			if ($add_params) {
@@ -164,7 +126,8 @@ class joosParams extends joosModel {
 			}
 
 			return false;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -210,7 +173,8 @@ class joosParams extends joosModel {
 			array_shift($params);
 			$this->data = json_encode($params);
 			$this->store();
-		} else {
+		}
+		else {
 			$this->delete($this->id);
 		}
 	}

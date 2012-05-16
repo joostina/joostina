@@ -23,9 +23,9 @@ class joosFolder {
 	 * @return bool наличие указанного каталога
 	 */
 	public static function exists($location) {
-		$location = (string) $location;
+		$location = (string)$location;
 
-		return (bool) (file_exists($location) && is_dir($location));
+		return (bool)(file_exists($location) && is_dir($location));
 	}
 
 	/**
@@ -36,7 +36,7 @@ class joosFolder {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_readable($location) {
-		return (bool) is_readable($location);
+		return (bool)is_readable($location);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class joosFolder {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_writable($location) {
-		return (bool) is_writable($location);
+		return (bool)is_writable($location);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class joosFolder {
 	 */
 	public static function create($location, $chmod = 0755) {
 
-		return (!self::exists($location)) ? mkdir((string) $location, $chmod, true) : true;
+		return (!self::exists($location)) ? mkdir((string)$location, $chmod, true) : true;
 	}
 
 	/**
@@ -72,7 +72,7 @@ class joosFolder {
 	 */
 	public static function delete($location) {
 
-		return (bool) 1;
+		return (bool)1;
 	}
 
 	/**
@@ -99,7 +99,7 @@ class joosFolder {
 		  }
 		 */
 
-		return (bool) 1;
+		return (bool)1;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class joosFolder {
 	 */
 	public static function rename($location_from, $location_to, $chmod = false) {
 
-		return (bool) 1;
+		return (bool)1;
 	}
 
 	/**
@@ -129,7 +129,7 @@ class joosFolder {
 	 */
 	public static function copy($location_from, $location_to, $chmod = false) {
 
-		return (bool) 1;
+		return (bool)1;
 	}
 
 	/**
@@ -143,7 +143,7 @@ class joosFolder {
 	 */
 	public static function set_chmod($location, $chmod, $recursive = false) {
 
-		return (bool) 1;
+		return (bool)1;
 	}
 
 	/**
@@ -155,7 +155,7 @@ class joosFolder {
 	 */
 	public static function get_size($location) {
 
-		return (int) 1;
+		return (int)1;
 	}
 
 	/**

@@ -28,7 +28,8 @@ class joosDebug {
 		return self::$instance;
 	}
 
-	private function __clone() {}
+	private function __clone() {
+	}
 
 	public static function log($str, array $params = array()) {
 		$value = strtr($str, $params);
@@ -188,7 +189,8 @@ class joosDebug {
 		$trace = debug_backtrace();
 		if (isset($trace[1]['file'])) {
 			$file_content = self::get_file_context($trace[1]['file'], $trace[1]['line']);
-		} else {
+		}
+		else {
 			$file_content = self::get_file_context($trace[0]['file'], $trace[0]['line']);
 		}
 
@@ -200,7 +202,7 @@ class joosDebug {
 		$func_args = func_get_args();
 
 		$args_count = count($func_args);
-		var_dump($args_count == 1 ? $func_args[0] : $func_args );
+		var_dump($args_count == 1 ? $func_args[0] : $func_args);
 		$output = ob_get_clean();
 		$output = preg_replace('/]\=>\n(\s+)/m', '] => ', $output);
 
@@ -243,7 +245,8 @@ HTML;
 			if ($i >= $line_number - 3 && $i <= $line_number + 3) {
 				if ($i == $line_number) {
 					$context[] = ' >>   ' . $i . "\t" . $line;
-				} else {
+				}
+				else {
 					$context[] = "\t" . $i . "\t" . $line;
 				}
 			}

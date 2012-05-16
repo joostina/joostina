@@ -21,7 +21,7 @@
 class joosString {
 
 	// Called methods
-	static $called = array ();
+	static $called = array();
 
 	/**
 	 * Tests whether a string contains only 7bit ASCII bytes. This is used to
@@ -31,8 +31,8 @@ class joosString {
 	 *
 	 * @return  bool
 	 */
-	public static function is_ascii( $str ) {
-		return !preg_match( '/[^\x00-\x7F]/S' , $str );
+	public static function is_ascii($str) {
+		return !preg_match('/[^\x00-\x7F]/S', $str);
 	}
 
 	/**
@@ -42,8 +42,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function strip_ascii_ctrl( $str ) {
-		return preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S' , '' , $str );
+	public static function strip_ascii_ctrl($str) {
+		return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S', '', $str);
 	}
 
 	/**
@@ -53,8 +53,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function strip_non_ascii( $str ) {
-		return preg_replace( '/[^\x00-\x7F]+/S' , '' , $str );
+	public static function strip_non_ascii($str) {
+		return preg_replace('/[^\x00-\x7F]+/S', '', $str);
 	}
 
 	/**
@@ -65,8 +65,8 @@ class joosString {
 	 *
 	 * @return  integer
 	 */
-	public static function strlen( $str ) {
-		return mb_strlen( $str , 'utf-8' );
+	public static function strlen($str) {
+		return mb_strlen($str, 'utf-8');
 	}
 
 	/**
@@ -82,8 +82,8 @@ class joosString {
 	 * @return  integer  position of needle
 	 * @return  boolean  FALSE if the needle is not found
 	 */
-	public static function strpos( $str , $search , $offset = 0 ) {
-		return mb_strpos( $str , $search , $offset , 'UTF-8' );
+	public static function strpos($str, $search, $offset = 0) {
+		return mb_strpos($str, $search, $offset, 'UTF-8');
 	}
 
 	/**
@@ -99,8 +99,8 @@ class joosString {
 	 * @return  integer  position of needle
 	 * @return  boolean  FALSE if the needle is not found
 	 */
-	public static function strrpos( $str , $search , $offset = 0 ) {
-		return mb_strrpos( $str , $search , $offset , 'utf-8' );
+	public static function strrpos($str, $search, $offset = 0) {
+		return mb_strrpos($str, $search, $offset, 'utf-8');
 	}
 
 	/**
@@ -115,8 +115,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function substr( $str , $offset , $length = NULL ) {
-		return ( $length === NULL ) ? mb_substr( $str , $offset , null , 'UTF-8' ) : mb_substr( $str , $offset , $length , 'UTF-8' );
+	public static function substr($str, $offset, $length = NULL) {
+		return ($length === NULL) ? mb_substr($str, $offset, null, 'UTF-8') : mb_substr($str, $offset, $length, 'UTF-8');
 	}
 
 	/**
@@ -131,8 +131,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function substr_replace( $str , $replacement , $offset , $length = NULL ) {
-		return ( $length === NULL ) ? substr_replace( $str , $replacement , $offset ) : substr_replace( $str , $replacement , $offset , $length );
+	public static function substr_replace($str, $replacement, $offset, $length = NULL) {
+		return ($length === NULL) ? substr_replace($str, $replacement, $offset) : substr_replace($str, $replacement, $offset, $length);
 	}
 
 	/**
@@ -145,8 +145,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function strtolower( $str ) {
-		return mb_strtolower( $str , 'UTF-8' );
+	public static function strtolower($str) {
+		return mb_strtolower($str, 'UTF-8');
 	}
 
 	/**
@@ -159,8 +159,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function strtoupper( $str ) {
-		return mb_strtoupper( $str , 'UTF-8' );
+	public static function strtoupper($str) {
+		return mb_strtoupper($str, 'UTF-8');
 	}
 
 	/**
@@ -173,8 +173,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function ucfirst( $str ) {
-		return mb_strtolower( mb_substr( $str , 0 , 1 , 'UTF-8' ) , 'UTF-8' ) . mb_substr( $str , 1 , mb_strlen( $str , 'UTF-8' ) , 'UTF-8' );
+	public static function ucfirst($str) {
+		return mb_strtoupper(mb_substr($str, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($str, 1, mb_strlen($str, 'UTF-8'), 'UTF-8');
 	}
 
 	/**
@@ -187,8 +187,8 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function ucwords( $str ) {
-		return mb_convert_case( $str , MB_CASE_TITLE , 'UTF-8' );
+	public static function ucwords($str) {
+		return mb_convert_case($str, MB_CASE_TITLE, 'UTF-8');
 	}
 
 	/**
@@ -204,10 +204,10 @@ class joosString {
 	 * @return  integer  greater than 0 if str1 is greater than str2
 	 * @return  integer  0 if they are equal
 	 */
-	public static function strcasecmp( $str1 , $str2 ) {
-		$str1 = mb_strtolower( $str1 , 'UTF-8' );
-		$str2 = mb_strtolower( $str2 , 'UTF-8' );
-		return strcmp( $str1 , $str2 );
+	public static function strcasecmp($str1, $str2) {
+		$str1 = mb_strtolower($str1, 'UTF-8');
+		$str2 = mb_strtolower($str2, 'UTF-8');
+		return strcmp($str1, $str2);
 	}
 
 	/**
@@ -226,49 +226,52 @@ class joosString {
 	 * @return  string        if the input was a string
 	 * @return  array         if the input was an array
 	 */
-	public static function str_ireplace( $search , $replace , $str , & $count = NULL ) {
+	public static function str_ireplace($search, $replace, $str, & $count = NULL) {
 
-		if ( !is_array( $search ) ) {
+		if (!is_array($search)) {
 
-			$slen   = strlen( $search );
-			$lendif = strlen( $replace ) - $slen;
-			if ( $slen == 0 ) {
+			$slen = strlen($search);
+			$lendif = strlen($replace) - $slen;
+			if ($slen == 0) {
 				return $str;
 			}
 
-			$search  = self::strtolower( $search );
+			$search = self::strtolower($search);
 
-			$search  = preg_quote( $search , '/' );
-			$lstr    = self::strtolower( $str );
-			$i       = 0;
+			$search = preg_quote($search, '/');
+			$lstr = self::strtolower($str);
+			$i = 0;
 			$matched = 0;
-			while ( preg_match( '/(.*)' . $search . '/Us' , $lstr , $matches ) ) {
-				if ( $i === $count ) {
+			while (preg_match('/(.*)' . $search . '/Us', $lstr, $matches)) {
+				if ($i === $count) {
 					break;
 				}
-				$mlen = strlen( $matches[0] );
-				$lstr = substr( $lstr , $mlen );
-				$str  = substr_replace( $str , $replace , $matched + strlen( $matches[1] ) , $slen );
+				$mlen = strlen($matches[0]);
+				$lstr = substr($lstr, $mlen);
+				$str = substr_replace($str, $replace, $matched + strlen($matches[1]), $slen);
 				$matched += $mlen + $lendif;
 				$i++;
 			}
 			return $str;
-		} else {
+		}
+		else {
 
-			foreach ( array_keys( $search ) as $k ) {
+			foreach (array_keys($search) as $k) {
 
-				if ( is_array( $replace ) ) {
+				if (is_array($replace)) {
 
-					if ( array_key_exists( $k , $replace ) ) {
+					if (array_key_exists($k, $replace)) {
 
-						$str = self::str_ireplace( $search[$k] , $replace[$k] , $str , $count );
-					} else {
-
-						$str = self::str_ireplace( $search[$k] , '' , $str , $count );
+						$str = self::str_ireplace($search[$k], $replace[$k], $str, $count);
 					}
-				} else {
+					else {
 
-					$str = self::str_ireplace( $search[$k] , $replace , $str , $count );
+						$str = self::str_ireplace($search[$k], '', $str, $count);
+					}
+				}
+				else {
+
+					$str = self::str_ireplace($search[$k], $replace, $str, $count);
 				}
 			}
 			return $str;
@@ -288,17 +291,17 @@ class joosString {
 	 * @return  string   matched substring if found
 	 * @return  boolean  FALSE if the substring was not found
 	 */
-	public static function stristr( $str , $search ) {
-		if ( $search == '' ) {
+	public static function stristr($str, $search) {
+		if ($search == '') {
 			return $str;
 		}
 
-		$str_lower    = self::strtolower( $str );
-		$search_lower = self::strtolower( $search );
+		$str_lower = self::strtolower($str);
+		$search_lower = self::strtolower($search);
 
-		preg_match( '/^(.*?)' . preg_quote( $search_lower , '/' ) . '/s' , $str_lower , $matches );
+		preg_match('/^(.*?)' . preg_quote($search_lower, '/') . '/s', $str_lower, $matches);
 
-		return isset( $matches[1] ) ? substr( $str , strlen( $matches[1] ) ) : FALSE;
+		return isset($matches[1]) ? substr($str, strlen($matches[1])) : FALSE;
 	}
 
 	/**
@@ -314,21 +317,21 @@ class joosString {
 	 *
 	 * @return  integer  length of the initial segment that contains characters in the mask
 	 */
-	public static function strspn( $str , $mask , $offset = NULL , $length = NULL ) {
-		if ( $str == '' OR $mask == '' ) {
+	public static function strspn($str, $mask, $offset = NULL, $length = NULL) {
+		if ($str == '' OR $mask == '') {
 			return 0;
 		}
 
-		if ( $offset !== NULL OR $length !== NULL ) {
-			$str = self::substr( $str , $offset , $length );
+		if ($offset !== NULL OR $length !== NULL) {
+			$str = self::substr($str, $offset, $length);
 		}
 
 		// Escape these characters:  - [ ] . : \ ^ /
 		// The . and : are escaped to prevent possible warnings about POSIX regex elements
-		$mask = preg_replace( '#[-[\].:\\\\^/]#' , '\\\\$0' , $mask );
-		preg_match( '/^[^' . $mask . ']+/u' , $str , $matches );
+		$mask = preg_replace('#[-[\].:\\\\^/]#', '\\\\$0', $mask);
+		preg_match('/^[^' . $mask . ']+/u', $str, $matches);
 
-		return isset( $matches[0] ) ? self::strlen( $matches[0] ) : 0;
+		return isset($matches[0]) ? self::strlen($matches[0]) : 0;
 	}
 
 	/**
@@ -344,21 +347,21 @@ class joosString {
 	 *
 	 * @return  integer  length of the initial segment that contains characters not in the mask
 	 */
-	public static function strcspn( $str , $mask , $offset = NULL , $length = NULL ) {
-		if ( $str == '' OR $mask == '' ) {
+	public static function strcspn($str, $mask, $offset = NULL, $length = NULL) {
+		if ($str == '' OR $mask == '') {
 			return 0;
 		}
 
-		if ( $str !== NULL OR $length !== NULL ) {
-			$str = self::substr( $str , $offset , $length );
+		if ($str !== NULL OR $length !== NULL) {
+			$str = self::substr($str, $offset, $length);
 		}
 
 		// Escape these characters:  - [ ] . : \ ^ /
 		// The . and : are escaped to prevent possible warnings about POSIX regex elements
-		$mask = preg_replace( '#[-[\].:\\\\^/]#' , '\\\\$0' , $mask );
-		preg_match( '/^[^' . $mask . ']+/u' , $str , $matches );
+		$mask = preg_replace('#[-[\].:\\\\^/]#', '\\\\$0', $mask);
+		preg_match('/^[^' . $mask . ']+/u', $str, $matches);
 
-		return isset( $matches[0] ) ? self::strlen( $matches[0] ) : 0;
+		return isset($matches[0]) ? self::strlen($matches[0]) : 0;
 	}
 
 	/**
@@ -374,36 +377,36 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function str_pad( $str , $final_str_length , $pad_str = ' ' , $pad_type = STR_PAD_RIGHT ) {
+	public static function str_pad($str, $final_str_length, $pad_str = ' ', $pad_type = STR_PAD_RIGHT) {
 
-		$str_length = self::strlen( $str );
+		$str_length = self::strlen($str);
 
-		if ( $final_str_length <= 0 OR $final_str_length <= $str_length ) {
+		if ($final_str_length <= 0 OR $final_str_length <= $str_length) {
 			return $str;
 		}
 
-		$pad_str_length = self::strlen( $pad_str );
-		$pad_length     = $final_str_length - $str_length;
+		$pad_str_length = self::strlen($pad_str);
+		$pad_length = $final_str_length - $str_length;
 
-		if ( $pad_type == STR_PAD_RIGHT ) {
-			$repeat = ceil( $pad_length / $pad_str_length );
-			return self::substr( $str . str_repeat( $pad_str , $repeat ) , 0 , $final_str_length );
+		if ($pad_type == STR_PAD_RIGHT) {
+			$repeat = ceil($pad_length / $pad_str_length);
+			return self::substr($str . str_repeat($pad_str, $repeat), 0, $final_str_length);
 		}
 
-		if ( $pad_type == STR_PAD_LEFT ) {
-			$repeat = ceil( $pad_length / $pad_str_length );
-			return self::substr( str_repeat( $pad_str , $repeat ) , 0 , floor( $pad_length ) ) . $str;
+		if ($pad_type == STR_PAD_LEFT) {
+			$repeat = ceil($pad_length / $pad_str_length);
+			return self::substr(str_repeat($pad_str, $repeat), 0, floor($pad_length)) . $str;
 		}
 
-		if ( $pad_type == STR_PAD_BOTH ) {
+		if ($pad_type == STR_PAD_BOTH) {
 			$pad_length /= 2;
-			$pad_length_left  = floor( $pad_length );
-			$pad_length_right = ceil( $pad_length );
-			$repeat_left      = ceil( $pad_length_left / $pad_str_length );
-			$repeat_right     = ceil( $pad_length_right / $pad_str_length );
+			$pad_length_left = floor($pad_length);
+			$pad_length_right = ceil($pad_length);
+			$repeat_left = ceil($pad_length_left / $pad_str_length);
+			$repeat_right = ceil($pad_length_right / $pad_str_length);
 
-			$pad_left         = self::substr( str_repeat( $pad_str , $repeat_left ) , 0 , $pad_length_left );
-			$pad_right        = self::substr( str_repeat( $pad_str , $repeat_right ) , 0 , $pad_length_left );
+			$pad_left = self::substr(str_repeat($pad_str, $repeat_left), 0, $pad_length_left);
+			$pad_right = self::substr(str_repeat($pad_str, $repeat_right), 0, $pad_length_left);
 			return $pad_left . $str . $pad_right;
 		}
 	}
@@ -419,18 +422,18 @@ class joosString {
 	 *
 	 * @return  array
 	 */
-	public static function str_split( $str , $split_length = 1 ) {
-		$split_length = (int) $split_length;
+	public static function str_split($str, $split_length = 1) {
+		$split_length = (int)$split_length;
 
-		if ( $split_length < 1 ) {
+		if ($split_length < 1) {
 			return FALSE;
 		}
 
-		if ( self::strlen( $str ) <= $split_length ) {
-			return array ( $str );
+		if (self::strlen($str) <= $split_length) {
+			return array($str);
 		}
 
-		preg_match_all( '/.{' . $split_length . '}|[^\x00]{1,' . $split_length . '}$/us' , $str , $matches );
+		preg_match_all('/.{' . $split_length . '}|[^\x00]{1,' . $split_length . '}$/us', $str, $matches);
 
 		return $matches[0];
 	}
@@ -445,9 +448,9 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function strrev( $str ) {
-		preg_match_all( '/./us' , $str , $matches );
-		return implode( '' , array_reverse( $matches[0] ) );
+	public static function strrev($str) {
+		preg_match_all('/./us', $str, $matches);
+		return implode('', array_reverse($matches[0]));
 	}
 
 	/**
@@ -462,12 +465,12 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function trim( $str , $charlist = NULL ) {
-		if ( $charlist === NULL ) {
-			return trim( $str );
+	public static function trim($str, $charlist = NULL) {
+		if ($charlist === NULL) {
+			return trim($str);
 		}
 
-		return self::ltrim( self::rtrim( $str , $charlist ) , $charlist );
+		return self::ltrim(self::rtrim($str, $charlist), $charlist);
 	}
 
 	/**
@@ -481,14 +484,14 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function ltrim( $str , $charlist = NULL ) {
-		if ( $charlist === NULL ) {
-			return ltrim( $str );
+	public static function ltrim($str, $charlist = NULL) {
+		if ($charlist === NULL) {
+			return ltrim($str);
 		}
 
-		$charlist = preg_replace( '#[-\[\]:\\\\^/]#' , '\\\\$0' , $charlist );
+		$charlist = preg_replace('#[-\[\]:\\\\^/]#', '\\\\$0', $charlist);
 
-		return preg_replace( '/^[' . $charlist . ']+/u' , '' , $str );
+		return preg_replace('/^[' . $charlist . ']+/u', '', $str);
 	}
 
 	/**
@@ -502,14 +505,14 @@ class joosString {
 	 *
 	 * @return  string
 	 */
-	public static function rtrim( $str , $charlist = NULL ) {
-		if ( $charlist === NULL ) {
-			return rtrim( $str );
+	public static function rtrim($str, $charlist = NULL) {
+		if ($charlist === NULL) {
+			return rtrim($str);
 		}
 
-		$charlist = preg_replace( '#[-\[\]:\\\\^/]#' , '\\\\$0' , $charlist );
+		$charlist = preg_replace('#[-\[\]:\\\\^/]#', '\\\\$0', $charlist);
 
-		return preg_replace( '/[' . $charlist . ']++$/uD' , '' , $str );
+		return preg_replace('/[' . $charlist . ']++$/uD', '', $str);
 	}
 
 	/**
@@ -522,68 +525,68 @@ class joosString {
 	 *
 	 * @return  integer
 	 */
-	public static function ord( $chr ) {
-		$ord0 = ord( $chr );
+	public static function ord($chr) {
+		$ord0 = ord($chr);
 
-		if ( $ord0 >= 0 AND $ord0 <= 127 ) {
+		if ($ord0 >= 0 AND $ord0 <= 127) {
 			return $ord0;
 		}
 
-		if ( !isset( $chr[1] ) ) {
-			trigger_error( 'Short sequence - at least 2 bytes expected, only 1 seen' , E_USER_WARNING );
+		if (!isset($chr[1])) {
+			trigger_error('Short sequence - at least 2 bytes expected, only 1 seen', E_USER_WARNING);
 			return FALSE;
 		}
 
-		$ord1 = ord( $chr[1] );
+		$ord1 = ord($chr[1]);
 
-		if ( $ord0 >= 192 AND $ord0 <= 223 ) {
-			return ( $ord0 - 192 ) * 64 + ( $ord1 - 128 );
+		if ($ord0 >= 192 AND $ord0 <= 223) {
+			return ($ord0 - 192) * 64 + ($ord1 - 128);
 		}
 
-		if ( !isset( $chr[2] ) ) {
-			trigger_error( 'Short sequence - at least 3 bytes expected, only 2 seen' , E_USER_WARNING );
+		if (!isset($chr[2])) {
+			trigger_error('Short sequence - at least 3 bytes expected, only 2 seen', E_USER_WARNING);
 			return FALSE;
 		}
 
-		$ord2 = ord( $chr[2] );
+		$ord2 = ord($chr[2]);
 
-		if ( $ord0 >= 224 AND $ord0 <= 239 ) {
-			return ( $ord0 - 224 ) * 4096 + ( $ord1 - 128 ) * 64 + ( $ord2 - 128 );
+		if ($ord0 >= 224 AND $ord0 <= 239) {
+			return ($ord0 - 224) * 4096 + ($ord1 - 128) * 64 + ($ord2 - 128);
 		}
 
-		if ( !isset( $chr[3] ) ) {
-			trigger_error( 'Short sequence - at least 4 bytes expected, only 3 seen' , E_USER_WARNING );
+		if (!isset($chr[3])) {
+			trigger_error('Short sequence - at least 4 bytes expected, only 3 seen', E_USER_WARNING);
 			return FALSE;
 		}
 
-		$ord3 = ord( $chr[3] );
+		$ord3 = ord($chr[3]);
 
-		if ( $ord0 >= 240 AND $ord0 <= 247 ) {
-			return ( $ord0 - 240 ) * 262144 + ( $ord1 - 128 ) * 4096 + ( $ord2 - 128 ) * 64 + ( $ord3 - 128 );
+		if ($ord0 >= 240 AND $ord0 <= 247) {
+			return ($ord0 - 240) * 262144 + ($ord1 - 128) * 4096 + ($ord2 - 128) * 64 + ($ord3 - 128);
 		}
 
-		if ( !isset( $chr[4] ) ) {
-			trigger_error( 'Short sequence - at least 5 bytes expected, only 4 seen' , E_USER_WARNING );
+		if (!isset($chr[4])) {
+			trigger_error('Short sequence - at least 5 bytes expected, only 4 seen', E_USER_WARNING);
 			return FALSE;
 		}
 
-		$ord4 = ord( $chr[4] );
+		$ord4 = ord($chr[4]);
 
-		if ( $ord0 >= 248 AND $ord0 <= 251 ) {
-			return ( $ord0 - 248 ) * 16777216 + ( $ord1 - 128 ) * 262144 + ( $ord2 - 128 ) * 4096 + ( $ord3 - 128 ) * 64 + ( $ord4 - 128 );
+		if ($ord0 >= 248 AND $ord0 <= 251) {
+			return ($ord0 - 248) * 16777216 + ($ord1 - 128) * 262144 + ($ord2 - 128) * 4096 + ($ord3 - 128) * 64 + ($ord4 - 128);
 		}
 
-		if ( !isset( $chr[5] ) ) {
-			trigger_error( 'Short sequence - at least 6 bytes expected, only 5 seen' , E_USER_WARNING );
+		if (!isset($chr[5])) {
+			trigger_error('Short sequence - at least 6 bytes expected, only 5 seen', E_USER_WARNING);
 			return FALSE;
 		}
 
-		if ( $ord0 >= 252 AND $ord0 <= 253 ) {
-			return ( $ord0 - 252 ) * 1073741824 + ( $ord1 - 128 ) * 16777216 + ( $ord2 - 128 ) * 262144 + ( $ord3 - 128 ) * 4096 + ( $ord4 - 128 ) * 64 + ( ord( $chr[5] ) - 128 );
+		if ($ord0 >= 252 AND $ord0 <= 253) {
+			return ($ord0 - 252) * 1073741824 + ($ord1 - 128) * 16777216 + ($ord2 - 128) * 262144 + ($ord3 - 128) * 4096 + ($ord4 - 128) * 64 + (ord($chr[5]) - 128);
 		}
 
-		if ( $ord0 >= 254 AND $ord0 <= 255 ) {
-			trigger_error( 'Invalid UTF-8 with surrogate ordinal ' . $ord0 , E_USER_WARNING );
+		if ($ord0 >= 254 AND $ord0 <= 255) {
+			trigger_error('Invalid UTF-8 with surrogate ordinal ' . $ord0, E_USER_WARNING);
 			return FALSE;
 		}
 	}
@@ -604,44 +607,48 @@ class joosString {
 	 * @return  array    unicode code points
 	 * @return  boolean  FALSE if the string is invalid
 	 */
-	public static function to_unicode( $str ) {
+	public static function to_unicode($str) {
 		$mState = 0; // cached expected number of octets after the current octet until the beginning of the next UTF8 character sequence
 		$mUcs4 = 0; // cached Unicode character
 		$mBytes = 1; // cached expected number of octets in the current sequence
 
-		$out     = array ();
+		$out = array();
 
-		$len     = strlen( $str );
+		$len = strlen($str);
 
-		for ( $i = 0; $i < $len; $i++ ) {
-			$in = ord( $str[$i] );
+		for ($i = 0; $i < $len; $i++) {
+			$in = ord($str[$i]);
 
-			if ( $mState == 0 ) {
+			if ($mState == 0) {
 				// When mState is zero we expect either a US-ASCII character or a
 				// multi-octet sequence.
-				if ( 0 == ( 0x80 & $in ) ) {
+				if (0 == (0x80 & $in)) {
 					// US-ASCII, pass straight through.
-					$out[]  = $in;
+					$out[] = $in;
 					$mBytes = 1;
-				} elseif ( 0xC0 == ( 0xE0 & $in ) ) {
+				}
+				elseif (0xC0 == (0xE0 & $in)) {
 					// First octet of 2 octet sequence
-					$mUcs4  = $in;
-					$mUcs4  = ( $mUcs4 & 0x1F ) << 6;
+					$mUcs4 = $in;
+					$mUcs4 = ($mUcs4 & 0x1F) << 6;
 					$mState = 1;
 					$mBytes = 2;
-				} elseif ( 0xE0 == ( 0xF0 & $in ) ) {
+				}
+				elseif (0xE0 == (0xF0 & $in)) {
 					// First octet of 3 octet sequence
-					$mUcs4  = $in;
-					$mUcs4  = ( $mUcs4 & 0x0F ) << 12;
+					$mUcs4 = $in;
+					$mUcs4 = ($mUcs4 & 0x0F) << 12;
 					$mState = 2;
 					$mBytes = 3;
-				} elseif ( 0xF0 == ( 0xF8 & $in ) ) {
+				}
+				elseif (0xF0 == (0xF8 & $in)) {
 					// First octet of 4 octet sequence
-					$mUcs4  = $in;
-					$mUcs4  = ( $mUcs4 & 0x07 ) << 18;
+					$mUcs4 = $in;
+					$mUcs4 = ($mUcs4 & 0x07) << 18;
 					$mState = 3;
 					$mBytes = 4;
-				} elseif ( 0xF8 == ( 0xFC & $in ) ) {
+				}
+				elseif (0xF8 == (0xFC & $in)) {
 					// First octet of 5 octet sequence.
 					//
 					// This is illegal because the encoded codepoint must be either
@@ -649,61 +656,65 @@ class joosString {
 					// (b) outside the Unicode range of 0-0x10FFFF.
 					// Rather than trying to resynchronize, we will carry on until the end
 					// of the sequence and let the later error handling code catch it.
-					$mUcs4  = $in;
-					$mUcs4  = ( $mUcs4 & 0x03 ) << 24;
+					$mUcs4 = $in;
+					$mUcs4 = ($mUcs4 & 0x03) << 24;
 					$mState = 4;
 					$mBytes = 5;
-				} elseif ( 0xFC == ( 0xFE & $in ) ) {
+				}
+				elseif (0xFC == (0xFE & $in)) {
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
-					$mUcs4  = $in;
-					$mUcs4  = ( $mUcs4 & 1 ) << 30;
+					$mUcs4 = $in;
+					$mUcs4 = ($mUcs4 & 1) << 30;
 					$mState = 5;
 					$mBytes = 6;
-				} else {
+				}
+				else {
 					// Current octet is neither in the US-ASCII range nor a legal first octet of a multi-octet sequence.
-					trigger_error( 'utf8::to_unicode: Illegal sequence identifier in UTF-8 at byte ' . $i , E_USER_WARNING );
+					trigger_error('utf8::to_unicode: Illegal sequence identifier in UTF-8 at byte ' . $i, E_USER_WARNING);
 					return FALSE;
 				}
-			} else {
+			}
+			else {
 				// When mState is non-zero, we expect a continuation of the multi-octet sequence
-				if ( 0x80 == ( 0xC0 & $in ) ) {
+				if (0x80 == (0xC0 & $in)) {
 					// Legal continuation
-					$shift = ( $mState - 1 ) * 6;
-					$tmp   = $in;
-					$tmp   = ( $tmp & 0x0000003F ) << $shift;
+					$shift = ($mState - 1) * 6;
+					$tmp = $in;
+					$tmp = ($tmp & 0x0000003F) << $shift;
 					$mUcs4 |= $tmp;
 
 					// End of the multi-octet sequence. mUcs4 now contains the final Unicode codepoint to be output
-					if ( 0 == --$mState ) {
+					if (0 == --$mState) {
 						// Check for illegal sequences and codepoints
 						// From Unicode 3.1, non-shortest form is illegal
-						if ( ( ( 2 == $mBytes ) AND ( $mUcs4 < 0x0080 ) ) OR
-							( ( 3 == $mBytes ) AND ( $mUcs4 < 0x0800 ) ) OR
-							( ( 4 == $mBytes ) AND ( $mUcs4 < 0x10000 ) ) OR
-							( 4 < $mBytes ) OR
+						if (((2 == $mBytes) AND ($mUcs4 < 0x0080)) OR
+							((3 == $mBytes) AND ($mUcs4 < 0x0800)) OR
+							((4 == $mBytes) AND ($mUcs4 < 0x10000)) OR
+							(4 < $mBytes) OR
 							// From Unicode 3.2, surrogate characters are illegal
-							( ( $mUcs4 & 0xFFFFF800 ) == 0xD800 ) OR
+							(($mUcs4 & 0xFFFFF800) == 0xD800) OR
 							// Codepoints outside the Unicode range are illegal
-							( $mUcs4 > 0x10FFFF )
+							($mUcs4 > 0x10FFFF)
 						) {
-							trigger_error( 'utf8::to_unicode: Illegal sequence or codepoint in UTF-8 at byte ' . $i , E_USER_WARNING );
+							trigger_error('utf8::to_unicode: Illegal sequence or codepoint in UTF-8 at byte ' . $i, E_USER_WARNING);
 							return FALSE;
 						}
 
-						if ( 0xFEFF != $mUcs4 ) {
+						if (0xFEFF != $mUcs4) {
 							// BOM is legal but we don't want to output it
 							$out[] = $mUcs4;
 						}
 
 						// Initialize UTF-8 cache
 						$mState = 0;
-						$mUcs4  = 0;
+						$mUcs4 = 0;
 						$mBytes = 1;
 					}
-				} else {
+				}
+				else {
 					// ((0xC0 & (*in) != 0x80) AND (mState != 0))
 					// Incomplete multi-octet sequence
-					trigger_error( 'joosString::to_unicode: Incomplete multi-octet sequence in UTF-8 at byte ' . $i , E_USER_WARNING );
+					trigger_error('joosString::to_unicode: Incomplete multi-octet sequence in UTF-8 at byte ' . $i, E_USER_WARNING);
 					return FALSE;
 				}
 			}
@@ -728,41 +739,41 @@ class joosString {
 	 * @return  string   utf8 string of characters
 	 * @return  boolean  FALSE if a code point cannot be found
 	 */
-	public static function from_unicode( $arr ) {
+	public static function from_unicode($arr) {
 		ob_start();
 
-		$keys = array_keys( $arr );
+		$keys = array_keys($arr);
 
-		foreach ( $keys as $k ) {
+		foreach ($keys as $k) {
 			// ASCII range (including control chars)
-			if ( ( $arr[$k] >= 0 ) AND ( $arr[$k] <= 0x007f ) ) {
-				echo chr( $arr[$k] );
+			if (($arr[$k] >= 0) AND ($arr[$k] <= 0x007f)) {
+				echo chr($arr[$k]);
 			} // 2 byte sequence
-			elseif ( $arr[$k] <= 0x07ff ) {
-				echo chr( 0xc0 | ( $arr[$k] >> 6 ) );
-				echo chr( 0x80 | ( $arr[$k] & 0x003f ) );
+			elseif ($arr[$k] <= 0x07ff) {
+				echo chr(0xc0 | ($arr[$k] >> 6));
+				echo chr(0x80 | ($arr[$k] & 0x003f));
 			} // Byte order mark (skip)
-			elseif ( $arr[$k] == 0xFEFF ) {
+			elseif ($arr[$k] == 0xFEFF) {
 				// nop -- zap the BOM
 			} // Test for illegal surrogates
-			elseif ( $arr[$k] >= 0xD800 AND $arr[$k] <= 0xDFFF ) {
+			elseif ($arr[$k] >= 0xD800 AND $arr[$k] <= 0xDFFF) {
 				// Found a surrogate
-				trigger_error( 'utf8::from_unicode: Illegal surrogate at index: ' . $k . ', value: ' . $arr[$k] , E_USER_WARNING );
+				trigger_error('utf8::from_unicode: Illegal surrogate at index: ' . $k . ', value: ' . $arr[$k], E_USER_WARNING);
 				return FALSE;
 			} // 3 byte sequence
-			elseif ( $arr[$k] <= 0xffff ) {
-				echo chr( 0xe0 | ( $arr[$k] >> 12 ) );
-				echo chr( 0x80 | ( ( $arr[$k] >> 6 ) & 0x003f ) );
-				echo chr( 0x80 | ( $arr[$k] & 0x003f ) );
+			elseif ($arr[$k] <= 0xffff) {
+				echo chr(0xe0 | ($arr[$k] >> 12));
+				echo chr(0x80 | (($arr[$k] >> 6) & 0x003f));
+				echo chr(0x80 | ($arr[$k] & 0x003f));
 			} // 4 byte sequence
-			elseif ( $arr[$k] <= 0x10ffff ) {
-				echo chr( 0xf0 | ( $arr[$k] >> 18 ) );
-				echo chr( 0x80 | ( ( $arr[$k] >> 12 ) & 0x3f ) );
-				echo chr( 0x80 | ( ( $arr[$k] >> 6 ) & 0x3f ) );
-				echo chr( 0x80 | ( $arr[$k] & 0x3f ) );
+			elseif ($arr[$k] <= 0x10ffff) {
+				echo chr(0xf0 | ($arr[$k] >> 18));
+				echo chr(0x80 | (($arr[$k] >> 12) & 0x3f));
+				echo chr(0x80 | (($arr[$k] >> 6) & 0x3f));
+				echo chr(0x80 | ($arr[$k] & 0x3f));
 			} // Out of range
 			else {
-				trigger_error( 'utf8::from_unicode: Codepoint out of Unicode range at index: ' . $k . ', value: ' . $arr[$k] , E_USER_WARNING );
+				trigger_error('utf8::from_unicode: Codepoint out of Unicode range at index: ' . $k . ', value: ' . $arr[$k], E_USER_WARNING);
 				return FALSE;
 			}
 		}
@@ -770,80 +781,87 @@ class joosString {
 		return ob_get_clean();
 	}
 
-	public static function to_utf8( &$text ) {
-		if ( is_array( $text ) OR is_object( $text ) ) {
-			$d = array ();
-			foreach ( $text as $k => &$v ) {
-				$d[self::to_utf8( $k )] = self::to_utf8( $v );
+	public static function to_utf8(&$text) {
+		if (is_array($text) OR is_object($text)) {
+			$d = array();
+			foreach ($text as $k => &$v) {
+				$d[self::to_utf8($k)] = self::to_utf8($v);
 			}
 			return $d;
 		}
-		if ( is_string( $text ) ) {
-			if ( self::is_utf8( $text ) ) { // если это юникод - сразу его возвращаем
+		if (is_string($text)) {
+			if (self::is_utf8($text)) { // если это юникод - сразу его возвращаем
 				return $text;
 			}
-			if ( function_exists( 'iconv' ) ) { // пробуем конвертировать через iconv
-				return iconv( 'cp1251' , 'utf-8//IGNORE//TRANSLIT' , $text );
+			if (function_exists('iconv')) { // пробуем конвертировать через iconv
+				return iconv('cp1251', 'utf-8//IGNORE//TRANSLIT', $text);
 			}
 
-			throw new joosException( 'Перекодировка не поддерживается' );
+			throw new joosException('Перекодировка не поддерживается');
 		}
 		return $text;
 	}
 
 	/* проверка на юникод */
-	public static function is_utf8( &$data , $is_strict = true ) {
-		if ( is_array( $data ) ) { // массив
-			foreach ( $data as &$v ) {
-				if ( !self::is_utf8( $v , $is_strict ) ) {
+	public static function is_utf8(&$data, $is_strict = true) {
+		if (is_array($data)) { // массив
+			foreach ($data as &$v) {
+				if (!self::is_utf8($v, $is_strict)) {
 					return false;
 				}
 			}
 			return true;
-		} elseif ( is_string( $data ) ) { // строка
-			if ( function_exists( 'iconv' ) ) {
-				$distance = strlen( $data ) - strlen( iconv( 'UTF-8' , 'UTF-8//IGNORE' , $data ) );
-				if ( $distance > 0 ) {
+		}
+		elseif (is_string($data)) { // строка
+			if (function_exists('iconv')) {
+				$distance = strlen($data) - strlen(iconv('UTF-8', 'UTF-8//IGNORE', $data));
+				if ($distance > 0) {
 					return false;
 				}
-				if ( $is_strict && preg_match( '/[^\x09\x0A\x0D\x20-\xFF]/sS' , $data ) ) {
+				if ($is_strict && preg_match('/[^\x09\x0A\x0D\x20-\xFF]/sS', $data)) {
 					return false;
 				}
 				return true;
 			}
 
-			return self::utf8_check( $data , $is_strict );
-		} elseif ( is_scalar( $data ) || is_null( $data ) ) { //числа, булево и ничего
+			return self::utf8_check($data, $is_strict);
+		}
+		elseif (is_scalar($data) || is_null($data)) { //числа, булево и ничего
 			return true;
 		}
 		return false;
 	}
 
 	/* проверка на юникод */
-	public static function utf8_check( $str , $is_strict = true ) {
-		for ( $i = 0 , $len = strlen( $str ); $i < $len; $i++ ) {
-			$c       = ord( $str[$i] );
-			if ( $c < 0x80 ) {
-				if ( $is_strict === false || ( $c > 0x1F && $c < 0x7F ) || $c == 0x09 || $c == 0x0A || $c == 0x0D ) {
+	public static function utf8_check($str, $is_strict = true) {
+		for ($i = 0, $len = strlen($str); $i < $len; $i++) {
+			$c = ord($str[$i]);
+			if ($c < 0x80) {
+				if ($is_strict === false || ($c > 0x1F && $c < 0x7F) || $c == 0x09 || $c == 0x0A || $c == 0x0D) {
 					continue;
 				}
 			}
-			if ( ( $c & 0xE0 ) == 0xC0 ) {
+			if (($c & 0xE0) == 0xC0) {
 				$n = 1;
-			} elseif ( ( $c & 0xF0 ) == 0xE0 ) {
+			}
+			elseif (($c & 0xF0) == 0xE0) {
 				$n = 2;
-			} elseif ( ( $c & 0xF8 ) == 0xF0 ) {
+			}
+			elseif (($c & 0xF8) == 0xF0) {
 				$n = 3;
-			} elseif ( ( $c & 0xFC ) == 0xF8 ) {
+			}
+			elseif (($c & 0xFC) == 0xF8) {
 				$n = 4;
-			} elseif ( ( $c & 0xFE ) == 0xFC ) {
+			}
+			elseif (($c & 0xFE) == 0xFC) {
 				$n = 5;
-			} else {
+			}
+			else {
 				return false;
 			}
-			for ( $j = 0; $j < $n; $j++ ) {
+			for ($j = 0; $j < $n; $j++) {
 				$i++;
-				if ( $i == $len || ( ( ord( $str[$i] ) & 0xC0 ) != 0x80 ) ) {
+				if ($i == $len || ((ord($str[$i]) & 0xC0) != 0x80)) {
 					return false;
 				}
 			}

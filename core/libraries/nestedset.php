@@ -97,11 +97,7 @@ class joosNestedSet extends joosModel {
 	public function __construct($params) {
 		parent::__construct($params['table'], 'id');
 
-		$this->params = array('nid' => 'id',
-			'l' => 'lft',
-			'r' => 'rgt',
-			'mov' => 'moved',
-			'name' => 'name');
+		$this->params = array('nid' => 'id', 'l' => 'lft', 'r' => 'rgt', 'mov' => 'moved', 'name' => 'name');
 	}
 
 	/**
@@ -275,16 +271,16 @@ class joosNestedSet extends joosModel {
 		$diffRgt = $a_rgt - $b_rgt;
 		$diffLft = $a_lft - $b_lft;
 
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int) $diffRgt, (int) $diffLft, (int) $a_lft, (int) $a_rgt, (int) $b_lft, (int) $b_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int)$diffRgt, (int)$diffLft, (int)$a_lft, (int)$a_rgt, (int)$b_lft, (int)$b_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
-		$sql = sprintf('UPDATE `%1$s` SET `%3$s` = `%3$s` + %5$d,`%4$s` = `%4$s` + %5$d,`%2$s` = %12$d WHERE `%4$s` BETWEEN %9$d AND %10$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int) $diffRgt, (int) $diffLft, (int) $a_lft, (int) $a_rgt, (int) $b_lft, (int) $b_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%3$s` = `%3$s` + %5$d,`%4$s` = `%4$s` + %5$d,`%2$s` = %12$d WHERE `%4$s` BETWEEN %9$d AND %10$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int)$diffRgt, (int)$diffLft, (int)$a_lft, (int)$a_rgt, (int)$b_lft, (int)$b_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
-		$sql = sprintf('UPDATE `%1$s` SET `%3$s` = `%3$s` - %6$d,`%4$s` = `%4$s` - %6$d WHERE `%4$s` BETWEEN %7$d AND %8$d AND `%2$s` = %11$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int) $diffRgt, (int) $diffLft, (int) $a_lft, (int) $a_rgt, (int) $b_lft, (int) $b_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%3$s` = `%3$s` - %6$d,`%4$s` = `%4$s` - %6$d WHERE `%4$s` BETWEEN %7$d AND %8$d AND `%2$s` = %11$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int)$diffRgt, (int)$diffLft, (int)$a_lft, (int)$a_rgt, (int)$b_lft, (int)$b_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
-		$sql = sprintf('UPDATE `%1$s` SET`%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int) $diffRgt, (int) $diffLft, (int) $a_lft, (int) $a_rgt, (int) $b_lft, (int) $b_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET`%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'rgt', 'lft', (int)$diffRgt, (int)$diffLft, (int)$a_lft, (int)$a_rgt, (int)$b_lft, (int)$b_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
 		return true;
@@ -328,18 +324,18 @@ class joosNestedSet extends joosModel {
 		$diffRgt = $b_rgt - $a_rgt;
 		$diffLft = $b_lft - $a_lft;
 
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int) $diffLft, (int) $diffRgt, (int) $b_lft, (int) $b_rgt, (int) $a_lft, (int) $a_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int)$diffLft, (int)$diffRgt, (int)$b_lft, (int)$b_rgt, (int)$a_lft, (int)$a_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
 
-		$sql = sprintf('UPDATE `%1$s` SET `%4$s` = `%4$s` - %5$d, `%3$s` = `%3$s` - %5$d, `%2$s` = %12$d WHERE `%3$s` BETWEEN %7$d AND %8$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int) $diffLft, (int) $diffRgt, (int) $b_lft, (int) $b_rgt, (int) $a_lft, (int) $a_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%4$s` = `%4$s` - %5$d, `%3$s` = `%3$s` - %5$d, `%2$s` = %12$d WHERE `%3$s` BETWEEN %7$d AND %8$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int)$diffLft, (int)$diffRgt, (int)$b_lft, (int)$b_rgt, (int)$a_lft, (int)$a_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
 
-		$sql = sprintf('UPDATE `%1$s` SET `%4$s` = `%4$s` + %6$d, `%3$s` = `%3$s` + %6$d WHERE `%3$s` BETWEEN %9$d AND %10$d AND `%2$s` = %11$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int) $diffLft, (int) $diffRgt, (int) $b_lft, (int) $b_rgt, (int) $a_lft, (int) $a_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%4$s` = `%4$s` + %6$d, `%3$s` = `%3$s` + %6$d WHERE `%3$s` BETWEEN %9$d AND %10$d AND `%2$s` = %11$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int)$diffLft, (int)$diffRgt, (int)$b_lft, (int)$b_rgt, (int)$a_lft, (int)$a_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int) $diffLft, (int) $diffRgt, (int) $b_lft, (int) $b_rgt, (int) $a_lft, (int) $a_rgt, 0, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = %11$d WHERE `%2$s` <> %11$d', $this->_tbl, $this->params['mov'], 'lft', 'rgt', (int)$diffLft, (int)$diffRgt, (int)$b_lft, (int)$b_rgt, (int)$a_lft, (int)$a_rgt, 0, 1);
 		$this->_db->set_query($sql)->query();
 
 		return true;
@@ -399,11 +395,11 @@ class joosNestedSet extends joosModel {
 		$nodeWidth = $a_rgt - $a_lft + 1;
 
 		//узел и дочерние узлы
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` + %9$d,`%3$s` = `%3$s` + %9$d, level = level - 1  WHERE `%3$s`BETWEEN %5$d AND %6$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int) $a_lft, (int) $a_rgt, (int) $nodeWidth, (int) $b_id, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` + %9$d,`%3$s` = `%3$s` + %9$d, level = level - 1  WHERE `%3$s`BETWEEN %5$d AND %6$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int)$a_lft, (int)$a_rgt, (int)$nodeWidth, (int)$b_id, 1);
 		$this->_db->set_query($sql)->query();
 
 		//родительский узел
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` - %7$d WHERE `%4$s` = %8$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int) $a_lft, (int) $a_rgt, (int) $nodeWidth, (int) $b_id, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` - %7$d WHERE `%4$s` = %8$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int)$a_lft, (int)$a_rgt, (int)$nodeWidth, (int)$b_id, 1);
 		$this->_db->set_query($sql)->query();
 
 		//меняем parent_id у перемещаемого узла
@@ -461,14 +457,14 @@ class joosNestedSet extends joosModel {
 
 		$nodeWidth = $a_rgt - $a_lft + 1;
 
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` - %9$d, `%3$s` = `%3$s` - %9$d, level = level + 1  WHERE `%3$s` BETWEEN %5$d AND %6$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int) $a_lft, (int) $a_rgt, (int) $nodeWidth, (int) $b_id, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` - %9$d, `%3$s` = `%3$s` - %9$d, level = level + 1  WHERE `%3$s` BETWEEN %5$d AND %6$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int)$a_lft, (int)$a_rgt, (int)$nodeWidth, (int)$b_id, 1);
 		$this->_db->set_query($sql)->query();
 
-		$sql = sprintf('UPDATE `%1$s` SET parent_id = %8$d  WHERE id = ' . $nodeId, $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int) $a_lft, (int) $a_rgt, (int) $nodeWidth, (int) $b_id, 1);
+		$sql = sprintf('UPDATE `%1$s` SET parent_id = %8$d  WHERE id = ' . $nodeId, $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int)$a_lft, (int)$a_rgt, (int)$nodeWidth, (int)$b_id, 1);
 		$this->_db->set_query($sql)->query();
 
 
-		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` + %7$d WHERE `%4$s` = %8$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int) $a_lft, (int) $a_rgt, (int) $nodeWidth, (int) $b_id, 1);
+		$sql = sprintf('UPDATE `%1$s` SET `%2$s` = `%2$s` + %7$d WHERE `%4$s` = %8$d', $this->_tbl, 'rgt', 'lft', $this->params['nid'], (int)$a_lft, (int)$a_rgt, (int)$nodeWidth, (int)$b_id, 1);
 		$this->_db->set_query($sql)->query();
 
 		//меняем parent_id у перемещаемого узла
@@ -511,7 +507,7 @@ class joosNestedSet extends joosModel {
 	 * @return     boolean        True or False
 	 */
 	public function is_error() {
-		return ( empty($this->errors) ) ? false : true;
+		return (empty($this->errors)) ? false : true;
 	}
 
 	/**
@@ -520,7 +516,7 @@ class joosNestedSet extends joosModel {
 	 * @return mixed        array         array Error Messages or null
 	 */
 	public function get_errors() {
-		return ( true === $this->is_error() ) ? $this->errors : null;
+		return (true === $this->is_error()) ? $this->errors : null;
 	}
 
 	/**
@@ -609,7 +605,7 @@ class joosNestedSet extends joosModel {
 
 		$sql = "SELECT p.*
 			FROM $this->_tbl AS n, $this->_tbl AS p
-			WHERE p.lft <= n.lft AND p.rgt >= n.rgt AND n." . $this->params['nid'] . " = " . (int) $nodeId . "
+			WHERE p.lft <= n.lft AND p.rgt >= n.rgt AND n." . $this->params['nid'] . " = " . (int)$nodeId . "
 			ORDER BY p.lft";
 
 		return $object_list ? $this->_db->set_query($sql)->load_object_list() : $this->_db->set_query($sql)->load_assoc_list('id');
@@ -625,7 +621,7 @@ class joosNestedSet extends joosModel {
 	 */
 	private function _get_id($directionValue, $direction) {
 
-		$sql = sprintf('SELECT `%1$s` FROM `%2$s` WHERE `%3$s` = %4$d', $this->params['nid'], $this->_tbl, $this->params[$direction], (int) $directionValue);
+		$sql = sprintf('SELECT `%1$s` FROM `%2$s` WHERE `%3$s` = %4$d', $this->params['nid'], $this->_tbl, $this->params[$direction], (int)$directionValue);
 		$this->_db->set_query($sql);
 
 		if (!$result = $this->_db->query()) {
@@ -653,7 +649,7 @@ class joosNestedSet extends joosModel {
 	 */
 	private function _get_node($nodeId) {
 
-		$sql = sprintf('SELECT `%1$s`,`%2$s`,`%3$s`, level FROM `%4$s` WHERE `%1$s` = %5$d', $this->params['nid'], 'lft', 'rgt', $this->_tbl, (int) $nodeId);
+		$sql = sprintf('SELECT `%1$s`,`%2$s`,`%3$s`, level FROM `%4$s` WHERE `%1$s` = %5$d', $this->params['nid'], 'lft', 'rgt', $this->_tbl, (int)$nodeId);
 		$this->_db->set_query($sql);
 
 		if (!$result = $this->_db->query()) {
@@ -707,7 +703,7 @@ class joosNestedSet extends joosModel {
 		  return $row['level'];
 		 */
 
-		$query = 'SELECT level FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl . '`.`' . $this->params['nid'] . '` = ' . (int) $nodeId;
+		$query = 'SELECT level FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl . '`.`' . $this->params['nid'] . '` = ' . (int)$nodeId;
 		if (!$result = $this->_db->set_query($query)->load_result()) {
 			return false;
 		}
@@ -786,7 +782,8 @@ class TreeBuilder {
 					$list[$id] = $v;
 					$list[$id]->children = $this->children[$id];
 					$list = $this->build_tree($id, $list, $maxlevel, $level + 1);
-				} else {
+				}
+				else {
 					//$list[$id]->children = 0;
 				}
 

@@ -62,16 +62,17 @@ class joosEditor {
 		// файл используемого визуального редактора
 		$editor_file = JPATH_BASE . DS . 'app' . DS . 'plugins' . DS . 'editors' . DS . self::$editor . DS . self::$editor . '.php';
 
-		if ( joosFile::exists($editor_file)) {
+		if (joosFile::exists($editor_file)) {
 			require_once $editor_file;
-		} else {
+		}
+		else {
 			return sprintf('<!-- %s jooEditor::' . self::$editor . ' -->', 'Не найден редактор:');
 		}
 
 		$editor_class = 'pluginEditor' . joosInflector::camelize(self::$editor);
 
 		// инициализация редактора
-		(!isset(self::$init[self::$editor]) ) ? call_user_func_array("$editor_class::init", array($params)) : null;
+		(!isset(self::$init[self::$editor])) ? call_user_func_array("$editor_class::init", array($params)) : null;
 
 		self::$init[self::$editor] = true;
 

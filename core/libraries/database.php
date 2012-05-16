@@ -3,7 +3,8 @@
 require_once 'database/interface.php';
 require_once 'database/mysqli.php';
 
-class joosDatabase extends joosDatabaseMysqli{}
+class joosDatabase extends joosDatabaseMysqli {
+}
 
 
 /**
@@ -72,7 +73,7 @@ class joosModel {
 	 * @param string $key   Название поля первичного ключа таблицы,
 	 */
 	public function __construct($table, $key) {
-        
+
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
 		$this->_db = joosDatabase::instance();
@@ -83,25 +84,25 @@ class joosModel {
 	 * @return string
 	 */
 	public function get_class_name() {
-        
+
 		return get_class($this);
 	}
 
-    /**
-     * Аналог метода get_class_name
-     * @return string
-     */
-    public function get_model_name() {
-        
-        return $this->get_class_name();
-    }
-    
+	/**
+	 * Аналог метода get_class_name
+	 * @return string
+	 */
+	public function get_model_name() {
+
+		return $this->get_class_name();
+	}
+
 	/**
 	 * Загрушка для функции получения данных о расширенных возможностях управления данными
 	 * @return array
 	 */
-    public function get_extrainfo() {
-        
+	public function get_extrainfo() {
+
 		return array();
 	}
 
@@ -109,8 +110,8 @@ class joosModel {
 	 * Заглушка получения информации о полях
 	 * @return array
 	 */
-    public function get_fieldinfo() {
-        
+	public function get_fieldinfo() {
+
 		return array();
 	}
 
@@ -118,8 +119,8 @@ class joosModel {
 	 * Заглушка получения информации о таблице модели
 	 * @return array
 	 */
-    public function get_tableinfo() {
-        
+	public function get_tableinfo() {
+
 		return array();
 	}
 
@@ -128,8 +129,8 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-    public function get_tabsinfo() {
-        
+	public function get_tabsinfo() {
+
 		return array();
 	}
 
@@ -138,8 +139,8 @@ class joosModel {
 	 *
 	 * @return array
 	 */
-    protected function get_validate_rules() {
-        
+	protected function get_validate_rules() {
+
 		return array();
 	}
 
@@ -149,7 +150,7 @@ class joosModel {
 	 * @return bool|array массив ошибок или
 	 */
 	public function get_validation_error_messages() {
-        
+
 		return count($this->_validation_error_messages) > 0 ? $this->_validation_error_messages : false;
 	}
 
@@ -164,11 +165,12 @@ class joosModel {
 
 		$valid = true;
 		foreach ($rules as $rule) {
-			$message = joosValidateHelper::valid($this->$rule[0], $rule[1], ( isset($rule['message']) ? $rule['message'] : false));
+			$message = joosValidateHelper::valid($this->$rule[0], $rule[1], (isset($rule['message']) ? $rule['message'] : false));
 			if ($message !== TRUE) {
 				$this->_validation_error_messages[$rule[0]][] = $message;
 				$valid = false;
-			};
+			}
+			;
 		}
 
 		return $valid;
@@ -183,7 +185,7 @@ class joosModel {
 	 * @return stdClass восстановленный объект модели
 	 */
 	public static function __set_state(array $values) {
-        
+
 		// формируем объект по сохранённым параметрам
 		$obj = new $values['__obj_name']($values['_tbl'], $values['_tbl_key']);
 		// заполняем сохранёнными параметрами настоящие поля модели
@@ -197,7 +199,7 @@ class joosModel {
 	 * @return stdClass подготовленный к кэшированию объект
 	 */
 	public function to_cache() {
-        
+
 		$obj = clone $this;
 		// удаляем ненужную ссылку на ресурс базы данных и стек ошибок
 		unset($obj->_db, $obj->_error);
@@ -212,7 +214,7 @@ class joosModel {
 	 * @return string
 	 */
 	public function get_key_field() {
-        
+
 		return $this->_tbl_key;
 	}
 
@@ -222,7 +224,7 @@ class joosModel {
 	 * @return array
 	 */
 	public function get_public_properties() {
-        
+
 		static $cache = null;
 
 		if (is_null($cache)) {
@@ -244,7 +246,7 @@ class joosModel {
 	 * @param array $ignoreList массив названий полей модели, которые НЕ требуется очистить от HTML кода
 	 */
 	public function filter(array $ignoreList = null) {
-        
+
 		$ignore = is_array($ignoreList);
 
 		$iFilter = joosInputFilter::instance();
@@ -261,7 +263,7 @@ class joosModel {
 	 * @return string
 	 */
 	public function get_errors() {
-        
+
 		return $this->_error;
 	}
 
@@ -273,7 +275,7 @@ class joosModel {
 	 * @return string значение поля
 	 */
 	public function get($_property) {
-        
+
 		return isset($this->$_property) ? $this->$_property : null;
 	}
 
@@ -284,7 +286,7 @@ class joosModel {
 	 * @param string $_value    значение поля для установки
 	 */
 	public function set($_property, $_value) {
-        
+
 		$this->$_property = $_value;
 	}
 
@@ -294,7 +296,7 @@ class joosModel {
 	 * @param string $value значение, устанавливаемое во все поля активной модели
 	 */
 	public function reset($value = null) {
-        
+
 		$keys = $this->get_public_properties();
 		foreach ($keys as $k) {
 			$this->$k = $value;
@@ -310,7 +312,7 @@ class joosModel {
 	 * @return boolean результат заполнения
 	 */
 	function bind(array $array, $ignore = '') {
-        
+
 		return $this->_db->bind_array_to_object($array, $this, $ignore);
 	}
 
@@ -322,7 +324,7 @@ class joosModel {
 	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
-    public function load($oid) {
+	public function load($oid) {
 
 		// сброс установок для обнуления назначенных ранее свойств объекта ( проблема с isset($obj->id) )
 		$this->reset();
@@ -345,7 +347,7 @@ class joosModel {
 	 *
 	 * @return boolean результат заполнения свойств модели
 	 */
-    public function load_by_field($field, $value) {
+	public function load_by_field($field, $value) {
 
 		$this->reset();
 
@@ -363,12 +365,12 @@ class joosModel {
 	 * @return boolean результат сохранения модели
 	 */
 	public function store($update_nulls = false, $forced_Insert = false) {
-        
+
 		$k = $this->_tbl_key;
 
 		$this->before_store();
 
-		if (( isset($this->$k) && $this->$k != 0 ) && !$forced_Insert) {
+		if ((isset($this->$k) && $this->$k != 0) && !$forced_Insert) {
 
 			// дата последней модификации
 			if (property_exists($this, 'modified_at') && $this->modified_at == null) {
@@ -378,7 +380,8 @@ class joosModel {
 			$this->before_update();
 			$ret = $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, $update_nulls);
 			$this->after_update();
-		} else {
+		}
+		else {
 
 			// дата создания объекта
 			if (property_exists($this, 'created_at') && $this->created_at == null) {
@@ -392,29 +395,30 @@ class joosModel {
 
 		if (!$ret) {
 			return false;
-		} else {
+		}
+		else {
 			$this->after_store();
 			return true;
 		}
 	}
 
-    /**
-     * Прямое обновление значения полей объекта модели 
-     * 
-     * @return bool результат выполнения обновления
-     */
-    public function update() {
-        
-         return (bool) $this->_db->update_object($this->_tbl, $this, $this->_tbl_key, false);
-    }    
-    
+	/**
+	 * Прямое обновление значения полей объекта модели
+	 *
+	 * @return bool результат выполнения обновления
+	 */
+	public function update() {
+
+		return (bool)$this->_db->update_object($this->_tbl, $this, $this->_tbl_key, false);
+	}
+
 	/**
 	 * Переопределяемая функция проверки правильности заполнения полей модели
 	 *
 	 * @return boolean результат проверки
 	 */
 	public function check() {
-        
+
 		return true;
 	}
 
@@ -424,7 +428,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_update() {
-        
+
 		return true;
 	}
 
@@ -434,7 +438,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_update() {
-        
+
 		return true;
 	}
 
@@ -444,7 +448,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_insert() {
-        
+
 		return true;
 	}
 
@@ -454,7 +458,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_insert() {
-        
+
 		return true;
 	}
 
@@ -464,7 +468,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_store() {
-        
+
 		return true;
 	}
 
@@ -474,7 +478,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_store() {
-        
+
 		return true;
 	}
 
@@ -484,7 +488,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function before_delete() {
-        
+
 		return true;
 	}
 
@@ -494,7 +498,7 @@ class joosModel {
 	 * @return boolean
 	 */
 	protected function after_delete() {
-        
+
 		return true;
 	}
 
@@ -507,11 +511,11 @@ class joosModel {
 	 * @return boolean результат удаления
 	 */
 	public function delete($oid) {
-        
+
 		$k = $this->_tbl_key;
 
 		if ($oid) {
-			$this->$k = (int) $oid;
+			$this->$k = (int)$oid;
 		}
 
 		$this->before_delete();
@@ -527,7 +531,8 @@ class joosModel {
 		if ($this->_db->query()) {
 			$this->after_delete();
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -543,7 +548,7 @@ class joosModel {
 	 * @return boolean результат удаления записей
 	 */
 	public function delete_array(array $oid = array(), $key = false, $table = false) {
-        
+
 		$key = $key ? $key : $this->_tbl_key;
 		$table = $table ? $table : $this->_tbl;
 
@@ -572,7 +577,8 @@ class joosModel {
 
 		if ($this->_db->set_query($query)->query()) {
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -592,7 +598,8 @@ class joosModel {
 
 		if ($this->_db->query()) {
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -633,14 +640,14 @@ class joosModel {
 	 * @return boolean результат сохранения
 	 */
 	public function save(array $source, $ignore = '') {
-        
+
 		if ($source && !$this->bind($source, $ignore)) {
 			return false;
 		}
 		if (!$this->check()) {
 			return false;
 		}
-        
+
 		if (!$this->store()) {
 			return false;
 		}
@@ -664,7 +671,7 @@ class joosModel {
 
 		$cids = $this->_tbl_key . '=' . implode(' OR ' . $this->_tbl_key . '=', $cid);
 
-		$query = "UPDATE $this->_tbl SET state = " . (int) $state . " WHERE ($cids)";
+		$query = "UPDATE $this->_tbl SET state = " . (int)$state . " WHERE ($cids)";
 
 		if (!$this->_db->set_query($query)->query()) {
 			return false;
@@ -683,7 +690,7 @@ class joosModel {
 	 * @return boolean результат смены значения поля
 	 */
 	public function change_state($field_name) {
-        
+
 		$key = $this->{$this->_tbl_key};
 		return $this->_db->set_query("UPDATE `$this->_tbl` SET `$field_name` = !`$field_name` WHERE $this->_tbl_key = $key", 0, 1)->query();
 	}
@@ -696,7 +703,7 @@ class joosModel {
 	 * @return int число записей
 	 */
 	public function count($where = '') {
-        
+
 		$sql = "SELECT count(*) FROM $this->_tbl " . $where;
 		return $this->_db->set_query($sql)->load_result();
 	}
@@ -710,7 +717,7 @@ class joosModel {
 	 * @return int число записей
 	 */
 	public function sum($field, $where = '') {
-        
+
 		$sql = "SELECT sum($field) FROM $this->_tbl " . $where;
 		return $this->_db->set_query($sql)->load_result();
 	}
@@ -753,9 +760,9 @@ class joosModel {
 		$group = isset($params['group']) ? 'GROUP BY ' . $params['group'] . "\n" : '';
 		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] . "\n" : '';
 		$pseudonim = isset($params['pseudonim']) ? ' AS ' . $params['pseudonim'] . ' ' : '';
-        
-        $limit = isset($params['limit']) ? 'LIMIT '.$params['limit']."\n" : '';
-        $limit = (isset($params['limit']) && isset($params['offset'])) ? 'LIMIT '.$params['offset'].','.$params['limit']."\n" : $limit;
+
+		$limit = isset($params['limit']) ? 'LIMIT ' . $params['limit'] . "\n" : '';
+		$limit = (isset($params['limit']) && isset($params['offset'])) ? 'LIMIT ' . $params['offset'] . ',' . $params['limit'] . "\n" : $limit;
 
 		return "SELECT $select FROM $this->_tbl $pseudonim $join " . $where . $group . $order . $limit;
 	}
@@ -770,7 +777,7 @@ class joosModel {
 	public function get_list_cache(array $params = array(), $cache_time = 86400) {
 
 		$cache = joosCache::instance();
-		$key   = md5($this->get_query_list($params));
+		$key = md5($this->get_query_list($params));
 
 		if (($value = $cache->get($key)) === NULL) {
 
@@ -805,8 +812,8 @@ class joosModel {
 		$select = isset($params['select']) ? $params['select'] : $key . ',' . $value;
 		$where = isset($params['where']) ? 'WHERE ' . $params['where'] : '';
 		$order = isset($params['order']) ? ' ORDER BY ' . $params['order'] : '';
-		$offset = isset($params['offset']) ? (int) $params['offset'] : 0;
-		$limit = isset($params['limit']) ? (int) $params['limit'] : 0;
+		$offset = isset($params['offset']) ? (int)$params['offset'] : 0;
+		$limit = isset($params['limit']) ? (int)$params['limit'] : 0;
 		$tablename = isset($params['table']) ? $params['table'] : $this->_tbl;
 
 		$opts = $this->_db->set_query("SELECT $select FROM $tablename " . $where . $order, $offset, $limit)->load_assoc_list();
@@ -819,7 +826,7 @@ class joosModel {
 		return $return;
 	}
 
-    // отношение один-ко-многим, список выбранных значений из многих
+	// отношение один-ко-многим, список выбранных значений из многих
 	public function get_select_one_to_many($table_values, $table_keys, $key_parent, $key_children, array $params = array()) {
 
 		$select = isset($params['select']) ? $params['select'] : 't_val.*';
@@ -870,11 +877,11 @@ class joosModel {
 		$rets = array();
 		foreach ($childrens as $key => $value) {
 			$el_id = $name . $key;
-			$checked = (bool) isset($selected_ids[$key]);
-            $rets[] = '<label class="checkbox">';
+			$checked = (bool)isset($selected_ids[$key]);
+			$rets[] = '<label class="checkbox">';
 			$rets[] = joosHtml::checkbox($name . '[]', $key, $checked, 'id="' . $el_id . '" ');
-            $rets[] =  $value;
-            $rets[] = '</label>';
+			$rets[] = $value;
+			$rets[] = '</label>';
 			//$rets[] = forms::label($el_id, $value);
 		}
 
@@ -890,44 +897,45 @@ class joosModel {
 	 */
 	public function find(array $params = array('select' => '*')) {
 
-        $query = $this->get_find_query_from_params($params);
-        
-        return $query===false ? false : $this->_db->set_query($query)->load_object($this);
+		$query = $this->get_find_query_from_params($params);
+
+		return $query === false ? false : $this->_db->set_query($query)->load_object($this);
 	}
-    
-    /**
-     * Построение строки запроса из параметров метода find();
-     * 
-     * @param $params массив параметров запроса
-     * @return bool|string
-     */
+
+	/**
+	 * Построение строки запроса из параметров метода find();
+	 *
+	 * @param $params массив параметров запроса
+	 * @return bool|string
+	 */
 	private function get_find_query_from_params($params) {
 
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
 		$tmp = array();
 		foreach (get_object_vars($this) as $k => $v) {
-            
+
 			if (is_array($v) or is_object($v) or $k[0] == '_' or is_null($v)) {
 				continue;
 			}
 
-            $v = strval($v);
-            
+			$v = strval($v);
+
 			if ($v == '') {
 				$val = "''";
-			} else {
+			}
+			else {
 				$val = $this->_db->get_quoted($v);
 			}
-            
+
 			$tmp[] = $this->_db->get_name_quote($k) . '=' . $val;
 		}
-        
-        // если в параметрах не было ни одного заполненного поля
-        if( count($tmp)==0 ){
-            
-            return false;          
-        }
-        
+
+		// если в параметрах не было ни одного заполненного поля
+		if (count($tmp) == 0) {
+
+			return false;
+		}
+
 		return sprintf($fmtsql, implode(' AND ', $tmp));
 	}
 
@@ -944,7 +952,7 @@ class joosModel {
 	public function find_cache(array $params = array('select' => '*'), $cache_time = 86400) {
 
 		$cache = joosCache::instance();
-		$key   = md5($this->get_find_query_from_params($params));
+		$key = md5($this->get_find_query_from_params($params));
 
 		if (($value = $cache->get($key)) === NULL) {
 
@@ -955,8 +963,8 @@ class joosModel {
 		else {
 
 			//достаем объект и мэппим его поля на текущий объект
-			list($find_result,$obj) = $value;
-			foreach($obj as $k => $v) {
+			list($find_result, $obj) = $value;
+			foreach ($obj as $k => $v) {
 
 				$this->$k = $v;
 			}
@@ -981,7 +989,7 @@ class joosModel {
 	 * @return array ассоциативный массив результата поиска
 	 */
 	public function find_all(array $params = array()) {
-        
+
 		$def_param = array('select' => '*');
 		$params += $def_param;
 		$fmtsql = "SELECT {$params['select']} FROM $this->_tbl WHERE %s";
@@ -999,11 +1007,12 @@ class joosModel {
 				continue;
 			}
 
-            $v = strval($v);
-            
+			$v = strval($v);
+
 			if ($v == '') {
 				$val = "''";
-			} else {
+			}
+			else {
 				$val = $this->_db->get_quoted($v);
 			}
 			$tmp[] = $this->_db->get_name_quote($k) . '=' . $val;
@@ -1026,7 +1035,7 @@ class joosModel {
 	 * @return integer максимальное значение
 	 */
 	function get_max_by_field($name) {
-        
+
 		$query = 'SELECT  ' . $name . ' AS max FROM ' . $this->_tbl . ' ORDER BY  ' . $name . ' DESC';
 		return $this->_db->set_query($query)->load_result();
 	}
@@ -1036,18 +1045,18 @@ class joosModel {
 	 *
 	 * @example
 	 * $values = array(
-	 * 	 0 => array(
-	 * 		 'counter' => 111,
-	 * 		 'name' => 'первая запись',
-	 * 	 ),
-	 * 	 1 => array(
-	 * 		 'name' => ' вторая запись ',
-	 * 		 'counter' => 2222
-	 * 	 ),
-	 * 	 2 => array(
-	 * 		 'name' => ' третья запись',
-	 * 		 'counter' => 123456
-	 * 	 ),
+	 *      0 => array(
+	 *          'counter' => 111,
+	 *          'name' => 'первая запись',
+	 *      ),
+	 *      1 => array(
+	 *          'name' => ' вторая запись ',
+	 *          'counter' => 2222
+	 *      ),
+	 *      2 => array(
+	 *          'name' => ' третья запись',
+	 *          'counter' => 123456
+	 *      ),
 	 * );
 	 *
 	 * @param array $array_values
@@ -1061,21 +1070,22 @@ class joosModel {
 
 /**
  * Обработка ошибок работы с базой данных
- * 
+ *
  */
 class joosDatabaseException extends joosException {
 
-    public function __construct($message = '', array $params = array()) {
+	public function __construct($message = '', array $params = array()) {
 
-        if( JDEBUG ){
-            // при включенной отладке покажем полные данные о ошибке
-            parent::__construct(strtr($message, $params));
-        }else{
-            // при выключенной отладке - общую информацию о системе
-            joosPages::error_database( strtr($message, $params) );
+		if (JDEBUG) {
+			// при включенной отладке покажем полные данные о ошибке
+			parent::__construct(strtr($message, $params));
+		}
+		else {
+			// при выключенной отладке - общую информацию о системе
+			joosPages::error_database(strtr($message, $params));
 
-        }
+		}
 
-    }
+	}
 
 }

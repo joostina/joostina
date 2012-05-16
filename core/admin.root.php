@@ -14,15 +14,11 @@ class joosModuleAdmin {
 	public static function load_by_name($module_name) {
 		$module_file = JPATH_BASE_APP . DS . 'modules' . DS . $module_name . DS . $module_name . '.php';
 
-		if ( joosFile::exists($module_file)) {
+		if (joosFile::exists($module_file)) {
 			require_once $module_file;
-		} else {
-			throw new joosException('Файл :file_name для модуля :module_name не найден',
-					array(
-						':module_name' => $module_name,
-						':file_name' => $module_file
-					)
-			);
+		}
+		else {
+			throw new joosException('Файл :file_name для модуля :module_name не найден', array(':module_name' => $module_name, ':file_name' => $module_file));
 		}
 	}
 
@@ -43,7 +39,7 @@ class joosModuleAdmin {
 
 /**
  * Расширение ядра для работы панели управления
- * 
+ *
  * @package    Joostina
  * @subpackage Core
  */
@@ -82,7 +78,7 @@ class joosCoreAdmin extends joosCore {
 
 			// обновление записи последнего посещения панели управления в базе данных
 			if (isset($_SESSION['session_user_id']) && $_SESSION['session_user_id'] != '') {
-				$query = "UPDATE #__users SET lastvisit_date = " . $database->get_quoted(JCURRENT_SERVER_TIME) . " WHERE id = " . (int) $_SESSION['session_user_id'];
+				$query = "UPDATE #__users SET lastvisit_date = " . $database->get_quoted(JCURRENT_SERVER_TIME) . " WHERE id = " . (int)$_SESSION['session_user_id'];
 				$database->set_query($query)->query();
 			}
 
@@ -123,7 +119,7 @@ class joosCoreAdmin extends joosCore {
 
 				// purge expired admin sessions only
 				$past = time() - $session_life_admin;
-				$query = "DELETE FROM #__users_session WHERE time < '" . (int) $past . "' AND guest = 1 AND user_id <> 0";
+				$query = "DELETE FROM #__users_session WHERE time < '" . (int)$past . "' AND guest = 1 AND user_id <> 0";
 				$database->set_query($query)->query();
 
 				// update session timestamp
@@ -144,9 +140,11 @@ class joosCoreAdmin extends joosCore {
 					joosRoute::redirect(JPATH_SITE_ADMIN, 'Вы не авторизованы');
 				}
 			}
-		} elseif ($session_id == '') {
+		}
+		elseif ($session_id == '') {
 			joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
-		} else {
+		}
+		else {
 			joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
 			exit();
 		}
@@ -178,13 +176,13 @@ class joosAdminPagenator {
 	public $total;
 
 	function joosAdminPagenator($total, $limitstart, $limit) {
-		$this->total = (int) $total;
-		$this->limitstart = (int) max($limitstart, 0);
-		$this->limit = (int) max($limit, 1);
+		$this->total = (int)$total;
+		$this->limitstart = (int)max($limitstart, 0);
+		$this->limit = (int)max($limit, 1);
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
-		if (( $this->limit - 1 ) * $this->limitstart > $this->total) {
+		if (($this->limit - 1) * $this->limitstart > $this->total) {
 			$this->limitstart -= $this->limitstart % $this->limit;
 		}
 	}
@@ -225,12 +223,14 @@ class joosAdminPagenator {
 		$from_result = $this->limitstart + 1;
 		if ($this->limitstart + $this->limit < $this->total) {
 			$to_result = $this->limitstart + $this->limit;
-		} else {
+		}
+		else {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
 			$html .= "\n" . $from_result . "-" . $to_result . " " . 'из' . " " . $this->total;
-		} else {
+		}
+		else {
 			$html .= "\n" . 'Записи не найдены';
 		}
 		return '' . $html;
@@ -252,28 +252,31 @@ class joosAdminPagenator {
 		$html = '<ul>';
 		$displayed_pages = 10;
 
-		$this_page = ceil(( $this->limitstart + 1 ) / $this->limit);
-		$start_loop = ( floor(( $this_page - 1 ) / $displayed_pages) ) * $displayed_pages + 1;
+		$this_page = ceil(($this->limitstart + 1) / $this->limit);
+		$start_loop = (floor(($this_page - 1) / $displayed_pages)) * $displayed_pages + 1;
 		if ($start_loop + $displayed_pages - 1 < $total_pages) {
 			$stop_loop = $start_loop + $displayed_pages - 1;
-		} else {
+		}
+		else {
 			$stop_loop = $total_pages;
 		}
 
 		if ($this_page > 1) {
-			$page = ( $this_page - 2 ) * $this->limit;
+			$page = ($this_page - 2) * $this->limit;
 
 			$html .= "<li><a href=\"#prev\" class=\"js-pagenav\" data-page=\"$page\">&larr;</a></li>";
-		} else {
+		}
+		else {
 
 			$html .= "<li class=\"disabled\"><a href=\"#\"  class=\"pagenav\">&larr;</a></li>";
 		}
 
 		for ($i = $start_loop; $i <= $stop_loop; $i++) {
-			$page = ( $i - 1 ) * $this->limit;
+			$page = ($i - 1) * $this->limit;
 			if ($i == $this_page) {
 				$html .= "<li class=\"active\"><a href=\"#\" class=\"pagenav\"> $i </a></li>";
-			} else {
+			}
+			else {
 				$html .= "<li><a href=\"#$i\" class=\"js-pagenav\"  data-page=\"$page\">$i</a></li>";
 			}
 		}
@@ -282,10 +285,11 @@ class joosAdminPagenator {
 			$page = $this_page * $this->limit;
 			//$end_page = ($total_pages - 1) * $this->limit;
 			$html .= "<li><a href=\"#next\"  class=\"js-pagenav\"  data-page=\"$page\">&rarr;</a></li>";
-		} else {
+		}
+		else {
 			$html .= "<li class=\"disabled\"><a href=\"#\" class=\"pagenav\">&rarr;</a></li>";
 		}
-		return $html.'</ul>';
+		return $html . '</ul>';
 	}
 
 	function get_list_footer() {
@@ -300,17 +304,19 @@ class joosAdminPagenator {
 	}
 
 	function order_up_icon($i, $condition = true, $task = 'orderup', $alt = _PN_MOVE_TOP) {
-		if (( $i > 0 || ( $i + $this->limitstart > 0 ) ) && $condition) {
+		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb' . $i . '\',\'' . $task . '\')" title="' . $alt . '"><img src="' . joosConfig::get('admin_icons_path') . 'uparrow.png" width="12" height="12" border="0" alt="' . $alt . '" /></a>';
-		} else {
+		}
+		else {
 			return '&nbsp;';
 		}
 	}
 
 	function order_down_icon($i, $n, $condition = true, $task = 'orderdown', $alt = _PN_MOVE_DOWN) {
-		if (( $i < $n - 1 || $i + $this->limitstart < $this->total - 1 ) && $condition) {
+		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb' . $i . '\',\'' . $task . '\')" title="' . $alt . '"><img src="' . joosConfig::get('admin_icons_path') . 'downarrow.png" width="12" height="12" border="0" alt="' . $alt . '" /></a>';
-		} else {
+		}
+		else {
 			return '&nbsp;';
 		}
 	}
@@ -319,10 +325,12 @@ class joosAdminPagenator {
 		if ($order == 0) {
 			$img = 'uparrow.png';
 			$show = true;
-		} else if ($order < 0) {
+		}
+		else if ($order < 0) {
 			$img = 'uparrow.png';
 			$show = true;
-		} else {
+		}
+		else {
 			$img = 'uparrow.png';
 			$show = true;
 		}
@@ -332,7 +340,8 @@ class joosAdminPagenator {
 			$output .= '<img src="' . joosConfig::get('admin_icons_path') . $img . '" width="12" height="12" border="0" alt="' . _NAV_ORDER_UP . '" title="' . _NAV_ORDER_UP . '" /></a>';
 
 			return $output;
-		} else {
+		}
+		else {
 			return '&nbsp;';
 		}
 	}
@@ -342,10 +351,12 @@ class joosAdminPagenator {
 		if ($order == 0) {
 			$img = 'downarrow.png';
 			$show = true;
-		} elseif ($order < 0) {
+		}
+		elseif ($order < 0) {
 			$img = 'downarrow.png';
 			$show = true;
-		} else {
+		}
+		else {
 			$img = 'downarrow.png';
 			$show = true;
 		}
@@ -355,7 +366,8 @@ class joosAdminPagenator {
 			$output .= '<img src="' . joosConfig::get('admin_icons_path') . $img . '" width="12" height="12" border="0" alt="' . _NAV_ORDER_DOWN . '" title="' . _NAV_ORDER_DOWN . '" /></a>';
 
 			return $output;
-		} else {
+		}
+		else {
 			return '&nbsp;';
 		}
 	}
@@ -368,167 +380,160 @@ class joosAdminPagenator {
  * @subpackage Controller
  *
  * //  extends joosController
- * 
+ *
  */
-class joosAdminController{
+class joosAdminController {
 
-    /**
-     * Пункты подменю компеонента
-     * 
-     * @var array
-     */
-    protected static $submenu = array();
-    
-    /**
-     * Текущий активный пункт меню
-     * 
-     * @var string
-     */
-    protected static $active_menu = 'default';
+	/**
+	 * Пункты подменю компеонента
+	 *
+	 * @var array
+	 */
+	protected static $submenu = array();
+
+	/**
+	 * Текущий активный пункт меню
+	 *
+	 * @var string
+	 */
+	protected static $active_menu = 'default';
 
 
-    public static function get_submenu(){
+	public static function get_submenu() {
 
-        return static::$submenu;
-    }
+		return static::$submenu;
+	}
 
-    public static function action_before() {
-        
-        $menu = joosRequest::request('menu', false);
+	public static function action_before() {
 
-        if ($menu && isset(static::$submenu[$menu])) {
+		$menu = joosRequest::request('menu', false);
 
-            static::$active_menu = $menu;
-        } else {
-            
-            $menu = static::$active_menu;
-        }
+		if ($menu && isset(static::$submenu[$menu])) {
 
-        static::$submenu[$menu]['active'] = true;
+			static::$active_menu = $menu;
+		}
+		else {
 
-        if (isset(static::$submenu[$menu]['model'])) {
-            joosAutoadmin::set_active_model_name(static::$submenu[$menu]['model']);
-        }
+			$menu = static::$active_menu;
+		}
 
-        joosAutoadmin::set_active_menu_name($menu);
-    }
+		static::$submenu[$menu]['active'] = true;
 
-    public static function index() {
+		if (isset(static::$submenu[$menu]['model'])) {
+			joosAutoadmin::set_active_model_name(static::$submenu[$menu]['model']);
+		}
 
-        $obj = joosAutoadmin::get_active_model_obj();
+		joosAutoadmin::set_active_menu_name($menu);
+	}
 
-        $obj_count = joosAutoadmin::get_count($obj);
+	public static function index() {
 
-        $pagenav = joosAutoadmin::pagenav($obj_count);
+		$obj = joosAutoadmin::get_active_model_obj();
 
-        $param = array(
-            'offset' => $pagenav->limitstart,
-            'limit' => $pagenav->limit,
-            'order' => 'id DESC'
-        );
-        $obj_list = joosAutoadmin::get_list($obj, $param);
+		$obj_count = joosAutoadmin::get_count($obj);
 
-        $fields_list= isset(static::$submenu[static::$active_menu]['fields'])
-            ? static::$submenu[static::$active_menu]['fields']
-            : array('id', 'title', 'state');
-        
-        // передаём информацию о объекте и настройки полей в формирование представления
-        joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
-    }
+		$pagenav = joosAutoadmin::pagenav($obj_count);
 
-    public static function create() {
-        static::edit();
-    }
+		$param = array('offset' => $pagenav->limitstart, 'limit' => $pagenav->limit, 'order' => 'id DESC');
+		$obj_list = joosAutoadmin::get_list($obj, $param);
 
-    public static function edit() {
-        
-        $id = joosRequest::get('id',0);
-        
-        $obj_data = joosAutoadmin::get_active_model_obj();
-        $id > 0 ? $obj_data->load($id) : null;
+		$fields_list = isset(static::$submenu[static::$active_menu]['fields']) ? static::$submenu[static::$active_menu]['fields'] : array('id', 'title', 'state');
 
-        joosAutoadmin::edit($obj_data, $obj_data);
-    }
+		// передаём информацию о объекте и настройки полей в формирование представления
+		joosAutoadmin::listing($obj, $obj_list, $pagenav, $fields_list);
+	}
 
-    public static function save( $redirect = 0 ) {
+	public static function create() {
+		static::edit();
+	}
 
-        joosCSRF::check_code();
+	public static function edit() {
 
-        $obj_data = joosAutoadmin::get_active_model_obj();
-        $save_result = $obj_data->save($_POST);
+		$id = joosRequest::get('id', 0);
 
-        $option = joosRequest::param('option');
-        
-        if( $save_result!==true ){
-            $errors = $obj_data->get_errors();
-            joosFlashMessage::add($errors, 'success');
-            joosAutoadmin::edit($obj_data, $obj_data);
-            return;
-        }
-        
-        
-        switch ($redirect) {
-            default:
-            case 0: // просто сохранение
-                joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Всё ок!');
-                break;
+		$obj_data = joosAutoadmin::get_active_model_obj();
+		$id > 0 ? $obj_data->load($id) : null;
 
-            case 1: // применить
-                joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
-                break;
+		joosAutoadmin::edit($obj_data, $obj_data);
+	}
 
-            case 2: // сохранить и добавить новое
-                joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=create', 'Всё ок, создаём новое');
-                break;
-        }
-    }
+	public static function save($redirect = 0) {
 
-    public static function apply() {
-        
-        return static::save(1);
-    }
+		joosCSRF::check_code();
 
-    public static function save_and_new() {
-        
-        return static::save(2);
-    }
+		$obj_data = joosAutoadmin::get_active_model_obj();
+		$save_result = $obj_data->save($_POST);
 
-    public static function remove() {
-        
-        joosCSRF::check_code();
+		$option = joosRequest::param('option');
 
-        // идентификаторы удаляемых объектов
-        $cid = (array) joosRequest::array_param('cid');
-        $option = joosRequest::param('option');
-        
-        $obj_data =  joosAutoadmin::get_active_model_obj();
-        $obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка удаления');
-    }
+		if ($save_result !== true) {
+			$errors = $obj_data->get_errors();
+			joosFlashMessage::add($errors, 'success');
+			joosAutoadmin::edit($obj_data, $obj_data);
+			return;
+		}
 
-    public static function publish(){
-        self::publish_unpublish(1);
-    }
 
-    public static function unpublish(){
-        self::publish_unpublish(0);
-    }
+		switch ($redirect) {
+			default:
+			case 0: // просто сохранение
+				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Всё ок!');
+				break;
 
-    /**
-     * Смена статуса (поля 'state')
-     */
-    public static function publish_unpublish($state = 1){
+			case 1: // применить
+				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=edit&id=' . $obj_data->id, 'Всё ок, редактируем дальше');
+				break;
 
-        joosCSRF::check_code();
+			case 2: // сохранить и добавить новое
+				joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu . '&task=create', 'Всё ок, создаём новое');
+				break;
+		}
+	}
 
-        $cid = (array) joosRequest::array_param('cid');
-        $option = joosRequest::param('option');
+	public static function apply() {
 
-        $obj_data =  joosAutoadmin::get_active_model_obj();
-        $obj_data->set_state_group($cid, $state)
-                ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Выполнено успешно')
-                : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка смены статуса');
-    }
-    
+		return static::save(1);
+	}
+
+	public static function save_and_new() {
+
+		return static::save(2);
+	}
+
+	public static function remove() {
+
+		joosCSRF::check_code();
+
+		// идентификаторы удаляемых объектов
+		$cid = (array)joosRequest::array_param('cid');
+		$option = joosRequest::param('option');
+
+		$obj_data = joosAutoadmin::get_active_model_obj();
+		$obj_data->delete_array($cid, 'id') ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Удалено успешно!') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка удаления');
+	}
+
+	public static function publish() {
+		self::publish_unpublish(1);
+	}
+
+	public static function unpublish() {
+		self::publish_unpublish(0);
+	}
+
+	/**
+	 * Смена статуса (поля 'state')
+	 */
+	public static function publish_unpublish($state = 1) {
+
+		joosCSRF::check_code();
+
+		$cid = (array)joosRequest::array_param('cid');
+		$option = joosRequest::param('option');
+
+		$obj_data = joosAutoadmin::get_active_model_obj();
+		$obj_data->set_state_group($cid, $state) ? joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Выполнено успешно') : joosRoute::redirect('index2.php?option=' . $option . '&menu=' . static::$active_menu, 'Ошибка смены статуса');
+	}
+
 }
 
 /**
@@ -537,136 +542,115 @@ class joosAdminController{
  * @subpackage Controller
  *
  */
-class joosAdminControllerAjax extends joosAdminController{
+class joosAdminControllerAjax extends joosAdminController {
 
-    /**
-     * Смена статуса (поля 'state')
-     */
-    public static function set_state(){
+	/**
+	 * Смена статуса (поля 'state')
+	 */
+	public static function set_state() {
 
-        $obj_id = joosRequest::int('obj_id', 0, $_POST);
-     	$obj_state = joosRequest::post('obj_state');
-        $obj_model = joosRequest::post('obj_model');
+		$obj_id = joosRequest::int('obj_id', 0, $_POST);
+		$obj_state = joosRequest::post('obj_state');
+		$obj_model = joosRequest::post('obj_model');
 
-        if (!$obj_model || !class_exists($obj_model)) {
-            return array('type' => 'error');
-        }
+		if (!$obj_model || !class_exists($obj_model)) {
+			return array('type' => 'error');
+		}
 
-        $new_state = ($obj_state == 1 ? 0 : 1);
+		$new_state = ($obj_state == 1 ? 0 : 1);
 
-        $obj = new $obj_model;
-        $obj->load($obj_id);
+		$obj = new $obj_model;
+		$obj->load($obj_id);
 
-        if(! $obj->change_state('state')){
-            return array('type' => 'error');
-        }
+		if (!$obj->change_state('state')) {
+			return array('type' => 'error');
+		}
 
-        return array(
-            'type' => 'success',
-            'message' => 'Статус изменён',
-            'new_state' => $new_state,
-            'new_title' => $new_state == 1 ? 'Активно' : 'Не активно',
-            'new_class' => $new_state == 1 ? 'icon-ok' : 'icon-remove'
-        );
+		return array('type' => 'success', 'message' => 'Статус изменён', 'new_state' => $new_state, 'new_title' => $new_state == 1 ? 'Активно' : 'Не активно', 'new_class' => $new_state == 1 ? 'icon-ok' : 'icon-remove');
 
-    }
+	}
 
-    /**
-     * Загрузка изображений для текстов материалов (через визуальный редактор)
-     * Грузятся в /attachments/images_embedded
-    */
-    public static function upload_images_embedded(){
+	/**
+	 * Загрузка изображений для текстов материалов (через визуальный редактор)
+	 * Грузятся в /attachments/images_embedded
+	 */
+	public static function upload_images_embedded() {
 
-        $upload_result = joosUpload::easy_upload(
-            'file',
-            JPATH_BASE_APP . '/attachments/images_embedded/',
-            array('new_name' => date('YmdHis'))
-        );
-        
-        echo '<img src="'.$upload_result['file_live_location'].'" />';
-    }
+		$upload_result = joosUpload::easy_upload('file', JPATH_BASE_APP . '/attachments/images_embedded/', array('new_name' => date('YmdHis')));
 
-    /**
-     * Загрузка файлов для текстов материалов (через визуальный редактор)
-     * Грузятся в /attachments/files_embedded
-    */
-    public static function upload_files_embedded(){
+		echo '<img src="' . $upload_result['file_live_location'] . '" />';
+	}
 
-        $upload_result = joosUpload::easy_upload(
-            'file',
-            JPATH_BASE_APP . '/attachments/files_embedded/',
-            array('new_name' => date('YmdHis'))
-        );
-        echo '<a href="'.$upload_result['file_live_location'].'" class="redactor_file_link redactor_file_ico_'.$upload_result['file_info']['ext'].'">'.$upload_result['file_name'].'</a>';
-    }
+	/**
+	 * Загрузка файлов для текстов материалов (через визуальный редактор)
+	 * Грузятся в /attachments/files_embedded
+	 */
+	public static function upload_files_embedded() {
 
-    /**
-     * Смена статуса публикации объекта
-     * 
-     * @static
-     * @return bool
-     */
-    public static function status_change() {
-        return joosAutoadmin::autoajax();
-    }
-    
+		$upload_result = joosUpload::easy_upload('file', JPATH_BASE_APP . '/attachments/files_embedded/', array('new_name' => date('YmdHis')));
+		echo '<a href="' . $upload_result['file_live_location'] . '" class="redactor_file_link redactor_file_ico_' . $upload_result['file_info']['ext'] . '">' . $upload_result['file_name'] . '</a>';
+	}
+
+	/**
+	 * Смена статуса публикации объекта
+	 *
+	 * @static
+	 * @return bool
+	 */
+	public static function status_change() {
+		return joosAutoadmin::autoajax();
+	}
+
 }
 
 class joosAdminView {
-    
-    private static $component_params = array(
-        'component_title'=>'',
-        'submenu'=>array(),
-        'component_header'=>'',
-        'current_model'=>''
-    );
 
-    private static $listing_elements = array(
-        'table_headers' => ''
-    );
+	private static $component_params = array('component_title' => '', 'submenu' => array(), 'component_header' => '', 'current_model' => '');
 
-    public static function  set_param($name, $value){
-        self::$component_params[$name] = $value;
-    }
+	private static $listing_elements = array('table_headers' => '');
 
-    public static function  set_listing_param($name, $value){
-        self::$listing_elements[$name] = $value;
-    }
-    
-    public static function get_component_title(){
-        return self::$component_params['component_title'];
-    }
+	public static function  set_param($name, $value) {
+		self::$component_params[$name] = $value;
+	}
 
-    public static function get_component_header(){
-        return self::$component_params['component_header'];
-    }
-    
-    public static function get_submenu(){
+	public static function  set_listing_param($name, $value) {
+		self::$listing_elements[$name] = $value;
+	}
 
-        $options = joosAutoadmin::get_option();
-        
-        foreach (self::$component_params['submenu'] as $menu_name => &$href) {
-            $href['href'] = isset( $href['href'] ) ? $href['href'] : sprintf('index2.php?option=%s&menu=%s',$options,$menu_name);
-        }
-        
-        return self::$component_params['submenu'];
-    }
+	public static function get_component_title() {
+		return self::$component_params['component_title'];
+	}
 
-    public static function get_current_model(){
-        return self::$component_params['current_model'];
-    }
+	public static function get_component_header() {
+		return self::$component_params['component_header'];
+	}
 
-    public static function get_listing_param($name){
-        return self::$listing_elements[$name];
-    }
+	public static function get_submenu() {
+
+		$options = joosAutoadmin::get_option();
+
+		foreach (self::$component_params['submenu'] as $menu_name => &$href) {
+			$href['href'] = isset($href['href']) ? $href['href'] : sprintf('index2.php?option=%s&menu=%s', $options, $menu_name);
+		}
+
+		return self::$component_params['submenu'];
+	}
+
+	public static function get_current_model() {
+		return self::$component_params['current_model'];
+	}
+
+	public static function get_listing_param($name) {
+		return self::$listing_elements[$name];
+	}
 
 }
 
-class joosAdminViewToolbarListing{
-    
+class joosAdminViewToolbarListing {
+
 }
 
 
-class joosAdminViewToolbarEdit{
+class joosAdminViewToolbarEdit {
 
 }

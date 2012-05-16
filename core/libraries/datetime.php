@@ -20,53 +20,7 @@ class joosDateTime {
 	 *
 	 * @var array массив правил локализации
 	 */
-	private static $date_translation = array(
-		'am' => 'дп',
-		'pm' => 'пп',
-		'AM' => 'ДП',
-		'PM' => 'ПП',
-		'Monday' => 'Понедельник',
-		'Mon' => 'Пн',
-		'Tuesday' => 'Вторник',
-		'Tue' => 'Вт',
-		'Wednesday' => 'Среда',
-		'Wed' => 'Ср',
-		'Thursday' => 'Четверг',
-		'Thu' => 'Чт',
-		'Friday' => 'Пятница',
-		'Fri' => 'Пт',
-		'Saturday' => 'Суббота',
-		'Sat' => 'Сб',
-		'Sunday' => 'Воскресенье',
-		'Sun' => 'Вс',
-		'January' => 'Января',
-		'Jan' => 'Янв',
-		'February' => 'Февраля',
-		'Feb' => 'Фев',
-		'March' => 'Марта',
-		'Mar' => 'Мар',
-		'April' => 'Апреля',
-		'Apr' => 'Апр',
-		'May' => 'Мая',
-		'June' => 'Июня',
-		'Jun' => 'Июн',
-		'July' => 'Июля',
-		'Jul' => 'Июл',
-		'August' => 'Августа',
-		'Aug' => 'Авг',
-		'September' => 'Сентября',
-		'Sep' => 'Сен',
-		'October' => 'Октября',
-		'Oct' => 'Окт',
-		'November' => 'Ноября',
-		'Nov' => 'Ноя',
-		'December' => 'Декабря',
-		'Dec' => 'Дек',
-		'st' => 'ое',
-		'nd' => 'ое',
-		'rd' => 'е',
-		'th' => 'ое'
-	);
+	private static $date_translation = array('am' => 'дп', 'pm' => 'пп', 'AM' => 'ДП', 'PM' => 'ПП', 'Monday' => 'Понедельник', 'Mon' => 'Пн', 'Tuesday' => 'Вторник', 'Tue' => 'Вт', 'Wednesday' => 'Среда', 'Wed' => 'Ср', 'Thursday' => 'Четверг', 'Thu' => 'Чт', 'Friday' => 'Пятница', 'Fri' => 'Пт', 'Saturday' => 'Суббота', 'Sat' => 'Сб', 'Sunday' => 'Воскресенье', 'Sun' => 'Вс', 'January' => 'Января', 'Jan' => 'Янв', 'February' => 'Февраля', 'Feb' => 'Фев', 'March' => 'Марта', 'Mar' => 'Мар', 'April' => 'Апреля', 'Apr' => 'Апр', 'May' => 'Мая', 'June' => 'Июня', 'Jun' => 'Июн', 'July' => 'Июля', 'Jul' => 'Июл', 'August' => 'Августа', 'Aug' => 'Авг', 'September' => 'Сентября', 'Sep' => 'Сен', 'October' => 'Октября', 'Oct' => 'Окт', 'November' => 'Ноября', 'Nov' => 'Ноя', 'December' => 'Декабря', 'Dec' => 'Дек', 'st' => 'ое', 'nd' => 'ое', 'rd' => 'е', 'th' => 'ое');
 
 	/**
 	 * Минута
@@ -120,7 +74,8 @@ class joosDateTime {
 		if (func_num_args() > 1) {
 			$timestamp = func_get_arg(1);
 			return strtr(date(func_get_arg(0), $timestamp), self::$date_translation);
-		} else {
+		}
+		else {
 			return strtr(date(func_get_arg(0)), self::$date_translation);
 		}
 	}
@@ -137,22 +92,9 @@ class joosDateTime {
 	 */
 	public static function month_name_from_index($month) {
 
-		$month = (int) $month;
+		$month = (int)$month;
 
-		$all_month = array(
-			1 => 'Январь',
-			2 => 'Февраль',
-			3 => 'Март',
-			4 => 'Апрель',
-			5 => 'Май',
-			6 => 'Июнь',
-			7 => 'Июль',
-			8 => 'Август',
-			9 => 'Сентябрь',
-			10 => 'Октябрь',
-			11 => 'Ноябрь',
-			12 => 'Декабрь'
-		);
+		$all_month = array(1 => 'Январь', 2 => 'Февраль', 3 => 'Март', 4 => 'Апрель', 5 => 'Май', 6 => 'Июнь', 7 => 'Июль', 8 => 'Август', 9 => 'Сентябрь', 10 => 'Октябрь', 11 => 'Ноябрь', 12 => 'Декабрь');
 		return $all_month[$month];
 	}
 
@@ -169,17 +111,9 @@ class joosDateTime {
 	 */
 	public static function day_name_from_index($day_index) {
 
-		$day_index = (int) $day_index;
+		$day_index = (int)$day_index;
 
-		$day_name = array(
-			1 => 'Понедельник',
-			2 => 'Вторник',
-			3 => 'Среда',
-			4 => 'Четверг',
-			5 => 'Пятница',
-			6 => 'Суббота',
-			7 => 'Воскресение'
-		);
+		$day_name = array(1 => 'Понедельник', 2 => 'Вторник', 3 => 'Среда', 4 => 'Четверг', 5 => 'Пятница', 6 => 'Суббота', 7 => 'Воскресение');
 		return $day_name[$day_index];
 	}
 
@@ -234,14 +168,14 @@ class joosDateTime {
 	 */
 	public static function time_ago($timestamp, $current_time = false) {
 
-		$timestamp = (int) $timestamp;
+		$timestamp = (int)$timestamp;
 		$current_time = $current_time ? $current_time : time();
 
 		// считаем число секунд между собыьтиями
 		$seconds_between = $current_time - $timestamp;
 
 		// года
-		$years_ago = floor($seconds_between / ( 365.242199 * 24 * 60 * 60 ));
+		$years_ago = floor($seconds_between / (365.242199 * 24 * 60 * 60));
 		if ($years_ago > 1) {
 			return sprintf('%s %s назад', $years_ago, joosText::declension($years_ago, array('год', 'года', 'лет')));
 		}
@@ -250,7 +184,7 @@ class joosDateTime {
 		}
 
 		// месяцы
-		$months_ago = floor($seconds_between / ( ( 365.242199 / 12 ) * 24 * 60 * 60 ));
+		$months_ago = floor($seconds_between / ((365.242199 / 12) * 24 * 60 * 60));
 		if ($months_ago > 1) {
 			return sprintf('%s %s назад', $months_ago, joosText::declension($months_ago, array('месяц', 'месяца', 'месяцев')));
 		}
@@ -259,7 +193,7 @@ class joosDateTime {
 		}
 
 		// недели
-		$weeks_ago = floor($seconds_between / ( 7 * 24 * 60 * 60 ));
+		$weeks_ago = floor($seconds_between / (7 * 24 * 60 * 60));
 		if ($weeks_ago > 1) {
 			return sprintf('%s %s назад', $weeks_ago, joosText::declension($weeks_ago, array('неделя', 'недели', 'недель')));
 		}
@@ -268,7 +202,7 @@ class joosDateTime {
 		}
 
 		// дней
-		$days_ago = floor($seconds_between / ( 24 * 60 * 60 ));
+		$days_ago = floor($seconds_between / (24 * 60 * 60));
 		if ($days_ago > 1) {
 			return sprintf('%s %s назад', $days_ago, joosText::declension($days_ago, array('день', 'дня', 'дней')));
 		}
@@ -277,7 +211,7 @@ class joosDateTime {
 		}
 
 		// часов
-		$hours_ago = floor($seconds_between / ( 60 * 60 ));
+		$hours_ago = floor($seconds_between / (60 * 60));
 		if ($hours_ago > 1) {
 			return sprintf('%s %s назад', $hours_ago, joosText::declension($hours_ago, array('час', 'часа', 'часов')));
 		}
@@ -314,10 +248,10 @@ class joosDateTime {
 	 */
 	public static function time_string($time) {
 
-		$time = (int) $time;
+		$time = (int)$time;
 
 		// года
-		$years = floor($time / ( 365.242199 * 24 * 60 * 60 ));
+		$years = floor($time / (365.242199 * 24 * 60 * 60));
 		if ($years > 1) {
 			return sprintf('%s %s', $years, joosText::declension($years, array('год', 'года', 'лет')));
 		}
@@ -326,7 +260,7 @@ class joosDateTime {
 		}
 
 		// месяцы
-		$months = floor($time / ( ( 365.242199 / 12 ) * 24 * 60 * 60 ));
+		$months = floor($time / ((365.242199 / 12) * 24 * 60 * 60));
 		if ($months > 1) {
 			return sprintf('%s %s', $months, joosText::declension($months, array('месяц', 'месяца', 'месяцев')));
 		}
@@ -335,7 +269,7 @@ class joosDateTime {
 		}
 
 		// недели
-		$weeks = floor($time / ( 7 * 24 * 60 * 60 ));
+		$weeks = floor($time / (7 * 24 * 60 * 60));
 		if ($weeks > 1) {
 			return sprintf('%s %s', $weeks, joosText::declension($weeks, array('неделя', 'недели', 'недель')));
 		}
@@ -344,7 +278,7 @@ class joosDateTime {
 		}
 
 		// дней
-		$days = floor($time / ( 24 * 60 * 60 ));
+		$days = floor($time / (24 * 60 * 60));
 		if ($days > 1) {
 			return sprintf('%s %s', $days, joosText::declension($days, array('день', 'дня', 'дней')));
 		}
@@ -353,7 +287,7 @@ class joosDateTime {
 		}
 
 		// часов
-		$hours = floor($time / ( 60 * 60 ));
+		$hours = floor($time / (60 * 60));
 		if ($hours > 1) {
 			return sprintf('%s %s', $hours, joosText::declension($hours, array('час', 'часа', 'часов')));
 		}
@@ -372,17 +306,7 @@ class joosDateTime {
 	}
 
 	public static function standard_date($fmt = 'DATE_RFC822', $time = '') {
-		$formats = array(
-			'DATE_ATOM' => '%Y-%m-%dT%H:%i:%s%Q',
-			'DATE_COOKIE' => '%l, %d-%M-%y %H:%i:%s UTC',
-			'DATE_ISO8601' => '%Y-%m-%dT%H:%i:%s%Q',
-			'DATE_RFC822' => '%D, %d %M %y %H:%i:%s %O',
-			'DATE_RFC850' => '%l, %d-%M-%y %H:%i:%s UTC',
-			'DATE_RFC1036' => '%D, %d %M %y %H:%i:%s %O',
-			'DATE_RFC1123' => '%D, %d %M %Y %H:%i:%s %O',
-			'DATE_RSS' => '%D, %d %M %Y %H:%i:%s %O',
-			'DATE_W3C' => '%Y-%m-%dT%H:%i:%s%Q'
-		);
+		$formats = array('DATE_ATOM' => '%Y-%m-%dT%H:%i:%s%Q', 'DATE_COOKIE' => '%l, %d-%M-%y %H:%i:%s UTC', 'DATE_ISO8601' => '%Y-%m-%dT%H:%i:%s%Q', 'DATE_RFC822' => '%D, %d %M %y %H:%i:%s %O', 'DATE_RFC850' => '%l, %d-%M-%y %H:%i:%s UTC', 'DATE_RFC1036' => '%D, %d %M %y %H:%i:%s %O', 'DATE_RFC1123' => '%D, %d %M %Y %H:%i:%s %O', 'DATE_RSS' => '%D, %d %M %Y %H:%i:%s %O', 'DATE_W3C' => '%Y-%m-%dT%H:%i:%s%Q');
 
 		if (!isset($formats[$fmt])) {
 			return FALSE;

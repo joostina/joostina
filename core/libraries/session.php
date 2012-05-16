@@ -54,24 +54,24 @@ class joosSession {
 		return md5('site' . $syte);
 	}
 
-    /**
-     * Получение уникального ключа для значения пользовательской сессии
-     *
-     * @static
-     * @param null $hash_key
-     * @return string
-     *
-     * @todo добавить возможность работы через прокси, когда у пользователя меняется конечный IP, но единый IP прокси
-     */
+	/**
+	 * Получение уникального ключа для значения пользовательской сессии
+	 *
+	 * @static
+	 * @param null $hash_key
+	 * @return string
+	 *
+	 * @todo добавить возможность работы через прокси, когда у пользователя меняется конечный IP, но единый IP прокси
+	 */
 	public static function session_cookie_value($hash_key = null) {
 
-        $user_ip = joosRequest::user_ip();
-        $user_browser = joosRequest::server('HTTP_USER_AGENT','none');
+		$user_ip = joosRequest::user_ip();
+		$user_browser = joosRequest::server('HTTP_USER_AGENT', 'none');
 
-        $type = joosConfig::get2('session', 'type', 2);
-        switch ($type) {
+		$type = joosConfig::get2('session', 'type', 2);
+		switch ($type) {
 			case 1:
-				$value = md5($hash_key . $user_ip  );
+				$value = md5($hash_key . $user_ip);
 				break;
 
 			default:
@@ -86,7 +86,8 @@ class joosSession {
 
 		if (self::$_userstate === null && isset($_SESSION['session_userstate'])) {
 			self::$_userstate = &$_SESSION['session_userstate'];
-		} else {
+		}
+		else {
 			self::$_userstate = null;
 		}
 	}
@@ -95,13 +96,15 @@ class joosSession {
 		if (is_array(self::$_userstate)) {
 			if (isset($_REQUEST[$req_name])) {
 				self::set_user_state($var_name, $_REQUEST[$req_name]);
-			} elseif (!isset(self::$_userstate[$var_name])) {
+			}
+			elseif (!isset(self::$_userstate[$var_name])) {
 				self::set_user_state($var_name, $var_default);
 			}
 
 			self::$_userstate[$var_name] = joosInputFilter::instance()->process(self::$_userstate[$var_name]);
 			return self::$_userstate[$var_name];
-		} else {
+		}
+		else {
 			return null;
 		}
 	}

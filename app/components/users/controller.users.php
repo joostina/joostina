@@ -1,4 +1,6 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php
+
+defined('_JOOS_CORE') or exit();
 
 /**
  * Компонент управления пользователями
@@ -16,8 +18,7 @@
 class actionsUsers extends joosController {
 
 	public static function action_before() {
-		joosBreadcrumbs::instance()
-				->add('Пользователи');
+		joosBreadcrumbs::instance()->add('Пользователи');
 	}
 
 	//Список пользователей сайта
@@ -28,20 +29,15 @@ class actionsUsers extends joosController {
 		$users = new modelUsers;
 		$users_count = $users->count('WHERE state=1');
 
-		joosDocument::instance()
-				->set_page_title('Список пользователей')
-				->add_meta_tag('description', 'Список пользователей сайта');
+		joosDocument::instance()->set_page_title('Список пользователей')->add_meta_tag('description', 'Список пользователей сайта');
 
 
-		return array(
-			'users_count' => $users_count,
-			'page' => $page
-		);
+		return array('users_count' => $users_count, 'page' => $page);
 	}
 
 	//профиль пользователя
 	public static function profile_view() {
-        
+
 		$user_name = self::$param['user_name'];
 
 		$user = new modelUsers;
@@ -49,100 +45,84 @@ class actionsUsers extends joosController {
 
 		$user->id ? null : joosRoute::redirect(JPATH_SITE, 'Пользователь не найден');
 
-		joosDocument::instance()
-            ->set_page_title($user->user_name);
+		joosDocument::instance()->set_page_title($user->user_name);
 
-		joosBreadcrumbs::instance()
-            ->add($user->user_name);
+		joosBreadcrumbs::instance()->add($user->user_name);
 
-		return array(
-            'user' => $user
-        );
+		return array('user' => $user);
 	}
 
 	//редактирование
 	public static function profile_edit() {
 
-        if( modelUsers::is_loged()==false ){
-            joosRoute::redirect(JPATH_SITE,'Вы не авторизованы');
-        }
-        
-        $user = modelUsers::current();
-        
+		if (modelUsers::is_loged() == false) {
+			joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
+		}
+
+		$user = modelUsers::current();
+
 		if (joosCore::user()->id != $user->id) {
 			joosRoute::redirect(JPATH_SITE, 'Ай, ай!');
 		}
 
-        // если данные пришли POST методом - то это сохранение профиля
-		if ( joosRequest::is_post() ) {
+		// если данные пришли POST методом - то это сохранение профиля
+		if (joosRequest::is_post()) {
 
-            return self::profile_edit_save();
+			return self::profile_edit_save();
 		} else {
 
-			joosDocument::instance()
-                ->set_page_title( $user->user_name );
+			joosDocument::instance()->set_page_title($user->user_name);
 
-			joosBreadcrumbs::instance()
-                ->add($user->user_name);
+			joosBreadcrumbs::instance()->add($user->user_name);
 
-            joosFilter::make_safe($user);
+			joosFilter::make_safe($user);
 
-			return array(
-                'user' => $user
-			);
+			return array('user' => $user);
 		}
 	}
 
-    /**
-     * @static
-     * @return array
-     * 
-     * @todo проверить ошибку с подстановкой левого id в сохранении
-     */
-    private static function profile_edit_save(){
+	/**
+	 * @static
+	 * @return array
+	 *
+	 * @todo проверить ошибку с подстановкой левого id в сохранении
+	 */
+	private static function profile_edit_save() {
 
-        joosCSRF::check_code(1);
-        
-        $user = modelUsers::current();
+		joosCSRF::check_code(1);
 
-        //смена пароля
-        $old_password = joosRequest::post('password_old');
-        $new_password = joosRequest::post('password_new');
+		$user = modelUsers::current();
 
-        if ($old_password && $new_password) {
-            if (modelUsers::check_password($old_password, $user->password)) {
-                
-                $_POST['password'] = modelUsers::prepare_password($new_password);
-            } else {
-                
-                joosRoute::redirect(
-                    joosRoute::href('user_view', array('id' => $user->id,'user_name' => $user->user_name)),
-                    'Неправильно введён пароль'
-                );
-            }
-        }
+		//смена пароля
+		$old_password = joosRequest::post('password_old');
+		$new_password = joosRequest::post('password_new');
 
-        $user->save($_POST);
+		if ($old_password && $new_password) {
+			if (modelUsers::check_password($old_password, $user->password)) {
 
-        joosRoute::redirect(
-            joosRoute::href('user_view', array('id' => $user->id,'user_name' => $user->user_name)), 
-            'Данные успешно сохранены'
-        );
+				$_POST['password'] = modelUsers::prepare_password($new_password);
+			} else {
 
-        return array(
-            'user' => $user
-        );
-    }
-    
-    /**
-     * Авторизация пользователя
-     * 
-     * @static
-     * 
-     */
+				joosRoute::redirect(joosRoute::href('user_view', array('id' => $user->id, 'user_name' => $user->user_name)), 'Неправильно введён пароль');
+			}
+		}
+
+		$user->save($_POST);
+
+		joosRoute::redirect(joosRoute::href('user_view', array('id' => $user->id, 'user_name' => $user->user_name)), 'Данные успешно сохранены');
+
+		return array('user' => $user);
+	}
+
+	/**
+	 * Авторизация пользователя
+	 *
+	 * @static
+	 *
+	 */
 	public static function login() {
 
-		joosCSRF::check_code( 1 );
+		joosCSRF::check_code(1);
 
 		$user_name = joosRequest::post('user_name');
 		$password = joosRequest::post('password');
@@ -160,7 +140,7 @@ class actionsUsers extends joosController {
 		modelUsers::logout();
 
 		$return = joosRequest::param('return');
-		if ($return && !( strpos($return, 'registration') || strpos($return, 'login') )) {
+		if ($return && !(strpos($return, 'registration') || strpos($return, 'login'))) {
 			joosRoute::redirect($return);
 		} elseif (isset($_SERVER['HTTP_REFERER'])) {
 			joosRoute::redirect($_SERVER['HTTP_REFERER']);
@@ -180,9 +160,7 @@ class actionsUsers extends joosController {
 		if ($_POST) {
 			self::save_register($validator);
 		} else {
-			return array('user' => new modelUsers,
-				'validator' => $validator
-			);
+			return array('user' => new modelUsers, 'validator' => $validator);
 		}
 	}
 

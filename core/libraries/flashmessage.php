@@ -23,7 +23,7 @@ class joosFlashMessage {
 	 *
 	 * @return void
 	 */
-	public static function add($msg,$type='info') {
+	public static function add($msg, $type = 'info') {
 		$msg = joosString::trim($msg);
 
 		if ($msg != '') {
@@ -33,7 +33,8 @@ class joosFlashMessage {
 					session_name(md5(JPATH_SITE));
 					session_start();
 				}
-			} else {
+			}
+			else {
 				session_name(joosSession::session_cookie_name());
 				session_start();
 			}
@@ -62,7 +63,7 @@ class joosFlashMessage {
 		}
 
 		/**
-		  @var $_SESSION array */
+		@var $_SESSION array */
 		unset($_SESSION['joostina.mosmsg']);
 		return $message ? '<div class="b-system_message">' . $message . '</div>' : '';
 	}

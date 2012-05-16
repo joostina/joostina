@@ -31,7 +31,7 @@ class joosRequest {
 	 */
 	public static function param($name, $default = null, $vars = false) {
 		$vars = $vars ? $vars : $_REQUEST;
-		return ( isset($vars[$name]) ) ? $vars[$name] : $default;
+		return (isset($vars[$name])) ? $vars[$name] : $default;
 	}
 
 	/**
@@ -164,7 +164,7 @@ class joosRequest {
 	 * @return mixed результат, массив или строка
 	 */
 	public static function int($name = null, $default = null, $vars = null) {
-		return (int) self::param($name, $default, $vars);
+		return (int)self::param($name, $default, $vars);
 	}
 
 	/**
@@ -177,7 +177,7 @@ class joosRequest {
 	 * @return array результат, массив или строка
 	 */
 	public static function array_param($name = null, array $default = null, $vars = null) {
-		return (array) self::param($name, $default, $vars);
+		return (array)self::param($name, $default, $vars);
 	}
 
 	/**
@@ -185,7 +185,7 @@ class joosRequest {
 	 * @return string http или https
 	 */
 	public static function protocol() {
-		return ( 'on' == self::server('HTTPS') || 443 == self::server('SERVER_PORT') ) ? 'https' : 'http';
+		return ('on' == self::server('HTTPS') || 443 == self::server('SERVER_PORT')) ? 'https' : 'http';
 	}
 
 	/**
@@ -257,15 +257,15 @@ class joosRequest {
 		return false;
 	}
 
-    /**
-     * Отправка HTTP заголовков
-     *
-     * @static
-     * @param $code_string
-     */
-    public static function send_headers($code_string){
-        header($code_string);
-    }
+	/**
+	 * Отправка HTTP заголовков
+	 *
+	 * @static
+	 * @param $code_string
+	 */
+	public static function send_headers($code_string) {
+		header($code_string);
+	}
 
 	/**
 	 * Установка кода HTTP ответа в заголовок страницы
@@ -279,78 +279,39 @@ class joosRequest {
 	 */
 	public static function send_headers_by_code($code_num = 200) {
 
-		$code_array = array(
-			// Информационные 1xx
-			100 => 'Continue',
-			101 => 'Switching Protocols',
-			// Успешный 2xx
-			200 => 'OK',
-			201 => 'Created',
-			202 => 'Accepted',
-			203 => 'Non-Authoritative Information',
-			204 => 'No Content',
-			205 => 'Reset Content',
-			206 => 'Partial Content',
-			// Редиректы 3xx
-			300 => 'Multiple Choices',
-			301 => 'Moved Permanently',
-			302 => 'Found', // 1.1
-			303 => 'See Other',
-			304 => 'Not Modified',
-			305 => 'Use Proxy',
-			// 306 зарезервирован
-			307 => 'Temporary Redirect',
-			// ошибки клиента 4xx
-			400 => 'Bad Request',
-			401 => 'Unauthorized',
-			402 => 'Payment Required',
-			403 => 'Forbidden',
-			404 => 'Not Found',
-			405 => 'Method Not Allowed',
-			406 => 'Not Acceptable',
-			407 => 'Proxy Authentication Required',
-			408 => 'Request Timeout',
-			409 => 'Conflict',
-			410 => 'Gone',
-			411 => 'Length Required',
-			412 => 'Precondition Failed',
-			413 => 'Request Entity Too Large',
-			414 => 'Request-URI Too Long',
-			415 => 'Unsupported Media Type',
-			416 => 'Requested Range Not Satisfiable',
-			417 => 'Expectation Failed',
-			// ошибки сервера 5xx
-			500 => 'Internal Server Error',
-			501 => 'Not Implemented',
-			502 => 'Bad Gateway',
-			503 => 'Service Unavailable',
-			504 => 'Gateway Timeout',
-			505 => 'HTTP Version Not Supported',
-			509 => 'Bandwidth Limit Exceeded'
-		);
+		$code_array = array(// Информационные 1xx
+			100 => 'Continue', 101 => 'Switching Protocols', // Успешный 2xx
+			200 => 'OK', 201 => 'Created', 202 => 'Accepted', 203 => 'Non-Authoritative Information', 204 => 'No Content', 205 => 'Reset Content', 206 => 'Partial Content', // Редиректы 3xx
+			300 => 'Multiple Choices', 301 => 'Moved Permanently', 302 => 'Found', // 1.1
+			303 => 'See Other', 304 => 'Not Modified', 305 => 'Use Proxy', // 306 зарезервирован
+			307 => 'Temporary Redirect', // ошибки клиента 4xx
+			400 => 'Bad Request', 401 => 'Unauthorized', 402 => 'Payment Required', 403 => 'Forbidden', 404 => 'Not Found', 405 => 'Method Not Allowed', 406 => 'Not Acceptable', 407 => 'Proxy Authentication Required', 408 => 'Request Timeout', 409 => 'Conflict', 410 => 'Gone', 411 => 'Length Required', 412 => 'Precondition Failed', 413 => 'Request Entity Too Large', 414 => 'Request-URI Too Long', 415 => 'Unsupported Media Type', 416 => 'Requested Range Not Satisfiable', 417 => 'Expectation Failed', // ошибки сервера 5xx
+			500 => 'Internal Server Error', 501 => 'Not Implemented', 502 => 'Bad Gateway', 503 => 'Service Unavailable', 504 => 'Gateway Timeout', 505 => 'HTTP Version Not Supported', 509 => 'Bandwidth Limit Exceeded');
 
 		// проверяем наличие кода ошибки
-		if(isset($code_array[$code_num])){
+		if (isset($code_array[$code_num])) {
 
-            $code_message = $code_array[$code_num];
-        }else{
+			$code_message = $code_array[$code_num];
+		}
+		else {
 
-            throw new joosException('Код :code не поддерживается протоколом HTTP', array(':code'=>$code_num) );
-        }
+			throw new joosException('Код :code не поддерживается протоколом HTTP', array(':code' => $code_num));
+		}
 
-        // версия HTTP протокола
-        if (isset($_SERVER['SERVER_PROTOCOL'])) {
-            $protocol = $_SERVER['SERVER_PROTOCOL'];
-        } else {
-            $protocol = 'HTTP/1.1';
-        }
+		// версия HTTP протокола
+		if (isset($_SERVER['SERVER_PROTOCOL'])) {
+			$protocol = $_SERVER['SERVER_PROTOCOL'];
+		}
+		else {
+			$protocol = 'HTTP/1.1';
+		}
 
-        $code_string = sprintf('%s %s %s',$protocol, $code_num, $code_message);
+		$code_string = sprintf('%s %s %s', $protocol, $code_num, $code_message);
 
-        self::send_headers($code_string);
-    }
+		self::send_headers($code_string);
+	}
 
-    /**
+	/**
 	 * Проверка на запуск скрипта через консаоль
 	 *
 	 * @return bool

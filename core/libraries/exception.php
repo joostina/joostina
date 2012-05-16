@@ -18,7 +18,7 @@ defined('_JOOS_CORE') or exit();
 
 /**
  * Обработка всех уровней ошибок
- * 
+ *
  */
 class joosException extends Exception {
 
@@ -26,7 +26,7 @@ class joosException extends Exception {
 
 	public function __construct($message = '', array $params = array()) {
 
-        joosRequest::send_headers_by_code(503);
+		joosRequest::send_headers_by_code(503);
 
 		parent::__construct(strtr($message, $params));
 
@@ -57,7 +57,8 @@ class joosException extends Exception {
 			if ($i >= $line_number - self::CONTEXT_RADIUS && $i <= $line_number + self::CONTEXT_RADIUS) {
 				if ($i == $line_number) {
 					$context[] = ' >>   ' . $i . "\t" . $line;
-				} else {
+				}
+				else {
 					$context[] = "\t" . $i . "\t" . $line;
 				}
 			}
@@ -85,7 +86,8 @@ class joosException extends Exception {
 
 		if (headers_sent()) {
 			!ob_get_level() ? : ob_end_clean();
-		} else {
+		}
+		else {
 			joosRequest::send_headers('Content-type: text/html; charset=UTF-8');
 		}
 
@@ -109,7 +111,7 @@ HTML;
 	}
 
 	protected function prepare($content) {
-		return htmlspecialchars($content,ENT_NOQUOTES,'UTF-8');
+		return htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
 	}
 
 	/**
@@ -118,10 +120,7 @@ HTML;
 	 * @return string строка в json с кодом ошибки закодированная в JSON
 	 */
 	private function to_json() {
-		$response = array(
-			'code' => ( $this->getCode() != 0 ) ? $this->getCode() : 503,
-			'message' => $this->getMessage()
-		);
+		$response = array('code' => ($this->getCode() != 0) ? $this->getCode() : 503, 'message' => $this->getMessage());
 
 		return joosText::json_encode($response);
 	}
@@ -135,14 +134,7 @@ HTML;
 	}
 
 	public static function error_handler($code, $message, $file, $line) {
-		throw new joosException('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line',
-				array(
-					':message' => $message,
-					':error_code' => $code,
-					':error_file' => $file,
-					':error_line' => $line
-				)
-		);
+		throw new joosException('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line', array(':message' => $message, ':error_code' => $code, ':error_file' => $file, ':error_line' => $line));
 	}
 
 }

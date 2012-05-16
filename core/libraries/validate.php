@@ -47,7 +47,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_digital_value_min($value, $min) {
-		return ( static::is_digital($value) && (int) $value > $min );
+		return (static::is_digital($value) && (int)$value > $min);
 	}
 
 	/**
@@ -58,7 +58,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_digital_value_max($value, $max) {
-		return ( static::is_digital($value) && (int) $value < $max );
+		return (static::is_digital($value) && (int)$value < $max);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class joosValidate {
 	 */
 	public static function is_digital_value_between($value, $min, $max) {
 		$int_options = array("options" => array("min_range" => $min, "max_range" => $max));
-		return ( static::is_digital($value) && filter_var($value, FILTER_VALIDATE_INT, $int_options));
+		return (static::is_digital($value) && filter_var($value, FILTER_VALIDATE_INT, $int_options));
 	}
 
 	/**
@@ -82,7 +82,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_alfa($value) {
-		return (bool) preg_match('/^[a-zа-яё]+$/iu', (string) $value);
+		return (bool)preg_match('/^[a-zа-яё]+$/iu', (string)$value);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_url($value) {
-		return ( filter_var($value, FILTER_VALIDATE_URL) === false ) ? false : true;
+		return (filter_var($value, FILTER_VALIDATE_URL) === false) ? false : true;
 	}
 
 	/**
@@ -134,8 +134,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_ip($value, $flags = null) {
-		return (boolean) filter_var($value, FILTER_VALIDATE_IP, array('flags' => $flags)
-		);
+		return (boolean)filter_var($value, FILTER_VALIDATE_IP, array('flags' => $flags));
 	}
 
 	/**
@@ -145,7 +144,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_json($value) {
-		return (bool) (json_decode($value));
+		return (bool)(json_decode($value));
 	}
 
 	/**
@@ -171,7 +170,7 @@ class joosValidate {
 	 */
 	public static function is_length_max($value, $max, $inclusive = true) {
 		$length = joosString::strlen($value);
-		return $inclusive ? ( $length <= $max) : ( $length < $max);
+		return $inclusive ? ($length <= $max) : ($length < $max);
 	}
 
 	/**
@@ -216,7 +215,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_regex_check($value, $regex) {
-		return (bool) preg_match($regex, $value);
+		return (bool)preg_match($regex, $value);
 	}
 
 	/**
@@ -266,7 +265,7 @@ class joosValidate {
  * @tutorial joosValidateHelper::valid('192.168.0.256', 'ip', 'Это не Ip!!!');
  * @tutorial joosValidateHelper::valid('А это уже на регистр', 'lower', 'Надо всё маленькими');
  * @tutorial joosValidateHelper::valid('234', 'int');
- * @tutorial joosValidateHelper::valid("	\n \r \t", 'required', 'Поле не должно быть пустым!!!');
+ * @tutorial joosValidateHelper::valid("    \n \r \t", 'required', 'Поле не должно быть пустым!!!');
  *
  * @copyright на основе оригинальной разработки Nette Framework (http://nette.org)
  */
@@ -276,51 +275,15 @@ class joosValidateHelper {
 	 * Правила валидации через системный класс
 	 * @var array
 	 */
-	protected static $validators = array(
-		// pattern
-		'required' => 'joosValidate::is_not_blank',
-		'email' => 'joosValidate::is_email',
-		'digital' => 'joosValidate::is_digital',
-		'int' => 'joosValidate::is_digital',
-		'alpha' => 'joosValidate::is_alfa',
-		'url' => 'joosValidate::is_url',
-		'array' => 'joosValidate::is_array',
-		'list' => 'joosValidate::is_array',
-		'bool' => 'joosValidate::is_bool',
-		'boolean' => 'joosValidate::is_bool',
-		'float' => 'joosValidate::is_float',
-		'ip' => 'joosValidate::is_ip',
-		'json' => 'joosValidate::is_json',
-		'lower' => 'joosValidate::is_lower',
-		'upper' => 'joosValidate::is_upper',
-		'blank' => 'joosValidate::is_blank',
-		'space' => 'joosValidate::is_blank',
-		'not_blank' => 'joosValidate::is_not_blank',
-		'not_space' => 'joosValidate::is_not_blank',
-		'not_null' => 'joosValidate::is_not_null',
-		// внутренние обработчики текущего класса
-		'string' => 'is_string',
-		'object' => 'is_object',
-		'resource' => 'is_resource',
-		'scalar' => 'is_scalar',
-		'null' => 'is_null',
-	);
+	protected static $validators = array(// pattern
+		'required' => 'joosValidate::is_not_blank', 'email' => 'joosValidate::is_email', 'digital' => 'joosValidate::is_digital', 'int' => 'joosValidate::is_digital', 'alpha' => 'joosValidate::is_alfa', 'url' => 'joosValidate::is_url', 'array' => 'joosValidate::is_array', 'list' => 'joosValidate::is_array', 'bool' => 'joosValidate::is_bool', 'boolean' => 'joosValidate::is_bool', 'float' => 'joosValidate::is_float', 'ip' => 'joosValidate::is_ip', 'json' => 'joosValidate::is_json', 'lower' => 'joosValidate::is_lower', 'upper' => 'joosValidate::is_upper', 'blank' => 'joosValidate::is_blank', 'space' => 'joosValidate::is_blank', 'not_blank' => 'joosValidate::is_not_blank', 'not_space' => 'joosValidate::is_not_blank', 'not_null' => 'joosValidate::is_not_null', // внутренние обработчики текущего класса
+		'string' => 'is_string', 'object' => 'is_object', 'resource' => 'is_resource', 'scalar' => 'is_scalar', 'null' => 'is_null',);
 
 	/**
 	 * Правила рассчета длины переменной
 	 * @var array
 	 */
-	protected static $counters = array(
-		'string' => 'joosString::strlen',
-		'array' => 'count',
-		'list' => 'count',
-		'alnum' => 'joosString::strlen',
-		'alpha' => 'joosString::strlen',
-		'digit' => 'joosString::strlen',
-		'lower' => 'joosString::strlen',
-		'space' => 'joosString::strlen',
-		'upper' => 'joosString::strlen',
-	);
+	protected static $counters = array('string' => 'joosString::strlen', 'array' => 'count', 'list' => 'count', 'alnum' => 'joosString::strlen', 'alpha' => 'joosString::strlen', 'digit' => 'joosString::strlen', 'lower' => 'joosString::strlen', 'space' => 'joosString::strlen', 'upper' => 'joosString::strlen',);
 
 	public static function valid($value, $expected, $message = false) {
 		foreach (explode('|', $expected) as $item) {
@@ -330,17 +293,20 @@ class joosValidateHelper {
 				if (!call_user_func(static::$validators[$type], $value)) {
 					continue;
 				}
-			} elseif ($type === 'number') {
+			}
+			elseif ($type === 'number') {
 				if (!is_int($value) && !is_float($value)) {
 					continue;
 				}
 				// проверка через произвольные регулярки
-			} elseif ($type === 'pattern') {
+			}
+			elseif ($type === 'pattern') {
 				if (preg_match('|^' . (isset($item[1]) ? $item[1] : '') . '$|', $value)) {
 					return TRUE;
 				}
 				continue;
-			} elseif (!$value instanceof $type) {
+			}
+			elseif (!$value instanceof $type) {
 				continue;
 			}
 

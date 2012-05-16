@@ -15,42 +15,42 @@
  * */
 class joosJSOptimizer {
 
-    private static $data = array();
-   	private static $cache_folder;
+	private static $data = array();
+	private static $cache_folder;
 
-   	public static function init() {
-   		self::$cache_folder = JPATH_BASE_CACHE . DS . 'jscache';
-   		joosFolder::exists(self::$cache_folder) ? null : joosFolder::create(self::$cache_folder);
-   		self::$data = array();
-   	}
+	public static function init() {
+		self::$cache_folder = JPATH_BASE_CACHE . DS . 'jscache';
+		joosFolder::exists(self::$cache_folder) ? null : joosFolder::create(self::$cache_folder);
+		self::$data = array();
+	}
 
-    public static function optimize_and_save(array $files) {
+	public static function optimize_and_save(array $files) {
 
-   		self::init();
+		self::init();
 
-   		$cache_file = md5(serialize($files)) . '.js';
-   		$cache_file = self::$cache_folder . DS . $cache_file;
+		$cache_file = md5(serialize($files)) . '.js';
+		$cache_file = self::$cache_folder . DS . $cache_file;
 
-   		if (!joosFile::exists($cache_file)) {
+		if (!joosFile::exists($cache_file)) {
 
-   			foreach ($files as $file) {
-   				$file = explode('?', $file);
-   				$file = $file[0];
-   				$file = str_replace(JPATH_SITE, JPATH_BASE, $file);
-   				$file = str_replace('\\', '/', $file);
-   				self::$data[] = joosFile::exists($file) ? joosFile::get_content($file) : die($file);
-   			}
+			foreach ($files as $file) {
+				$file = explode('?', $file);
+				$file = $file[0];
+				$file = str_replace(JPATH_SITE, JPATH_BASE, $file);
+				$file = str_replace('\\', '/', $file);
+				self::$data[] = joosFile::exists($file) ? joosFile::get_content($file) : die($file);
+			}
 
-   			$content = JSMin::minify(implode("\n;", self::$data));
+			$content = JSMin::minify(implode("\n;", self::$data));
 
-            joosFile::create($cache_file, $content);
-   		}
+			joosFile::create($cache_file, $content);
+		}
 
-   		$cache_file_live = str_replace(JPATH_BASE, JPATH_SITE, $cache_file);
-   		$cache_file_live = str_replace('\\', '/', $cache_file_live);
+		$cache_file_live = str_replace(JPATH_BASE, JPATH_SITE, $cache_file);
+		$cache_file_live = str_replace('\\', '/', $cache_file_live);
 
-   		return array('live' => $cache_file_live, 'base' => $cache_file);
-   	}
+		return array('live' => $cache_file_live, 'base' => $cache_file);
+	}
 
 
 }

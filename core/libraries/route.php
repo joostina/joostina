@@ -19,19 +19,19 @@ class joosRoute extends Route {
 
 	public static function init() {
 
-			/**
-			 *
-			 * @todo файл с пользовательскими роутами, должен конфигурироваться и подключаться в bootstrap.php
-			 */
-			$routes = require( JPATH_APP_CONFIG . DS . 'routes.php' );
+		/**
+		 *
+		 * @todo файл с пользовательскими роутами, должен конфигурироваться и подключаться в bootstrap.php
+		 */
+		$routes = require(JPATH_APP_CONFIG . DS . 'routes.php');
 
-			foreach ($routes as $route_name => $route) {
-				self::set($route_name, $route['href'], ( isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);
-			}
+		foreach ($routes as $route_name => $route) {
+			self::set($route_name, $route['href'], (isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);
+		}
 
-			//$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
-			$uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
-			self::$current_url = urldecode($uri);
+		//$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
+		$uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
+		self::$current_url = urldecode($uri);
 
 	}
 
@@ -44,7 +44,7 @@ class joosRoute extends Route {
 
 		foreach ($routes as $name => $route) {
 			// We found something suitable
-			if (( $params = $route->matches(self::$current_url))) {
+			if (($params = $route->matches(self::$current_url))) {
 				joosController::$activroute = $name;
 				joosController::$controller = $params['controller'];
 				joosController::$task = $params['action'];
@@ -56,7 +56,8 @@ class joosRoute extends Route {
 		// если включена отладка - скажем что именно не так
 		if (JDEBUG) {
 			throw new joosException('Не найдено правило роутинга для ссылки :location', array(':location' => self::$current_url));
-		} else {
+		}
+		else {
 			// отладка не включена - просто перекинем на 404 страницу с понятным текстом
 			joosPages::page404('Такая ссылка на сайте невозможна');
 		}
@@ -79,14 +80,14 @@ class joosRoute extends Route {
 	 * @param string $url ссылка, на которую надо перейти
 	 * @param string $msg текст сообщения, отображаемый после перехода
 	 * @param string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
-     * @return void
-     */
+	 * @return void
+	 */
 	public static function redirect($url, $msg = '', $type = 'success') {
 
 		$iFilter = joosInputFilter::instance();
 		$url = $iFilter->process($url);
 
-		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg),$type);
+		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg), $type);
 
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
@@ -97,7 +98,8 @@ class joosRoute extends Route {
 
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
-		} else {
+		}
+		else {
 			!ob_get_level() ? : ob_end_clean();
 			joosRequest::send_headers_by_code(301);
 			joosRequest::send_headers("Location: " . $url);
@@ -112,19 +114,19 @@ class joosRoute extends Route {
 	 * @return string
 	 */
 	public static function get_active_route() {
-        
+
 		return joosController::$activroute;
 	}
 
-    /**
-     * Получение текущий ссылки ( в адресной сроке браузера )
-     *
-     * @return string
-     */
-    public static function get_current_url() {
-        
-        return self::$current_url=='' ? JPATH_SITE : JPATH_SITE . '/' . self::$current_url;
-    }
+	/**
+	 * Получение текущий ссылки ( в адресной сроке браузера )
+	 *
+	 * @return string
+	 */
+	public static function get_current_url() {
+
+		return self::$current_url == '' ? JPATH_SITE : JPATH_SITE . '/' . self::$current_url;
+	}
 
 }
 
@@ -212,7 +214,7 @@ class Route {
 	 * @return  array  routes by name
 	 */
 	protected static function all() {
-        
+
 		return self::$_routes;
 	}
 
@@ -233,7 +235,7 @@ class Route {
 	 * @uses    self::REGEX_SEGMENT
 	 */
 	private static function compile($uri, array $regex = NULL) {
-        
+
 		if (!is_string($uri)) {
 			return;
 		}
@@ -251,15 +253,7 @@ class Route {
 		$expression = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $expression);
 
 		// правила краткой записи регулярок роутинга
-		$rules = array(
-			':any' => '.+?',
-			':maybe' => '.*?',
-			':digit' => '[\d]+',
-			':alpha' => '[a-zA-Z]+',
-			':rus_alpha' => '[a-zA-Zа-яА-ЯёЁ]+',
-			':word' => '[\w-_]+',
-            ':slug' => '[a-zA-Zа-яА-ЯёЁ0-9\-]+',
-		);
+		$rules = array(':any' => '.+?', ':maybe' => '.*?', ':digit' => '[\d]+', ':alpha' => '[a-zA-Z]+', ':rus_alpha' => '[a-zA-Zа-яА-ЯёЁ]+', ':word' => '[\w-_]+', ':slug' => '[a-zA-Zа-яА-ЯёЁ0-9\-]+',);
 
 		if ($regex) {
 			$search = $replace = array();
@@ -291,10 +285,7 @@ class Route {
 	/**
 	 * @var  array
 	 */
-	protected $_defaults = array(
-		'action' => 'index',
-		'host' => FALSE
-	);
+	protected $_defaults = array('action' => 'index', 'host' => FALSE);
 
 	/**
 	 * @var  string
@@ -425,19 +416,15 @@ class Route {
 		}
 
 		while (preg_match('#' . self::REGEX_KEY . '#', $uri, $match)) {
-			list( $key, $param ) = $match;
+			list($key, $param) = $match;
 			if (!isset($params[$param])) {
 				// Look for a default
 				if (isset($this->_defaults[$param])) {
 					$params[$param] = $this->_defaults[$param];
-				} else {
+				}
+				else {
 					// отсутствуют требуемые параметры
-					throw new joosException('Требуемый параметр :param не найден в полученных данных для условия :uri',
-							array(
-								':param' => $param,
-								':uri' => joosFilter::htmlspecialchars($this->_uri)
-							)
-					);
+					throw new joosException('Требуемый параметр :param не найден в полученных данных для условия :uri', array(':param' => $param, ':uri' => joosFilter::htmlspecialchars($this->_uri)));
 				}
 			}
 

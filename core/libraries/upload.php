@@ -76,7 +76,7 @@ class joosUpload {
 	public static function get_accept_mime_content_types() {
 
 		$active_rules = self::$upload_rules[self::$active_rules_name];
-		return (isset($active_rules['accept_mime_content_types']) && count($active_rules['accept_mime_content_types']) > 0 ) ? $active_rules['accept_mime_content_types'] : false;
+		return (isset($active_rules['accept_mime_content_types']) && count($active_rules['accept_mime_content_types']) > 0) ? $active_rules['accept_mime_content_types'] : false;
 	}
 
 	public static function actions_before() {
@@ -132,8 +132,8 @@ class joosUpload {
 	 * @param string $element_name название элемента массива $_FILES для загрузки
 	 * @param string $upload_location каталог размещения загруженного файла
 	 * @param array $params массив расширенных парамтеров загрузки
-	 * 		string new_name - новое имя для файла
-	 * 		string new_extension - переименовать расширение файла
+	 *         string new_name - новое имя для файла
+	 *         string new_extension - переименовать расширение файла
 	 *
 	 */
 	public static function easy_upload($element_name, $upload_location, array $params = array()) {
@@ -144,7 +144,8 @@ class joosUpload {
 		if (isset($params['new_name'])) {
 
 			$file_name = $params['new_name'] . '.' . substr($file_name, strrpos($file_name, '.') + 1);
-		} else {
+		}
+		else {
 
 			//иначе - очищаем исходное имя файла от мусора
 			$file_name = joosFile::make_safe_name($file_name);
@@ -168,13 +169,7 @@ class joosUpload {
 		$file_live_location = str_replace(JPATH_BASE, '', $upload_location);
 		$file_live_location = str_replace("\\", DS, $file_live_location);
 
-		return array(
-			'success' => $success,
-			'file_location' => $file_live_location,
-			'file_name' => $file_name,
-			'file_live_location' => sprintf('%s%s/%s', JPATH_SITE, $file_live_location, $file_name),
-			'file_base_location' => sprintf('%s%s/%s', JPATH_BASE, $file_live_location, $file_name),
-		);
+		return array('success' => $success, 'file_location' => $file_live_location, 'file_name' => $file_name, 'file_live_location' => sprintf('%s%s/%s', JPATH_SITE, $file_live_location, $file_name), 'file_base_location' => sprintf('%s%s/%s', JPATH_BASE, $file_live_location, $file_name),);
 	}
 
 	private static function get_filefolder($rootdir = false, $filename = false, $fileid = false) {

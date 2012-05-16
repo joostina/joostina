@@ -23,18 +23,18 @@ class joosMail {
 	 * @param string $to      email получателя
 	 * @param string $title   заголовк сообщения
 	 * @param string $message текст сообщения
-     * @return bool
+	 * @return bool
 	 */
-	public static function simply( $to , $title , $message ) {
+	public static function simply($to, $title, $message) {
 
 		$headers = "MIME-Version: 1.0\n";
 		$headers .= "Content-type: text/html; charset=utf-8\n";
 		$headers .= "X-Priority: 3\n";
 		$headers .= "X-MSMail-Priority: Normal\n";
 		$headers .= "X-Mailer: JoostinaCoreMail\n";
-		$headers .= sprintf( "From: JoostinaCore <%s>\n", joosConfig::get2('mail','system_email') );
+		$headers .= sprintf("From: JoostinaCore <%s>\n", joosConfig::get2('mail', 'system_email'));
 
-		return (bool) mail( $to , $title , $message , $headers );
+		return (bool)mail($to, $title, $message, $headers);
 	}
 
 }
