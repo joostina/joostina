@@ -201,4 +201,6 @@ return array (
     'pluginSitemapBlog' => 'app/plugins/sitemap/blog.php',
     'pluginSitemapContent' => 'app/plugins/sitemap/content.php',
     'rulesValidation' => 'app/components/test/controller.test.php',
+
+	'joosBasket' => 'app/vendors/extra/basket/basket.php',
 );

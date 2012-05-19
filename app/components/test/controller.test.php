@@ -26,7 +26,10 @@ class actionsTest extends joosController {
 
         $obj = new stdClass;
         $obj->id = 123;
-        
+
+		joosBasket::add($obj,123,5);
+		
+		
         helperComments::load_comments_tree($obj);
         
 		return array();

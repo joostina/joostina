@@ -1,4 +1,1 @@
-<?php
-
-// запрет прямого доступа
-defined( '_JOOS_CORE' ) or exit();
+<?php defined('_JOOS_CORE') or exit();
