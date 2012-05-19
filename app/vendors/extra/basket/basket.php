@@ -148,3 +148,20 @@ class modelBasket extends joosModel {
 	}
 
 }
+
+/**
+ *
+CREATE TABLE IF NOT EXISTS `jos_basket` (
+`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+`session_id` varchar(32) NOT NULL COMMENT 'Идентификтаор сессии покупателя',
+`obj_type` varchar(250) NOT NULL COMMENT 'Тип объекта',
+`obj_id` int(11) unsigned NOT NULL COMMENT 'ID объекта',
+`price` float unsigned NOT NULL COMMENT 'Цена торвара',
+`count` int(11) unsigned NOT NULL COMMENT 'Количество товара',
+`created_at` datetime NOT NULL,
+PRIMARY KEY (`id`),
+KEY `session_id` (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+ * 
+ */
