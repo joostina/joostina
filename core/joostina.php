@@ -534,7 +534,10 @@ class joosController {
 	 */
 	public static function run() {
 
-		self::init();
+		// проверяем что задача не запущена вручную
+		if (self::$activroute != 'static_run') {
+			self::init();
+		}
 
 		$events_name = 'core.run';
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
@@ -579,7 +582,11 @@ class joosController {
 			}
 
 			// главное содержимое - стек вывода компонента - mainbody
-			joosDocument::set_body(ob_get_clean());
+			if (self::$activroute == 'static_run') {
+				return ob_get_clean();
+			} else {
+				joosDocument::set_body(ob_get_clean());
+			}
 		}
 		else {
 			//  в контроллере нет запрашиваемого метода
@@ -678,7 +685,7 @@ class joosController {
 		self::$param = $params;
 		self::$activroute = 'static_run';
 
-		self::run();
+		return self::run();
 	}
 
 	/**
