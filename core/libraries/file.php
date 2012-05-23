@@ -205,9 +205,9 @@ class joosFile {
 		$f = pathinfo($file_name);
 
 		$r = array();
-		$r['mime'] = self::mime_content_type($file_name);
+		$r['mime'] = self::get_mime_content_type($file_name);
 		$r['size'] = filesize($file_name);
-		$r['ext'] = $f['extension'];
+		$r['ext'] = isset($f['extension']) ? $f['extension'] : '';
 		$r['name'] = $f['basename'];
 
 		return $r;
