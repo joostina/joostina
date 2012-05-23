@@ -47,8 +47,8 @@ class joosAutoloader {
 			$file = JPATH_BASE . DS . self::get_class_dinamic_path($class);
 		}
 
-		// joosFile::exists тут не подходит, потому как он еще не загрузился
-		if (!is_file($file)) {
+		// joosFile::exists тут не подходит, потому как он еще не загрузился, spl_autoload_functions==1 - значит только один автозагрузчик - текущий и можно падать
+		if (!is_file($file) &&  count(spl_autoload_functions())==1 ) {
 
 			throw new joosAutoloaderFileNotFoundException(sprintf('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s', $file, $class));
 		}
