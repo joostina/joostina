@@ -371,8 +371,6 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
   `openid` varchar(200) DEFAULT NULL,
   `password` varchar(100) NOT NULL DEFAULT '',
   `state` tinyint(1) unsigned NOT NULL,
-  `group_id` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `group_name` varchar(25) NOT NULL,
   `activation` varchar(100) NOT NULL DEFAULT '',
   `bad_auth_count` tinyint(2) unsigned DEFAULT NULL,
   `register_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

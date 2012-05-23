@@ -95,9 +95,6 @@ class actionsAdminUsers extends joosAdminController{
 
         $acl_groups = array_keys($acl_list);
 
-        //sort($acl_groups);
-        //sort($acls);
-
         $sql = 'SELECT ag.id AS group_id, al.id AS list_id FROM  #__users_acl_rules_groups AS aa INNER JOIN #__users_acl_groups AS ag ON ( ag.id=aa.group_id ) INNER JOIN #__users_acl_rules AS al ON ( al.id=aa.task_id )';
         $acl_rules_array = joosDatabase::instance()->set_query($sql)->load_assoc_list();
 
