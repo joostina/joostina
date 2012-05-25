@@ -582,10 +582,10 @@ class joosController {
 			}
 
 			// главное содержимое - стек вывода компонента - mainbody
+			joosDocument::set_body(ob_get_clean());
+			
 			if (self::$activroute == 'static_run') {
-				return ob_get_clean();
-			} else {
-				joosDocument::set_body(ob_get_clean());
+				return joosDocument::get_body();
 			}
 		}
 		else {
