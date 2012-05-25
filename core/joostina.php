@@ -611,7 +611,7 @@ class joosController {
 	 */
 	public static function ajax_run() {
 
-		joosRoute::instance();
+		joosRoute::init();
 
 		$events_name = 'core.run';
 		joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;

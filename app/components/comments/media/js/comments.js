@@ -4,8 +4,6 @@
 $(document).ready(function(){
 
     $('.comment_button').live('click', function(){
-        
-        alert(1);
                 
         var parent_id = $('#parent_id').val();
         
@@ -17,7 +15,7 @@ $(document).ready(function(){
                 obj_id: $('#obj_id').val(),
                 task : 'add_comment',
                 option: 'comments',
-                comment_text: $('#comment_input').val(),
+                comment_text: $('#comment').val(),
                 parent_id: parent_id
             },
             dataType: 'json',
@@ -36,6 +34,5 @@ $(document).ready(function(){
         
         return false;
     })
-
 
 });
