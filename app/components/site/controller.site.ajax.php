@@ -48,4 +48,14 @@ class actionsAjaxSite extends joosControllerAjax {
         return $upload_result;
     }
 
+	// добавление товара в корзину
+	public static function add_to_basket(){
+
+		$obj_name = joosRequest::post('obj');
+		$obj_id = joosRequest::post('obj_id');
+
+
+		return joosBasket::add($obj_name,$obj_id);
+	}
+	
 }

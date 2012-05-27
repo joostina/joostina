@@ -23,6 +23,20 @@
 class joosBasket {
 
 	/**
+	 * Кнопка добавления товара к корзину
+	 * 
+	 * @static
+	 * @param $obj объект который необходимо добавить в корзину
+	 * @return string
+	 */
+	public static function button( $obj ){
+		
+		$button = '';
+		
+		return $button;
+	}
+	
+	/**
 	 * Добавление товара в корзину
 	 *
 	 * @static
@@ -31,17 +45,27 @@ class joosBasket {
 	 * @param $count число единиц товара в корзине
 	 * @return array результат добалвения товара в корзину
 	 */
-	public static function add($obj_type, $obj_id, $count) {
+	public static function add($obj_type, $obj_id, $count = 1) {
 
+		if( !class_exists($obj_type) ){
+			return array(
+				'success'=>false,
+				'message'=>'Тип товара не определён'
+			);
+		}
+		
 		$purchase = new modelBasket;
 
-		$purchase->obj_type = get_class($obj_type);
+		$purchase->obj_type = $obj_type;
 		$purchase->obj_id = $obj_id;
 		$purchase->count = $count;
 
 		$purchase->store();
-
-		return array();
+				
+		return array(
+			'success'=>true,
+			'message'=>'Товар добавлен в корзину'
+		);
 	}
 
 	/**
