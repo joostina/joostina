@@ -87,27 +87,6 @@ class modelComments extends joosModel {
         return true;
     }
 
-
-    public function before_insert() {
-        return true;
-    }
-
-
-    public function after_insert() {
-        return true;
-    }
-
-
-    public function before_update() {
-        return true;
-    }
-
-
-    public function after_update() {
-        return true;
-    }
-
-
     public function before_store() {
 
         $comment_text = $this->comment_text;
@@ -135,16 +114,6 @@ class modelComments extends joosModel {
         
         $this->state = 1;
         
-        return true;
-    }
-
-
-    public function after_store() {
-        return true;
-    }
-
-
-    public function before_delete() {
         return true;
     }
 
@@ -214,41 +183,6 @@ class modelCommentsCounter extends joosModel {
 
     public function check() {
         $this->filter();
-        return true;
-    }
-
-
-    public function before_insert() {
-        return true;
-    }
-
-
-    public function after_insert() {
-        return true;
-    }
-
-
-    public function before_update() {
-        return true;
-    }
-
-
-    public function after_update() {
-        return true;
-    }
-
-
-    public function before_store() {
-        return true;
-    }
-
-
-    public function after_store() {
-        return true;
-    }
-
-
-    public function before_delete() {
         return true;
     }
 

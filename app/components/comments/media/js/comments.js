@@ -3,6 +3,7 @@
  */
 $(document).ready(function(){
 
+    // сохранение комментария
     $('.comment_button').live('click', function(){
                 
         var parent_id = $('#parent_id').val();
@@ -24,8 +25,7 @@ $(document).ready(function(){
                     alert('error');
                 }else if(data.error){
                     alert('error');
-                }
-                else{
+                }else{
                     alert('ok');
                 }
                 return false;
@@ -35,4 +35,15 @@ $(document).ready(function(){
         return false;
     })
 
+    // ответ на комментарий
+    $('.comment-reply-link').live('click', function(){
+        var $current = $(this);
+        
+        $(this).after($('#comments-form'));
+        
+        var current_comment_id = $current.data('comment-id');
+        $('#parent_id').val( current_comment_id );
+
+        return false;
+    });
 });

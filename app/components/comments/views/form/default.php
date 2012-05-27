@@ -2,7 +2,7 @@
 
 ?>
 
-<div id="comments-form">
+<div id="comments-form" class="clearfix">
     <form id="commentform" method="post" action="#">
 
         <div class="control-group">
