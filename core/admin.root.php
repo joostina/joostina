@@ -130,7 +130,7 @@ class joosCoreAdmin extends joosCore {
 				self::set_session_garbage_clean($session_life_admin);
 
 				// check against db record of session
-				$query = "SELECT COUNT( session_id ) FROM #__users_session WHERE session_id = " . $database->get_quoted($session_id) . " AND user_name = " . $database->get_quoted($my->user_name) . " AND user_id = " . intval($my->id);
+				$query = "SELECT COUNT( session_id ) FROM #__users_session WHERE session_id = " . $database->get_quoted($session_id) . " AND user_name = " . $database->get_quoted($my->user_name) . " AND user_id = " . (int) $my->id;
 				$count = $database->set_query($query)->load_result();
 
 				// если в таблице нет информации о текущей сессии - она устарела

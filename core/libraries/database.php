@@ -832,9 +832,9 @@ class joosModel {
 		$select = isset($params['select']) ? $params['select'] : 't_val.*';
 		$where = isset($params['where']) ? 'WHERE ' . $params['where'] : "WHERE t_key.$key_parent = $this->{$this->_tbl_key} ";
 		$order = isset($params['order']) ? 'ORDER BY ' . $params['order'] : '';
-		$offset = isset($params['offset']) ? intval($params['offset']) : 0;
-		$limit = isset($params['limit']) ? intval($params['limit']) : 0;
-		$join = isset($params['join']) ? intval($params['join']) : 'LEFT JOIN';
+		$offset = isset($params['offset']) ? (int)$params['offset'] : 0;
+		$limit = isset($params['limit']) ? (int) $params['limit'] : 0;
+		$join = isset($params['join']) ? $params['join'] : 'LEFT JOIN';
 
 		$sql = "SELECT $select FROM $table_values AS t_val $join $table_keys AS  t_key ON t_val.id=t_key.$key_children $where $order";
 		return $this->_db->set_query($sql, $offset, $limit)->load_assoc_list('id');
@@ -1019,8 +1019,8 @@ class joosModel {
 		}
 		$tmp = count($tmp) > 0 ? $tmp : array('true');
 
-		$offset = isset($params['offset']) ? intval($params['offset']) : 0;
-		$limit = isset($params['limit']) ? intval($params['limit']) : 0;
+		$offset = isset($params['offset']) ? (int) $params['offset'] : 0;
+		$limit = isset($params['limit']) ? (int) $params['limit'] : 0;
 
 		$tbl_key = isset($params['key']) ? $params['key'] : $this->_tbl_key;
 
