@@ -154,10 +154,36 @@ class joosHTML {
 	public static function select_month($tag_name, $tag_attribs, $selected, $type = 0) {
 
 		// месяца для выбора
-		$arr_1 = array(joosHtml::make_option('01', _JAN), joosHtml::make_option('02', _FEB), joosHtml::make_option('03', _MAR), joosHtml::make_option('04', _APR), joosHtml::make_option('05', _MAY), joosHtml::make_option('06', _JUN), joosHtml::make_option('07', _JUL), joosHtml::make_option('08', _AUG), joosHtml::make_option('09', _SEP), joosHtml::make_option('10', _OCT), joosHtml::make_option('11', _NOV), joosHtml::make_option('12', _DEC));
+		$arr_1 = array(
+			joosHtml::make_option('01', 'Январь'),
+			joosHtml::make_option('02', 'Февраль'),
+			joosHtml::make_option('03', 'Март'), 
+			joosHtml::make_option('04', 'Апрель'),
+			joosHtml::make_option('5', 'Май'),
+			joosHtml::make_option('06', 'Июнь'), 
+			joosHtml::make_option('07', 'Июль'), 
+			joosHtml::make_option('08', 'Август'), 
+			joosHtml::make_option('09', 'Сентябрь'), 
+			joosHtml::make_option('10', 'Октябрь'), 
+			joosHtml::make_option('11', 'Ноябрь'), 
+			joosHtml::make_option('12', 'Декабрь')
+		);
 
 		// месяца с правильным склонением
-		$arr_2 = array(joosHtml::make_option('01', _JAN_2), joosHtml::make_option('02', _FEB_2), joosHtml::make_option('03', _MAR_2), joosHtml::make_option('04', _APR_2), joosHtml::make_option('05', _MAY_2), joosHtml::make_option('06', _JUN_2), joosHtml::make_option('07', _JUL_2), joosHtml::make_option('08', _AUG_2), joosHtml::make_option('09', _SEP_2), joosHtml::make_option('10', _OCT_2), joosHtml::make_option('11', _NOV_2), joosHtml::make_option('12', _DEC_2));
+		$arr_2 = array(
+			joosHtml::make_option('01', 'Января'),
+			joosHtml::make_option('02', 'Февраля'), 
+			joosHtml::make_option('03', 'Марта'), 
+			joosHtml::make_option('04', 'Апреля'), 
+			joosHtml::make_option('05', 'Мая'), 
+			joosHtml::make_option('06', 'Июня'),
+			joosHtml::make_option('07', 'Июля'), 
+			joosHtml::make_option('08', 'Августа'), 
+			joosHtml::make_option('09', 'Сентября'), 
+			joosHtml::make_option('10', 'Октября'), 
+			joosHtml::make_option('11', 'Ноября'), 
+			joosHtml::make_option('12', 'Декабря')
+		);
 
 		$arr = $type ? $arr_2 : $arr_1;
 		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
@@ -176,7 +202,11 @@ class joosHTML {
 
 	public static function gender_select_list($tag_name, $tag_attribs, $selected) {
 
-		$arr = array(joosHtml::make_option('no_gender', 'Не указано'), joosHtml::make_option('male', 'М'), joosHtml::make_option('female', 'Ж'));
+		$arr = array(
+			joosHtml::make_option('no_gender', 'Не указано'),
+			joosHtml::make_option('male', 'М'),
+			joosHtml::make_option('female', 'Ж')
+		);
 
 		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
