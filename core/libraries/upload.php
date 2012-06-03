@@ -173,13 +173,16 @@ class joosUpload {
 	}
 
 	private static function get_filefolder($rootdir = false, $filename = false, $fileid = false) {
-		joosLoader::lib('attached');
 
 		$id = $fileid ? $fileid : joosAttached::add($filename)->id;
 
 		$rootdir = $rootdir ? $rootdir : File::mime_content_type($filename);
 
-		return array('file' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . File::makefilename($id), 'filelocation' => JPATH_BASE . DS . 'attachments' . DS . $rootdir . DS . File::makefilename($id), 'file_id' => $id);
+		return array(
+			'file_base_location' => JPATH_BASE_APP .DS . 'attachments' . DS . $rootdir . DS . joosFile::make_file_location((int)$id),
+			'file_live_location' => JPATH_SITE . '/app/attachments/'. $rootdir . '/'. joosFile::make_file_location((int)$id),
+			'file_id' => $id
+		);
 	}
 
 	private function checkServerSettings() {

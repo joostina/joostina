@@ -28,7 +28,7 @@ class joosFile {
 	 */
 	public static function convert_size($num) {
 
-		$num = (int)$num;
+		$num = (double) $num;
 
 		if ($num >= 1073741824) {
 			$num = round($num / 1073741824 * 100) / 100 . ' ' . 'gb';

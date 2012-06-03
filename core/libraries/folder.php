@@ -36,6 +36,7 @@ class joosFolder {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_readable($location) {
+
 		return (bool)is_readable($location);
 	}
 
@@ -47,6 +48,7 @@ class joosFolder {
 	 * @return bool результат проверки доступа на запись в указанный каталог
 	 */
 	public static function is_writable($location) {
+
 		return (bool)is_writable($location);
 	}
 
@@ -72,7 +74,17 @@ class joosFolder {
 	 */
 	public static function delete($location) {
 
-		return (bool)1;
+		if (is_dir($location) && file_exists($location)){
+			foreach(glob($location . '/*') as $file) {
+				if (!(is_dir($file) ? joosFolder::delete($file) : joosFile::delete($file))) {
+					return false;
+				}
+
+			}
+			return rmdir($location);
+		}
+
+		return false;
 	}
 
 	/**
