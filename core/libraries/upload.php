@@ -176,23 +176,13 @@ class joosUpload {
 
 		$id = $fileid ? $fileid : joosAttached::add($filename)->id;
 
-		$rootdir = $rootdir ? $rootdir : File::mime_content_type($filename);
+		$rootdir = $rootdir ? $rootdir : joosFile::get_mime_content_type($filename);
 
 		return array(
 			'file_base_location' => JPATH_BASE_APP .DS . 'attachments' . DS . $rootdir . DS . joosFile::make_file_location((int)$id),
 			'file_live_location' => JPATH_SITE . '/app/attachments/'. $rootdir . '/'. joosFile::make_file_location((int)$id),
 			'file_id' => $id
 		);
-	}
-
-	private function checkServerSettings() {
-		$postSize = $this->toBytes(ini_get('post_max_size'));
-		$uploadSize = $this->toBytes(ini_get('upload_max_filesize'));
-
-		if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit) {
-			$size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';
-			die("{'error':'Нужно увеличить post_max_size и upload_max_filesize до $size'}");
-		}
 	}
 
 }
