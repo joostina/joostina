@@ -245,7 +245,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_not_null($value) {
-		return !is_null($value);
+		return $value !== null;
 	}
 
 }

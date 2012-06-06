@@ -826,7 +826,7 @@ class joosString {
 
 			return self::utf8_check($data, $is_strict);
 		}
-		elseif (is_scalar($data) || is_null($data)) { //числа, булево и ничего
+		elseif (is_scalar($data) || $data===null) { //числа, булево и ничего
 			return true;
 		}
 		return false;

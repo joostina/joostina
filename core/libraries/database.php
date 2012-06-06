@@ -227,7 +227,7 @@ class joosModel {
 
 		static $cache = null;
 
-		if (is_null($cache)) {
+		if ($cache===null) {
 			$cache = array();
 			foreach (get_class_vars(get_class($this)) as $key => $val) {
 				if (substr($key, 0, 1) != '_') {
@@ -914,7 +914,7 @@ class joosModel {
 		$tmp = array();
 		foreach (get_object_vars($this) as $k => $v) {
 
-			if (is_array($v) or is_object($v) or $k[0] == '_' or is_null($v)) {
+			if (is_array($v) or is_object($v) or $k[0] == '_' or $v===null) {
 				continue;
 			}
 
