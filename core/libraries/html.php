@@ -202,11 +202,7 @@ class joosHTML {
 
 	public static function gender_select_list($tag_name, $tag_attribs, $selected) {
 
-		$arr = array(
-			joosHtml::make_option('no_gender', 'Не указано'),
-			joosHtml::make_option('male', 'М'),
-			joosHtml::make_option('female', 'Ж')
-		);
+		$arr = array(joosHtml::make_option('no_gender', 'Не указано'), joosHtml::make_option('male', 'М'), joosHtml::make_option('female', 'Ж'));
 
 		return joosHtml::select_list($arr, $tag_name, $tag_attribs, 'value', 'text', $selected);
 	}
@@ -370,4 +366,21 @@ class joosHTML {
 
 		return $compiled;
 	}
+
+	/**
+	 * Очистка HTML кода от мусорных символов
+	 * 
+	 * @static
+	 * @param string $content строка с html для очистки
+	 * @return string
+	 */
+	public static function prepare_for_ajax_output($content) {
+		
+		$content = str_replace(array("\n", "\t", "\r"), ' ', $content);
+		$content = preg_replace("/\s\s+/iu", ' ', $content);
+		$content = preg_replace("/>\s+</iu", '><', $content);
+		
+		return $content;
+	}
+
 }

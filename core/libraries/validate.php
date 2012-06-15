@@ -25,6 +25,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_email($value) {
+		
 		return is_string($value) && filter_var($value, FILTER_VALIDATE_EMAIL);
 	}
 
@@ -36,6 +37,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_digital($value) {
+		
 		return filter_var($value, FILTER_VALIDATE_INT) !== false;
 	}
 
@@ -47,29 +49,32 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_digital_value_min($value, $min) {
+		
 		return (static::is_digital($value) && (int)$value > $min);
 	}
 
 	/**
 	 * Проверяет, что значение переменной меньше чем указанное число max
 	 *
-	 * @param type $value значение для проверки
-	 * @param type $max
+	 * @param string|int $value значение для проверки
+	 * @param int $max
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_digital_value_max($value, $max) {
+		
 		return (static::is_digital($value) && (int)$value < $max);
 	}
 
 	/**
 	 * Проверка вхождения цифрового значения переменной в указанный диапазон min и max
 	 *
-	 * @param type $value значение для проверки
-	 * @param type $min
-	 * @param type $max
+	 * @param string|int $value значение для проверки
+	 * @param string|int $min
+	 * @param string|int $max
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_digital_value_between($value, $min, $max) {
+		
 		$int_options = array("options" => array("min_range" => $min, "max_range" => $max));
 		return (static::is_digital($value) && filter_var($value, FILTER_VALIDATE_INT, $int_options));
 	}
@@ -82,6 +87,7 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_alfa($value) {
+		
 		return (bool)preg_match('/^[a-zа-яё]+$/iu', (string)$value);
 	}
 
@@ -93,69 +99,76 @@ class joosValidate {
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_url($value) {
+		
 		return (filter_var($value, FILTER_VALIDATE_URL) === false) ? false : true;
 	}
 
 	/**
 	 * Проверка переменной на то что она является массивом
 	 *
-	 * @param type $value
+	 * @param array $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_array($value) {
+		
 		return is_array($value) || ($value instanceof ArrayAccess && $value instanceof Traversable && $value instanceof Countable);
 	}
 
 	/**
 	 * Проверка на булевый тип
 	 *
-	 * @param type $value
+	 * @param string|int|bool $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_bool($value) {
+		
 		return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 	}
 
 	/**
 	 * Проверка на тип float
 	 *
-	 * @param type $value
+	 * @param string|int|float $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_float($value) {
+		
 		return filter_var($value, FILTER_VALIDATE_FLOAT) !== false;
 	}
 
 	/**
 	 * Проверка что переменная является валидным IP адресом
 	 *
-	 * @param type $value
-	 * @param type $flags
+	 * @param string $value
+	 * @param  $flags
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_ip($value, $flags = null) {
+		
 		return (boolean)filter_var($value, FILTER_VALIDATE_IP, array('flags' => $flags));
 	}
 
 	/**
 	 * Проверяет, что длина строки переменной меньше чем указанное число max
 	 *
-	 * @param type $value
+	 * @param string $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_json($value) {
+		
 		return (bool)(json_decode($value));
 	}
 
 	/**
 	 * Проверяет, что длина строки переменной меньше чем указанное число max в символах
 	 *
-	 * @param type $value
-	 * @param type $min
-	 * @param type $inclusive проверять учитывая равенство величине
+	 * @param string $value
+	 * @param int $min
+	 * @param bool $inclusive проверять учитывая равенство величине
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_length_min($value, $min, $inclusive = true) {
+		
 		$length = joosString::strlen($value);
 		return $inclusive ? ($length >= $min) : ($length > $min);
 	}
@@ -163,12 +176,13 @@ class joosValidate {
 	/**
 	 * Проверяет, что длина строки переменной больше чем указанное число max в символах
 	 *
-	 * @param type $value
-	 * @param type $max
-	 * @param type $inclusive проверять учитывая равенство величине
+	 * @param string $value
+	 * @param int $max
+	 * @param bool $inclusive проверять учитывая равенство величине
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_length_max($value, $max, $inclusive = true) {
+		
 		$length = joosString::strlen($value);
 		return $inclusive ? ($length <= $max) : ($length < $max);
 	}
@@ -176,13 +190,14 @@ class joosValidate {
 	/**
 	 * Проверяет что длина строки переменной входит в указанный диапазон min и max
 	 *
-	 * @param type $value
-	 * @param type $min
-	 * @param type $max
-	 * @param type $inclusive проверять учитывая равенство величине
+	 * @param string $value
+	 * @param int $min
+	 * @param int $max
+	 * @param bool $inclusive проверять учитывая равенство величине
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_length_between($value, $min, $max, $inclusive = true) {
+		
 		$length = joosString::strlen($value);
 		return $inclusive ? ($length >= $min && $length <= $max) : ($length > $min && $length < $max);
 	}
@@ -190,38 +205,41 @@ class joosValidate {
 	/**
 	 * Проверяет что все символы строки в нижнем регистре
 	 *
-	 * @param type $value
+	 * @param string $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_lower($value) {
+		
 		return $value === joosString::strtolower($value);
 	}
 
 	/**
 	 * Проверяет что все символы строки в верхнем регистре
 	 *
-	 * @param type $value
+	 * @param string $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_upper($value) {
+		
 		return $value === joosString::strtoupper($value);
 	}
 
 	/**
 	 * Проверка строки на соответсвие любому регулярному выражению
 	 *
-	 * @param type $value
-	 * @param type $regex
+	 * @param string $value
+	 * @param string $regex
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_regex_check($value, $regex) {
+		
 		return (bool)preg_match($regex, $value);
 	}
 
 	/**
 	 * Проверяет что строка является пустотой или состояит из непечатаемых символов
 	 *
-	 * @param type $value
+	 * @param string $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_blank($value) {
@@ -231,20 +249,22 @@ class joosValidate {
 	/**
 	 * Проверяет что строка имеет хоть один видимый сивол
 	 *
-	 * @param type $value
+	 * @param string $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_not_blank($value) {
+		
 		return !static::is_blank($value);
 	}
 
 	/**
 	 * Проверяет что строка не null
 	 *
-	 * @param type $value
+	 * @param string $value
 	 * @return bool результат проверки соответсвия
 	 */
 	public static function is_not_null($value) {
+		
 		return $value !== null;
 	}
 
@@ -286,6 +306,7 @@ class joosValidateHelper {
 	protected static $counters = array('string' => 'joosString::strlen', 'array' => 'count', 'list' => 'count', 'alnum' => 'joosString::strlen', 'alpha' => 'joosString::strlen', 'digit' => 'joosString::strlen', 'lower' => 'joosString::strlen', 'space' => 'joosString::strlen', 'upper' => 'joosString::strlen',);
 
 	public static function valid($value, $expected, $message = false) {
+		
 		foreach (explode('|', $expected) as $item) {
 			list($type) = $item = explode(':', $item, 2);
 			// проверяем тип переменной
@@ -329,5 +350,4 @@ class joosValidateHelper {
 		}
 		return $message;
 	}
-
 }
