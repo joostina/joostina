@@ -51,54 +51,7 @@ class pluginSitemapBlog {
 				'call_param' => array('cat_id' => 1,),
 				'priority' => 0.5,
 				'changefreq' => 'daily'), //map_block
-			array('id' => 'progs',
-				'link' => joosRoute::href('blog_cat', array('cat_slug' => 'progs')),
-				'title' => 'Блоги программ',
-				'level' => 2,
-				'type' => 'single',
-				'priority' => 0.5,
-				'changefreq' => 'daily'), //map_block
-			array('id' => 'progs',
-				'link' => '',
-				'title' => '',
-				'level' => 3,
-				'type' => 'list',
-				'call_from' => 'blogMap::lists',
-				'call_param' => array('cat_id' => 2,),
-				'priority' => 0.5,
-				'changefreq' => 'daily'), //map_block
-			array('id' => 'peoples',
-				'link' => joosRoute::href('blog_cat', array('cat_slug' => 'peoples')),
-				'title' => 'Блоги пользователей',
-				'level' => 2,
-				'type' => 'single',
-				'priority' => 0.5,
-				'changefreq' => 'daily'), //map_block
-			array('id' => 'peoples',
-				'link' => '',
-				'title' => '',
-				'level' => 3,
-				'type' => 'list',
-				'call_from' => 'blogMap::lists',
-				'call_param' => array('cat_id' => 3,),
-				'priority' => 0.5,
-				'changefreq' => 'daily'), //map_block
-			array('id' => 'interviev',
-				'link' => joosRoute::href('blog_cat', array('cat_slug' => 'interviev')),
-				'title' => 'Интервью со звёздами',
-				'level' => 2,
-				'type' => 'single',
-				'priority' => 0.5,
-				'changefreq' => 'daily'), //map_block
-			array('id' => 'interviev',
-				'link' => '',
-				'title' => '',
-				'level' => 3,
-				'type' => 'list',
-				'call_from' => 'blogMap::lists',
-				'call_param' => array('cat_id' => 4,),
-				'priority' => 0.5,
-				'changefreq' => 'daily'),);
+);
 	}
 
 	public static function lists($param) {
