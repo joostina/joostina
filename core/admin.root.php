@@ -285,7 +285,6 @@ class joosAdminPagenator
 
         if ($this_page < $total_pages) {
             $page = $this_page * $this->limit;
-            //$end_page = ($total_pages - 1) * $this->limit;
             $html .= "<li><a href=\"#next\"  class=\"js-pagenav\"  data-page=\"$page\">&rarr;</a></li>";
         } else {
             $html .= "<li class=\"disabled\"><a href=\"#\" class=\"pagenav\">&rarr;</a></li>";

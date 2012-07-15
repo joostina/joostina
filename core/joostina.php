@@ -485,63 +485,6 @@ class joosDocument
 }
 
 /**
- * Класс подключения файлов
- * @package    Joostina
- * @subpackage Loader
- */
-class joosLoader
-{
-    public static function model($name)
-    {
-        // TODO разрешить после полной настройки автозагрузчика
-        require_once joosCore::path($name, 'model');
-    }
-
-    public static function admin_model($name)
-    {
-        // TODO разрешить после полной настройки автозагрузчика
-        require_once joosCore::path($name, 'admin_model');
-    }
-
-    public static function view($name, $task)
-    {
-        require_once joosCore::path($name, 'view', $task);
-    }
-
-    public static function admin_view($name, $task)
-    {
-        require_once joosCore::path($name, 'admin_view', $task);
-    }
-
-    public static function admin_template_view($name)
-    {
-        require_once joosCore::path($name, 'admin_template_html');
-    }
-
-    public static function controller($name)
-    {
-        require_once joosCore::path($name, 'controller');
-    }
-
-    public static function admin_controller($name)
-    {
-        require_once joosCore::path($name, 'admin_controller');
-    }
-
-    /**
-     * Прямое подключение внешних библиотек
-     *
-     * @param string $name     название библиотеки
-     * @param string $category подкаталог расположения библиотеки
-     */
-    public static function lib($name, $vendor = false)
-    {
-        require_once $vendor ? joosCore::path($name, 'lib-vendor', $vendor) : joosCore::path($name, 'lib');
-    }
-
-}
-
-/**
  * Базовый контроллер Joostina CMS
  * @package    Joostina
  * @subpackage Controller
@@ -735,6 +678,27 @@ class joosController
         joosFile::exists($viewfile) ? require ($viewfile) : null;
     }
 
+	public static function debug($sysstart){
+		// вывод лога отладки
+
+
+			// подсчет израсходованной памяти
+			if (defined('_JOOS_MEM_USAGE')) {
+
+				$mem_usage = ( memory_get_usage() - _JOOS_MEM_USAGE );
+				$mem_usage = joosFile::convert_size($mem_usage);
+			} else {
+				$mem_usage = 'Недоступно';
+			}
+
+			// подсчет времени генерации страницы
+			joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
+			joosDebug::add_top($mem_usage);
+
+			// вывод итогового лога отлатчика
+			joosDebug::get();
+	}
+	
 }
 
 /**

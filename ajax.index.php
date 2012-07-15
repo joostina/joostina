@@ -11,8 +11,7 @@
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
 
-require_once ( __DIR__ . '/core/joostina.php' );
-require_once ( JPATH_BASE . '/core/front.root.php' );
+require_once __DIR__ . '/core/joostina.php';
 
 // заполняем некоторые полезные переменные
 joosController::$controller = joosRequest::param('option');
