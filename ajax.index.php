@@ -11,16 +11,18 @@
 // Установка флага родительского файла
 define('_JOOS_CORE', 1);
 
-require_once ( __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'joostina.php' );
-require_once ( JPATH_BASE . DS . 'core' . DS . 'front.root.php' );
+require_once ( __DIR__ . '/core/joostina.php' );
+require_once ( JPATH_BASE . '/core/front.root.php' );
 
 // заполняем некоторые полезные переменные
 joosController::$controller = joosRequest::param('option');
 joosController::$task = joosRequest::param('task', 'index');
 
-try{
+try {
+	
     // запускаем аяксовый контроллер
     joosController::ajax_run();
-}catch (Exception $e){
+} catch (Exception $e) {
+	
     echo $e;
 }

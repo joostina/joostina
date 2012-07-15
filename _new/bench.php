@@ -33,59 +33,62 @@
  *
  *   ?>
  */
-class Bench {
-	public static function mark ($out = false, $raw = false) {
-		// Record time and memory
-		static $bench = array ();
-		$bench[] = array (microtime (true), memory_get_usage (), $out);
+class bench
+{
+    public static function mark ($out = false, $raw = false)
+    {
+        // Record time and memory
+        static $bench = array ();
+        $bench[] = array (microtime (true), memory_get_usage (), $out);
 
-		if ($out === true) {
-			// Output the results
-			$cur_time = 0;
-			$mem_diff = 0;
+        if ($out === true) {
+            // Output the results
+            $cur_time = 0;
+            $mem_diff = 0;
 
-			// Memory formatter
-			$printm = function ($mem) use ($raw) {
-				if ($raw) {
-					return $mem;
-				}
-				return round ($mem / 1024, 1) . 'KB';
-			};
+            // Memory formatter
+            $printm = function ($mem) use ($raw) {
+                if ($raw) {
+                    return $mem;
+                }
 
-			// Style and table header
-			echo '<style>
-					.bench td,.bench th { text-align: right; padding: 3px; }
-					.bench .left { text-align: left; }
-				</style>
-				<table class="bench">
-					<tr>
-						<th>Time</th>
-						<th>Memory</th>
-						<th>Diff</th>
-						<th style="text-align:left">Notes</th>
-					</tr>';
+                return round ($mem / 1024, 1) . 'KB';
+            };
 
-			// Loop through collected data
-			foreach ($bench as $mark) {
-				list ($mtime, $mem, $note) = $mark;
-				printf (
-					'<tr><td>%f</td><td>%s</td><td>%s</td><td class="left">%s</td></tr>',
-					($cur_time === 0) ? $cur_time : $mtime - $cur_time,
-					$printm ($mem),
-					$printm ($mem - $mem_diff),
-					is_bool ($note) ? '' : $note
-				);
-				$cur_time = $mtime;
-				$mem_diff = $mem;
-			}
+            // Style and table header
+            echo '<style>
+                    .bench td,.bench th { text-align: right; padding: 3px; }
+                    .bench .left { text-align: left; }
+                </style>
+                <table class="bench">
+                    <tr>
+                        <th>Time</th>
+                        <th>Memory</th>
+                        <th>Diff</th>
+                        <th style="text-align:left">Notes</th>
+                    </tr>';
 
-			// Output totals at the end
-			printf (
-				'<tr><th>%f</th><th>%s</th><th>&nbsp</th><th class="left">Totals</th></tr>',
-				$bench[count ($bench) - 1][0] - $bench[0][0],
-				$printm (memory_get_peak_usage ())
-			);
-			echo '</table>';
-		}
-	}
+            // Loop through collected data
+            foreach ($bench as $mark) {
+                list ($mtime, $mem, $note) = $mark;
+                printf (
+                    '<tr><td>%f</td><td>%s</td><td>%s</td><td class="left">%s</td></tr>',
+                    ($cur_time === 0) ? $cur_time : $mtime - $cur_time,
+                    $printm ($mem),
+                    $printm ($mem - $mem_diff),
+                    is_bool ($note) ? '' : $note
+                );
+                $cur_time = $mtime;
+                $mem_diff = $mem;
+            }
+
+            // Output totals at the end
+            printf (
+                '<tr><th>%f</th><th>%s</th><th>&nbsp</th><th class="left">Totals</th></tr>',
+                $bench[count ($bench) - 1][0] - $bench[0][0],
+                $printm (memory_get_peak_usage ())
+            );
+            echo '</table>';
+        }
+    }
 }

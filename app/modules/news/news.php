@@ -4,11 +4,10 @@
  */
 defined( '_JOOS_CORE' ) or exit();
 
-class moduleActionsNews extends moduleActions {
-
-
-	public static function default_action() {
-
+class moduleActionsNews extends moduleActions
+{
+    public static function default_action()
+    {
         $news = new modelNews();
 
         $news = $news->get_list(array(
@@ -17,9 +16,7 @@ class moduleActionsNews extends moduleActions {
             'limit' => 3
         ));
 
-		return array('news' => $news);
-	}
-
+        return array('news' => $news);
+    }
 
 }
-

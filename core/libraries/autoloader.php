@@ -13,181 +13,172 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosAutoloader {
+class joosAutoloader
+{
+    /**
+     * Массив предустановленных системных библиотек
+     *
+     * @var array
+     */
+    private static $static_files = array( // проверенные библиотеки
 
-	/**
-	 * Массив предустановленных системных библиотек
-	 *
-	 * @var array
-	 */
-	private static $static_files = array( // проверенные библиотеки
+    );
 
-	);
+    public static function init()
+    {
+        $app_autoload_files = require_once JPATH_APP_CONFIG . '/autoload.php';
 
-	public static function init() {
+        self::$static_files = array_merge($app_autoload_files, self::$static_files);
 
-		$app_autoload_files = require_once JPATH_APP_CONFIG . '/autoload.php';
+        spl_autoload_register(array(new self, 'autoload'));
+    }
 
-		self::$static_files = array_merge($app_autoload_files, self::$static_files);
+    private function __clone()
+    {
+    }
 
-		spl_autoload_register(array(new self, 'autoload'));
-	}
+    public static function autoload($class)
+    {
+        // первый шаг - ищем класс в жестко прописанных параметрах
+        if (isset(self::$static_files[$class])) {
+            $file = JPATH_BASE . DS . self::$static_files[$class];
+        } else {
+            $file = JPATH_BASE . DS . self::get_class_dinamic_path($class);
+        }
 
-	private function __clone() {
+        // joosFile::exists тут не подходит, потому как он еще не загрузился, spl_autoload_functions==1 - значит только один автозагрузчик - текущий и можно падать
+        if (!is_file($file) &&  count(spl_autoload_functions())==1 ) {
 
-	}
+            throw new joosAutoloaderFileNotFoundException(sprintf('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s', $file, $class));
+        }
 
-	public static function autoload($class) {
+        require_once $file;
 
-		// первый шаг - ищем класс в жестко прописанных параметрах
-		if (isset(self::$static_files[$class])) {
-			$file = JPATH_BASE . DS . self::$static_files[$class];
-		}
-		else {
-			$file = JPATH_BASE . DS . self::get_class_dinamic_path($class);
-		}
+        if (!class_exists($class, false)) {
 
-		// joosFile::exists тут не подходит, потому как он еще не загрузился, spl_autoload_functions==1 - значит только один автозагрузчик - текущий и можно падать
-		if (!is_file($file) &&  count(spl_autoload_functions())==1 ) {
+            throw new joosAutoloaderClassNotFoundException(sprintf('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s', $class, $file));
+        }
 
-			throw new joosAutoloaderFileNotFoundException(sprintf('Автозагрузчик классов не смог обнаружить предпологаемый файл %s файл для класса %s', $file, $class));
-		}
+        //!JDEBUG ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
 
-		require_once $file;
+        unset($file);
+    }
 
-		if (!class_exists($class, false)) {
+    private static function get_class_dinamic_path($class)
+    {
+        //$file = '';
+        // контроллеры панели управления
+        if (strpos($class, 'actionsAdmin', 0) === 0) {
+            $name = str_replace('actionsAdmin', '', $class);
+            $name = joosInflector::underscore($name);
+            $file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
 
-			throw new joosAutoloaderClassNotFoundException(sprintf('Автозагрузчик классов не смог найти требуемый класс %s в предпологаемом файле %s', $class, $file));
-		}
+            // аякс-контроллеры панели управления
+        } elseif (strpos($class, 'actionsAjaxAdmin', 0) === 0) {
+            $name = str_replace('actionsAjaxAdmin', '', $class);
+            $name = strtolower($name);
+            $file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.ajax.php';
 
-		//!JDEBUG ? : joosDebug::add(sprintf(__('Автозагрузка класса %s из файла %s'), $class, $file));
+            // аякс-контроллеры фронта
+        } elseif (strpos($class, 'actionsAjax', 0) === 0) {
+            $name = str_replace('actionsAjax', '', $class);
+            $name = strtolower($name);
+            $file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
 
-		unset($file);
-	}
+            // контроллеры фронта
+        } elseif (strpos($class, 'actions', 0) === 0) {
+            $name = str_replace('actions', '', $class);
+            $name = strtolower($name);
+            $file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
 
-	private static function get_class_dinamic_path($class) {
+            // системные библиотеки
+        } elseif (strpos($class, 'joos', 0) === 0) {
+            $name = str_replace('joos', '', $class);
+            $name = strtolower($name);
+            $file = 'core' . DS . 'libraries' . DS . $name . '.php';
 
-		//$file = '';
-		// контроллеры панели управления
-		if (strpos($class, 'actionsAdmin', 0) === 0) {
-			$name = str_replace('actionsAdmin', '', $class);
-			$name = joosInflector::underscore($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.php';
+            // модели панели управления
+        } elseif (strpos($class, 'modelAdmin', 0) === 0) {
+            $name = str_replace('modelAdmin', '', $class);
+            $name = strtolower($name);
+            $file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
 
-			// аякс-контроллеры панели управления
-		}
-		elseif (strpos($class, 'actionsAjaxAdmin', 0) === 0) {
-			$name = str_replace('actionsAjaxAdmin', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.admin.' . $name . '.ajax.php';
+            // модели сайта
+        } elseif (strpos($class, 'model', 0) === 0) {
+            $name = str_replace('model', '', $class);
+            $name = strtolower($name);
+            $file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
 
-			// аякс-контроллеры фронта
-		}
-		elseif (strpos($class, 'actionsAjax', 0) === 0) {
-			$name = str_replace('actionsAjax', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.ajax.php';
+            // хелперы модулей
+        } elseif (strpos($class, 'modulesHelper', 0) === 0) {
+            $name = str_replace('modulesHelper', '', $class);
+            $name = strtolower($name);
+            $file = 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
 
-			// контроллеры фронта
-		}
-		elseif (strpos($class, 'actions', 0) === 0) {
-			$name = str_replace('actions', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'controller.' . $name . '.php';
+            // модели фронта
+        } else {
+            throw new joosAutoloaderFileNotFoundException('Правило загрузки для класса :class_name не обнаружено', array(':class_name' => $class));
+        }
 
-			// системные библиотеки
-		}
-		elseif (strpos($class, 'joos', 0) === 0) {
-			$name = str_replace('joos', '', $class);
-			$name = strtolower($name);
-			$file = 'core' . DS . 'libraries' . DS . $name . '.php';
+        return $file;
+    }
 
-			// модели панели управления
-		}
-		elseif (strpos($class, 'modelAdmin', 0) === 0) {
-			$name = str_replace('modelAdmin', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.admin.' . $name . '.php';
+    /**
+     *  Предстартовая загрузка необходимого списка
+     *
+     * @tutorial joosAutoloader( array('text','array','acl') )
+     *
+     * @static
+     * @param  array                                      $names
+     * @throws joosAutoloaderOnStartFileNotFoundException
+     */
+    public static function libraries_load_on_start(array $names = array())
+    {
+        foreach ($names as $name) {
 
-			// модели сайта
-		}
-		elseif (strpos($class, 'model', 0) === 0) {
-			$name = str_replace('model', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'components' . DS . $name . DS . 'models' . DS . 'model.' . $name . '.php';
+            $file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
 
-			// хелперы модулей
-		}
-		elseif (strpos($class, 'modulesHelper', 0) === 0) {
-			$name = str_replace('modulesHelper', '', $class);
-			$name = strtolower($name);
-			$file = 'app' . DS . 'modules' . DS . $name . DS . 'helper.' . $name . '.php';
+            if (!joosFile::exists($file)) {
+                throw new joosAutoloaderOnStartFileNotFoundException(sprintf('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %', $file, $name));
+            }
 
-			// модели фронта
-		}
-		else {
-			throw new joosAutoloaderFileNotFoundException('Правило загрузки для класса :class_name не обнаружено', array(':class_name' => $class));
-		}
-
-		return $file;
-	}
-
-	/**
-	 *  Предстартовая загрузка необходимого списка
-	 *
-	 * @tutorial joosAutoloader( array('text','array','acl') )
-	 *
-	 * @static
-	 * @param array $names
-	 * @throws joosAutoloaderOnStartFileNotFoundException
-	 */
-	public static function libraries_load_on_start(array $names = array()) {
-
-		foreach ($names as $name) {
-
-			$file = JPATH_BASE . DS . 'core' . DS . 'libraries' . DS . $name . '.php';
-
-			if (!joosFile::exists($file)) {
-				throw new joosAutoloaderOnStartFileNotFoundException(sprintf('Автозагрузчки не смог найти файл %s для автозагружаемой библиотеки %', $file, $name));
-			}
-
-			require_once ($file);
-		}
-	}
+            require_once ($file);
+        }
+    }
 
 }
 
 /**
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
-class joosAutoloaderFileNotFoundException extends joosException {
+class joosAutoloaderFileNotFoundException extends joosException
+{
+    public function __construct($message = '', array $params = array())
+    {
+        /*
+          $backtrace_error = debug_backtrace();
 
-	public function __construct($message = '', array $params = array()) {
-
-		/*        
-		  $backtrace_error = debug_backtrace();
-  
-		  if (isset($backtrace_error[1])) {
-			  $params[':error_file'] = $backtrace_error[3]['file'];
-			  $params[':error_line'] = $backtrace_error[3]['line'];
-		  }
+          if (isset($backtrace_error[1])) {
+              $params[':error_file'] = $backtrace_error[3]['file'];
+              $params[':error_line'] = $backtrace_error[3]['line'];
+          }
   */
 
-		parent::__construct($message, $params);
-	}
+        parent::__construct($message, $params);
+    }
 
 }
 
 /**
  * Обработка исключений отсутсвия нужных классов в найденных файлах автозагрузчика
  */
-class joosAutoloaderClassNotFoundException extends joosException {
-
+class joosAutoloaderClassNotFoundException extends joosException
+{
 }
 
 /**
  * Обработка исключений отсутствующих классов при работе автозагрузчика
  */
-class joosAutoloaderOnStartFileNotFoundException extends joosException {
-
+class joosAutoloaderOnStartFileNotFoundException extends joosException
+{
 }

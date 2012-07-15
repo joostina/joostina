@@ -15,60 +15,65 @@
  * @todo       рассмотреть возможность использования SPL ArrayObject
  *
  * */
-class joosConfig {
+class joosConfig
+{
+    private static $data = array();
 
-	private static $data = array();
+    public static function init()
+    {
+        if (empty(self::$data)) {
+            $conf = require_once JPATH_APP_CONFIG . DS . 'site.php';
+            self::$data = $conf;
+        }
+    }
 
-	public static function init() {
-		if (empty(self::$data)) {
-			$conf = require_once JPATH_APP_CONFIG . DS . 'site.php';
-			self::$data = $conf;
-		}
-	}
+    public static function get_all()
+    {
+        return self::$data;
+    }
 
-	public static function get_all() {
-		return self::$data;
-	}
+    public static function get($name, $default = null)
+    {
+        $name_array = explode(':', $name);
+        $count = count($name_array);
 
-	public static function get($name, $default = null) {
-		$name_array = explode(':', $name);
-		$count = count($name_array);
+        if ($count == 1) {
+            return isset(self::$data[$name]) ? self::$data[$name] : $default;
+        }
 
-		if ($count == 1) {
-			return isset(self::$data[$name]) ? self::$data[$name] : $default;
-		}
+        //@todo собрать в алгоритм
+        else {
 
-		//@todo собрать в алгоритм
-		else {
+            switch ($count) {
+                case 2:
+                default:
+                    return isset(self::$data[$name_array[0]][$name_array[1]]) ? self::$data[$name_array[0]][$name_array[1]] : $default;
+                    break;
 
-			switch ($count) {
-				case 2:
-				default:
-					return isset(self::$data[$name_array[0]][$name_array[1]]) ? self::$data[$name_array[0]][$name_array[1]] : $default;
-					break;
+                case 3:
+                    return isset(self::$data[$name_array[0][$name_array[1][$name_array[2]]]]) ? self::$data[$name_array[0][$name_array[1][$name_array[2]]]] : $default;
+                    break;
 
-				case 3:
-					return isset(self::$data[$name_array[0][$name_array[1][$name_array[2]]]]) ? self::$data[$name_array[0][$name_array[1][$name_array[2]]]] : $default;
-					break;
+                case 4:
+                    return isset(self::$data[$name_array[0][$name_array[1][$name_array[2][$name_array[3]]]]]) ? self::$data[$name_array[0][$name_array[1][$name_array[2][$name_array[3]]]]] : $default;
+                    break;
+            }
 
-				case 4:
-					return isset(self::$data[$name_array[0][$name_array[1][$name_array[2][$name_array[3]]]]]) ? self::$data[$name_array[0][$name_array[1][$name_array[2][$name_array[3]]]]] : $default;
-					break;
-			}
+        }
 
-		}
+    }
 
-	}
+    /**
+     * @deprecated
+     */
+    public static function get2($type, $name, $default = null)
+    {
+        return self::get($type . ':' . $name, $default);
+    }
 
-	/**
-	 * @deprecated
-	 */
-	public static function get2($type, $name, $default = null) {
-		return self::get($type . ':' . $name, $default);
-	}
-
-	public static function set($name, $value) {
-		self::$data[$name] = $value;
-	}
+    public static function set($name, $value)
+    {
+        self::$data[$name] = $value;
+    }
 
 }

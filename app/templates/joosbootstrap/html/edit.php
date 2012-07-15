@@ -16,7 +16,6 @@ defined('_JOOS_CORE') or exit();
     <h1><?php echo joosAdminView::get_component_title() ?></h1>
 </div>
 
-
 <form action="index2.php" class="form-horizontal"  name="admin_form" id="admin_form" method="post">
 
     <div id="admin-form">

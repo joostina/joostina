@@ -60,7 +60,6 @@ DEFINE('JPATH_APP_PLUGINS_SITE', JPATH_SITE . '/' . JPATH_APP . '/' . 'plugins')
 //плагины - base-путь
 DEFINE('JPATH_APP_PLUGINS_BASE', JPATH_BASE_APP . DS . 'plugins');
 
-
 // каталог кэша
 DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');
 
@@ -68,7 +67,7 @@ DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');
 DEFINE('JPATH_COOKIE', str_replace(array('http://', 'https://', 'www'), '', JPATH_SITE));
 
 // параметр активации отладки, активация работы в режиме отладки - осуществляется через конфиг, либо вручную установку в браузере куки с произвольным названием, по умолчанию - joostinadebugmode
-DEFINE('JDEBUG', ((bool)isset($_COOKIE['joostinadebugmode'])) ? true : joosConfig::get('debug', 0));
+DEFINE('JDEBUG', ((bool) isset($_COOKIE['joostinadebugmode'])) ? true : joosConfig::get('debug', 0));
 
 // режим работы окружения
 DEFINE('JENVIRONMENT', JDEBUG ? 'development' : 'production');

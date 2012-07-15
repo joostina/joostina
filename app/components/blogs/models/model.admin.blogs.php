@@ -12,9 +12,10 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelAdminBlogs extends modelBlogs {
-
-    public function get_fieldinfo() {
+class modelAdminBlogs extends modelBlogs
+{
+    public function get_fieldinfo()
+    {
         return array(
             'title' => array(
                 'name' => 'Заголовок',
@@ -97,8 +98,8 @@ class modelAdminBlogs extends modelBlogs {
         );
     }
 
-
-    public function get_tableinfo() {
+    public function get_tableinfo()
+    {
         return array(
             'header_main' => 'Блогозаписи',
             'header_list' => 'Записи блогов',
@@ -107,8 +108,8 @@ class modelAdminBlogs extends modelBlogs {
         );
     }
 
-
-    public function get_extrainfo() {
+    public function get_extrainfo()
+    {
         return array(
             'search' => array(),
             'filter' => array(),
@@ -118,16 +119,17 @@ class modelAdminBlogs extends modelBlogs {
 
     /**
      * Получение списка категорий блоов в виде двумерно массива id=>title
-     * 
+     *
      * @static
      * @return array
      */
-    public static function get_categories_selector(){
-
+    public static function get_categories_selector()
+    {
         $categories_obj = new modelBlogsCategory;
+
         return $categories_obj->get_selector();
     }
-    
+
 }
 
 /**
@@ -142,9 +144,10 @@ class modelAdminBlogs extends modelBlogs {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  */
-class modelAdminBlogsCategory extends modelBlogsCategory {
-
-    public function get_fieldinfo() {
+class modelAdminBlogsCategory extends modelBlogsCategory
+{
+    public function get_fieldinfo()
+    {
         return array(
             'title' => array(
                 'name' => 'Название категории',
@@ -185,8 +188,8 @@ class modelAdminBlogsCategory extends modelBlogsCategory {
         );
     }
 
-
-    public function get_tableinfo() {
+    public function get_tableinfo()
+    {
         return array(
             'header_main' => 'Категории блогов',
             'header_list' => 'BlogCategory',
@@ -195,8 +198,8 @@ class modelAdminBlogsCategory extends modelBlogsCategory {
         );
     }
 
-
-    public function get_extrainfo() {
+    public function get_extrainfo()
+    {
         return array(
             'search' => array(),
             'filter' => array(),

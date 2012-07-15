@@ -13,15 +13,15 @@ defined( '_JOOS_CORE' ) or exit();
 return "
 {
     controls: {
-	bold: {visible: true},
-	italic: {visible: true},
-	html  : { visible: true },
-	insertImage: {visible: false  },
-	insertTable: {visible: false  },
-	h1: {visible: false  },
-	h2: {visible: false  },
-	h3: {visible: false  },
-	createLink : {visible: false  },
+    bold: {visible: true},
+    italic: {visible: true},
+    html  : { visible: true },
+    insertImage: {visible: false  },
+    insertTable: {visible: false  },
+    h1: {visible: false  },
+    h2: {visible: false  },
+    h3: {visible: false  },
+    createLink : {visible: false  },
       strikeThrough : { visible : false },
       underline     : { visible : false },
 

@@ -2,7 +2,7 @@
 defined( '_JOOS_CORE' ) or exit();
 ?>
 
-<?php if(!$news){ return false; }?>
+<?php if (!$news) { return false; }?>
 
 <h3 class="module-title"><a href="#">Новости</a></h3>
 

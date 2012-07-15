@@ -16,8 +16,8 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-interface joosInterfaceDatabase {
-
+interface joosInterfaceDatabase
+{
 }
 
 /**
@@ -33,6 +33,6 @@ interface joosInterfaceDatabase {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-interface joosInterfaceDatabaseUtils {
-
+interface joosInterfaceDatabaseUtils
+{
 }

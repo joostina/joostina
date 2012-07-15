@@ -27,7 +27,6 @@ $user;
 
     <h2>Редактирование профиля</h2>
 
-
     <form class="form-horizontal" action="<?php echo joosRoute::href('user_edit') ?>" method="post">
         <fieldset>
             <legend>Основные данные</legend>
@@ -75,7 +74,6 @@ $user;
                 </div>
             </div>
 
-
             <div class="control-group">
                 <label class="control-label">О себе</label>
 
@@ -101,9 +99,7 @@ $user;
                 </div>
             </div>
 
-
         </fieldset>
-
 
         <fieldset class="user-contacts">
             <legend>Контакты</legend>
@@ -145,7 +141,6 @@ $user;
             </div>
 
         </fieldset>
-
 
         <div class="form-actions">
             <button class="btn btn-large btn-primary" type="submit">Сохранить</button>

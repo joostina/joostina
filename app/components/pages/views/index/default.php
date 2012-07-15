@@ -23,6 +23,4 @@ defined('_JOOS_CORE') or exit();
         </div>
     </div>
 
-<?php endforeach;?>
-
-
+<?php endforeach;

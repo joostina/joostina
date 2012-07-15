@@ -12,7 +12,8 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelNews extends joosModel {
+class modelNews extends joosModel
+{
     /**
      * @field int(11) unsigned
      * @type int
@@ -61,43 +62,50 @@ class modelNews extends joosModel {
     /*
      * Constructor
      */
-    function __construct(){
+    public function __construct()
+    {
         parent::__construct( '#__news', 'id' );
     }
-    public function check() {
-        
+    public function check()
+    {
         $this->filter();
-        return true;
-    }
-    
-    public function before_insert() {       
-        return true;
-    }
-    public function after_insert() {
-        return true;
-    }
-    public function before_update() {
-        return true;
-    }
-    public function after_update() {
-        return true;
-    }
-    public function before_store() {
 
+        return true;
+    }
+
+    public function before_insert()
+    {
+        return true;
+    }
+    public function after_insert()
+    {
+        return true;
+    }
+    public function before_update()
+    {
+        return true;
+    }
+    public function after_update()
+    {
+        return true;
+    }
+    public function before_store()
+    {
         // формирование ссылки на категорию блогов
         $new_slug = joosRequest::param('slug',false);
         $this->slug = $new_slug ? $new_slug : joosText::text_to_url($this->title);
-        
+
         return true;
     }
-    public function after_store() {
+    public function after_store()
+    {
         return true;
     }
-    public function before_delete() {
+    public function before_delete()
+    {
         return true;
     }
 }
-
 
 /**
  * Модель панели управления компонента управления типами новостей
@@ -111,6 +119,6 @@ class modelNews extends joosModel {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelNewsType extends joosModel{
-
+class modelNewsType extends joosModel
+{
 }

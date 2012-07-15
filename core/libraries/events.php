@@ -31,56 +31,59 @@
  *
  * @todo       добавить возможность указывать файл, который будет непосредственно подключаться при наступлении события, в нём будет проверяться запрашиваемя функция и возможность её выполнения
  * */
-class joosEvents {
+class joosEvents
+{
+    private static $events = array();
 
-	private static $events = array();
+    /**
+     * Добавление функции в общий список обработки
+     *
+     * @param string $events_name название обытия
+     * @param mixed  $function    задача
+     */
+    public static function add_events($events_name, $function)
+    {
+        // если массива для списка задач на событие не создано - создаём его
+        if (!isset(self::$events[$events_name])) {
+            self::$events[$events_name] = array();
+        }
+        self::$events[$events_name][] = $function;
+    }
 
-	/**
-	 * Добавление функции в общий список обработки
-	 *
-	 * @param string $events_name название обытия
-	 * @param mixed  $function    задача
-	 */
-	public static function add_events($events_name, $function) {
-		// если массива для списка задач на событие не создано - создаём его
-		if (!isset(self::$events[$events_name])) {
-			self::$events[$events_name] = array();
-		}
-		self::$events[$events_name][] = $function;
-	}
+    /**
+     * Вызов задач повешанных на событие
+     *
+     * @param string $events_name название обытия
+     */
+    public static function fire_events($events_name)
+    {
+        // задач на собыьтие не создано
+        if (!isset(self::$events[$events_name])) {
+            return false;
+        }
 
-	/**
-	 * Вызов задач повешанных на событие
-	 *
-	 * @param string $events_name название обытия
-	 */
-	public static function fire_events($events_name) {
+        // задачи на событие есть - выполняем их поочередно
+        foreach (self::$events[$events_name] as $event) {
 
-		// задач на собыьтие не создано
-		if (!isset(self::$events[$events_name])) {
-			return false;
-		}
+            if (is_callable($event)) {
+                JDEBUG ? joosDebug::add(sprintf('Запускаем обработку события %s', $events_name)) : null;
+                call_user_func_array($event, func_get_args());
+            }
+        }
+    }
 
-		// задачи на событие есть - выполняем их поочередно
-		foreach (self::$events[$events_name] as $event) {
+    /**
+     * Проверка наличия созданных задач на событие
+     *
+     * @param string $events_name название обытия
+     *
+     * @return bool результат наличия событий
+     */
+    public static function has_events($event_name)
+    {
+        joosDebug::log('Проверка наличия событий :event_name', array(':event_name' => $event_name));
 
-			if (is_callable($event)) {
-				JDEBUG ? joosDebug::add(sprintf('Запускаем обработку события %s', $events_name)) : null;
-				call_user_func_array($event, func_get_args());
-			}
-		}
-	}
-
-	/**
-	 * Проверка наличия созданных задач на событие
-	 *
-	 * @param string $events_name название обытия
-	 *
-	 * @return bool результат наличия событий
-	 */
-	public static function has_events($event_name) {
-		joosDebug::log('Проверка наличия событий :event_name', array(':event_name' => $event_name));
-		return (isset(self::$events[$event_name]) && count(self::$events[$event_name]) > 0);
-	}
+        return (isset(self::$events[$event_name]) && count(self::$events[$event_name]) > 0);
+    }
 
 }

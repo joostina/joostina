@@ -13,29 +13,29 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosRandomizer {
+class joosRandomizer
+{
+    /**
+     * Генерация уникального хеша определённой длины
+     *
+     * @param int    $length  длина символов хеша
+     * @param string $symbols список символов, разрешённых в хеше
+     *
+     * @return string
+     */
+    public static function hash($length = 6, $symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    {
+        mt_srand(10000000 * (double) microtime());
 
-	/**
-	 * Генерация уникального хеша определённой длины
-	 *
-	 * @param int $length длина символов хеша
-	 * @param string $symbols список символов, разрешённых в хеше
-	 *
-	 * @return string
-	 */
-	public static function hash($length = 6, $symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") {
+        $symbols_length = strlen($symbols) - 1;
 
-		mt_srand(10000000 * (double)microtime());
+        $hash = array();
 
-		$symbols_length = strlen($symbols) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $hash[] = $symbols{mt_rand(0, $symbols_length)};
+        }
 
-		$hash = array();
-
-		for ($i = 0; $i < $length; $i++) {
-			$hash[] = $symbols{mt_rand(0, $symbols_length)};
-		}
-
-		return implode('', $hash);
-	}
+        return implode('', $hash);
+    }
 
 }

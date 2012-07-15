@@ -15,52 +15,53 @@
  *
  * @todo документировать, почистить, расширить для работы с Ajax
  * */
-class joosCSRF {
+class joosCSRF
+{
+    public static function hash($seed)
+    {
+        return md5(JSECRET_CODE . md5($seed));
+    }
 
-	public static function hash($seed) {
-		return md5(JSECRET_CODE . md5($seed));
-	}
+    public static function get_code($alt = null)
+    {
+        if ($alt) {
+            $random = $alt . date('Ymd');
+        } else {
+            $random = date('dmY');
+        }
 
-	public static function get_code($alt = null) {
-		if ($alt) {
-			$random = $alt . date('Ymd');
-		}
-		else {
-			$random = date('dmY');
-		}
+        return 'joosCSRF-' . self::hash(JPATH_BASE . $random . (joosCore::user() ? joosCore::user()->id : 'null'));
+    }
 
-		return 'joosCSRF-' . self::hash(JPATH_BASE . $random . (joosCore::user() ? joosCore::user()->id : 'null'));
-	}
+    public static function check_code($alt = null, $method = 'post')
+    {
+        switch (strtolower($method)) {
+            case 'get':
+                $validate = joosRequest::get(self::get_code($alt), 0);
+                break;
 
-	public static function check_code($alt = null, $method = 'post') {
+            case 'request':
+                $validate = joosRequest::request(self::get_code($alt), 0);
 
-		switch (strtolower($method)) {
-			case 'get':
-				$validate = joosRequest::get(self::get_code($alt), 0);
-				break;
+                break;
 
-			case 'request':
-				$validate = joosRequest::request(self::get_code($alt), 0);
+            case 'post':
+            default:
+                $validate = joosRequest::post(self::get_code($alt), 0);
+                break;
+        }
 
-				break;
+        if (!$validate) {
+            joosPages::page403();
+        }
 
-			case 'post':
-			default:
-				$validate = joosRequest::post(self::get_code($alt), 0);
-				break;
-		}
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+            joosPages::page403();
+        }
 
-		if (!$validate) {
-			joosPages::page403();
-		}
-
-		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-			joosPages::page403();
-		}
-
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			joosPages::page403();
-		}
-	}
+        if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
+            joosPages::page403();
+        }
+    }
 
 }

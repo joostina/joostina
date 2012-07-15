@@ -12,8 +12,10 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelAdminNews extends modelNews {
-    public function get_fieldinfo() {
+class modelAdminNews extends modelNews
+{
+    public function get_fieldinfo()
+    {
         return array(
             'id' => array(
                 'name' => 'ID',
@@ -101,16 +103,18 @@ class modelAdminNews extends modelNews {
         );
     }
 
-    public function get_tableinfo() {
-   		return array(
+    public function get_tableinfo()
+    {
+           return array(
             'header_main' => 'Новости',
-   			'header_list' => 'Все новости',
-   			'header_new' => 'Создание новости',
-   			'header_edit' => 'Редактирование новости'
+               'header_list' => 'Все новости',
+               'header_new' => 'Создание новости',
+               'header_edit' => 'Редактирование новости'
            );
-   	}
+       }
 
-    public function get_extrainfo() {
+    public function get_extrainfo()
+    {
             return array(
                 'search' => array(),
                 'filter' => array(),
@@ -131,6 +135,6 @@ class modelAdminNews extends modelNews {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelAdminNewsType extends modelNewsType {
-
+class modelAdminNewsType extends modelNewsType
+{
 }

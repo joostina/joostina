@@ -30,7 +30,7 @@ joosCoreAdmin::start();
 // стартуем пользователя
 joosCoreAdmin::init_user();
 
-if( helperAcl::is_allowed('admin_panel::init') !==true ){
+if ( helperAcl::is_allowed('admin_panel::init') !==true ) {
 
     joosRoute::redirect(JPATH_SITE_ADMIN, 'В доступе отказано');
 }
@@ -46,24 +46,24 @@ ob_start();
 // загрузка файла шаблона
 $template_file = JPATH_BASE . DS . 'app' . DS . 'templates' . DS . JTEMPLATE_ADMIN . DS . 'index.php';
 if (file_exists($template_file)) {
-	require_once $template_file;
+    require_once $template_file;
 } else {
-	throw new joosException('Файл index.php шаблона :template_name не найден', array(':template_name' => JTEMPLATE_ADMIN));
+    throw new joosException('Файл index.php шаблона :template_name не найден', array(':template_name' => JTEMPLATE_ADMIN));
 }
 
 // подсчет времени генерации страницы
 if (JDEBUG) {
-	if (defined('_MEM_USAGE_START')) {
-		$mem_usage = joosFile::convert_size(( memory_get_usage() - _MEM_USAGE_START));
-	} else {
-		$mem_usage = 'недоступно';
-	}
+    if (defined('_MEM_USAGE_START')) {
+        $mem_usage = joosFile::convert_size(( memory_get_usage() - _MEM_USAGE_START));
+    } else {
+        $mem_usage = 'недоступно';
+    }
 
-	// подсчет времени генерации страницы
-	joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
-	joosDebug::add_top($mem_usage);
+    // подсчет времени генерации страницы
+    joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
+    joosDebug::add_top($mem_usage);
 
-	// информация отладки, число запросов в БД
-	joosDebug::get();
+    // информация отладки, число запросов в БД
+    joosDebug::get();
 }
 ob_end_flush();

@@ -12,43 +12,43 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class helperComments{
+class helperComments
+{
+    /**
+     * Вывод древовидного представления комментариев
+     *
+     * @var $obj Объект комментирования
+     */
+    public static function load_comments_tree($obj)
+    {
+        joosDocument::instance()
+            ->add_js_file(JPATH_SITE_APP . '/components/comments/media/js/comments.js');
 
-	/**
-	 * Вывод древовидного представления комментариев
-	 *
-	 * @var $obj Объект комментирования
-	 */
-	public static function load_comments_tree($obj) {
+        $obj_option = get_class($obj);
+        $obj_id = $obj->id;
 
-		joosDocument::instance()
-			->add_js_file(JPATH_SITE_APP . '/components/comments/media/js/comments.js');
+        $comments_list = modelComments::get_comments($obj_option,$obj_id);
 
-		$obj_option = get_class($obj);
-		$obj_id = $obj->id;
+        // список текущих комментариев
+        self::render_lists($comments_list, $obj);
 
-		$comments_list = modelComments::get_comments($obj_option,$obj_id);
+        // форма добавления нового комментария
+        self::render_form($obj_option,$obj_id);
+    }
 
-		// список текущих комментариев
-		self::render_lists($comments_list, $obj);
+    public static function render_lists(array $comments_list,$obj)
+    {
+        require_once dirname(__DIR__ ) .'/views/list/default.php';
+    }
 
-		// форма добавления нового комментария
-		self::render_form($obj_option,$obj_id);
-	}
+    public static function render_comment( $comment = false )
+    {
+        require dirname(__DIR__ ).'/views/comment/default.php';
+    }
 
-	public static function render_lists(array $comments_list,$obj) {
-
-		require_once dirname(__DIR__ ) .'/views/list/default.php';
-	}
-
-	public static function render_comment( $comment = false ) {
-
-		require dirname(__DIR__ ).'/views/comment/default.php';
-	}
-
-	public static function render_form( $obj_option,$obj_id ) {
-
-		require_once  dirname(__DIR__ ).'/views/form/default.php';
-	}
+    public static function render_form( $obj_option,$obj_id )
+    {
+        require_once dirname(__DIR__ ).'/views/form/default.php';
+    }
 
 }

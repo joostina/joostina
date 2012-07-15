@@ -1,6 +1,5 @@
 <?php defined('_JOOS_CORE') or exit();
 
-
 /**
  * Компонент управления пользователями
  * Контроллер панели управления ajax
@@ -14,15 +13,11 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxAdminUsers extends joosAdminControllerAjax {
+class actionsAjaxAdminUsers extends joosAdminControllerAjax
+{
 
-
-    public static function action_before() {
-        joosLoader::model('acls');
-        joosLoader::admin_model('acls');
-    }
-
-    public static function status_change() {
+    public static function status_change()
+    {
         return joosAutoadmin::autoajax();
     }
 
@@ -31,8 +26,8 @@ class actionsAjaxAdminUsers extends joosAdminControllerAjax {
      *
      * @return array
      */
-    public static function change_rules() {
-
+    public static function change_rules()
+    {
         $group_id = joosRequest::int('group_id');
         $task_id = joosRequest::int('task_id');
 
@@ -47,7 +42,6 @@ class actionsAjaxAdminUsers extends joosAdminControllerAjax {
         } else {
             $access->store();
         }
-
 
         return array(
             'success' => true,

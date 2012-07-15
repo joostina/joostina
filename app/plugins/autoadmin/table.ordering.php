@@ -15,10 +15,11 @@ defined( '_JOOS_CORE' ) or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminTableOrdering implements joosAutoadminPluginsTable{
-
-	public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
-		return '<img src="' . joosConfig::get( 'admin_icons_path' ) . '/cursor_drag_arrow.png" alt="' . 'Переместить' . '" />';
-	}
+class pluginAutoadminTableOrdering implements joosAutoadminPluginsTable
+{
+    public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option )
+    {
+        return '<img src="' . joosConfig::get( 'admin_icons_path' ) . '/cursor_drag_arrow.png" alt="' . 'Переместить' . '" />';
+    }
 
 }

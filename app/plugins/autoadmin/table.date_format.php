@@ -15,19 +15,19 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminTableDateFormat implements joosAutoadminPluginsTable{
+class pluginAutoadminTableDateFormat implements joosAutoadminPluginsTable
+{
+    public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option)
+    {
+        if (!isset($element_param['html_table_element_param']['date_format'])) {
+            throw new joosException('Для поля не указана строка форматирования date_format');
+        }
 
-	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
+        $format = $element_param['html_table_element_param']['date_format'];
 
-		if (!isset($element_param['html_table_element_param']['date_format'])) {
-			throw new joosException('Для поля не указана строка форматирования date_format');
-		}
+        $timestamp = strtotime($value);
 
-		$format = $element_param['html_table_element_param']['date_format'];
-
-		$timestamp = strtotime($value);
-
-		return joosDateTime::russian_date($format, $timestamp);
-	}
+        return joosDateTime::russian_date($format, $timestamp);
+    }
 
 }

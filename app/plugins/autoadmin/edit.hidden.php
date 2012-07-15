@@ -15,10 +15,11 @@ defined( '_JOOS_CORE' ) or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminEditHidden implements joosAutoadminPluginsEdit{
-
-	public static function render( $element_param , $key , $value , $obj_data , $params ) {
-		return joosHtml::hidden( $key , $value );
-	}
+class pluginAutoadminEditHidden implements joosAutoadminPluginsEdit
+{
+    public static function render( $element_param , $key , $value , $obj_data , $params )
+    {
+        return joosHtml::hidden( $key , $value );
+    }
 
 }

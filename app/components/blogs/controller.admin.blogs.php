@@ -13,21 +13,21 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminBlogs extends joosAdminController{
-    
+class actionsAdminBlogs extends joosAdminController
+{
     protected static $submenu = array(
-		'default' => array(
-			'name' => 'Блогозаписи',
-			'model' => 'modelAdminBlogs',
-			'fields' => array('id', 'title', 'created_at', 'state'),
-			'active' => false
-		),
+        'default' => array(
+            'name' => 'Блогозаписи',
+            'model' => 'modelAdminBlogs',
+            'fields' => array('id', 'title', 'created_at', 'state'),
+            'active' => false
+        ),
         'blogs_category' => array(
             'name' => 'Категории блога',
             'model' => 'modelAdminBlogsCategory',
             'fields' => array('title','state'),
             'active' => false
         ),
-	);
-    
+    );
+
 }

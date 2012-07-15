@@ -13,120 +13,120 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosRoute extends Route {
+class joosRoute extends Route
+{
+    private static $current_url;
 
-	private static $current_url;
+    public static function init()
+    {
+        /**
+         *
+         * @todo файл с пользовательскими роутами, должен конфигурироваться и подключаться в bootstrap.php
+         */
+        $routes = require(JPATH_APP_CONFIG . DS . 'routes.php');
 
-	public static function init() {
+        foreach ($routes as $route_name => $route) {
+            self::set($route_name, $route['href'], (isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);
+        }
 
-		/**
-		 *
-		 * @todo файл с пользовательскими роутами, должен конфигурироваться и подключаться в bootstrap.php
-		 */
-		$routes = require(JPATH_APP_CONFIG . DS . 'routes.php');
+        //$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
+        $uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
+        self::$current_url = urldecode($uri);
 
-		foreach ($routes as $route_name => $route) {
-			self::set($route_name, $route['href'], (isset($route['params_rules']) ? $route['params_rules'] : null))->defaults($route['defaults']);
-		}
+    }
 
-		//$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
-		$uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
-		self::$current_url = urldecode($uri);
+    public static function route()
+    {
+        self::init();
 
-	}
+        $routes = self::all();
+        $params = NULL;
 
-	public static function route() {
+        foreach ($routes as $name => $route) {
+            // We found something suitable
+            if (($params = $route->matches(self::$current_url))) {
+                joosController::$activroute = $name;
+                joosController::$controller = $params['controller'];
+                joosController::$task = $params['action'];
+                joosController::$param = $params;
 
-		self::init();
+                return;
+            }
+        }
 
-		$routes = self::all();
-		$params = NULL;
+        // если включена отладка - скажем что именно не так
+        if (JDEBUG) {
+            throw new joosException('Не найдено правило роутинга для ссылки :location', array(':location' => self::$current_url));
+        } else {
+            // отладка не включена - просто перекинем на 404 страницу с понятным текстом
+            joosPages::page404('Такая ссылка на сайте невозможна');
+        }
+    }
 
-		foreach ($routes as $name => $route) {
-			// We found something suitable
-			if (($params = $route->matches(self::$current_url))) {
-				joosController::$activroute = $name;
-				joosController::$controller = $params['controller'];
-				joosController::$task = $params['action'];
-				joosController::$param = $params;
-				return;
-			}
-		}
+    /**
+     * Формирование ссылки
+     *
+     * @param  string $route_name название правила роутинга
+     * @param  array  $params     массив параметров для формирования ссылки
+     * @return string
+     */
+    public static function href($route_name, array $params = array())
+    {
+        return JPATH_SITE . '/' . self::get($route_name)->uri($params);
+    }
 
-		// если включена отладка - скажем что именно не так
-		if (JDEBUG) {
-			throw new joosException('Не найдено правило роутинга для ссылки :location', array(':location' => self::$current_url));
-		}
-		else {
-			// отладка не включена - просто перекинем на 404 страницу с понятным текстом
-			joosPages::page404('Такая ссылка на сайте невозможна');
-		}
-	}
+    /**
+     * Системный 301 редирект
+     *
+     * @param  string $url  ссылка, на которую надо перейти
+     * @param  string $msg  текст сообщения, отображаемый после перехода
+     * @param  string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
+     * @return void
+     */
+    public static function redirect($url, $msg = '', $type = 'success')
+    {
+        $iFilter = joosInputFilter::instance();
+        $url = $iFilter->process($url);
 
-	/**
-	 * Формирование ссылки
-	 *
-	 * @param string $route_name название правила роутинга
-	 * @param array $params массив параметров для формирования ссылки
-	 * @return string
-	 */
-	public static function href($route_name, array $params = array()) {
-		return JPATH_SITE . '/' . self::get($route_name)->uri($params);
-	}
+        empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg), $type);
 
-	/**
-	 * Системный 301 редирект
-	 *
-	 * @param string $url ссылка, на которую надо перейти
-	 * @param string $msg текст сообщения, отображаемый после перехода
-	 * @param string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
-	 * @return void
-	 */
-	public static function redirect($url, $msg = '', $type = 'success') {
+        $url = preg_split("/[\r\n]/", $url);
+        $url = $url[0];
 
-		$iFilter = joosInputFilter::instance();
-		$url = $iFilter->process($url);
+        if ($iFilter->badAttributeValue(array('href', $url))) {
+            $url = JPATH_SITE;
+        }
 
-		empty($msg) ? null : joosFlashMessage::add($iFilter->process($msg), $type);
+        if (headers_sent()) {
+            echo "<script>document.location.href='$url';</script>\n";
+        } else {
+            !ob_get_level() ? : ob_end_clean();
+            joosRequest::send_headers_by_code(301);
+            joosRequest::send_headers("Location: " . $url);
+        }
 
-		$url = preg_split("/[\r\n]/", $url);
-		$url = $url[0];
+        exit();
+    }
 
-		if ($iFilter->badAttributeValue(array('href', $url))) {
-			$url = JPATH_SITE;
-		}
+    /**
+     * Получение название текущего активного правила роутинга
+     *
+     * @return string
+     */
+    public static function get_active_route()
+    {
+        return joosController::$activroute;
+    }
 
-		if (headers_sent()) {
-			echo "<script>document.location.href='$url';</script>\n";
-		}
-		else {
-			!ob_get_level() ? : ob_end_clean();
-			joosRequest::send_headers_by_code(301);
-			joosRequest::send_headers("Location: " . $url);
-		}
-
-		exit();
-	}
-
-	/**
-	 * Получение название текущего активного правила роутинга
-	 *
-	 * @return string
-	 */
-	public static function get_active_route() {
-
-		return joosController::$activroute;
-	}
-
-	/**
-	 * Получение текущий ссылки ( в адресной сроке браузера )
-	 *
-	 * @return string
-	 */
-	public static function get_current_url() {
-
-		return self::$current_url == '' ? JPATH_SITE : JPATH_SITE . '/' . self::$current_url;
-	}
+    /**
+     * Получение текущий ссылки ( в адресной сроке браузера )
+     *
+     * @return string
+     */
+    public static function get_current_url()
+    {
+        return self::$current_url == '' ? JPATH_SITE : JPATH_SITE . '/' . self::$current_url;
+    }
 
 }
 
@@ -134,307 +134,309 @@ class joosRoute extends Route {
  * Базовый класс роутинга
  * Базируется на оригинальной работе Kohana Team
  */
-class Route {
-	// Defines the pattern of a <segment>
+class Route
+{
+    // Defines the pattern of a <segment>
 
-	const REGEX_KEY = '<([a-zA-Z0-9_]++)>';
+    const REGEX_KEY = '<([a-zA-Z0-9_]++)>';
 
-	// What can be part of a <segment> value
-	const REGEX_SEGMENT = '[^/.,;?\n]++';
+    // What can be part of a <segment> value
+    const REGEX_SEGMENT = '[^/.,;?\n]++';
 
-	// What must be escaped in the route regex
-	const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|]';
+    // What must be escaped in the route regex
+    const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|]';
 
-	/**
-	 * @var  string  default protocol for all routes
-	 *
-	 * @tutorial  'http://'
-	 */
-	public static $default_protocol = 'http://';
+    /**
+     * @var  string  default protocol for all routes
+     *
+     * @tutorial  'http://'
+     */
+    public static $default_protocol = 'http://';
 
-	/**
-	 * @var  string  default action for all routes
-	 */
-	public static $default_action = 'index';
+    /**
+     * @var  string  default action for all routes
+     */
+    public static $default_action = 'index';
 
-	/**
-	 * @var  bool Indicates whether routes are cached
-	 */
-	public static $cache = FALSE;
+    /**
+     * @var  bool Indicates whether routes are cached
+     */
+    public static $cache = FALSE;
 
-	/**
-	 * @var  array
-	 */
-	protected static $_routes = array();
+    /**
+     * @var  array
+     */
+    protected static $_routes = array();
 
-	/**
-	 * Stores a named route and returns it. The "action" will always be set to
-	 * "index" if it is not defined.
-	 *
-	 *     self::set('default', '(<controller>(/<action>(/<id>)))')
-	 *         ->defaults(array(
-	 *             'controller' => 'welcome',
-	 *         ));
-	 *
-	 * @param   string   route name
-	 * @param   string   URI pattern
-	 * @param   array    regex patterns for route keys
-	 *
-	 * @return  Route
-	 */
-	protected static function set($name, $uri_callback = NULL, $regex = NULL) {
+    /**
+     * Stores a named route and returns it. The "action" will always be set to
+     * "index" if it is not defined.
+     *
+     *     self::set('default', '(<controller>(/<action>(/<id>)))')
+     *         ->defaults(array(
+     *             'controller' => 'welcome',
+     *         ));
+     *
+     * @param   string   route name
+     * @param   string   URI pattern
+     * @param   array    regex patterns for route keys
+     *
+     * @return Route
+     */
+    protected static function set($name, $uri_callback = NULL, $regex = NULL)
+    {
+        return self::$_routes[$name] = new self($uri_callback, $regex);
+    }
 
-		return self::$_routes[$name] = new self($uri_callback, $regex);
-	}
+    /**
+     * Retrieves a named route.
+     *
+     *     $route = self::get('default');
+     *
+     * @param   string  route name
+     *
+     * @return Route
+     * @throws joosException
+     */
+    protected static function get($name)
+    {
+        if (!isset(self::$_routes[$name])) {
+            throw new joosException('Не найдено правило роутинга: :route', array(':route' => $name));
+        }
 
-	/**
-	 * Retrieves a named route.
-	 *
-	 *     $route = self::get('default');
-	 *
-	 * @param   string  route name
-	 *
-	 * @return  Route
-	 * @throws  joosException
-	 */
-	protected static function get($name) {
+        return self::$_routes[$name];
+    }
 
-		if (!isset(self::$_routes[$name])) {
-			throw new joosException('Не найдено правило роутинга: :route', array(':route' => $name));
-		}
+    /**
+     * Retrieves all named routes.
+     *
+     *     $routes = self::all();
+     *
+     * @return array routes by name
+     */
+    protected static function all()
+    {
+        return self::$_routes;
+    }
 
-		return self::$_routes[$name];
-	}
+    /**
+     * Returns the compiled regular expression for the route. This translates
+     * keys and optional groups to a proper PCRE regular expression.
+     *
+     *     $compiled = self::compile(
+     *        '<controller>(/<action>(/<id>))',
+     *         array(
+     *           'controller' => '[a-z]+',
+     *           'id' => '\d+',
+     *         )
+     *     );
+     *
+     * @return string
+     * @uses    self::REGEX_ESCAPE
+     * @uses    self::REGEX_SEGMENT
+     */
+    private static function compile($uri, array $regex = NULL)
+    {
+        if (!is_string($uri)) {
+            return;
+        }
 
-	/**
-	 * Retrieves all named routes.
-	 *
-	 *     $routes = self::all();
-	 *
-	 * @return  array  routes by name
-	 */
-	protected static function all() {
+        // The URI should be considered literal except for keys and optional parts
+        // Escape everything preg_quote would escape except for : ( ) < >
+        $expression = preg_replace('#' . self::REGEX_ESCAPE . '#', '\\\\$0', $uri);
 
-		return self::$_routes;
-	}
+        if (strpos($expression, '(') !== FALSE) {
+            // Make optional parts of the URI non-capturing and optional
+            $expression = str_replace(array('(', ')'), array('(?:', ')?'), $expression);
+        }
 
-	/**
-	 * Returns the compiled regular expression for the route. This translates
-	 * keys and optional groups to a proper PCRE regular expression.
-	 *
-	 *     $compiled = self::compile(
-	 *        '<controller>(/<action>(/<id>))',
-	 *         array(
-	 *           'controller' => '[a-z]+',
-	 *           'id' => '\d+',
-	 *         )
-	 *     );
-	 *
-	 * @return  string
-	 * @uses    self::REGEX_ESCAPE
-	 * @uses    self::REGEX_SEGMENT
-	 */
-	private static function compile($uri, array $regex = NULL) {
+        // Insert default regex for keys
+        $expression = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $expression);
 
-		if (!is_string($uri)) {
-			return;
-		}
+        // правила краткой записи регулярок роутинга
+        $rules = array(':any' => '.+?', ':maybe' => '.*?', ':digit' => '[\d]+', ':alpha' => '[a-zA-Z]+', ':rus_alpha' => '[a-zA-Zа-яА-ЯёЁ]+', ':word' => '[\w-_]+', ':slug' => '[a-zA-Zа-яА-ЯёЁ0-9\-]+',);
 
-		// The URI should be considered literal except for keys and optional parts
-		// Escape everything preg_quote would escape except for : ( ) < >
-		$expression = preg_replace('#' . self::REGEX_ESCAPE . '#', '\\\\$0', $uri);
+        if ($regex) {
+            $search = $replace = array();
+            foreach ($regex as $key => $value) {
 
-		if (strpos($expression, '(') !== FALSE) {
-			// Make optional parts of the URI non-capturing and optional
-			$expression = str_replace(array('(', ')'), array('(?:', ')?'), $expression);
-		}
+                $value = strtr($value, $rules);
 
-		// Insert default regex for keys
-		$expression = str_replace(array('<', '>'), array('(?P<', '>' . self::REGEX_SEGMENT . ')'), $expression);
+                $search[] = "<$key>" . self::REGEX_SEGMENT;
+                $replace[] = "<$key>$value";
+            }
 
-		// правила краткой записи регулярок роутинга
-		$rules = array(':any' => '.+?', ':maybe' => '.*?', ':digit' => '[\d]+', ':alpha' => '[a-zA-Z]+', ':rus_alpha' => '[a-zA-Zа-яА-ЯёЁ]+', ':word' => '[\w-_]+', ':slug' => '[a-zA-Zа-яА-ЯёЁ0-9\-]+',);
+            // Replace the default regex with the user-specified regex
+            $expression = str_replace($search, $replace, $expression);
+        }
 
-		if ($regex) {
-			$search = $replace = array();
-			foreach ($regex as $key => $value) {
+        return '#^' . $expression . '$#uD';
+    }
 
-				$value = strtr($value, $rules);
+    /**
+     * @var  string  route URI
+     */
+    protected $_uri = '';
 
-				$search[] = "<$key>" . self::REGEX_SEGMENT;
-				$replace[] = "<$key>$value";
-			}
+    /**
+     * @var  array
+     */
+    protected $_regex = array();
 
-			// Replace the default regex with the user-specified regex
-			$expression = str_replace($search, $replace, $expression);
-		}
+    /**
+     * @var  array
+     */
+    protected $_defaults = array('action' => 'index', 'host' => FALSE);
 
-		return '#^' . $expression . '$#uD';
-	}
+    /**
+     * @var  string
+     */
+    protected $_route_regex;
 
-	/**
-	 * @var  string  route URI
-	 */
-	protected $_uri = '';
+    /**
+     * Creates a new route. Sets the URI and regular expressions for keys.
+     * Routes should always be created with [self::set] or they will not
+     * be properly stored.
+     *
+     *    $route = new Route($uri, $regex);
+     *
+     * @param   mixed    route URI pattern
+     * @param   array    key patterns
+     *
+     * @return void
+     * @uses    self::_compile
+     */
+    public function __construct($uri = NULL, $regex = NULL)
+    {
+        if ($uri === NULL) {
+            // заморочка с кешем
+            return;
+        }
 
-	/**
-	 * @var  array
-	 */
-	protected $_regex = array();
+        if (!empty($uri)) {
+            $this->_uri = $uri;
+        }
 
-	/**
-	 * @var  array
-	 */
-	protected $_defaults = array('action' => 'index', 'host' => FALSE);
+        if (!empty($regex)) {
+            $this->_regex = $regex;
+        }
 
-	/**
-	 * @var  string
-	 */
-	protected $_route_regex;
+        // Store the compiled regex locally
+        $this->_route_regex = self::compile($uri, $regex);
+    }
 
-	/**
-	 * Creates a new route. Sets the URI and regular expressions for keys.
-	 * Routes should always be created with [self::set] or they will not
-	 * be properly stored.
-	 *
-	 *    $route = new Route($uri, $regex);
-	 *
-	 * @param   mixed    route URI pattern
-	 * @param   array    key patterns
-	 *
-	 * @return  void
-	 * @uses    self::_compile
-	 */
-	public function __construct($uri = NULL, $regex = NULL) {
-		if ($uri === NULL) {
-			// заморочка с кешем
-			return;
-		}
+    /**
+     * Provides default values for keys when they are not present. The default
+     * action will always be "index" unless it is overloaded here.
+     *
+     *     $route->defaults(array(
+     *         'controller' => 'welcome',
+     *         'action'     => 'index'
+     *     ));
+     *
+     * @param   array  key values
+     *
+     * @return  $this
+     */
+    protected function defaults(array $defaults = NULL)
+    {
+        $this->_defaults = $defaults;
 
-		if (!empty($uri)) {
-			$this->_uri = $uri;
-		}
+        return $this;
+    }
 
-		if (!empty($regex)) {
-			$this->_regex = $regex;
-		}
+    /**
+     * Tests if the route matches a given URI. A successful match will return
+     * all of the routed parameters as an array. A failed match will return
+     * boolean FALSE.
+     *
+     *     // Params: controller = users, action = edit, id = 10
+     *     $params = $route->matches('users/edit/10');
+     *
+     * This method should almost always be used within an if/else block:
+     *
+     *     if ($params = $route->matches($uri))
+     *     {
+     *         // Parse the parameters
+     *     }
+     *
+     * @param   string  URI to match
+     *
+     * @return array on success
+     * @return FALSE on failure
+     */
+    protected function matches($uri)
+    {
+        if (!preg_match($this->_route_regex, $uri, $matches)) {
+            return FALSE;
+        }
 
-		// Store the compiled regex locally
-		$this->_route_regex = self::compile($uri, $regex);
-	}
+        $params = array();
+        foreach ($matches as $key => $value) {
+            if (is_int($key)) {
+                // Skip all unnamed keys
+                continue;
+            }
 
-	/**
-	 * Provides default values for keys when they are not present. The default
-	 * action will always be "index" unless it is overloaded here.
-	 *
-	 *     $route->defaults(array(
-	 *         'controller' => 'welcome',
-	 *         'action'     => 'index'
-	 *     ));
-	 *
-	 * @param   array  key values
-	 *
-	 * @return  $this
-	 */
-	protected function defaults(array $defaults = NULL) {
-		$this->_defaults = $defaults;
+            // Set the value for all matched keys
+            $params[$key] = $value;
+        }
 
-		return $this;
-	}
+        foreach ($this->_defaults as $key => $value) {
+            if (!isset($params[$key]) OR $params[$key] === '') {
+                // Set default values for any key that was not matched
+                $params[$key] = $value;
+            }
+        }
 
-	/**
-	 * Tests if the route matches a given URI. A successful match will return
-	 * all of the routed parameters as an array. A failed match will return
-	 * boolean FALSE.
-	 *
-	 *     // Params: controller = users, action = edit, id = 10
-	 *     $params = $route->matches('users/edit/10');
-	 *
-	 * This method should almost always be used within an if/else block:
-	 *
-	 *     if ($params = $route->matches($uri))
-	 *     {
-	 *         // Parse the parameters
-	 *     }
-	 *
-	 * @param   string  URI to match
-	 *
-	 * @return  array   on success
-	 * @return  FALSE   on failure
-	 */
-	protected function matches($uri) {
+        return $params;
+    }
 
-		if (!preg_match($this->_route_regex, $uri, $matches)) {
-			return FALSE;
-		}
+    /**
+     * Generates a URI for the current route based on the parameters given.
+     *
+     *     // Using the "default" route: "users/profile/10"
+     *     $route->uri(array(
+     *         'controller' => 'users',
+     *         'action'     => 'profile',
+     *         'id'         => '10'
+     *     ));
+     *
+     * @param   array   URI parameters
+     *
+     * @return string
+     * @throws joosException
+     * @uses    self::REGEX_Key
+     */
+    protected function uri(array $params = NULL)
+    {
+        // Start with the routed URI
+        $uri = $this->_uri;
 
-		$params = array();
-		foreach ($matches as $key => $value) {
-			if (is_int($key)) {
-				// Skip all unnamed keys
-				continue;
-			}
+        // если в ссылке нет динамических параметров - сразу её возвратим
+        if (strpos($uri, '<') === FALSE AND strpos($uri, '(') === FALSE) {
+            return $uri;
+        }
 
-			// Set the value for all matched keys
-			$params[$key] = $value;
-		}
+        while (preg_match('#' . self::REGEX_KEY . '#', $uri, $match)) {
+            list($key, $param) = $match;
+            if (!isset($params[$param])) {
+                // Look for a default
+                if (isset($this->_defaults[$param])) {
+                    $params[$param] = $this->_defaults[$param];
+                } else {
+                    // отсутствуют требуемые параметры
+                    throw new joosException('Требуемый параметр :param не найден в полученных данных для условия :uri', array(':param' => $param, ':uri' => joosFilter::htmlspecialchars($this->_uri)));
+                }
+            }
 
+            $uri = str_replace($key, $params[$param], $uri);
+        }
 
-		foreach ($this->_defaults as $key => $value) {
-			if (!isset($params[$key]) OR $params[$key] === '') {
-				// Set default values for any key that was not matched
-				$params[$key] = $value;
-			}
-		}
+        // чистка от лишних и дублирующихся /
+        $uri = preg_replace('#//+#', '/', rtrim($uri, '/'));
 
-		return $params;
-	}
-
-	/**
-	 * Generates a URI for the current route based on the parameters given.
-	 *
-	 *     // Using the "default" route: "users/profile/10"
-	 *     $route->uri(array(
-	 *         'controller' => 'users',
-	 *         'action'     => 'profile',
-	 *         'id'         => '10'
-	 *     ));
-	 *
-	 * @param   array   URI parameters
-	 *
-	 * @return  string
-	 * @throws  joosException
-	 * @uses    self::REGEX_Key
-	 */
-	protected function uri(array $params = NULL) {
-		// Start with the routed URI
-		$uri = $this->_uri;
-
-		// если в ссылке нет динамических параметров - сразу её возвратим
-		if (strpos($uri, '<') === FALSE AND strpos($uri, '(') === FALSE) {
-			return $uri;
-		}
-
-		while (preg_match('#' . self::REGEX_KEY . '#', $uri, $match)) {
-			list($key, $param) = $match;
-			if (!isset($params[$param])) {
-				// Look for a default
-				if (isset($this->_defaults[$param])) {
-					$params[$param] = $this->_defaults[$param];
-				}
-				else {
-					// отсутствуют требуемые параметры
-					throw new joosException('Требуемый параметр :param не найден в полученных данных для условия :uri', array(':param' => $param, ':uri' => joosFilter::htmlspecialchars($this->_uri)));
-				}
-			}
-
-			$uri = str_replace($key, $params[$param], $uri);
-		}
-
-		// чистка от лишних и дублирующихся /
-		$uri = preg_replace('#//+#', '/', rtrim($uri, '/'));
-
-		return $uri;
-	}
+        return $uri;
+    }
 
 }

@@ -20,97 +20,97 @@
  * @todo добавить поддержку плагинов для разных типов объектов
  * @todo плагины должны отслеживать число товара, высчитывать цену, скидки и доступность
  * */
-class joosBasket {
+class joosBasket
+{
+    /**
+     * Кнопка добавления товара к корзину
+     *
+     * @static
+     * @param $obj объект который необходимо добавить в корзину
+     * @return string
+     */
+    public static function button( $obj )
+    {
+        $button = '';
 
-	/**
-	 * Кнопка добавления товара к корзину
-	 * 
-	 * @static
-	 * @param $obj объект который необходимо добавить в корзину
-	 * @return string
-	 */
-	public static function button( $obj ){
-		
-		$button = '';
-		
-		return $button;
-	}
-	
-	/**
-	 * Добавление товара в корзину
-	 *
-	 * @static
-	 * @param $obj_type тип объекта - название модели
-	 * @param $obj_id идентификатор объекта товара
-	 * @param $count число единиц товара в корзине
-	 * @return array результат добалвения товара в корзину
-	 */
-	public static function add($obj_type, $obj_id, $count = 1) {
+        return $button;
+    }
 
-		if( !class_exists($obj_type) ){
-			return array(
-				'success'=>false,
-				'message'=>'Тип товара не определён'
-			);
-		}
-		
-		$purchase = new modelBasket;
+    /**
+     * Добавление товара в корзину
+     *
+     * @static
+     * @param $obj_type тип объекта - название модели
+     * @param $obj_id идентификатор объекта товара
+     * @param $count число единиц товара в корзине
+     * @return array результат добалвения товара в корзину
+     */
+    public static function add($obj_type, $obj_id, $count = 1)
+    {
+        if ( !class_exists($obj_type) ) {
+            return array(
+                'success'=>false,
+                'message'=>'Тип товара не определён'
+            );
+        }
 
-		$purchase->obj_type = $obj_type;
-		$purchase->obj_id = $obj_id;
-		$purchase->count = $count;
+        $purchase = new modelBasket;
 
-		$purchase->store();
-				
-		return array(
-			'success'=>true,
-			'message'=>'Товар добавлен в корзину'
-		);
-	}
+        $purchase->obj_type = $obj_type;
+        $purchase->obj_id = $obj_id;
+        $purchase->count = $count;
 
-	/**
-	 * Получение числа товаров в текущей корзине
-	 *
-	 * @static
-	 * @return int
-	 */
-	public static function get_items_count() {
+        $purchase->store();
 
-		return 1;
-	}
+        return array(
+            'success'=>true,
+            'message'=>'Товар добавлен в корзину'
+        );
+    }
 
-	/**
-	 * Получение полной стоимости всех товаров в текущей корзине
-	 *
-	 * @static
-	 * @return float
-	 */
-	public static function get_items_price() {
+    /**
+     * Получение числа товаров в текущей корзине
+     *
+     * @static
+     * @return int
+     */
+    public static function get_items_count()
+    {
+        return 1;
+    }
 
-		return 1.1;
+    /**
+     * Получение полной стоимости всех товаров в текущей корзине
+     *
+     * @static
+     * @return float
+     */
+    public static function get_items_price()
+    {
+        return 1.1;
 
-	}
+    }
 
-	/**
-	 * Получение полного списка товаров в корзине с ценой и количеством
-	 *
-	 * @static
-	 * @return array
-	 */
-	public static function get_items_list() {
-
-		return array(
-			0 => array(
-				'id' => 'ID товара',
-				'title' => 'Название товара',
-				'image' => 'URL картинки товара',
-				'desc' => 'Краткое описание товара',
-				'href' => 'Ссылка на товар',
-				'count' => 'Количество товара этого типа в корзине',
-				'price' => 'Стоимость товаров этого типа в корзине'
-			)
-		);
-	}
+    /**
+     * Получение полного списка товаров в корзине с ценой и количеством
+     *
+     * @static
+     * @return array
+     */
+    public static function get_items_list()
+    {
+        return array(
+            0 => array(
+                'id' => 'ID товара',
+                'title' => 'Название товара',
+                'image' => 'URL картинки товара',
+                'desc' => 'Краткое описание товара',
+                'href' => 'Ссылка на товар',
+                'count' => 'Количество товара этого типа в корзине',
+                'price' => 'Стоимость товаров этого типа в корзине'
+            )
+        );
+    }
 
 }
 
@@ -126,50 +126,54 @@ class joosBasket {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  */
-class modelBasket extends joosModel {
-	/**
-	 * @field int(11) unsigned
-	 * @type int
-	 */
-	public $id;
-	/**
-	 * @field varchar(250)
-	 * @type string
-	 */
-	public $obj_type;
-	/**
-	 * @field int(11) unsigned
-	 * @type int
-	 */
-	public $obj_id;
-	/**
-	 * @field float unsigned
-	 * @type float
-	 */
-	public $price;
-	/**
-	 * @field int(11) unsigned
-	 * @type int
-	 */
-	public $count;
-	/**
-	 * @field datetime
-	 * @type datetime
-	 */
-	public $created_at;
+class modelBasket extends joosModel
+{
+    /**
+     * @field int(11) unsigned
+     * @type int
+     */
+    public $id;
+    /**
+     * @field varchar(250)
+     * @type string
+     */
+    public $obj_type;
+    /**
+     * @field int(11) unsigned
+     * @type int
+     */
+    public $obj_id;
+    /**
+     * @field float unsigned
+     * @type float
+     */
+    public $price;
+    /**
+     * @field int(11) unsigned
+     * @type int
+     */
+    public $count;
+    /**
+     * @field datetime
+     * @type datetime
+     */
+    public $created_at;
 
-	/*
-	 * Constructor
-	 *
-	 */
-	function __construct() {
-		parent::__construct('#__basket', 'id');
-	}
+    /*
+     * Constructor
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct('#__basket', 'id');
+    }
 
-	public function check() {
-		$this->filter();
-		return true;
-	}
+    public function check()
+    {
+        $this->filter();
+
+        return true;
+    }
 
 }
 
@@ -187,5 +191,5 @@ PRIMARY KEY (`id`),
 KEY `session_id` (`session_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
- * 
+ *
  */

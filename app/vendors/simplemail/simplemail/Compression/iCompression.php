@@ -12,36 +12,36 @@
  *
  * @license GNU/GPL
  */
-interface iCompression {
-	/**
-	 * Constructor
-	 * Used to check if the extensions exists
-	 *
-	 * @throws Exception
-	 */
-	public function __construct ();
+interface iCompression
+{
+    /**
+     * Constructor
+     * Used to check if the extensions exists
+     *
+     * @throws Exception
+     */
+    public function __construct ();
 
-	/**
-	 * Compress the given value to the specific compression
-	 *
-	 * @param String $sValue
-	 * @param String $iLevel (Optionnal) : Between 0 and 9
-	 *
-	 * @return String
-	 *
-	 * @throws Exception
-	 */
-	public function compress ($sValue, $iLevel = null);
+    /**
+     * Compress the given value to the specific compression
+     *
+     * @param String $sValue
+     * @param String $iLevel (Optionnal) : Between 0 and 9
+     *
+     * @return String
+     *
+     * @throws Exception
+     */
+    public function compress ($sValue, $iLevel = null);
 
-	/**
-	 * Decompress the given value with the specific compression
-	 *
-	 * @param String $sValue
-	 *
-	 * @return String
-	 *
-	 * @throws Exception
-	 */
-	public function decompress ($sValue);
+    /**
+     * Decompress the given value with the specific compression
+     *
+     * @param String $sValue
+     *
+     * @return String
+     *
+     * @throws Exception
+     */
+    public function decompress ($sValue);
 }
-?>

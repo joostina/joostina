@@ -15,19 +15,19 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminTableValuesMultiHref implements joosAutoadminPluginsTable{
+class pluginAutoadminTableValuesMultiHref implements joosAutoadminPluginsTable
+{
+    public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option)
+    {
+        if (!isset($element_param['html_table_element_param']['format'])) {
+            throw new joosException('Для поля не указана строка форматирования вывода format');
+        }
 
-	public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
+        $format = $element_param['html_table_element_param']['format'];
 
-		if (!isset($element_param['html_table_element_param']['format'])) {
-			throw new joosException('Для поля не указана строка форматирования вывода format');
-		}
+        $href_title = strtr($format, (array) $values);
 
-		$format = $element_param['html_table_element_param']['format'];
-
-		$href_title = strtr($format, (array) $values);
-
-		return '<a href="index2.php?option=' . $option . ( joosAutoadmin::get_active_model_name() ? '&model=' . joosAutoadmin::get_active_model_name() : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $href_title . '</a>';
-	}
+        return '<a href="index2.php?option=' . $option . ( joosAutoadmin::get_active_model_name() ? '&model=' . joosAutoadmin::get_active_model_name() : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $href_title . '</a>';
+    }
 
 }

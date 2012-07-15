@@ -13,53 +13,54 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosTrash extends joosModel {
+class joosTrash extends joosModel
+{
+    public $id;
+    public $obj_id;
+    public $obj_table;
+    public $title;
+    public $data;
+    public $user_id;
+    public $deleted_at;
 
-	public $id;
-	public $obj_id;
-	public $obj_table;
-	public $title;
-	public $data;
-	public $user_id;
-	public $deleted_at;
+    public function __construct()
+    {
+        parent::__construct('#__trash', 'id');
+    }
 
-	public function __construct() {
-		parent::__construct('#__trash', 'id');
-	}
+    /**
+     * Добавление копии удалённого объекта в корзину
+     *
+     * @global User    $my  - объект текущего пользователя
+     * @param stdClass $obj - удаляемый объект
+     *
+     * @return boolean результат сохранения копии удаляемого объекта в корзину
+     */
+    public static function add($obj_original)
+    {
+        $obj = clone $obj_original;
 
-	/**
-	 * Добавление копии удалённого объекта в корзину
-	 *
-	 * @global User    $my  - объект текущего пользователя
-	 * @param stdClass $obj - удаляемый объект
-	 *
-	 * @return boolean результат сохранения копии удаляемого объекта в корзину
-	 */
-	public static function add($obj_original) {
+        // ключевое индексное поле объекта
+        $_tbl_key = $obj->_tbl_key;
 
-		$obj = clone $obj_original;
+        // если у удаляемого объекта отсутствует ключ - то объет не определён
+        if (!$obj_original->$_tbl_key) {
+            return false;
+        }
 
-		// ключевое индексное поле объекта
-		$_tbl_key = $obj->_tbl_key;
+        // удаляем объект базы данных
+        unset($obj->_db, $obj->_error);
 
-		// если у удаляемого объекта отсутствует ключ - то объет не определён
-		if (!$obj_original->$_tbl_key) {
-			return false;
-		}
+        // собираем данные для сохранения резервной копии
+        $trash = new self;
+        $trash->obj_id = $obj->$_tbl_key;
+        $trash->obj_table = $obj->_tbl;
+        $trash->title = isset($obj->title) ? $obj->title : $obj->$_tbl_key;
+        $trash->data = json_encode($obj);
+        $trash->user_id = modelUsers::instance()->id;
+        $trash->deleted_at = JCURRENT_SERVER_TIME;
 
-		// удаляем объект базы данных
-		unset($obj->_db, $obj->_error);
-
-		// собираем данные для сохранения резервной копии
-		$trash = new self;
-		$trash->obj_id = $obj->$_tbl_key;
-		$trash->obj_table = $obj->_tbl;
-		$trash->title = isset($obj->title) ? $obj->title : $obj->$_tbl_key;
-		$trash->data = json_encode($obj);
-		$trash->user_id = modelUsers::instance()->id;
-		$trash->deleted_at = JCURRENT_SERVER_TIME;
-
-		return (bool)$trash->store();
-	}
+        return (bool) $trash->store();
+    }
 
 }

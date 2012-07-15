@@ -13,40 +13,44 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxUsers extends joosControllerAjax {
+class actionsAjaxUsers extends joosControllerAjax
+{
+    public static function register()
+    {
+        $validator = UserValidations::registration();
 
-	public static function register() {
+        $user      = new modelUsers;
+        $user->bind( $_POST );
 
-		$validator = UserValidations::registration();
+        if ( !$user->check( $validator ) ) {
+            $error_hash = $validator->GetErrors();
+            $errors     = '';
+            foreach ($error_hash as $inp_err) {
+                $errors .= '' . $inp_err . ' |  ';
+            }
+            echo json_encode( array ( 'error' => 'Ошибки: ' . $errors ) );
 
-		$user      = new modelUsers;
-		$user->bind( $_POST );
+            return false;
+        }
 
-		if ( !$user->check( $validator ) ) {
-			$error_hash = $validator->GetErrors();
-			$errors     = '';
-			foreach ( $error_hash as $inp_err ) {
-				$errors .= '' . $inp_err . ' |  ';
-			}
-			echo json_encode( array ( 'error' => 'Ошибки: ' . $errors ) );
-			return false;
-		}
+        if ( $user->save( $_POST ) ) {
+            $password = joosRequest::post( 'password' );
+            $response = json_decode( modelUsers::login( $user->user_name , $password , array ( 'return' => 1 ) ) , true );
+            if ( isset( $response['error'] ) ) {
+                echo json_encode( array ( 'error' => $response['error'] ) );
 
-		if ( $user->save( $_POST ) ) {
-			$password = joosRequest::post( 'password' );
-			$response = json_decode( modelUsers::login( $user->user_name , $password , array ( 'return' => 1 ) ) , true );
-			if ( isset( $response['error'] ) ) {
-				echo json_encode( array ( 'error' => $response['error'] ) );
-				return false;
-			} else {
-				echo json_encode( array ( 'success' => 'всё пучком' ) );
-				return true;
-			}
-		} else {
-			//userHtml::register($user, $validator);
-			echo json_encode( array ( 'error' => 'Что-то не так с данными для регистрации' ) );
-			return false;
-		}
-	}
+                return false;
+            } else {
+                echo json_encode( array ( 'success' => 'всё пучком' ) );
+
+                return true;
+            }
+        } else {
+            //userHtml::register($user, $validator);
+            echo json_encode( array ( 'error' => 'Что-то не так с данными для регистрации' ) );
+
+            return false;
+        }
+    }
 
 }

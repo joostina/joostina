@@ -23,34 +23,36 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginEditorRedactor {
+class pluginEditorRedactor
+{
+    public static function init()
+    {
+        joosDocument::instance()
+                ->add_css(JPATH_APP_PLUGINS_SITE . '/editors/redactor/css/redactor.css')
+                ->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/redactor/redactor.js');
+    }
 
-	public static function init() {
-
-		joosDocument::instance()
-				->add_css(JPATH_APP_PLUGINS_SITE . '/editors/redactor/css/redactor.css')
-				->add_js_file(JPATH_APP_PLUGINS_SITE . '/editors/redactor/redactor.js');
-	}
-
-	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {
-        
+    public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params)
+    {
         $option = $option = joosRequest::param('option');
 
-		$code_on_ready = <<< EOD
-		$(document).ready(function() {
-			$('#$name').redactor({
-			    imageUpload: '/admin/ajax.index.php?option=$option&task=upload_images_embedded',
-			    fileUpload: '/admin/ajax.index.php?option=$option&task=upload_files_embedded'
-			});
-		});
+        $code_on_ready = <<< EOD
+        $(document).ready(function() {
+            $('#$name').redactor({
+                imageUpload: '/admin/ajax.index.php?option=$option&task=upload_images_embedded',
+                fileUpload: '/admin/ajax.index.php?option=$option&task=upload_files_embedded'
+            });
+        });
 EOD;
-		joosDocument::instance()
+        joosDocument::instance()
             ->add_js_code($code_on_ready);
-		return '<textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
-	}
 
-	public static function get_content($name, $params = array()) {
-		return true;
-	}
+        return '<textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
+    }
+
+    public static function get_content($name, $params = array())
+    {
+        return true;
+    }
 
 }

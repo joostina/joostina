@@ -23,80 +23,79 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginSitemapContent{
+class pluginSitemapContent
+{
+    public static function get_params()
+    {
+        $params = array('xml_show_articles' => false);
 
-	public static function get_params() {
-		$params = array('xml_show_articles' => false);
-		return $params;
-	}
+        return $params;
+    }
 
-	public static function get_mapdata_scheme($params = array()) {
+    public static function get_mapdata_scheme($params = array())
+    {
+        return array(//map_block
+            array('id' => 'index',
+                'link' => '',
+                'title' => 'Бренды',
+                'level' => 1,
+                'type' => 'single',
+                'priority' => 0.5,
+                'changefreq' => 'daily'), //map_block
+            array('id' => 'categories',
+                'link' => '',
+                'title' => '',
+                'level' => 2,
+                'type' => 'list',
+                'call_from' => 'contentMap::lists',
+                'call_params' => $params,
+                'priority' => 0.5,
+                'changefreq' => 'daily'),);
+    }
 
-		return array(//map_block
-			array('id' => 'index',
-				'link' => '',
-				'title' => 'Бренды',
-				'level' => 1,
-				'type' => 'single',
-				'priority' => 0.5,
-				'changefreq' => 'daily'), //map_block
-			array('id' => 'categories',
-				'link' => '',
-				'title' => '',
-				'level' => 2,
-				'type' => 'list',
-				'call_from' => 'contentMap::lists',
-				'call_params' => $params,
-				'priority' => 0.5,
-				'changefreq' => 'daily'),);
-	}
+    public static function lists($params = array())
+    {
+        $cats = new modelCategories;
+        $cats = $cats->get_list(array('where' => '`group` = "content" AND state = 1',
+            'key' => 'id',
+            'order' => 'lft ASC'));
 
-	public static function lists($params = array()) {
+        $cats_ids = array_keys($cats);
 
-		$cats = new modelCategories;
-		$cats = $cats->get_list(array('where' => '`group` = "content" AND state = 1',
-			'key' => 'id',
-			'order' => 'lft ASC'));
+        if ($params['xml']) {
+            $items = new modelContent;
+            $items = $items->get_list(array('where' => 'state = 1 AND category_id IN (' . implode(', ', $cats_ids) . ')'));
 
-		$cats_ids = array_keys($cats);
+            $items_by_cats = array();
+            foreach ($items as $item) {
+                $item->loc = joosRoute::href('content_view', array('slug' => $item->slug));
+                $item->lastmod = $item->created_at;
 
+                $items_by_cats[$item->category_id][] = $item;
+            }
+        }
 
-		if ($params['xml']) {
-			$items = new modelContent;
-			$items = $items->get_list(array('where' => 'state = 1 AND category_id IN (' . implode(', ', $cats_ids) . ')'));
+        $results = array();
 
-			$items_by_cats = array();
-			foreach ($items as $item) {
-				$item->loc = joosRoute::href('content_view', array('slug' => $item->slug));
-				$item->lastmod = $item->created_at;
+        foreach ($cats as $cat) {
+            $cat->loc = joosRoute::href('category_view', array('id' => $cat->id,
+                        'slug' => $cat->slug));
+            $cat->lastmod = date('Y-m-d');
+            $cat->title = $cat->name;
+            $cat->level = $cat->level + 1;
+            $results[] = $cat;
 
-				$items_by_cats[$item->category_id][] = $item;
-			}
-		}
+            if ($params['xml']) {
+                if (isset($items_by_cats[$cat->id])) {
+                    foreach ($items_by_cats[$cat->id] as $item) {
+                        $item->level = $cat->level + 1;
+                        $results[] = $item;
+                    }
+                }
+            }
+        }
 
-
-		$results = array();
-
-		foreach ($cats as $cat) {
-			$cat->loc = joosRoute::href('category_view', array('id' => $cat->id,
-						'slug' => $cat->slug));
-			$cat->lastmod = date('Y-m-d');
-			$cat->title = $cat->name;
-			$cat->level = $cat->level + 1;
-			$results[] = $cat;
-
-			if ($params['xml']) {
-				if (isset($items_by_cats[$cat->id])) {
-					foreach ($items_by_cats[$cat->id] as $item) {
-						$item->level = $cat->level + 1;
-						$results[] = $item;
-					}
-				}
-			}
-		}
-
-
-		return $results;
-	}
+        return $results;
+    }
 
 }

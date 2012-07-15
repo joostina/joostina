@@ -1,6 +1,5 @@
 <?php defined('_JOOS_CORE') or exit();
 
-
 /**
  * Компонент - главная страница
  * Позволяет использовать 2 типа страниц:
@@ -17,15 +16,15 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsMainpage extends joosController {
+class actionsMainpage extends joosController
+{
+    public static function index()
+    {
+        //Хлебные крошки
+        //joosBreadcrumbs::instance()
+        //->add('Главная', $active_task == 'mainpage' ? false : JPATH_SITE);
 
-	public static function index() {
-
-		//Хлебные крошки
-		//joosBreadcrumbs::instance()
-		//->add('Главная', $active_task == 'mainpage' ? false : JPATH_SITE);
-
-		return array ( 'task' => 'modules' );
-	}
+        return array ( 'task' => 'modules' );
+    }
 
 }

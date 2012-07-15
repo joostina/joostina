@@ -13,44 +13,44 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosJSOptimizer {
+class joosJSOptimizer
+{
+    private static $data = array();
+    private static $cache_folder;
 
-	private static $data = array();
-	private static $cache_folder;
+    public static function init()
+    {
+        self::$cache_folder = JPATH_BASE_CACHE . DS . 'jscache';
+        joosFolder::exists(self::$cache_folder) ? null : joosFolder::create(self::$cache_folder);
+        self::$data = array();
+    }
 
-	public static function init() {
-		self::$cache_folder = JPATH_BASE_CACHE . DS . 'jscache';
-		joosFolder::exists(self::$cache_folder) ? null : joosFolder::create(self::$cache_folder);
-		self::$data = array();
-	}
+    public static function optimize_and_save(array $files)
+    {
+        self::init();
 
-	public static function optimize_and_save(array $files) {
+        $cache_file = md5(serialize($files)) . '.js';
+        $cache_file = self::$cache_folder . DS . $cache_file;
 
-		self::init();
+        if (!joosFile::exists($cache_file)) {
 
-		$cache_file = md5(serialize($files)) . '.js';
-		$cache_file = self::$cache_folder . DS . $cache_file;
+            foreach ($files as $file) {
+                $file = explode('?', $file);
+                $file = $file[0];
+                $file = str_replace(JPATH_SITE, JPATH_BASE, $file);
+                $file = str_replace('\\', '/', $file);
+                self::$data[] = joosFile::exists($file) ? joosFile::get_content($file) : die($file);
+            }
 
-		if (!joosFile::exists($cache_file)) {
+            $content = JSMin::minify(implode("\n;", self::$data));
 
-			foreach ($files as $file) {
-				$file = explode('?', $file);
-				$file = $file[0];
-				$file = str_replace(JPATH_SITE, JPATH_BASE, $file);
-				$file = str_replace('\\', '/', $file);
-				self::$data[] = joosFile::exists($file) ? joosFile::get_content($file) : die($file);
-			}
+            joosFile::create($cache_file, $content);
+        }
 
-			$content = JSMin::minify(implode("\n;", self::$data));
+        $cache_file_live = str_replace(JPATH_BASE, JPATH_SITE, $cache_file);
+        $cache_file_live = str_replace('\\', '/', $cache_file_live);
 
-			joosFile::create($cache_file, $content);
-		}
-
-		$cache_file_live = str_replace(JPATH_BASE, JPATH_SITE, $cache_file);
-		$cache_file_live = str_replace('\\', '/', $cache_file_live);
-
-		return array('live' => $cache_file_live, 'base' => $cache_file);
-	}
-
+        return array('live' => $cache_file_live, 'base' => $cache_file);
+    }
 
 }

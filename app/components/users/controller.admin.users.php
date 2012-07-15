@@ -13,8 +13,8 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminUsers extends joosAdminController{
-
+class actionsAdminUsers extends joosAdminController
+{
     /**
      * Подменю
      */
@@ -51,7 +51,8 @@ class actionsAdminUsers extends joosAdminController{
         ),
     );
 
-    public static function action_before(){
+    public static function action_before()
+    {
         parent::action_before();
 
         joosDocument::instance()
@@ -65,11 +66,10 @@ class actionsAdminUsers extends joosAdminController{
      * @static
      * @return array
      */
-    public static function my_profile_edit() {
-
+    public static function my_profile_edit()
+    {
         $current_user = joosCore::user();
         $_GET['id'] = $current_user->id;
-
 
         return parent::edit();
     }
@@ -80,8 +80,8 @@ class actionsAdminUsers extends joosAdminController{
      * @static
      * @return array
      */
-    public static function acl_table() {
-
+    public static function acl_table()
+    {
         $group_obj = new modelUsersAclGroups;
         $groups = $group_obj->find_all( array('select'=>'id,title') );
 
@@ -112,16 +112,13 @@ class actionsAdminUsers extends joosAdminController{
         );
     }
 
-
-    public static function get_actions() {
-
+    public static function get_actions()
+    {
         $location = JPATH_BASE . '/app/components/';
 
         $Directory = new RecursiveDirectoryIterator($location);
         $Iterator = new RecursiveIteratorIterator($Directory);
         $Regex = new RegexIterator($Iterator, '/^.+controller.+/i', RecursiveRegexIterator::GET_MATCH);
-
-        joosLoader::lib('Reflect', 'Reflect');
 
         $options = array(
             'properties' => array(

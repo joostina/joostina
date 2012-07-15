@@ -34,7 +34,6 @@ $user;
 
     </div>
 
-
     <div class="row">
         <div class="span8">
             <dl>
@@ -80,7 +79,7 @@ $user;
                 <dt>Email:</dt>
                 <dd>123456@654321.123</dd>
             </dl>
-            
+
             <dl>
                 <dt>Сайт:</dt>
                 <dd><a target="_blank"  href="#">http://www.site.com</a></dd>

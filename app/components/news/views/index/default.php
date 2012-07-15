@@ -29,6 +29,4 @@
     <?php endforeach;?>
 </ul>
 
-<?php echo $pager->output;?>
-
-
+<?php echo $pager->output;

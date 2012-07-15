@@ -15,10 +15,11 @@ defined( '_JOOS_CORE' ) or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminTableEditlink implements joosAutoadminPluginsTable{
-    
-    public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option ) {
-		return '<a href="index2.php?option=' . $option . ( joosAutoadmin::get_active_model_name() ? '&menu=' . joosAutoadmin::get_active_menu_name() : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $value . '</a>';
-	}
+class pluginAutoadminTableEditlink implements joosAutoadminPluginsTable
+{
+    public static function render( joosModel $obj , array $element_param , $key , $value , stdClass $values , $option )
+    {
+        return '<a href="index2.php?option=' . $option . ( joosAutoadmin::get_active_model_name() ? '&menu=' . joosAutoadmin::get_active_menu_name() : '' ) . '&task=edit&' . $obj->get_key_field() . '=' . $values->{$obj->get_key_field()} . '">' . $value . '</a>';
+    }
 
 }

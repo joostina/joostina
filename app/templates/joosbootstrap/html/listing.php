@@ -66,8 +66,3 @@ defined('_JOOS_CORE') or exit();
     <input type="hidden" name="<?php echo joosCSRF::get_code() ?>" value="1"/>
 
 </form>
-
-
-
-
-

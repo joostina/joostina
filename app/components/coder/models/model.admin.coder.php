@@ -13,21 +13,21 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelAdminCoder {
-
-    public function get_tableinfo() {
+class modelAdminCoder
+{
+    public function get_tableinfo()
+    {
         return array(
             'header_main'=>'Кодер'
         );
     }
 
-    public static function get_model($table, $implode_models = false) {
-
+    public static function get_model($table, $implode_models = false)
+    {
         $table_fields = joosDatabase::instance()->get_utils()->get_table_fields($table);
         $tableName = str_replace(array('#__', '#_', joosDatabase::instance()->get_prefix()), '', $table);
 
         $className = str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $tableName))));
-
 
         $buffer_site = array();
         $buffer_site[] = "\n/**";
@@ -42,7 +42,7 @@ class modelAdminCoder {
         $buffer_site[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
         $buffer_site[] = "\n * ";
         $buffer_site[] = "\n */";
-        
+
         $buffer_site[] = "\nclass model$className extends joosModel {";
         foreach ($table_fields as $k => $v) {
             $buffer_site[] = "\n	/**";
@@ -109,7 +109,7 @@ class modelAdminCoder {
         $buffer_admin[] = "\n * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights";
         $buffer_admin[] = "\n * ";
         $buffer_admin[] = "\n */";
-        
+
         $buffer_admin[] = "\nclass modelAdmin$className extends model$className {";
 
         $buffer_admin[] = "\n\n	public function get_fieldinfo() {\n";
@@ -145,11 +145,10 @@ class modelAdminCoder {
         $buffer_admin[] = "\n			);";
         $buffer_admin[] = "\n	}\n";
 
-
         $buffer_admin[] = "\n}\n";
 
         $return = array();
-        
+
         $return['site'] = $implode_models ? implode('', $buffer_site) : joosHTML::textarea(
             array('name' => $tableName,
                 'value' => implode('', $buffer_site),
@@ -157,7 +156,7 @@ class modelAdminCoder {
                 'class' => 'coder_model_area'
             )
         );
-        
+
         $return['admin'] = $implode_models ? implode('', $buffer_admin) : joosHTML::textarea(
             array('name' => $tableName,
                 'value' => implode('', $buffer_site),
@@ -165,17 +164,18 @@ class modelAdminCoder {
                 'class' => 'coder_model_area'
             )
         );
+
         return $return;
     }
 
     /**
      * Формирование общего представления переменной по типу поля
      *
-     * @param string $ident_string
+     * @param  string $ident_string
      * @return string
      */
-    private static function get_type($ident_string) {
-
+    private static function get_type($ident_string)
+    {
         $ident_string = strtolower($ident_string);
 
         switch ($ident_string) {
@@ -240,8 +240,8 @@ class modelAdminCoder {
 
 }
 
-class modelAdminCoder_Faker {
-
+class modelAdminCoder_Faker
+{
     public static $data_types = array('text' => array('name' => 'Текст',
         'types' => array('text', 'tinytext', 'mediumtext', 'longtext', 'blob', 'tinyblob', 'mediumblob', 'longblob'),),
         'text_small' => array('name' => 'Заголовок',
@@ -264,4 +264,3 @@ class modelAdminCoder_Faker {
     );
 
 }
-

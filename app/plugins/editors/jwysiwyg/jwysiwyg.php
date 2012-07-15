@@ -22,28 +22,30 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginEditorJwysiwyg {
+class pluginEditorJwysiwyg
+{
+    public static function init()
+    {
+        joosDocument::instance()
+                ->add_css(JPATH_SITE . '/plugins/editors/jwysiwyg/media/css/jquery.wysiwyg.css')
+                ->add_js_file(JPATH_SITE . '/plugins/editors/jwysiwyg/media/js/jquery.wysiwyg.js');
+    }
 
-	public static function init() {
+    public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params)
+    {
+        $toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
+        $config =  joosFile::exists(__DIR__ . '/toolbars/' . $toolbar . '.php') ? require_once ( __DIR__ . '/toolbars/' . $toolbar . '.php' ) : '';
 
-		joosDocument::instance()
-				->add_css(JPATH_SITE . '/plugins/editors/jwysiwyg/media/css/jquery.wysiwyg.css')
-				->add_js_file(JPATH_SITE . '/plugins/editors/jwysiwyg/media/js/jquery.wysiwyg.js');
-	}
+        $code_on_ready = sprintf("$().ready(function() { $('#%s').wysiwyg(%s); })", $name, $config);
+        joosDocument::$data['js_code'][] = $code_on_ready;
 
-	public static function display($name, $content, $hiddenField, $width, $height, $col, $row, $params) {
+        return '<textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
+    }
 
-		$toolbar = isset($params['toolbar']) ? $params['toolbar'] : 'complete';
-		$config =  joosFile::exists(__DIR__ . '/toolbars/' . $toolbar . '.php') ? require_once ( __DIR__ . '/toolbars/' . $toolbar . '.php' ) : '';
-
-		$code_on_ready = sprintf("$().ready(function() { $('#%s').wysiwyg(%s); })", $name, $config);
-		joosDocument::$data['js_code'][] = $code_on_ready;
-		return '<textarea name="' . $hiddenField . '" id="' . $hiddenField . '" cols="' . $col . '" rows="' . $row . '" style="width:' . $width . ';height:' . $height . ';">' . $content . '</textarea>';
-	}
-
-	public static function get_content($name, $params = array()) {
-		// $('#wysiwyg').val();
-		//return isset($params['js_wrap']) ? JHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
-	}
+    public static function get_content($name, $params = array())
+    {
+        // $('#wysiwyg').val();
+        //return isset($params['js_wrap']) ? JHtml::js_code('$(\'#' . $name . '\').elrte("updateSource");') : '$(\'#' . $name . '\').elrte("updateSource");';
+    }
 
 }

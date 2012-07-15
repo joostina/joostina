@@ -20,6 +20,6 @@ defined( '_JOOS_CORE' ) or exit();
 $menu_items = require_once JPATH_APP_CONFIG.'/admin_menu.php';
 
 // рендер
-joosModuleAdmin::render( 'admin_menu' , 
-    array ( 'menu_items' => $menu_items ) 
+joosModuleAdmin::render( 'admin_menu' ,
+    array ( 'menu_items' => $menu_items )
 );

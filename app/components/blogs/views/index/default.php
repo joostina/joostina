@@ -11,8 +11,8 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
-?>
-<?php echo joosBreadcrumbs::instance()->get() ?>
+
+echo joosBreadcrumbs::instance()->get() ?>
 <br />
 
 <?php foreach( $blogs_items as $blog_item ): ?>
@@ -42,4 +42,4 @@
 </article>
 <?php endforeach ?>
 
-<?php echo $pager->output ?>
+<?php echo $pager->output;  

@@ -1,15 +1,15 @@
 <?php defined('_JOOS_CORE') or exit(); ?>
 
 <ul class="nav pull-right">
-	<li class="dropdown">
-		<a data-toggle="dropdown" class="dropdown-toggle" href="#">Вход/регистрация <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-			<li><a class="js-login-modal-replace">Войти</a></li>
-			<li><a href="#">Забыли пароль?</a></li>
-			<li class="divider"></li>
-			<li><a href="#">Регистрация</a></li>
-		</ul>
-	</li>
+    <li class="dropdown">
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Вход/регистрация <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a class="js-login-modal-replace">Войти</a></li>
+            <li><a href="#">Забыли пароль?</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Регистрация</a></li>
+        </ul>
+    </li>
 </ul>
 
 <div class="modal hide fade" id="modal-login_form">
@@ -41,4 +41,3 @@
          </form>
      </div>
  </div>
-

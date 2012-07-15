@@ -13,8 +13,8 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminComments extends joosAdminController{
-
+class actionsAdminComments extends joosAdminController
+{
     protected static $submenu = array(
         'default' => array(
             'name' => 'Все новости',

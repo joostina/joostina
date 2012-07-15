@@ -12,7 +12,8 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  */
-class modelComments extends joosModel {
+class modelComments extends joosModel
+{
     /**
      * @field int(11) unsigned
      * @type int
@@ -78,22 +79,24 @@ class modelComments extends joosModel {
          * Constructor
          *
          */
-    function __construct(){
+    public function __construct()
+    {
         parent::__construct( '#__comments', 'id' );
     }
 
-    public function check() {
+    public function check()
+    {
         $this->filter();
+
         return true;
     }
 
-    public function before_store() {
-
+    public function before_store()
+    {
         $comment_text = $this->comment_text;
         $comment_text = joosText::text_clean($comment_text);
         $comment_text = joosText::word_limiter($comment_text,200);
         $this->comment_text = $comment_text;
-
 
         $this->user_id = joosCore::user()->id;
         $this->user_ip = joosRequest::user_ip();
@@ -111,22 +114,23 @@ class modelComments extends joosModel {
 
             $this->path = 0;
         }
-        
+
         $this->state = 1;
-        
+
         return true;
     }
 
-    public static  function get_comments( $obj_option, $obj_id ) {
-        
+    public static function get_comments( $obj_option, $obj_id )
+    {
         $comment = new self;
+
         return $comment->get_list_cache(array(
             'select' => '*',
             'where' => sprintf('state=1 AND obj_option = \'%s\' AND obj_id = %s', $obj_option, $obj_id),
             'order' => 'parent_id, id ASC',
         ));
     }
-    
+
 }
 
 /**
@@ -141,7 +145,8 @@ class modelComments extends joosModel {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  */
-class modelCommentsCounter extends joosModel {
+class modelCommentsCounter extends joosModel
+{
     /**
      * @field int(11) unsigned
      * @type int
@@ -177,12 +182,15 @@ class modelCommentsCounter extends joosModel {
          * Constructor
          *
          */
-    function __construct(){
+    public function __construct()
+    {
         parent::__construct( '#__comments_counter', 'id' );
     }
 
-    public function check() {
+    public function check()
+    {
         $this->filter();
+
         return true;
     }
 

@@ -11,7 +11,7 @@
 defined('_JOOS_CORE') or exit();
 
 return array(
-/*    
+/*
     'Контент' => array(
         'title' => 'Контент сайта',
         'href' => '/',
@@ -116,7 +116,7 @@ return array(
             ),
         )
     ),
-    
+
     'Блоги' => array(
         'title' => '',
         'href' => '/',
@@ -140,7 +140,7 @@ return array(
 
         )
     ),
-    
+
     'Инструменты' => array(
         'title' => '',
         'href' => '/',

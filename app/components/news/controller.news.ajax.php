@@ -13,7 +13,6 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxNews extends joosControllerAjax {
-
-
+class actionsAjaxNews extends joosControllerAjax
+{
 }

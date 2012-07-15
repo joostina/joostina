@@ -13,19 +13,20 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminPages  extends joosAdminController{
-
-	public static $submenu = array(
-		'default' => array(
-			'name' => 'Все страницы',
+class actionsAdminPages  extends joosAdminController
+{
+    public static $submenu = array(
+        'default' => array(
+            'name' => 'Все страницы',
             'model'=>'modelAdminPages',
-			'href' => 'index2.php?option=pages',
+            'href' => 'index2.php?option=pages',
             'fields'=>array('title','created_at', 'state'),
-			'active' => false
-		),
-	);
+            'active' => false
+        ),
+    );
 
-    public static function action_before(){
+    public static function action_before()
+    {
         parent::action_before();
 
         joosDocument::instance()

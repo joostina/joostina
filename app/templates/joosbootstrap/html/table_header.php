@@ -22,7 +22,6 @@ return ;
     <h1><?php echo joosAdminView::get_component_title() .' / '. joosAdminView::get_component_header() ?></h1>
 </div>
 
-
 <div class="row">
     <div class="span6">
         <div class="pagination" style="float: left; margin-right: 10px">
@@ -54,4 +53,4 @@ return ;
 
         <div style="float: right; padding: 30px 20px 0 0; font-weight: bold">1-25 из 520</div>
     </div>
-</div>    
+</div>

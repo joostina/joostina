@@ -16,84 +16,82 @@ defined('_JOOS_CORE') or exit();
  *
  * Оригинальная идея базируется на разработках Nette FW https://github.com/nette/nette/blob/master/Nette/Loaders/RobotLoader.php
  * */
-class joosRobotLoader {
+class joosRobotLoader
+{
+    public static function get_classes($location)
+    {
+        $directory = new RecursiveDirectoryIterator($location);
+        $iterator = new RecursiveIteratorIterator($directory);
+        $regex = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
 
-	public static function get_classes($location) {
+        $classes = array();
+        foreach ($regex as $path) {
 
-		$directory = new RecursiveDirectoryIterator($location);
-		$iterator = new RecursiveIteratorIterator($directory);
-		$regex = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+            $expected = FALSE;
+            $level = $minLevel = 0;
 
-		$classes = array();
-		foreach ($regex as $path) {
+            $name = '';
 
-			$expected = FALSE;
-			$level = $minLevel = 0;
+            $file = $path[0];
 
-			$name = '';
+            if (!joosFile::is_readable($file)) {
+                continue;
+            }
 
-			$file = $path[0];
+            $php_file_source = file_get_contents($file);
 
-			if (!joosFile::is_readable($file)) {
-				continue;
-			}
+            $class_location = str_replace(JPATH_BASE . DS, '', $file);
 
-			$php_file_source = file_get_contents($file);
+            foreach (@token_get_all($php_file_source) as $token) {
+                if (is_array($token)) {
+                    switch ($token[0]) {
+                        case T_COMMENT:
+                        case T_DOC_COMMENT:
+                        case T_WHITESPACE:
+                            continue 2;
 
-			$class_location = str_replace(JPATH_BASE . DS, '', $file);
+                        case T_NS_SEPARATOR:
+                        case T_STRING:
+                            if ($expected) {
+                                $name .= $token[1];
+                            }
+                            continue 2;
 
-			foreach (@token_get_all($php_file_source) as $token) {
-				if (is_array($token)) {
-					switch ($token[0]) {
-						case T_COMMENT:
-						case T_DOC_COMMENT:
-						case T_WHITESPACE:
-							continue 2;
+                        case T_CLASS:
+                        case T_INTERFACE:
+                            $expected = $token[0];
+                            $name = '';
+                            continue 2;
+                        case T_CURLY_OPEN:
+                        case T_DOLLAR_OPEN_CURLY_BRACES:
+                            $level++;
+                    }
+                }
 
-						case T_NS_SEPARATOR:
-						case T_STRING:
-							if ($expected) {
-								$name .= $token[1];
-							}
-							continue 2;
+                if ($expected) {
+                    switch ($expected) {
+                        case T_CLASS:
+                        case T_INTERFACE:
+                            if ($level === $minLevel) {
+                                $classes[$name] = $class_location;
+                            }
+                            break;
+                    }
 
+                    $expected = NULL;
+                }
 
-						case T_CLASS:
-						case T_INTERFACE:
-							$expected = $token[0];
-							$name = '';
-							continue 2;
-						case T_CURLY_OPEN:
-						case T_DOLLAR_OPEN_CURLY_BRACES:
-							$level++;
-					}
-				}
+                if ($token === '{') {
+                    $level++;
+                } elseif ($token === '}') {
+                    $level--;
+                }
+            }
+        }
 
-				if ($expected) {
-					switch ($expected) {
-						case T_CLASS:
-						case T_INTERFACE:
-							if ($level === $minLevel) {
-								$classes[$name] = $class_location;
-							}
-							break;
-					}
+        ksort($classes);
 
-					$expected = NULL;
-				}
-
-				if ($token === '{') {
-					$level++;
-				}
-				elseif ($token === '}') {
-					$level--;
-				}
-			}
-		}
-
-		ksort($classes);
-
-		return $classes;
-	}
+        return $classes;
+    }
 
 }

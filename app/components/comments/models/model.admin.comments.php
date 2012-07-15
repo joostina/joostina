@@ -11,9 +11,10 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  */
-class modelAdminComments extends modelComments {
-
-    public function get_fieldinfo() {
+class modelAdminComments extends modelComments
+{
+    public function get_fieldinfo()
+    {
         return array(
             'id' => array(
                 'name' => 'id',
@@ -126,8 +127,8 @@ class modelAdminComments extends modelComments {
         );
     }
 
-
-    public function get_tableinfo() {
+    public function get_tableinfo()
+    {
         return array(
             'header_main' => 'Comments',
             'header_list' => 'Comments',
@@ -136,8 +137,8 @@ class modelAdminComments extends modelComments {
         );
     }
 
-
-    public function get_extrainfo() {
+    public function get_extrainfo()
+    {
         return array(
             'search' => array(),
             'filter' => array(),
@@ -159,9 +160,10 @@ class modelAdminComments extends modelComments {
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  */
-class modelAdminCommentsCounter extends modelCommentsCounter {
-
-    public function get_fieldinfo() {
+class modelAdminCommentsCounter extends modelCommentsCounter
+{
+    public function get_fieldinfo()
+    {
         return array(
             'obj_id' => array(
                 'name' => 'obj_id',
@@ -220,8 +222,8 @@ class modelAdminCommentsCounter extends modelCommentsCounter {
         );
     }
 
-
-    public function get_tableinfo() {
+    public function get_tableinfo()
+    {
         return array(
             'header_main' => 'CommentsCounter',
             'header_list' => 'CommentsCounter',
@@ -230,8 +232,8 @@ class modelAdminCommentsCounter extends modelCommentsCounter {
         );
     }
 
-
-    public function get_extrainfo() {
+    public function get_extrainfo()
+    {
         return array(
             'search' => array(),
             'filter' => array(),

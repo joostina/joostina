@@ -15,10 +15,10 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminTableStatusChange implements joosAutoadminPluginsTable{
-
-    public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option) {
-
+class pluginAutoadminTableStatusChange implements joosAutoadminPluginsTable
+{
+    public static function render(joosModel $obj, array $element_param, $key, $value, stdClass $values, $option)
+    {
         $element_param = array_merge_recursive($element_param, array(
                 'html_table_element_param' =>
                 array(
@@ -39,9 +39,9 @@ class pluginAutoadminTableStatusChange implements joosAutoadminPluginsTable{
         $text = isset($element_param['html_table_element_param']['statuses'][$value]) ? $element_param['html_table_element_param']['statuses'][$value] : 'ERROR';
 
         return '
-		    <button class="btn btn-mini js-tooltip js-set_state" title="' . $text . '" data-id="' . $values->id . '" data-state="'.$values->state.'">
-		        <i class="icon-'.$style.'"></i>
-		    </button>';
+            <button class="btn btn-mini js-tooltip js-set_state" title="' . $text . '" data-id="' . $values->id . '" data-state="'.$values->state.'">
+                <i class="icon-'.$style.'"></i>
+            </button>';
 
     }
 

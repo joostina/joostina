@@ -16,233 +16,250 @@
  * @todo добавить проверки использую библиотеки работы с файлами и каталогами
  * @todo добавить проверку что кеше включен, сейчас при выключенном кешировании объекты и проверки всё равно выполняются
  * */
-class joosCache {
+class joosCache
+{
+    protected $cache;
+    protected $data_store;
+    protected $state;
+    protected $type;
 
-	protected $cache;
-	protected $data_store;
-	protected $state;
-	protected $type;
+    private static $instance = array();
 
-	private static $instance = array();
+    /**
+     * Получение инстанции объекта кеша
+     *
+     * @static
+     * @param  bool      $type
+     * @return joosCache
+     */
+    public static function instance($type = false)
+    {
+        if (!isset(self::$instance[$type]) || self::$instance[$type] === null) {
+            self::$instance[$type] = new self($type);
+        }
 
-	/**
-	 * Получение инстанции объекта кеша
-	 *
-	 * @static
-	 * @param bool $type
-	 * @return joosCache
-	 */
-	public static function instance($type = false) {
+        return self::$instance[$type];
+    }
 
-		if (!isset(self::$instance[$type]) || self::$instance[$type] === null) {
-			self::$instance[$type] = new self($type);
-		}
+    private function __construct($type = false, $data_store = false)
+    {
+        $type = $type ? $type : joosConfig::get2('cache', 'handler');
 
-		return self::$instance[$type];
-	}
+        switch ($type) {
+            case 'file':
 
-	private function __construct($type = false, $data_store = false) {
+                $data_store = $data_store ? $data_store : joosConfig::get2('cache', 'cachepath');
 
-		$type = $type ? $type : joosConfig::get2('cache', 'handler');
+                $exists = file_exists($data_store);
+                if (!$exists && !is_writable(dirname($data_store))) {
+                    throw new joosCacheException(sprintf('Каталог кеширования %s недоступен для записи', $data_store));
+                }
+                if ($exists && !is_writable($data_store)) {
+                    throw new joosCacheException(sprintf('Файл кеша %s недоступен для записи', $data_store));
+                }
+                $this->data_store = $data_store;
+                if ($exists) {
+                    $this->cache = unserialize(file_get_contents($data_store));
+                } else {
+                    $this->cache = array();
+                }
+                $this->state = 'clean';
+                break;
 
-		switch ($type) {
-			case 'file':
+            case 'apc':
+            case 'xcache':
+            case 'memcache':
+                if (!extension_loaded($type)) {
+                    throw new joosCacheException(sprintf('Расширение кеширования %s недоступно либо не установлено', $type));
+                }
+                if ($type == 'memcache') {
 
-				$data_store = $data_store ? $data_store : joosConfig::get2('cache', 'cachepath');
+                    if ($data_store == false) {
+                        $data_store = new Memcache();
+                        $data_store->connect(joosConfig::get2('cache', 'memcache_host'), joosConfig::get2('cache', 'memcache_port'));
+                    }
 
-				$exists = file_exists($data_store);
-				if (!$exists && !is_writable(dirname($data_store))) {
-					throw new joosCacheException(sprintf('Каталог кеширования %s недоступен для записи', $data_store));
-				}
-				if ($exists && !is_writable($data_store)) {
-					throw new joosCacheException(sprintf('Файл кеша %s недоступен для записи', $data_store));
-				}
-				$this->data_store = $data_store;
-				if ($exists) {
-					$this->cache = unserialize(file_get_contents($data_store));
-				}
-				else {
-					$this->cache = array();
-				}
-				$this->state = 'clean';
-				break;
+                    if (!$data_store instanceof Memcache) {
+                        throw new joosCacheException('Объект кеширования не является допустимым объектом Memcache');
+                    }
+                    $this->data_store = $data_store;
+                }
+                break;
 
-			case 'apc':
-			case 'xcache':
-			case 'memcache':
-				if (!extension_loaded($type)) {
-					throw new joosCacheException(sprintf('Расширение кеширования %s недоступно либо не установлено', $type));
-				}
-				if ($type == 'memcache') {
+            default:
+                throw new joosCacheException(sprintf('Кеширующая система не поддерживает %s, разрешено лишь %s', $type, join(', ', array('apc', 'file', 'memcache', 'xcache'))));
+        }
 
-					if ($data_store == false) {
-						$data_store = new Memcache();
-						$data_store->connect(joosConfig::get2('cache', 'memcache_host'), joosConfig::get2('cache', 'memcache_port'));
-					}
+        $this->type = $type;
+    }
 
-					if (!$data_store instanceof Memcache) {
-						throw new joosCacheException('Объект кеширования не является допустимым объектом Memcache');
-					}
-					$this->data_store = $data_store;
-				}
-				break;
+    public function __destruct()
+    {
+        $this->save();
+    }
 
-			default:
-				throw new joosCacheException(sprintf('Кеширующая система не поддерживает %s, разрешено лишь %s', $type, join(', ', array('apc', 'file', 'memcache', 'xcache'))));
-		}
+    public function add($key, $value, $ttl = 0)
+    {
+        switch ($this->type) {
+            case 'apc':
+                return apc_add($key, serialize($value), $ttl);
 
-		$this->type = $type;
-	}
+            case 'file':
+                if (isset($this->cache[$key]) && $this->cache[$key]['expire'] && $this->cache[$key]['expire'] >= time()) {
+                    return FALSE;
+                }
+                $this->cache[$key] = array('value' => $value, 'expire' => (!$ttl) ? 0 : time() + $ttl);
+                $this->state = 'dirty';
 
-	public function __destruct() {
-		$this->save();
-	}
+                return TRUE;
 
-	public function add($key, $value, $ttl = 0) {
-		switch ($this->type) {
-			case 'apc':
-				return apc_add($key, serialize($value), $ttl);
+            case 'memcache':
+                if ($ttl > 2592000) {
+                    $ttl = time() + 2592000;
+                }
 
-			case 'file':
-				if (isset($this->cache[$key]) && $this->cache[$key]['expire'] && $this->cache[$key]['expire'] >= time()) {
-					return FALSE;
-				}
-				$this->cache[$key] = array('value' => $value, 'expire' => (!$ttl) ? 0 : time() + $ttl);
-				$this->state = 'dirty';
-				return TRUE;
+                return $this->data_store->add($key, $value, 0, $ttl);
+        }
+    }
 
-			case 'memcache':
-				if ($ttl > 2592000) {
-					$ttl = time() + 2592000;
-				}
-				return $this->data_store->add($key, $value, 0, $ttl);
-		}
-	}
+    public function clear()
+    {
+        switch ($this->type) {
+            case 'apc':
+                apc_clear_cache('user');
 
-	public function clear() {
-		switch ($this->type) {
-			case 'apc':
-				apc_clear_cache('user');
-				return;
+                return;
 
-			case 'file':
-				$this->cache = array();
-				$this->state = 'dirty';
-				return;
+            case 'file':
+                $this->cache = array();
+                $this->state = 'dirty';
 
-			case 'memcache':
-				$this->data_store->flush();
-				return;
-		}
-	}
+                return;
 
-	public function delete($key) {
-		switch ($this->type) {
-			case 'apc':
-				apc_delete($key);
-				return;
+            case 'memcache':
+                $this->data_store->flush();
 
-			case 'file':
-				if (isset($this->cache[$key])) {
-					unset($this->cache[$key]);
-					$this->state = 'dirty';
-				}
-				return;
+                return;
+        }
+    }
 
-			case 'memcache':
-				$this->data_store->delete($key);
-				return;
-		}
-	}
+    public function delete($key)
+    {
+        switch ($this->type) {
+            case 'apc':
+                apc_delete($key);
 
-	public function get($key, $default = NULL) {
+                return;
 
-		switch ($this->type) {
-			case 'apc':
-				$value = apc_fetch($key);
-				if ($value === FALSE) {
-					return $default;
-				}
-				return unserialize($value);
+            case 'file':
+                if (isset($this->cache[$key])) {
+                    unset($this->cache[$key]);
+                    $this->state = 'dirty';
+                }
 
-			case 'file':
-				if (isset($this->cache[$key])) {
-					$expire = $this->cache[$key]['expire'];
-					if (!$expire || $expire >= time()) {
-						return $this->cache[$key]['value'];
-					}
-					elseif ($expire) {
-						unset($this->cache[$key]);
-						$this->state = 'dirty';
-					}
-				}
-				return $default;
+                return;
 
-			case 'memcache':
-				$value = $this->data_store->get($key);
-				if ($value === FALSE) {
-					return $default;
-				}
-				return $value;
-		}
-	}
+            case 'memcache':
+                $this->data_store->delete($key);
 
-	public function save() {
-		if ($this->type != 'file') {
-			return;
-		}
+                return;
+        }
+    }
 
-		// Randomly clean the cache out
-		if (rand(0, 99) == 50) {
-			$clear_before = time();
+    public function get($key, $default = NULL)
+    {
+        switch ($this->type) {
+            case 'apc':
+                $value = apc_fetch($key);
+                if ($value === FALSE) {
+                    return $default;
+                }
 
-			foreach ($this->cache as $key => $value) {
-				if ($value['expire'] && $value['expire'] < $clear_before) {
-					unset($this->cache[$key]);
-					$this->state = 'dirty';
-				}
-			}
-		}
+                return unserialize($value);
 
-		if ($this->state == 'clean') {
-			return;
-		}
+            case 'file':
+                if (isset($this->cache[$key])) {
+                    $expire = $this->cache[$key]['expire'];
+                    if (!$expire || $expire >= time()) {
+                        return $this->cache[$key]['value'];
+                    } elseif ($expire) {
+                        unset($this->cache[$key]);
+                        $this->state = 'dirty';
+                    }
+                }
 
-		file_put_contents($this->data_store, serialize($this->cache));
-		$this->state = 'clean';
-	}
+                return $default;
 
-	public function set($key, $value, $ttl = 0) {
+            case 'memcache':
+                $value = $this->data_store->get($key);
+                if ($value === FALSE) {
+                    return $default;
+                }
 
-		//если кэш запрещен
-		if (!joosConfig::get2('cache', 'enable')) {
-			return;
-		}
+                return $value;
+        }
+    }
 
-		switch ($this->type) {
-			case 'apc':
-				apc_store($key, serialize($value), $ttl);
-				return;
+    public function save()
+    {
+        if ($this->type != 'file') {
+            return;
+        }
 
-			case 'file':
-				$this->cache[$key] = array('value' => $value, 'expire' => (!$ttl) ? 0 : time() + $ttl);
-				$this->state = 'dirty';
-				return;
+        // Randomly clean the cache out
+        if (rand(0, 99) == 50) {
+            $clear_before = time();
 
-			case 'memcache':
-				if ($ttl > 2592000) {
-					$ttl = time() + 2592000;
-				}
-				$this->data_store->set($key, $value, 0, $ttl);
-				return;
-		}
-	}
+            foreach ($this->cache as $key => $value) {
+                if ($value['expire'] && $value['expire'] < $clear_before) {
+                    unset($this->cache[$key]);
+                    $this->state = 'dirty';
+                }
+            }
+        }
+
+        if ($this->state == 'clean') {
+            return;
+        }
+
+        file_put_contents($this->data_store, serialize($this->cache));
+        $this->state = 'clean';
+    }
+
+    public function set($key, $value, $ttl = 0)
+    {
+        //если кэш запрещен
+        if (!joosConfig::get2('cache', 'enable')) {
+            return;
+        }
+
+        switch ($this->type) {
+            case 'apc':
+                apc_store($key, serialize($value), $ttl);
+
+                return;
+
+            case 'file':
+                $this->cache[$key] = array('value' => $value, 'expire' => (!$ttl) ? 0 : time() + $ttl);
+                $this->state = 'dirty';
+
+                return;
+
+            case 'memcache':
+                if ($ttl > 2592000) {
+                    $ttl = time() + 2592000;
+                }
+                $this->data_store->set($key, $value, 0, $ttl);
+
+                return;
+        }
+    }
 
 }
 
 /**
  * Обработка исключений и ошибок кеширования
  */
-class joosCacheException extends joosException {
-
+class joosCacheException extends joosException
+{
 }

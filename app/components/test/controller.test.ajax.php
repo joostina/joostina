@@ -13,17 +13,16 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxTest  extends joosControllerAjax{
+class actionsAjaxTest  extends joosControllerAjax
+{
+    public static function upload()
+    {
 
-	public static function upload() {
+        $upload_result = joosUpload::easy_upload('qqfile',  JPATH_BASE.'/cache/tmp/' );
 
-		joosLoader::lib('upload', 'upload');
-
-		$upload_result = joosUpload::easy_upload('qqfile',  JPATH_BASE.'/cache/tmp/' );
-
-		return $upload_result + array(
-			'success' => $upload_result['success']
-		);
-	}
+        return $upload_result + array(
+            'success' => $upload_result['success']
+        );
+    }
 
 }

@@ -13,7 +13,6 @@ defined( '_JOOS_CORE' ) or exit();
         <h1>Пользователи</h1>
     </div>
 
-
     <ul class="thumbnails thumbnails-users">
         <li class="span4">
             <div class="thumbnail">
@@ -82,7 +81,6 @@ defined( '_JOOS_CORE' ) or exit();
 
     </ul>
 
-
     <div class="pagination">
         <ul>
             <li class="disabled"><a href="#">«</a></li>
@@ -94,11 +92,4 @@ defined( '_JOOS_CORE' ) or exit();
         </ul>
     </div>
 
-
-
-
 </div>
-
-
-
-

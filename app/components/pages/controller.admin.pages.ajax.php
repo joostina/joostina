@@ -12,27 +12,28 @@
  * @license    MIT License http://www.opensource.org/licenses/mit-license.php
  *
  */
-class actionsAjaxAdminPages extends joosAdminControllerAjax {
+class actionsAjaxAdminPages extends joosAdminControllerAjax
+{
+    public static function status_change()
+    {
+        return joosAutoadmin::autoajax();
+    }
 
-	public static function status_change() {
-		return joosAutoadmin::autoajax();
-	}
+    /**
+     * Генерация ссылки на страницу
+     *
+     * @return string|json string
+     */
+    public static function slug_generator()
+    {
+        $title = joosRequest::post('title', '');
 
+        // формируем из введённого заголовка страницы валидный UTL-адрес
+        $slug = joosText::text_to_url($title);
 
-	/**
-	 * Генерация ссылки на страницу
-	 *
-	 * @return string|json string
-	 */
-	public static function slug_generator() {
+        echo json_encode(array('slug' => $slug));
 
-		$title = joosRequest::post('title', '');
-
-		// формируем из введённого заголовка страницы валидный UTL-адрес
-		$slug = joosText::text_to_url($title);
-
-		echo json_encode(array('slug' => $slug));
-		return;
-	}
+        return;
+    }
 
 }

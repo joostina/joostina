@@ -14,4 +14,3 @@ switch (json_last_error()) {
     default:
         throw new RuntimeException('Decoding failed');
 }
-

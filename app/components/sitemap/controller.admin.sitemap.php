@@ -1,6 +1,5 @@
 <?php defined('_JOOS_CORE') or exit();
 
-
 /**
  * Компонент генерации карты сайта
  * Контроллер панели управления
@@ -14,26 +13,27 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminSitemap  extends joosAdminController{
-
+class actionsAdminSitemap  extends joosAdminController
+{
     /**
      * Список объектов
-     * 
+     *
      * @static
      * @return array|void
      */
-	public static function index( ) {
+    public static function index( )
+    {
         return array();
-	}
+    }
 
-	public static function generate_xml( $option ) {
+    public static function generate_xml( $option )
+    {
+        require_once ( JPATH_BASE . DS . 'includes' . DS . 'route.php' );
 
-		require_once ( JPATH_BASE . DS . 'includes' . DS . 'route.php' );
+        $map = modelSitemap::get_map( true );
+        $map->xml_output();
 
-		$map = modelSitemap::get_map( true );
-		$map->xml_output();
-
-		joosRoute::redirect( 'index2.php' , 'Карта сайта обновлена' );
-	}
+        joosRoute::redirect( 'index2.php' , 'Карта сайта обновлена' );
+    }
 
 }

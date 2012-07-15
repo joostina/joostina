@@ -3,54 +3,54 @@
 /**
  * Класс-родитель для шаблонизаторов
  */
-class joosTemplater {
+class joosTemplater
+{
+    protected static $instance = NULL;
 
-	protected static $instance = NULL;
+    protected static $engines = array(
 
-	protected static $engines = array(
+        'default' => 'joosTemplater');
 
-		'default' => 'joosTemplater');
+    /**
+     * @param  string        $template_engine Движок шаблонизатора
+     * @return joosTemplater объект шаблонизатора
+     */
+    public static function instance($template_engine = 'default')
+    {
+        if (!isset(joosTemplater::$instance[$template_engine]) || joosTemplater::$instance[$template_engine] === NULL) {
 
-	/**
-	 * @param string $template_engine Движок шаблонизатора
-	 * @return joosTemplater объект шаблонизатора
-	 */
-	public static function instance($template_engine = 'default') {
+            $class = isset(joosTemplater::$engines[$template_engine]) ? joosTemplater::$engines[$template_engine] : joosTemplater::$engines['default'];
 
-		if (!isset(joosTemplater::$instance[$template_engine]) || joosTemplater::$instance[$template_engine] === NULL) {
+            joosTemplater::$instance[$template_engine] = new $class();
+        }
 
-			$class = isset(joosTemplater::$engines[$template_engine]) ? joosTemplater::$engines[$template_engine] : joosTemplater::$engines['default'];
+        return joosTemplater::$instance[$template_engine];
+    }
 
-			joosTemplater::$instance[$template_engine] = new $class();
-		}
+    /**
+     * Регистрация обработчика шаблонов
+     */
+    public static function register_templater($key, $class)
+    {
+        joosTemplater::$engines[$key] = $class;
+    }
 
-		return joosTemplater::$instance[$template_engine];
-	}
+    /**
+     * Исполнение указанного файла шаблона с указанными параметрами
+     */
+    public function render_file($template_file_name, $params = array())
+    {
+        extract($params, EXTR_OVERWRITE);
 
-	/**
-	 * Регистрация обработчика шаблонов
-	 */
-	public static function register_templater($key, $class) {
+        if (!joosFile::exists($template_file_name)) {
+            throw new joosModulesException("Не найден файл шаблона {$template_file_name}");
+        }
 
-		joosTemplater::$engines[$key] = $class;
-	}
+        ob_start();
+        require ($template_file_name);
+        $output = ob_get_contents();
+        ob_end_clean();
 
-	/**
-	 * Исполнение указанного файла шаблона с указанными параметрами
-	 */
-	public function render_file($template_file_name, $params = array()) {
-
-		extract($params, EXTR_OVERWRITE);
-
-		if (!joosFile::exists($template_file_name)) {
-			throw new joosModulesException("Не найден файл шаблона {$template_file_name}");
-		}
-
-		ob_start();
-		require ($template_file_name);
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		return $output;
-	}
+        return $output;
+    }
 }

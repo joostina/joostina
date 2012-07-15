@@ -14,31 +14,31 @@
  *
  * v 1.0 поддерживает извлечение zip архивов в указанный каталог
  * */
-class joosArhive {
+class joosArhive
+{
+    /**
+     * Извлечение архива
+     *
+     * @tutorial joosArhive::extract( '123.zip' , JPATH_BASE.'/cache/tmp/');
+     *
+     * @param string $from_arhive_file полный путь к файлу архива
+     * @param string $extract_to       каталог для извлечения файлов из архива
+     *
+     * @static
+     * @return bool
+     */
+    public static function extract($from_arhive_file, $extract_to)
+    {
+        $zip = new ZipArchive;
+        if ($zip->open($from_arhive_file) === TRUE) {
+            $zip->extractTo($extract_to);
+            $zip->close();
+            $result = true;
+        } else {
+            $result = false;
+        }
 
-	/**
-	 * Извлечение архива
-	 *
-	 * @tutorial joosArhive::extract( '123.zip' , JPATH_BASE.'/cache/tmp/');
-	 *
-	 * @param string $from_arhive_file полный путь к файлу архива
-	 * @param string $extract_to       каталог для извлечения файлов из архива
-	 *
-	 * @static
-	 * @return bool
-	 */
-	public static function extract($from_arhive_file, $extract_to) {
-		$zip = new ZipArchive;
-		if ($zip->open($from_arhive_file) === TRUE) {
-			$zip->extractTo($extract_to);
-			$zip->close();
-			$result = true;
-		}
-		else {
-			$result = false;
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 
 }

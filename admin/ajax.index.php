@@ -26,8 +26,8 @@ joosCoreAdmin::start();
 joosCoreAdmin::init_user();
 
 if ( helperAcl::is_allowed('admin_panel::use') ) {
-	echo json_encode(array('code' => 500,'message' => 'Ошибка прав доступа'));
-	die();
+    echo json_encode(array('code' => 500,'message' => 'Ошибка прав доступа'));
+    die();
 }
 
 $option = joosRequest::param('option');
@@ -39,11 +39,11 @@ $file_com = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $option . DS . 'c
 
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if (file_exists($file_com)) {
-	include_once ( $file_com );
-	joosAutoadmin::dispatch_ajax();
+    include_once ( $file_com );
+    joosAutoadmin::dispatch_ajax();
 } else {
-	echo json_encode(array('code' => 500,'message' => sprintf('Файл контроллера для %s не найден', $file_com)));
-	die();
+    echo json_encode(array('code' => 500,'message' => sprintf('Файл контроллера для %s не найден', $file_com)));
+    die();
 }
 
 ob_end_flush();

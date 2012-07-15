@@ -13,17 +13,17 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsNews extends joosController {
-
-    public static function action_before() {
-
+class actionsNews extends joosController
+{
+    public static function action_before()
+    {
         joosBreadcrumbs::instance()
             ->add('Главная', joosRoute::href('default'))
             ->add('Новости', joosRoute::href('news'));
 
         joosDocument::instance()
             ->add_js_file( JPATH_SITE . '/app/components/news/media/js/news.js' );
-        
+
     }
 
     /**
@@ -32,13 +32,13 @@ class actionsNews extends joosController {
      * @static
      * @return array
      */
-    public static function index() {
-
+    public static function index()
+    {
         $news = new modelNews();
 
         $page = isset(self::$param['page']) ? self::$param['page'] : 0;
         $pager = new joosPager(joosRoute::href('news'), $news->count('WHERE state = 1'), 5);
-      	$pager->paginate($page);
+          $pager->paginate($page);
 
         $news = $news->get_list(array(
             'where' => 'state = 1',
@@ -57,8 +57,8 @@ class actionsNews extends joosController {
         return array('news' => $news, 'pager' => $pager);
     }
 
-    public static function view() {
-
+    public static function view()
+    {
         $id = self::$param['id'];
 
         $item = new modelNews();
@@ -69,19 +69,17 @@ class actionsNews extends joosController {
             ->set_page_title($item->title)
             ->add_meta_tag('description', 'Новости компании');
 
-
         return array('item' => $item);
     }
 
     //редактирование
-    public static function edit() {
-
+    public static function edit()
+    {
         /**
          *
          * Тут код выполнения задачи
          *
          */
-
 
         joosDocument::instance()
             ->set_page_title('Новости')
@@ -94,8 +92,8 @@ class actionsNews extends joosController {
 
     }
 
-    private static function save(){
-
+    private static function save()
+    {
         joosCSRF::check_code(1);
 
         /**

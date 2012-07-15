@@ -265,8 +265,5 @@ defined( '_JOOS_CORE' ) or exit();
         </div>
         <button class="btn btn-success" type="submit">Отправить</button>
 
-
     </form>
 </div>
-
-

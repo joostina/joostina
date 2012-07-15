@@ -15,24 +15,24 @@ defined( '_JOOS_CORE' ) or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminEditTextArea implements joosAutoadminPluginsEdit{
+class pluginAutoadminEditTextArea implements joosAutoadminPluginsEdit
+{
+    public static function render( $element_param , $key , $value , $obj_data , $params )
+    {
+        $element   = array ();
 
-	public static function render( $element_param , $key , $value , $obj_data , $params ) {
-        
-		$element   = array ();
+        $element[] = $params['label_begin'];
+        $element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
+        $element[] = $params['label_end'];
+        $element[] = $params['el_begin'];
+        $element[] = joosHtml::textarea( array ( 'name'  => $key ,
+                                              'class' => 'text_area' ,
+                                              'rows'  => ( isset( $element_param['html_edit_element_param']['rows'] ) ? $element_param['html_edit_element_param']['rows'] : 6 ) ,
+                                              'cols'  => ( isset( $element_param['html_edit_element_param']['cols'] ) ? $element_param['html_edit_element_param']['cols'] : 40 ) ,
+                                              'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : 'width:97%' ) , ) , $value );
+        $element[] = $params['el_end'];
 
-		$element[] = $params['label_begin'];
-		$element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
-		$element[] = $params['label_end'];
-		$element[] = $params['el_begin'];
-		$element[] = joosHtml::textarea( array ( 'name'  => $key ,
-		                                      'class' => 'text_area' ,
-		                                      'rows'  => ( isset( $element_param['html_edit_element_param']['rows'] ) ? $element_param['html_edit_element_param']['rows'] : 6 ) ,
-		                                      'cols'  => ( isset( $element_param['html_edit_element_param']['cols'] ) ? $element_param['html_edit_element_param']['cols'] : 40 ) ,
-		                                      'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : 'width:97%' ) , ) , $value );
-		$element[] = $params['el_end'];
-
-		return implode( "\n" , $element );
-	}
+        return implode( "\n" , $element );
+    }
 
 }

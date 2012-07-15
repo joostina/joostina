@@ -18,8 +18,8 @@ array_unshift( $items , '<a href="' . JPATH_SITE . '">Главная</a>' );
 $last = count( $items ) - 1;
 ?>
 <div class="path">
-	<?php foreach ( $items as $key => $item ): ?>
-	<?php echo $item; ?>
-	<?php echo $key == $last ? '' : ' / ' ?>
-	<?php endforeach; ?>
+    <?php foreach ( $items as $key => $item ): ?>
+    <?php echo $item; ?>
+    <?php echo $key == $last ? '' : ' / ' ?>
+    <?php endforeach; ?>
 </div>

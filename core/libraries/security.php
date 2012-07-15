@@ -13,44 +13,44 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class joosSecurity {
+class joosSecurity
+{
+    /**
+     * Проверка на флуд
+     *
+     * @param  string  $key      название ключа/события проверки
+     * @param  int     $count    число допустимых запусков события
+     * @param  int     $time     число секунд для лимита времени за которое разрешено число запусков события
+     * @param  int     $ban_time время на котое ставится запрет для повторения события
+     * @return boolean результат проверки
+     */
+    public static function is_flood($key, $count, $time, $ban_time)
+    {
+        $key_flood = md5('flud_' . md5($key));
+        $key_still = md5('still' . md5($key));
 
-	/**
-	 * Проверка на флуд
-	 *
-	 * @param string $key название ключа/события проверки
-	 * @param int $count число допустимых запусков события
-	 * @param int $time число секунд для лимита времени за которое разрешено число запусков события
-	 * @param int $ban_time время на котое ставится запрет для повторения события
-	 * @return boolean результат проверки
-	 */
-	public static function is_flood($key, $count, $time, $ban_time) {
+        $cache = joosCache();
 
-		$key_flood = md5('flud_' . md5($key));
-		$key_still = md5('still' . md5($key));
+        if ($cache->get($key_still) == 1) {
+            return false;
+        }
 
-		$cache = joosCache();
+        $tmp = $cache->get($key_flood);
 
-		if ($cache->get($key_still) == 1) {
-			return false;
-		}
+        if ($tmp === false) {
+            $cache->set($key_flood, 1, $time);
+        } else {
+            $cache->increment($key_flood);
+        }
 
-		$tmp = $cache->get($key_flood);
+        // проверка не прошла, флуд.
+        if ($tmp >= $count) {
+            $cache->set($key_still, 1, $ban_time);
 
-		if ($tmp === false) {
-			$cache->set($key_flood, 1, $time);
-		}
-		else {
-			$cache->increment($key_flood);
-		}
+            return false;
+        }
 
-		// проверка не прошла, флуд.
-		if ($tmp >= $count) {
-			$cache->set($key_still, 1, $ban_time);
-			return false;
-		}
-
-		return true;
-	}
+        return true;
+    }
 
 }

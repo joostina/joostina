@@ -13,14 +13,14 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsBlogs extends joosController {
-
-    public static function action_before() {
-
+class actionsBlogs extends joosController
+{
+    public static function action_before()
+    {
         joosBreadcrumbs::instance()
             ->add('Главная', joosRoute::href('default'))
             ->add('Блоги', joosRoute::href('blog'));
-        
+
     }
 
     /**
@@ -29,13 +29,13 @@ class actionsBlogs extends joosController {
      * @static
      * @return array
      */
-    public static function index() {
-        
+    public static function index()
+    {
         $blogs = new modelBlogs;
 
         $page = isset(self::$param['page']) ? self::$param['page'] : 0;
         $pager = new joosPager(joosRoute::href('blog'), $blogs->count('WHERE state = 1'), 5);
-      	$pager->paginate($page);
+          $pager->paginate($page);
 
         $blog_items = $blogs->get_list(array(
             'select'=>'b.*, bc.title as category_title, bc.slug as category_slug, u.id AS user_id, u.user_name',
@@ -47,30 +47,29 @@ class actionsBlogs extends joosController {
             'limit' => $pager->limit,
             'offset' => $pager->offset
         ));
-        
+
         joosDocument::instance()
             ->set_page_title('Блоги')
             ->add_meta_tag('description', 'Блоги');
-        
+
         return array(
-            'blogs_items' => $blog_items, 
+            'blogs_items' => $blog_items,
             'pager' => $pager
         );
     }
 
-    public static function view() {
-
+    public static function view()
+    {
         $id = self::$param['id'];
 
         $blog_item = new modelBlogs();
         ($blog_item->load( $id ) && $blog_item->state==1)  ? null : joosPages::page404();
-        
+
         $blog_category = new modelBlogsCategory;
         ($blog_category->load( $blog_item->category_id ) && $blog_category->state==1)  ? null : joosPages::page404();
 
         $author = new modelUsers;
         ($author->load( $blog_item->user_id ) && $author->state==1)  ? null : joosPages::page404();
-
 
         joosDocument::instance()
             ->set_page_title($blog_item->title)
@@ -87,14 +86,13 @@ class actionsBlogs extends joosController {
     }
 
     //редактирование
-    public static function edit() {
-
+    public static function edit()
+    {
         /**
          *
          * Тут код выполнения задачи
          *
          */
-
 
         joosDocument::instance()
             ->set_page_title('Блоги')
@@ -104,13 +102,13 @@ class actionsBlogs extends joosController {
             ->add('Блоги');
 
         return array(
-            
+
         );
 
     }
 
-    private static function save(){
-
+    private static function save()
+    {
         joosCSRF::check_code(1);
 
         /**
@@ -127,7 +125,7 @@ class actionsBlogs extends joosController {
             ->add('Блоги');
 
         return array(
-            
+
         );
     }
 

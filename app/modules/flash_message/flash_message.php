@@ -10,5 +10,5 @@
  *
  **/
 if ( ( $message = joosFlashMessage::get() ) ) {
-	echo '<div class="alert">' . $message . '</div>';
+    echo '<div class="alert">' . $message . '</div>';
 }

@@ -5,28 +5,28 @@ defined('_JOOS_CORE') or exit();
  */
 return array(
     'Главная' => array(
-   		'title' => '',
-   		'href' => joosRoute::href('default')
-   	),
+           'title' => '',
+           'href' => joosRoute::href('default')
+       ),
 
     'Новости' => array(
-   		'title' => '',
-   		'href' => joosRoute::href('news')
-   	),
+           'title' => '',
+           'href' => joosRoute::href('news')
+       ),
 
     'Блоги' => array(
-   		'title' => '',
-   		'href' => joosRoute::href('blog')
-   	),
+           'title' => '',
+           'href' => joosRoute::href('blog')
+       ),
 
-	'Вёрстка здесь' => array(
-		'title' => '',
-		'href' => false,
-		'children' => array(
-			'Блог' => array(
-				'title' => '',
-				'href' => joosRoute::href('layouts', array('tpl' => 'blog_index')),
-			),
+    'Вёрстка здесь' => array(
+        'title' => '',
+        'href' => false,
+        'children' => array(
+            'Блог' => array(
+                'title' => '',
+                'href' => joosRoute::href('layouts', array('tpl' => 'blog_index')),
+            ),
             'Блог. Пост' => array(
                 'title' => '',
                 'href' => joosRoute::href('layouts', array('tpl' => 'blog_post')),
@@ -35,10 +35,7 @@ return array(
                 'title' => '',
                 'href' => joosRoute::href('layouts', array('tpl' => 'users_index')),
             ),
-		)
-	),
-
-
+        )
+    ),
 
 );
-		

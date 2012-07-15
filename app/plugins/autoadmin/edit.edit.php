@@ -15,24 +15,24 @@ defined( '_JOOS_CORE' ) or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class pluginAutoadminEditEdit implements joosAutoadminPluginsEdit{
+class pluginAutoadminEditEdit implements joosAutoadminPluginsEdit
+{
+    public static function render( $element_param , $key , $value , $obj_data , $params )
+    {
+        $element   = array ();
 
-	public static function render( $element_param , $key , $value , $obj_data , $params ) {
-
-		$element   = array ();
-
-		$element[] = $params['label_begin'];
-		$element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
-		$element[] = $params['label_end'];
-		$element[] = $params['el_begin'];
-		$element[] = joosHtml::input( array ( 'name'  => $key ,
-		                                   'class' => ( isset( $element_param['html_edit_element_param']['class'] ) ? $element_param['html_edit_element_param']['class'] : 'input-xlarge' ) ,
-		                                   'size'  => 100 ,
-		                                   'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : '' ) ,
+        $element[] = $params['label_begin'];
+        $element[] = joosHtml::label( array ( 'for' => $key ) , $element_param['name'] );
+        $element[] = $params['label_end'];
+        $element[] = $params['el_begin'];
+        $element[] = joosHtml::input( array ( 'name'  => $key ,
+                                           'class' => ( isset( $element_param['html_edit_element_param']['class'] ) ? $element_param['html_edit_element_param']['class'] : 'input-xlarge' ) ,
+                                           'size'  => 100 ,
+                                           'style' => ( isset( $element_param['html_edit_element_param']['style'] ) ? $element_param['html_edit_element_param']['style'] : '' ) ,
         ) , $value );
-		$element[] = $params['el_end'];
+        $element[] = $params['el_end'];
 
-		return implode( "\n" , $element );
-	}
+        return implode( "\n" , $element );
+    }
 
 }

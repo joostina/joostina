@@ -43,5 +43,3 @@ defined('_JOOS_CORE') or exit();
 
     </div>
 </section>
-
-    

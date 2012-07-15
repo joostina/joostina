@@ -46,7 +46,8 @@
  * @link https://github.com/rgrove/jsmin-php
  */
 
-class JSMin {
+class jsmin
+{
   const ORD_LF            = 10;
   const ORD_SPACE         = 32;
   const ACTION_KEEP_A     = 1;
@@ -71,8 +72,10 @@ class JSMin {
    * @param string $js Javascript to be minified
    * @return string
    */
-  public static function minify($js) {
+  public static function minify($js)
+  {
     $jsmin = new JSMin($js);
+
     return $jsmin->min();
   }
 
@@ -83,7 +86,8 @@ class JSMin {
    *
    * @param string $input Javascript to be minified
    */
-  public function __construct($input) {
+  public function __construct($input)
+  {
     $this->input       = str_replace("\r\n", "\n", $input);
     $this->inputLength = strlen($this->input);
   }
@@ -107,8 +111,9 @@ class JSMin {
    *      ACTION_DELETE_A    Copy B to A. Get the next B. (Delete A).
    *      ACTION_DELETE_A_B  Get the next B. (Delete B).
   */
-  protected function action($command) {
-    switch($command) {
+  protected function action($command)
+  {
+    switch ($command) {
       case self::ACTION_KEEP_A:
         $this->output .= $this->a;
 
@@ -190,7 +195,8 @@ class JSMin {
    *
    * @return string|null
    */
-  protected function get() {
+  protected function get()
+  {
     $c = $this->lookAhead;
     $this->lookAhead = null;
 
@@ -219,7 +225,8 @@ class JSMin {
    *
    * @return bool
    */
-  protected function isAlphaNum($c) {
+  protected function isAlphaNum($c)
+  {
     return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
   }
 
@@ -232,12 +239,13 @@ class JSMin {
    * @uses peek()
    * @return string
    */
-  protected function min() {
+  protected function min()
+  {
     if (0 == strncmp($this->peek(), "\xef", 1)) {
         $this->get();
         $this->get();
         $this->get();
-    } 
+    }
 
     $this->a = "\n";
     $this->action(self::ACTION_DELETE_A_B);
@@ -271,8 +279,7 @@ class JSMin {
             default:
               if ($this->isAlphaNum($this->b)) {
                 $this->action(self::ACTION_KEEP_A);
-              }
-              else {
+              } else {
                 $this->action(self::ACTION_DELETE_A);
               }
           }
@@ -304,8 +311,7 @@ class JSMin {
                 default:
                   if ($this->isAlphaNum($this->a)) {
                     $this->action(self::ACTION_KEEP_A);
-                  }
-                  else {
+                  } else {
                     $this->action(self::ACTION_DELETE_A_B);
                   }
               }
@@ -330,11 +336,12 @@ class JSMin {
    * @throws JSMinException On unterminated comment.
    * @return string
    */
-  protected function next() {
+  protected function next()
+  {
     $c = $this->get();
 
     if ($c === '/') {
-      switch($this->peek()) {
+      switch ($this->peek()) {
         case '/':
           for (;;) {
             $c = $this->get();
@@ -348,10 +355,11 @@ class JSMin {
           $this->get();
 
           for (;;) {
-            switch($this->get()) {
+            switch ($this->get()) {
               case '*':
                 if ($this->peek() === '/') {
                   $this->get();
+
                   return ' ';
                 }
                 break;
@@ -375,12 +383,13 @@ class JSMin {
    * @uses get()
    * @return string|null
    */
-  protected function peek() {
+  protected function peek()
+  {
     $this->lookAhead = $this->get();
+
     return $this->lookAhead;
   }
 }
 
 // -- Exceptions ---------------------------------------------------------------
 class JSMinException extends Exception {}
-?>

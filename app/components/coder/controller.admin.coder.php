@@ -13,10 +13,10 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAdminCoder  extends joosAdminController{
-
+class actionsAdminCoder  extends joosAdminController
+{
     public static $submenu = array(
-        
+
         'default' => array(
             'name' => 'Генератор моделей',
             'model' => 'modelAdminCoder',
@@ -44,63 +44,62 @@ class actionsAdminCoder  extends joosAdminController{
 
     );
 
-    public static function action_before() {
-        
+    public static function action_before()
+    {
         joosDocument::instance()
             ->add_css( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.css' )
             ->add_js_file( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.js' )
             ->add_js_file(JPATH_SITE . '/app/components/coder/media/js/coder.js');
 
         joosAdminView::set_param( 'component_title' ,  'Кодер');
-        
+
     }
 
-    public static function action_after() {
-
+    public static function action_after()
+    {
         joosAdminView::set_param('submenu', self::get_submenu() );
-        
+
     }
 
-
-    public static function index() {
-        
+    public static function index()
+    {
         self::$submenu['default']['active'] = true;
-        
+
         $tables = joosDatabase::instance()
             ->get_utils()
             ->get_table_list();
-        
+
         return array(
             'tables' => $tables
         );
     }
 
-    public static function faker() {
-        
+    public static function faker()
+    {
         self::$submenu['db_faker']['active'] = true;
         $tables = joosDatabase::instance()->get_utils()->get_table_list();
-        
+
         return array(
             'tables' => $tables
         );
     }
 
-    public static function code_generator() {
-
+    public static function code_generator()
+    {
         self::$submenu['code_generator']['active'] = true;
-        
+
         return array();
     }
 
-    public static function autoload_generator(){
-        
+    public static function autoload_generator()
+    {
         $classes = joosRobotLoader::get_classes( JPATH_BASE );
         $body = var_export($classes,true);
-        
+
         return array(
           'body'=> $body
         );
-        
+
     }
-    
+
 }

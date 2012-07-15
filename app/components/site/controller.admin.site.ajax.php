@@ -15,38 +15,37 @@ defined('_JOOS_CORE') or exit();
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxAdminSite extends joosAdminControllerAjax {
+class actionsAjaxAdminSite extends joosAdminControllerAjax
+{
+    public static function upload()
+    {
+        // активное правило загрузки для файла
+        $rules_name = joosRequest::post('rules_name');
 
-	public static function upload() {
+        joosUpload::init($rules_name);
 
-		// активное правило загрузки для файла
-		$rules_name = joosRequest::post('rules_name');
+        $upload_result = array();
 
-		joosUpload::init($rules_name);
+        $check = joosUpload::check();
+        if ($check === true) {
 
-		$upload_result = array();
+            $upload_result = joosUpload::actions_before() + $upload_result;
+            $upload_result = joosUpload::easy_upload(joosUpload::get_input_name(), joosUpload::get_upload_location()) + $upload_result;
+            $upload_result = joosUpload::actions_after($upload_result) + $upload_result;
 
-		$check = joosUpload::check();
-		if ($check === true) {
+            // удаляем физически файл если проверки не прошли в пользователю выдаём ошибку
+            if ($upload_result['success'] !== true) {
+                joosFile::delete($upload_result['file_base_location']);
+            }
+        } else {
 
-			$upload_result = joosUpload::actions_before() + $upload_result;
-			$upload_result = joosUpload::easy_upload(joosUpload::get_input_name(), joosUpload::get_upload_location()) + $upload_result;
-			$upload_result = joosUpload::actions_after($upload_result) + $upload_result;
+            $upload_result = $check;
+        }
 
-			// удаляем физически файл если проверки не прошли в пользователю выдаём ошибку
-			if ($upload_result['success'] !== true) {
-				joosFile::delete($upload_result['file_base_location']);
-			}
-		} else {
+        // подчищаем секретные данные
+        unset($upload_result['file_base_location']);
 
-			$upload_result = $check;
-		}
-
-
-		// подчищаем секретные данные
-		unset($upload_result['file_base_location']);
-
-		return $upload_result;
-	}
+        return $upload_result;
+    }
 
 }
