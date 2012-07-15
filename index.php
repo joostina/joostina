@@ -17,9 +17,8 @@ $sysstart = TRUE ? microtime(true) : null;
 // рассчет памяти
 function_exists('memory_get_usage') ? define('_JOOS_MEM_USAGE', memory_get_usage()) : null;
 
-
 // подключение главного файла - ядра системы
-require_once  __DIR__ . '/core/joostina.php';
+require_once __DIR__ . '/core/joostina.php';
 
 try {
 
@@ -27,9 +26,9 @@ try {
     joosController::run();
     echo joosController::render();
 
-	echo !JDEBUG ? : joosController::debug($sysstart);
-	
+    echo !JDEBUG ? : joosController::debug($sysstart);
+
 } catch (Exception $e) {
-	
+
     echo $e;
 }

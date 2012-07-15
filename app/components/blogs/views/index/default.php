@@ -42,4 +42,4 @@ echo joosBreadcrumbs::instance()->get() ?>
 </article>
 <?php endforeach ?>
 
-<?php echo $pager->output;  
+<?php echo $pager->output;

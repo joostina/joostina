@@ -678,27 +678,27 @@ class joosController
         joosFile::exists($viewfile) ? require ($viewfile) : null;
     }
 
-	public static function debug($sysstart){
-		// вывод лога отладки
+    public static function debug($sysstart)
+    {
+        // вывод лога отладки
 
+            // подсчет израсходованной памяти
+            if (defined('_JOOS_MEM_USAGE')) {
 
-			// подсчет израсходованной памяти
-			if (defined('_JOOS_MEM_USAGE')) {
+                $mem_usage = ( memory_get_usage() - _JOOS_MEM_USAGE );
+                $mem_usage = joosFile::convert_size($mem_usage);
+            } else {
+                $mem_usage = 'Недоступно';
+            }
 
-				$mem_usage = ( memory_get_usage() - _JOOS_MEM_USAGE );
-				$mem_usage = joosFile::convert_size($mem_usage);
-			} else {
-				$mem_usage = 'Недоступно';
-			}
+            // подсчет времени генерации страницы
+            joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
+            joosDebug::add_top($mem_usage);
 
-			// подсчет времени генерации страницы
-			joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
-			joosDebug::add_top($mem_usage);
+            // вывод итогового лога отлатчика
+            joosDebug::get();
+    }
 
-			// вывод итогового лога отлатчика
-			joosDebug::get();
-	}
-	
 }
 
 /**

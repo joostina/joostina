@@ -18,10 +18,10 @@ joosController::$controller = joosRequest::param('option');
 joosController::$task = joosRequest::param('task', 'index');
 
 try {
-	
+
     // запускаем аяксовый контроллер
     joosController::ajax_run();
 } catch (Exception $e) {
-	
+
     echo $e;
 }
