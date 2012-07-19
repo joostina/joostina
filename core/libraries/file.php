@@ -292,9 +292,8 @@ class joosFile
      */
     public static function put_content($file_name, $data)
     {
-        self::exception_if_file_not_exists($file_name);
 
-        if (!joosFile::is_writable($file_name)) {
+	if ( joosFile::exists($file_name) && !joosFile::is_writable($file_name)) {
             throw new joosFileLibrariesException('Файл :file не доступен для записи', array(':file' => $file_name));
         }
 
