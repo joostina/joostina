@@ -13,11 +13,10 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class modelAdminSitemap extends modelSitemap
-{
-    public function get_tableinfo()
-    {
-        return array ( 'header_main' => 'Карта сайта' );
-    }
+class modelAdminSitemap extends modelSitemap {
+
+	public function get_tableinfo() {
+		return array ( 'header_main' => 'Карта сайта' );
+	}
 
 }

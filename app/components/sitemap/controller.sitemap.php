@@ -13,20 +13,19 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsSitemap extends joosController
-{
-    public static function action_before($active_task)
-    {
-        //Хлебные крошки
-        joosBreadcrumbs::instance()->add('Карта сайта');
+class actionsSitemap extends joosController {
 
-    }
+	public static function action_before($active_task) {
+		//Хлебные крошки
+		joosBreadcrumbs::instance()->add('Карта сайта');
 
-    public static function index()
-    {
-        $map = modelSitemap::get_map();
+	}
 
-        return array('map' => $map);
-    }
+	public static function index() {
+
+		$map = modelSitemap::get_map();
+
+		return array('map' => $map);
+	}
 
 }

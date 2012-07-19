@@ -14,12 +14,12 @@ joosDocument::instance()->add_css( JPATH_SITE . '/components/sitemap/media/css/s
 
 ?><h1>Карта сайта</h1><?php
 
-foreach ($map->nodes as $space => $nodes) {
-    echo '<div class="mapspace space-' . $space . '">';
-    echo '<ul>';
-    foreach ($nodes as $node) {
-        echo '<li>' . $node . '</li>';
-    }
-    echo '</ul>';
-    echo '</div>';
+foreach ( $map->nodes as $space => $nodes ) {
+	echo '<div class="mapspace space-' . $space . '">';
+	echo '<ul>';
+	foreach ( $nodes as $node ) {
+		echo '<li>' . $node . '</li>';
+	}
+	echo '</ul>';
+	echo '</div>';
 }
