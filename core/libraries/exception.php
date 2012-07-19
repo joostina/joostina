@@ -140,6 +140,11 @@ HTML;
 
     public static function error_handler($code, $message, $file, $line)
     {
+
+	if ( 0 == error_reporting () ) {
+		return;
+	}
+
         throw new joosException('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line', array(':message' => $message, ':error_code' => $code, ':error_file' => $file, ':error_line' => $line));
     }
 
