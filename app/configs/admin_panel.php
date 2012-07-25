@@ -22,11 +22,6 @@ return array(
             'title' => '',
             'ico' => 'contact-new',
         ),
-        'Права доступа' => array(
-            'href' => 'index2.php?option=acls',
-            'title' => '',
-            'ico' => 'folder-publicshare',
-        )
     ),
     'clear_pages'=>true,
     'Статичные страницы' => array(
