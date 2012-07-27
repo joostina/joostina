@@ -380,14 +380,14 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
   KEY `idxemail` (`email`),
   KEY `block_id` (`state`,`id`),
   KEY `username_canonikal` (`user_name_canonikal`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Дамп данных таблицы `jos_users`
 --
 
-INSERT INTO `jos_users` (`id`, `user_name`, `user_name_canonikal`, `real_name`, `email`, `openid`, `password`, `state`, `group_id`, `group_name`, `activation`, `bad_auth_count`, `register_date`, `lastvisit_date`) VALUES
-(1, 'admin', 'atm1n', 'Реально нереальный админ!', 'admin@joostina.ru', '', '1e72fb95f1710557274dcfd23a4582fd:DAj5Qf4Y1ktEenhE', 1, 8, 'SuperAdministrator', '', 0, '2010-11-28 15:29:47', '2012-04-05 23:38:40');
+INSERT INTO `jos_users` (`id`, `user_name`, `user_name_canonikal`, `real_name`, `email`, `openid`, `password`, `state`, `activation`, `bad_auth_count`, `register_date`, `lastvisit_date`) VALUES
+(1, 'admin', 'atm1n', 'Реально нереальный админ!', 'admin@joostina.ru', '', '1e72fb95f1710557274dcfd23a4582fd:DAj5Qf4Y1ktEenhE', 1, '', 0, '2010-11-28 15:29:47', '2012-07-15 22:43:55');
 
 -- --------------------------------------------------------
 
