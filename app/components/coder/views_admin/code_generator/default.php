@@ -22,15 +22,15 @@ defined('_JOOS_CORE') or exit();
         <div class="span2">
             <form action="#" method="post" id="componenter_form">
                 <label for="">Название компонента:</label>
-                <input type="text" name="component_name" value="news"/>
+                <input type="text" name="component_name" value="component_name"/>
                 <br/><br/>
 
                 <label for="">Заголовок компонента:</label>
-                <input type="text" name="component_title" value="Новости"/>
+                <input type="text" name="component_title" value="Заголовок"/>
                 <br/><br/>
 
                 <label for="">Описание компонента:</label>
-                <input type="text" name="component_description" value="Управляет новостными событиями на сайте"/>
+                <input type="text" name="component_description" value="Управляет объектами на сайте"/>
                 <br/><br/>
 
                 <label for="">Автор:</label>
@@ -46,6 +46,7 @@ defined('_JOOS_CORE') or exit();
                 <br/><br/>
             </form>
             <button id="create_component">Сгенерировать</button>
+	        <button id="create_fs">Создать</button>
         </div>
         <div class="span10">
             <div id="componenter_results" class="span10" cols="25" rows="30"></div>

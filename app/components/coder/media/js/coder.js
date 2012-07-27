@@ -57,5 +57,19 @@ $(document).ready(function() {
 
     });
 
+    $('#create_fs').live('click', function() {
+
+        $.ajax({
+            url:"ajax.index.php?option=coder&task=filegenerator",
+            type:"POST",
+            dataType:'json',
+            cache:false,
+            data:$('#componenter_form').serialize(),
+            success:function(html) {
+                $("#componenter_results").html(html.body);
+            }
+        });
+
+    });
 
 });

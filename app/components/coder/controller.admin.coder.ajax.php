@@ -133,6 +133,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
         );
 
         $return = array();
+	    $create_files = array();
         foreach ($template_files as $template_file) {
             $template_body = joosFile::get_content( $template_path_root . $template_file);
 
@@ -140,10 +141,67 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
             $file_name = str_replace('component_name', $template_vars[':component_name'] ,$template_file);
 
             $return[$template_file] = sprintf('%s.php<br /><textarea class="span10" rows="10">%s</textarea>',$file_name,$file_body);
+	        $create_files[$file_name] = $file_body;
 
         }
 
-        return array('success'=>true, 'body' => implode("\n", $return) );
+        return array('success'=>true, 'body' => implode("\n", $return), 'component_name'=>$template_vars[':component_name'],'files_body'=>$create_files );
     }
 
+	
+	public static function filegenerator()
+	{
+	
+		$codes = self::codegenerator();
+		$files = $codes['files_body'];
+		$name = $codes['component_name'];
+
+		if( !joosFile::is_writable( JPATH_BASE_APP.'/components/' )){
+			return array(
+				'success'=>false,
+				'message'=>'Не хватает прав для создания каталога компонента'
+			);
+		}
+		
+		$component_root = JPATH_BASE_APP.'/components/'.$name;
+		if( joosFile::exists($component_root)){
+			return array(
+				'success'=>false,
+				'message'=>'Каталог компонента уже существует'
+			);
+		}
+
+		$dir_structure = array(
+			'{app}/components/{name}',
+			'{app}/components/{name}/helpers',
+			'{app}/components/{name}/media',
+			'{app}/components/{name}/media/js',
+			'{app}/components/{name}/media/css',
+			'{app}/components/{name}/models',
+			'{app}/components/{name}/views',
+			'{app}/components/{name}/views_admin',
+		);
+
+		$oldumask = umask(0);
+		
+		foreach ($dir_structure as $dir) {
+			
+			$create_dir = strtr($dir, array('{app}'=>JPATH_BASE_APP,'{name}'=>$name) );
+			joosFolder::create($create_dir,0777);
+		}
+
+		
+
+
+		foreach ($files as $file_name=>$file_body) {
+			echo $file_name."\n";
+			joosFile::put_content( sprintf('%s/components/%s/%s.php',JPATH_BASE_APP,$name,$file_name),$file_body );
+		}
+
+		umask($oldumask);
+
+		//_xdump($files);
+		
+	}
+	
 }

@@ -42,7 +42,7 @@ class joosException extends Exception
             $this->code = $params[':error_code'];
         }
 
-        //$this->__toString();
+        $this->__toString();
     }
 
     private function get_file_context()
