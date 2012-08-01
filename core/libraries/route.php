@@ -15,9 +15,12 @@
  * */
 class joosRoute extends Route
 {
-    private static $current_url;
+    private $current_url;
+	private $current_route;
 
-    public static function init()
+	private $params;
+	
+    public function __construct()
     {
         /**
          *
@@ -31,26 +34,24 @@ class joosRoute extends Route
 
         //$uri = $_SERVER['QUERY_STRING'] = rtrim($_SERVER['QUERY_STRING'], '/');
         $uri = $_SERVER['REQUEST_URI'] = trim($_SERVER['REQUEST_URI'], '/');
-        self::$current_url = urldecode($uri);
+        $this->current_url = urldecode($uri);
 
     }
 
-    public static function route()
+    public function route()
     {
-        self::init();
 
         $routes = self::all();
         $params = NULL;
 
         foreach ($routes as $name => $route) {
-            // We found something suitable
-            if (($params = $route->matches(self::$current_url))) {
-                joosController::$activroute = $name;
-                joosController::$controller = $params['controller'];
-                joosController::$task = $params['action'];
-                joosController::$param = $params;
 
-                return;
+            if (($params = $route->matches($this->current_url))) {
+	            
+				$this->params = $params;
+	            $this->current_route = $name;
+	            
+	            return true;
             }
         }
 
@@ -83,7 +84,7 @@ class joosRoute extends Route
      * @param  string $type тип перехода - ошибка, предупреждение, сообщение и т.д.
      * @return void
      */
-    public static function redirect($url, $msg = '', $type = 'success')
+    public function redirect($url, $msg = '', $type = 'success')
     {
         $iFilter = joosInputFilter::instance();
         $url = $iFilter->process($url);
@@ -113,9 +114,9 @@ class joosRoute extends Route
      *
      * @return string
      */
-    public static function get_active_route()
+    public function get_current_route()
     {
-        return joosController::$activroute;
+        return $this->current_route;
     }
 
     /**
@@ -123,11 +124,15 @@ class joosRoute extends Route
      *
      * @return string
      */
-    public static function get_current_url()
+    public function get_current_url()
     {
-        return self::$current_url == '' ? JPATH_SITE : JPATH_SITE . '/' . self::$current_url;
+        return $this->current_url == '' ? JPATH_SITE : JPATH_SITE . '/' . $this->current_url;
     }
 
+	public function param($name,$default = null){
+		return isset( $this->params[$name] ) ? $this->params[$name] : $default;
+	}
+	
 }
 
 /**

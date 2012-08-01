@@ -15,7 +15,7 @@
  * */
 class actionsPages extends joosController
 {
-    public static function index()
+    public function index()
     {
         $page = new modelPages();
         $pages = $page->get_list(array('where' => 'state = 1'));
@@ -26,18 +26,13 @@ class actionsPages extends joosController
         return array('task' => 'view', 'pages' => $pages);
     }
 
-    public static function view()
+    public function view()
     {
         $slug = self::$param['page_name'];
 
         $page = new modelPages;
         $page->slug = $slug;
         $page->find() ? null : joosPages::page404();
-
-        // одно из вышеобозначенных действий зафиксировало ошибку, прекращаем работу
-        if (self::$error) {
-            return false;
-        }
 
         joosDocument::instance()
                       ->set_page_title($page->title)

@@ -15,7 +15,7 @@ require_once __DIR__ . '/core/joostina.php';
 
 // заполняем некоторые полезные переменные
 joosController::$controller = joosRequest::param('option');
-joosController::$task = joosRequest::param('task', 'index');
+joosController::$action = joosRequest::param('task', 'index');
 
 try {
 

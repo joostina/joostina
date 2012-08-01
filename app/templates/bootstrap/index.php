@@ -6,7 +6,7 @@ defined('_JOOS_CORE') or die();
 $css_cache = joosFile::get_modified_date(JTEMPLATE_BASE . DS . 'styles'. DS . 'app' . DS . '_app.css');
 
 //текущий роут
-$page = joosController::$activroute;
+$page = joosController::instance()->get_router()->get_current_route();
 
 ?>
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ $page = joosController::$activroute;
 
             <?php echo joosModule::load_by_position('top');?>
 
-            <?php if (joosController::$activroute == 'default'): ?>
+            <?php if ($page == 'default'): ?>
                 <div class="hero-unit">
                     <h1>Hello, world!</h1>
 

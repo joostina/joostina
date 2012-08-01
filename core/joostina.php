@@ -493,17 +493,45 @@ class joosDocument
  */
 class joosController
 {
-    public static $activroute;
-    public static $controller;
-    public static $task;
+
+    public static $action;
     public static $param;
     public static $error = false;
 
-    public static function init()
+	/**
+	 * @var joosRoute
+	 */
+	protected $router;
+
+	/**
+	 * @var joosController
+	 */
+	protected static  $instance;
+
+	/**
+	 * @static
+	 * @return joosController
+	 */
+	public static function instance(){
+		
+		if( self::$instance === NULL ){
+			self::$instance = new joosController();
+		}
+		
+		return self::$instance;
+	}
+	
+	private function __construct(){
+		$this->init();
+	}
+	
+    public function init()
     {
         joosDocument::header();
-        joosRoute::route();
-
+	    
+        $this->router = new joosRoute();
+	    $this->router->route();
+	    
         $events_name = 'core.init';
         joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
     }
@@ -512,58 +540,41 @@ class joosController
      * Автоматическое определение и запуск метода действия
      * @todo добавить сюда события events ДО, ПОСЛЕ и ВМЕСТО выполнения задчи контроллера
      */
-    public static function run()
+    public function run()
     {
-        // проверяем что задача не запущена вручную
-        if (self::$activroute != 'static_run') {
-            self::init();
-        }
 
         $events_name = 'core.run';
         joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
 
         ob_start();
 
-        $class = 'actions' . ucfirst(self::$controller);
+        $controller_class_name = 'actions' . ucfirst( $this->router->param('controller') );
 
-        JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
+        $controller = new $controller_class_name;
+        $action = $this->router->param('action');
 
-        /**
-         * @todo тут можно переписать из статических методов в общие публичные, тока будет ли в этом профит?
-         * $controller = new $class;
-         * $results = call_user_func_array( array( $controller, self::$task ) );
-         */
-        if (method_exists($class, self::$task)) {
+	    JDEBUG ? joosDebug::add($controller_class_name . '->' . $action) : null;
 
-            $events_name = sprintf('controller.*');
-            joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, self::$task) : null;
 
-            $events_name = sprintf('controller.%s.*', $class);
-            joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, $class, self::$task) : null;
+	    if (method_exists($controller_class_name, $action)) {
 
-            $events_name = sprintf('controller.%s.%s', $class, self::$task);
-            joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name, self::$param) : null;
 
             // в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
-            method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
+            method_exists($controller_class_name, 'action_before') ? call_user_func_array($controller_class_name . '::action_before', array(self::$action)) : null;
 
-            $results = call_user_func($class . '::' . self::$task);
-
+		    $results = $controller->$action();
+		    
             // действия контроллера вызываемые после работы основного действия, на вход принимает результат работы основного действия
-            method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $results)) : null;
+            method_exists($controller_class_name, 'action_after') ? call_user_func_array($controller_class_name . '::action_after', array(self::$action, $results)) : null;
 
             if (is_array($results)) {
-                self::views($results, self::$controller, self::$task);
+                $this->views($results);
             } elseif (is_string($results)) {
                 echo $results;
             }
 
             // главное содержимое - стек вывода компонента - mainbody
             joosDocument::set_body(ob_get_clean());
-
-            if (self::$activroute == 'static_run') {
-                return joosDocument::get_body();
-            }
         } else {
             //  в контроллере нет запрашиваемого метода
             joosPages::page404('Метод не найден');
@@ -579,54 +590,25 @@ class joosController
         return ob_get_clean();
     }
 
-    /**
-     * Автоматическое определение и запуск метода действия для Аякс-запросов
-     *
-     * @static
-     */
-    public static function ajax_run()
-    {
-        joosRoute::init();
-
-        $events_name = 'core.run';
-        joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
-
-        $class = 'actionsAjax' . ucfirst(self::$controller);
-
-        JDEBUG ? joosDebug::add($class . '::' . self::$task) : null;
-
-        if (method_exists($class, self::$task)) {
-
-            // в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
-            method_exists($class, 'action_before') ? call_user_func_array($class . '::action_before', array(self::$task)) : null;
-
-            $result = call_user_func($class . '::' . self::$task);
-
-            method_exists($class, 'action_after') ? call_user_func_array($class . '::action_after', array(self::$task, $result)) : null;
-        } else {
-            //  в контроллере нет запрашиваемого метода
-            return self::ajax_error404();
-        }
-        if (is_array($result)) {
-            echo json_encode($result);
-        } elseif (is_string($result)) {
-            echo $result;
-        }
-    }
-
-    private static function views(array $params, $option, $task)
+    private function views(array $params)
     {
         //Инициализируем модули
-        joosModule::init();
-        joosModule::set_controller_data($params);
+        //joosModule::init();
+        //joosModule::set_controller_data($params);
 
-        self::as_html($params, $option, $task);
+	    ob_start();
+        $this->as_html($params);
+	    return ob_get_clean();
     }
 
-    private static function as_html(array $params, $controller, $method)
+    private function as_html(array $params)
     {
+	    
+	    $controller = $this->router->param('controller');
+	    $action = $this->router->param('action');
+	    
         $template = isset($params['template']) ? $params['template'] : 'default';
-        $view = isset($params['view']) ? $params['view'] : $method;
+        $view = isset($params['view']) ? $params['view'] : $action;
 
         extract($params, EXTR_OVERWRITE);
         $viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $view . DS . $template . '.php';
@@ -637,28 +619,8 @@ class joosController
     public static function ajax_error404()
     {
         joosRequest::send_headers_by_code(404);
-        echo '404';
 
-        self::$error = 404;
-
-        return;
-    }
-
-    /**
-     * Статичный запуск проитзвольной задачи из произвольного контроллера
-     *
-     * @param string $controller название контроллера
-     * @param string $task       выполняемая задача
-     * @param array  $params     массив парамеьтров передаваемых задаче
-     */
-    public static function static_run($controller, $task, array $params = array())
-    {
-        self::$controller = $controller;
-        self::$task = $task;
-        self::$param = $params;
-        self::$activroute = 'static_run';
-
-        return self::run();
+        return array('error'=>404);
     }
 
     /**
@@ -699,6 +661,10 @@ class joosController
             joosDebug::get();
     }
 
+	public function get_router(){
+		return $this->router;
+	}
+	
 }
 
 /**

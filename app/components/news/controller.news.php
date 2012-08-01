@@ -32,7 +32,7 @@ class actionsNews extends joosController
      * @static
      * @return array
      */
-    public static function index()
+    public function index()
     {
         $news = new modelNews();
 
@@ -57,7 +57,7 @@ class actionsNews extends joosController
         return array('news' => $news, 'pager' => $pager);
     }
 
-    public static function view()
+    public function view()
     {
         $id = self::$param['id'];
 
@@ -73,7 +73,7 @@ class actionsNews extends joosController
     }
 
     //редактирование
-    public static function edit()
+    public function edit()
     {
         /**
          *
@@ -92,7 +92,7 @@ class actionsNews extends joosController
 
     }
 
-    private static function save()
+    private function save()
     {
         joosCSRF::check_code(1);
 

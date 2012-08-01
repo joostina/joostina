@@ -100,11 +100,11 @@ class joosModule
 
                     $params['action'] = isset($params['action']) ? $params['action'] : 'default_action';
 
-                    if (joosController::$activroute == $params['route'] || $params['route'] == '__all') {
+                    if (joosController::$current_route == $params['route'] || $params['route'] == '__all') {
                         $params['params'] = isset($params['params']) ? $params['params'] : array();
                         $modules .= self::execute($name, $params['action'], $params['params']);
                     } elseif ($params['route'] == '__exept') {
-                        if (!in_array(joosController::$activroute, $params['__exept_routes'])) {
+                        if (!in_array(joosController::$current_route, $params['__exept_routes'])) {
                             $params['params'] = isset($params['params']) ? $params['params'] : array();
                             $modules .= self::execute($name, $params['action'], $params['params']);
                         }
