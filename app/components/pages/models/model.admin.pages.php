@@ -99,7 +99,7 @@ class modelAdminPages extends modelPages
         );
     }
 
-    public static function get_slug($item)
+    public function get_slug($item)
     {
         return '
             <input type="text" style="width: 50%;" class="text_area" size="30" value="' . $item->slug . '" name="slug" id="slug">

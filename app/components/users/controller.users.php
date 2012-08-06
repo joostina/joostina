@@ -17,13 +17,13 @@ defined('_JOOS_CORE') or exit;
  * */
 class actionsUsers extends joosController
 {
-    public static function action_before()
+    public function action_before()
     {
         joosBreadcrumbs::instance()->add('Пользователи');
     }
 
     //Список пользователей сайта
-    public static function index()
+    public function index()
     {
         $page = isset(self::$param['page']) ? self::$param['page'] : 0;
 
@@ -36,7 +36,7 @@ class actionsUsers extends joosController
     }
 
     //профиль пользователя
-    public static function profile_view()
+    public function profile_view()
     {
         $user_name = self::$param['user_name'];
 
@@ -53,7 +53,7 @@ class actionsUsers extends joosController
     }
 
     //редактирование
-    public static function profile_edit()
+    public function profile_edit()
     {
         if (modelUsers::is_loged() == false) {
             joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
@@ -120,7 +120,7 @@ class actionsUsers extends joosController
      * @static
      *
      */
-    public static function login()
+    public function login()
     {
         joosCSRF::check_code(1);
 
@@ -133,7 +133,7 @@ class actionsUsers extends joosController
     /**
      * Разлогинивание епользователя
      */
-    public static function logout()
+    public function logout()
     {
         joosCSRF::check_code(1);
 
@@ -149,7 +149,7 @@ class actionsUsers extends joosController
         }
     }
 
-    public static function register()
+    public function register()
     {
         joosDocument::instance()->set_page_title('Регистрация');
 
@@ -164,7 +164,7 @@ class actionsUsers extends joosController
         }
     }
 
-    public static function check()
+    public function check()
     {
         $param = explode('?', $_SERVER['REQUEST_URI']);
         parse_str($param[1], $datas);
@@ -204,7 +204,7 @@ class actionsUsers extends joosController
     /**
      * Форма восстановления пароля
      */
-    public static function lost_password()
+    public function lost_password()
     {
         $_POST ? self::send_new_pass() : self::lost_password();
     }
@@ -213,7 +213,7 @@ class actionsUsers extends joosController
      * Процесс восстановления пароля
      */
     // TODO обновить до актуального
-    public static function send_new_pass()
+    public function send_new_pass()
     {
     }
 

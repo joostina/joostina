@@ -22,11 +22,11 @@ class actionsAdminSitemap  extends joosAdminController{
      * @static
      * @return array|void
      */
-	public static function index( ) {
+	public function index( ) {
         return array();
 	}
 
-	public static function generate_xml( ) {
+	public function generate_xml( ) {
 		
 		// это что бы роутер не жаловался
 		joosRoute::init();

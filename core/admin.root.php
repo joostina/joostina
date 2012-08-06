@@ -12,7 +12,7 @@ class joosModuleAdmin
 {
     public static function load_by_name($module_name)
     {
-        $module_file = JPATH_BASE_APP . DS . 'modules' . DS . $module_name . DS . $module_name . '.php';
+        $module_file = JPATH_APP_BASE . DS . 'modules' . DS . $module_name . DS . $module_name . '.php';
 
         if (joosFile::exists($module_file)) {
             require_once $module_file;
@@ -23,7 +23,7 @@ class joosModuleAdmin
 
     public static function view($module_name, $template_view = 'default')
     {
-        return JPATH_BASE_APP . DS . 'modules' . DS . $module_name . DS . 'views' . DS . $template_view . '.php';
+        return JPATH_APP_BASE . DS . 'modules' . DS . $module_name . DS . 'views' . DS . $template_view . '.php';
     }
 
     public static function render($module_name, array $params = array())
@@ -576,7 +576,7 @@ class joosAdminControllerAjax extends joosAdminController
      */
     public static function upload_images_embedded()
     {
-        $upload_result = joosUpload::easy_upload('file', JPATH_BASE_APP . '/attachments/images_embedded/', array('new_name' => date('YmdHis')));
+        $upload_result = joosUpload::easy_upload('file', JPATH_APP_BASE . '/attachments/images_embedded/', array('new_name' => date('YmdHis')));
 
         echo '<img src="' . $upload_result['file_live_location'] . '" />';
     }
@@ -587,7 +587,7 @@ class joosAdminControllerAjax extends joosAdminController
      */
     public static function upload_files_embedded()
     {
-        $upload_result = joosUpload::easy_upload('file', JPATH_BASE_APP . '/attachments/files_embedded/', array('new_name' => date('YmdHis')));
+        $upload_result = joosUpload::easy_upload('file', JPATH_APP_BASE . '/attachments/files_embedded/', array('new_name' => date('YmdHis')));
         echo '<a href="' . $upload_result['file_live_location'] . '" class="redactor_file_link redactor_file_ico_' . $upload_result['file_info']['ext'] . '">' . $upload_result['file_name'] . '</a>';
     }
 

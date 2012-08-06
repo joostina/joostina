@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or exit;
  * */
 class actionsAjaxAdminSite extends joosAdminControllerAjax
 {
-    public static function upload()
+    public function upload()
     {
         // активное правило загрузки для файла
         $rules_name = joosRequest::post('rules_name');

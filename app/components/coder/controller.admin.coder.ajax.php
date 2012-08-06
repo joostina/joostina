@@ -17,7 +17,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
 {
     private static $implode_model = true;
 
-    public static function index()
+    public function index()
     {
         $tables = joosRequest::array_param('codertable',array(),$_POST);
 
@@ -47,7 +47,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
         );
     }
 
-    public static function table_select()
+    public function table_select()
     {
         $table = joosRequest::post('table');
 
@@ -104,7 +104,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
         return $return;
     }
 
-    public static function codegenerator()
+    public function codegenerator()
     {
         $template_vars_default = array(
             'component_title' => '',
@@ -149,21 +149,21 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
     }
 
 	
-	public static function filegenerator()
+	public function filegenerator()
 	{
 	
 		$codes = self::codegenerator();
 		$files = $codes['files_body'];
 		$name = $codes['component_name'];
 
-		if( !joosFile::is_writable( JPATH_BASE_APP.'/components/' )){
+		if( !joosFile::is_writable( JPATH_APP_BASE.'/components/' )){
 			return array(
 				'success'=>false,
 				'message'=>'Не хватает прав для создания каталога компонента'
 			);
 		}
 		
-		$component_root = JPATH_BASE_APP.'/components/'.$name;
+		$component_root = JPATH_APP_BASE.'/components/'.$name;
 		if( joosFile::exists($component_root)){
 			return array(
 				'success'=>false,
@@ -186,7 +186,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
 		
 		foreach ($dir_structure as $dir) {
 			
-			$create_dir = strtr($dir, array('{app}'=>JPATH_BASE_APP,'{name}'=>$name) );
+			$create_dir = strtr($dir, array('{app}'=>JPATH_APP_BASE,'{name}'=>$name) );
 			joosFolder::create($create_dir,0777);
 		}
 
@@ -195,7 +195,7 @@ class actionsAjaxAdminCoder extends joosAdminControllerAjax
 
 		foreach ($files as $file_name=>$file_body) {
 			echo $file_name."\n";
-			joosFile::put_content( sprintf('%s/components/%s/%s.php',JPATH_BASE_APP,$name,$file_name),$file_body );
+			joosFile::put_content( sprintf('%s/components/%s/%s.php',JPATH_APP_BASE,$name,$file_name),$file_body );
 		}
 
 		umask($oldumask);

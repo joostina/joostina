@@ -12,10 +12,10 @@
 define('_JOOS_CORE', 1);
 
 // рассчет времени работы
-$sysstart = TRUE ? microtime(true) : null;
+define('JOOS_START', microtime(true));
 
 // рассчет памяти
-function_exists('memory_get_usage') ? define('_JOOS_MEM_USAGE', memory_get_usage()) : null;
+function_exists('memory_get_usage') ? define('JOOS_MEMORY_START', memory_get_usage()) : null;
 
 // подключение главного файла - ядра системы
 require_once __DIR__ . '/core/joostina.php';
@@ -28,7 +28,7 @@ try {
 		->run()
 		->render();
 
-    echo !JDEBUG ? : joosController::debug($sysstart);
+    echo !JDEBUG ? : joosController::debug();
 
 } catch (Exception $e) {
 

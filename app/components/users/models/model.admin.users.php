@@ -156,7 +156,7 @@ class modelAdminUsers extends modelUsers
         }
     }
 
-    public static function get_users_group_multi($current_obj)
+    public function get_users_group_multi($current_obj)
     {
         if ($current_obj->id) {
 

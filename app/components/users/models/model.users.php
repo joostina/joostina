@@ -224,7 +224,7 @@ class modelUsers extends joosModel
      *
      * @return bool
      */
-    public static function check_password($input_password, $real_password)
+    public function check_password($input_password, $real_password)
     {
         // из хешированного значения пароля хранящегося в базе извлекаем соль
         list($hash, $salt) = explode(':', $real_password);
@@ -247,7 +247,7 @@ class modelUsers extends joosModel
      *
      * @return string
      */
-    public static function prepare_password($password)
+    public function prepare_password($password)
     {
         $salt = joosRandomizer::hash(16);
         $crypt = md5($password . $salt);
@@ -272,7 +272,7 @@ class modelUsers extends joosModel
      * Получение объекта текущего пользователя
      * @return modelUsers
      */
-    public static function current()
+    public function current()
     {
         // TODO тут надо как-то унифицировать
         return joosCore::is_admin() ? joosCoreAdmin::user() : self::instance();
@@ -287,7 +287,7 @@ class modelUsers extends joosModel
      *
      * @todo требуется рефакторинг, модуль должен возвращать true или false
      */
-    public static function login($user_name, $password = false, array $params = array())
+    public function login($user_name, $password = false, array $params = array())
     {
         $params += array('redirect' => true);
 
@@ -366,7 +366,7 @@ class modelUsers extends joosModel
         }
     }
 
-    public static function logout()
+    public function logout()
     {
         // получаем название куки ктоторая должна быть у пользователя
         $sessionCookieName = joosSession::session_cookie_name();
@@ -388,7 +388,7 @@ class modelUsers extends joosModel
     }
 
     // быстрая проверка авторизации пользователя
-    public static function is_loged()
+    public function is_loged()
     {
         return (bool) modelUsers::current()->id != false;
     }

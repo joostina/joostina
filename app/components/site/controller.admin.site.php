@@ -15,9 +15,9 @@
  * */
 class actionsAdminSite extends joosAdminController
 {
-    public static function  action_before(){}
+    public function  action_before(){}
 
-    public static function index()
+    public function index()
     {
         require_once JPATH_BASE . '/app/templates/' . JTEMPLATE_ADMIN . '/html/cpanel.php';
 

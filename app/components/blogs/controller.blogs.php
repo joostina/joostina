@@ -15,7 +15,7 @@
  * */
 class actionsBlogs extends joosController
 {
-    public static function action_before()
+    public function action_before()
     {
         joosBreadcrumbs::instance()
             ->add('Главная', joosRoute::href('default'))
@@ -29,7 +29,7 @@ class actionsBlogs extends joosController
      * @static
      * @return array
      */
-    public static function index()
+    public function index()
     {
         $blogs = new modelBlogs;
 
@@ -58,18 +58,18 @@ class actionsBlogs extends joosController
         );
     }
 
-    public static function view()
+    public function view()
     {
-        $id = self::$param['id'];
+        $id = joosController::instance()->router->param('id');
 
         $blog_item = new modelBlogs();
-        ($blog_item->load( $id ) && $blog_item->state==1)  ? null : joosPages::page404();
+        ($blog_item->load( $id ) && $blog_item->state==1)  ? null : joosPages::page404('Блогозапись не найдена');
 
         $blog_category = new modelBlogsCategory;
-        ($blog_category->load( $blog_item->category_id ) && $blog_category->state==1)  ? null : joosPages::page404();
+        ($blog_category->load( $blog_item->category_id ) && $blog_category->state==1)  ? null : joosPages::page404('Категория блога не найдена');
 
         $author = new modelUsers;
-        ($author->load( $blog_item->user_id ) && $author->state==1)  ? null : joosPages::page404();
+        ($author->load( $blog_item->user_id ) && $author->state==1)  ? null : joosPages::page404('Автор блогозаписи не найден');
 
         joosDocument::instance()
             ->set_page_title($blog_item->title)
@@ -86,7 +86,7 @@ class actionsBlogs extends joosController
     }
 
     //редактирование
-    public static function edit()
+    public function edit()
     {
         /**
          *

@@ -15,7 +15,7 @@
  * */
 class actionsAjaxComments extends joosControllerAjax
 {
-    public static function add_comment()
+    public function add_comment()
     {
         $obj_option = joosRequest::post('obj_option');
         $obj_id = joosRequest::int('obj_id',0);

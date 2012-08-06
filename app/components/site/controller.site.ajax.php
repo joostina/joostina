@@ -15,7 +15,7 @@
  * */
 class actionsAjaxSite extends joosControllerAjax
 {
-    public static function upload()
+    public function upload()
     {
         // активное правило загрузки для файла
         $rules_name = joosRequest::post('rules_name');
@@ -48,7 +48,7 @@ class actionsAjaxSite extends joosControllerAjax
     }
 
     // добавление товара в корзину
-    public static function add_to_basket()
+    public function add_to_basket()
     {
         $obj_name = joosRequest::post('obj');
         $obj_id = joosRequest::post('obj_id');

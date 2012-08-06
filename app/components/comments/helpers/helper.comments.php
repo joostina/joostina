@@ -19,7 +19,7 @@ class helperComments
      *
      * @var $obj Объект комментирования
      */
-    public static function load_comments_tree($obj)
+    public function load_comments_tree($obj)
     {
         joosDocument::instance()
             ->add_js_file(JPATH_SITE_APP . '/components/comments/media/js/comments.js');
@@ -36,17 +36,17 @@ class helperComments
         self::render_form($obj_option,$obj_id);
     }
 
-    public static function render_lists(array $comments_list,$obj)
+    public function render_lists(array $comments_list,$obj)
     {
         require_once dirname(__DIR__ ) .'/views/list/default.php';
     }
 
-    public static function render_comment( $comment = false )
+    public function render_comment( $comment = false )
     {
         require dirname(__DIR__ ).'/views/comment/default.php';
     }
 
-    public static function render_form( $obj_option,$obj_id )
+    public function render_form( $obj_option,$obj_id )
     {
         require_once dirname(__DIR__ ).'/views/form/default.php';
     }

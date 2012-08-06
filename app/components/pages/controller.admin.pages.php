@@ -15,7 +15,7 @@
  * */
 class actionsAdminPages  extends joosAdminController
 {
-    public static $submenu = array(
+    public $submenu = array(
         'default' => array(
             'name' => 'Все страницы',
             'model'=>'modelAdminPages',
@@ -25,7 +25,7 @@ class actionsAdminPages  extends joosAdminController
         ),
     );
 
-    public static function action_before()
+    public function action_before()
     {
         parent::action_before();
 

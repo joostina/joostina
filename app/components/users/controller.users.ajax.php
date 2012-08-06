@@ -15,7 +15,7 @@
  * */
 class actionsAjaxUsers extends joosControllerAjax
 {
-    public static function register()
+    public function register()
     {
         $validator = UserValidations::registration();
 

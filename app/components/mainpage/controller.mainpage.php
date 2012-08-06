@@ -18,7 +18,7 @@
  * */
 class actionsMainpage extends joosController
 {
-    public static function index()
+    public function index()
     {
         //Хлебные крошки
         //joosBreadcrumbs::instance()

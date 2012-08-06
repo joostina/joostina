@@ -17,7 +17,7 @@ defined('_JOOS_CORE') or die();
  * */
 class actionsAjaxSearch extends joosControllerAjax
 {
-    public static function autocomplete()
+    public function autocomplete()
     {
         $word = joosRequest::get('term');
         joosFilter::make_safe($word);

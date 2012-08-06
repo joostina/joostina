@@ -23,7 +23,7 @@ class actionsSearch extends joosController
      * @static
      * @return array
      */
-    public static function index()
+    public function index()
     {
         $search_result = array();
         $total = 0;

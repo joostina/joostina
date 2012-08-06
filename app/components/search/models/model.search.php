@@ -44,21 +44,21 @@ class modelSearch extends joosModel
         parent::__construct('#__searched', 'id');
     }
 
-    public static function add($word)
+    public function add($word)
     {
         $sql = "INSERT INTO `#__searched` (`word`, `hit`) VALUES ('" . $word . "',1) ON DUPLICATE KEY UPDATE hit=hit+1;";
 
         return joosDatabase::instance()->set_query($sql)->query();
     }
 
-    public static function get_log($word)
+    public function get_log($word)
     {
         $sql = "SELECT hit AS id, word AS label FROM #__searched WHERE LOWER(word) LIKE LOWER('%{$word}%') ORDER BY hit DESC";
 
         return joosDatabase::instance()->set_query($sql, 0, 10)->load_assoc_list();
     }
 
-    public static function prepare_search_content($text, $length = 200, $searchword = '')
+    public function prepare_search_content($text, $length = 200, $searchword = '')
     {
         $text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
         $text = preg_replace('/{.+?}/', '', $text);
@@ -67,7 +67,7 @@ class modelSearch extends joosModel
         return modelSearch::smart_substr(strip_tags($text), $length, $searchword);
     }
 
-    public static function smart_substr($text, $length = 200, $searchword = '')
+    public function smart_substr($text, $length = 200, $searchword = '')
     {
         $wordpos = joosString::strpos(strtolower($text), joosString::strtolower($searchword));
         $halfside = intval($wordpos - $length / 2 - joosString::strlen($searchword));

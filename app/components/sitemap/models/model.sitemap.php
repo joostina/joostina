@@ -74,7 +74,7 @@ class modelSitemap {
 	 *
 	 * @return $map Объект карты
 	 */
-	public static function get_map($xml = false) {
+	public function get_map($xml = false) {
 
 		//Создаем экземпляр класса
 		$map = new self;

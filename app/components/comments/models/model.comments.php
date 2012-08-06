@@ -120,7 +120,7 @@ class modelComments extends joosModel
         return true;
     }
 
-    public static function get_comments( $obj_option, $obj_id )
+    public function get_comments( $obj_option, $obj_id )
     {
         $comment = new self;
 

@@ -15,7 +15,7 @@
  * */
 class actionsNews extends joosController
 {
-    public static function action_before()
+    public function action_before()
     {
         joosBreadcrumbs::instance()
             ->add('Главная', joosRoute::href('default'))

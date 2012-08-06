@@ -15,13 +15,13 @@
  * */
 class actionsSitemap extends joosController {
 
-	public static function action_before($active_task) {
+	public function action_before($active_task) {
 		//Хлебные крошки
 		joosBreadcrumbs::instance()->add('Карта сайта');
 
 	}
 
-	public static function index() {
+	public function index() {
 
 		$map = modelSitemap::get_map();
 

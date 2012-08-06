@@ -14,10 +14,10 @@ setlocale(LC_TIME, array("ru_RU", "rus_RUS"));
 DEFINE('JPATH_APP', 'app');
 
 // путь к каталогу файлов пользовательского приложения
-DEFINE('JPATH_BASE_APP', JPATH_BASE . DS . JPATH_APP);
+DEFINE('JPATH_APP_BASE', JPATH_BASE . DS . JPATH_APP);
 
 // название каталога приложения пользователя
-DEFINE('JPATH_APP_CONFIG', JPATH_BASE_APP . DS . 'configs');
+DEFINE('JPATH_APP_CONFIG', JPATH_APP_BASE . DS . 'config');
 
 // регистрация автолоадера
 joosAutoloader::init();
@@ -58,7 +58,7 @@ DEFINE('JPATH_SITE_APP', JPATH_SITE . '/' . JPATH_APP);
 //плагины - http-путь
 DEFINE('JPATH_APP_PLUGINS_SITE', JPATH_SITE . '/' . JPATH_APP . '/' . 'plugins');
 //плагины - base-путь
-DEFINE('JPATH_APP_PLUGINS_BASE', JPATH_BASE_APP . DS . 'plugins');
+DEFINE('JPATH_APP_PLUGINS_BASE', JPATH_APP_BASE . DS . 'plugins');
 
 // каталог кэша
 DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');

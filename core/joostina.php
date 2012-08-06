@@ -578,27 +578,27 @@ class joosController
         return ob_get_clean();
     }
 
-    private function views(array $params)
+    private function views(array $variables)
     {
         //Инициализируем модули
         //joosModule::init();
         //joosModule::set_controller_data($params);
 
 	    ob_start();
-        $this->as_html($params);
+        $this->as_html($variables);
 	    return ob_get_clean();
     }
 
-    private function as_html(array $params)
+    private function as_html(array $variables)
     {
 	    
 	    $controller = $this->router->param('controller');
 	    $action = $this->router->param('action');
 	    
-        $template = isset($params['template']) ? $params['template'] : 'default';
-        $view = isset($params['view']) ? $params['view'] : $action;
+        $template = isset($variables['template']) ? $variables['template'] : 'default';
+        $view = isset($variables['view']) ? $variables['view'] : $action;
 
-        extract($params, EXTR_OVERWRITE);
+        extract($variables, EXTR_OVERWRITE);
         $viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $view . DS . $template . '.php';
 
         joosFile::exists($viewfile) ? require ($viewfile) : null;
@@ -616,33 +616,33 @@ class joosController
      *
      * @static
      * @param string $controller название контроллера
-     * @param string $task       выполняемая задача
+     * @param string $action     выполняемое действие
      * @param string $template   название шаблона оформления
      * @param array  $params     массив параметров, которые могут переданы в шаблон
      * @param array  $params
      */
-    public static function get_view($controller, $task, $template = 'default', $params = array())
+    public static function get_view($controller, $action, $template = 'default', $params = array())
     {
         extract($params, EXTR_OVERWRITE);
-        $viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $task . DS . $template . '.php';
+        $viewfile = JPATH_BASE . DS . 'app' . DS . 'components' . DS . $controller . DS . 'views' . DS . $action . DS . $template . '.php';
         joosFile::exists($viewfile) ? require ($viewfile) : null;
     }
 
-    public static function debug($sysstart)
+    public static function debug()
     {
         // вывод лога отладки
 
             // подсчет израсходованной памяти
-            if (defined('_JOOS_MEM_USAGE')) {
+            if (defined('JOOS_MEMORY_START')) {
 
-                $mem_usage = ( memory_get_usage() - _JOOS_MEM_USAGE );
+                $mem_usage = ( memory_get_usage() - JOOS_MEMORY_START );
                 $mem_usage = joosFile::convert_size($mem_usage);
             } else {
                 $mem_usage = 'Недоступно';
             }
 
             // подсчет времени генерации страницы
-            joosDebug::add_top(round(( microtime(true) - $sysstart), 5));
+            joosDebug::add_top(round(( microtime(true) - JOOS_START), 5));
             joosDebug::add_top($mem_usage);
 
             // вывод итогового лога отлатчика

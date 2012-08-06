@@ -15,7 +15,7 @@
  * */
 class actionsAdminCoder  extends joosAdminController
 {
-    public static $submenu = array(
+    public $submenu = array(
 
         'default' => array(
             'name' => 'Генератор моделей',
@@ -44,7 +44,7 @@ class actionsAdminCoder  extends joosAdminController
 
     );
 
-    public static function action_before()
+    public function action_before()
     {
         joosDocument::instance()
             ->add_css( JPATH_SITE . '/media/js/jquery.plugins/syntax/jquery.snippet.css' )
@@ -55,13 +55,13 @@ class actionsAdminCoder  extends joosAdminController
 
     }
 
-    public static function action_after()
+    public function action_after()
     {
         joosAdminView::set_param('submenu', self::get_submenu() );
 
     }
 
-    public static function index()
+    public function index()
     {
         self::$submenu['default']['active'] = true;
 
@@ -74,7 +74,7 @@ class actionsAdminCoder  extends joosAdminController
         );
     }
 
-    public static function faker()
+    public function faker()
     {
         self::$submenu['db_faker']['active'] = true;
         $tables = joosDatabase::instance()->get_utils()->get_table_list();
@@ -84,14 +84,14 @@ class actionsAdminCoder  extends joosAdminController
         );
     }
 
-    public static function code_generator()
+    public function code_generator()
     {
         self::$submenu['code_generator']['active'] = true;
 
         return array();
     }
 
-    public static function autoload_generator()
+    public function autoload_generator()
     {
         $classes = joosRobotLoader::get_classes( JPATH_BASE );
         $body = var_export($classes,true);

@@ -16,7 +16,7 @@
 class actionsAjaxAdminUsers extends joosAdminControllerAjax
 {
 
-    public static function status_change()
+    public function status_change()
     {
         return joosAutoadmin::autoajax();
     }
@@ -26,7 +26,7 @@ class actionsAjaxAdminUsers extends joosAdminControllerAjax
      *
      * @return array
      */
-    public static function change_rules()
+    public function change_rules()
     {
         $group_id = joosRequest::int('group_id');
         $task_id = joosRequest::int('task_id');

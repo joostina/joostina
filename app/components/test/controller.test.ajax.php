@@ -15,7 +15,7 @@
  * */
 class actionsAjaxTest  extends joosControllerAjax
 {
-    public static function upload()
+    public function upload()
     {
 
         $upload_result = joosUpload::easy_upload('qqfile',  JPATH_BASE.'/cache/tmp/' );

@@ -30,7 +30,7 @@ class actionsAdminNews extends joosAdminController
         ),
     );
 
-    public static function action_before()
+    public function action_before()
     {
         parent::action_before();
 

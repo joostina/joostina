@@ -65,7 +65,7 @@ class actionsTest extends joosController
  */
 class rulesValidation
 {
-    public static $params = array(
+    public $params = array(
         // разрешенные расширения
         'allowed_ext' => array('jpg', 'gif', 'png'),
         // разрешённые типы файлов

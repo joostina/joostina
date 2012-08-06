@@ -22,7 +22,7 @@ class modelAdminCoder
         );
     }
 
-    public static function get_model($table, $implode_models = false)
+    public function get_model($table, $implode_models = false)
     {
         $table_fields = joosDatabase::instance()->get_utils()->get_table_fields($table);
         $tableName = str_replace(array('#__', '#_', joosDatabase::instance()->get_prefix()), '', $table);
@@ -242,7 +242,7 @@ class modelAdminCoder
 
 class modelAdminCoder_Faker
 {
-    public static $data_types = array('text' => array('name' => 'Текст',
+    public $data_types = array('text' => array('name' => 'Текст',
         'types' => array('text', 'tinytext', 'mediumtext', 'longtext', 'blob', 'tinyblob', 'mediumblob', 'longblob'),),
         'text_small' => array('name' => 'Заголовок',
             'types' => array('varchar'),),
@@ -260,7 +260,7 @@ class modelAdminCoder_Faker
             'types' => array('time'),),
         'date_time' => array('name' => 'Дата и время',
             'types' => array('datetime'),));
-    public static $types_mapping = array(
+    public $types_mapping = array(
     );
 
 }

@@ -180,7 +180,7 @@ class joosUpload
         $rootdir = $rootdir ? $rootdir : joosFile::get_mime_content_type($filename);
 
         return array(
-            'file_base_location' => JPATH_BASE_APP .DS . 'attachments' . DS . $rootdir . DS . joosFile::make_file_location((int) $id),
+            'file_base_location' => JPATH_APP_BASE .DS . 'attachments' . DS . $rootdir . DS . joosFile::make_file_location((int) $id),
             'file_live_location' => JPATH_SITE . '/app/attachments/'. $rootdir . '/'. joosFile::make_file_location((int) $id),
             'file_id' => $id
         );

@@ -14,7 +14,7 @@
  */
 class actionsAjaxAdminPages extends joosAdminControllerAjax
 {
-    public static function status_change()
+    public function status_change()
     {
         return joosAutoadmin::autoajax();
     }
@@ -24,7 +24,7 @@ class actionsAjaxAdminPages extends joosAdminControllerAjax
      *
      * @return string|json string
      */
-    public static function slug_generator()
+    public function slug_generator()
     {
         $title = joosRequest::post('title', '');
 

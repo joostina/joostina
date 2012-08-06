@@ -51,7 +51,7 @@ class actionsAdminUsers extends joosAdminController
         ),
     );
 
-    public static function action_before()
+    public function action_before()
     {
         parent::action_before();
 
@@ -66,7 +66,7 @@ class actionsAdminUsers extends joosAdminController
      * @static
      * @return array
      */
-    public static function my_profile_edit()
+    public function my_profile_edit()
     {
         $current_user = joosCore::user();
         $_GET['id'] = $current_user->id;
@@ -80,7 +80,7 @@ class actionsAdminUsers extends joosAdminController
      * @static
      * @return array
      */
-    public static function acl_table()
+    public function acl_table()
     {
         $group_obj = new modelUsersAclGroups;
         $groups = $group_obj->find_all( array('select'=>'id,title') );
@@ -112,7 +112,7 @@ class actionsAdminUsers extends joosAdminController
         );
     }
 
-    public static function get_actions()
+    public function get_actions()
     {
         $location = JPATH_BASE . '/app/components/';
 
