@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or exit();
+defined( '_JOOS_CORE' ) or exit;
 
 // это у нас вьюшка для components/test, конкртено для функции viewtest
 

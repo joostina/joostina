@@ -1,6 +1,6 @@
 <?php
 // запрет прямого доступа
-defined('_JOOS_CORE') or exit();
+defined('_JOOS_CORE') or exit;
 
 ?>
 <form action="index2.php" method="post" name="admin_form" id="admin_form">

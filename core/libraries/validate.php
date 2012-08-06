@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * Библиотека валидациии данных
@@ -38,7 +38,7 @@ class joosValidate
      */
     public static function is_digital($value)
     {
-        return filter_var($value, FILTER_VALIDATE_INT) !== false;
+        return is_int($value);
     }
 
     /**

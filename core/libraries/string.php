@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * Библиотека работы со строками в правильной кодировке UTF-8

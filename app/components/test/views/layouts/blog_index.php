@@ -4,7 +4,7 @@
  * Блог. Список записей
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or exit();
+defined( '_JOOS_CORE' ) or exit;
 ?>
 
 <article class="post">
@@ -80,8 +80,4 @@ defined( '_JOOS_CORE' ) or exit();
         Технология принадлежит испанской компании FON Wireless Ltd. На самом деле технология дошла до России ещё в 2008 году, и ввела её как раз таки
         МТС, и на данный момент по Москве насчитывается около 65 тыс. точек доступа.<br>
 
-        <p><a href="http://habrahabr.ru/post/139953/#habracut" class="habracut">Подробнее под катом</a></p>
-    </div>
-
-    <a class="btn btn-large btn-primary href="#">Читать дальше</a>
-</article>
+        <p><a href="http://habrahabr.ru/post/139953/#habracut" class="habracut">Подробнее под кат

@@ -7,6 +7,6 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_JOOS_CORE') or exit();
+defined('_JOOS_CORE') or exit;
 
 require JPATH_APP.'/components/site/blocks/upload_form.php';

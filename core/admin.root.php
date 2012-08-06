@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * @package   Joostina
@@ -145,7 +145,7 @@ class joosCoreAdmin extends joosCore
             joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
         } else {
             joosRoute::redirect(JPATH_SITE, 'Вы не авторизованы');
-            exit();
+            exit;
         }
 
         self::$user = $my;

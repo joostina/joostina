@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * Библиотека работы с базой данных Mysql через Mysqli

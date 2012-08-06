@@ -2,7 +2,7 @@
 /**
  * Модуль вывода последних новостей сайта
  */
-defined( '_JOOS_CORE' ) or exit();
+defined( '_JOOS_CORE' ) or exit;
 
 class moduleActionsNews extends moduleActions
 {

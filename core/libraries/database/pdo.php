@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * Библиотека работы с базой данных MySQL через PDO
@@ -94,7 +94,7 @@ class joosDatabasePDO implements joosInterfaceDatabase
     private function offline()
     {
         include JPATH_BASE . '/app/templates/system/offline.php';
-        exit();
+        exit;
     }
 
     /**

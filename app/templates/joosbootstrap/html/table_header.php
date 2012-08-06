@@ -1,6 +1,6 @@
 <?php
 // запрет прямого доступа
-defined('_JOOS_CORE') or exit();
+defined('_JOOS_CORE') or exit;
 
 /*
 $return = '<div class="page_title"><h1 class="title"><span>' . joosAdminView::get_component_title() . '</span></h1>';

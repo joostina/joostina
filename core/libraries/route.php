@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * Работа с ссылками и роутингом
@@ -106,7 +106,7 @@ class joosRoute extends Route
             joosRequest::send_headers("Location: " . $url);
         }
 
-        exit();
+        exit;
     }
 
     /**

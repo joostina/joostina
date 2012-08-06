@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 require_once 'database/interface.php';
 require_once 'database/mysqli.php';

@@ -13,7 +13,7 @@
  **/
 
 //Запрет прямого доступа
-defined( '_JOOS_CORE' ) or exit();
+defined( '_JOOS_CORE' ) or exit;
 
 //Получаем массив с элементами навигации
 $items = joosBreadcrumbs::instance()->get_breadcrumbs_array();

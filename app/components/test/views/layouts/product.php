@@ -1,4 +1,4 @@
-<?php defined( '_JOOS_CORE' ) or exit();
+<?php defined( '_JOOS_CORE' ) or exit;
 
 joosDocument::instance()
     ->add_js_file(JPATH_SITE_APP . '/vendors/extra/basket/media/js/basket.js')

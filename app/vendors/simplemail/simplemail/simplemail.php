@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 require_once __DIR__ . '/Email/SimpleMail.php';
 require_once __DIR__ . '/Email/MimeType.php';

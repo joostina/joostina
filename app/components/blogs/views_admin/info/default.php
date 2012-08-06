@@ -1,4 +1,4 @@
-<?php defined('_JOOS_CORE') or exit();
+<?php defined('_JOOS_CORE') or exit;
 
 /**
  * Компонент новостей - шаблон панели управления для просомтра информации о компоненте ( task=info )

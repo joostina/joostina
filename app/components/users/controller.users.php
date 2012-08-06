@@ -1,6 +1,6 @@
 <?php
 
-defined('_JOOS_CORE') or exit();
+defined('_JOOS_CORE') or exit;
 
 /**
  * Компонент управления пользователями
@@ -177,14 +177,14 @@ class actionsUsers extends joosController
             $ret = preg_match(JUSER_NAME_REGEX, $datas['user_name']) ? $ret : false;
 
             echo $ret ? 'true' : 'false';
-            exit();
+            exit;
         }
 
         if (isset($datas['email']) && joosString::trim($datas['email']) != '') {
             $user = new modelUsers;
             $user->email = $datas['email'];
             echo $user->find() ? 'false' : 'true';
-            exit();
+            exit;
         }
     }
 

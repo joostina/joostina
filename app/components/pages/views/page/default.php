@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined( '_JOOS_CORE' ) or exit();
+defined( '_JOOS_CORE' ) or exit;
 
 echo sprintf( '<div class="page"><h1>%s</h1></div>' , $page->title );
 echo sprintf( '<div class="pc">%s</div>' , $page->text );

@@ -4,7 +4,7 @@
  * @package Joostina
  */
 // запрет прямого доступа
-defined('_JOOS_CORE') or exit();
+defined('_JOOS_CORE') or exit;
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 

@@ -51,7 +51,7 @@ if (joosRequest::is_post()) {
 
     if ($password == null) {
         joosRoute::redirect(JPATH_SITE_ADMIN, 'Необходимо ввести пароль');
-        exit();
+        exit;
     }
 
     $database = joosDatabase::instance();

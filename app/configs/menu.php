@@ -1,5 +1,5 @@
 <?php
-defined('_JOOS_CORE') or exit();
+defined('_JOOS_CORE') or exit;
 /*
  * Конфиг главного меню сайта
  */
