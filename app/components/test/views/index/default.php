@@ -12,5 +12,9 @@ defined( '_JOOS_CORE' ) or exit;
 
 // это у нас вьюшка для components/test, конкртено для функции viewtest
 
-//$vars = get_defined_vars();
-//_xdump($vars);
+echo '<pre>';
+
+$vars = get_defined_vars();
+print_r($vars);
+
+echo '</pre>';

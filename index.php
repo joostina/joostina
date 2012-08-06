@@ -22,10 +22,11 @@ require_once __DIR__ . '/core/joostina.php';
 
 try {
 
-	$controller = joosController::instance();
-	$controller->run();
-	
-    echo joosController::render();
+	echo joosController::instance()
+		->init()
+		->route()
+		->run()
+		->render();
 
     echo !JDEBUG ? : joosController::debug($sysstart);
 

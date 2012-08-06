@@ -521,32 +521,28 @@ class joosController
 		return self::$instance;
 	}
 	
-	private function __construct(){
-		$this->init();
-	}
-	
     public function init()
     {
         joosDocument::header();
-	    
-        $this->router = new joosRoute();
-	    $this->router->route();
-	    
-        $events_name = 'core.init';
-        joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
+	    	    
+        return $this;
     }
 
+	public function route(){
+
+		$this->router = new joosRoute();
+		$this->router->route();
+		
+		return $this;
+		
+	}
+	
     /**
      * Автоматическое определение и запуск метода действия
-     * @todo добавить сюда события events ДО, ПОСЛЕ и ВМЕСТО выполнения задчи контроллера
+     * @todo добавить сюда события events ДО, ПОСЛЕ и ВМЕСТО выполнения задачи контроллера
      */
     public function run()
     {
-
-        $events_name = 'core.run';
-        joosEvents::has_events($events_name) ? joosEvents::fire_events($events_name) : null;
-
-        ob_start();
 
         $controller_class_name = 'actions' . ucfirst( $this->router->param('controller') );
 
@@ -555,35 +551,27 @@ class joosController
 
 	    JDEBUG ? joosDebug::add($controller_class_name . '->' . $action) : null;
 
-
 	    if (method_exists($controller_class_name, $action)) {
 
-
-            // в контроллере можно прописать общие действия необходимые при любых действиях контроллера - они будут вызваны первыми, например подключение моделей, скриптов и т.д.
-            method_exists($controller_class_name, 'action_before') ? call_user_func_array($controller_class_name . '::action_before', array(self::$action)) : null;
-
 		    $results = $controller->$action();
-		    
-            // действия контроллера вызываемые после работы основного действия, на вход принимает результат работы основного действия
-            method_exists($controller_class_name, 'action_after') ? call_user_func_array($controller_class_name . '::action_after', array(self::$action, $results)) : null;
-
-            if (is_array($results)) {
-                $this->views($results);
-            } elseif (is_string($results)) {
-                echo $results;
-            }
+			$page_body = $this->views($results);
 
             // главное содержимое - стек вывода компонента - mainbody
-            joosDocument::set_body(ob_get_clean());
+            joosDocument::set_body( $page_body );
+		    
+		    return
+			     $this;
+		    
         } else {
             //  в контроллере нет запрашиваемого метода
             joosPages::page404('Метод не найден');
         }
     }
 
-    public static function render()
+    public function render()
     {
         ob_start();
+
         // загрузка файла шаблона
         require_once (JPATH_BASE . '/app/templates/' . JTEMPLATE . '/index.php');
 
@@ -661,7 +649,11 @@ class joosController
             joosDebug::get();
     }
 
+	/**
+	 * @return joosRoute
+	 */
 	public function get_router(){
+		
 		return $this->router;
 	}
 	

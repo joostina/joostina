@@ -21,19 +21,18 @@ class actionsTest extends joosController
      * @static
      * @return array
      */
-    public static function index()
+    public function index()
     {
-        echo modelUsers::model();
 
-        die();
-
-        return array();
+        return array(
+	        'time'=>time()
+        );
     }
 
     /**
      * Тестирование загрузчика
      */
-    public static function upload()
+    public function upload()
     {
         return array();
     }
@@ -41,7 +40,7 @@ class actionsTest extends joosController
     /**
         * Тестирование конфигурации
         */
-       public static function config()
+       public function config()
        {
            return array();
        }
@@ -50,7 +49,7 @@ class actionsTest extends joosController
      * Для тестирования вёрстки
      *
      */
-    public static function layouts()
+    public function layouts()
     {
         $tpl = self::$param['tpl'];
 
