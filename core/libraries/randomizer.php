@@ -25,17 +25,16 @@ class joosRandomizer
      */
     public static function hash($length = 6, $symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     {
-        mt_srand(10000000 * (double) microtime());
+	    mt_srand(10000000 * (double) microtime());
+	    
+	    $symbols_length = strlen($symbols) - 1;
+	    $hash = '';
+	    
+	    for ($i = 0; $i < $length; $i++) {
+		    $hash .= $symbols{mt_rand(0, $symbols_length)};
+	    }
 
-        $symbols_length = strlen($symbols) - 1;
-
-        $hash = array();
-
-        for ($i = 0; $i < $length; $i++) {
-            $hash[] = $symbols{mt_rand(0, $symbols_length)};
-        }
-
-        return implode('', $hash);
+	    return $hash;
     }
 
 }
