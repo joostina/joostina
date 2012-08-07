@@ -31,7 +31,7 @@ joosDocument::instance()
             <div class="span16">
                 <?php joosModuleAdmin::load_by_name('flash_message') ?>
                 <h6>Joostina CMS v2.x</h6>
-                <form action="<?php echo JPATH_SITE_ADMIN ?>/index.php" method="post" name="login_form" id="login_form" class="well">
+                <form action="<?php echo JPATH_SITE_ADMIN ?>/init.php" method="post" name="login_form" id="login_form" class="well">
                     <input name="user_name" id="user_name" type="text" class="input-medium" placeholder="Логин">
                     <input name="password" type="password" type="password" class="input-medium" placeholder="Пароль">
                     <button type="submit" class="btn btn-primary">Войти</button>
