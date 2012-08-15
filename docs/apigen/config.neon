@@ -9,7 +9,7 @@ exclude:
 	- */daemon/*
 
 
-title: Joostina CMS / CMF v2.* API
+title: Joostina CMS / CMF v2.1.* API
 
 todo: yes
 
