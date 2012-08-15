@@ -272,7 +272,7 @@ class modelUsers extends joosModel
      * Получение объекта текущего пользователя
      * @return modelUsers
      */
-    public function current()
+    public static function current()
     {
         // TODO тут надо как-то унифицировать
         return joosCore::is_admin() ? joosCoreAdmin::user() : self::instance();
@@ -388,7 +388,7 @@ class modelUsers extends joosModel
     }
 
     // быстрая проверка авторизации пользователя
-    public function is_loged()
+    public static function is_loged()
     {
         return (bool) modelUsers::current()->id != false;
     }

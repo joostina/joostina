@@ -8,7 +8,13 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
+// локаль
 setlocale(LC_TIME, array("ru_RU", "rus_RUS"));
+
+// кодировка для строковых функций
+mb_internal_encoding('UTF-8');
+
+define('DS', DIRECTORY_SEPARATOR);
 
 // название каталога приложения пользователя
 DEFINE('JPATH_APP', 'app');
@@ -19,20 +25,14 @@ DEFINE('JPATH_APP_BASE', JPATH_BASE . DS . JPATH_APP);
 // название каталога приложения пользователя
 DEFINE('JPATH_APP_CONFIG', JPATH_APP_BASE . DS . 'config');
 
-// регистрация автолоадера
-joosAutoloader::init();
-
-// сначала инициализация базовой конфигурации
-joosConfig::init();
-
 // название шаблона панели управления
-DEFINE('JTEMPLATE_ADMIN', joosConfig::get('template_admin'));
+DEFINE('JTEMPLATE_ADMIN','joosbootstrap');
 
 // http адрес сайта
-DEFINE('JPATH_SITE', joosConfig::get('live_site'));
+DEFINE('JPATH_SITE', 'http://www.joostina.local' );
 
 // название шаблона сайта
-DEFINE('JTEMPLATE', joosConfig::get('template'));
+DEFINE('JTEMPLATE', 'bootstrap');
 
 // http корень текущего шаблона сайта
 DEFINE('JTEMPLATE_LIVE', sprintf('%s/%s/templates/%s', JPATH_SITE, JPATH_APP, JTEMPLATE));
@@ -67,11 +67,12 @@ DEFINE('JPATH_BASE_CACHE', JPATH_BASE . DS . 'cache');
 DEFINE('JPATH_COOKIE', str_replace(array('http://', 'https://', 'www'), '', JPATH_SITE));
 
 // параметр активации отладки, активация работы в режиме отладки - осуществляется через конфиг, либо вручную установку в браузере куки с произвольным названием, по умолчанию - joostinadebugmode
-DEFINE('JDEBUG', ((bool) isset($_COOKIE['joostinadebugmode'])) ? true : joosConfig::get('debug', 0));
+DEFINE('JDEBUG', ((bool) isset($_COOKIE['joostinadebugmode'])) ? true : true);
 
 // режим работы окружения
 DEFINE('JENVIRONMENT', JDEBUG ? 'development' : 'production');
 
+/*
 switch (JENVIRONMENT) {
 
     case 'development':
@@ -111,6 +112,7 @@ switch (JENVIRONMENT) {
      *
      * @todo режим суперсайта, в нём все критичные ошибки выдают 404 и через таймаут редиректят на главную
      */
+/*  
     case 'superproduction':
         error_reporting(0);
         ini_set('display_errors', 0);
@@ -120,12 +122,12 @@ switch (JENVIRONMENT) {
     default:
         exit('Окружение работы выбрано некорректно.');
 }
+*/
 
 // установка часового пояса по умолчанию
 (ini_get('date.timezone') != '') ? : date_default_timezone_set('Europe/Moscow');
 
-// кодировка для строковых функций
-mb_internal_encoding('UTF-8');
+
 
 DEFINE('JFILE_ANTICACHE', '?v=1');
 
@@ -138,7 +140,7 @@ DEFINE('JUSER_NAME_REGEX', '/^[a-zA-Z0-9_\-]{3,25}$/iu');
 // секретная фраза для хеширования
 DEFINE('JSECRET_CODE', 'i-love-joostina');
 
-DEFINE('JADMIN_SESSION_NAME', md5(JPATH_BASE . md5(JSECRET_CODE) . joosRequest::server('HTTP_USER_AGENT')));
+//DEFINE('JADMIN_SESSION_NAME', md5(JPATH_BASE . md5(JSECRET_CODE) . joosRequest::server('HTTP_USER_AGENT')));
 
 // формат для функций вывода времени на сайте
 DEFINE('JDATE_FORMAT', '%d %B %Y г. %H:%M'); //Используйте формат PHP-функции strftime

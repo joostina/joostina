@@ -17,18 +17,28 @@ define('JOOS_START', microtime(true));
 // рассчет памяти
 function_exists('memory_get_usage') ? define('JOOS_MEMORY_START', memory_get_usage()) : null;
 
+define('JPATH_BASE', __DIR__);
+
+// предстартовые конфигурации
+require JPATH_BASE  . '/app/bootstrap.php';
+
 // подключение главного файла - ядра системы
-require_once __DIR__ . '/core/joostina.php';
+require_once JPATH_BASE . '/core/joostina.php';
 
 try {
 
-	echo joosController::instance()
+	joosCore::instance()
 		->init()
-		->route()
+		->route();
+
+	
+	echo joosController::instance()
 		->run()
 		->render();
+	
 
-    echo !JDEBUG ? : joosController::debug();
+
+    echo !JDEBUG ? : joosController::show_debug();
 
 } catch (Exception $e) {
 

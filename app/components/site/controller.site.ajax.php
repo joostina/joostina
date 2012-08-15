@@ -13,7 +13,7 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxSite extends joosControllerAjax
+class actionsAjaxSite extends joosController
 {
     public function upload()
     {

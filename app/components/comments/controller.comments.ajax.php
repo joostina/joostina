@@ -13,7 +13,7 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxComments extends joosControllerAjax
+class actionsAjaxComments extends joosController
 {
     public function add_comment()
     {

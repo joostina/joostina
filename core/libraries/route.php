@@ -57,7 +57,7 @@ class joosRoute extends Route
 
         // если включена отладка - скажем что именно не так
         if (JDEBUG) {
-            throw new joosException('Не найдено правило роутинга для ссылки :location', array(':location' => self::$current_url));
+            throw new joosException('Не найдено правило роутинга для ссылки :location', array(':location' => $this->current_url));
         } else {
             // отладка не включена - просто перекинем на 404 страницу с понятным текстом
             joosPages::page404('Такая ссылка на сайте невозможна');

@@ -59,7 +59,7 @@ class actionsNews extends joosController
 
     public function view()
     {
-        $id = self::$param['id'];
+        $id = joosController::instance()->router->param('id');
 
         $item = new modelNews();
         $item->id = $id;

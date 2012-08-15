@@ -13,7 +13,7 @@
  * Информация об авторах и лицензиях стороннего кода в составе Joostina CMS: docs/copyrights
  *
  * */
-class actionsAjaxUsers extends joosControllerAjax
+class actionsAjaxUsers extends joosController
 {
     public function register()
     {

@@ -133,7 +133,7 @@ HTML;
     {
         $message = $this->message;
 
-        $file = (!JDEBUG && $this->code != 503) ? sprintf('%s/app/templates/system/500.php', JPATH_BASE) : sprintf('%s/app/templates/system/exception.php', JPATH_BASE);
+        $file = (!JDEBUG && $this->code != 503) ? sprintf('%s/app/templates/system/page_502.php', JPATH_BASE) : sprintf('%s/app/templates/system/exception.php', JPATH_BASE);
 
         require $file;
     }
@@ -141,9 +141,9 @@ HTML;
     public static function error_handler($code, $message, $file, $line)
     {
 
-	if ( 0 == error_reporting () ) {
-		return;
-	}
+		if ( 0 == error_reporting () ) {
+			return;
+		}
 
         throw new joosException('Ошибка :message! <br /> Код: <pre>:error_code</pre> Файл: :error_file<br />Строка :error_line', array(':message' => $message, ':error_code' => $code, ':error_file' => $file, ':error_line' => $line));
     }
