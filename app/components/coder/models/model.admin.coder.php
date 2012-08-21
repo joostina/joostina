@@ -58,7 +58,7 @@ class modelAdminCoder
         $buffer_site[] = "\n	 * Constructor";
         $buffer_site[] = "\n	 *";
         $buffer_site[] = "\n	 */";
-        $buffer_site[] = "\n	function __construct(){";
+        $buffer_site[] = "\n	public function __construct(){";
         $buffer_site[] = "\n		parent::__construct( '#__$tableName', 'id' );";
         $buffer_site[] = "\n	}";
 
